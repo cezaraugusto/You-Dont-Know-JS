@@ -1,19 +1,26 @@
+Nota: Esta é uma tradução da versão original da série You Don't Know JS. 
+A mesma é autorizada pelo autor Kyle Simpson e iniciada por Cezar Augusto(cez-aug).
+
+É importante lembrar que, ao contribuir com as traduções você está de acordo com a divulgação livre do conteúdo no GitHub, mas o conteúdo não pode ser redistribuído fora deste ambiente em qualquer forma, incluíndo sua venda/redistribuição.
+
+Todos os direitos são reservados ao autor e à O'Reilly.
+
 # You Don't Know JS (book series)
 
-This is a series of books diving deep into the core mechanisms of the JavaScript language.
+Essa é uma série de livros aprofundada nos principais mecanismos da linguagem JavaScript.
 
 <a href="http://shop.oreilly.com/product/0636920039303.do"><img src="up %26 going/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920026327.do"><img src="scope %26 closures/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033738.do"><img src="this %26 object prototypes/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033745.do"><img src="types %26 grammar/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033752.do"><img src="async %26 performance/cover.jpg" width="75"></a>&nbsp;
-<span>...(more coming soon!)</span>
+<span>...(mais em breve!)</span>
 
-Please feel free to contribute to the quality of this content by submitting PR's for improvements to code snippets, explanations, etc. While typo fixes are welcomed, they will likely be caught through normal editing processes, and are thus not necessarily as important for this repository.
+Fique à vontade para contribuir e melhorar a qualidade deste conteúdo enviando Pull Requests sugerindo melhoria em snippets, explicações, etc. Apesar de melhorias na gramática serem bem-vindas, elas provavelmente serão percebidas no processo normal de publicação e sendo assim, não são necessariamente tão importantes para este repositório.
 
-**To read more about the motivations and perspective behind this book series, check out the [Preface](preface.md).**
+**Para saber mais sobre as motivações e perspectivas sobre essa série, leia o [Prefácio](preface.md).**
 
-## Titles
+## Títulos
 
 * Read online (free!): ["Up & Going"](up & going/README.md#you-dont-know-js-up--going), Published: [Buy Now](http://shop.oreilly.com/product/0636920039303.do), ebook format is free!
 * Read online (free!): ["Scope & Closures"](scope & closures/README.md#you-dont-know-js-scope--closures), Published: [Buy Now](http://shop.oreilly.com/product/0636920026327.do)
