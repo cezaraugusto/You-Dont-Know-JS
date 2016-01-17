@@ -1,11 +1,27 @@
-Nota: Esta é uma tradução da versão original da série You Don't Know JS. 
-A mesma é autorizada pelo autor Kyle Simpson e iniciada por Cezar Augusto(cez-aug).
+**Nota:** Esta é uma tradução da versão original da série ["You Don't Know JS"](https://github.com/getify/You-Dont-Know-JS). 
 
-É importante lembrar que, ao contribuir com as traduções você está de acordo com a divulgação livre do conteúdo no GitHub, mas o conteúdo não pode ser redistribuído fora deste ambiente em qualquer forma, incluíndo sua venda/redistribuição.
+A corrente tradução é autorizada pelo autor ["Kyle Simpson"](https://github.com/getify/) e iniciada por Cezar Augusto (@cez-aug).
 
-Todos os direitos são reservados ao autor e à O'Reilly.
+É importante lembrar que, ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo no GitHub. Entretanto, o conteúdo não pode ser redistribuído fora deste ambiente em qualquer forma, incluíndo sua venda/redistribuição.
 
-# You Don't Know JS (book series)
+_Todos os direitos são reservados ao autor e à O'Reilly._
+
+# Como contibuir com a tradução?
+
+* Veja ["este arquivo"](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
+* Faça um fork ou clone o projeto.
+* Utilize o branch `master` como referência (visto que ele é atualizado e pareado constantemente com o original).
+* Ao terminar sua parte da tradução, faça um Pull Request para o branch `portuguese-translation`.
+
+## Ajude na tradução
+
+Tem conhecimento técnico em JavaScript e em inglês? Contribua!
+
+## Revise a tradução
+
+É proficiente em Português ou achou alguma falha de Script? Ajude nas correções!
+
+# You Don't Know JS (série de livros)
 
 Essa é uma série de livros aprofundada nos principais mecanismos da linguagem JavaScript.
 
@@ -16,53 +32,53 @@ Essa é uma série de livros aprofundada nos principais mecanismos da linguagem 
 <a href="http://shop.oreilly.com/product/0636920033752.do"><img src="async %26 performance/cover.jpg" width="75"></a>&nbsp;
 <span>...(mais em breve!)</span>
 
-Fique à vontade para contribuir e melhorar a qualidade deste conteúdo enviando Pull Requests sugerindo melhoria em snippets, explicações, etc. Apesar de melhorias na gramática serem bem-vindas, elas provavelmente serão percebidas no processo normal de publicação e sendo assim, não são necessariamente tão importantes para este repositório.
+Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviando _Pull Requests_, sugerindo melhoria em snippets, explicações, etc. Apesar de melhorias na gramática serem bem-vindas, elas provavelmente serão percebidas no processo normal de publicação e sendo assim, não são necessariamente tão importantes para este repositório.
 
 **Para saber mais sobre as motivações e perspectivas sobre essa série, leia o [Prefácio](preface.md).**
 
 ## Títulos
 
-* Read online (free!): ["Up & Going"](up & going/README.md#you-dont-know-js-up--going), Published: [Buy Now](http://shop.oreilly.com/product/0636920039303.do), ebook format is free!
-* Read online (free!): ["Scope & Closures"](scope & closures/README.md#you-dont-know-js-scope--closures), Published: [Buy Now](http://shop.oreilly.com/product/0636920026327.do)
-* Read online (free!): ["this & Object Prototypes"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Published: [Buy Now](http://shop.oreilly.com/product/0636920033738.do)
-* Read online (free!): ["Types & Grammar"](types & grammar/README.md#you-dont-know-js-types--grammar), Published: [Buy Now](http://shop.oreilly.com/product/0636920033745.do)
-* Read online (free!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Published: [Buy Now](http://shop.oreilly.com/product/0636920033752.do)
-* Read online (free!): ["ES6 & Beyond"](es6 & beyond/README.md#you-dont-know-js-es6--beyond) (in production)
+* Leia online (grátis!): ["Iniciando"](up & going/README.md#you-dont-know-js-up--going), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920039303.do), ebook format is grátis!
+* Leia online (grátis!): ["Escopos & Encerramentos"](scope & closures/README.md#you-dont-know-js-scope--closures), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
+* Leia online (grátis!): ["this & Protótipos de Objetos"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
+* Leia online (grátis!): ["Escrita & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
+* Leia online (grátis!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
+* Leia online (grátis!): ["ES6 & Além"](es6 & beyond/README.md#you-dont-know-js-es6--beyond) (in production)
 
-## Publishing
+## Publicação
 
-These books are being released here as drafts, free to read, but are also being edited, produced, and published through O'Reilly.
+Estes livros estão sendo lançados como rascunhos, grátis para leitura, mas também estão sendo editados, produzidos e publicados através da O'Reilly.
 
-If you like the content you find here, and want to support more content like it, please purchase the books once they are available for sale, through your normal book sources. :)
+Se você gostar do conteúdo disponível aqui, e quiser colaborar com mais conteúdo do autor, faça a compra dos livros assim que forem publicados, através dos seus meios tradicionais de compra :)
 
-If you'd like to contribute financially towards the effort (or any of my other OSS work) aside from purchasing the books, I do have a [patreon](https://www.patreon.com/getify) that I would always appreciate your generosity towards.
+Se você quiser contribuir financeiramente por conta do esforço que tive aqui (ou sobre qualquer outro trabalho) à parte de comprar os livros, eu tenho uma conta no [patreon](https://www.patreon.com/getify) e ficaria agradecido pela sua generosidade.
 
 <a href="https://www.patreon.com/getify"><img src="http://blog.getify.com/wp-content/uploads/patreon.png"></a>
 
-## In-person Training
+## Treinamento _in persona_
 
-The content for these books derives heavily from a series of training materials I teach professionally (in both public and private-corporate workshop format), called "Advanced JS: The 'What You Need To Know' Parts".
+O conteúdo destes livros derivam massivamente de uma série de materiais, que leciono profissionalmente (tanto em público quanto em corporações em formato de workshop), chamada "Advanced JS: The 'What You Need To Know' Parts".
 
-If you like this content and would like to contact me regarding conducting training on these, or other various JS/HTML5/node.js topics, please reach out to me through any of these channels listed here:
+Se você gostar deste conteúdo e quiser entrar em contato comigo sobre treinamentos em alguns dos tópicos dos livros, ou sobre vários outros relacionados à JS/HTML5/node.js, fique à vontade para entrar em contato em qualquer canal listado no link abaixo:
 
 [http://getify.me](http://getify.me)
 
-## Online Video Training
+## Treinamento Online
 
-I also have some JS training material available in on-demand video format. I teach courses through [Frontend Masters](https://FrontendMasters.com), like my [Advanced JS](https://frontendmasters.com/courses/advanced-javascript/) workshop (more courses coming soon!).
+Tenho também treinamentos sobre JS disponível em video no formato _on-demand_. Eu leciono cursos através do [Frontend Masters](https://FrontendMasters.com), com o meu workshop [Advanced JS](https://frontendmasters.com/courses/advanced-javascript/) (mais cursos em breve!).
 
-That same course is also [available through Pluralsight](http://www.pluralsight.com/courses/advanced-javascript).
+O mesmo curso está [disponível também no Pluralsight](http://www.pluralsight.com/courses/advanced-javascript).
 
-## Content Contributions
+## Contribuições de Conteúdo
 
-Any contributions you make to this effort **are of course greatly appreciated**.
+Qualquer contribuição feita para a melhoria deste curso **será imensamente apreciada**.
 
-However, if you choose to contribute content (not just typo corrections) to this repo, you agree that you're giving me a non-exclusive license to use that content for the book series, as I (and O'Reilly) deem appropriate. You probably guessed that already, but we just have to make the lawyers happy by explicitly stating it.
+Entretanto, se você decidir contribuir com conteúdo adicional (não apenas correções tipográficas) para este repositório, você concorda em me autorizar em uma licença não-exclusiva que seu conteúdo faça parte da série assim que eu (e a O'Reilly) julgar apropriado. Você provavelmente já sabia disso, mas deixando explícito aqui eu consigo fazer os advogados felizes.
 
-So: blah, blah, blah... :)
+Então: blah, blah, blah... :)
 
-## License & Copyright
+## Licença & Copyright
 
-The materials herein are all (c) 2013-2015 Kyle Simpson.
+Todo o material aqui divulgado é (c) 2013-2015 Kyle Simpson.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.
