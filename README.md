@@ -8,10 +8,10 @@ _Todos os direitos são reservados ao autor e à O'Reilly._
 
 # Como contibuir com a tradução?
 
-* Veja ["este arquivo"](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
+* Veja [este arquivo](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
 * Faça um fork ou clone o projeto.
 * Utilize o branch `master` como referência (visto que ele é atualizado e pareado constantemente com o original).
-* Ao terminar sua parte da tradução, faça um Pull Request para o branch `portuguese-translation`.
+* Ao terminar sua parte da tradução, faça um Pull Request para o branch `portuguese-translation`. 
 
 ## Ajude na tradução
 
@@ -57,9 +57,9 @@ Se você quiser contribuir financeiramente por conta do esforço que tive aqui (
 
 ## Treinamento _in persona_
 
-O conteúdo destes livros derivam massivamente de uma série de materiais, que leciono profissionalmente (tanto em público quanto em corporações em formato de workshop), chamada "Advanced JS: The 'What You Need To Know' Parts".
+O conteúdo destes livros derivam massivamente de uma série de materiais, que leciono profissionalmente (tanto em público quanto em empresas, em formato de workshop), chamada "Advanced JS: The 'What You Need To Know' Parts".
 
-Se você gostar deste conteúdo e quiser entrar em contato comigo sobre treinamentos em alguns dos tópicos dos livros, ou sobre vários outros relacionados à JS/HTML5/node.js, fique à vontade para entrar em contato em qualquer canal listado no link abaixo:
+Se você gostar deste conteúdo e quiser entrar em contato comigo sobre treinamentos em alguns dos tópicos apresentados, ou sobre vários outros tópicos relacionados à JS/HTML5/node.js, fique à vontade para entrar em contato em qualquer canal listado no link abaixo:
 
 [http://getify.me](http://getify.me)
 
@@ -73,7 +73,7 @@ O mesmo curso está [disponível também no Pluralsight](http://www.pluralsight.
 
 Qualquer contribuição feita para a melhoria deste curso **será imensamente apreciada**.
 
-Entretanto, se você decidir contribuir com conteúdo adicional (não apenas correções tipográficas) para este repositório, você concorda em me autorizar em uma licença não-exclusiva que seu conteúdo faça parte da série assim que eu (e a O'Reilly) julgar apropriado. Você provavelmente já sabia disso, mas deixando explícito aqui eu consigo fazer os advogados felizes.
+Entretanto, se você decidir contribuir com conteúdo adicional (não apenas correções tipográficas) para este repositório, você concorda em me autorizar, em uma licença não-exclusiva, que seu conteúdo faça parte da série assim que eu (e a O'Reilly) julgar conveniente. Você provavelmente já sabia disso, mas deixando explícito aqui eu consigo fazer os advogados felizes.
 
 Então: blah, blah, blah... :)
 
