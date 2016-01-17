@@ -1,6 +1,6 @@
-**Nota:** Esta é uma tradução da versão original da série ["You Don't Know JS"](https://github.com/getify/You-Dont-Know-JS). 
+**Nota:** Esta é uma tradução da versão original da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
 
-A corrente tradução é autorizada pelo autor ["Kyle Simpson"](https://github.com/getify/) e iniciada por Cezar Augusto (@cez-aug).
+A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por Cezar Augusto (@cez-aug).
 
 É importante lembrar que, ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo no GitHub. Entretanto, o conteúdo não pode ser redistribuído fora deste ambiente em qualquer forma, incluíndo sua venda/redistribuição.
 
@@ -81,4 +81,4 @@ Então: blah, blah, blah... :)
 
 Todo o material aqui divulgado é (c) 2013-2015 Kyle Simpson.
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a><br />Este trabalho está sob a licença <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.
