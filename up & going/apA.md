@@ -1,7 +1,9 @@
 # You Don't Know JS: Up & Going
-# Appendix A: Acknowledgments
+# Apêndice A: Reconhecimentos
 
-I have many people to thank for making this book title and the overall series happen.
+Tenho tantas pessoas à agradecer por fazer essa série de livros se tornar realidade.
+
+Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, 
 
 First, I must thank my wife Christen Simpson, and my two kids Ethan and Emily, for putting up with Dad always pecking away at the computer. Even when not writing books, my obsession with JavaScript glues my eyes to the screen far more than it should. That time I borrow from my family is the reason these books can so deeply and completely explain JavaScript to you, the reader. I owe my family everything.
 
