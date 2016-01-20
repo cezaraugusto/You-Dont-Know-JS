@@ -1,4 +1,4 @@
-# You Don't Know JS: Up & Going
+# You Don't Know JS: Iniciando
 
 <img src="cover.jpg" width="300">
 
@@ -8,7 +8,7 @@
 
 -----
 
-[Table of Contents](toc.md)
+[Índice](toc.md)
 
 * [Introdução](foreword.md) (por [Jenn Lukas](http://jennlukas.com))
 * [Prefácio](../preface.md)

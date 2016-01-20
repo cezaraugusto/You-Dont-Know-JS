@@ -1,25 +1,28 @@
 **Nota:** Esta é uma tradução da versão original da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
 
-A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por Cezar Augusto (@cez-aug).
+A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por Cezar Augusto (@cez-aug). A ideia de tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
 
-É importante lembrar que, ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo no GitHub. Entretanto, o conteúdo não pode ser redistribuído fora deste ambiente em qualquer forma, incluíndo sua venda/redistribuição.
+É importante lembrar que, ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo no GitHub (e apenas aqui).O conteúdo não pode ser disponibilizado fora deste ambiente sob qualquer forma, incluíndo sua venda/redistribuição.
 
 _Todos os direitos são reservados ao autor e à O'Reilly._
 
-# Como contibuir com a tradução?
+# Como posso contibuir com a tradução?
 
-* Veja [este arquivo](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
-* Faça um fork ou clone o projeto.
-* Utilize o branch `master` como referência (visto que ele é atualizado e pareado constantemente com o original).
-* Ao terminar sua parte da tradução, faça um Pull Request para o branch `portuguese-translation`. 
-
-## Ajude na tradução
+## Ajudar na tradução
 
 Tem conhecimento técnico em JavaScript e em inglês? Contribua!
 
-## Revise a tradução
+## Revisar a tradução
 
 É proficiente em Português ou achou alguma falha de Script? Ajude nas correções!
+
+## Mãos a obra!
+
+* Veja [este arquivo](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
+* Faça um fork ou clone o projeto.
+* Utilize o branch `master` como referência para as traduções (visto que ele é atualizado e pareado constantemente com o original).
+* Por se tratar de um documento técnico, muitas palavras e frases se repetem. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
+* Ao terminar sua parte da tradução, faça um Pull Request para o branch `portuguese-translation`. 
 
 # You Don't Know JS (série de livros)
 
@@ -41,7 +44,7 @@ Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviand
 * Leia online (grátis!): ["Iniciando"](up & going/README.md#you-dont-know-js-up--going), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920039303.do), ebook format is grátis!
 * Leia online (grátis!): ["Escopos & Encerramentos"](scope & closures/README.md#you-dont-know-js-scope--closures), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
 * Leia online (grátis!): ["this & Protótipos de Objetos"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
-* Leia online (grátis!): ["Escrita & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
+* Leia online (grátis!): ["Tipos & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
 * Leia online (grátis!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
 * Leia online (grátis!): ["ES6 & Além"](es6 & beyond/README.md#you-dont-know-js-es6--beyond) (in production)
 
