@@ -3,9 +3,9 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 
 ## Global
 * Links não devem ser traduzidos
-* You Don't Know JS: Título deve ser mantido como o original
 
 ## Títulos
+* You Don't Know JS: Título deve ser mantido como o original
 * Up & Going: Iniciando
 * Scope & Closures: Escopos e Encerramentos
 * this & object prototypes: this & Protótipos de Objetos
@@ -19,3 +19,20 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 * Preface: Prefácio
 * Chapter: Capítulo
 * Appendix: Apêndice
+
+## Jargões de Programação
+* Statements:
+* Expresions:
+* Output:
+* Input:
+* Operators:
+* Types:
+* Scope:
+* Hoisting:
+* Nested Scopes:
+* Strict Mode:
+* Immediately Invoked Function Expressions (IIFEs):
+* Closure:
+* Prototype:
+* Polyfilling:
+* Transpiling:
