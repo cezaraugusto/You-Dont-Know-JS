@@ -1,23 +1,23 @@
 # You Don't Know JS
-# Preface
+# Prefácio
 
-I'm sure you noticed, but "JS" in the book series title is not an abbreviation for words used to curse about JavaScript, though cursing at the language's quirks is something we can probably all identify with!
+Tenho certeza que você notou, mas o "JS" como título da série não é uma abreviação de palavras usadas para falar mal de JavaScript, apesar de que, esbravejar sobre as peculiaridades da linguagem é algo que todos nós podemos nos identificar!
 
-From the earliest days of the web, JavaScript has been a foundational technology that drives interactive experience around the content we consume. While flickering mouse trails and annoying pop-up prompts may be where JavaScript started, nearly 2 decades later, the technology and capability of JavaScript has grown many orders of magnitude, and few doubt its importance at the heart of the world's most widely available software platform: the web.
+Desde os primórdios da web, o JavaScript tem sido a fundação de tecnologias que determinam a experiência interativa através do conteúdo que consumimos. Apesar de efeitos nos traçado do mouse e perturbadores pop-ups com prompts terem sido a forma que o JavaScript começou, quase duas décadas depois, as capacidades do JavaScript cresceram em muitas ordens de magnitude, e poucos duvidam de sua importância como coração da plataforma de software mais acessível do mundo: a web.
 
-But as a language, it has perpetually been a target for a great deal of criticism, owing partly to its heritage but even more to its design philosophy. Even the name evokes, as Brendan Eich once put it, "dumb kid brother" status next to its more mature older brother "Java". But the name is merely an accident of politics and marketing. The two languages are vastly different in many important ways. "JavaScript" is as related to "Java" as "Carnival" is to "Car".
+Como linguagem, vem perpetuando-se como alvo de grande quantidade de críticas, vindas parte de sua herança mas muito mais de sua filosofia de design. Até seu nome chama o status de, como Brendan Eich uma vez falou "irmão mais novo bobinho", comparado ao seu irmão mais velho "Java". Apesar disso, o nome é um mero acidente relacionado à políticas e marketing. As duas linguagens são bem diferentes em muitos pontos importantes. "JavaScript" está tão relacionado à "Java" como "Caramelo" está relacionado a  "Cara".
 
-Because JavaScript borrows concepts and syntax idioms from several languages, including proud C-style procedural roots as well as subtle, less obvious Scheme/Lisp-style functional roots, it is exceedingly approachable to a broad audience of developers, even those with just little to no programming experience. The "Hello World" of JavaScript is so simple that the language is inviting and easy to get comfortable with in early exposure.
+Pelo fato do JavaScript adotar conceitos e idiomática de sintaxes de diversas linguagens, incluíndo orgulhosas raízes procedurais ao estilo de C, assim como sutís e menos óbvias raízes funcionais ao estilo de Scheme/Lisp, é bastante acessível para uma larga audiência de desenvolvedores e até mesmo aqueles com pouca ou nenhuma experiência com programação. O exemplo de "Hello World" do JavaScript é tão simples que a linguagem é convidativa e fácil de se sentir confortável logo nas primeiras impressões.
 
-While JavaScript is perhaps one of the easiest languages to get up and running with, its eccentricities make solid mastery of the language a vastly less common occurrence than in many other languages. Where it takes a pretty in-depth knowledge of a language like C or C++ to write a full-scale program, full-scale production JavaScript can, and often does, barely scratch the surface of what the language can do.
+Apesar do JavaScript ser talvez uma das linguagens mais fáceis de se começar, suas excentricidades fazem o domínio sólido da linguagem muito menos comum do que outras linguagens. Enquanto se precisa um conhecimento aprofundado em linguagens como C ou C++ para escrever um programa de grande escala, um produto de grande escala em JavaScript pode apenas, e geralmente faz, alcançar a superfície sobre o que a linguagem é capaz.
 
-Sophisticated concepts which are deeply rooted into the language tend instead to surface themselves in *seemingly* simplistic ways, such as passing around functions as callbacks, which encourages the JavaScript developer to just use the language as-is and not worry too much about what's going on under the hood.
+Conceitos sofisticados que são profundamente enraizados na linguagem tendem a ser utilizados superficialmente de modo *aparentemente* simples, como utilizar callbacks para funções, o que encoraja o desenvolvedor JavaScript para usar a linguagem apenas como forma de alcançar um objetivo, sem se preocupar muito sobre o que está acontecendo nos bastidores.
 
-It is simultaneously a simple, easy-to-use language that has broad appeal, and a complex and nuanced collection of language mechanics which without careful study will elude *true understanding* even for the most seasoned of JavaScript developers.
+É imultaneamente uma linguagem simples, fácil de usar, que tem uma forte demanad, como uma coleção complexa e cheia de nuances sobre mecanismos de linguagem que podem, sem um estudo cuidadoso, mascarar um *entendimento verdadeiro* até mesmo para os mais experientes desenvolvedores JavaScript.
 
-Therein lies the paradox of JavaScript, the Achilles' Heel of the language, the challenge we are presently addressing. Because JavaScript *can* be used without understanding, the understanding of the language is often never attained.
+E aí que se esconde o paradoxo do JavaSript, o tendão de Aquiles da linguagem, o desafio que estamos nos referindo. Por conta da possibilidade do JavaScript *ṕoder ser usado* sem ser bem entendido, o verdadeiro conhecimento sobre a linguagem geralmente nunca é alcançado.
 
-## Mission
+## Missão
 
 If at every point that you encounter a surprise or frustration in JavaScript, your response is to add it to the blacklist, as some are accustomed to doing, you soon will be relegated to a hollow shell of the richness of JavaScript.
 
