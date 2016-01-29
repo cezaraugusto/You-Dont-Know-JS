@@ -19,11 +19,11 @@ E aí que se esconde o paradoxo do JavaSript, o tendão de Aquiles da linguagem,
 
 ## Missão
 
-If at every point that you encounter a surprise or frustration in JavaScript, your response is to add it to the blacklist, as some are accustomed to doing, you soon will be relegated to a hollow shell of the richness of JavaScript.
+Se a cada ponto que você encontrar uma surpresa ou se sentir frustrado com JavaScript, sua resposta for adicionar mais um item à sua lista negra, como alguns estão acostumados a fazer, você em breve entrará em uma penumbra cinzenta que irá te afastar de toda a riqueza da linguagem.
 
-While this subset has been famously dubbed "The Good Parts", I would implore you, dear reader, to instead consider it the "The Easy Parts", "The Safe Parts", or even "The Incomplete Parts".
+A ideia de aprender JavaScript separarando todas as partes frustrantes da linguagem foi famosamente apelidada de "A parte boa". Eu vou implorar à você, querido leitor, para ao invés disso, considerar essa parte de "A Parte Fácil" ou "A Parte Segura", ou até mesmo "A Parte Incompleta".
 
-This *You Don't Know JavaScript* book series offers a contrary challenge: learn and deeply understand *all* of JavaScript, even and especially "The Tough Parts".
+Essa série de livros, *You Don't Know JavaScript* oferece um desafio inverso: aprender e entender profundamente *tudo* sobre JavaScript, até mesmo "As Partes Dífíceis".
 
 Here, we address head on the tendency of JS developers to learn "just enough" to get by, without ever forcing themselves to learn exactly how and why the language behaves the way it does. Furthermore, we eschew the common advice to *retreat* when the road gets rough.
 
