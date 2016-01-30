@@ -25,16 +25,16 @@ A ideia de aprender JavaScript separarando todas as partes frustrantes da lingua
 
 Essa série de livros, *You Don't Know JavaScript* oferece um desafio inverso: aprender e entender profundamente *tudo* sobre JavaScript, até mesmo "As Partes Dífíceis".
 
-Here, we address head on the tendency of JS developers to learn "just enough" to get by, without ever forcing themselves to learn exactly how and why the language behaves the way it does. Furthermore, we eschew the common advice to *retreat* when the road gets rough.
+Aqui, abordamos a tendência dos desenvolvedores de JS para aprender "apenas o suficiente" para alcançar seus objetivos, sem se forçarem a entender o porquê e o como a linguagem se comporta e, lém disso, evitamos o senso comum de *recuar* quando as pedras no caminho aparecem.
 
-I am not content, nor should you be, at stopping once something *just works*, and not really knowing *why*. I gently challenge you to journey down that bumpy "road less traveled" and embrace all that JavaScript is and can do. With that knowledge, no technique, no framework, no popular buzzword acronym of the week, will be beyond your understanding.
+Eu não fico feliz, nem você deveria ficar, em parar uma vez que algo *funciona*, e não entender o *porquê*. Eu gentilmente desafio você à essa jornada para a parte da estrada "menos acessada" e se envolver com tudo que o JavaScript pode fazer. Com esse conhecimento, nenhuma técnica, nenhum framework, nenhum acrônimo modinha da semana, estará aquém de suas capacidades.
 
-These books each take on specific core parts of the language which are most commonly misunderstood or under-understood, and dive very deep and exhaustively into them. You should come away from reading with a firm confidence in your understanding, not just of the theoretical, but the practical "what you need to know" bits.
+Cada um desses livros tem um enfoque específico em partes da linguagem que em geral são compreendidas de maneira incorreta ou mal compreendidas, e mergulha a fundo nelas. Você pode presseguir sua leitura confiante no seu entendimento, tanto teórico quanto prático (as partes do "o que você precisa saber").
 
-The JavaScript you know *right now* is probably *parts* handed down to you by others who've been burned by incomplete understanding. *That* JavaScript is but a shadow of the true language. You don't *really* know JavaScript, *yet*, but if you dig into this series, you *will*. Read on, my friends. JavaScript awaits you.
+O JavaScript que você conhece *agora* é um provável conjunto de *partes* ensinadas à você por outros que também tiveram um conhecimento incompleto. *Esse* JavaScript não é anda além de uma sombra da verdadeira linguagem. Você naõ sabe *realmente* JavaScript, *ainda*, mas se você caminhar por esta série, você *saberá*. Continuem a leitura, amigos. O JavaScript aguarda vocês.
 
-## Summary
+## Sumário
 
-JavaScript is awesome. It's easy to learn partially, and much harder to learn completely (or even *sufficiently*). When developers encounter confusion, they usually blame the language instead of their lack of understanding. These books aim to fix that, inspiring a strong appreciation for the language you can now, and *should*, deeply *know*.
+JavaScript é incrível. É parcialmente fácil de aprender parcialmente, e muito difícil de aprender completamente (ou até mesmo *suficientemente*). Quando os desenvolvedores se sentem confusos, eles em geral culpam a linguagem ao invés de sua falta de conhecimento. Esses livros tem a finalidade de corrigir isso e inspirado pela sua apreciação da linguagem você agora pode (e *deve*), *conhecê-la* a fundo.
 
-Note: Many of the examples in this book assume modern (and future-reaching) JavaScript engine environments, such as ES6. Some code may not work as described if run in older (pre-ES6) engines.
+Nota: Muitos dos exemplos desse livro supõem que você dispõe de ambientes modernos (e de futuro próximo) de JavaScript, como o ES6. Alguns códigos podem não funcionar como descrito se você estiver utilizando ambientes mais antigos (pre-ES6).
