@@ -1,25 +1,25 @@
 # You Don't Know JS: Up & Going
-# Chapter 1: Into Programming
+# Chapter 1: Iniciando
 
-Welcome to the *You Don't Know JS* (*YDKJS*) series.
+Bem vindo à série *You Don't Know JS* (*YDKJS*).
 
-*Up & Going* is an introduction to several basic concepts of programming -- of course we lean toward JavaScript (often abbreviated JS) specifically -- and how to approach and understand the rest of the titles in this series. Especially if you're just getting into programming and/or JavaScript, this book will briefly explore what you need to get *up and going*.
+*Iniciando* é uma introdução à diversos conceitos básicos de programação -- claro que inclinado ao uso do JavaScript (muitas vezes abreviado como JS) especificamente -- e como e como abordar e entender o resto dos títulos nessa série. Especialmente se você está começando em programação ou JavaScript, esse livro irá, de forma breve, explorar tudo que você precisa saber para *iniciar*. 
 
-This book starts off explaining the basic principles of programming at a very high level. It's mostly intended if you are starting *YDKJS* with little to no prior programming experience, and are looking to these books to help get you started along a path to understanding programming through the lens of JavaScript.
+Esse livro começa explicando os princípios básicos de programação em uma camada mais alta. É mais indicado se você está começando *YDKJS* com pouca ou nenhuma experiência anterior com programação, e está procurando nesses livros uma ajuda para começar na longa jornada de entender como programar através da visão do JavaScript.
 
-Chapter 1 should be approached as a quick overview of the things you'll want to learn more about and practice to get *into programming*. There are also many other fantastic programming introduction resources that can help you dig into these topics further, and I encourage you to learn from them in addition to this chapter.
+O Capítulo 1 deve ser abordado como uma visão geral de coisas que você irá querer aprender e praticar mais para *iniciar na programação*.Existem também outros recursos para entende melhor essa introdução à programação e eu encorajo você a aprender através deles em adição à este capítulo.
 
-Once you feel comfortable with general programming basics, Chapter 2 will help guide you to a familiarity with JavaScript's flavor of programming. Chapter 2 introduces what JavaScript is about, but again, it's not a comprehensive guide -- that's what the rest of the *YDKJS* books are for!
+Uma vez que você se sentir confortável com os básico da programação, o Capítulo 2 irá te familiarizar com o modo de programar com JavaScript. O Capítulo 2 faz uma introdução sobre do que o JavaScript é capaz, mas novamente, ele não é um guia compreensivo -- esse é a finalidade do resto da série *YDKJS*!
 
-If you're already fairly comfortable with JavaScript, first check out Chapter 3 as a brief glimpse of what to expect from *YDKJS*, then jump right in!
+Se você já se sente confortável com JavaScript, dê uma olhada no Capítulo 3 como uma breve visão do que esperar com *YDKJS*, e caia de cabeça!
 
-## Code
+## Código
 
-Let's start from the beginning.
+Vamos *começar do começo*.
 
-A program, often referred to as *source code* or just *code*, is a set of special instructions to tell the computer what tasks to perform. Usually code is saved in a text file, although with JavaScript you can also type code directly into a developer console in a browser, which we'll cover shortly.
+Um programa, também conhecido como *código fonte* ou apenas *código*, é um conjunto de instruções especializadas para dizer ao computador quais tarefas ele deve realizar. Geralmente, códigos são salvos em arquivos de texto, apesar de que, em JavaScript, você também pode escrever códigos direto no developer console do navegador, o qual iremos cobrir em breve.
 
-The rules for valid format and combinations of instructions is called a *computer language*, sometimes referred to as its *syntax*, much the same as English tells you how to spell words and how to create valid sentences using words and punctuation.
+As regras para formatos e combinações de instruções é chamado *linguagem de computação*, e algumas vezes é referenciado como *sintaxe*, bem parecido como a lingua Portuguesa diz à você a forma de pronunciar palavras e de como criar sentenças válidas usando palavras e pontuações.
 
 ### Statements
 
