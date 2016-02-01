@@ -21,25 +21,25 @@ Um programa, também conhecido como *código fonte* ou apenas *código*, é um c
 
 As regras para formatos e combinações de instruções é chamado *linguagem de computação*, e algumas vezes é referenciado como *sintaxe*, bem parecido como a lingua Portuguesa diz à você a forma de pronunciar palavras e de como criar sentenças válidas usando palavras e pontuações.
 
-### Statements
+### Instruções
 
-In a computer language, a group of words, numbers, and operators that performs a specific task is a *statement*. In JavaScript, a statement might look as follows:
+Em linguagens de computação, um grupo de palavras, números e operadores que realizam tarefas específicas são uma *instrução*. Em JavaScript, uma instrução pode ser parecida com o seguinte:
 
 ```js
 a = b * 2;
 ```
 
-The characters `a` and `b` are called *variables* (see "Variables"), which are like simple boxes you can store any of your stuff in. In programs, variables hold values (like the number `42`) to be used by the program. Think of them as symbolic placeholders for the values themselves.
+Os caracteres `a` e `b` são chamados *variáveis* (veja "Variáveis"), que são recipientes que você pode armazenar qualquer coisa dentro. Em programas, variáveis detém valores (como o número `42`) que serão utilizados pelo programa. Pense neles como nomes simbólicos para chamarmos os valores.
 
-By contrast, the `2` is just a value itself, called a *literal value*, because it stands alone without being stored in a variable.
+Em contrapartida, o `2` é apenas um valor, chamado *valor literal*, por que é apresentado sozinho, sem estar armazenado em uma variável.
 
-The `=` and `*` characters are *operators* (see "Operators") -- they perform actions with the values and variables such as assignment and mathematic multiplication.
+Os caracteres `=` e `*` são *operadores* (veja "Operadores") -- eles realizam ações com os valores e variáveis como realizar uma atribuição qualquer ou uma multiplicação matemática.
 
-Most statements in JavaScript conclude with a semicolon (`;`) at the end.
+A maioria das intruões em JavaScript termina com um ponto e vírgula (`;`) no final.
 
-The statement `a = b * 2;` tells the computer, roughly, to get the current value stored in the variable `b`, multiply that value by `2`, then store the result back into another variable we call `a`.
+A instrução `a = b * 2;` diz ao computador, grosseiramente falando, para pegar o valor atual dentro da variável `b`, multiplicar esse valor por `2`, depois armazenar o resultado dentro de outra variável, chamada `a`.
 
-Programs are just collections of many such statements, which together describe all the steps that it takes to perform your program's purpose.
+Programas são apenas coleções de muitas instruções, que juntas descrevem todas as etapas que são necessárias para cumprir a finalidade do programa.
 
 ### Expressions
 

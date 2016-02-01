@@ -21,7 +21,7 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 * Appendix: Apêndice
 
 ## Jargões de Programação
-* Statements:
+* Statements: Instruções (carece de definição melhor)
 * Expresions:
 * Output:
 * Input:
