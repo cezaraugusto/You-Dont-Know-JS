@@ -41,32 +41,32 @@ A instrução `a = b * 2;` diz ao computador, grosseiramente falando, para pegar
 
 Programas são apenas coleções de muitas instruções, que juntas descrevem todas as etapas que são necessárias para cumprir a finalidade do programa.
  
-### Expressions
+### Expressões
 
-Statements are made up of one or more *expressions*. An expression is any reference to a variable or value, or a set of variable(s) and value(s) combined with operators.
+Instruções são feitas de uma ou mais *expressões*. Uma expressão é qualquer referência à uma variável ou valor, ou um conjunto de variáveis e valores combinados com operadores.
 
-For example:
+Por exemplo:
 
 ```js
 a = b * 2;
 ```
 
-This statement has four expressions in it:
+Essa instrução tem quatro expressões dentro dela:
 
-* `2` is a *literal value expression*
-* `b` is a *variable expression*, which means to retrieve its current value
-* `b * 2` is an *arithmetic expression*, which means to do the multiplication
-* `a = b * 2` is an *assignment expression*, which means to assign the result of the `b * 2` expression to the variable `a` (more on assignments later)
+* `2` é uma *expressão de valor literal*
+* `b` é uma *expressão de valor variável*, que significa que ela armazena seu valor atual
+* `b * 2` é uma *expressão aritmética*, que significa excecute a multiplicação
+* `a = b * 2` é uma *expressão de atribuição*, que significa designar o resultado da expressão `b * 2` para a variável `a` (mais instruções depois).
 
-A general expression that stands alone is also called an *expression statement*, such as the following:
+Uma expressão genérica que permanece sozinha é também chamada de *instrução de expressão*, como o exemplo abaixo:
 
 ```js
 b * 2;
 ```
 
-This flavor of expression statement is not very common or useful, as generally it wouldn't have any effect on the running of the program -- it would retrieve the value of `b` and multiply it by `2`, but then wouldn't do anything with that result.
+Esse tipo de instrução de expressão não é muito comum ou útil, como geralmente a instrução não afeta o desenvolvimento do programa -- ela apenas pega o valor armazenado por `b` e multiplica por `2`, sem realizar nenhuma ação com esse resultado.
 
-A more common expression statement is a *call expression* statement (see "Functions"), as the entire statement is the function call expression itself:
+Uma instrução de expressão mais comum é chamada instrução de *expressão de chamada* (veja "Funções"), sendo a própria chamada da função uma instrução completa:
 
 ```js
 alert( a );
