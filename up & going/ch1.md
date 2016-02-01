@@ -40,7 +40,7 @@ A maioria das intruões em JavaScript termina com um ponto e vírgula (`;`) no f
 A instrução `a = b * 2;` diz ao computador, grosseiramente falando, para pegar o valor atual dentro da variável `b`, multiplicar esse valor por `2`, depois armazenar o resultado dentro de outra variável, chamada `a`.
 
 Programas são apenas coleções de muitas instruções, que juntas descrevem todas as etapas que são necessárias para cumprir a finalidade do programa.
-
+ 
 ### Expressions
 
 Statements are made up of one or more *expressions*. An expression is any reference to a variable or value, or a set of variable(s) and value(s) combined with operators.
