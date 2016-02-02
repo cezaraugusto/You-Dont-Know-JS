@@ -23,8 +23,8 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 ## Jargões de Programação
 * Statements: Instruções (carece de definição melhor)
 * Expresions: Expressões
-* Output:
-* Input:
+* Output: Output
+* Input: Input
 * Operators: Operadores
 * Types:
 * Scope: Escopo
