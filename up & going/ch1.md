@@ -72,31 +72,33 @@ Uma instrução de expressão mais comum é chamada instrução de *expressão d
 alert( a );
 ```
 
-### Executing a Program
+### Executando um Programa
 
-How do those collections of programming statements tell the computer what to do? The program needs to be *executed*, also referred to as *running the program*.
+Como essas coleções de instruções em programação dizem ao computador o que fazer? O programa *precisa ser executado*, ou, mais comumente usado, precisamos *rodar o programa*.
 
-Statements like `a = b * 2` are helpful for developers when reading and writing, but are not actually in a form the computer can directly understand. So a special utility on the computer (either an *interpreter* or a *compiler*) is used to translate the code you write into commands a computer can understand.
+Instruções como `a = b * 2` são úteis quando desenvolvedores estão lendo e escrevendo, mas não são numa forma que o computador possa entender. Sendo assim, uma ferramenta especial (tanto um *interpretador* como um *compilador*) é usado para traduzir o código que você escreveu em comandos que o computador possa entender.
 
-For some computer languages, this translation of commands is typically done from top to bottom, line by line, every time the program is run, which is usually called *interpreting* the code.
+Para algumas linguagens, essa tradução dos comandos é típicamente feita de cima para baixo, linha por linha, cada vez que o programa roda. Essas etapas são geralmente chamadas de *interpretação* do código 
+**NT** *definem uma linguagem interpretada.*
 
-For other languages, the translation is done ahead of time, called *compiling* the code, so when the program *runs* later, what's running is actually the already compiled computer instructions ready to go.
+Para outras linguagens, a tradução é feita em tempos distintos, chamado *compilamento* do código. Dessa forma, o programa *roda* depois, ou seja: o que está rodando são as instruções prontas, já compiladas. 
+**NT** *Definem uma linguagem compilada.*
 
-It's typically asserted that JavaScript is *interpreted*, because your JavaScript source code is processed each time it's run. But that's not entirely accurate. The JavaScript engine actually *compiles* the program on the fly and then immediately runs the compiled code.
+Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, a *engine* o JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
 
-**Note:** For more information on JavaScript compiling, see the first two chapters of the *Scope & Closures* title of this series.
+**Nota:** Para mais informações sobre compilação em JavaScript, veja os dois primeiros capítulos do livro desta série *Escopos & Encerramentos*.
 
-## Try It Yourself
+## Tente você mesmo
 
-This chapter is going to introduce each programming concept with simple snippets of code, all written in JavaScript (obviously!).
+Esse capítulo irá introduzir você em cada conceito de programação com snippets simples de código, todos escritos em JavaScript (claro!).
 
-It cannot be emphasized enough: while you go through this chapter -- and you may need to spend the time to go over it several times -- you should practice each of these concepts by typing the code yourself. The easiest way to do that is to open up the developer tools console in your nearest browser (Firefox, Chrome, IE, etc.).
+Nunca é demais enfatizar: enquanto você lê este capítulo -- e você poderá precisar vir aqui diversas vezes -- você deve praticar cada um desses conceitos escrevendo o código você mesmo. A forma mais fácil de fazer isso é abrir o console do *developer tools* do seu navegador favorito (Firefox, Chrome, IE, etc.).
 
-**Tip:** Typically, you can launch the developer console with a keyboard shortcut or from a menu item. For more detailed information about launching and using the console in your favorite browser, see "Mastering The Developer Tools Console" (http://blog.teamtreehouse.com/mastering-developer-tools-console). To type multiple lines into the console at once, use `<shift> + <enter>` to move to the next new line. Once you hit `<enter>` by itself, the console will run everything you've just typed.
+**Dica:** Geralmente, você pode abrir o console com um atalho do teclado ou um item do menu. Para informações mais detalhadas sobre abrir e utilizar o console do seu navegador favorito, veja "Mastering The Developer Tools Console" (http://blog.teamtreehouse.com/mastering-developer-tools-console). Para digitar mais de uma linha no console, use `<shift> + <enter>` para mover para próxima linha. Uma vez digitado `<enter>`, o console irá rodar tudo que você digitou.
 
-Let's get familiar with the process of running code in the console. First, I suggest opening up an empty tab in your browser. I prefer to do this by typing `about:blank` into the address bar. Then, make sure your developer console is open, as we just mentioned.
+Vamos nos familiarizar com o processo de rodar o código no console. Primeiro, sugiro que abra uma aba em branco no seu navegador. Eu prefiro fazer isso digitando `about:blank` na barra de endereços. Feito isso, abra o console, como acabamos de mencionar.
 
-Now, type this code and see how it runs:
+Agora, digite o código abaixo e veja como ele se comporta:
 
 ```js
 a = 21;
@@ -106,11 +108,11 @@ b = a * 2;
 console.log( b );
 ```
 
-Typing the preceding code into the console in Chrome should produce something like the following:
+Digitar o código acima no console do Chrome deverá produzir algo parecido com isso:
 
 <img src="fig1.png" width="500">
 
-Go on, try it. The best way to learn programming is to start coding!
+Vá em frente, tente também! A melhor forma de aprender programação é produzindo códigos!
 
 ### Output
 
@@ -800,3 +802,6 @@ Finally, don't neglect the power of practice. The best way to learn how to write
 I'm excited you're well on your way to learning how to code, now! Keep it up. Don't forget to check out other beginner programming resources (books, blogs, online training, etc.). This chapter and this book are a great start, but they're just a brief introduction.
 
 The next chapter will review many of the concepts from this chapter, but from a more JavaScript-specific perspective, which will highlight most of the major topics that are addressed in deeper detail throughout the rest of the series.
+
+*Observação:*
+**NT:** Nota do tradutor.
