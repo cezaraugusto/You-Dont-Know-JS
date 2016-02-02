@@ -22,17 +22,17 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 
 ## Jargões de Programação
 * Statements: Instruções (carece de definição melhor)
-* Expresions:
+* Expresions: Expressões
 * Output:
 * Input:
-* Operators:
+* Operators: Operadores
 * Types:
-* Scope:
+* Scope: Escopo
 * Hoisting:
 * Nested Scopes:
 * Strict Mode:
 * Immediately Invoked Function Expressions (IIFEs):
-* Closure:
-* Prototype:
+* Closure: Encerramento
+* Prototype: Prototipagem
 * Polyfilling:
 * Transpiling:
