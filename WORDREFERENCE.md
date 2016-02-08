@@ -1,5 +1,7 @@
-# Referência 
 Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve estar aqui.
+
+# Referências
+* Aprendendo JavaScript - Shelley Powers (Ed. O'Reilly).
 
 ## Global
 * Links não devem ser traduzidos
@@ -36,3 +38,7 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 * Prototype: Prototipagem
 * Polyfilling:
 * Transpiling:
+* Assignment: Atribuição
+* Compound Assignment: Atribuição com Operação
+* Equality: Igualdade
+* Compound Conditionals: Instrução Condicional
