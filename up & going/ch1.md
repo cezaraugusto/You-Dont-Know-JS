@@ -160,28 +160,28 @@ Uma vez que você enviar a informação ao clicar em "OK", observe que o valor q
 
 Para manter as coisas simples enquanto estamos aprendendo os conceitos básicos da programação, os exemplos desse livro não irão precisar de input. Mas agora que você viu como usar o `prompt(..)`, se você quiser se desafiar, pode tentar usar input ao explorar os exemplos.
 
-## Operators
+## Operadores
 
-Operators are how we perform actions on variables and values. We've already seen two JavaScript operators, the `=` and the `*`.
+Operadores são como realizar uma ação em variáveis e valores. Nós já vimos até agora dois operadores em JavaScript, o `=` e o `*`.
 
-The `*` operator performs mathematic multiplication. Simple enough, right?
+O operador `*` realiza uma multiplicação matemática. Simples o suficiente, não?
 
-The `=` equals operator is used for *assignment* -- we first calculate the value on the *right-hand side* (source value) of the `=` and then put it into the variable that we specify on the *left-hand side* (target variable).
+O operador de igualdade `=` é usado para *atribuir* -- primeiro calculamos o valor do *lado da mão direita* (valor original) do `=` e então o colocamos em uma variável que especificamos no *lado da mão esquerda* (variável de destino).
 
-**Warning:** This may seem like a strange reverse order to specify assignment. Instead of `a = 42`, some might prefer to flip the order so the source value is on the left and the target variable is on the right, like `42 -> a` (this is not valid JavaScript!). Unfortunately, the `a = 42` ordered form, and similar variations, is quite prevalent in modern programming languages. If it feels unnatural, just spend some time rehearsing that ordering in your mind to get accustomed to it.
+**Atenção:** Essa pode parecer uma ordem reversa estranha de especificar um atribuição. Ao invés de `a = 42`, algumas pessoas preferem inverter a ordem do valor original na esquerda e a variável de destino na direita, algo como `42 -> a` (isso não é JavaScript valido!). Infelizmente, a forma ordenada `a = 42` e variações similares,prevalece em linguagens de programação modernas. Caso pareça uma forma não-natural, tome algum tempo assimilando essa forma na sua cabeça até se sentir acostumado.
 
-Consider:
+Considere:
 
 ```js
 a = 2;
 b = a + 1;
 ```
 
-Here, we assign the `2` value to the `a` variable. Then, we get the value of the `a` variable (still `2`), add `1` to it resulting in the value `3`, then store that value in the `b` variable.
+Aqui, atribuimos o valor`2` à variável `a`. Assim, pegamos o valor da variável `a` (ainda `2`), adicionamos `1` a ele, resultando no valor `3`, então armazenamos esse valor na variável `b`.
 
-While not technically an operator, you'll need the keyword `var` in every program, as it's the primary way you *declare* (aka *create*) *var*iables (see "Variables").
+Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em casa programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja "Variables").
 
-You should always declare the variable by name before you use it. But you only need to declare a variable once for each *scope* (see "Scope"); it can be used as many times after that as needed. For example:
+Você sempre deve declarar a variável por nome antes de usá-la. Mas você precisa declarar a variável apenas uma vez para cada *escopo* (veja "Escopo"); ela pode ser usada depois quantas vezes forem necessárias. Por exemplo:
 
 ```js
 var a = 20;
@@ -192,26 +192,26 @@ a = a * 2;
 console.log( a );	// 42
 ```
 
-Here are some of the most common operators in JavaScript:
+Aqui encontram-se os operadores mais comuns em JavaScript:
 
-* Assignment: `=` as in `a = 2`.
-* Math: `+` (addition), `-` (subtraction), `*` (multiplication), and `/` (division), as in `a * 3`.
-* Compound Assignment: `+=`, `-=`, `*=`, and `/=` are compound operators that combine a math operation with assignment, as in `a += 2` (same as `a = a + 2`).
-* Increment/Decrement: `++` (increment), `--` (decrement), as in `a++` (similar to `a = a + 1`).
-* Object Property Access: `.` as in `console.log()`.
+* Atribuição: `=` como em `a = 2`.
+* Aritmético: `+` (adição), `-` (subtração), `*` (multiplicação), e `/` (divisão), como em `a * 3`.
+* Atribuição com Operação: `+=`, `-=`, `*=`, e `/=` são operadores comuns que combinam operadores aritméticos com a atribuição, como em `a += 2` (o mesmo que `a = a + 2`).
+* Incremento/Decremento: `++` (incremento), `--` (decremento), como em `a++` (similar à `a = a + 1`).
+* Acesso a propriedade do Objeto: `.` como em `console.log()`.
 
-   Objects are values that hold other values at specific named locations called properties. `obj.a` means an object value called `obj` with a property of the name `a`. Properties can alternatively be accessed as `obj["a"]`. See Chapter 2.
-* Equality: `==` (loose-equals), `===` (strict-equals), `!=` (loose not-equals), `!==` (strict not-equals), as in `a == b`.
+   Objetos são valores que armazenam outros valores em lugares determinados por nome, chamados propriedades. `obj.a` significa que este é um objeto chamado `obj` com uma propriedade de nome `a`. Propriedades podem, alternativamente, serem chamados por `obj["a"]`. Veja mais no capítulo 2.
+* Igualdade: `==` (igualdade), `===` (igualdade estrita), `!=` (desigualdade), `!==` (desigualdade estrita), como em `a == b`.
 
-   See "Values & Types" and Chapter 2.
-* Comparison: `<` (less than), `>` (greater than), `<=` (less than or loose-equals), `>=` (greater than or loose-equals), as in `a <= b`.
+   Veja "Valores & Tipos" e o Capítulo 2.
+* Comparação: `<` (menor que), `>` (maior que), `<=` (menor ou igual), `>=` (maior ou igual), como em `a <= b`.
 
-   See "Values & Types" and Chapter 2.
-* Logical: `&&` (and), `||` (or), as in `a || b` that selects either `a` *or* `b`.
+   See "Valores & Tipos" e o Capítulo 2.
+* Lógicos: `&&` (e), `||` (ou), como em `a || b` que seleciona `a` *ou* `b`.
 
-   These operators are used to express compound conditionals (see "Conditionals"), like if either `a` *or* `b` is true.
+   Esses operadores são usados para expressar instruções condicionais (veja "Conditionals"), como *se* `a` *ou* `b` for verdadeiro.
 
-**Note:** For much more detail, and coverage of operators not mentioned here, see the Mozilla Developer Network (MDN)'s "Expressions and Operators" (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators).
+**Note:** Para muito mais detalhes, e cobertura dos operadores não mencionados aqui, veja mais no Mozilla Developer Network (MDN)'s "Expressions and Operators" (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators).
 
 ## Values & Types
 
