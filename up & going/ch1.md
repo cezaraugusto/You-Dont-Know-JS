@@ -213,25 +213,25 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
 
 **Note:** Para muito mais detalhes, e cobertura dos operadores não mencionados aqui, veja mais no Mozilla Developer Network (MDN)'s "Expressions and Operators" (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators).
 
-## Values & Types
+## Valores & Tipos
 
-If you ask an employee at a phone store how much a certain phone costs, and they say "ninety-nine, ninety-nine" (i.e., $99.99), they're giving you an actual numeric dollar figure that represents what you'll need to pay (plus taxes) to buy it. If you want to buy two of those phones, you can easily do the mental math to double that value to get $199.98 for your base cost.
+Se você perguntar a um funcionário de uma loja de celulares e perguntar quanto um certo modelo custa, e ele disser "noventa e nove e noventa e nove" ($99.99), ele está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
 
-If that same employee picks up another similar phone but says it's "free" (perhaps with air quotes), they're not giving you a number, but instead another kind of representation of your expected cost ($0.00) -- the word "free."
+Se o funcionário pegar outro aparelho similar e disser "é grátis", ele não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
 
-When you later ask if the phone includes a charger, that answer could only have been either "yes" or "no."
+Se você depois perguntar se o aparelho vem com carregador, a resposta pode ser apenas "sim" ou "não."
 
-In very similar ways, when you express values in a program, you choose different representations for those values based on what you plan to do with them.
+De modo bem similar, quando você expressa valores em um programa, você escolhe representações diferentes para aqueles valores baseado no que você planeja fazer com eles.
 
-These different representations for values are called *types* in programming terminology. JavaScript has built-in types for each of these so called *primitive* values:
+Essas diferentes representações para valores são chamados *tipos* na terminologia de programação. JavaScript tem tipos pré-definidos para cada um dos chamados valores *primitivos*:
 
-* When you need to do math, you want a `number`.
-* When you need to print a value on the screen, you need a `string` (one or more characters, words, sentences).
-* When you need to make a decision in your program, you need a `boolean` (`true` or `false`).
+* Quando quiser fazer operações matemáticas, você vai precisar de um `number`.
+* Quando você precisar imprimir um valor na tela, você precisará de uma `string` (um ou mais caracteres, palavras, sentenças).
+* Quando você precisar tomar uma decisão em seu programa, você vai precisar de um `boolean` (`true` ou `false`).
 
-Values that are included directly in the source code are called *literals*. `string` literals are surrounded by double quotes `"..."` or single quotes (`'...'`) -- the only difference is stylistic preference. `number` and `boolean` literals are just presented as is (i.e., `42`, `true`, etc.).
+Valores que são incluídos diretamente no código fonte são chamados *literais*. literais `string` são sempre envolvidas por aspas duplas `"..."` ou aspas simples (`'...'`) -- a única diferença é a preferência estética. literais `number` e `boolean`  são apresentadas como são (exemplos: `42`, `true`, etc.).
 
-Consider:
+Considere:
 
 ```js
 "I am a string";
@@ -243,7 +243,7 @@ true;
 false;
 ```
 
-Beyond `string`/`number`/`boolean` value types, it's common for programming languages to provide *arrays*, *objects*, *functions*, and more. We'll cover much more about values and types throughout this chapter and the next.
+Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de programação proverem *arrays*, *objetos*, *funções*, e mais. Iremos cobrir muito mais sobre valores e tipos através desse capítulo e do próximo.
 
 ### Converting Between Types
 
