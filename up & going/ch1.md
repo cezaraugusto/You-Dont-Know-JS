@@ -245,11 +245,11 @@ false;
 
 Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de programação proverem *arrays*, *objetos*, *funções*, e mais. Iremos cobrir muito mais sobre valores e tipos através desse capítulo e do próximo.
 
-### Converting Between Types
+### Conversões entre Tipos
 
-If you have a `number` but need to print it on the screen, you need to convert the value to a `string`, and in JavaScript this conversion is called "coercion." Similarly, if someone enters a series of numeric characters into a form on an ecommerce page, that's a `string`, but if you need to then use that value to do math operations, you need to *coerce* it to a `number`.
+Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript essa conversão é chamada de "conversão." De maneira similar, se alguém insere uma série caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um numero(`number`).
 
-JavaScript provides several different facilities for forcibly coercing between *types*. For example:
+O JavaScript fornece diversas facilidades para forçar a conversão entre *tipos*. Por exemplo:
 
 ```js
 var a = "42";
@@ -259,21 +259,21 @@ console.log( a );	// "42"
 console.log( b );	// 42
 ```
 
-Using `Number(..)` (a built-in function) as shown is an *explicit* coercion from any other type to the `number` type. That should be pretty straightforward.
+Usando `Number(..)` (uma função nativa) como demonstrado, estamos realizando uma conversão *explícita* de qualquer outro tipo para o tipo `number` (número). Isso deve ser bem claro.
 
-But a controversial topic is what happens when you try to compare two values that are not already of the same type, which would require *implicit* coercion.
+Um tópico controverso acontece quando você tenta comparar dois valores que ainda não são do mesmo tipo, que requer uma conversão *implícita*.
 
-When comparing the string `"99.99"` to the number `99.99`, most people would agree they are equivalent. But they're not exactly the same, are they? It's the same value in two different representations, two different *types*. You could say they're "loosely equal," couldn't you?
+Quand comparada a string `"99.99"` com o número `99.99`, muitos concordam que elas sejam equivalentes. Mas ele não são exatamente iguais, são? É o mesmo valor em duas representações diferentes, dois *tipos* diferentes. Você poderia dizer que eles são "igualdade nao-estrita", não poderia?
 
-To help you out in these common situations, JavaScript will sometimes kick in and *implicitly* coerce values to the matching types.
+Para te ajudar nessas situações, o JavaScript irá, em alguns casos, *implicitamente* converter os valores para os tipos certos.
 
-So if you use the `==` loose equals operator to make the comparison `"99.99" == 99.99`, JavaScript will convert the left-hand side `"99.99"` to its `number` equivalent `99.99`. The comparison then becomes `99.99 == 99.99`, which is of course `true`.
+Sendo assim, se você usar o operador de igualdade não-estrita `==`  para fazer uma comparação entre `"99.99" == 99.99`, o JavaScript vai converter o lado da mão esquerda `"99.99"` para seu número(`number`) equivalente `99.99`. A comparação então se torna `99.99 == 99.99`, que é claro, é verdadeira (`true`).
 
-While designed to help you, implicit coercion can create confusion if you haven't taken the time to learn the rules that govern its behavior. Most JS developers never have, so the common feeling is that implicit coercion is confusing and harms programs with unexpected bugs, and should thus be avoided. It's even sometimes called a flaw in the design of the language.
+Apesar de ter sido feito para te ajudar, conversões implícitas geram confusão se você não teve tempo de aprender as regras que regem seu comportamento. A maioria dos desenvolvedores de JS nunca nunca tiveram, então o sentimento geral é que conversões implícitas são confusas e deixam os programas com bugs inesperados, e os mesmos devem ser evitados. Em alguns casos até o design da linguagem é considerado falho.
 
-However, implicit coercion is a mechanism that *can be learned*, and moreover *should be learned* by anyone wishing to take JavaScript programming seriously. Not only is it not confusing once you learn the rules, it can actually make your programs better! The effort is well worth it.
+Entretanto, conversões implícitas é um mecanismo que *pode ser aprendido*, e mais ainda *deve ser aprendido* por qualquer um que queira levar a programação em JavaScript a sério. Não apenas as conversões não são confusas, uma vez que aprendidas as regras, como pode fazer os seus programas melhores! Os esforços para aprender valerão a pena.
 
-**Note:** For more information on coercion, see Chapter 2 of this title and Chapter 4 of the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre conversões, veja o Capítulo 2 desse título (Iniciando) e o Capítulo 4 de *Tipos & Gramática* da série.
 
 ## Code Comments
 
