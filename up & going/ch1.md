@@ -215,9 +215,9 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
 
 ## Valores & Tipos
 
-Se você perguntar a um funcionário de uma loja de celulares e perguntar quanto um certo modelo custa, e ele disser "noventa e nove e noventa e nove" ($99.99), ele está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
+Se você perguntar a um vendedor de uma loja de celulares e perguntar quanto um certo modelo custa, e ele disser "noventa e nove e noventa e nove" ($99.99), ele está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
 
-Se o funcionário pegar outro aparelho similar e disser "é grátis", ele não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
+Se o vendedor pegar outro aparelho similar e disser "é grátis", ele não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
 
 Se você depois perguntar se o aparelho vem com carregador, a resposta pode ser apenas "sim" ou "não."
 
@@ -275,67 +275,67 @@ Entretanto, conversões implícitas é um mecanismo que *pode ser aprendido*, e 
 
 **Nota:** Para mais informações sobre conversões, veja o Capítulo 2 desse título (Iniciando) e o Capítulo 4 de *Tipos & Gramática* da série.
 
-## Code Comments
+## Comentários do Código
 
-The phone store employee might jot down some notes on the features of a newly released phone or on the new plans her company offers. These notes are only for the employee -- they're not for customers to read. Nevertheless, these notes help the employee do her job better by documenting the hows and whys of what she should tell customers.
+O vendedor da loja de celulares pode escrever algumas notas sobre funcionalidades de um recém-lançado aparelho ou sobre os novos planos que a empresa oferece. Essas notas são apenas para ele ler -- elas não são feitas para os consumidores lerem. De qualquer forma, essas notas ajudam o vendedor a fazer seu trabalho por documentar os "como's" e "porquê's" do que deve-se falar aos consumidores.
 
-One of the most important lessons you can learn about writing code is that it's not just for the computer. Code is every bit as much, if not more, for the developer as it is for the compiler.
+Uma das lições mais importantes que você pode aprender sobre códigos é que eles não são apenas para computadores. O código é feito tanto, senão mais, para o desenvolvedor do que para o compilador.
 
-Your computer only cares about machine code, a series of binary 0s and 1s, that comes from *compilation*. There's a nearly infinite number of programs you could write that yield the same series of 0s and 1s. The choices you make about how to write your program matter -- not only to you, but to your other team members and even to your future self.
+Seu computador se importa apenas com código de máquina, uma série de binários, 0s e 1s, que vem da *compilação*. Existe uma infinidade de programas que você pode escrever que produzem as mesmas séries de 0s e 1s. As escolhas que você faz sobre como programar importam -- não apenas para você, mas para toda a equipe que você está trabalhando e até para você mesmo no futuro.
 
-You should strive not just to write programs that work correctly, but programs that make sense when examined. You can go a long way in that effort by choosing good names for your variables (see "Variables") and functions (see "Functions").
+Você deve se empenhar não apenas em escrever programas que funcionam corretamente, mas programas que fazem sentido ao serem examinados. Você pode percorrer uma boa parte desse caminhinho começando por escolher bons nomes para variáveis (veja "Variáveis") e funções (veja "Funções").
 
-But another important part is code comments. These are bits of text in your program that are inserted purely to explain things to a human. The interpreter/compiler will always ignore these comments.
+Uma parte importante do nosso código são os comentários. Eles são blocos de texto no seu programa que são inseridos com o propósito único de explicar coisas a um humano. O interpretador/compilador sempre irá ignorar esses comentários.
 
-There are lots of opinions on what makes well-commented code; we can't really define absolute universal rules. But some observations and guidelines are quite useful:
+Existem diversas opiniões sobre o que faz um código ser bem documentado; não podemos definir regras universais. Entretanto, algumas observações e orientações são bastante úteis:
 
-* Code without comments is suboptimal.
-* Too many comments (one per line, for example) is probably a sign of poorly written code.
-* Comments should explain *why*, not *what*. They can optionally explain *how* if that's particularly confusing.
+* Códigos sem comentários não é ideal.
+* Muitos comentários (um por linha, por exemplo) é provavelmente sinal de código mal escrito.
+* Comentários devem explicar *porquê* e não *o quê*. Eles podem opcionalmente explicar *como* se a parte for particularmente confusa.
 
-In JavaScript, there are two types of comments possible: a single-line comment and a multiline comment.
+Em JavaScript, existem dois tipos possíveis de comentário: uma linha simples de comentário e um comentário multi-linhas.
 
-Consider:
+Considere:
 
 ```js
-// This is a single-line comment
+// Esse é um comentário de linha simṕles
 
-/* But this is
-       a multiline
-             comment.
+/* Mas esse é 
+       um comentário
+             multi-linhas.
                       */
 ```
 
-The `//` single-line comment is appropriate if you're going to put a comment right above a single statement, or even at the end of a line. Everything on the line after the `//` is treated as the comment (and thus ignored by the compiler), all the way to the end of the line. There's no restriction to what can appear inside a single-line comment.
+O `//` comentário de linha simples é apropriado se você está fazendo um comentário logo acima de uma instrução, ou até mesmo no final da linha. Tudo após o início da linha de `//` é tratado como um comentário (e consequentemente ignorado pelo compilador), até o final da linha. Não existem restrições sobre o que pode ser posto dentro de um comentário de linha simples.
 
-Consider:
+Considere:
 
 ```js
-var a = 42;		// 42 is the meaning of life
+var a = 42;		// 42 é o sentido da vida
 ```
 
-The `/* .. */` multiline comment is appropriate if you have several lines worth of explanation to make in your comment.
+O `/* .. */` comentário de multi-linhas é apropriado se você precisar de diversas linhas de explicações para fazer seu comentário.
 
-Here's a common usage of multiline comments:
+Abaixo uma forma comum de usar um comentário de multiplas linhas:
 
 ```js
-/* The following value is used because
-   it has been shown that it answers
-   every question in the universe. */
+/* O valor abaixo é usado porque
+   foi exposto que ele responde
+   a todas as questões do universo. */
 var a = 42;
 ```
 
-It can also appear anywhere on a line, even in the middle of a line, because the `*/` ends it. For example:
+O comentário multi-linhas pode inclusive aparecer em uma linha, ou até mesmo no meio de uma linha, porque o `*/` finaliza ele. Por exemplo:
 
 ```js
-var a = /* arbitrary value */ 42;
+var a = /* valor arbitrário */ 42;
 
 console.log( a );	// 42
 ```
 
-The only thing that cannot appear inside a multiline comment is a `*/`, because that would be interpreted to end the comment.
+Porém a única coisa que não pode aparecer dentro de um comentário multi-linhas é um`*/`, porque seria interpretado como final do comentário.
 
-You will definitely want to begin your learning of programming by starting off with the habit of commenting code. Throughout the rest of this chapter, you'll see I use comments to explain things, so do the same in your own practice. Trust me, everyone who reads your code will thank you!
+Você definitivamente irá querer começar seu aprendizado na programação com o hábito de comentar seu código. Através desse capítulo, você verá que uso comentários para explicar coisas, então faça isso com suas práticas. Confie em mim, todos que irão ler seu código vão agradecer!
 
 ## Variables
 
