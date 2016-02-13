@@ -1,10 +1,18 @@
-Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve estar aqui.
+> Se existe alguma palavra/frase/jargão que é excessivamente usada no livro e merece referência para tradução, ela deve estar aqui.
 
 # Referências
+
+* [Lista de Termos Técnicos de Informática - Wikipedia](https://pt.wikipedia.org/wiki/Ajuda:Guia_de_tradu%C3%A7%C3%A3o/Lista_de_termos_t%C3%A9cnicos_de_inform%C3%A1tica).
 * Aprendendo JavaScript - Shelley Powers (Ed. O'Reilly).
+*[Torne acessíveis os artigos técnicos](https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:Torne_acess%C3%ADveis_os_artigos_t%C3%A9cnicos)
+
+## To-Do
+
+[ ] Organizar jargões por ordem alfabética
+[ ] Verificar referências mais acessíveis e/ou completas
 
 ## Global
-* Links não devem ser traduzidos
+* Links não devem ser traduzidos, de nenhuma forma.
 
 ## Títulos
 * You Don't Know JS: Título deve ser mantido como o original
@@ -42,3 +50,4 @@ Se existe alguma palavra/frase/jargão que é excessivamente usada, ela deve est
 * Compound Assignment: Atribuição com Operação
 * Equality: Igualdade
 * Compound Conditionals: Instrução Condicional
+* Static typing
