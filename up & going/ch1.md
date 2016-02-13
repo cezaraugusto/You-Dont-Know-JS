@@ -243,7 +243,7 @@ true;
 false;
 ```
 
-Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de programação proverem *arrays*, *objetos*, *funções*, e mais. Iremos cobrir muito mais sobre valores e tipos através desse capítulo e do próximo.
+Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de programação proverem *arrays*, *objetos*, *funções*, e mais. Iremos cobrir muito mais sobre valores e tipos ao longo desse capítulo e também do próximo.
 
 ### Conversões entre Tipos
 
