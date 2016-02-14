@@ -417,37 +417,37 @@ Falando nisso, o tipo de "proteção" contra acidentes é similar ao de linguage
 
 **Nota:** Para mais informações sobre os diferentes valores em variáveis que podem ser usados em seus programas, veja o título *Tipagem & Gramática* dessa série.
 
-## Blocks
+## Blocos
 
-The phone store employee must go through a series of steps to complete the checkout as you buy your new phone.
+O funcionário da loja de celulares precisa seguir uma série de etapas para efetivar a compra do seu novo celular.
 
-Similarly, in code we often need to group a series of statements together, which we often call a *block*. In JavaScript, a block is defined by wrapping one or more statements inside a curly-brace pair `{ .. }`. Consider:
+De maneira siminar, em código nós muitas vezes precisamos agrupar uma série de instruções, as quais podemos chamar de *blocos*. Em JavaScript, um bloco é definido por englobar uma ou mais instruções dentro de um par de chaves `{ .. }`. Considere:
 
 ```js
 var amount = 99.99;
 
-// a general block
+// um bloco qualquer
 {
 	amount = amount * 2;
 	console.log( amount );	// 199.98
 }
 ```
 
-This kind of standalone `{ .. }` general block is valid, but isn't as commonly seen in JS programs. Typically, blocks are attached to some other control statement, such as an `if` statement (see "Conditionals") or a loop (see "Loops"). For example:
+Essa forma de formatação do bloco`{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `ìf` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo: 
 
 ```js
 var amount = 99.99;
 
-// is amount big enough?
-if (amount > 10) {			// <-- block attached to `if`
+// amount é grande o suficiente?
+if (amount > 10) {			// <-- bloco anexado ao `if`
 	amount = amount * 2;
 	console.log( amount );	// 199.98
 }
 ```
 
-We'll explain `if` statements in the next section, but as you can see, the `{ .. }` block with its two statements is attached to `if (amount > 10)`; the statements inside the block will only be processed if the conditional passes.
+Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, o bloco `{ .. }`com suas duas intruções é anexado ao `if (amount > 10)`; as instruções dentro do bloco só irão ser processadas se a condicional for aceita.
 
-**Note:** Unlike most other statements like `console.log(amount);`, a block statement does not need a semicolon (`;`) to conclude it.
+**Nota:** Ao contrário da maioria das instruções como `console.log(amount);`, uma instrução de bloco não precisa de um ponto-e-vírgula (`;`) para ser concluída.
 
 ## Conditionals
 
