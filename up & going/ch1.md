@@ -337,19 +337,19 @@ Porém a única coisa que não pode aparecer dentro de um comentário multi-linh
 
 Você definitivamente irá querer começar seu aprendizado na programação com o hábito de comentar seu código. Através desse capítulo, você verá que uso comentários para explicar coisas, então faça isso com suas práticas. Confie em mim, todos que irão ler seu código vão agradecer!
 
-## Variables
+## Variáveis
 
-Most useful programs need to track a value as it changes over the course of the program, undergoing different operations as called for by your program's intended tasks.
+A maioria dos programas que são úteis, precisam rastrear um valor conforme ele se modifica ao longo do programa, realizando diferentes operações enquanto o programa o chama de acordo com determinadas tarefas.
 
-The easiest way to go about that in your program is to assign a value to a symbolic container, called a *variable* -- so called because the value in this container can *vary* over time as needed.
+A forma mais fácil de realizar esse procedimento é determinar um valor para um agregador simbólico, chamado *variável* -- sendo assim chamado porque o valor que carrega pode *variar* ao longo do tempo se necessário.
 
-In some programming languages, you declare a variable (container) to hold a specific type of value, such as `number` or `string`. *Static typing*, otherwise known as *type enforcement*, is typically cited as a benefit for program correctness by preventing unintended value conversions.
+Em algumas linguagens de programação, você declara a variável (agregador) para manter um valor específico, como por exemplo um `number` ou `string`. A *Tipagem estática*, é geralmente citada como benéfica para o programa por previnir conversões de valores não desejadas.
 
-Other languages emphasize types for values instead of variables. *Weak typing*, otherwise known as *dynamic typing*, allows a variable to hold any type of value at any time. It's typically cited as a benefit for program flexibility by allowing a single variable to represent a value no matter what type form that value may take at any given moment in the program's logic flow.
+Outras linguagens enfatizam tipos para valores ao invés de variáveis. A *Tipagem fraca*, também conhecida como *tipagem dinâmica*, permite que uma variável armazene qualquer tipo de valor em qualquer tempo. É tipicamente citada como benéfica para a flexibilidade de um programa, por permitir que uma simples variável tenha um valor representado independentemente do tipo e do momento dentro decorrer da lógica.
 
-JavaScript uses the latter approach, *dynamic typing*, meaning variables can hold values of any *type* without any *type* enforcement.
+O JavaScript usa a segunda abordagem, *tipagem dinâmica*, o que significa que as variáveis podem armazenar valores de qualquer *tipo*.
 
-As mentioned earlier, we declare a variable using the `var` statement -- notice there's no other *type* information in the declaration. Consider this simple program:
+Como mencionado anteriormente, nós declaramos uma variável usando a instrução `var` -- note que não existe aqui nenhuma informação sobre *tipo* nessa declaração. Considere esse simples programa:
 
 ```js
 var amount = 99.99;
@@ -358,33 +358,33 @@ amount = amount * 2;
 
 console.log( amount );		// 199.98
 
-// convert `amount` to a string, and
-// add "$" on the beginning
+// converte o amount` para uma string, e
+// adiciona "$" no começo
 amount = "$" + String( amount );
 
 console.log( amount );		// "$199.98"
 ```
 
-The `amount` variable starts out holding the number `99.99`, and then holds the `number` result of `amount * 2`, which is `199.98`.
+A variável `amount` começa armazenando o número `99.99`, e depois armazena o resultado númerico(`number`) de `amount * 2`, que é `199.98`.
 
-The first `console.log(..)` command has to *implicitly* coerce that `number` value to a `string` to print it out.
+O primeiro comando e `console.log(..)` precisa *implicitamente* converter o valor de `number` para `string` para poder imprimí-lo.
 
-Then the statement `amount = "$" + String(amount)` *explicitly* coerces the `199.98` value to a `string` and adds a `"$"` character to the beginning. At this point, `amount` now holds the `string` value `"$199.98"`, so the second `console.log(..)` statement doesn't need to do any coercion to print it out.
+A instrução `amount = "$" + String(amount)` *explicitamente* converte o valor `199.98` para uma `string` e adiciona um caractere `"$"` para o começo. Nesse ponto, `amount` agora armazena o valor em `string` de `"$199.98"`, então o segundo comando `console.log(..)` não precisa fazer nenhuma conversão para imprimir seu valor.
 
-JavaScript developers will note the flexibility of using the `amount` variable for each of the `99.99`, `199.98`, and the `"$199.98"` values. Static-typing enthusiasts would prefer a separate variable like `amountStr` to hold the final `"$199.98"` representation of the value, because it's a different type.
+Os desenvolvedores JavaScript irão notar a flexibilidade de usar a variável `amount` para cada um dos valores `99.99`, `199.98` e `"$199.98"`. Entusiastas da tipagem estática irão preferir separar valores como `amountStr` para armazenar a representação do valor `"$199.98"`, por ser de um tipo diferente.
 
-Either way, you'll note that `amount` holds a running value that changes over the course of the program, illustrating the primary purpose of variables: managing program *state*.
+De qualquer forma, você irá notar que `amount` armazena um valor corrente que é alterado conforme o decorrer do programa, ilustrando assim o primeiro propósito das variáveis: gerenciar o *estado* do programa.
 
-In other words, *state* is tracking the changes to values as your program runs.
+Em outras palavras, *estado* é o acompanhamento das mudanças dos valores conforme seu programa está rodando.
 
-Another common usage of variables is for centralizing value setting. This is more typically called *constants*, when you declare a variable with a value and intend for that value to *not change* throughout the program.
+Outro exemplo comum de como usar uma variável quando você deseja definir as opçoes de valores. Isso é geralmente chamado de *constante*, quando você declara uma variável com um valor e deseja que o valor *não mude* ao longo do programa.
 
-You declare these *constants*, often at the top of a program, so that it's convenient for you to have one place to go to alter a value if you need to. By convention, JavaScript variables as constants are usually capitalized, with underscores `_` between multiple words.
+Você declara essas *constantes* geralmente no início do programa, de forma a se tornar um lugar conveniente de se visitar caso deseje alterar algum valor. Por convenção, variáveis definidas como constantes em JavaSscript são geralmente capitalizadas e separadas por um sublinhado.
 
-Here's a silly example:
+Abaixo um exemplo simples:
 
 ```js
-var TAX_RATE = 0.08;	// 8% sales tax
+var TAX_RATE = 0.08;	// 8% de taxas
 
 var amount = 99.99;
 
@@ -396,14 +396,14 @@ console.log( amount );				// 215.9784
 console.log( amount.toFixed( 2 ) );	// "215.98"
 ```
 
-**Note:** Similar to how `console.log(..)` is a function `log(..)` accessed as an object property on the `console` value, `toFixed(..)` here is a function that can be accessed on `number` values. JavaScript `number`s aren't automatically formatted for dollars -- the engine doesn't know what your intent is and there's no type for currency. `toFixed(..)` lets us specify how many decimal places we'd like the `number` rounded to, and it produces the `string` as necessary.
+**Nota:** Assim como `console.log(..)` tem a função `log(..)` accessada como uma propriedade do valor do objeto de `console`, `toFixed(..)`é uma função que pode ser acessada para valores `number`. O `number` em JavaScript não é automaticamente formatado para ser o valor de uma moeda -- o sistema não sabe o que se pretende fazer e não existe um tipo específico para moedas. `toFixed(..)` nos deixa especificar quantos valores decimais gostaríamos que o `number` fosse arredondado, e ele produz a `string` como necessário.
 
-The `TAX_RATE` variable is only *constant* by convention -- there's nothing special in this program that prevents it from being changed. But if the city raises the sales tax rate to 9%, we can still easily update our program by setting the `TAX_RATE` assigned value to `0.09` in one place, instead of finding many occurrences of the value `0.08` strewn throughout the program and updating all of them.
+A variável `TAX_RATE` só é uma *constante* por convenção -- não existe nada especial nesse programa que não permita que ela seja alterada. Mas se a cidade aumentar o valor das taxas para 9%, nós ainda poderemos atualizar o valor de `TAX_RATE` para `0.09` no mesmo lugar, ao invés de procurar diversas ocorrências do valor `0.08` ao longo do programa e ter que atualizá-los um por um.
 
-The newest version of JavaScript at the time of this writing (commonly called "ES6") includes a new way to declare *constants*, by using `const` instead of `var`:
+A nova versão do JavaScript no momento que escrevo isso (comumente chamada de "ES6") inclui uma nova forma de declarar *constantes*, usando `const` ao invés de `var`:
 
 ```js
-// as of ES6:
+// como em ES6:
 const TAX_RATE = 0.08;
 
 var amount = 99.99;
@@ -411,11 +411,11 @@ var amount = 99.99;
 // ..
 ```
 
-Constants are useful just like variables with unchanged values, except that constants also prevent accidentally changing value somewhere else after the initial setting. If you tried to assign any different value to `TAX_RATE` after that first declaration, your program would reject the change (and in strict mode, fail with an error -- see "Strict Mode" in Chapter 2).
+Constantes são tão úteis quanto variáveis de valores imutáveis, exceto que constantes também previnem que valores sejam alterados acidentalmente após sua configuração inicial. Se você tentar designar diferentes valores para `TAX_RATE` após sua primeira declaração, seu programa vai rejeitar a mudança (e em modo estrito, irá gerar um erro -- veja "Modo Estrito" no Capítulo 2).
 
-By the way, that kind of "protection" against mistakes is similar to the static-typing type enforcement, so you can see why static types in other languages can be attractive!
+Falando nisso, o tipo de "proteção" contra acidentes é similar ao de linguagens com tipagem estática, assim você vê como a tipagem estática em outras linguagens pode ser bem atrativa!
 
-**Note:** For more information about how different values in variables can be used in your programs, see the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre os diferentes valores em variáveis que podem ser usados em seus programas, veja o título *Tipagem & Gramática* dessa série.
 
 ## Blocks
 
