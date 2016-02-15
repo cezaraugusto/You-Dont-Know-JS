@@ -576,13 +576,14 @@ O loop `for` tem três instruções: uma atribuição inicial (`var i=0`), um te
 
 Existem outros loops especializados que são designados a iterar sobre valores específicos, como propriedades de um objeto (veja o Capítulo 2) onde a aplicação do teste condicional é saber se todas as propriedades foram processadas. O conceito de "iterar até determinada condição falhar" permanece idependentemente do formato do loop.
 
-## Functions
+## Funções
 
-The phone store employee probably doesn't carry around a calculator to figure out the taxes and final purchase amount. That's a task she needs to define once and reuse over and over again. Odds are, the company has a checkout register (computer, tablet, etc.) with those "functions" built in.
+A vendedora da loja de celulares provavelmente não anda com uma calculadora para saber a quantidade de taxas e o valor final do produto. Essa é uma tarefa que ela precisa definir uma vez e reusar diversas vezes. As chances são que a empresa que ela trabalha tenha um aparelho (computador, tablet, etc) que tenha, de fábrica, esse tipo de funcionalidade.
 
-Similarly, your program will almost certainly want to break up the code's tasks into reusable pieces, instead of repeatedly repeating yourself repetitiously (pun intended!). The way to do this is to define a `function`.
+De maneira similar, o programa quase certamente irá dividir o código em
+partes reusáveis, ao invés de ficar se repetindo. A forma que fazemos isso é definindo uma função (`function`).
 
-A function is generally a named section of code that can be "called" by name, and the code inside it will be run each time. Consider:
+Uma função geralmente é uma bloco de código nomeado, de forma que ela possa ser "chamada" pelo nome, fazendo o código dentro dela ser acionado sempre que preciso. Considere:
 
 ```js
 function printAmount() {
@@ -598,7 +599,7 @@ amount = amount * 2;
 printAmount(); // "199.98"
 ```
 
-Functions can optionally take arguments (aka parameters) -- values you pass in. And they can also optionally return a value back.
+Funções podem, opcionalmente, carregar argumentos (conhecidos também como parâmetros) -- valores que você designa a ela. E eles podem, também opcionalmente, retornar um outro valor.
 
 ```js
 function printAmount(amt) {
@@ -617,20 +618,20 @@ amount = formatAmount();
 console.log( amount );			// "$99.99"
 ```
 
-The function `printAmount(..)` takes a parameter that we call `amt`. The function `formatAmount()` returns a value. Of course, you can also combine those two techniques in the same function.
+A função `printAmount(..)` utiliza um parâmetro que chamamos `amt`. A função `formatAmount()` retorna um valor. Claro, você também pode combinar essas duas técnicas na mesma função.
 
-Functions are often used for code that you plan to call multiple times, but they can also be useful just to organize related bits of code into named collections, even if you only plan to call them once.
+Funções são geralmente usadas para códigos que você planeja chamar diversas vezes, mas eles podem ser úteis também para organizar códigos relacionados em coleções que você possa nomear, mesmo que você só planeja chamá-los apenas uma vez.
 
-Consider:
+Considere:
 
 ```js
 const TAX_RATE = 0.08;
 
 function calculateFinalPurchaseAmount(amt) {
-	// calculate the new amount with the tax
+	// calcula o novo amount adicionando a tax
 	amt = amt + (amt * TAX_RATE);
 
-	// return the new amount
+	// retorne o novo amount
 	return amt;
 }
 
@@ -641,7 +642,7 @@ amount = calculateFinalPurchaseAmount( amount );
 console.log( amount.toFixed( 2 ) );		// "107.99"
 ```
 
-Although `calculateFinalPurchaseAmount(..)` is only called once, organizing its behavior into a separate named function makes the code that uses its logic (the `amount = calculateFinal...` statement) cleaner. If the function had more statements in it, the benefits would be even more pronounced.
+Apesar de `calculateFinalPurchaseAmount(..)` ser chamado apenas uma vez, organizar seu comportamento em uma função separadamente faz o código que usa sua lógica (a instrução `amount = calculateFinal...`) mais limpa. Se a função tiver mais instruções nela, os benefícios podem ser ainda maiores.
 
 ### Scope
 
