@@ -644,23 +644,23 @@ console.log( amount.toFixed( 2 ) );		// "107.99"
 
 Apesar de `calculateFinalPurchaseAmount(..)` ser chamado apenas uma vez, organizar seu comportamento em uma função separadamente faz o código que usa sua lógica (a instrução `amount = calculateFinal...`) mais limpa. Se a função tiver mais instruções nela, os benefícios podem ser ainda maiores.
 
-### Scope
+### Escopo
 
-If you ask the phone store employee for a phone model that her store doesn't carry, she will not be able to sell you the phone you want. She only has access to the phones in her store's inventory. You'll have to try another store to see if you can find the phone you're looking for.
+Se você pedir à vendedora da loja de celulares por um modelo que não está em estoque, ela não poderá te vender o celular que você quer. Ela só tem acesso aos aparelhos que estão em estoque, você terá que ir até outra loja para saber se eles têm o telefone que você deseja. 
 
-Programming has a term for this concept: *scope* (technically called *lexical scope*). In JavaScript, each function gets its own scope. Scope is basically a collection of variables as well as the rules for how those variables are accessed by name. Only code inside that function can access that function's *scoped* variables.
+Em programação temos um termo para esse conceito: *escopo* (tecnicamente chamado *escopo léxico*). Em JavaScript, cada função tem seu próprio escopo. O escopo é basicamente uma coleção de variáveis e regras de como essas variáveis serão acessadas pelo nome. Apenas o código dentro dessa função poderá as variáveis dentro daquele *escopo*.
 
-A variable name has to be unique within the same scope -- there can't be two different `a` variables sitting right next to each other. But the same variable name `a` could appear in different scopes.
+O nome de uma variável precisa ser único dentro do escopo -- não podem haver duas variáveis diferentes com o nome `a` no mesmo escopo. Porém duas variáveis com o nome `a` em escopos diferentes podem coexistir sem problemas.
 
 ```js
 function one() {
-	// this `a` only belongs to the `one()` function
+	// essa variável `a` só pertence à função `one()`
 	var a = 1;
 	console.log( a );
 }
 
 function two() {
-	// this `a` only belongs to the `two()` function
+	// essa variável `a` só pertence à função `two()` 
 	var a = 2;
 	console.log( a );
 }
@@ -669,9 +669,9 @@ one();		// 1
 two();		// 2
 ```
 
-Also, a scope can be nested inside another scope, just like if a clown at a birthday party blows up one balloon inside another balloon. If one scope is nested inside another, code inside the innermost scope can access variables from either scope.
+Também podemos aninhar um escopo dentro de outro escopo, igual a um palhaço numa festa de aniversário e estoura um balão que contém outro balão dentro. Se um escopo está aninhado a outro, o código dentro do escopo interno pode acessar as variáveis do escopo mais externo.
 
-Consider:
+Considere:
 
 ```js
 function outer() {
@@ -680,40 +680,40 @@ function outer() {
 	function inner() {
 		var b = 2;
 
-		// we can access both `a` and `b` here
+		// nós podemos acessar ambos `a` e `b` aqui
 		console.log( a + b );	// 3
 	}
 
 	inner();
 
-	// we can only access `a` here
+	// podemos acessar apenas `a` aqui
 	console.log( a );			// 1
 }
 
 outer();
 ```
 
-Lexical scope rules say that code in one scope can access variables of either that scope or any scope outside of it.
+As regras do escopo léxico dizem que o código dentro de um escopo pode acessar variáveis tanto dele mesmo quanto de qualquer escopo fora dele.
 
-So, code inside the `inner()` function has access to both variables `a` and `b`, but code only in `outer()` has access only to `a` -- it cannot access `b` because that variable is only inside `inner()`.
+Assim, considere que a função `inner()` tem acesso a ambas as variáveis `a` e `b`, mas o código dentro de `outer()` só tem acesso à `a` -- ele não pode acessar `b` porque a variável está dentro de `inner()`.
 
-Recall this code snippet from earlier:
+Voltando ao exemplo anterior:
 
 ```js
 const TAX_RATE = 0.08;
 
 function calculateFinalPurchaseAmount(amt) {
-	// calculate the new amount with the tax
+	// calcula o novo amount adicionando a tax
 	amt = amt + (amt * TAX_RATE);
 
-	// return the new amount
+	// retorne o novo amount
 	return amt;
 }
 ```
 
-The `TAX_RATE` constant (variable) is accessible from inside the `calculateFinalPurchaseAmount(..)` function, even though we didn't pass it in, because of lexical scope.
+A constante `TAX_RATE` (variável) é acessível dentro da função `calculateFinalPurchaseAmount(..)`, mesmo se não passarmos por ela, por conta do escopo léxico.
 
-**Note:** For more information about lexical scope, see the first three chapters of the *Scope & Closures* title of this series.
+**Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série *Escopos & Encerramentos*.
 
 ## Practice
 
