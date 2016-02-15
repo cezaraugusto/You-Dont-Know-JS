@@ -715,24 +715,24 @@ A constante `TAX_RATE` (variável) é acessível dentro da função `calculateFi
 
 **Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série *Escopos & Encerramentos*.
 
-## Practice
+## Pratique
 
-There is absolutely no substitute for practice in learning programming. No amount of articulate writing on my part is alone going to make you a programmer.
+Não existe absolutamente nenhum substituto para prática ao aprender à programar. Nenhuma quantidade de artigos de minha parte, sozinhos, irão fazer você se tornar um programador.
 
-With that in mind, let's try practicing some of the concepts we learned here in this chapter. I'll give the "requirements," and you try it first. Then consult the code listing below to see how I approached it.
+Com isso em mente, vamos tentar praticar alguns conceitos que aprendemos neste capítulo. Eu irei lhe dar os "requerimentos", e você primeiro irá tentar executá-los. Depois, consulte o código listado abaixo para ver a forma que eu os resolvi.
 
-* Write a program to calculate the total price of your phone purchase. You will keep purchasing phones (hint: loop!) until you run out of money in your bank account. You'll also buy accessories for each phone as long as your purchase amount is below your mental spending threshold.
-* After you've calculated your purchase amount, add in the tax, then print out the calculated purchase amount, properly formatted.
-* Finally, check the amount against your bank account balance to see if you can afford it or not.
-* You should set up some constants for the "tax rate," "phone price," "accessory price," and "spending threshold," as well as a variable for your "bank account balance.""
-* You should define functions for calculating the tax and for formatting the price with a "$" and rounding to two decimal places.
-* **Bonus Challenge:** Try to incorporate input into this program, perhaps with the `prompt(..)` covered in "Input" earlier. You may prompt the user for their bank account balance, for example. Have fun and be creative!
+* Escreva um programa que calcula o preço total da compra do seu celular. Você pode continuar comprando telefones (dica: loop!) até você ficar sem dinheiro na sua conta bancária. Você irá também comprar acessórios para cada telefone enquanto sua quantidade de dinheiro for menor do que seu limite mental.
+* Após calcular o valor da compra, adicione as taxas, depois imprima a quantidade total, devidamente formatada.
+* Por fim, verifique o total gasto em sua conta bancária para saber se você pode comprar ou não.
+* Você deve definir algumas constantes para a "taxa de imposto", "preço do telefone", "preço do acessório", e "limite de gastos", assim como variáveis para o seu "saldo bancário".
+* Você deve definir funções para calcular a taxa e para formatar o preço com um "$" e arredondá-lo para duas casas decimais.
+* **Desafio Extra:** Tente incorporar um input para esse programa, talvez com o`prompt(..)` que abordamos anteriormente em "Input". Você pode definir um prompt para o usuário para definir o saldo de sua conta bancária, por exemplo. Divirta-se e seja criativo!
 
-OK, go ahead. Try it. Don't peek at my code listing until you've given it a shot yourself!
+Certo, vá em frente. Tente. Não venha ver o resultado do código que fiz enquanto você não tentar por conta própria!
 
-**Note:** Because this is a JavaScript book, I'm obviously going to solve the practice exercise in JavaScript. But you can do it in another language for now if you feel more comfortable.
+**Nota:** Por este ser um livro de JavaScript, eu obviamente estarei resolvendo o exercício em JavaScript. Mas você pode fazer por enquanto em qualquer linguagem que você se sentir mais confortável.
 
-Here's my JavaScript solution for this exercise:
+Abaixo minha solução para esse exercício:
 
 ```js
 const SPENDING_THRESHOLD = 200;
@@ -751,58 +751,58 @@ function formatAmount(amount) {
 	return "$" + amount.toFixed( 2 );
 }
 
-// keep buying phones while you still have money
+// continue comprando até não ter mais dinheiro
 while (amount < bank_balance) {
-	// buy a new phone!
+	// compre um novo celular!
 	amount = amount + PHONE_PRICE;
 
-	// can we afford the accessory?
+	// podemos comprar o acessório?
 	if (amount < SPENDING_THRESHOLD) {
 		amount = amount + ACCESSORY_PRICE;
 	}
 }
 
-// don't forget to pay the government, too
+// não esqueça a fatia do governo!
 amount = amount + calculateTax( amount );
 
 console.log(
-	"Your purchase: " + formatAmount( amount )
+	"Sua compra: " + formatAmount( amount )
 );
-// Your purchase: $334.76
+// Sua compra: $334.76
 
-// can you actually afford this purchase?
+// Você pode pagar a conta?
 if (amount > bank_balance) {
 	console.log(
-		"You can't afford this purchase. :("
+		"Você não pode pagar a conta. :("
 	);
 }
-// You can't afford this purchase. :(
+// Você não pode pagar a conta. :(
 ```
 
-**Note:** The simplest way to run this JavaScript program is to type it into the developer console of your nearest browser.
+**Nota:** A maneira mais fácil de rodar esse programa em JavaScript é digitá-lo no console do seu navegador mais próximo.
 
-How did you do? It wouldn't hurt to try it again now that you've seen my code. And play around with changing some of the constants to see how the program runs with different values.
+Como você foi? Não dói se você tentar de novo agora que viu meu código. Brinque um pouco alterando algumas constantes e veja como o programa roda com valores diferentes.
 
-## Review
+## Recaptulando
 
-Learning programming doesn't have to be a complex and overwhelming process. There are just a few basic concepts you need to wrap your head around.
+Aprender a programar não precisa ser um processo complexo e cansativo. Existem apenas alguns conceitos que você precisa entender para as coisas começarem a fazer sentido.
 
-These act like building blocks. To build a tall tower, you start first by putting block on top of block on top of block. The same goes with programming. Here are some of the essential programming building blocks:
+Eles funcionam como blocos de montar. Para construir uma torre alta, você precisa primeiro colocar bloco em cima de bloco. O mesmo acontece com programação. Aqui encontram-se alguns blocos essenciais para programação:
 
-* You need *operators* to perform actions on values.
-* You need values and *types* to perform different kinds of actions like math on `number`s or output with `string`s.
-* You need *variables* to store data (aka *state*) during your program's execution.
-* You need *conditionals* like `if` statements to make decisions.
-* You need *loops* to repeat tasks until a condition stops being true.
-* You need *functions* to organize your code into logical and reusable chunks.
+* Você precisa de *operadores* para modificar valores.
+* Você precisa de valores e *tipos* para realizar tipos deferentes de alterações como operações matemáticas em números (`number`s) ou em um output com `string`s.
+* Você precisa de *variáveis* para armazenar informação (conhecido como *estado*) durante a execução de um programa.
+* Você precisa de *condicionais* como `if` para tomar decisões.
+* Você precisa de *loops* para repetir tarefas até uma condição deixar de ser verdadeira (`true`).
+* Você precisa de *funções* (*function*) para organizar seu código de forma lógica e em compotentes reutilizáveis.
 
-Code comments are one effective way to write more readable code, which makes your program easier to understand, maintain, and fix later if there are problems.
+Comentários no código são uma maneira efetiva de escrever um código mais legível, o que irá fazer seu programa fácil de entender, manter e consertar caso tenha algum problema no futuro.
 
-Finally, don't neglect the power of practice. The best way to learn how to write code is to write code.
+Por fim, não esqueça o poder da prática. A melhor forma de aprender como escrever código é escrevendo código.
 
-I'm excited you're well on your way to learning how to code, now! Keep it up. Don't forget to check out other beginner programming resources (books, blogs, online training, etc.). This chapter and this book are a great start, but they're just a brief introduction.
+Estou empolgado que você está progredindo na sua caminhada para aprender a programar. Continue assim. Não esqueça de ver também outros recursos para começar a programar (blogs, outros livros, treinamento online, etc.) Este capítulo e este livro são um grande começo, mas são apenas uma breve introdução.
 
-The next chapter will review many of the concepts from this chapter, but from a more JavaScript-specific perspective, which will highlight most of the major topics that are addressed in deeper detail throughout the rest of the series.
+No próximo capíulo iremos revisar muitos dos conceitos deste capítulo, mas de uma perspectiva mais específica para o JavaScript, que irá destacar a maioria dos grandes tópicos que iremos abordar mais à fundo ao longo da série.
 
 *Observação:*
 **NT:** Nota do tradutor.
