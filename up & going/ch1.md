@@ -215,9 +215,9 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
 
 ## Valores & Tipos
 
-Se você perguntar a um vendedor de uma loja de celulares e perguntar quanto um certo modelo custa, e ele disser "noventa e nove e noventa e nove" ($99.99), ele está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
+Se você abordar uma vendedora de uma loja de celulares e perguntar quanto um certo modelo custa, e ela disser "noventa e nove e noventa e nove" ($99.99), ele está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
 
-Se o vendedor pegar outro aparelho similar e disser "é grátis", ele não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
+Se a vendedora pegar outro aparelho similar e disser "é grátis", ela não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
 
 Se você depois perguntar se o aparelho vem com carregador, a resposta pode ser apenas "sim" ou "não."
 
@@ -277,7 +277,7 @@ Entretanto, conversões implícitas é um mecanismo que *pode ser aprendido*, e 
 
 ## Comentários do Código
 
-O vendedor da loja de celulares pode escrever algumas notas sobre funcionalidades de um recém-lançado aparelho ou sobre os novos planos que a empresa oferece. Essas notas são apenas para ele ler -- elas não são feitas para os consumidores lerem. De qualquer forma, essas notas ajudam o vendedor a fazer seu trabalho por documentar os "como's" e "porquê's" do que deve-se falar aos consumidores.
+A vendedora da loja de celulares pode escrever algumas notas sobre funcionalidades de um recém-lançado aparelho ou sobre os novos planos que a empresa oferece. Essas notas são apenas para ela ler -- elas não são feitas para os consumidores lerem. De qualquer forma, essas notas ajudam a vendedora a fazer seu trabalho por documentar os "como's" e "porquê's" do que deve-se falar aos consumidores.
 
 Uma das lições mais importantes que você pode aprender sobre códigos é que eles não são apenas para computadores. O código é feito tanto, senão mais, para o desenvolvedor do que para o compilador.
 
@@ -419,7 +419,7 @@ Falando nisso, o tipo de "proteção" contra acidentes é similar ao de linguage
 
 ## Blocos
 
-O funcionário da loja de celulares precisa seguir uma série de etapas para efetivar a compra do seu novo celular.
+A vendedora da loja de celulares precisa seguir uma série de etapas para efetivar a compra do seu novo celular.
 
 De maneira siminar, em código nós muitas vezes precisamos agrupar uma série de instruções, as quais podemos chamar de *blocos*. Em JavaScript, um bloco é definido por englobar uma ou mais instruções dentro de um par de chaves `{ .. }`. Considere:
 
@@ -501,19 +501,19 @@ JavaScript defines a list of specific values that are considered "falsy" because
 
 ## Loops
 
-During busy times, there's a waiting list for customers who need to speak to the phone store employee. While there's still people on that list, she just needs to keep serving the next customer.
+Durante dias movimentados, existe uma lista de espera de consumidores que precisam falar com a vendedora da loja de celulares. Enquanto houverem pessoas na lista, ela precisa continuar atendendo o próximo consumidor.
 
-Repeating a set of actions until a certain condition fails -- in other words, repeating only while the condition holds -- is the job of programming loops; loops can take different forms, but they all satisfy this basic behavior.
+Repetir uma série de ações até que certa condição falhe -- em outras palavras, repetir apenas enquanto a condição for respeitada -- é o trabalho dos loops na programação (**NT**: traduzido também como *laços*); os loops podem ter diversas formas, mas todos eles têm esse mesmo comportamento.
 
-A loop includes the test condition as well as a block (typically as `{ .. }`). Each time the loop block executes, that's called an *iteration*.
+Um loop inclui a condição teste, assim como o bloco (tipicamente um `{ .. }`). A cada vez que o bloco de loop é executado, damos o nome de *iteração*.
 
-For example, the `while` loop and the `do..while` loop forms illustrate the concept of repeating a block of statements until a condition no longer evaluates to `true`:
+Por exemplo, o loop `while` e o loop `do..while` ilustram o conceito de repetir um bloco de instruções até uma condição deixar de ser verdadeira (`true`):
 
 ```js
 while (numOfCustomers > 0) {
-	console.log( "How may I help you?" );
+	console.log( "Como posso ajudar?" );
 
-	// help the customer...
+	// Ajude o consumidor...
 
 	numOfCustomers = numOfCustomers - 1;
 }
@@ -521,34 +521,34 @@ while (numOfCustomers > 0) {
 // versus:
 
 do {
-	console.log( "How may I help you?" );
+	console.log( "Como posso ajudar?" );
 
-	// help the customer...
+	// Ajude o consumidor...
 
 	numOfCustomers = numOfCustomers - 1;
 } while (numOfCustomers > 0);
 ```
 
-The only practical difference between these loops is whether the conditional is tested before the first iteration (`while`) or after the first iteration (`do..while`).
+A única diferença prática entre esses dois loops é como a condicional é executada, se antes da primeira iteração (`while`) ou após a primeira iteração (`do..while`).
 
-In either form, if the conditional tests as `false`, the next iteration will not run. That means if the condition is initially `false`, a `while` loop will never run, but a `do..while` loop will run just the first time.
+De qualquer forma, se o teste da condicional retorna falso (`false`), a próxima iteração não irá rodar. Isso significa que se a condição inicial for `false`, um loop `while` nnca irá rodar, mas um loop `do..while` irá rodar apenas a primeira vez.
 
-Sometimes you are looping for the intended purpose of counting a certain set of numbers, like from `0` to `9` (ten numbers). You can do that by setting a loop iteration variable like `i` at value `0` and incrementing it by `1` each iteration.
+Às vezes você está fazendo um loop com a finalidade de contar uma certa quantidade de números, como de `0` à `9` (dez números). Você pode fazer isso definindo uma iteração utilizando uma variável `i` para o valor `0` e ir incrementando `1` para cada iteração.
 
-**Warning:** For a variety of historical reasons, programming languages almost always count things in a zero-based fashion, meaning starting with `0` instead of `1`. If you're not familiar with that mode of thinking, it can be quite confusing at first. Take some time to practice counting starting with `0` to become more comfortable with it!
+**Atenção:** Por diversas questões históricas, linguagens de programação quase sempre começam a contar pelo zero, o que significa que elas começam com `0` ao invés de `1`. Se você não é familiar com essa forma de pensar, pode ser um pouco confuso no início. Tire um tempo para praticar contando a partir do `0` para se ambientar com essa forma.
 
-The conditional is tested on each iteration, much as if there is an implied `if` statement inside the loop.
+A condicional é testada em cada iteração, mesmo se existir uma condicional `if` dentro do loop.
 
-We can use JavaScript's `break` statement to stop a loop. Also, we can observe that it's awfully easy to create a loop that would otherwise run forever without a `break`ing mechanism.
+Podemos usar a instrução `break`para parar um loop. Além disso, podemos observar que é terrivelmente fácil criar um loop que pode rodar para sempre sem um mecanismo que o faça parar.
 
-Let's illustrate:
+Vamos ilustrar isso:
 
 ```js
 var i = 0;
 
-// a `while..true` loop would run forever, right?
+// um loop `while..true` iria rodar pra sempre, certo?
 while (true) {
-	// stop the loop?
+	// parar o loop?
 	if ((i <= 9) === false) {
 		break;
 	}
@@ -559,9 +559,9 @@ while (true) {
 // 0 1 2 3 4 5 6 7 8 9
 ```
 
-**Warning:** This is not necessarily a practical form you'd want to use for your loops. It's presented here for illustration purposes only.
+**Atenção:** Essa não é necessariamente uma forma prática que você usaria para executar para seus loops. Ela é apresentada aqui com propósito ilustrativo apenas.
 
-While a `while` (or `do..while`) can accomplish the task manually, there's another syntactic form called a `for` loop for just that purpose:
+Enquanto os loops `while` (ou `do..while`) podem fazer a tarefa manualmente, existe outra forma, outro loop chamado `for` que serve justamente para essa finalidade:
 
 ```js
 for (var i = 0; i <= 9; i = i + 1) {
@@ -570,11 +570,11 @@ for (var i = 0; i <= 9; i = i + 1) {
 // 0 1 2 3 4 5 6 7 8 9
 ```
 
-As you can see, in both cases the conditional `i <= 9` is `true` for the first 10 iterations (`i` of values `0` through `9`) of either loop form, but becomes `false` once `i` is value `10`.
+Como você pôde ver, nos dois casos a condicional `i <= 9` foi verdadeira(`true`) para as 10 primeiras iterações (`i` para os valores de `0` até `9`) em ambas as formas do loop, mas se torna falsa(`false`) uma vez que o valor de `i` chega a `10`.
 
-The `for` loop has three clauses: the initialization clause (`var i=0`), the conditional test clause (`i <= 9`), and the update clause (`i = i + 1`). So if you're going to do counting with your loop iterations, `for` is a more compact and often easier form to understand and write.
+O loop `for` tem três instruções: uma atribuição inicial (`var i=0`), um teste condicional (`i <= 9`), e uma atualização (`i = i + 1`). Sendo assim, se o que você pretende fazer com a iteração é uma contagem, `for` é a forma mais compacta e em geral mais fácil de entender e escrever.
 
-There are other specialized loop forms that are intended to iterate over specific values, such as the properties of an object (see Chapter 2) where the implied conditional test is just whether all the properties have been processed. The "loop until a condition fails" concept holds no matter what the form of the loop.
+Existem outros loops especializados que são designados a iterar sobre valores específicos, como propriedades de um objeto (veja o Capítulo 2) onde a aplicação do teste condicional é saber se todas as propriedades foram processadas. O conceito de "iterar até determinada condição falhar" permanece idependentemente do formato do loop.
 
 ## Functions
 
