@@ -576,13 +576,14 @@ O loop `for` tem três instruções: uma atribuição inicial (`var i=0`), um te
 
 Existem outros loops especializados que são designados a iterar sobre valores específicos, como propriedades de um objeto (veja o Capítulo 2) onde a aplicação do teste condicional é saber se todas as propriedades foram processadas. O conceito de "iterar até determinada condição falhar" permanece idependentemente do formato do loop.
 
-## Functions
+## Funções
 
-The phone store employee probably doesn't carry around a calculator to figure out the taxes and final purchase amount. That's a task she needs to define once and reuse over and over again. Odds are, the company has a checkout register (computer, tablet, etc.) with those "functions" built in.
+A vendedora da loja de celulares provavelmente não anda com uma calculadora para saber a quantidade de taxas e o valor final do produto. Essa é uma tarefa que ela precisa definir uma vez e reusar diversas vezes. As chances são que a empresa que ela trabalha tenha um aparelho (computador, tablet, etc) que tenha, de fábrica, esse tipo de funcionalidade.
 
-Similarly, your program will almost certainly want to break up the code's tasks into reusable pieces, instead of repeatedly repeating yourself repetitiously (pun intended!). The way to do this is to define a `function`.
+De maneira similar, o programa quase certamente irá dividir o código em
+partes reusáveis, ao invés de ficar se repetindo. A forma que fazemos isso é definindo uma função (`function`).
 
-A function is generally a named section of code that can be "called" by name, and the code inside it will be run each time. Consider:
+Uma função geralmente é uma bloco de código nomeado, de forma que ela possa ser "chamada" pelo nome, fazendo o código dentro dela ser acionado sempre que preciso. Considere:
 
 ```js
 function printAmount() {
@@ -598,7 +599,7 @@ amount = amount * 2;
 printAmount(); // "199.98"
 ```
 
-Functions can optionally take arguments (aka parameters) -- values you pass in. And they can also optionally return a value back.
+Funções podem, opcionalmente, carregar argumentos (conhecidos também como parâmetros) -- valores que você designa a ela. E eles podem, também opcionalmente, retornar um outro valor.
 
 ```js
 function printAmount(amt) {
@@ -617,20 +618,20 @@ amount = formatAmount();
 console.log( amount );			// "$99.99"
 ```
 
-The function `printAmount(..)` takes a parameter that we call `amt`. The function `formatAmount()` returns a value. Of course, you can also combine those two techniques in the same function.
+A função `printAmount(..)` utiliza um parâmetro que chamamos `amt`. A função `formatAmount()` retorna um valor. Claro, você também pode combinar essas duas técnicas na mesma função.
 
-Functions are often used for code that you plan to call multiple times, but they can also be useful just to organize related bits of code into named collections, even if you only plan to call them once.
+Funções são geralmente usadas para códigos que você planeja chamar diversas vezes, mas eles podem ser úteis também para organizar códigos relacionados em coleções que você possa nomear, mesmo que você só planeja chamá-los apenas uma vez.
 
-Consider:
+Considere:
 
 ```js
 const TAX_RATE = 0.08;
 
 function calculateFinalPurchaseAmount(amt) {
-	// calculate the new amount with the tax
+	// calcula o novo amount adicionando a tax
 	amt = amt + (amt * TAX_RATE);
 
-	// return the new amount
+	// retorne o novo amount
 	return amt;
 }
 
@@ -641,25 +642,25 @@ amount = calculateFinalPurchaseAmount( amount );
 console.log( amount.toFixed( 2 ) );		// "107.99"
 ```
 
-Although `calculateFinalPurchaseAmount(..)` is only called once, organizing its behavior into a separate named function makes the code that uses its logic (the `amount = calculateFinal...` statement) cleaner. If the function had more statements in it, the benefits would be even more pronounced.
+Apesar de `calculateFinalPurchaseAmount(..)` ser chamado apenas uma vez, organizar seu comportamento em uma função separadamente faz o código que usa sua lógica (a instrução `amount = calculateFinal...`) mais limpa. Se a função tiver mais instruções nela, os benefícios podem ser ainda maiores.
 
-### Scope
+### Escopo
 
-If you ask the phone store employee for a phone model that her store doesn't carry, she will not be able to sell you the phone you want. She only has access to the phones in her store's inventory. You'll have to try another store to see if you can find the phone you're looking for.
+Se você pedir à vendedora da loja de celulares por um modelo que não está em estoque, ela não poderá te vender o celular que você quer. Ela só tem acesso aos aparelhos que estão em estoque, você terá que ir até outra loja para saber se eles têm o telefone que você deseja. 
 
-Programming has a term for this concept: *scope* (technically called *lexical scope*). In JavaScript, each function gets its own scope. Scope is basically a collection of variables as well as the rules for how those variables are accessed by name. Only code inside that function can access that function's *scoped* variables.
+Em programação temos um termo para esse conceito: *escopo* (tecnicamente chamado *escopo léxico*). Em JavaScript, cada função tem seu próprio escopo. O escopo é basicamente uma coleção de variáveis e regras de como essas variáveis serão acessadas pelo nome. Apenas o código dentro dessa função poderá as variáveis dentro daquele *escopo*.
 
-A variable name has to be unique within the same scope -- there can't be two different `a` variables sitting right next to each other. But the same variable name `a` could appear in different scopes.
+O nome de uma variável precisa ser único dentro do escopo -- não podem haver duas variáveis diferentes com o nome `a` no mesmo escopo. Porém duas variáveis com o nome `a` em escopos diferentes podem coexistir sem problemas.
 
 ```js
 function one() {
-	// this `a` only belongs to the `one()` function
+	// essa variável `a` só pertence à função `one()`
 	var a = 1;
 	console.log( a );
 }
 
 function two() {
-	// this `a` only belongs to the `two()` function
+	// essa variável `a` só pertence à função `two()` 
 	var a = 2;
 	console.log( a );
 }
@@ -668,9 +669,9 @@ one();		// 1
 two();		// 2
 ```
 
-Also, a scope can be nested inside another scope, just like if a clown at a birthday party blows up one balloon inside another balloon. If one scope is nested inside another, code inside the innermost scope can access variables from either scope.
+Também podemos aninhar um escopo dentro de outro escopo, igual a um palhaço numa festa de aniversário e estoura um balão que contém outro balão dentro. Se um escopo está aninhado a outro, o código dentro do escopo interno pode acessar as variáveis do escopo mais externo.
 
-Consider:
+Considere:
 
 ```js
 function outer() {
@@ -679,59 +680,59 @@ function outer() {
 	function inner() {
 		var b = 2;
 
-		// we can access both `a` and `b` here
+		// nós podemos acessar ambos `a` e `b` aqui
 		console.log( a + b );	// 3
 	}
 
 	inner();
 
-	// we can only access `a` here
+	// podemos acessar apenas `a` aqui
 	console.log( a );			// 1
 }
 
 outer();
 ```
 
-Lexical scope rules say that code in one scope can access variables of either that scope or any scope outside of it.
+As regras do escopo léxico dizem que o código dentro de um escopo pode acessar variáveis tanto dele mesmo quanto de qualquer escopo fora dele.
 
-So, code inside the `inner()` function has access to both variables `a` and `b`, but code only in `outer()` has access only to `a` -- it cannot access `b` because that variable is only inside `inner()`.
+Assim, considere que a função `inner()` tem acesso a ambas as variáveis `a` e `b`, mas o código dentro de `outer()` só tem acesso à `a` -- ele não pode acessar `b` porque a variável está dentro de `inner()`.
 
-Recall this code snippet from earlier:
+Voltando ao exemplo anterior:
 
 ```js
 const TAX_RATE = 0.08;
 
 function calculateFinalPurchaseAmount(amt) {
-	// calculate the new amount with the tax
+	// calcula o novo amount adicionando a tax
 	amt = amt + (amt * TAX_RATE);
 
-	// return the new amount
+	// retorne o novo amount
 	return amt;
 }
 ```
 
-The `TAX_RATE` constant (variable) is accessible from inside the `calculateFinalPurchaseAmount(..)` function, even though we didn't pass it in, because of lexical scope.
+A constante `TAX_RATE` (variável) é acessível dentro da função `calculateFinalPurchaseAmount(..)`, mesmo se não passarmos por ela, por conta do escopo léxico.
 
-**Note:** For more information about lexical scope, see the first three chapters of the *Scope & Closures* title of this series.
+**Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série *Escopos & Encerramentos*.
 
-## Practice
+## Pratique
 
-There is absolutely no substitute for practice in learning programming. No amount of articulate writing on my part is alone going to make you a programmer.
+Não existe absolutamente nenhum substituto para prática ao aprender à programar. Nenhuma quantidade de artigos de minha parte, sozinhos, irão fazer você se tornar um programador.
 
-With that in mind, let's try practicing some of the concepts we learned here in this chapter. I'll give the "requirements," and you try it first. Then consult the code listing below to see how I approached it.
+Com isso em mente, vamos tentar praticar alguns conceitos que aprendemos neste capítulo. Eu irei lhe dar os "requerimentos", e você primeiro irá tentar executá-los. Depois, consulte o código listado abaixo para ver a forma que eu os resolvi.
 
-* Write a program to calculate the total price of your phone purchase. You will keep purchasing phones (hint: loop!) until you run out of money in your bank account. You'll also buy accessories for each phone as long as your purchase amount is below your mental spending threshold.
-* After you've calculated your purchase amount, add in the tax, then print out the calculated purchase amount, properly formatted.
-* Finally, check the amount against your bank account balance to see if you can afford it or not.
-* You should set up some constants for the "tax rate," "phone price," "accessory price," and "spending threshold," as well as a variable for your "bank account balance.""
-* You should define functions for calculating the tax and for formatting the price with a "$" and rounding to two decimal places.
-* **Bonus Challenge:** Try to incorporate input into this program, perhaps with the `prompt(..)` covered in "Input" earlier. You may prompt the user for their bank account balance, for example. Have fun and be creative!
+* Escreva um programa que calcula o preço total da compra do seu celular. Você pode continuar comprando telefones (dica: loop!) até você ficar sem dinheiro na sua conta bancária. Você irá também comprar acessórios para cada telefone enquanto sua quantidade de dinheiro for menor do que seu limite mental.
+* Após calcular o valor da compra, adicione as taxas, depois imprima a quantidade total, devidamente formatada.
+* Por fim, verifique o total gasto em sua conta bancária para saber se você pode comprar ou não.
+* Você deve definir algumas constantes para a "taxa de imposto", "preço do telefone", "preço do acessório", e "limite de gastos", assim como variáveis para o seu "saldo bancário".
+* Você deve definir funções para calcular a taxa e para formatar o preço com um "$" e arredondá-lo para duas casas decimais.
+* **Desafio Extra:** Tente incorporar um input para esse programa, talvez com o`prompt(..)` que abordamos anteriormente em "Input". Você pode definir um prompt para o usuário para definir o saldo de sua conta bancária, por exemplo. Divirta-se e seja criativo!
 
-OK, go ahead. Try it. Don't peek at my code listing until you've given it a shot yourself!
+Certo, vá em frente. Tente. Não venha ver o resultado do código que fiz enquanto você não tentar por conta própria!
 
-**Note:** Because this is a JavaScript book, I'm obviously going to solve the practice exercise in JavaScript. But you can do it in another language for now if you feel more comfortable.
+**Nota:** Por este ser um livro de JavaScript, eu obviamente estarei resolvendo o exercício em JavaScript. Mas você pode fazer por enquanto em qualquer linguagem que você se sentir mais confortável.
 
-Here's my JavaScript solution for this exercise:
+Abaixo minha solução para esse exercício:
 
 ```js
 const SPENDING_THRESHOLD = 200;
@@ -750,58 +751,58 @@ function formatAmount(amount) {
 	return "$" + amount.toFixed( 2 );
 }
 
-// keep buying phones while you still have money
+// continue comprando até não ter mais dinheiro
 while (amount < bank_balance) {
-	// buy a new phone!
+	// compre um novo celular!
 	amount = amount + PHONE_PRICE;
 
-	// can we afford the accessory?
+	// podemos comprar o acessório?
 	if (amount < SPENDING_THRESHOLD) {
 		amount = amount + ACCESSORY_PRICE;
 	}
 }
 
-// don't forget to pay the government, too
+// não esqueça a fatia do governo!
 amount = amount + calculateTax( amount );
 
 console.log(
-	"Your purchase: " + formatAmount( amount )
+	"Sua compra: " + formatAmount( amount )
 );
-// Your purchase: $334.76
+// Sua compra: $334.76
 
-// can you actually afford this purchase?
+// Você pode pagar a conta?
 if (amount > bank_balance) {
 	console.log(
-		"You can't afford this purchase. :("
+		"Você não pode pagar a conta. :("
 	);
 }
-// You can't afford this purchase. :(
+// Você não pode pagar a conta. :(
 ```
 
-**Note:** The simplest way to run this JavaScript program is to type it into the developer console of your nearest browser.
+**Nota:** A maneira mais fácil de rodar esse programa em JavaScript é digitá-lo no console do seu navegador mais próximo.
 
-How did you do? It wouldn't hurt to try it again now that you've seen my code. And play around with changing some of the constants to see how the program runs with different values.
+Como você foi? Não dói se você tentar de novo agora que viu meu código. Brinque um pouco alterando algumas constantes e veja como o programa roda com valores diferentes.
 
-## Review
+## Recaptulando
 
-Learning programming doesn't have to be a complex and overwhelming process. There are just a few basic concepts you need to wrap your head around.
+Aprender a programar não precisa ser um processo complexo e cansativo. Existem apenas alguns conceitos que você precisa entender para as coisas começarem a fazer sentido.
 
-These act like building blocks. To build a tall tower, you start first by putting block on top of block on top of block. The same goes with programming. Here are some of the essential programming building blocks:
+Eles funcionam como blocos de montar. Para construir uma torre alta, você precisa primeiro colocar bloco em cima de bloco. O mesmo acontece com programação. Aqui encontram-se alguns blocos essenciais para programação:
 
-* You need *operators* to perform actions on values.
-* You need values and *types* to perform different kinds of actions like math on `number`s or output with `string`s.
-* You need *variables* to store data (aka *state*) during your program's execution.
-* You need *conditionals* like `if` statements to make decisions.
-* You need *loops* to repeat tasks until a condition stops being true.
-* You need *functions* to organize your code into logical and reusable chunks.
+* Você precisa de *operadores* para modificar valores.
+* Você precisa de valores e *tipos* para realizar tipos deferentes de alterações como operações matemáticas em números (`number`s) ou em um output com `string`s.
+* Você precisa de *variáveis* para armazenar informação (conhecido como *estado*) durante a execução de um programa.
+* Você precisa de *condicionais* como `if` para tomar decisões.
+* Você precisa de *loops* para repetir tarefas até uma condição deixar de ser verdadeira (`true`).
+* Você precisa de *funções* (*function*) para organizar seu código de forma lógica e em compotentes reutilizáveis.
 
-Code comments are one effective way to write more readable code, which makes your program easier to understand, maintain, and fix later if there are problems.
+Comentários no código são uma maneira efetiva de escrever um código mais legível, o que irá fazer seu programa fácil de entender, manter e consertar caso tenha algum problema no futuro.
 
-Finally, don't neglect the power of practice. The best way to learn how to write code is to write code.
+Por fim, não esqueça o poder da prática. A melhor forma de aprender como escrever código é escrevendo código.
 
-I'm excited you're well on your way to learning how to code, now! Keep it up. Don't forget to check out other beginner programming resources (books, blogs, online training, etc.). This chapter and this book are a great start, but they're just a brief introduction.
+Estou empolgado que você está progredindo na sua caminhada para aprender a programar. Continue assim. Não esqueça de ver também outros recursos para começar a programar (blogs, outros livros, treinamento online, etc.) Este capítulo e este livro são um grande começo, mas são apenas uma breve introdução.
 
-The next chapter will review many of the concepts from this chapter, but from a more JavaScript-specific perspective, which will highlight most of the major topics that are addressed in deeper detail throughout the rest of the series.
+No próximo capíulo iremos revisar muitos dos conceitos deste capítulo, mas de uma perspectiva mais específica para o JavaScript, que irá destacar a maioria dos grandes tópicos que iremos abordar mais à fundo ao longo da série.
 
 *Observação:*
 **NT:** Nota do tradutor.
