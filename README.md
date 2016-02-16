@@ -1,32 +1,35 @@
-**Nota:** Esta é uma tradução da versão original da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
+> Esta é uma tradução em Português da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
 
-A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por Cezar Augusto (@cez-aug). A ideia de tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
+A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cez-aug). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
 
-É importante lembrar que, ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo no GitHub (e apenas aqui).O conteúdo não pode ser disponibilizado fora deste ambiente sob qualquer forma, incluíndo sua venda/redistribuição.
+É importante lembrar que, com base na autorização do autor: 
 
-_Todos os direitos são reservados ao autor e à O'Reilly._
+* Ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo traduzido por você no GitHub. 
+* O conteúdo __não__ pode ser disponibilizado fora deste ambiente sob qualquer forma, incluíndo sua venda/redistribuição.
+* Todos os direitos são reservados ao autor e à O'Reilly.
 
-# Como posso contibuir com a tradução?
+## Como posso contibuir com a tradução?
 
-## Ajudar na tradução
+### Ajude na tradução da série
 
-Tem conhecimento técnico em JavaScript e em inglês? Contribua!
+Tem algum conhecimento técnico em JavaScript e um bom conhecimento em inglês? Contribua e [faça parte do projeto](CONTRIBUTORS.md).
 
-## Revisar a tradução
+### Revise o conteúdo já traduzido
 
-É proficiente em Português ou achou alguma falha de Script? Ajude nas correções!
+Está lendo as partes já traduzidas e achou algum erro? Ajude nas correções. (mais abaixo)
 
 ## Mãos a obra!
 
 * Veja [este arquivo](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
-* Faça um fork ou clone o projeto.
-* Utilize o branch `master` como referência para as traduções (visto que ele é atualizado e pareado constantemente com o original).
-* Por se tratar de um documento técnico, muitas palavras e frases se repetem. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
-* Ao terminar sua parte da tradução, faça um Pull Request para o branch `portuguese-translation`. 
+* Faça um `fork` do projeto.
+* Caso necessário, utilize o branch `master` como modelo para a tradução. 
+* Por se tratar de um documento técnico, muitas palavras e frases se repetem e por vezes é difícil encontrar sua equivalência em português. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
+* Ao terminar sua parte da tradução, faça um `Pull Request` para o branch `portuguese-translation`. 
+* Feito o merge, seu nome constará [nessa lista](CONTRIBUTORS.md) e seu trabalho estará contribuindo diretamente para nossa briosa comunidade. :star2: 
 
 # You Don't Know JS (série de livros)
 
-Essa é uma série de livros aprofundada nos principais mecanismos da linguagem JavaScript.
+Esta é uma série de livros aprofundada nos principais mecanismos da linguagem JavaScript.
 
 <a href="http://shop.oreilly.com/product/0636920039303.do"><img src="up %26 going/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920026327.do"><img src="scope %26 closures/cover.jpg" width="75"></a>&nbsp;
