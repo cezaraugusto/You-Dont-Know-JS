@@ -50,4 +50,6 @@
 * Compound Assignment: Atribuição com Operação
 * Equality: Igualdade
 * Compound Conditionals: Instrução Condicional
-* Static typing
+* Dynamic typing: Tipagem dinâmica
+* Static typing: Tipagem estática
+* Evaluate: Avaliado
