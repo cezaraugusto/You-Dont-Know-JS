@@ -1,8 +1,10 @@
 > Esta é uma tradução em Português da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
 
+## Fique por dentro
+
 A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cez-aug). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
 
-É importante lembrar que, com base na autorização do autor: 
+### Tome nota, com base na autorização do autor:
 
 * Ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo traduzido por você no GitHub. 
 * O conteúdo __não__ pode ser disponibilizado fora deste ambiente sob qualquer forma, incluíndo sua venda/redistribuição.
