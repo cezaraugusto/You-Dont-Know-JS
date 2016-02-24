@@ -57,9 +57,10 @@ Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valo
 
 Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o valor `undefined`, mas a forma com que se comporta não é diferente de uma variável que não tem valor definido, como a linha `var a;`no topo do snippet. Uma variável pode chegar a esse valor "undefined" de diversas maneiras, incluíndo funções que não retornam valores e o uso do operador`void`.
 
-### Objects
+### Objetos
 
-The `object` type refers to a compound value where you can set properties (named locations) that each hold their own values of any type. This is perhaps one of the most useful value types in all of JavaScript.
+O tipo `object` se refere a um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript;
+
 
 ```js
 var obj = {
@@ -77,15 +78,16 @@ obj["b"];	// 42
 obj["c"];	// true
 ```
 
+Talvez seja útil pensar nesse valor `obj` visualmente:
 It may be helpful to think of this `obj` value visually:
 
 <img src="fig4.png">
 
-Properties can either be accessed with *dot notation* (i.e., `obj.a`) or *bracket notation* (i.e., `obj["a"]`). Dot notation is shorter and generally easier to read, and is thus preferred when possible.
+Propriedades podem ser acessadas tanto com *notação com ponto* (_dot notation_, ex> `obj.a`) quanto por notação em colchetes (ex: `obj["a"]`). A notação por ponto é menor e geralmente mais fácil de ser lida, e por isso é a notação preferida, sempre que possível.
 
-Bracket notation is useful if you have a property name that has special characters in it, like `obj["hello world!"]` -- such properties are often referred to as *keys* when accessed via bracket notation. The `[ ]` notation requires either a variable (explained next) or a `string` *literal* (which needs to be wrapped in `" .. "` or `' .. '`).
+A notação em colchetes é útil caso você tenha um nome de propriedade que contém caracteres especiais nele, como `obj["hello world!"]` -- esses tipos de propriedades são geralmente referenciadas como chaves (*keys*) quando acessadas por notação em colchetes. A notação `[ ]`  requer ou uma variável (explicarei a seguir) ou uma `string` *literal* (que precisa ser englobada em `" .. "` ou `' .. '`).
 
-Of course, bracket notation is also useful if you want to access a property/key but the name is stored in another variable, such as:
+É claro, a notação em colchetes também é útil se você quiser acessar uma propriedade/chave onde o nome é armazenado dentro de outra variável, como por exemplo:
 
 ```js
 var obj = {
@@ -99,9 +101,9 @@ obj[b];			// "hello world"
 obj["b"];		// 42
 ```
 
-**Note:** For more information on JavaScript `object`s, see the *this & Object Prototypes* title of this series, specifically Chapter 3.
+**Nota:** Para mais informação sobre objetos (`objects`) em JavaScrip, veja o título desta série *this & Prototipagem de Objetos*, especificamente o Capítulo 3.
 
-There are a couple of other value types that you will commonly interact with in JavaScript programs: *array* and *function*. But rather than being proper built-in types, these should be thought of more like subtypes -- specialized versions of the `object` type.
+Existem outros tipos de valores que você pode facilmente interagir com programas em JavaScript: *array* e *function*. Mas ao invés de serem tipos nativos (built-in), eles devem ser vistos mais como sub-tipos -- versões especializadas do tipo `object`.
 
 #### Arrays
 
