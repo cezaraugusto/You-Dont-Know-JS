@@ -28,7 +28,7 @@
 	* Não-JavaScript
 * Capítulo 3: Sobre YDKJS
 	* Escopos & Encerramentos
-	* this & Protótipos de objetos
+	* this & Prototipagem de objetos
 	* Tipos & Gramática
 	* Async & Performance
 	* ES6 & Além
