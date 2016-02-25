@@ -15,4 +15,4 @@
 * [Capítulo 1: Sobre Programar](ch1.md)
 * [Capítulo 2: Sobre JavaScript](ch2.md)
 * [Capítulo 3: Sobre YDKJS](ch3.md)
-* [Apêndice A: Obrigado(s)!](apA.md)
+* [Apêndice A: Agradecimentos!](apA.md)
