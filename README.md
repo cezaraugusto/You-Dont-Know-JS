@@ -2,32 +2,46 @@
 
 ## Fique por dentro
 
-A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cez-aug). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
+A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cez-aug). A tradução é em caráter voluntário e tem como único objetivo disponibilizar a comunidade o conteúdo do livro em português.
 
-### Tome nota, com base na autorização do autor:
+> Com base na autorização do autor:
 
 * Ao contribuir com as traduções, você estará de acordo com a divulgação livre do conteúdo traduzido por você no GitHub. 
 * O conteúdo __não__ pode ser disponibilizado fora deste ambiente sob qualquer forma, incluíndo sua venda/redistribuição.
 * Todos os direitos são reservados ao autor e à O'Reilly.
 
-## Como posso contibuir com a tradução?
+## Entendi! Quero contribuir com a tradução, como eu faço?
 
-### Ajude na tradução da série
+Para manter a tradução com o mesmo padrão elevado do livro original, precisamos de:
 
-Tem algum conhecimento técnico em JavaScript e um bom conhecimento em inglês? Contribua e [faça parte do projeto](CONTRIBUTORS.md).
+* Pessoas dispostas a fazer as traduções da versão original para a versão em Português :blue_book: :closed_book: `=>` :green_book: :ledger:
+* Pessoas dispostas a revisar o conteúdo já traduzido, aumentando a coesão do texto e revisando erros de gramática. :stuck_out_tongue_winking_eye:
+* Entusiastas dispostos a aprender com o livro e dar lições valiosas para quem traduz! :bowtie:
+* Entusiastas dispostos a ajudar na divulgação do projeto, seja dando um _star_ ou divulgando por outros canais :+1:
 
-### Revise o conteúdo já traduzido
+## Vantagens de contribuir com a tradução
 
-Está lendo as partes já traduzidas e achou algum erro? Ajude nas correções. (mais abaixo)
+* Traduzir um dos mais completos livros de JavaScript do mundo, e aprender com isso. :cool:
+* Ter seu nome junto da lista de [desbravadores do JavaScript](CONTRIBUTORS.md). :sparkles:
+* Aumentar sua frequência no _Contribution activity_ (**_Os recrutadores_ curtiram isso** :thumbsup:). 
+* Devolver a comunidade todo conhecimento que você adquiriu até aqui e contribuir com o _Open Source_. :two_hearts:
 
-## Mãos a obra!
+## Curtiu a ideia? Mãos a obra!
 
-* Veja [este arquivo](CONTRIBUTORS.md) para saber quem está fazendo o quê e evitar retrabalhos.
-* Faça um `fork` do projeto.
-* Caso necessário, utilize o branch `master` como modelo para a tradução. 
-* Por se tratar de um documento técnico, muitas palavras e frases se repetem e por vezes é difícil encontrar sua equivalência em português. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
-* Ao terminar sua parte da tradução, faça um `Pull Request` para o branch `portuguese-translation`. 
-* Feito o merge, seu nome constará [nessa lista](CONTRIBUTORS.md) e seu trabalho estará contribuindo diretamente para nossa briosa comunidade. :star2: 
+1. Veja nosso [Issue Tracker](https://waffle.io/cez-aug/You-Dont-Know-JS), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
+2. Comente na Issue o projeto que você deseja contribuir. Algo como "quero fazer essa parte!".
+3. Faça um `fork` do projeto.
+4. Caso necessário, utilize o branch `master` como modelo para a tradução. 
+5. Por se tratar de um documento técnico, muitas palavras e frases se repetem e por vezes é difícil encontrar sua equivalência em português. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
+6. Ao terminar sua parte da tradução, faça um `Pull Request` para o branch `portuguese-translation`. 
+7. Feito o `merge`, seu nome constará [nessa lista](CONTRIBUTORS.md) e seu trabalho estará contribuindo diretamente para nossa briosa comunidade. :star2: 
+
+Obrigado por ajudar!
+
+> "Comece de onde você está. Use o que você tiver. Faça o que você puder" – Arthur Ashe, tenista
+
+<br>
+<hr>
 
 # You Don't Know JS (série de livros)
 
