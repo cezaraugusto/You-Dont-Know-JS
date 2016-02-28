@@ -8,13 +8,15 @@
 
 ## To-Do
 
-[ ] Organizar jargões por ordem alfabética
-[ ] Verificar referências mais acessíveis e/ou completas
+- [ ] Organizar jargões por ordem alfabética
+- [ ] Verificar referências mais acessíveis e/ou completas
 
 ## Global
+
 * Links não devem ser traduzidos, de nenhuma forma.
 
 ## Títulos
+
 * You Don't Know JS: Título deve ser mantido como o original
 * Up & Going: Iniciando
 * Scope & Closures: Escopos e Encerramentos
