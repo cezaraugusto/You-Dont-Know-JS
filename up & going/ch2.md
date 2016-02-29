@@ -136,7 +136,7 @@ Em teoria, você pode usar uma array como um objeto normal com suas próprias pr
 
 A melhor maneira (e a mais natural) é utilizar arrays para valores posicionados numericamente e usar `object`s para propriedades nomeadas.
 
-#### Functions
+#### Functions 
 
 The other `object` subtype you'll use all over your JS programs is a function:
 
