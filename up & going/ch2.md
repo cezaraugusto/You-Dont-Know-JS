@@ -107,7 +107,7 @@ Existem outros tipos de valores que você pode facilmente interagir com programa
 
 #### Arrays
 
-An array is an `object` that holds values (of any type) not particularly in named properties/keys, but rather in numerically indexed positions. For example:
+Uma array é um `object` que armazena valores (qualquer tipo de valor), não necesariamente em propriedades ou chaves nomeadas, mas em posições enumeradas. Por exemplo:
 
 ```js
 var arr = [
@@ -124,17 +124,17 @@ arr.length;		// 3
 typeof arr;		// "object"
 ```
 
-**Note:** Languages that start counting at zero, like JS does, use `0` as the index of the first element in the array.
+**Nota:** Linguagens que começam contando do zero, como JS faz, usam `0` como índice do primeiro elemento da array.
 
-It may be helpful to think of `arr` visually:
+Talvez seja útil pensar sobre `arr` visualmente:
 
 <img src="fig5.png">
 
-Because arrays are special objects (as `typeof` implies), they can also have properties, including the automatically updated `length` property.
+Visto que arrays são objetos especiais (assim como `typeof` sugere), elas também podem conter propriedades, incluindo a propriedade `length` que é automaticamente atualizada.
 
-You theoretically could use an array as a normal object with your own named properties, or you could use an `object` but only give it numeric properties (`0`, `1`, etc.) similar to an array. However, this would generally be considered improper usage of the respective types.
+Em teoria, você pode usar uma array como um objeto normal com suas próprias propriedades nomeadas, ou pode usar um `object` e apenas determinar propriedades numéricas (`0`, `1`, etc.) de maneira similar a uma array. Entretanto, isso geralmente é considerado uma maneira indevida de utilizar seus respectivos tipos.
 
-The best and most natural approach is to use arrays for numerically positioned values and use `object`s for named properties.
+A melhor maneira (e a mais natural) é utilizar arrays para valores posicionados numericamente e usar `object`s para propriedades nomeadas.
 
 #### Functions
 
