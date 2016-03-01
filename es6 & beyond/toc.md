@@ -1,58 +1,58 @@
-# You Don't Know JS: ES6 & Beyond
+# You Don't Know JS: ES6 & Além
 
-## Table of Contents
+## Índice
 
-* Foreword
-* Preface
-* Chapter 1: ES? Now & Future
-	* Versioning
+* Introdução
+* Prefácio
+* Capítulo 1: ES? Agora & o Futuro
+	* Versionamento
 	* Transpiling
-* Chapter 2: Syntax
-	* Block-Scoped Declarations
+* Capítulo 2: Sintae
+	* Declarações de Escopos de Bloco
 	* Spread / Rest
-	* Default Parameter Values
-	* Destructuring
-	* Object Literal Extensions
-	* Template Literals
+	* Valores Padrão de Parâmetros
+	* Desestruturando
+	* Extensões de Objetos Literais
+	* Template de Literais
 	* Arrow Functions
-	* `for..of` Loops
-	* Regular Expression Extensions
-	* Number Literal Extensions
+	* Loops `for..of`
+	* Extensões de Expressões Regulares
+	* Extensões de Literais e Number
 	* Unicode
-	* Symbols
-* Chapter 3: Organization
-	* Iterators
+	* Símbolos
+* Capítulo 3: Organização
+	* Iterações
 	* Generators
-	* Modules
+	* Modulos
 	* Classes
-* Chapter 4: Async Flow Control
-	* Promises
-	* Generators + Promises
-* Chapter 5: Collections
+* Capítulo 4: Controle de Fluxo do Async
+	* Promessas
+	* Generators + Promessas
+* Capítulo 5: Coleções
 	* TypedArrays
 	* Maps
 	* WeakMaps
 	* Sets
 	* WeakSets
-* Chapter 6: API Additions
+* Capítulo 6: Adições do API
 	* `Array`
 	* `Object`
 	* `Math`
 	* `Number`
 	* `String`
-* Chapter 7: Meta Programming
-	* Function Names
-	* Meta Properties
-	* Well Known Symbols
+* Capítulo 7: Meta Programação
+	* Nomes de Funções
+	* Meta Propriedades
+	* Simbolos Bem Conhecidos
 	* Proxies
 	* `Reflect` API
 	* Feature Testing
 	* Tail Call Optimization (TCO)
-* Chapter 8: Beyond ES6
+* Capítulo 8: Além do ES6
 	* `async function`s
 	* `Object.observe(..)`
-	* Exponentiation Operator
-	* Object Properties and `...`
+	* Operador de Exponenciação
+	* Propriedades de Objetos e  `...`
 	* `Array#includes(..)`
 	* SIMD
-* Appendix A: Acknowledgments
+* Apêndice A: Agradecimentos
