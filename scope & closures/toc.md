@@ -22,7 +22,7 @@
 	* E o Compilador Ataca Novamente
 	* Funções Primeiro
 * Capítulo 5: Encerramentos de Escopo
-	* Enlightenment
+	* Esclarecimento
 	* Sujando as Mãos (Nitty Gritty)
 	* Agora eu Posso Ver
 	* Loops + Encerramentos
