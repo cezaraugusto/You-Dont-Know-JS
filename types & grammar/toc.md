@@ -1,39 +1,39 @@
-# You Don't Know JS: Types & Grammar
+# You Don't Know JS: Tipos & Gramática
 
-## Table of Contents
+## Índice
 
-* Foreword
-* Preface
-* Chapter 1: Types
-	* A Type By Any Other Name...
-	* Built-in Types
-	* Values as Types
-* Chapter 2: Values
+* Introdução
+* Prefácio
+* Capítulo 1: Tipos
+	* Um Tipo por Qualquer Outro Nome...
+	* Tipos Nativos (Built-In)
+	* Valores como Tipos
+* Capítulo 2: Valores
 	* Arrays
 	* Strings
 	* Numbers
-	* Special Values
-	* Value vs Reference
-* Chapter 3: Natives
-	* Internal `[[Class]]`
-	* Boxing Wrappers
-	* Unboxing
+	* Valores Especiais
+	* Valor vs Referência
+* Capítulo 3: Nativos
+	* Internos `[[Class]]`
+	* Encaixotando Agregadores (Boxing Wrappers)
+	* Desencaixotando (Unboxing)
 	* Natives as Constructors
-* Chapter 4: Coercion
-	* Converting Values
-	* Abstract Value Operations
-	* Explicit Coercion
-	* Implicit Coercion
-	* Loose Equals vs Strict Equals
-	* Abstract Relational Comparison
-* Chapter 5: Grammar
-	* Statements & Expressions
-	* Operator Precedence
-	* Automatic Semicolons
-	* Errors
-	* Function Arguments
+* Capítulo 4: Coerção
+	* Convertendo Valores
+	* Operações com Valores Abstratos
+	* Coerção Explícita
+	* Coerção Implícita
+	* Igualdade vs Igualdade Estrita
+	* Comparação Relacional Abstrata
+* Capítulo 5: Gramática
+	* Instruções & Expressões
+	* Precedência de Operadores
+	* Ponto e Vírgula Automàtico
+	* Erros
+	* Argumentos de Funções
 	* `try..finally`
 	* `switch`
-* Appendix A: Mixed Environment JavaScript
-* Appendix B: Acknowledgments
+* Apêndice A: JavaScript em Ambiente Mixto
+* Apêndice B: Agradecimentos
 
