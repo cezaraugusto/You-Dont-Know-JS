@@ -1,6 +1,6 @@
 # You Don't Know JS: Iniciando
 
-## Table of Contents
+## Índice
 
 * Introdução
 * Prefácio
