@@ -1,40 +1,40 @@
-# You Don't Know JS: *this* & Object Prototypes
+# You Don't Know JS: *this* & Prototipagem de Objetos
 
-## Table of Contents
+## Índice
 
-* Foreword
-* Preface
-* Chapter 1: `this` Or That?
-	* Why `this`?
-	* Confusions
-	* What's `this`?
-* Chapter 2: `this` All Makes Sense Now!
+* Introdução
+* Prefácio
+* Capítulo 1: `this` Ou Isso?
+	* Porque `this`?
+	* Confusões
+	* O que é `this`?
+* Capítulo 2: `this` Tudo Faz Sentido Agora!
 	* Call-site
-	* Nothing But Rules
-	* Everything In Order
-	* Binding Exceptions
-	* Lexical `this`
-* Chapter 3: Objects
-	* Syntax
-	* Type
-	* Contents
-	* Iteration
-* Chapter 4: Mixing (Up) "Class" Objects
-	* Class Theory
-	* Class Mechanics
-	* Class Inheritance
+	* Nada além de Regras
+	* Tudo em Ordem
+	* Excessões de Binding
+	* `this` Léxico
+* Capítulo 3: Objetos
+	* Sintaxe
+	* Tipe
+	* Conteúdo
+	* Iteração
+* Capítulo 4: Misturando (tudos) os Objetos "Class"
+	* Teoria do Class
+	* Mecânica do Class 
+	* Herança de Class
 	* Mixins
-* Chapter 5: Prototypes
+* Capítulo 5: Protótipos
 	* `[[Prototype]]`
 	* "Class"
-	* "(Prototypal) Inheritance"
-	* Object Links
-* Chapter 6: Behavior Delegation
-	* Towards Delegation-Oriented Design
-	* Classes vs. Objects
-	* Simpler Design
-	* Nicer Syntax
-	* Introspection
-* Appendix A: ES6 `class`
-* Appendix B: Acknowledgments
+	* "Herança (Prototipada)"
+	* Links de Objetos
+* Capítulo 6: Delegando Comportamento
+	* Sobre Design Orientado à Delegação
+	* Classes vs. Objetos
+	* Design Simplificado
+	* Sintaxe Melhorada
+	* Introspecção
+* Apêndice A: ES6 `class`
+* Apêndice B: Agradecimentos
 
