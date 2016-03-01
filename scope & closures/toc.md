@@ -1,33 +1,33 @@
-# You Don't Know JS: Scope & Closures
+# You Don't Know JS: Escopos & Encerramentos
 
-## Table of Contents
+## Índice
 
-* Foreword
-* Preface
-* Chapter 1: What is Scope?
-	* Compiler Theory
-	* Understanding Scope
-	* Nested Scope
-	* Errors
-* Chapter 2: Lexical Scope
+* Introdução
+* Prefácio
+* Capítulo 1: O que é um Escopo?
+	* Compilador (Teoria)
+	* Entendendo o Escopo
+	* Escopo Aninhado
+	* Erros
+* Capítulo 2: Escopo Léxico
 	* Lex-time
-	* Cheating Lexical
-* Chapter 3: Function vs. Block Scope
-	* Scope From Functions
-	* Hiding In Plain Scope
-	* Functions As Scopes
-	* Blocks As Scopes
-* Chapter 4: Hoisting
-	* Chicken Or The Egg?
-	* The Compiler Strikes Again
-	* Functions First
-* Chapter 5: Scope Closures
+	* Trapaceando o Escopo Léxico
+* Capítulo 3: Função vs. Escopo do Bloco
+	* Escopos vindos de Funções
+	* Se escondendo em Pleno Escopo
+	* Funções como Escopos
+	* Blocos como Escopos
+* Capítulo 4: Hoisting
+	* O Ovo ou a Galinha?
+	* E o Compilador Ataca Novamente
+	* Funções Primeiro
+* Capítulo 5: Encerramentos de Escopo
 	* Enlightenment
-	* Nitty Gritty
-	* Now I Can See
-	* Loops + Closure
-	* Modules
-* Appendix A: Dynamic Scope
-* Appendix B: Polyfilling Block Scope
-* Appendix C: Lexical-this
-* Appendix D: Acknowledgments
+	* Sujando as Mãos (Nitty Gritty)
+	* Agora eu Posso Ver
+	* Loops + Encerramentos
+	* Modulos
+* Apêndice A: Escopo Dinâmico
+* Apêndice B: Polyfilling no Escopo do Bloco
+* Apêndice C: Lexical-this
+* Apêndice D: Agradecimentos
