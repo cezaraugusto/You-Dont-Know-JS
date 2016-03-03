@@ -20,7 +20,7 @@ Como definimos no Capítulo 1, JavaScript tem valores tipados, não variáveis t
 * `boolean`
 * `null` e `undefined`
 * `object`
-* `symbol` (new to ES6)
+* `symbol` (novidade do ES6)
 
 O JavaScript dispõe de um operador `typeof`que pode examinar um valor e dizer a você qual é o tipo informado:
 
@@ -59,7 +59,7 @@ Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o 
 
 ### Objetos
 
-O tipo `object` se refere a um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript;
+O tipo `object` se refere a um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript:
 
 
 ```js
@@ -79,13 +79,12 @@ obj["c"];	// true
 ```
 
 Talvez seja útil pensar nesse valor `obj` visualmente:
-It may be helpful to think of this `obj` value visually:
 
 <img src="fig4.png">
 
-Propriedades podem ser acessadas tanto com *notação com ponto* (_dot notation_, ex> `obj.a`) quanto por notação em colchetes (ex: `obj["a"]`). A notação por ponto é menor e geralmente mais fácil de ser lida, e por isso é a notação preferida, sempre que possível.
+Propriedades podem ser acessadas tanto com *notação com ponto* (_dot notation_, ex: `obj.a`) quanto por notação em colchetes (ex: `obj["a"]`). A notação por ponto é menor e geralmente mais fácil de ser lida, e por isso é a notação preferida, sempre que possível.
 
-A notação em colchetes é útil caso você tenha um nome de propriedade que contém caracteres especiais nele, como `obj["hello world!"]` -- esses tipos de propriedades são geralmente referenciadas como chaves (*keys*) quando acessadas por notação em colchetes. A notação `[ ]`  requer ou uma variável (explicarei a seguir) ou uma `string` *literal* (que precisa ser englobada em `" .. "` ou `' .. '`).
+A notação em colchetes é útil caso você tenha um nome de propriedade que conténha caracteres especiais nele, como `obj["hello world!"]` -- esses tipos de propriedades são geralmente referenciadas com chaves (*keys*) quando acessadas por notação em colchetes. A notação `[ ]`  requer ou uma variável (explicarei a seguir) ou uma `string` *literal* (que precisa ser englobada em `" .. "` ou `' .. '`).
 
 É claro, a notação em colchetes também é útil se você quiser acessar uma propriedade/chave onde o nome é armazenado dentro de outra variável, como por exemplo:
 
@@ -136,9 +135,9 @@ Em teoria, você pode usar uma array como um objeto normal com suas próprias pr
 
 A melhor maneira (e a mais natural) é utilizar arrays para valores posicionados numericamente e usar `object`s para propriedades nomeadas.
 
-#### Functions 
+#### Funções
 
-The other `object` subtype you'll use all over your JS programs is a function:
+O outro subtipo de `object` que você usará ao longo de seus programas é uma função:
 
 ```js
 function foo() {
@@ -152,15 +151,15 @@ typeof foo();		// "number"
 typeof foo.bar;		// "string"
 ```
 
-Again, functions are a subtype of `objects` -- `typeof` returns `"function"`, which implies that a `function` is a main type -- and can thus have properties, but you typically will only use function object properties (like `foo.bar`) in limited cases.
+Novamente, funções são um subtipo de `objects` -- o `typeof` retorna `"function"`, que indica que `function` é um tipo padrão -- e por isso pode ter propriedades. Entretanto, é provável que você use as propriedades do objeto de `function` (como `foo.bar`) apenas em alguns casos.
 
-**Note:** For more information on JS values and their types, see the first two chapters of the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre valores em JS e seus tipos, veja os primeiros dois capítulos do título *Tipos & Gramática*, desta série.
 
-### Built-In Type Methods
+### Métodos nativos de Tipos
 
-The built-in types and subtypes we've just discussed have behaviors exposed as properties and methods that are quite powerful and useful.
+Os tipos e subtipos nativos que acabamos de ver tem comportamentos bem úteis, expostos como propriedades e métodos.
 
-For example:
+Por exemplo:
 
 ```js
 var a = "hello world";
@@ -171,7 +170,7 @@ a.toUpperCase();		// "HELLO WORLD"
 b.toFixed(4);			// "3.1416"
 ```
 
-The "how" behind being able to call `a.toUpperCase()` is more complicated than just that method existing on the value.
+is more complicated than just that method existing on the value.
 
 Briefly, there is a `String` (capital `S`) object wrapper form, typically called a "native," that pairs with the primitive `string` type; it's this object wrapper that defines the `toUpperCase()` method on its prototype.
 
@@ -181,21 +180,21 @@ A `string` value can be wrapped by a `String` object, a `number` can be wrapped 
 
 **Note:** For more information on JS natives and "boxing," see Chapter 3 of the *Types & Grammar* title of this series. To better understand the prototype of an object, see Chapter 5 of the *this & Object Prototypes* title of this series.
 
-### Comparing Values
+### Comparando Valores
 
-There are two main types of value comparison that you will need to make in your JS programs: *equality* and *inequality*. The result of any comparison is a strictly `boolean` value (`true` or `false`), regardless of what value types are compared.
+Existem dois tipos principais de comparação de valores que você irá preccisar para fazer seus programas em JS: *igualdade* and *desigualdade*. O resultado de qualquer comparação é estritmente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
 
-#### Coercion
+#### Coerção
 
-We talked briefly about coercion in Chapter 1, but let's revisit it here.
+Falamos brevemente sobre coerção no Capítulo 1, mas vamos revisitá-lo aqui.
 
-Coercion comes in two forms in JavaScript: *explicit* and *implicit*. Explicit coercion is simply that you can see obviously from the code that a conversion from one type to another will occur, whereas implicit coercion is when the type conversion can happen as more of a non-obvious side effect of some other operation.
+A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coerção explícita é a forma que você pode, obviamente, através do código, que uma conversão de um tipo para o outro vai acontecer, e a coerção implícita é quando o tipo de conversão ocorre como um efeito paralelo, não tão óbvio, de alguma outra operação.
 
-You've probably heard sentiments like "coercion is evil" drawn from the fact that there are clearly places where coercion can produce some surprising results. Perhaps nothing evokes frustration from developers more than when the language surprises them.
+Você provavelmente ouviu coisas como "coerção é do mau", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
-Coercion is not evil, nor does it have to be surprising. In fact, the majority of cases you can construct with type coercion are quite sensible and understandable, and can even be used to *improve* the readability of your code. But we won't go much further into that debate -- Chapter 4 of the *Types & Grammar* title of this series covers all sides.
+Coerções não são do mau, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a corção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
 
-Here's an example of *explicit* coercion:
+Aqui temos um exemplo de coerção *explícita*:
 
 ```js
 var a = "42";
@@ -203,18 +202,18 @@ var a = "42";
 var b = Number( a );
 
 a;				// "42"
-b;				// 42 -- the number!
+b;				// 42 -- o número!
 ```
 
-And here's an example of *implicit* coercion:
+E aqui um exemplo de coerção *implícita*:
 
 ```js
 var a = "42";
 
-var b = a * 1;	// "42" implicitly coerced to 42 here
+var b = a * 1;	// "42" implicitamente coergido para 42 aqui
 
 a;				// "42"
-b;				// 42 -- the number!
+b;				// 42 -- o número!
 ```
 
 #### Truthy & Falsy
