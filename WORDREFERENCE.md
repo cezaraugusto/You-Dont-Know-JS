@@ -2,9 +2,10 @@
 
 # Referências
 
+* [MSDN - JavaScript](https://msdn.microsoft.com/pt-br/library/d1et7k7c(v=vs.94).aspx)
 * [Lista de Termos Técnicos de Informática - Wikipedia](https://pt.wikipedia.org/wiki/Ajuda:Guia_de_tradu%C3%A7%C3%A3o/Lista_de_termos_t%C3%A9cnicos_de_inform%C3%A1tica).
-* Aprendendo JavaScript - Shelley Powers (Ed. O'Reilly).
 * [Torne acessíveis os artigos técnicos](https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:Torne_acess%C3%ADveis_os_artigos_t%C3%A9cnicos)
+* ~~Aprendendo JavaScript - Shelley Powers (Ed. O'Reilly).~~
 
 ## To-Do
 
@@ -55,3 +56,4 @@
 * Dynamic typing: Tipagem dinâmica
 * Static typing: Tipagem estática
 * Evaluate: Avaliado
+* Coercion: Coerção
