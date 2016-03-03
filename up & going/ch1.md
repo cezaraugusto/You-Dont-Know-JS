@@ -245,11 +245,11 @@ false;
 
 Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de programação proverem *arrays*, *objetos*, *funções*, e mais. Iremos cobrir muito mais sobre valores e tipos ao longo desse capítulo e também do próximo.
 
-### Conversões entre Tipos
+### coerções entre Tipos
 
-Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript essa conversão é chamada de "conversão." De maneira similar, se alguém insere uma série caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um numero(`number`).
+Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript essa coerção é chamada de "coerção." De maneira similar, se alguém insere uma série caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um numero(`number`).
 
-O JavaScript fornece diversas facilidades para forçar a conversão entre *tipos*. Por exemplo:
+O JavaScript fornece diversas facilidades para forçar a coerção entre *tipos*. Por exemplo:
 
 ```js
 var a = "42";
@@ -259,9 +259,9 @@ console.log( a );	// "42"
 console.log( b );	// 42
 ```
 
-Usando `Number(..)` (uma função nativa) como demonstrado, estamos realizando uma conversão *explícita* de qualquer outro tipo para o tipo `number` (número). Isso deve ser bem claro.
+Usando `Number(..)` (uma função nativa) como demonstrado, estamos realizando uma coerção *explícita* de qualquer outro tipo para o tipo `number` (número). Isso deve ser bem claro.
 
-Um tópico controverso acontece quando você tenta comparar dois valores que ainda não são do mesmo tipo, que requer uma conversão *implícita*.
+Um tópico controverso acontece quando você tenta comparar dois valores que ainda não são do mesmo tipo, que requer uma coerção *implícita*.
 
 Quand comparada a string `"99.99"` com o número `99.99`, muitos concordam que elas sejam equivalentes. Mas ele não são exatamente iguais, são? É o mesmo valor em duas representações diferentes, dois *tipos* diferentes. Você poderia dizer que eles são "igualdade nao-estrita", não poderia?
 
@@ -269,11 +269,11 @@ Para te ajudar nessas situações, o JavaScript irá, em alguns casos, *implicit
 
 Sendo assim, se você usar o operador de igualdade não-estrita `==`  para fazer uma comparação entre `"99.99" == 99.99`, o JavaScript vai converter o lado da mão esquerda `"99.99"` para seu número(`number`) equivalente `99.99`. A comparação então se torna `99.99 == 99.99`, que é claro, é verdadeira (`true`).
 
-Apesar de ter sido feito para te ajudar, conversões implícitas geram confusão se você não teve tempo de aprender as regras que regem seu comportamento. A maioria dos desenvolvedores de JS nunca nunca tiveram, então o sentimento geral é que conversões implícitas são confusas e deixam os programas com bugs inesperados, e os mesmos devem ser evitados. Em alguns casos até o design da linguagem é considerado falho.
+Apesar de ter sido feito para te ajudar, coerções implícitas geram confusão se você não teve tempo de aprender as regras que regem seu comportamento. A maioria dos desenvolvedores de JS nunca nunca tiveram, então o sentimento geral é que coerções implícitas são confusas e deixam os programas com bugs inesperados, e os mesmos devem ser evitados. Em alguns casos até o design da linguagem é considerado falho.
 
-Entretanto, conversões implícitas é um mecanismo que *pode ser aprendido*, e mais ainda *deve ser aprendido* por qualquer um que queira levar a programação em JavaScript a sério. Não apenas as conversões não são confusas, uma vez que aprendidas as regras, como pode fazer os seus programas melhores! Os esforços para aprender valerão a pena.
+Entretanto, coerções implícitas é um mecanismo que *pode ser aprendido*, e mais ainda *deve ser aprendido* por qualquer um que queira levar a programação em JavaScript a sério. Não apenas as coerções não são confusas, uma vez que aprendidas as regras, como pode fazer os seus programas melhores! Os esforços para aprender valerão a pena.
 
-**Nota:** Para mais informações sobre conversões, veja o Capítulo 2 desse título (Iniciando) e o Capítulo 4 de *Tipos & Gramática* da série.
+**Nota:** Para mais informações sobre coerções, veja o Capítulo 2 desse título (Iniciando) e o Capítulo 4 de *Tipos & Gramática* da série.
 
 ## Comentários do Código
 
@@ -343,7 +343,7 @@ A maioria dos programas que são úteis, precisam rastrear um valor conforme ele
 
 A forma mais fácil de realizar esse procedimento é determinar um valor para um agregador simbólico, chamado *variável* -- sendo assim chamado porque o valor que carrega pode *variar* ao longo do tempo se necessário.
 
-Em algumas linguagens de programação, você declara a variável (agregador) para manter um valor específico, como por exemplo um `number` ou `string`. A *Tipagem estática*, é geralmente citada como benéfica para o programa por previnir conversões de valores não desejadas.
+Em algumas linguagens de programação, você declara a variável (agregador) para manter um valor específico, como por exemplo um `number` ou `string`. A *Tipagem estática*, é geralmente citada como benéfica para o programa por previnir coerções de valores não desejadas.
 
 Outras linguagens enfatizam tipos para valores ao invés de variáveis. A *Tipagem fraca*, também conhecida como *tipagem dinâmica*, permite que uma variável armazene qualquer tipo de valor em qualquer tempo. É tipicamente citada como benéfica para a flexibilidade de um programa, por permitir que uma simples variável tenha um valor representado independentemente do tipo e do momento dentro decorrer da lógica.
 
@@ -369,7 +369,7 @@ A variável `amount` começa armazenando o número `99.99`, e depois armazena o 
 
 O primeiro comando e `console.log(..)` precisa *implicitamente* converter o valor de `number` para `string` para poder imprimí-lo.
 
-A instrução `amount = "$" + String(amount)` *explicitamente* converte o valor `199.98` para uma `string` e adiciona um caractere `"$"` para o começo. Nesse ponto, `amount` agora armazena o valor em `string` de `"$199.98"`, então o segundo comando `console.log(..)` não precisa fazer nenhuma conversão para imprimir seu valor.
+A instrução `amount = "$" + String(amount)` *explicitamente* converte o valor `199.98` para uma `string` e adiciona um caractere `"$"` para o começo. Nesse ponto, `amount` agora armazena o valor em `string` de `"$199.98"`, então o segundo comando `console.log(..)` não precisa fazer nenhuma coerção para imprimir seu valor.
 
 Os desenvolvedores JavaScript irão notar a flexibilidade de usar a variável `amount` para cada um dos valores `99.99`, `199.98` e `"$199.98"`. Entusiastas da tipagem estática irão preferir separar valores como `amountStr` para armazenar a representação do valor `"$199.98"`, por ser de um tipo diferente.
 
