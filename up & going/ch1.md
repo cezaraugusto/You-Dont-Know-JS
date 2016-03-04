@@ -209,7 +209,7 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
    See "Valores & Tipos" e o Capítulo 2.
 * Lógicos: `&&` (e), `||` (ou), como em `a || b` que seleciona `a` *ou* `b`.
 
-   Esses operadores são usados para expressar instruções condicionais (veja "Conditionals"), como *se* `a` *ou* `b` for verdadeiro.
+   Esses operadores são usados para expressar instruções condicionais (veja "Condicionais"), como *se* `a` *ou* `b` for verdadeiro.
 
 **Note:** Para muito mais detalhes, e cobertura dos operadores não mencionados aqui, veja mais no Mozilla Developer Network (MDN)'s "Expressions and Operators" (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators).
 
@@ -449,26 +449,25 @@ Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, 
 
 **Nota:** Ao contrário da maioria das instruções como `console.log(amount);`, uma instrução de bloco não precisa de um ponto-e-vírgula (`;`) para ser concluída.
 
-## Conditionals
+## Conditionais
 
-"Do you want to add on the extra screen protectors to your purchase, for $9.99?" The helpful phone store employee has asked you to make a decision. And you may need to first consult the current *state* of your wallet or bank account to answer that question. But obviously, this is just a simple "yes or no" question.
+"Você gostaria de adicionar protetores de tela extras à sua compra, por $9.99". A atenciosa vendedora da loja de celulares fez você tomar uma decisão. E você primeiro precisa consultar o *estado* corrente da sua conta bancária para responder à essa pergunta. Mas, obviamente, essa é uma questão de um simples "sim" ou "não".
 
-There are quite a few ways we can express *conditionals* (aka decisions) in our programs.
+Existem diversas formas das quais podemos expressar *condicionais* (ou decisões) em nossos programas.
 
-The most common one is the `if` statement. Essentially, you're saying, "*If* this condition is true, do the following...". For example:
+A forma mais comum é a condicional `if`. Essencialmente, você está dizendo, "*se* essa condição for verdadeira, faça isso...".
 
 ```js
 var bank_balance = 302.13;
 var amount = 99.99;
 
 if (amount < bank_balance) {
-	console.log( "I want to buy this phone!" );
+	console.log( "Quebro comprar esse celular!" );
 }
 ```
+A condicional `if` requer uma expressão entre parênteses `( )` que pode ser definida como verdadeira (`true`) ou falsa (`false`). Nesse programa, declaramos a expressão `amount < bank_balance`, que irá determinar se o valor é `true` ou  `false`, dependendo da quantidade dentro da variável `bank_balance`.
 
-The `if` statement requires an expression in between the parentheses `( )` that can be treated as either `true` or `false`. In this program, we provided the expression `amount < bank_balance`, which indeed will either evaluate to `true` or `false` depending on the amount in the `bank_balance` variable.
-
-You can even provide an alternative if the condition isn't true, called an `else` clause. Consider:
+Você pode até mesmo definir uma alternativa para se a condição não for verdadeira, uma cláusula chamada `else`. Considere:
 
 ```js
 const ACCESSORY_PRICE = 9.99;
@@ -478,26 +477,26 @@ var amount = 99.99;
 
 amount = amount * 2;
 
-// can we afford the extra purchase?
+// podemos fazer uma compra extra?
 if ( amount < bank_balance ) {
-	console.log( "I'll take the accessory!" );
+	console.log( "Vou levar este acessório!" );
 	amount = amount + ACCESSORY_PRICE;
 }
-// otherwise:
+// se não pudermos:
 else {
 	console.log( "No, thanks." );
 }
 ```
 
-Here, if `amount < bank_balance` is `true`, we'll print out `"I'll take the accessory!"` and add the `9.99` to our `amount` variable. Otherwise, the `else` clause says we'll just politely respond with `"No, thanks."` and leave `amount` unchanged.
+Aqui, se `amount < bank_balance` for `true`, iremos imprimir `"Vou levar este acessório!"` e adicionar `9.99` para a nossa variável `amount`. Ou senão pudermos, a cláusula `else` diz que podemos responder, polidamente, `"Não, obrigado."` e deixar o `amount` inalterado.
 
-As we discussed in "Values & Types" earlier, values that aren't already of an expected type are often coerced to that type. The `if` statement expects a `boolean`, but if you pass it something that's not already `boolean`, coercion will occur.
+Como discutimos em "Valores & Tipos" anteriormente, valores que não são de algum tipo anteriormente definido, geralmente é corgido para o novo tipo. Se a condicional `if` esperar um tipo `boolean`, mas o argumento que você passou for de algum tipo que não seja `boolean`, uma coerção irá acontecer.
 
-JavaScript defines a list of specific values that are considered "falsy" because when coerced to a `boolean`, they become `false` -- these include values like `0` and `""`. Any other value not on the "falsy" list is automatically "truthy" -- when coerced to a `boolean` they become `true`. Truthy values include things like `99.99` and `"free"`. See "Truthy & Falsy" in Chapter 2 for more information.
+O JavaScript define uma lista de valores específicos que são considerados "falsinhos" porque quando coergido para `boolean`, eles se tornam `false` -- esses valores incluem `0` e `""`. Qualquer outro valor não incluído na lista de  "falsinhos" será automaticamente definido como "verdadeirinho" -- quando coergidos para `boolean` se tornam `true`. Valores verdadeirinhos incluem coisas como `99.99` e `"free"`. Veja "Verdadeirinhos & Falsinhos" no Capítulo 2 para mais informaçoes.
 
-*Conditionals* exist in other forms besides the `if`. For example, the `switch` statement can be used as a shorthand for a series of `if..else` statements (see Chapter 2). Loops (see "Loops") use a *conditional* to determine if the loop should keep going or stop.
+*Conditionais* existem em outras formas além do `if`. Por exemplo, a instrução `switch` pode ser usada como um atalho para uma série de instruções `if..else` (veja o Capítulo 2). Os Loops (veja "Loops") usam uma *condicional* para determinar se um loop deve prosseguir rodando ou parar.
 
-**Note:** For deeper information about the coercions that can occur implicitly in the test expressions of *conditionals*, see Chapter 4 of the *Types & Grammar* title of this series.
+**Nota:** Para conhecer mais afundo sobre coerções que podem ocorrer implicitamente ao testar expressões em *condicionais*, veja o Capítulo 4 do título desta série *Tipos & Gramática*.
 
 ## Loops
 
