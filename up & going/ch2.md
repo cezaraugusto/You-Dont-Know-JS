@@ -290,15 +290,15 @@ a == b;		// false
 
 **Nota:** Para mais informações sobre as regras de comparação de igualdade `==`, veja a especificação do ES5 (seção 11.9.3) e também consulte o Capítulo  4 do título desta série *Tipos & Gramática*; veja o Capítulo 2 sobre mais informações sobre valores versus referências.
 
-#### Inequality
+#### Desigualdade
 
-The `<`, `>`, `<=`, and `>=` operators are used for inequality, referred to in the specification as "relational comparison." Typically they will be used with ordinally comparable values like `number`s. It's easy to understand that `3 < 4`.
+Os operadores `<`, `>`, `<=`, e `>=` são usados para representar uma desigualdade, sendo referenciados na especificação como "compraradores relacionais". Tipicamente eles são usados para comparar valores ordinários como `number`s. É fácil entender que  `3 < 4`.
 
-But JavaScript `string` values can also be compared for inequality, using typical alphabetic rules (`"bar" < "foo"`).
+Mas em JavaScript, valores `string` também podem ser comparados para desigualdade, usando regras alfabéticas (`"bar" < "foo"`).
 
-What about coercion? Similar rules as `==` comparison (though not exactly identical!) apply to the inequality operators. Notably, there are no "strict inequality" operators that would disallow coercion the same way `===` "strict equality" does.
+E como fica a coerção: Regras similares à comparação `==` (apesar de não serem idênticas!) aplicam-se aos operadores de desigualdade. Uma nota importante, é que não existe um operador de "desigualdade estrita" que possa desabilitar a coerção da mesma forma que a "igualdade estrita" `===` faz.
 
-Consider:
+Considere:
 
 ```js
 var a = 41;
@@ -309,9 +309,9 @@ a < b;		// true
 b < c;		// true
 ```
 
-What happens here? In section 11.8.5 of the ES5 specification, it says that if both values in the `<` comparison are `string`s, as it is with `b < c`, the comparison is made lexicographically (aka alphabetically like a dictionary). But if one or both is not a `string`, as it is with `a < b`, then both values are coerced to be `number`s, and a typical numeric comparison occurs.
+O que acontece aqui: Na seção 11.8.5, da especificaão do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palasvras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coergidos para serem `number`s, e uma comparação típica de números acontece.
 
-The biggest gotcha you may run into here with comparisons between potentially different value types -- remember, there are no "strict inequality" forms to use -- is when one of the values cannot be made into a valid number, such as:
+A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformado em um número válido, como por exemplo:
 
 ```js
 var a = 42;
@@ -322,11 +322,11 @@ a > b;		// false
 a == b;		// false
 ```
 
-Wait, how can all three of those comparisons be `false`? Because the `b` value is being coerced to the "invalid number value" `NaN` in the `<` and `>` comparisons, and the specification says that `NaN` is neither greater-than nor less-than any other value.
+Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coergido para um "valor numérico inválido" (`NaN`), nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
 
-The `==` comparison fails for a different reason. `a == b` could fail if it's interpreted either as `42 == NaN` or `"42" == "foo"` -- as we explained earlier, the former is the case.
+A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
-**Note:** For more information about the inequality comparison rules, see section 11.8.5 of the ES5 specification and also consult Chapter 4 of the *Types & Grammar* title of this series.
+**Nota:** For more information about the inequality comparison rules, see section 11.8.5 of the ES5 specification and also consult Chapter 4 of the *Types & Grammar* title of this series.
 
 ## Variables
 
