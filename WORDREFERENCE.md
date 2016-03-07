@@ -36,13 +36,13 @@
 ## Jargões de Programação
 * Statements: Instruções (carece de definição melhor)
 * Expresions: Expressões
-* Output: Output
-* Input: Input
+* Output: Output (saída, retorno, valor)
+* Input: Input (entrada, início)
 * Operators: Operadores
 * Types:
 * Scope: Escopo
 * Hoisting:
-* Nested Scopes:
+* Nested Scopes: Escopos aninhados
 * Strict Mode:
 * Immediately Invoked Function Expressions (IIFEs):
 * Closure: Encerramento

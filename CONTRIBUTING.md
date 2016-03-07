@@ -1,6 +1,6 @@
 # Como contribuir
 
-Primeiro, **obrigado por querer contribuir com a tradução**. Seguindo os passos abaixo você não só aumentará seu conhecimento sobre JavaScript, como estará ajudando com um conteúdo incrível para nossa comunidade. 
+Primeiro, **obrigado por querer contribuir com a tradução**. Seguindo os passos abaixo você, não só aumentará seu conhecimento sobre JavaScript, como ajudará com um conteúdo incrível para nossa comunidade. 
 
 Guie-se pela _To-Do_ abaixo para garantir que sua tradução seja recebida.
 

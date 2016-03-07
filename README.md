@@ -81,7 +81,7 @@ Se você quiser contribuir financeiramente por conta do esforço que tive aqui (
 
 O conteúdo destes livros derivam massivamente de uma série de materiais, que leciono profissionalmente (tanto em público quanto em empresas, em formato de workshop), chamada "Advanced JS: The 'What You Need To Know' Parts".
 
-Se você gostar deste conteúdo e quiser entrar em contato comigo sobre treinamentos em alguns dos tópicos apresentados, ou sobre vários outros tópicos relacionados à JS/HTML5/node.js, fique à vontade para entrar em contato em qualquer canal listado no link abaixo:
+Se você gostar deste conteúdo e quiser entrar em contato comigo sobre treinamentos em alguns dos tópicos apresentados, ou sobre vários outros tópicos relacionados à JS/HTML5/node.js, fique à vontade para entrar em contato por qualquer canal listado no link abaixo:
 
 [http://getify.me](http://getify.me)
 
