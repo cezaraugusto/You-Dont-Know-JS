@@ -155,9 +155,9 @@ Novamente, funções são um subtipo de `objects` -- o `typeof` retorna `"functi
 
 **Nota:** Para mais informações sobre valores em JS e seus tipos, veja os primeiros dois capítulos do título *Tipos & Gramática*, desta série.
 
-### Métodos nativos de Tipos
+### Métodos de Tipos Nativos
 
-Os tipos e subtipos nativos que acabamos de ver tem comportamentos bem úteis, expostos como propriedades e métodos.
+Os tipos e subtipos nativos que acabamos de ver tem alguns comportamentos bem úteis, expostos como propriedades e métodos.
 
 Por exemplo:
 
@@ -170,15 +170,15 @@ a.toUpperCase();		// "HELLO WORLD"
 b.toFixed(4);			// "3.1416"
 ```
 
-is more complicated than just that method existing on the value.
+é mais complicado do que apenas o método existente em um valor.
 
-Briefly, there is a `String` (capital `S`) object wrapper form, typically called a "native," that pairs with the primitive `string` type; it's this object wrapper that defines the `toUpperCase()` method on its prototype.
+Resumidamente, existe uma forma agregadora do objeto `String` (`S` maiúsculo), que pareia com o tipo primitivo `string`. É esse objeto agregador que define o método `toUpperCase()` em seu protótipo.
 
-When you use a primitive value like `"hello world"` as an `object` by referencing a property or method (e.g., `a.toUpperCase()` in the previous snippet), JS automatically "boxes" the value to its object wrapper counterpart (hidden under the covers).
+Quando você usa um valor primitivo, como "hello world", como um `object` referenciando a propriedade ou método (exemplo `a.toUpperCase()` no snippet anterior), o JS automaticamente "encaixota" o valor na contraparte do agregador de seu objeto (escondido).
 
-A `string` value can be wrapped by a `String` object, a `number` can be wrapped by a `Number` object, and a `boolean` can be wrapped by a `Boolean` object. For the most part, you don't need to worry about or directly use these object wrapper forms of the values -- prefer the primitive value forms in practically all cases and JavaScript will take care of the rest for you.
+Um valor `string` pode ser englobado por um objeto `String`, um `number` pode ser englobado por um objeto `Number`, e um `boolean` pode ser englobado por um objeto `Boolean`. Para a maioria dos casos, você não precisa se preocupar sobre isso ou usar diretamente essas formas de agregar os valores do objeto -- preferindo a forma de valores primitivos em todos os casos que puder e o JavaScript vai cuidar do resto pra você.
 
-**Note:** For more information on JS natives and "boxing," see Chapter 3 of the *Types & Grammar* title of this series. To better understand the prototype of an object, see Chapter 5 of the *this & Object Prototypes* title of this series.
+**Nota:** Para mais iformações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
 
 ### Comparando Valores
 
