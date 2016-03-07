@@ -218,16 +218,16 @@ b;				// 42 -- o número!
 
 #### Truthy & Falsy
 
-In Chapter 1, we briefly mentioned the "truthy" and "falsy" nature of values: when a non-`boolean` value is coerced to a `boolean`, does it become `true` or `false`, respectively?
+No Capítulo 1, nós mencionamos a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coergido para um valor `boolean`, eke se tornam `true` ou `false`, respectivamente?
 
-The specific list of "falsy" values in JavaScript is as follows:
+A lista de valores "falsy" em JavaScript é a seguinte:
 
-* `""` (empty string)
-* `0`, `-0`, `NaN` (invalid `number`)
+* `""` (string vazia)
+* `0`, `-0`, `NaN` (`number` inválido)
 * `null`, `undefined`
 * `false`
 
-Any value that's not on this "falsy" list is "truthy." Here are some examples of those:
+Qualquer valor que não esteja nessa lista de "falsy", é considerado "truthy". Aqui estão alguns exemplos deles:
 
 * `"hello"`
 * `42`
@@ -236,7 +236,7 @@ Any value that's not on this "falsy" list is "truthy." Here are some examples of
 * `{ }`, `{ a: 42 }` (objects)
 * `function foo() { .. }` (functions)
 
-It's important to remember that a non-`boolean` value only follows this "truthy"/"falsy" coercion if it's actually coerced to a `boolean`. It's not all that difficult to confuse yourself with a situation that seems like it's coercing a value to a `boolean` when it's not.
+É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coergido para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não está.
 
 #### Equality
 
