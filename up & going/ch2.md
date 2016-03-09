@@ -328,15 +328,15 @@ A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for 
 
 **Nota:** For more information about the inequality comparison rules, see section 11.8.5 of the ES5 specification and also consult Chapter 4 of the *Types & Grammar* title of this series.
 
-## Variables
+## Variáveis
 
-In JavaScript, variable names (including function names) must be valid *identifiers*. The strict and complete rules for valid characters in identifiers are a little complex when you consider nontraditional characters such as Unicode. If you only consider typical ASCII alphanumeric characters, though, the rules are simple.
+Em JavaScript, nome de variáveis (incluindo nomes de funções) precisam ter *identificadores* válidos. As restritas e completas regras para caracteres válidos como identificadores são um pouco complexas considerando os caracteres não tradicionais como Unicode. Se você considerar apenas caracteres alfanuméricos típicos do ASCII, as regras ficam mais simples.
 
-An identifier must start with `a`-`z`, `A`-`Z`, `$`, or `_`. It can then contain any of those characters plus the numerals `0`-`9`.
+Um identificador precisa começar com `a`-`z`, `A`-`Z`, `$`, ou `_`. Ele pode conter qualquer um desses caracteres e incluem também numerais `0`-`9`.
 
-Generally, the same rules apply to a property name as to a variable identifier. However, certain words cannot be used as variables, but are OK as property names. These words are called "reserved words," and include the JS keywords (`for`, `in`, `if`, etc.) as well as `null`, `true`, and `false`.
+Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como para nomear uma propriedade. Entretanto, algumas palavras não podem ser usadas para nomear variáveis, mas não tem impedimento para nomear propriedades. Essas palavras são denominadas "palavras reservadasˆ(reserved words), e incluem as palavras-chave (`for`, `in`, `if`, etc.) assim como `null`, `true`, e `false`.
 
-**Note:** For more information about reserved words, see Appendix A of the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre palavas reservadas, veja o Apêndice A do título desta série *Tipos & Gramática*.
 
 ### Function Scopes
 
