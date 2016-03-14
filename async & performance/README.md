@@ -4,20 +4,20 @@
 
 -----
 
-**[Purchase digital/print copy from O'Reilly](http://shop.oreilly.com/product/0636920033752.do)**
+**[Compre uma cópia digital/impressa na O'Reilly](http://shop.oreilly.com/product/0636920033752.do)**
 
 -----
 
-[Table of Contents](toc.md)
+[Índice](toc.md)
 
-* [Foreword](foreword.md) (by [Jake Archibald](http://jakearchibald.com))
-* [Preface](../preface.md)
-* [Chapter 1: Asynchrony: Now & Later](ch1.md)
-* [Chapter 2: Callbacks](ch2.md)
-* [Chapter 3: Promises](ch3.md)
-* [Chapter 4: Generators](ch4.md)
-* [Chapter 5: Program Performance](ch5.md)
-* [Chapter 6: Benchmarking & Tuning](ch6.md)
-* [Appendix A: Library: asynquence](apA.md)
-* [Appendix B: Advanced Async Patterns](apB.md)
-* [Appendix C: Thank You's!](apC.md)
+* [Introdução](foreword.md) (by [Jake Archibald](http://jakearchibald.com))
+* [Prefácio](../preface.md)
+* [Capítulo 1: Assincronia: Agora & Depois](ch1.md)
+* [Capítulo 2: Callbacks](ch2.md)
+* [Capítulo 3: Promessas](ch3.md)
+* [Capítulo 4: Generators](ch4.md)
+* [Capítulo 5: Performance do Programa](ch5.md)
+* [Capítulo 6: Benchmarking & Tuning](ch6.md)
+* [Apêndice A: Biblioteca: *assinquência*](apA.md)
+* [Apêndice B: Padrões Avançados de Async](apB.md)
+* [Apêndice C: Agradecimentos](apC.md)
