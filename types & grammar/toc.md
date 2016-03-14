@@ -34,6 +34,6 @@
 	* Argumentos de Funções
 	* `try..finally`
 	* `switch`
-* Apêndice A: JavaScript em Ambiente Mixto
+* Apêndice A: JavaScript em Ambiente Misto
 * Apêndice B: Agradecimentos
 
