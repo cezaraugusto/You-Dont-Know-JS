@@ -1,22 +1,22 @@
-# You Don't Know JS: *this* & Object Prototypes
+# You Don't Know JS: *this* & Prototipagem de Objetos
 
 <img src="cover.jpg" width="300">
 
 -----
 
-**[Purchase digital/print copy from O'Reilly](http://shop.oreilly.com/product/0636920033738.do)**
+**[Adquira a cópia digital/impressa pela Editora O'Reilly](http://shop.oreilly.com/product/0636920033738.do)**
 
 -----
 
-[Table of Contents](toc.md)
+[Índice](toc.md)
 
-* [Foreword](foreword.md) (by [Nick Berardi](https://github.com/nberardi))
-* [Preface](../preface.md)
-* [Chapter 1: *this* Or That?](ch1.md)
-* [Chapter 2: *this* All Makes Sense Now!](ch2.md)
-* [Chapter 3: Objects](ch3.md)
-* [Chapter 4: Mixing (Up) "Class" Objects](ch4.md)
-* [Chapter 5: Prototypes](ch5.md)
-* [Chapter 6: Behavior Delegation](ch6.md)
-* [Appendix A: ES6 *class*](apA.md)
-* [Appendix B: Thank You's!](apB.md)
+* [Introdução](foreword.md) (por [Nick Berardi](https://github.com/nberardi))
+* [Prefácio](../preface.md)
+* [Capítulo 1: *this* Ou Aquilo?](ch1.md)
+* [Capítulo 2: *this* Tudo Faz Sentido Agora!](ch2.md)
+* [Capítulo 3: Objetos](ch3.md)
+* [Capítulo 4: Misturando (tudos) os Objetos "Class"](ch4.md)
+* [Capítulo 5: Prototótipos](ch5.md)
+* [Capítulo 6: Delegação de Comportamentos](ch6.md)
+* [Apêndice A: ES6 *class*](apA.md)
+* [Apêndice B: Agradecimentos](apB.md)
