@@ -7,7 +7,7 @@
 * Capítulo 1: ES? Agora & o Futuro
 	* Versionamento
 	* Transpiling
-* Capítulo 2: Sintae
+* Capítulo 2: Sintaxe
 	* Declarações de Escopos de Bloco
 	* Spread / Rest
 	* Valores Padrão de Parâmetros
@@ -25,7 +25,7 @@
 	* Generators
 	* Modulos
 	* Classes
-* Capítulo 4: Controle de Fluxo do Async
+* Capítulo 4: Controle de Fluxo Assíncrono
 	* Promessas
 	* Generators + Promessas
 * Capítulo 5: Coleções
