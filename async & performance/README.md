@@ -4,13 +4,13 @@
 
 -----
 
-**[Compre uma cópia digital/impressa na O'Reilly](http://shop.oreilly.com/product/0636920033752.do)**
+**[Adquira uma cópia digital/impressa pela Editora O'Reilly](http://shop.oreilly.com/product/0636920033769.do)**
 
 -----
 
 [Índice](toc.md)
 
-* [Introdução](foreword.md) (by [Jake Archibald](http://jakearchibald.com))
+* [Introdução](foreword.md) (por [Jake Archibald](http://jakearchibald.com))
 * [Prefácio](../preface.md)
 * [Capítulo 1: Assincronia: Agora & Depois](ch1.md)
 * [Capítulo 2: Callbacks](ch2.md)
