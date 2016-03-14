@@ -4,7 +4,7 @@
 
 * Introdução
 * Prefácio
-* Capítulo 1: `this` Ou Isso?
+* Capítulo 1: `this` Ou Aquilo?
 	* Porque `this`?
 	* Confusões
 	* O que é `this`?
@@ -19,7 +19,7 @@
 	* Tipe
 	* Conteúdo
 	* Iteração
-* Capítulo 4: Misturando (tudos) os Objetos "Class"
+* Capítulo 4: Misturando (todos) os Objetos "Class"
 	* Teoria do Class
 	* Mecânica do Class 
 	* Herança de Class
@@ -29,7 +29,7 @@
 	* "Class"
 	* "Herança (Prototipada)"
 	* Links de Objetos
-* Capítulo 6: Delegando Comportamento
+* Capítulo 6: Delegação de Comportamentos
 	* Sobre Design Orientado à Delegação
 	* Classes vs. Objetos
 	* Design Simplificado
