@@ -1,5 +1,6 @@
 > Esta é uma tradução em Português da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
 
+<<<<<<< HEAD
 ## Fique por dentro
 
 A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cez-aug). A tradução é em caráter voluntário e tem como único objetivo disponibilizar a comunidade o conteúdo do livro em português.
@@ -46,6 +47,9 @@ Obrigado por ajudar!
 # You Don't Know JS (série de livros)
 
 Esta é uma série de livros aprofundada nos principais mecanismos da linguagem JavaScript.
+=======
+This is a series of books diving deep into the core mechanisms of the JavaScript language. The first edition of the series is now complete.
+>>>>>>> d22641adf645f07efd25b09351d4f59e279d1614
 
 <a href="http://shop.oreilly.com/product/0636920039303.do"><img src="up %26 going/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920026327.do"><img src="scope %26 closures/cover.jpg" width="75"></a>&nbsp;
@@ -53,7 +57,10 @@ Esta é uma série de livros aprofundada nos principais mecanismos da linguagem 
 <a href="http://shop.oreilly.com/product/0636920033745.do"><img src="types %26 grammar/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033752.do"><img src="async %26 performance/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033769.do"><img src="es6 %26 beyond/cover.jpg" width="75"></a>
+<<<<<<< HEAD
 &nbsp;<span>...(mais em breve!)</span>
+=======
+>>>>>>> d22641adf645f07efd25b09351d4f59e279d1614
 
 Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviando _Pull Requests_, sugerindo melhoria em snippets, explicações, etc. Apesar de melhorias na gramática serem bem-vindas, elas provavelmente serão percebidas no processo normal de publicação e sendo assim, não são necessariamente tão importantes para este repositório.
 
@@ -61,12 +68,21 @@ Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviand
 
 ## Títulos
 
+<<<<<<< HEAD
 * Leia online (grátis!): ["Iniciando"](up & going/README.md#you-dont-know-js-up--going), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920039303.do), ebook format is grátis!
 * Leia online (grátis!): ["Escopos & Encerramentos"](scope & closures/README.md#you-dont-know-js-scope--closures), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
 * Leia online (grátis!): ["this & Prototipagem de Objetos"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
 * Leia online (grátis!): ["Tipos & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
 * Leia online (grátis!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
 * Leia online (grátis!): ["ES6 & Além"](es6 & beyond/README.md#you-dont-know-js-es6--beyond) (in production)
+=======
+* Read online (free!): ["Up & Going"](up & going/README.md#you-dont-know-js-up--going), Published: [Buy Now](http://shop.oreilly.com/product/0636920039303.do) in print, but the ebook format is free!
+* Read online (free!): ["Scope & Closures"](scope & closures/README.md#you-dont-know-js-scope--closures), Published: [Buy Now](http://shop.oreilly.com/product/0636920026327.do)
+* Read online (free!): ["this & Object Prototypes"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Published: [Buy Now](http://shop.oreilly.com/product/0636920033738.do)
+* Read online (free!): ["Types & Grammar"](types & grammar/README.md#you-dont-know-js-types--grammar), Published: [Buy Now](http://shop.oreilly.com/product/0636920033745.do)
+* Read online (free!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Published: [Buy Now](http://shop.oreilly.com/product/0636920033752.do)
+* Read online (free!): ["ES6 & Beyond"](es6 & beyond/README.md#you-dont-know-js-es6--beyond), Published: [Buy Now](http://shop.oreilly.com/product/0636920033769.do)
+>>>>>>> d22641adf645f07efd25b09351d4f59e279d1614
 
 ## Publicação
 

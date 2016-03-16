@@ -1,5 +1,7 @@
 # You Don't Know JS: ES6 & Além
 
+<img src="cover.jpg" width="300">
+
 -----
 
 **[Adquira uma cópia digital/impressa pela Editora O'Reilly](http://shop.oreilly.com/product/0636920033769.do)**

@@ -260,7 +260,7 @@ var tasks = {
 
 The iterator on `tasks` steps through functions found in the `actions` array property, if any, and executes them one at a time, passing in whatever arguments you pass to `next(..)`, and returning any return value to you in the standard `IteratorResult` object.
 
-Here's how we could could use this `tasks` queue:
+Here's how we could use this `tasks` queue:
 
 ```js
 tasks.actions.push(
@@ -632,7 +632,7 @@ for (var v of bar()) {
 	console.log( v );
 }
 // 1 2 3
-// x: 4
+// x: { value: 4, done: true }
 ```
 
 While the `1`, `2`, and `3` values are `yield`ed out of `*foo()` and then out of `*bar()`, the `4` value returned from `*foo()` is the completion value of the `yield *foo()` expression, which then gets assigned to `x`.
@@ -1899,6 +1899,7 @@ ES6 to the rescue:
 ```js
 class Oops extends Error {
 	constructor(reason) {
+		super(reason);
 		this.oops = reason;
 	}
 }
