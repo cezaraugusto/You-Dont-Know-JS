@@ -52,7 +52,8 @@ Esta é uma série de livros aprofundada nos principais mecanismos da linguagem 
 <a href="http://shop.oreilly.com/product/0636920033738.do"><img src="this %26 object prototypes/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033745.do"><img src="types %26 grammar/cover.jpg" width="75"></a>&nbsp;
 <a href="http://shop.oreilly.com/product/0636920033752.do"><img src="async %26 performance/cover.jpg" width="75"></a>&nbsp;
-<span>...(mais em breve!)</span>
+<a href="http://shop.oreilly.com/product/0636920033769.do"><img src="es6 %26 beyond/cover.jpg" width="75"></a>
+&nbsp;<span>...(mais em breve!)</span>
 
 Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviando _Pull Requests_, sugerindo melhoria em snippets, explicações, etc. Apesar de melhorias na gramática serem bem-vindas, elas provavelmente serão percebidas no processo normal de publicação e sendo assim, não são necessariamente tão importantes para este repositório.
 
