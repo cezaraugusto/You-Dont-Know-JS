@@ -338,31 +338,31 @@ Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como
 
 **Nota:** Para mais informações sobre palavas reservadas, veja o Apêndice A do título desta série *Tipos & Gramática*.
 
-### Function Scopes
+### Escopos de Função
 
-You use the `var` keyword to declare a variable that will belong to the current function scope, or the global scope if at the top level outside of any function.
+Você usa a palavra-chave `var` para declarar a variável que irá referenciar o escopo da função corrente, ou o escopo global se ela estiver no topo de tudo, fora de qualquer outra função.
 
 #### Hoisting
 
-Wherever a `var` appears inside a scope, that declaration is taken to belong to the entire scope and accessible everywhere throughout.
+Onde quer que `var` apareça dentro de um escopo, sua declaração é tomada como parte de todo o escopo e acessada em qualquer área dentro dele.
 
-Metaphorically, this behavior is called *hoisting*, when a `var` declaration is conceptually "moved" to the top of its enclosing scope. Technically, this process is more accurately explained by how code is compiled, but we can skip over those details for now.
+Metaforicamente, esse comportamento é chamado de *hoisting*, quando uma declaração `var` é conceitualmente "movida" para o topo do escopo. Tecnicamente, este processo é explicado de forma mais apurada entendendo como o código é compilado, mas vamos pular estes detalhes por ora.
 
-Consider:
+Considere:
 
 ```js
 var a = 2;
 
-foo();					// works because `foo()`
-						// declaration is "hoisted"
+foo();					// funciona porque a declaração `foo()`
+						// é "hoisted"
 
 function foo() {
 	a = 3;
 
 	console.log( a );	// 3
 
-	var a;				// declaration is "hoisted"
-						// to the top of `foo()`
+	var a;				// a declaração é "hoisted"
+						// para o topo de `foo()`
 }
 
 console.log( a );	// 2
@@ -370,9 +370,9 @@ console.log( a );	// 2
 
 **Warning:** It's not common or a good idea to rely on variable *hoisting* to use a variable earlier in its scope than its `var` declaration appears; it can be quite confusing. It's much more common and accepted to use *hoisted* function declarations, as we do with the `foo()` call appearing before its formal declaration.
 
-#### Nested Scopes
+#### Escopos Aninhados
 
-When you declare a variable, it is available anywhere in that scope, as well as any lower/inner scopes. For example:
+Quando você declara uma variável, ela é disponibilizada em todos os lugares dentro do escopo, assim como dentro de qualquer escopo interno. Por exemplo:
 
 ```js
 function foo() {
@@ -398,9 +398,9 @@ function foo() {
 foo();
 ```
 
-Notice that `c` is not available inside of `bar()`, because it's declared only inside the inner `baz()` scope, and that `b` is not available to `foo()` for the same reason.
+Note que `c` não está disponível dentro de `bar()`, porque está declarado dentro do escopo de `baz()`, e o `b` não está disponível para `foo()` pelo mesmo motivo.
 
-If you try to access a variable's value in a scope where it's not available, you'll get a `ReferenceError` thrown. If you try to set a variable that hasn't been declared, you'll either end up creating a variable in the top-level global scope (bad!) or getting an error, depending on "strict mode" (see "Strict Mode"). Let's take a look:
+Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou gerar um erro, dependendo de você ter declarado "strict mode" (veja "Strict Mode"). Vamos dar uma olhada:
 
 ```js
 function foo() {
