@@ -3,7 +3,7 @@
 
 Bem vindo à série *You Don't Know JS* (*YDKJS*).
 
-*Iniciando* é uma introdução à diversos conceitos básicos de programação -- claro que inclinado ao uso do JavaScript (muitas vezes abreviado como JS) especificamente -- e como e como abordar e entender o resto dos títulos nessa série. Especialmente se você está começando em programação ou JavaScript, esse livro irá, de forma breve, explorar tudo que você precisa saber para *iniciar*. 
+*Iniciando* é uma introdução à diversos conceitos básicos de programação -- claro que inclinado ao uso do JavaScript (muitas vezes abreviado como JS) especificamente -- e como abordar e entender o resto dos títulos nessa série. Especialmente se você está começando em programação ou JavaScript, esse livro irá, de forma breve, explorar tudo que você precisa saber para *iniciar*. 
 
 Esse livro começa explicando os princípios básicos de programação em uma camada mais alta. É mais indicado se você está começando *YDKJS* com pouca ou nenhuma experiência anterior com programação, e está procurando nesses livros uma ajuda para começar na longa jornada de entender como programar através da visão do JavaScript.
 
