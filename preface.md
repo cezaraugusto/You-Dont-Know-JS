@@ -21,7 +21,7 @@ E aí que se esconde o paradoxo do JavaSript, o tendão de Aquiles da linguagem,
 
 Se a cada ponto que você encontrar uma surpresa ou se sentir frustrado com JavaScript, sua resposta for adicionar mais um item à sua lista negra, como alguns estão acostumados a fazer, você em breve entrará em uma penumbra cinzenta que irá te afastar de toda a riqueza da linguagem.
 
-A ideia de aprender JavaScript separarando todas as partes frustrantes da linguagem foi famosamente apelidada de "A parte boa". Eu vou implorar à você, querido leitor, para ao invés disso, considerar essa parte de "A Parte Fácil" ou "A Parte Segura", ou até mesmo "A Parte Incompleta".
+A ideia de aprender JavaScript separando todas as partes frustrantes da linguagem foi famosamente apelidada de "A parte boa". Eu vou implorar à você, querido leitor, para ao invés disso, considerar essa parte de "A Parte Fácil" ou "A Parte Segura", ou até mesmo "A Parte Incompleta".
 
 Essa série de livros, *You Don't Know JavaScript* oferece um desafio inverso: aprender e entender profundamente *tudo* sobre JavaScript, até mesmo "As Partes Dífíceis".
 
