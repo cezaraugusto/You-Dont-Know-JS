@@ -206,7 +206,7 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
    Veja "Valores & Tipos" e o Capítulo 2.
 * Comparação: `<` (menor que), `>` (maior que), `<=` (menor ou igual), `>=` (maior ou igual), como em `a <= b`.
 
-   See "Valores & Tipos" e o Capítulo 2.
+   Veja "Valores & Tipos" e o Capítulo 2.
 * Lógicos: `&&` (e), `||` (ou), como em `a || b` que seleciona `a` *ou* `b`.
 
    Esses operadores são usados para expressar instruções condicionais (veja "Condicionais"), como *se* `a` *ou* `b` for verdadeiro.
