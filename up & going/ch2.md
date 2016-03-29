@@ -439,71 +439,71 @@ Por usarmos `let` ao invés de `var`, `b` irá pertencer apenas à instrução `
 
 **Nota:** Para mais informações sobre escopos, veja o título desta série *Escopos & Encerramentos*. Veja o título *ES6 & Além*para mais informações sobre o bloco de escopo `let`.
 
-## Conditionals
+## Condicionais
 
-In addition to the `if` statement we introduced briefly in Chapter 1, JavaScript provides a few other conditionals mechanisms that we should take a look at.
+Em adição à instrução condicional `if` que introduzimos brevemente no Capítulo 1, o JavaScript nos fornece alguns outros mecanismos de condicionais que devemos saber.
 
-Sometimes you may find yourself writing a series of `if..else..if` statements like this:
+Por vezes você se encontrará escrevendo uma série de instruções `if..else..if` como estas:
 
 ```js
 if (a == 2) {
-	// do something
+	// faça alguma coisa
 }
 else if (a == 10) {
-	// do another thing
+	// faça outra coisa
 }
 else if (a == 42) {
-	// do yet another thing
+	// faça outra coisa diferente
 }
 else {
-	// fallback to here
+	// resultado se nenhuma instrução for atendida (fallback) 
 }
 ```
 
-This structure works, but it's a little verbose because you need to specify the `a` test for each case. Here's another option, the `switch` statement:
+Essa estrutura funciona, mais é um pouco verbosa porque você precisa especificar um teste para `a` em cada um dos casos. Abaixo veremos uma outra opção, a instrução `switch`:
 
 ```js
 switch (a) {
 	case 2:
-		// do something
+		// faça alguma coisa
 		break;
 	case 10:
-		// do another thing
+		// faça outra coisa
 		break;
 	case 42:
-		// do yet another thing
+		// faça outra coisa diferente
 		break;
 	default:
-		// fallback to here
+		// resultado se nenhuma instrução for atendida (fallback) 
 }
 ```
 
-The `break` is important if you want only the statement(s) in one `case` to run. If you omit `break` from a `case`, and that `case` matches or runs, execution will continue with the next `case`'s statements regardless of that `case` matching. This so called "fall through" is sometimes useful/desired:
+O `break` é importante se você quiser que apenas uma instrução seja executada em cada`case`. Se você omitir o `break` de um `case`, e esse `case` for aceito ou rodar, a execução irá continuar pelos próximos `case`'s independente do `case` que foi aceito. Esse então chamado "fall through" é por vezes útil/proposital:
 
 ```js
 switch (a) {
 	case 2:
 	case 10:
-		// some cool stuff
+		// alguma coisa legal
 		break;
 	case 42:
-		// other stuff
+		// outra coisa
 		break;
 	default:
-		// fallback
+		// resultado se nenhuma instrução for atendida (fallback) 
 }
 ```
 
-Here, if `a` is either `2` or `10`, it will execute the "some cool stuff" code statements.
+Aqui, se `a` for ou `2` ou `10`, iremos  executar a instrução de código "some cool stuff".
 
-Another form of conditional in JavaScript is the "conditional operator," often called the "ternary operator." It's like a more concise form of a single `if..else` statement, such as:
+Uma outra forma de condicional em JavaScript é o "operador condicional," chamado também de "operador ternário." Ele é como se fosse uma forma concisa/simplificada de uma instrução `if..else`, como em:
 
 ```js
 var a = 42;
 
 var b = (a > 41) ? "hello" : "world";
 
-// similar to:
+// similar a:
 
 // if (a > 41) {
 //    b = "hello";
@@ -513,11 +513,11 @@ var b = (a > 41) ? "hello" : "world";
 // }
 ```
 
-If the test expression (`a > 41` here) evaluates as `true`, the first clause (`"hello"`) results, otherwise the second clause (`"world"`) results, and whatever the result is then gets assigned to `b`.
+Se a expressão teste (`a > 41` aqui) for avaliada como `true`, a primeira cláusula (`"hello"`) é retornada, se não for, a segunda cláusula é retornada (`"world"`), e qualquer que seja o resultado ele é designado para `b`.
 
-The conditional operator doesn't have to be used in an assignment, but that's definitely the most common usage.
+O operador condicional não precisa necessariamente ser usado em uma atribuição, mas é definitivamente a forma mais comum de usá-lo.
 
-**Note:** For more information about testing conditions and other patterns for `switch` and `? :`, see the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre testes de condições e outros padrões para `switch` e `? :`, veja o título desta série *Tipos & Gramática*.
 
 ## Strict Mode
 
