@@ -57,3 +57,4 @@
 * Static typing: Tipagem estática
 * Evaluate: Avaliado
 * Coercion: Coerção
+* See the *SERIE_TITLE_HERE* title of this series: Veja o título desta série *SERIE_TITLE_HERE*
