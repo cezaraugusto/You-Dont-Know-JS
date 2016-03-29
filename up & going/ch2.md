@@ -519,58 +519,58 @@ O operador condicional não precisa necessariamente ser usado em uma atribuiçã
 
 **Nota:** Para mais informações sobre testes de condições e outros padrões para `switch` e `? :`, veja o título desta série *Tipos & Gramática*.
 
-## Strict Mode
+## Modo Estrito (Strict Mode)
 
-ES5 added a "strict mode" to the language, which tightens the rules for certain behaviors. Generally, these restrictions are seen as keeping the code to a safer and more appropriate set of guidelines. Also, adhering to strict mode makes your code generally more optimizable by the engine. Strict mode is a big win for code, and you should use it for all your programs.
+O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente, essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito faz, em geral, seu código melhor otimizado pelo *engine*. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
 
-You can opt in to strict mode for an individual function, or an entire file, depending on where you put the strict mode pragma:
+Você pode optar pelo modo estrito em uma função individualmente, ou em todo um arquivo, dependendo de onde você determinar o pragma do modo estrito:
 
 ```js
 function foo() {
 	"use strict";
 
-	// this code is strict mode
+	// este código usa o modo estrito
 
 	function bar() {
-		// this code is strict mode
+		// este código está em modo estrito
 	}
 }
 
-// this code is not strict mode
+// este código não está em modo estrito
 ```
 
-Compare that to:
+Compare isso com:
 
 ```js
 "use strict";
 
 function foo() {
-	// this code is strict mode
+	// este código está em modo estrito
 
 	function bar() {
-		// this code is strict mode
+		// este código está em modo estrito
 	}
 }
 
-// this code is strict mode
+// este código está em modo estrito
 ```
 
-One key difference (improvement!) with strict mode is disallowing the implicit auto-global variable declaration from omitting the `var`:
+Uma diferença chave (melhoria!) com o *strict mode* é desabilitar a variável auto-global implícita ao omitir o `var`:
 
 ```js
 function foo() {
-	"use strict";	// turn on strict mode
-	a = 1;			// `var` missing, ReferenceError
+	"use strict";	// liga o strict mode
+	a = 1;			// `var` faltando: ReferenceError
 }
 
 foo();
 ```
 
-If you turn on strict mode in your code, and you get errors, or code starts behaving buggy, your temptation might be to avoid strict mode. But that instinct would be a bad idea to indulge. If strict mode causes issues in your program, almost certainly it's a sign that you have things in your program you should fix.
+Se você habilitar o modo estrito em seu código, e você receber erros, ou o código se comporta de maneira *bugada*, a tentação é evitar o modo estrito. Mas esse instinto é uma má ideia de se deixar acontecer. Se o modo estrito gera problemas no seu programa, quase certo que isso é um sinal que existem coisas no seu programa que você deve consertar.
 
-Not only will strict mode keep your code to a safer path, and not only will it make your code more optimizable, but it also represents the future direction of the language. It'd be easier on you to get used to strict mode now than to keep putting it off -- it'll only get harder to convert later!
+Não apenas o modo estrito irá deixar seu código em um caminho mais seguro, e não apenas deixará seu código mais otimizável, mas também estará representando o futuro da linguagem. É mais fácil se acostumar com o modo estrito agora do que deixá-lo de lado -- vai ser mais difícil se converter a ele mais tarde!
 
-**Note:** For more information about strict mode, see the Chapter 5 of the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre o modo estrito, veja o Capítulo 5 do título desta série *Tipos & Gramática*.
 
 ## Functions As Values
 
