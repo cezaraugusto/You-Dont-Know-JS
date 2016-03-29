@@ -572,9 +572,9 @@ Não apenas o modo estrito irá deixar seu código em um caminho mais seguro, e 
 
 **Nota:** Para mais informações sobre o modo estrito, veja o Capítulo 5 do título desta série *Tipos & Gramática*.
 
-## Functions As Values
+## Funções como Valores
 
-So far, we've discussed functions as the primary mechanism of *scope* in JavaScript. You recall typical `function` declaration syntax as follows:
+Até agora, discutimos funções como um mecanismo primário do *escopo* em JavaScript. Você deve se lembrar da típica sintaxe da declaração `function` desse jeito:
 
 ```js
 function foo() {
@@ -582,13 +582,13 @@ function foo() {
 }
 ```
 
-Though it may not seem obvious from that syntax, `foo` is basically just a variable in the outer enclosing scope that's given a reference to the `function` being declared. That is, the `function` itself is a value, just like `42` or `[1,2,3]` would be.
+Apesar de não parecer óbvio por essa sintaze, `foo` é basicamente apenas uma variável que referencia um escopo por onde é feita a referência para a função (`function`) que está sendo declarada. Isso é, a `function` por si só é um valor, assim como `42` ou `[1,2,3]` podem ser.
 
-This may sound like a strange concept at first, so take a moment to ponder it. Not only can you pass a value (argument) *to* a function, but *a function itself can be a value* that's assigned to variables, or passed to or returned from other functions.
+Pode parecer um conceito estranho de primeira, então vamos tirar um tempo para ponderar. Você não apenas pode passar uma um valor (argumento) *para* a função, mas *a função por conta própria pode ser um valor* que pode ser designado a uma variável, ou, passado para ou retornado por, outras funções.
 
-As such, a function value should be thought of as an expression, much like any other value or expression.
+Sendo assim, o valor de uma função deve ser pensado como uma expressão, assim como qualquer outro valor ou expressão.
 
-Consider:
+Considere:
 
 ```js
 var foo = function() {
@@ -600,11 +600,11 @@ var x = function bar(){
 };
 ```
 
-The first function expression assigned to the `foo` variable is called *anonymous* because it has no `name`.
+A primeira expressão da função designada para a variável `foo` é chamada de *anônima* porque não tem `nome`.
 
-The second function expression is *named* (`bar`), even as a reference to it is also assigned to the `x` variable. *Named function expressions* are generally more preferable, though *anonymous function expressions* are still extremely common.
+A segunda epressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expresões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
 
-For more information, see the *Scope & Closures* title of this series.
+Para mais informações, veja o título desta série *Escopos & Encerramentos*.
 
 ### Immediately Invoked Function Expressions (IIFEs)
 
