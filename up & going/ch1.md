@@ -449,7 +449,7 @@ Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, 
 
 **Nota:** Ao contrário da maioria das instruções como `console.log(amount);`, uma instrução de bloco não precisa de um ponto-e-vírgula (`;`) para ser concluída.
 
-## Conditionais
+## Condicionais
 
 "Você gostaria de adicionar protetores de tela extras à sua compra, por $9.99". A atenciosa vendedora da loja de celulares fez você tomar uma decisão. E você primeiro precisa consultar o *estado* corrente da sua conta bancária para responder à essa pergunta. Mas, obviamente, essa é uma questão de um simples "sim" ou "não".
 
@@ -494,7 +494,7 @@ Como discutimos em "Valores & Tipos" anteriormente, valores que não são de alg
 
 O JavaScript define uma lista de valores específicos que são considerados "falsinhos" porque quando coergido para `boolean`, eles se tornam `false` -- esses valores incluem `0` e `""`. Qualquer outro valor não incluído na lista de  "falsinhos" será automaticamente definido como "verdadeirinho" -- quando coergidos para `boolean` se tornam `true`. Valores verdadeirinhos incluem coisas como `99.99` e `"free"`. Veja "Verdadeirinhos & Falsinhos" no Capítulo 2 para mais informaçoes.
 
-*Conditionais* existem em outras formas além do `if`. Por exemplo, a instrução `switch` pode ser usada como um atalho para uma série de instruções `if..else` (veja o Capítulo 2). Os Loops (veja "Loops") usam uma *condicional* para determinar se um loop deve prosseguir rodando ou parar.
+*Condicionais* existem em outras formas além do `if`. Por exemplo, a instrução `switch` pode ser usada como um atalho para uma série de instruções `if..else` (veja o Capítulo 2). Os Loops (veja "Loops") usam uma *condicional* para determinar se um loop deve prosseguir rodando ou parar.
 
 **Nota:** Para conhecer mais afundo sobre coerções que podem ocorrer implicitamente ao testar expressões em *condicionais*, veja o Capítulo 4 do título desta série *Tipos & Gramática*.
 
