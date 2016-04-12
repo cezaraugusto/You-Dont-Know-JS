@@ -606,11 +606,11 @@ A segunda epressão da função é *nomeada* (`bar`), mesmo que ela tenha sido r
 
 Para mais informações, veja o título desta série *Escopos & Encerramentos*.
 
-### Immediately Invoked Function Expressions (IIFEs)
+### Expressões de Função Invocadas Imediatamente (IIFEs)
 
-In the previous snippet, neither of the function expressions are executed -- we could if we had included `foo()` or `x()`, for instance.
+No snippet anterior, nenhuma das expressões de função são executadas -- poderíamos executá-las se incluíssemos `foo()` ou `x()`, por exemplo.
 
-There's another way to execute a function expression, which is typically referred to as an *immediately invoked function expression* (IIFE):
+Existe uma outra forma de executar uma expressão de função, que é tipicamente chamada de *Expressões de Função Invocadas Imediatamente* (immediately invoked function expression, ou IIFE):
 
 ```js
 (function IIFE(){
@@ -619,25 +619,25 @@ There's another way to execute a function expression, which is typically referre
 // "Hello!"
 ```
 
-The outer `( .. )` that surrounds the `(function IIFE(){ .. })` function expression is just a nuance of JS grammar needed to prevent it from being treated as a normal function declaration.
+O `( .. )` externo que rodeia a expressão de função `(function IIFE(){ .. })` é apenas uma nuance que a gramática do JS precisa para prevenir que seja tratada como uma declaração de uma função qualquer.
 
-The final `()` on the end of the expression -- the `})();` line -- is what actually executes the function expression referenced immediately before it.
+O final `()` no fim da expressão -- a linha `})();` -- é o que atualmente executa a expressão da função referenciada logo em seguida a ela.
 
-That may seem strange, but it's not as foreign as first glance. Consider the similarities between `foo` and `IIFE` here:
+Isso pode parecer estranho, mas não é tão desconhecido em uma primeiro olhar. Considere as similaridades entre `foo` e `IIFE` abaixo:
 
 ```js
 function foo() { .. }
 
-// `foo` function reference expression,
-// then `()` executes it
+// referência de expressão `foo`,
+// depois `()` executa ele
 foo();
 
-// `IIFE` function expression,
-// then `()` executes it
+// expressão da função `IIFE`,
+// depois `()` executa ele
 (function IIFE(){ .. })();
 ```
 
-As you can see, listing the `(function IIFE(){ .. })` before its executing `()` is essentially the same as including `foo` before its executing `()`; in both cases, the function reference is executed with `()` immediately after it.
+Como você pode ver, listar `(function IIFE(){ .. })` antes de sua execução `()` é essencialmente a mesma coisa do que executar `foo` antes de sua execução `()`; em ambos os casos, a referência da função é executada com o `()` logo em seguida.
 
 Because an IIFE is just a function, and functions create variable *scope*, using an IIFE in this fashion is often used to declare variables that won't affect the surrounding code outside the IIFE:
 
@@ -652,7 +652,7 @@ var a = 42;
 console.log( a );		// 42
 ```
 
-IIFEs can also have return values:
+IIFEs também podem retornar valores:
 
 ```js
 var x = (function IIFE(){
@@ -662,7 +662,7 @@ var x = (function IIFE(){
 x;	// 42
 ```
 
-The `42` value gets `return`ed from the `IIFE`-named function being executed, and is then assigned to `x`.
+O valor `42` é `return`ado da função nomeada `IIFE`, e depois designada à variável `x`.
 
 ### Closure
 
