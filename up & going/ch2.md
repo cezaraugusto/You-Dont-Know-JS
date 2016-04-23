@@ -26,25 +26,25 @@ O JavaScript dispõe de um operador `typeof`que pode examinar um valor e dizer a
 
 ```js
 var a;
-typeof a;				// "undefined"
+typeof a;               // "undefined"
 
 a = "hello world";
-typeof a;				// "string"
+typeof a;               // "string"
 
 a = 42;
-typeof a;				// "number"
+typeof a;               // "number"
 
 a = true;
-typeof a;				// "boolean"
+typeof a;               // "boolean"
 
 a = null;
-typeof a;				// "object" -- weird, bug
+typeof a;               // "object" -- weird, bug
 
 a = undefined;
-typeof a;				// "undefined"
+typeof a;               // "undefined"
 
 a = { b: "c" };
-typeof a;				// "object"
+typeof a;               // "object"
 ```
 
 O valor que é retornado pelo operador `typeof`é sempre um dos seis (sete com o ES6!) valores em string. Isso é, `typeof "abc"` retorna `"string"`, não `string`.
@@ -64,18 +64,18 @@ O tipo `object` se refere a um valor composto onde você pode definir propriedad
 
 ```js
 var obj = {
-	a: "hello world",
-	b: 42,
-	c: true
+    a: "hello world",
+    b: 42,
+    c: true
 };
 
-obj.a;		// "hello world"
-obj.b;		// 42
-obj.c;		// true
+obj.a;      // "hello world"
+obj.b;      // 42
+obj.c;      // true
 
-obj["a"];	// "hello world"
-obj["b"];	// 42
-obj["c"];	// true
+obj["a"];   // "hello world"
+obj["b"];   // 42
+obj["c"];   // true
 ```
 
 Talvez seja útil pensar nesse valor `obj` visualmente:
@@ -90,14 +90,14 @@ A notação em colchetes é útil caso você tenha um nome de propriedade que co
 
 ```js
 var obj = {
-	a: "hello world",
-	b: 42
+    a: "hello world",
+    b: 42
 };
 
 var b = "a";
 
-obj[b];			// "hello world"
-obj["b"];		// 42
+obj[b];         // "hello world"
+obj["b"];       // 42
 ```
 
 **Nota:** Para mais informação sobre objetos (`objects`) em JavaScrip, veja o título desta série *this & Prototipagem de Objetos*, especificamente o Capítulo 3.
@@ -110,17 +110,17 @@ Uma array é um `object` que armazena valores (qualquer tipo de valor), não nec
 
 ```js
 var arr = [
-	"hello world",
-	42,
-	true
+    "hello world",
+    42,
+    true
 ];
 
-arr[0];			// "hello world"
-arr[1];			// 42
-arr[2];			// true
-arr.length;		// 3
+arr[0];         // "hello world"
+arr[1];         // 42
+arr[2];         // true
+arr.length;     // 3
 
-typeof arr;		// "object"
+typeof arr;     // "object"
 ```
 
 **Nota:** Linguagens que começam contando do zero, como JS faz, usam `0` como índice do primeiro elemento da array.
@@ -141,14 +141,14 @@ O outro subtipo de `object` que você usará ao longo de seus programas é uma f
 
 ```js
 function foo() {
-	return 42;
+    return 42;
 }
 
 foo.bar = "hello world";
 
-typeof foo;			// "function"
-typeof foo();		// "number"
-typeof foo.bar;		// "string"
+typeof foo;         // "function"
+typeof foo();       // "number"
+typeof foo.bar;     // "string"
 ```
 
 Novamente, funções são um subtipo de `objects` -- o `typeof` retorna `"function"`, que indica que `function` é um tipo padrão -- e por isso pode ter propriedades. Entretanto, é provável que você use as propriedades do objeto de `function` (como `foo.bar`) apenas em alguns casos.
@@ -165,9 +165,9 @@ Por exemplo:
 var a = "hello world";
 var b = 3.14159;
 
-a.length;				// 11
-a.toUpperCase();		// "HELLO WORLD"
-b.toFixed(4);			// "3.1416"
+a.length;               // 11
+a.toUpperCase();        // "HELLO WORLD"
+b.toFixed(4);           // "3.1416"
 ```
 
 é mais complicado do que apenas o método existente em um valor.
@@ -201,8 +201,8 @@ var a = "42";
 
 var b = Number( a );
 
-a;				// "42"
-b;				// 42 -- o número!
+a;              // "42"
+b;              // 42 -- o número!
 ```
 
 E aqui um exemplo de coerção *implícita*:
@@ -210,10 +210,10 @@ E aqui um exemplo de coerção *implícita*:
 ```js
 var a = "42";
 
-var b = a * 1;	// "42" implicitamente coergido para 42 aqui
+var b = a * 1;  // "42" implicitamente coergido para 42 aqui
 
-a;				// "42"
-b;				// 42 -- o número!
+a;              // "42"
+b;              // 42 -- o número!
 ```
 
 #### Truthy & Falsy
@@ -250,8 +250,8 @@ Considere a coerção implícita que é autorizada pelo comparador de igualdade 
 var a = "42";
 var b = 42;
 
-a == b;			// true
-a === b;		// false
+a == b;         // true
+a === b;        // false
 ```
 
 Na comparação `a == b`, o JS percebe que os tipos não combinam, então ele segue uma sequência de etapas para coergir um ou ambos os valores para um tipo diferente até que os tipos combinem, de forma que um valor de igualdade simples possa ser considerado.
@@ -283,9 +283,9 @@ var a = [1,2,3];
 var b = [1,2,3];
 var c = "1,2,3";
 
-a == c;		// true
-b == c;		// true
-a == b;		// false
+a == c;     // true
+b == c;     // true
+a == b;     // false
 ```
 
 **Nota:** Para mais informações sobre as regras de comparação de igualdade `==`, veja a especificação do ES5 (seção 11.9.3) e também consulte o Capítulo  4 do título desta série *Tipos & Gramática*; veja o Capítulo 2 sobre mais informações sobre valores versus referências.
@@ -305,8 +305,8 @@ var a = 41;
 var b = "42";
 var c = "43";
 
-a < b;		// true
-b < c;		// true
+a < b;      // true
+b < c;      // true
 ```
 
 O que acontece aqui: Na seção 11.8.5, da especificaão do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palasvras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coergidos para serem `number`s, e uma comparação típica de números acontece.
@@ -317,9 +317,9 @@ A maior pegadinha que você pode encontrar aqui é em comparações entre difere
 var a = 42;
 var b = "foo";
 
-a < b;		// false
-a > b;		// false
-a == b;		// false
+a < b;      // false
+a > b;      // false
+a == b;     // false
 ```
 
 Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coergido para um "valor numérico inválido" (`NaN`), nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
@@ -353,19 +353,19 @@ Considere:
 ```js
 var a = 2;
 
-foo();					// funciona porque a declaração `foo()`
-						// é "hoisted"
+foo();                  // funciona porque a declaração `foo()`
+                        // é "hoisted"
 
 function foo() {
-	a = 3;
+    a = 3;
 
-	console.log( a );	// 3
+    console.log( a );   // 3
 
-	var a;				// a declaração é "hoisted"
-						// para o topo de `foo()`
+    var a;              // a declaração é "hoisted"
+                        // para o topo de `foo()`
 }
 
-console.log( a );	// 2
+console.log( a );   // 2
 ```
 
 **Atenção:** Não é comum nem uma boa ideia se basear no *hoisting* de variáveis para usar uma variável antes de seu escopo do que quando ao invés de quando a declaração `var` aparece; pode ficar confuso. It's much more common and accepted to use *hoisted* function declarations, as we do with the `foo()` call appearing before its formal declaration.
@@ -376,23 +376,23 @@ Quando você declara uma variável, ela é disponibilizada em todos os lugares d
 
 ```js
 function foo() {
-	var a = 1;
+    var a = 1;
 
-	function bar() {
-		var b = 2;
+    function bar() {
+        var b = 2;
 
-		function baz() {
-			var c = 3;
+        function baz() {
+            var c = 3;
 
-			console.log( a, b, c );	// 1 2 3
-		}
+            console.log( a, b, c ); // 1 2 3
+        }
 
-		baz();
-		console.log( a, b );		// 1 2
-	}
+        baz();
+        console.log( a, b );        // 1 2
+    }
 
-	bar();
-	console.log( a );				// 1
+    bar();
+    console.log( a );               // 1
 }
 
 foo();
@@ -404,11 +404,11 @@ Se você tentar acessar o valor da variável dentro de um escopo onde ela não e
 
 ```js
 function foo() {
-	a = 1;	// `a` not formally declared
+    a = 1;  // `a` not formally declared
 }
 
 foo();
-a;			// 1 -- oops, auto global variable :(
+a;          // 1 -- oops, auto global variable :(
 ```
 
 Esta é uma prática muito ruim. Não faa isso! Sempre declare suas variáveis formalmente.
@@ -417,18 +417,18 @@ Além de criarmos declarações de variáveis no mesmo nível da função, o ES6
 
 ```js
 function foo() {
-	var a = 1;
+    var a = 1;
 
-	if (a >= 1) {
-		let b = 2;
+    if (a >= 1) {
+        let b = 2;
 
-		while (b < 5) {
-			let c = b * 2;
-			b++;
+        while (b < 5) {
+            let c = b * 2;
+            b++;
 
-			console.log( a + c );
-		}
-	}
+            console.log( a + c );
+        }
+    }
 }
 
 foo();
@@ -447,16 +447,16 @@ Por vezes você se encontrará escrevendo uma série de instruções `if..else..
 
 ```js
 if (a == 2) {
-	// faça alguma coisa
+    // faça alguma coisa
 }
 else if (a == 10) {
-	// faça outra coisa
+    // faça outra coisa
 }
 else if (a == 42) {
-	// faça outra coisa diferente
+    // faça outra coisa diferente
 }
 else {
-	// resultado se nenhuma instrução for atendida (fallback) 
+    // resultado se nenhuma instrução for atendida (fallback) 
 }
 ```
 
@@ -464,17 +464,17 @@ Essa estrutura funciona, mais é um pouco verbosa porque você precisa especific
 
 ```js
 switch (a) {
-	case 2:
-		// faça alguma coisa
-		break;
-	case 10:
-		// faça outra coisa
-		break;
-	case 42:
-		// faça outra coisa diferente
-		break;
-	default:
-		// resultado se nenhuma instrução for atendida (fallback) 
+    case 2:
+        // faça alguma coisa
+        break;
+    case 10:
+        // faça outra coisa
+        break;
+    case 42:
+        // faça outra coisa diferente
+        break;
+    default:
+        // resultado se nenhuma instrução for atendida (fallback) 
 }
 ```
 
@@ -482,15 +482,15 @@ O `break` é importante se você quiser que apenas uma instrução seja executad
 
 ```js
 switch (a) {
-	case 2:
-	case 10:
-		// alguma coisa legal
-		break;
-	case 42:
-		// outra coisa
-		break;
-	default:
-		// resultado se nenhuma instrução for atendida (fallback) 
+    case 2:
+    case 10:
+        // alguma coisa legal
+        break;
+    case 42:
+        // outra coisa
+        break;
+    default:
+        // resultado se nenhuma instrução for atendida (fallback) 
 }
 ```
 
@@ -527,13 +527,13 @@ Você pode optar pelo modo estrito em uma função individualmente, ou em todo u
 
 ```js
 function foo() {
-	"use strict";
+    "use strict";
 
-	// este código usa o modo estrito
+    // este código usa o modo estrito
 
-	function bar() {
-		// este código está em modo estrito
-	}
+    function bar() {
+        // este código está em modo estrito
+    }
 }
 
 // este código não está em modo estrito
@@ -545,11 +545,11 @@ Compare isso com:
 "use strict";
 
 function foo() {
-	// este código está em modo estrito
+    // este código está em modo estrito
 
-	function bar() {
-		// este código está em modo estrito
-	}
+    function bar() {
+        // este código está em modo estrito
+    }
 }
 
 // este código está em modo estrito
@@ -559,8 +559,8 @@ Uma diferença chave (melhoria!) com o *strict mode* é desabilitar a variável 
 
 ```js
 function foo() {
-	"use strict";	// liga o strict mode
-	a = 1;			// `var` faltando: ReferenceError
+    "use strict";   // liga o strict mode
+    a = 1;          // `var` faltando: ReferenceError
 }
 
 foo();
@@ -578,7 +578,7 @@ Até agora, discutimos funções como um mecanismo primário do *escopo* em Java
 
 ```js
 function foo() {
-	// ..
+    // ..
 }
 ```
 
@@ -592,11 +592,11 @@ Considere:
 
 ```js
 var foo = function() {
-	// ..
+    // ..
 };
 
 var x = function bar(){
-	// ..
+    // ..
 };
 ```
 
@@ -614,7 +614,7 @@ Existe uma outra forma de executar uma expressão de função, que é tipicament
 
 ```js
 (function IIFE(){
-	console.log( "Hello!" );
+    console.log( "Hello!" );
 })();
 // "Hello!"
 ```
@@ -645,76 +645,76 @@ Because an IIFE is just a function, and functions create variable *scope*, using
 var a = 42;
 
 (function IIFE(){
-	var a = 10;
-	console.log( a );	// 10
+    var a = 10;
+    console.log( a );   // 10
 })();
 
-console.log( a );		// 42
+console.log( a );       // 42
 ```
 
 IIFEs também podem retornar valores:
 
 ```js
 var x = (function IIFE(){
-	return 42;
+    return 42;
 })();
 
-x;	// 42
+x;  // 42
 ```
 
 O valor `42` é `return`ado da função nomeada `IIFE`, e depois designada à variável `x`.
 
-### Closure
+### Encerramento
 
-*Closure* is one of the most important, and often least understood, concepts in JavaScript. I won't cover it in deep detail here, and instead refer you to the *Scope & Closures* title of this series. But I want to say a few things about it so you understand the general concept. It will be one of the most important techniques in your JS skillset.
+O *Encerramento* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos e Encerramentos*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
 
-You can think of closure as a way to "remember" and continue to access a function's scope (its variables) even once the function has finished running.
+Você pode pensar em um encerramento como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
 
-Consider:
+Considere:
 
 ```js
 function makeAdder(x) {
-	// parameter `x` is an inner variable
+    // parâmetro `x` é uma variável interna
 
-	// inner function `add()` uses `x`, so
-	// it has a "closure" over it
-	function add(y) {
-		return y + x;
-	};
+    // função interna `add()` usa `x`, então
+    // ele tem um "encerramento" que o envolve
+    function add(y) {
+        return y + x;
+    };
 
-	return add;
+    return add;
 }
 ```
 
-The reference to the inner `add(..)` function that gets returned with each call to the outer `makeAdder(..)` is able to remember whatever `x` value was passed in to `makeAdder(..)`. Now, let's use `makeAdder(..)`:
+A referêcia para a função interna `add(..)`, que faz um retorno com cada chamada para sua função externa `makeAdder(..)` é apta a se lembrar sempre que o valor `x` for passado para `makeAdder(..)`. Agora, vamos usar o  `makeAdder(..)`:
 
 ```js
-// `plusOne` gets a reference to the inner `add(..)`
-// function with closure over the `x` parameter of
-// the outer `makeAdder(..)`
+// `plusOne` pega a refereência para a função interna add(..)`
+// função com encerramento sobre o parâmetro `x` da
+// função externa `makeAdder(..)`
 var plusOne = makeAdder( 1 );
 
-// `plusTen` gets a reference to the inner `add(..)`
-// function with closure over the `x` parameter of
-// the outer `makeAdder(..)`
+// `plusTen` pega a referência para a função interna `add(..)`
+// função com encerramento sobre o parâmetro `x` da
+// função externa `makeAdder(..
 var plusTen = makeAdder( 10 );
 
-plusOne( 3 );		// 4  <-- 1 + 3
-plusOne( 41 );		// 42 <-- 1 + 41
+plusOne( 3 );       // 4  <-- 1 + 3
+plusOne( 41 );      // 42 <-- 1 + 41
 
-plusTen( 13 );		// 23 <-- 10 + 13
+plusTen( 13 );      // 23 <-- 10 + 13
 ```
 
-More on how this code works:
+Mais sobre como esse código funciona:
 
-1. When we call `makeAdder(1)`, we get back a reference to its inner `add(..)` that remembers `x` as `1`. We call this function reference `plusOne(..)`.
-2. When we call `makeAdder(10)`, we get back another reference to its inner `add(..)` that remembers `x` as `10`. We call this function reference `plusTen(..)`.
-3. When we call `plusOne(3)`, it adds `3` (its inner `y`) to the `1` (remembered by `x`), and we get `4` as the result.
-4. When we call `plusTen(13)`, it adds `13` (its inner `y`) to the `10` (remembered by `x`), and we get `23` as the result.
+1. Quando chamamos `makeAdder(1)`, temos de volta a referência para a função `add(..)` que se lembra de `x` como `1`. Chamamos a referência dessa função de `plusOne(..)`.
+2. Quando chamamos `makeAdder(10)`, temos de volta outra referência para a função interna `add(..)` que se lembra de `x` como `10`. Nós chamamos a referência dessa função de `plusTen(..)`.
+3. Quando chamamos `plusOne(3)`, ele adiciona `3` (seu `y` interno) ao `1` (lembrado por `x`), e temos `4` como resultado.
+4. Quando nós chamamos `plusTen(13)`, ele adiciona `13` (seu `y` interno) ao `10` (lembrado por `x`), e nós conseguimos `23` como resultado.
 
-Don't worry if this seems strange and confusing at first -- it can be! It'll take lots of practice to understand it fully.
+Não se preocupe se parecer estranho e confuso no começo -- pode ser mesmo! Vai precisar de muita prática para entender completamente.
 
-But trust me, once you do, it's one of the most powerful and useful techniques in all of programming. It's definitely worth the effort to let your brain simmer on closures for a bit. In the next section, we'll get a little more practice with closure.
+Mas acredite em mim, uma vez que conseguir entender, vai perceber que é uma das mais poderosa e mais úteis  técnicas em toda linguagem. É definitivamente válido o esforço de deixar seu cérebro acostumado com encerramentos. Na próxima seção, vamos ter um pouco mais de prática com encerramentos.
 
 #### Modules
 
@@ -724,20 +724,20 @@ Consider:
 
 ```js
 function User(){
-	var username, password;
+    var username, password;
 
-	function doLogin(user,pw) {
-		username = user;
-		password = pw;
+    function doLogin(user,pw) {
+        username = user;
+        password = pw;
 
-		// do the rest of the login work
-	}
+        // do the rest of the login work
+    }
 
-	var publicAPI = {
-		login: doLogin
-	};
+    var publicAPI = {
+        login: doLogin
+    };
 
-	return publicAPI;
+    return publicAPI;
 }
 
 // create a `User` module instance
@@ -778,26 +778,26 @@ Here's a quick illustration:
 
 ```js
 function foo() {
-	console.log( this.bar );
+    console.log( this.bar );
 }
 
 var bar = "global";
 
 var obj1 = {
-	bar: "obj1",
-	foo: foo
+    bar: "obj1",
+    foo: foo
 };
 
 var obj2 = {
-	bar: "obj2"
+    bar: "obj2"
 };
 
 // --------
 
-foo();				// "global"
-obj1.foo();			// "obj1"
-foo.call( obj2 );	// "obj2"
-new foo();			// undefined
+foo();              // "global"
+obj1.foo();         // "obj1"
+foo.call( obj2 );   // "obj2"
+new foo();          // undefined
 ```
 
 There are four rules for how `this` gets set, and they're shown in those last four lines of that snippet.
@@ -823,7 +823,7 @@ Consider:
 
 ```js
 var foo = {
-	a: 42
+    a: 42
 };
 
 // create `bar` and link it to `foo`
@@ -831,8 +831,8 @@ var bar = Object.create( foo );
 
 bar.b = "hello world";
 
-bar.b;		// "hello world"
-bar.a;		// 42 <-- delegated to `foo`
+bar.b;      // "hello world"
+bar.a;      // 42 <-- delegated to `foo`
 ```
 
 It may help to visualize the `foo` and `bar` objects and their relationship:
@@ -867,9 +867,9 @@ Consider:
 
 ```js
 if (!Number.isNaN) {
-	Number.isNaN = function isNaN(x) {
-		return x !== x;
-	};
+    Number.isNaN = function isNaN(x) {
+        return x !== x;
+    };
 }
 ```
 
@@ -901,19 +901,19 @@ Here's a quick example of transpiling. ES6 adds a feature called "default parame
 
 ```js
 function foo(a = 2) {
-	console.log( a );
+    console.log( a );
 }
 
-foo();		// 2
-foo( 42 );	// 42
+foo();      // 2
+foo( 42 );  // 42
 ```
 
 Simple, right? Helpful, too! But it's new syntax that's invalid in pre-ES6 engines. So what will a transpiler do with that code to make it run in older environments?
 
 ```js
 function foo() {
-	var a = arguments[0] !== (void 0) ? arguments[0] : 2;
-	console.log( a );
+    var a = arguments[0] !== (void 0) ? arguments[0] : 2;
+    console.log( a );
 }
 ```
 
