@@ -2,7 +2,7 @@
 
 ## Fique por dentro
 
-A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezar). A tradução é em caráter voluntário e tem como único objetivo disponibilizar a comunidade o conteúdo do livro em português.
+A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezaraugusto). A tradução é em caráter voluntário e tem como único objetivo disponibilizar a comunidade o conteúdo do livro em português.
 
 > Com base na autorização do autor:
 
@@ -28,7 +28,7 @@ Para manter a tradução com o mesmo padrão elevado do livro original, precisam
 
 ## Curtiu a ideia? Mãos a obra!
 
-1. Veja nosso [Issue Tracker](https://waffle.io/cezar/You-Dont-Know-JS), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
+1. Veja nosso [Issue Tracker](https://waffle.io/cezaraugusto/You-Dont-Know-JS), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
 2. Comente na Issue o projeto que você deseja contribuir. Algo como "quero fazer essa parte!".
 3. Faça um `fork` do projeto.
 4. Caso necessário, utilize o branch `master` como modelo para a tradução. 
