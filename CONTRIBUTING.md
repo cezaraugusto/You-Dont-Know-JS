@@ -13,4 +13,4 @@ Guie-se pela _To-Do_ abaixo para garantir que sua tradução seja recebida.
 
 ## Caso ainda esteja em dúvidas
 
-Fique à vontade para abrir uma [Issue](https://github.com/cez-aug/You-Dont-Know-JS/issues), ou caso prefira, [me mande um e-mail](mailto:me@cezar.work).
+Fique à vontade para abrir uma [Issue](https://github.com/cezaraugusto/You-Dont-Know-JS/issues), ou caso prefira, [me dê um alÔ no Twitter](twitter.com/cezar_augusto).
