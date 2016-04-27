@@ -5,3 +5,4 @@
 * [Cezar Augusto](https://github.com/cezaraugusto) - Iniciativa
 * [Nathalia Bruno](https://github.com/nathaliabruno)
 * [Gustavo Teodoro](https://github.com/gustavoteodoro)
+* [Gabriel Prates](https://github.com/gabsprates)
