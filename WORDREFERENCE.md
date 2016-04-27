@@ -9,7 +9,7 @@
 
 ## To-Do
 
-- [ ] Organizar jargões por ordem alfabética
+- [x] Organizar jargões por ordem alfabética
 - [ ] Verificar referências mais acessíveis e/ou completas
 
 ## Global
@@ -27,34 +27,71 @@
 * ES6 & Beyond: ES6 e além
 
 ## README's
-* Table of Contents: Índice 
+* Table of Contents: Índice
 * Foreword: Introdução
 * Preface: Prefácio
 * Chapter: Capítulo
 * Appendix: Apêndice
 
 ## Jargões de Programação
-* Statements: Instruções (carece de definição melhor)
-* Expresions: Expressões
-* Output: Output (saída, retorno, valor)
-* Input: Input (entrada, início)
-* Operators: Operadores
-* Types:
-* Scope: Escopo
-* Hoisting:
-* Nested Scopes: Escopos aninhados
-* Strict Mode:
-* Immediately Invoked Function Expressions (IIFEs):
-* Closure: Encerramento
-* Prototype: Prototipagem
-* Polyfilling:
-* Transpiling:
+#### A
 * Assignment: Atribuição
-* Compound Assignment: Atribuição com Operação
-* Equality: Igualdade
-* Compound Conditionals: Instrução Condicional
-* Dynamic typing: Tipagem dinâmica
-* Static typing: Tipagem estática
-* Evaluate: Avaliado
+
+#### B
+#### C
+* Closure: Encerramento
 * Coercion: Coerção
+* Compound Assignment: Atribuição com Operação
+* Compound Conditionals: Instrução Condicional
+
+#### D
+* Dynamic typing: Tipagem dinâmica
+
+#### E
+* Equality: Igualdade
+* Evaluate: Avaliado
+* Expresions: Expressões
+
+#### F
+#### G
+#### H
+* Hoisting:
+
+#### I
+* Immediately Invoked Function Expressions (IIFEs): Expressão de Função Imediatamente Invocada
+* Input: Input (entrada, início)
+
+#### J
+#### K
+#### L
+#### M
+#### N
+* Nested Scopes: Escopos aninhados
+
+#### O
+* Operators: Operadores
+* Output: Output (saída, retorno, valor)
+
+#### P
+* Polyfilling:
+* Prototype: Prototipagem
+
+#### Q
+#### R
+#### S
+* Scope: Escopo
 * See the *SERIE_TITLE_HERE* title of this series: Veja o título desta série *SERIE_TITLE_HERE*
+* Statements: Instruções (carece de definição melhor)
+* Static typing: Tipagem estática
+* Strict Mode:
+
+#### T
+* Transpiling:
+* Types: Tipos
+
+#### U
+#### V
+#### W
+#### X
+#### Y
+#### Z
