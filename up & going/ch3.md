@@ -9,17 +9,17 @@ A série *You Don't Know JS* (*YDKJS*) está em contraste gritante com as aborda
 
 Vou usar este capítulo final para resumir o que esperar do resto dos livros da série, e como ir de forma mais eficaz sobre a construção de uma base de aprendizagem de JavaScript em cima da *YDKJS*.
 
-## Scope & Closures
+## Escopo & Closures
 
-Perhaps one of the most fundamental things you'll need to quickly come to terms with is how scoping of variables really works in JavaScript. It's not enough to have anecdotal fuzzy *beliefs* about scope.
+Talvez uma das coisas mais fundamentais que você precisa para chegar rapidamente a um entendimento, é como o escopo de variáveis realmente funciona em JavaScript. Isso não é o suficiente para ter *opiniões* vagas sobre escopo.
 
-The *Scope & Closures* title starts by debunking the common misconception that JS is an "interpreted language" and therefore not compiled. Nope.
+O título *Scope & Closures* começa por desmascarar o equívoco comum que JS é uma "linguagem interpretada" e, portanto, não compilado. Não.
 
-The JS engine compiles your code right before (and sometimes during!) execution. So we use some deeper understanding of the compiler's approach to our code to understand how it finds and deals with variable and function declarations. Along the way, we see the typical metaphor for JS variable scope management, "Hoisting."
+O motor de JS compila seu código logo antes (e às vezes durante!) a execução. Então, nós usamos um pouco de compreensão mais profunda da abordagem do compilador para o nosso código, para entender como ele encontra e lida com declarações de variáveis e funções. Ao longo do caminho, vemos a típica metáfora para gerenciamento de escopo de variáveis em JS, *"Hoisting"* (Elevação).
 
-This critical understanding of "lexical scope" is what we then base our exploration of closure on for the last chapter of the book. Closure is perhaps the single most important concept in all of JS, but if you haven't first grasped firmly how scope works, closure will likely remain beyond your grasp.
+É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Closure* para o último capítulo do livro. Talvez *Closure* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Closure* provavelmente permanecerá fora do seu alcance.
 
-One important application of closure is the module pattern, as we briefly introduced in this book in Chapter 2. The module pattern is perhaps the most prevalent code organization pattern in all of JavaScript; deep understanding of it should be one of your highest priorities.
+Uma aplicação importante de *Closure* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* (módulo padrão) é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso, deve ser uma de suas maiores prioridades.
 
 ## this & Object Prototypes
 
