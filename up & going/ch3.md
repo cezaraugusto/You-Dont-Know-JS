@@ -23,21 +23,21 @@ Uma aplicação importante de *Closure* é o *module pattern*, como nós introdu
 
 ## this & Object Prototypes
 
-Perhaps one of the most widespread and persistent mistruths about JavaScript is that the `this` keyword refers to the function it appears in. Terribly mistaken.
+Talvez uma das inverdades mais comuns e persistentes sobre JavaScript é que a palavra-chave `this` se refere à função qual ela aparece. Terrivelmente enganado.
 
-The `this` keyword is dynamically bound based on how the function in question is executed, and it turns out there are four simple rules to understand and fully determine `this` binding.
+A palavra-chave `this` é dinamicamente ligada com base em como a função em questão é executada, e existem quatro regras básicas para entender e determinar plenamente a ligação do `this`.
 
-Closely related to the `this` keyword is the object prototype mechanism, which is a look-up chain for properties, similar to how lexical scope variables are found. But wrapped up in the prototypes is the other huge miscue about JS: the idea of emulating (fake) classes and (so-called "prototypal") inheritance.
+Intimamente relacionado com a palavra-chave `this`, está o mecanismo object prototype (protótipo de objeto), que é uma cadeia de pesquisa para as propriedades, similar ao modo léxico que o escopo de variáveis é encontrado. Mas envolto nos prototypes, está outro enorme erro sobre JS: a (falsa) ideia de emular classes e (a chamada "prototipagem") herança.
 
-Unfortunately, the desire to bring class and inheritance design pattern thinking to JavaScript is just about the worst thing you could try to do, because while the syntax may trick you into thinking there's something like classes present, in fact the prototype mechanism is fundamentally opposite in its behavior.
+Infelizmente, o desejo de trazer o design pattern (padrão de projeto) de classes e heranças para o JavaScript é apenas a pior coisa que você poderia tentar fazer, porque enquanto a sintaxe pode induzi-lo a pensar que há algo como classes, de fato o mecanismo de prototype é fundamentalmente oposto em o seu funcionamento.
 
-What's at issue is whether it's better to ignore the mismatch and pretend that what you're implementing is "inheritance," or whether it's more appropriate to learn and embrace how the object prototype system actually works. The latter is more appropriately named "behavior delegation."
+O que está em questão é se é melhor ignorar a incompatibilidade e fingir que o que você está implementando é "herança", ou se é mais apropriado aprender e abraçar como o sistema de prototype de objeto realmente funciona. Este último é mais apropriadamente chamado de "delegação de funcionamento."
 
-This is more than syntactic preference. Delegation is an entirely different, and more powerful, design pattern, one that replaces the need to design with classes and inheritance. But these assertions will absolutely fly in the face of nearly every other blog post, book, and conference talk on the subject for the entirety of JavaScript's lifetime.
+Então isso é mais sobre preferência sintática. A delegação é um sistema totalmente diferente, e mais poderoso, de design pattern, que substitui a necessidade de planejar classes e heranças. Mas essas afirmações com certeza vão pros ares frente à quase todos os outros post, livro, e conferências sobre o assunto para a duração da vida do JavaScript.
 
-The claims I make regarding delegation versus inheritance come not from a dislike of the language and its syntax, but from the desire to see the true capability of the language properly leveraged and the endless confusion and frustration wiped away.
+As afirmações que faço sobre delegação contra herança vem não de uma antipatia da linguagem e da sua sintaxe, mas a partir do desejo de ver a verdadeira capacidade da linguagem adequadamente aproveitada, e a confusão sem fim e frustração indo embora.
 
-But the case I make regarding prototypes and delegation is a much more involved one than what I will indulge here. If you're ready to reconsider everything you think you know about JavaScript "classes" and "inheritance," I offer you the chance to "take the red pill" (*Matrix* 1999) and check out Chapters 4-6 of the *this & Object Prototypes* title of this series.
+Mas o caso que eu faço a respeito de prototypes e a delegação é muito mais do que o que eu vou falar aqui. Se você está pronto para reconsiderar tudo o que você pensa que sabe sobre as "classes" e "heranças" em JavaScript, eu lhe ofereço a oportunidade para "tomar a pílula vermelha" (*Matrix* 1999) e conferir os capítulos 4-6 do título *this & Object Prototypes* desta série.
 
 ## Types & Grammar
 
