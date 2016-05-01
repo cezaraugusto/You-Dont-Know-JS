@@ -39,19 +39,19 @@ As afirmações que faço sobre delegação contra herança vem não de uma anti
 
 Mas o caso que eu faço a respeito de prototypes e a delegação é muito mais do que o que eu vou falar aqui. Se você está pronto para reconsiderar tudo o que você pensa que sabe sobre as "classes" e "heranças" em JavaScript, eu lhe ofereço a oportunidade para "tomar a pílula vermelha" (*Matrix* 1999) e conferir os capítulos 4-6 do título *this & Object Prototypes* desta série.
 
-## Types & Grammar
+## Tipos e Gramática
 
-The third title in this series primarily focuses on tackling yet another highly controversial topic: type coercion. Perhaps no topic causes more frustration with JS developers than when you talk about the confusions surrounding implicit coercion.
+O terceiro título desta série tem foco principalmente em combater ainda outro tópico altamente controverso: a coerção de tipos. Provavelmente nenhum tópico causa mais frutração entre os desenvolvedores JS que quando você fala sobre as confusões acerca da coerção implícita.
 
-By far, the conventional wisdom is that implicit coercion is a "bad part" of the language and should be avoided at all costs. In fact, some have gone so far as to call it a "flaw" in the design of the language. Indeed, there are tools whose entire job is to do nothing but scan your code and complain if you're doing anything even remotely like coercion.
+De longe, a sabedoria popular diz que a coerção implícita é uma "parte ruim" da linguagem e deve ser evitada a qualquer custo. Na verdade, alguns tem ido tão longe ao ponto de chamá-la de falha na concepção da linguagem. **Indeed, there are tools whose entire job is to do nothing but scan your code and complain if you're doing anything even remotely like coercion.** (traduzir parte em negrito)
 
-But is coercion really so confusing, so bad, so treacherous, that your code is doomed from the start if you use it?
+Mas a coerção é realmente confusa, tão ruim, tão falsa, que seu código estará condenado desde o início, se você usá-la?
 
-I say no. After having built up an understanding of how types and values really work in Chapters 1-3, Chapter 4 takes on this debate and fully explains how coercion works, in all its nooks and crevices. We see just what parts of coercion really are surprising and what parts actually make complete sense if given the time to learn.
+Eu digo que não. Depois de ter consolidado uma compreensão de como tipos e valores realmente funcionam nos capítulos 1-3, o capítulo 4 assume este debate e explicará totalmente como a coerção funciona, com todos os detalhes. Nós veremos apenas que partes da coerção realmente surpreendem e quais partes fazem completo sentido se tiver tempo para aprender.
 
-But I'm not merely suggesting that coercion is sensible and learnable, I'm asserting that coercion is an incredibly useful and totally underestimated tool that *you should be using in your code.* I'm saying that coercion, when used properly, not only works, but makes your code better. All the naysayers and doubters will surely scoff at such a position, but I believe it's one of the main keys to upping your JS game.
+Mas eu não estou apenas sugerindo que a coerção é sensível e pode ser aprendida, eu estou seguro que a coerção é uma ferramenta incrivelmente útil e totalmente menosprezada que *você deve usar em seu código*. Eu estou dizendo que a coerção, quando usada corretamente, não apenas funciona, mas faz seu código ser melhor. Todos os pessimistas e céticos, certamente irão zombar disso, mas eu acredito que isso é uma das principais chaves para elevar seu conhecimento em JS.
 
-Do you want to just keep following what the crowd says, or are you willing to set all the assumptions aside and look at coercion with a fresh perspective? The *Types & Grammar* title of this series will coerce your thinking.
+Você apenas quer continuar seguindo o que a multidão diz, ou você está disposto à deixar todos os pressupostos de lado e olhar para a coerção com uma nova perspectiva? O volume *Types & Grammar* desta série irá te forçar a pensar.
 
 ## Async & Performance
 
