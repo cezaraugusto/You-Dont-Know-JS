@@ -65,6 +65,7 @@
 #### K
 #### L
 #### M
+* Modules: Módulos
 #### N
 * Nested Scopes: Escopos aninhados
 
@@ -73,20 +74,21 @@
 * Output: Output (saída, retorno, valor)
 
 #### P
-* Polyfilling:
+* Polyfilling: Polyfilling
 * Prototype: Prototipagem
 
 #### Q
 #### R
+* Run: Rodar
 #### S
 * Scope: Escopo
 * See the *SERIE_TITLE_HERE* title of this series: Veja o título desta série *SERIE_TITLE_HERE*
 * Statements: Instruções (carece de definição melhor)
 * Static typing: Tipagem estática
-* Strict Mode:
+* Strict Mode: Modo estrito (strict mode)
 
 #### T
-* Transpiling:
+* Transpiling: Transpiling
 * Types: Tipos
 
 #### U
