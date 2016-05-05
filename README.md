@@ -38,7 +38,9 @@ Para manter a tradução com o mesmo padrão elevado do livro original, precisam
 
 Obrigado por ajudar!
 
-> "Comece de onde você está. Use o que você tiver. Faça o que você puder" – Arthur Ashe, tenista
+Caso tenha alguma dúvida ou ideia relativas ao projeto, manda um ping no twitter [@cezaraugusto](https://twitter.com/cezaraugusto). DM aberta :cat: 
+
+> "Comece de onde você está. Use o que você tiver. Faça o que você puder" – Arthur Ashe
 
 <br>
 <hr>
