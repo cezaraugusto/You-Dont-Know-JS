@@ -716,9 +716,9 @@ Não se preocupe se parecer estranho e confuso no começo -- pode ser mesmo! Vai
 
 Mas acredite em mim, uma vez que conseguir entender, vai perceber que é uma das mais poderosa e mais úteis  técnicas em toda linguagem. É definitivamente válido o esforço de deixar seu cérebro acostumado com encerramentos. Na próxima seção, vamos ter um pouco mais de prática com encerramentos.
 
-#### Modules
+#### Modulos
 
-The most common usage of closure in JavaScript is the module pattern. Modules let you define private implementation details (variables, functions) that are hidden from the outside world, as well as a public API that *is* accessible from the outside.
+A forma de uso mais comum de um encerramento (closure) em JavaScript é o padrão módulo (module pattern). Módulos deixam você definir detalhes privados de implementação (variáveis, funções) que estarão escondidas do mundo externo, assim como uma API pública que *é* acessível *de fora*.
 
 Consider:
 
@@ -730,7 +730,7 @@ function User(){
         username = user;
         password = pw;
 
-        // do the rest of the login work
+        // faça o resto do trabalho do login
     }
 
     var publicAPI = {
@@ -740,29 +740,29 @@ function User(){
     return publicAPI;
 }
 
-// create a `User` module instance
+// cria uma instãncia do módulo`User`
 var fred = User();
 
 fred.login( "fred", "12Battery34!" );
 ```
 
-The `User()` function serves as an outer scope that holds the variables `username` and `password`, as well as the inner `doLogin()` function; these are all private inner details of this `User` module that cannot be accessed from the outside world.
+A função `User()` serve como um escopo externo que mantém as variáveis `username` e `password`, assim comoa função interna `doLogin()`; eles são todos detalhes internos desse módulo `User` que não podem ser acessados de fora.
 
-**Warning:** We are not calling `new User()` here, on purpose, despite the fact that probably seems more common to most readers. `User()` is just a function, not a class to be instantiated, so it's just called normally. Using `new` would be inappropriate and actually waste resources.
+**Atenção:** Nós não estamos chamando `new User()` aqui, de propósito. Apesar do fato de que provavelmente esta ser a forma mais comum para a maioria dos usuários. `User()` é apenas uma função, não uma classe a ser instanciada, então ela é chamada normalmente. Usar `new` poderia ser inapropriado e até mesmo um desperdício de recursos.
 
-Executing `User()` creates an *instance* of the `User` module -- a whole new scope is created, and thus a whole new copy of each of these inner variables/functions. We assign this instance to `fred`. If we run `User()` again, we'd get a new instance entirely separate from `fred`.
+Executar `User()` cria uma *instância* do módulo `User` -- todo um novo escopo é criado, e assim toda uma nova cópia de cada uma das variáveis/funções internas. Nós designamos essa instância para `fred`. Se nós rodarmos `User()` novamente, teríamos uma nova instância completamente separada do `fred`.
 
-The inner `doLogin()` function has a closure over `username` and `password`, meaning it will retain its access to them even after the `User()` function finishes running.
+A função interna `doLogin()` tem um encerramento sobre `username` e `password`, significando que ela iria reter seus acessos à eles mesmo após a função `User()` terminar.
 
-`publicAPI` is an object with one property/method on it, `login`, which is a reference to the inner `doLogin()` function. When we return `publicAPI` from `User()`, it becomes the instance we call `fred`.
+`publicAPI` é um objeto com uma propriedade/método nela, o `login`, que é uma referência à função interna `doLogin()`. Quando nós retornamos `publicAPI` de `User()`, ele se torna a instância que chamamos de `fred`.
 
-At this point, the outer `User()` function has finished executing. Normally, you'd think the inner variables like `username` and `password` have gone away. But here they have not, because there's a closure in the `login()` function keeping them alive.
+Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe um encerramento (closure) na função `login()` que os mantém vivos.
 
-That's why we can call `fred.login(..)` -- the same as calling the inner `doLogin(..)` -- and it can still access `username` and `password` inner variables.
+É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode aessar as variáveis internas `username` e `password`.
 
-There's a good chance that with just this brief glimpse at closure and the module pattern, some of it is still a bit confusing. That's OK! It takes some work to wrap your brain around it.
+Existe uma boa chance que com apenas este resumo breve sobre encerramentos e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
-From here, go read the *Scope & Closures* title of this series for a much more in-depth exploration.
+Daqui, vá para o título desta série *Escopos e Encerramentos* para uma exploração do assunto muito mais profunda.
 
 ## `this` Identifier
 
