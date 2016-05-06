@@ -6,3 +6,4 @@
 * [Nathalia Bruno](https://github.com/nathaliabruno)
 * [Gustavo Teodoro](https://github.com/gustavoteodoro)
 * [Gabriel Prates](https://github.com/gabsprates)
+* [Nelson Henrique](https://github.com/nersoh)
