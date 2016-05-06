@@ -1,6 +1,6 @@
 # Contribuições :wolf: :zap:
 
-> Quer ver seu noome aqui também? [Junte-se a nós](CONTRIBUTING.md)!
+> Quer ver seu nome aqui também? [Junte-se a nós](CONTRIBUTING.md)!
 
 * [Cezar Augusto](https://github.com/cezaraugusto) - Iniciativa
 * [Nathalia Bruno](https://github.com/nathaliabruno)
