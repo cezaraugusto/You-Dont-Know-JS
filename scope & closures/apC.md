@@ -108,7 +108,7 @@ var obj = {
 obj.cool(); // more awesome
 ```
 
-Se você prefere o novo comportamento `lexical-this` das arrow-functions, ou se você prefere o testado e comprovado `bind()`, é importante notar que `arrow-functions` **não** são apenas para economizar caracteres ao digitar "function".
+Independentemente se você prefere o novo comportamento `lexical-this` das arrow-functions, ou se você prefere o testado e comprovado `bind()`, é importante notar que `arrow-functions` **não** são apenas para economizar caracteres ao digitar "function".
 
 Elas têm uma *diferença de comportamento intencional* que devemos entender e aprender.
 
