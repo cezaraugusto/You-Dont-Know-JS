@@ -86,7 +86,7 @@ Então, nesse trecho, a `arrow-function` não recebe seu `this` desacoplado em u
 
 While this makes for shorter code, my perspective is that arrow-functions are really just codifying into the language syntax a common *mistake* of developers, which is to confuse and conflate "this binding" rules with "lexical scope" rules.
 
-Em outras palavras: por que se dar ao trabalho de usar o estilo verboso do paradigma `this`, misturando com referências lexicais apenas para encurtar. Parece natural escolher uma ou outra abordagem para diferentes pedaços de código, e não misturá-los na mesma parte do código.
+Em outras palavras: por que usar o verboso e confuso paradigma do estilo de código this, apenas para encurtá-lo, misturando-o com referências léxicas. Parece natural escolher uma ou outra abordagem para diferentes pedaços de código, e não misturá-los na mesma parte.
 
 **Nota:** uma outra depreciação das `arrow-functions` é que elas são anônimas. Veja o Capítulo 3 para as razões pelas quais funções anônimas são menos desejáveis do que as funções nomeadas.
 

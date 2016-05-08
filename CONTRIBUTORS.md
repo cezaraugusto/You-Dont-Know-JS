@@ -7,3 +7,4 @@
 * [Gustavo Teodoro](https://github.com/gustavoteodoro)
 * [Gabriel Prates](https://github.com/gabsprates)
 * [Nelson Henrique](https://github.com/nersoh)
+* [Nelson P. Junior](https://github.com/nelsonpjunior)
