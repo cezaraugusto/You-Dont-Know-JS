@@ -84,7 +84,7 @@ Em uma curta explicação é que `arrow-functions` não se comportam como funç�
 
 Então, nesse trecho, a `arrow-function` não recebe seu `this` desacoplado em uma forma imprevisível, ela apenas herda o vinculo `this` da função `cool()` (que é o correto se invocarmos como o mostrado!).
 
-Ainda que sirva para encurtar código, minha perspectiva é que as "arrow functions" na verdade são apenas codificacão de *erros* comuns do desenvolvedor na sintaxe da linguagem, que são para confundir e associar as regras do "vínculo this" com as regras de "escopo léxico".
+Ainda que sirva para encurtar código, minha perspectiva é que as "arrow functions" são na verdade apenas codificacão de *erros* comuns do desenvolvedor na sintaxe da linguagem, que são para confundir e associar as regras do "vínculo this" com as regras de "escopo léxico".
 
 Em outras palavras: por que usar o verboso e confuso paradigma do estilo de código `this`, apenas para encurtá-lo, misturando-o com referências léxicas. Parece natural escolher uma ou outra abordagem para diferentes pedaços de código, e não misturá-los na mesma parte.
 
