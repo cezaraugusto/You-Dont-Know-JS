@@ -8,3 +8,4 @@
 * [Gabriel Prates](https://github.com/gabsprates)
 * [Nelson Henrique](https://github.com/nersoh)
 * [Rodnei Ribeiro](https://github.com/raribeiro)
+* [Nelson P. Junior](https://github.com/nelsonpjunior)
