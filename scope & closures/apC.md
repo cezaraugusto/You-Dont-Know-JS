@@ -1,9 +1,9 @@
-# You Don't Know JS: Scope & Closures
-# Appendix C: Lexical-this
+# You Don't Know JS: Escopos e Encerramentos
+# Apêndice C: Lexical-this
 
-Though this title does not address the `this` mechanism in any detail, there's one ES6 topic which relates `this` to lexical scope in an important way, which we will quickly examine.
+Embora este título não aborde o mecanismo `this` em seus detalhes, existe um tópico que se refere ao scopo lexico `this` de forma significativa, que vamos examinar rapidamente.
 
-ES6 adds a special syntactic form of function declaration called the "arrow function". It looks like this:
+ES6 adiciona uma declaração especial de função chamada "arrow function". Que se parece com isto:
 
 ```js
 var foo = a => {
@@ -13,11 +13,11 @@ var foo = a => {
 foo( 2 ); // 2
 ```
 
-The so-called "fat arrow" is often mentioned as a short-hand for the *tediously verbose* (sarcasm) `function` keyword.
+A chamada "fat arrow" é frequentemente mencionada como um atalho para a *tediosamente detalhada* (sarcasmo) palavra chave `function`.
 
-But there's something much more important going on with arrow-functions that has nothing to do with saving keystrokes in your declaration.
+Mas há algo muito mais importante acontecendo com `arrow-functions` e que não tem nada a ver com escrever menos caracteres em sua declaração.
 
-Briefly, this code suffers a problem:
+Resumidamente, este código sofre um problema:
 
 ```js
 
@@ -35,9 +35,9 @@ obj.cool(); // awesome
 setTimeout( obj.cool, 100 ); // not awesome
 ```
 
-The problem is the loss of `this` binding on the `cool()` function. There are various ways to address that problem, but one often-repeated solution is `var self = this;`.
+O problema é a perda do vínculo `this` na função `cool()`.  Existem várias maneiras de lidar com esse problema, mas uma solução, muitas vezes repetida é `var self = this;`.
 
-That might look like:
+Que pode parecer com isto:
 
 ```js
 var obj = {
@@ -57,11 +57,12 @@ var obj = {
 obj.cool(); // awesome?
 ```
 
-Without getting too much into the weeds here, the `var self = this` "solution" just dispenses with the whole problem of understanding and properly using `this` binding, and instead falls back to something we're perhaps more comfortable with: lexical scope. `self` becomes just an identifier that can be resolved via lexical scope and closure, and cares not what happened to the `this` binding along the way.
+Sem entrar em muitos detalhes aqui, a solução `var self = this` apenas dispensa todo o problema de compreensão e uso correto do vínculo `this` ao inves de tentarmos algo que talvez seja mais confortável como: `escopo lexico`. O `self` torna-se apenas um identificador que pode ser resolvido através de escopo e encerramento, e não se preocupa com o que aconteceu com o vínculo `this` ao longo do caminho.
 
-People don't like writing verbose stuff, especially when they do it over and over again. So, a motivation of ES6 is to help alleviate these scenarios, and indeed, *fix* common idiom problems, such as this one.
+As pessoas não gostam de escrever coisas detalhadas, especialmente quando eles fazem frequentemente.
+Assim, a motivação do ES6 é para ajudar a aliviar estes cenários, e de fato, *corrigir* problemas idiomáticos comuns, como este.
 
-The ES6 solution, the arrow-function, introduces a behavior called "lexical this".
+A solução ES6, `arrow-function` apresenta um comportamento chamado "lexical this".
 
 ```js
 var obj = {
@@ -79,17 +80,17 @@ var obj = {
 obj.cool(); // awesome?
 ```
 
-The short explanation is that arrow-functions do not behave at all like normal functions when it comes to their `this` binding. They discard all the normal rules for `this` binding, and instead take on the `this` value of their immediate lexical enclosing scope, whatever it is.
+Em uma curta explicação é que `arrow-functions` não se comportam como funções normais quando se trata do vínculo `this`. Elas rejeitam todas as regras normais para o vinculo `this`, Em vez de assumir o valor do seu escopo lexico delimitador imediato. seja ele qual for.
 
-So, in that snippet, the arrow-function doesn't get its `this` unbound in some unpredictable way, it just "inherits" the `this` binding of the `cool()` function (which is correct if we invoke it as shown!).
+Então, nesse trecho, a `arrow-function` não recebe seu `this` desacoplado em uma forma imprevisível, ela apenas herda o vinculo `this` da função `cool()` (que é o correto se invocarmos como o mostrado!).
 
 While this makes for shorter code, my perspective is that arrow-functions are really just codifying into the language syntax a common *mistake* of developers, which is to confuse and conflate "this binding" rules with "lexical scope" rules.
 
-Put another way: why go to the trouble and verbosity of using the `this` style coding paradigm, only to cut it off at the knees by mixing it with lexical references. It seems natural to embrace one approach or the other for any given piece of code, and not mix them in the same piece of code.
+Em outras palavras: por que usar o verboso e confuso paradigma do estilo de código this, apenas para encurtá-lo, misturando-o com referências léxicas. Parece natural escolher uma ou outra abordagem para diferentes pedaços de código, e não misturá-los na mesma parte.
 
-**Note:** one other detraction from arrow-functions is that they are anonymous, not named. See Chapter 3 for the reasons why anonymous functions are less desirable than named functions.
+**Nota:** uma outra depreciação das `arrow-functions` é que elas são anônimas. Veja o Capítulo 3 para as razões pelas quais funções anônimas são menos desejáveis do que as funções nomeadas.
 
-A more appropriate approach, in my perspective, to this "problem", is to use and embrace the `this` mechanism correctly.
+Na minha perspectiva, uma abordagem mais adequada para este "problema", é compreender o mecanismo `this` corretamente.
 
 ```js
 var obj = {
@@ -107,8 +108,8 @@ var obj = {
 obj.cool(); // more awesome
 ```
 
-Whether you prefer the new lexical-this behavior of arrow-functions, or you prefer the tried-and-true `bind()`, it's important to note that arrow-functions are **not** just about less typing of "function".
+Independentemente se você prefere o novo comportamento `lexical-this` das arrow-functions, ou se você prefere o testado e comprovado `bind()`, é importante notar que `arrow-functions` **não** são apenas para economizar caracteres ao digitar "function".
 
-They have an *intentional behavioral difference* that we should learn and understand, and if we so choose, leverage.
+Elas têm uma diferença de comportamento intencional (ou se preferir: importância diferente) que devemos entender e aprender.
 
-Now that we fully understand lexical scoping (and closure!), understanding lexical-this should be a breeze!
+Agora que entendemos plenamente escopo lexico (e encerramento!), entender `lexical-this` deve ser uma brisa!
