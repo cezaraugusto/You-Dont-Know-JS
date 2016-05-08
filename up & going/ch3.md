@@ -95,10 +95,10 @@ A última parte do livro volta foca rapidamente nas coisas que nós provavelment
 
 O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprender isso!?
 
-## Review
+## Revisão
 
-The *YDKJS* series is dedicated to the proposition that all JS developers can and should learn all of the parts of this great language. No person's opinion, no framework's assumptions, and no project's deadline should be the excuse for why you never learn and deeply understand JavaScript.
+A série *YDKJS* é dedicada à questão que todos os desenvolvedores JS podem e devem aprender todas as partes desta grandiosa linguagem. Nem a opinião de alguém, nem framework's, nem prazos de projetos devem ser desculpa para você deixar de aprender e compreender JavaScript profundamente.
 
-We take each important area of focus in the language and dedicate a short but very dense book to fully explore all the parts of it that you perhaps thought you knew but probably didn't fully.
+Nós pegamos cada área importante da linguagem, focamos e dedicamos um livro curto mas denso para explorar plenamente todas as partes que você talvez pensou que sabia, mas não provavelmente, não na sua totalidade.
 
-"You Don't Know JS" isn't a criticism or an insult. It's a realization that all of us, myself included, must come to terms with. Learning JavaScript isn't an end goal but a process. We don't know JavaScript, yet. But we will!
+"You Don't Know JS" ("Você Não Sabe JS") não é uma crítica ou um insulto. Isso é uma percepção que todos nós, inclusive eu, devemos chegar a ter. Aprender JavaScript não é um objetivo final, mas um processo. Nós não sabemos JavaScript, ainda. Mas vamos!
