@@ -5,6 +5,7 @@
 * [MSDN - JavaScript](https://msdn.microsoft.com/pt-br/library/d1et7k7c(v=vs.94).aspx)
 * [Lista de Termos Técnicos de Informática - Wikipedia](https://pt.wikipedia.org/wiki/Ajuda:Guia_de_tradu%C3%A7%C3%A3o/Lista_de_termos_t%C3%A9cnicos_de_inform%C3%A1tica).
 * [Torne acessíveis os artigos técnicos](https://pt.wikipedia.org/wiki/Wikip%C3%A9dia:Torne_acess%C3%ADveis_os_artigos_t%C3%A9cnicos)
+* [MSDN - Terminologia do Designer de Sistema](https://msdn.microsoft.com/pt-br/library/ms246209(v=vs.90).aspx)
 
 ## To-Do
 
