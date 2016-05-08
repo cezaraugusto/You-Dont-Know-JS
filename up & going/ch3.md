@@ -77,23 +77,23 @@ Escrever JavaScript efetivamente significa escrever código que pode quebrar as 
 
 O título *Assíncrono & Desempenho* (*Async & Performance*) é feito para te dar todas as ferramentas e habilidades que você precisa para escrever código JavaScript sensato e performático.
 
-## ES6 & Beyond
+## ES6 & Além
 
-No matter how much you feel you've mastered JavaScript to this point, the truth is that JavaScript is never going to stop evolving, and moreover, the rate of evolution is increasing rapidly. This fact is almost a metaphor for the spirit of this series, to embrace that we'll never fully *know* every part of JS, because as soon as you master it all, there's going to be new stuff coming down the line that you'll need to learn.
+Não importa o quanto você se sinta o mestre em JavaScript até aqui, a verdade é que JavaScript nunca deixará de evoluir, e além disso, a taxa de evolução está aumentando rapidamente. Este fato é quase uma metáfora para o esírito desta série, compreender que nós nunca vamos *saber* tudo sobre JS, porque assim como você dominar tudo, surgirão coisas novas que irão para a fila do que você precisa aprender.
 
-This title is dedicated to both the short- and mid-term visions of where the language is headed, not just the *known* stuff like ES6 but the *likely* stuff beyond.
+Este título é dedicado tanto para visões de curto e médio prazo de para onde a linguagem caminha, não apenas as coisas *conhecidas* como ES6 mas as também as coisas *prováveis* que estão por vir.
 
-While all the titles of this series embrace the state of JavaScript at the time of this writing, which is mid-way through ES6 adoption, the primary focus in the series has been more on ES5. Now, we want to turn our attention to ES6, ES7, and ...
+Enquanto todos os títulos desta série compreendem o estado do JavaScript do momento em que foram escritos, que está na metade do caminho para a adoção do ES6, o foco primário desta série tem sido mais no ES5. Agora, nós queremos voltar nossa atenção para o ES6, ES7, e...
 
-Since ES6 is nearly complete at the time of this writing, *ES6 & Beyond* starts by dividing up the concrete stuff from the ES6 landscape into several key categories, including new syntax, new data structures (collections), and new processing capabilities and APIs. We cover each of these new ES6 features, in varying levels of detail, including reviewing details that are touched on in other books of this series.
+Já que o ES6 está quase completo, no momento da redação deste texto, *ES6 & Além* começa dividindo o matérial sólido da paisagem do ES6 em diversas categorias chave, incluindo a nova sintaxe, as novas (coleções de) estruturas de dados, e a nova capacidade de processamento e APIs. Nós cobriremos cada uma dessas novas características do ES6, em diferentes níveis de detalhe, incluindo a revisão de detahles que já foram citados em outros livros desta série.
 
-Some exciting ES6 things to look forward to reading about: destructuring, default parameter values, symbols, concise methods, computed properties, arrow functions, block scoping, promises, generators, iterators, modules, proxies, weakmaps, and much, much more! Phew, ES6 packs quite a punch!
+Algumas coisas interessantes do ES6 é olhar para frente e ler sobre: desestruturação, parâmetros com valores padrão, símbolos, métodos concisos, propriedades calculadas, arrow functions, bloco de escopo, promessas, geradores, iterators, módulos, proxies, weakmaps, e mais, muito mais! Ufa, o ES6 tem muito poder!
 
-The first part of the book is a roadmap for all the stuff you need to learn to get ready for the new and improved JavaScript you'll be writing and exploring over the next couple of years.
+A primeira parte do livro é um roteiro para todas as coisas que você precisa aprender para se preparar para o novo e melhorado JavaScript que você vai escrever e explorar pelos próximos anos.
 
-The latter part of the book turns attention to briefly glance at things that we can likely expect to see in the near future of JavaScript. The most important realization here is that post-ES6, JS is likely going to evolve feature by feature rather than version by version, which means we can expect to see these near-future things coming much sooner than you might imagine.
+A última parte do livro volta foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir caracteristica por caracteristica a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
 
-The future for JavaScript is bright. Isn't it time we start learning it!?
+O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprender isso!?
 
 ## Review
 
