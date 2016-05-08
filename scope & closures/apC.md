@@ -1,7 +1,7 @@
 # You Don't Know JS: Escopos e Encerramentos
 # Apêndice C: Lexical-this
 
-Though this title does not address the `this` mechanism in any detail, there's one ES6 topic which relates `this` to lexical scope in an important way, which we will quickly examine.
+Embora este título não aborde o mecanismo `this` em seus detalhes, existe um tópico que se refere ao scopo lexico `this` de forma significativa, que vamos examinar rapidamente.
 
 ES6 adiciona uma declaração especial de função chamada "arrow function". Que se parece com isto:
 
