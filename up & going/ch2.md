@@ -764,17 +764,17 @@ Existe uma boa chance que com apenas este resumo breve sobre encerramentos e o p
 
 Daqui, vá para o título desta série *Escopos e Encerramentos* para uma exploração do assunto muito mais profunda.
 
-## `this` Identifier
+## Identificador `this`
 
-Another very commonly misunderstood concept in JavaScript is the `this` identifier. Again, there's a couple of chapters on it in the *this & Object Prototypes* title of this series, so here we'll just briefly introduce the concept.
+Outro conceito comumente incompreendido em JavaScript é o identificador`this`. Novamente, existem um bocado de capítulos sobre ele no título desta série *this & Prototipagem de Objetos", então aqui iremos introduzir apenas superficialmente o conceito.
 
-While it may often seem that `this` is related to "object-oriented patterns," in JS `this` is a different mechanism.
+Enquanto geralmente possa parecer que `this` está relacionado aos padrões de orientação à objetos, em JS o `this` é um mecanismo diferente.
 
-If a function has a `this` reference inside it, that `this` reference usually points to an `object`. But which `object` it points to depends on how the function was called.
+Se uma função tiver uma referência ao `this` dentro dela, esse `this` geralmente aponta para um `object`. Mas qual objeto que ela aponta depende de como a função é chamada.
 
-It's important to realize that `this` *does not* refer to the function itself, as is the most common misconception.
+É importante entender que`this` *não* se refere à função propriamente dita, visto que essa é a parte mais comumente confundida.
 
-Here's a quick illustration:
+Aqui uma ilustração rápida:
 
 ```js
 function foo() {
@@ -800,70 +800,70 @@ foo.call( obj2 );   // "obj2"
 new foo();          // undefined
 ```
 
-There are four rules for how `this` gets set, and they're shown in those last four lines of that snippet.
+Existem quatro regras de como `this` é definido, e como ele é apresentado nessas quatro últimas linhas do snippet acima.
 
-1. `foo()` ends up setting `this` to the global object in non-strict mode -- in strict mode, `this` would be `undefined` and you'd get an error in accessing the `bar` property -- so `"global"` is the value found for `this.bar`.
-2. `obj1.foo()` sets `this` to the `obj1` object.
-3. `foo.call(obj2)` sets `this` to the `obj2` object.
-4. `new foo()` sets `this` to a brand new empty object.
+1. `foo()` termina definindo `this` para o objeto global em modo não-estrito -- no modo estrito (strict mode), `this` seria `undefined` e você receberia um erro ao acessar a propriedade `bar` -- então `"global"` é o valor encontrado para `this.bar`.
+2. `obj1.foo()` define `this` para o objeto `obj1`.
+3. `foo.call(obj2)` define `this` para o objeto `obj2`.
+4. `new foo()` define `this` para um objeto completamente novo.
 
-Bottom line: to understand what `this` points to, you have to examine how the function in question was called. It will be one of those four ways just shown, and that will then answer what `this` is.
+Fim da linha: para entender o que `this` aponta, você precisa examinar como a função em questão é chamada. Ela será uma das quatro formas demonstradas, e assim você irá ter a resposta do que é `this`.
 
-**Note:** For more information about `this`, see Chapters 1 and 2 of the *this & Object Prototypes* title of this series.
+**Nota:** Para mais informações sobre `this`, veja os Capítulos 1 e 2 do título desta série *this & Prototipagem de Objetos*.
 
-## Prototypes
+## Prototipagem
 
-The prototype mechanism in JavaScript is quite complicated. We will only glance at it here. You will want to spend plenty of time reviewing Chapters 4-6 of the *this & Object Prototypes* title of this series for all the details.
+O mecanismo de protótipos em JavaScript é bem complicado. Aqui vamos só vê-lo de relance. Você irá precisar de algum tempo revisando os Capítulos 4-6 do título desta série *this & Prototipagem de Objetos* para saber todos os detalhes.
 
-When you reference a property on an object, if that property doesn't exist, JavaScript will automatically use that object's internal prototype reference to find another object to look for the property on. You could think of this almost as a fallback if the property is missing.
+Quando você referencia uma propriedade em um objeto, se essa propriedade não existir, o JavaScript irá automaticamente usar aquela referência ao protótipo interno do objeto para achar outro objeto procurando pela propriedade em si. Você pode pensar nisso como um fallback para caso a propriedade esteja faltando.
 
-The internal prototype reference linkage from one object to its fallback happens at the time the object is created. The simplest way to illustrate it is with a built-in utility called `Object.create(..)`.
+A referência da relação ao protótipo interno de um objeto para o seu fallback acontece no tempo em que o objeto é criado. A maneira mais simples de ilustrar isso é com sua utilidade nativa chamada `Object.create(..)`.
 
-Consider:
+Considere:
 
 ```js
 var foo = {
     a: 42
 };
 
-// create `bar` and link it to `foo`
+// cria `bar` e faz o link para `foo`
 var bar = Object.create( foo );
 
 bar.b = "hello world";
 
 bar.b;      // "hello world"
-bar.a;      // 42 <-- delegated to `foo`
+bar.a;      // 42 <-- delegado para `foo`
 ```
 
-It may help to visualize the `foo` and `bar` objects and their relationship:
+Talvez ajude visualizando os objetos `foo` e `bar` e sua relação:
 
 <img src="fig6.png">
 
-The `a` property doesn't actually exist on the `bar` object, but because `bar` is prototype-linked to `foo`, JavaScript automatically falls back to looking for `a` on the `foo` object, where it's found.
+A propriedade `a` não existe atualmente no objeto `bar`, mas conta de `bar` ser prototipalmente associada a `foo`, o JavaScript automaticamente *falls back* para procurar por `a` no objeto `foo`, onde o encontra.
 
-This linkage may seem like a strange feature of the language. The most common way this feature is used -- and I would argue, abused -- is to try to emulate/fake a "class" mechanism with "inheritance."
+Essa *linkagem* (associação) pode parecer uma funcionalidade estranha na linguagem. A forma mais comum que essa funcionalidade é usada -- e eu digo até, abusada -- é ao tentar emular um mecanismo de "classe" com "herança".
 
-But a more natural way of applying prototypes is a pattern called "behavior delegation," where you intentionally design your linked objects to be able to *delegate* from one to the other for parts of the needed behavior.
+Mas uma forma mais natural de aplicar prototipagens é em um padrão chamado "delegação de comportamento", onde você intencionalmente desenha as associações de seus objetos para serem habilitadas a *delegar* de uma a outra parte do comportamento desejado.
 
-**Note:** For more information about prototypes and behavior delegation, see Chapters 4-6 of the *this & Object Prototypes* title of this series.
+**Nota:** Para mais informações sobre prototipagens e delegação de comportamentos, veja os Capítulos 4-6 do título desta série *this & Prototipagem de Objetos*.
 
-## Old & New
+## Velho & Novo
 
-Some of the JS features we've already covered, and certainly many of the features covered in the rest of this series, are newer additions and will not necessarily be available in older browsers. In fact, some of the newest features in the specification aren't even implemented in any stable browsers yet.
+Algumas das funcionalidades de JS que já cobrimos, e certamente muitas das funcionalidades que cobriremos no resto dessa série, são novas adições que não necessariamente estarão disponíveis em navegadores antigos. De fato, algumas das novas funcionalidades disponíveis na especificação nem mesmo foram implememntadas em navegadores estáveis ainda.
 
-So, what do you do with the new stuff? Do you just have to wait around for years or decades for all the old browsers to fade into obscurity?
+Então, o que você faz com as coisas novas? Você só precisa esperar por anos ou décadas por todos os navegadores antigos apagarem e sumirem na escuridão?
 
-That's how many people think about the situation, but it's really not a healthy approach to JS.
+Isso é como muitas pessoas pensam sobre essa situação, mas não é realmente uma abordagem saudável para o JS.
 
-There are two main techniques you can use to "bring" the newer JavaScript stuff to the older browsers: polyfilling and transpiling.
+Existem duas técnicas principais que você pode usar para "trazer" as coisas novas de JavaScript para os navegadores antigos: polyfilling and transpiling.
 
 ### Polyfilling
 
-The word "polyfill" is an invented term (by Remy Sharp) (https://remysharp.com/2010/10/08/what-is-a-polyfill) used to refer to taking the definition of a newer feature and producing a piece of code that's equivalent to the behavior, but is able to run in older JS environments.
+A palavras "polyfill" é um termo inventado (por Remy Sharp) (https://remysharp.com/2010/10/08/what-is-a-polyfill) usado para referenciar a definição de uma nova funcionalidade e reproduzir um pedaço de código que é equivalente ao comportamento, mas que pode rodar em ambientes com o JS antigo.
 
-For example, ES6 defines a utility called `Number.isNaN(..)` to provide an accurate non-buggy check for `NaN` values, deprecating the original `isNaN(..)` utility. But it's easy to polyfill that utility so that you can start using it in your code regardless of whether the end user is in an ES6 browser or not.
+Por exemplo, o ES6 define uma utilidade chamada `Number.isNaN(..)` para prover um check acurado e livre de bugs para valores `NaN`, deixando obsoleto a utlidade original `isNaN(..)`. Mas é fácil criar um polyfill para essa utilidade de forma que você possa usar no seu código independente do usuário final estar usando um navegador com suporte ao ES6 ou não.
 
-Consider:
+Considere:
 
 ```js
 if (!Number.isNaN) {
@@ -873,13 +873,13 @@ if (!Number.isNaN) {
 }
 ```
 
-The `if` statement guards against applying the polyfill definition in ES6 browsers where it will already exist. If it's not already present, we define `Number.isNaN(..)`.
+A instrução `if` deixa de aplicar a definição do polyfill em navegadores ES6 onde ela já existe. Se não estiver presente, nós definimos `Number.isNaN(..)`.
 
-**Note:** The check we do here takes advantage of a quirk with `NaN` values, which is that they're the only value in the whole language that is not equal to itself. So the `NaN` value is the only one that would make `x !== x` be `true`.
+**Nota:** A verificação que fazemos aqui toma vantagem de um equívoco com valores `NaN`, que é o único valor na linguagem que não é igual a ele mesmo. Então o valor `NaN` é o único que pode fazer `x !== x` ser `true`.
 
-Not all new features are fully polyfillable. Sometimes most of the behavior can be polyfilled, but there are still small deviations. You should be really, really careful in implementing a polyfill yourself, to make sure you are adhering to the specification as strictly as possible.
+Nem todas as novas funcionalidades são completamente *polyfillável*. Às vezes a maior parte do comportamento pode ser *polyfillada*, mas com alguns desvios. Você deve ter muito, muito cuidado em implementar um polyfill por conta própria, para ter certeza que está aderindo à especificação da forma mais estrita possível.
 
-Or better yet, use an already vetted set of polyfills that you can trust, such as those provided by ES5-Shim (https://github.com/es-shims/es5-shim) and ES6-Shim (https://github.com/es-shims/es6-shim).
+Ou melhor ainda, use um vetado grupo de polyfills que você pode confiar, como os providos pelo ES5-Shim (https://github.com/es-shims/es5-shim) e ES6-Shim (https://github.com/es-shims/es6-shim).
 
 ### Transpiling
 
