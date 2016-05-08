@@ -82,11 +82,11 @@ obj.cool(); // awesome?
 
 Em uma curta explicação é que `arrow-functions` não se comportam como funções normais quando se trata do vínculo `this`. Elas rejeitam todas as regras normais para o vinculo `this`, Em vez de assumir o valor do seu escopo lexico delimitador imediato. seja ele qual for.
 
-So, in that snippet, the arrow-function doesn't get its `this` unbound in some unpredictable way, it just "inherits" the `this` binding of the `cool()` function (which is correct if we invoke it as shown!).
+Então, nesse trecho, a `arrow-function` não recebe seu `this` desacoplado em uma forma imprevisível, ela apenas herda o vinculo `this` da função `cool()` (que é o correto se invocarmos como o mostrado!).
 
 While this makes for shorter code, my perspective is that arrow-functions are really just codifying into the language syntax a common *mistake* of developers, which is to confuse and conflate "this binding" rules with "lexical scope" rules.
 
-Put another way: why go to the trouble and verbosity of using the `this` style coding paradigm, only to cut it off at the knees by mixing it with lexical references. It seems natural to embrace one approach or the other for any given piece of code, and not mix them in the same piece of code.
+Em outras palavras: por que se dar ao trabalho de usar o estilo verboso do paradigma `this`, misturando com referências lexicais apenas para encurtar. Parece natural escolher uma ou outra abordagem para diferentes pedaços de código, e não misturá-los na mesma parte do código.
 
 **Nota:** uma outra depreciação das `arrow-functions` é que elas são anônimas. Veja o Capítulo 3 para as razões pelas quais funções anônimas são menos desejáveis do que as funções nomeadas.
 
