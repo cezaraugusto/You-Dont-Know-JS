@@ -883,21 +883,22 @@ Ou melhor ainda, use um vetado grupo de polyfills que você pode confiar, como o
 
 ### Transpiling
 
-There's no way to polyfill new syntax that has been added to the language. The new syntax would throw an error in the old JS engine as unrecognized/invalid.
+Não existe nenhuma forma de *plyfillar* uma nova sintaxe, que ainda não foi incluída na linguagem. A nova sintaxe iria retornar um erro no mecanismo do JS como não reconhecida/inválida.
 
-So the better option is to use a tool that converts your newer code into older code equivalents. This process is commonly called "transpiling," a term for transforming + compiling.
+Sendo assim a melhor opção é usar uma ferramenta que converte seu código novo em um código antigo equivalente. Esse processo é comumente chamado "transpiling".
 
-Essentially, your source code is authored in the new syntax form, but what you deploy to the browser is the transpiled code in old syntax form. You typically insert the transpiler into your build process, similar to your code linter or your minifier.
+Essencialmente, seu código fonte é feito com o formato da nova sintaxe, mas quando você faz o deploy para o navegador ele aparece como um código *transpilado* com o formato da sintaxe velha. Tipicamente você insere o *transpilador* no seu processo de *build*, similar ao seu *linter* ou *minifier*.
 
-You might wonder why you'd go to the trouble to write new syntax only to have it transpiled away to older code -- why not just write the older code directly?
+Você pode se perguntar porquê você se meteria em confusão ao escrever uma sintaxe nova, apenas para vê-la sendo transpilada para o código antigo. Porquê então não escrever da forma antiga diretamente?
 
-There are several important reasons you should care about transpiling:
+Existem diversas razões importantes que você deveria se importar em relação ao transpiling:
 
-* The new syntax added to the language is designed to make your code more readable and maintainable. The older equivalents are often much more convoluted. You should prefer writing newer and cleaner syntax, not only for yourself but for all other members of the development team.
-* If you transpile only for older browsers, but serve the new syntax to the newest browsers, you get to take advantage of browser performance optimizations with the new syntax. This also lets browser makers have more real-world code to test their implementations and optimizations on.
-* Using the new syntax earlier allows it to be tested more robustly in the real world, which provides earlier feedback to the JavaScript committee (TC39). If issues are found early enough, they can be changed/fixed before those language design mistakes become permanent.
+* A nova sintaxe adicionada á linguagem é desenhada para fazer seu código ser mais legível e fácil de manter. Os equivalentes mais antigos são geralmente muito mais debilitado. Você deve optar por escrever a sintaxe mais moderna e clara, não apenas para você mas para todos os membros do seu time de desenvolvimento.
 
-Here's a quick example of transpiling. ES6 adds a feature called "default parameter values." It looks like this:
+* Se você transpilar apenas para navegadores antigos, mas servir a nova sintaxe para os navegadores mais novos, você teria uma vantagem por conta da otimização da performance do navegador por conta da nova sintaxe. Isso também permite que os criadores dos browsers tenham códigos do mundo-real (em produção) para testar neles suas implementações e otimizações.
+* Usando a nova sintaxe de forma precoce permite0a ser testada de forma mais robusta no mundo real, o que dá um feedback prematuro para o comitê do JavaScript (TC39). Se problemas forem encontrados brevemente, eles podem ser alterados/consertados antes que esses erros de design da linguagem sejam implementados permanentemente.
+
+Aqui um breve exemplo de transpiling. O ES6 adiciona uma funcionalidade chamada "valor padrão de parâmetro". Ele se parece com isso:
 
 ```js
 function foo(a = 2) {
@@ -908,7 +909,7 @@ foo();      // 2
 foo( 42 );  // 42
 ```
 
-Simple, right? Helpful, too! But it's new syntax that's invalid in pre-ES6 engines. So what will a transpiler do with that code to make it run in older environments?
+Simples, não? Útil, também! Mas é uma nova sintaxe que é inválida em mecanismos pre-ES6. Então o que faria um transpilador para esse código rodar em ambientes mais antigos?
 
 ```js
 function foo() {
@@ -917,42 +918,42 @@ function foo() {
 }
 ```
 
-As you can see, it checks to see if the `arguments[0]` value is `void 0` (aka `undefined`), and if so provides the `2` default value; otherwise, it assigns whatever was passed.
+Como você pode ver, ele faz uma verificação para saber se o valor de `arguments[0]` é `void 0` (vulgo `undefined`), e se for define `2` como valor padrão; se for outra forma, ele designa qualquer que seja o valor informado.
 
-In addition to being able to now use the nicer syntax even in older browsers, looking at the transpiled code actually explains the intended behavior more clearly.
+Em adição ao fato de poder usar agora uma sintaxe mais bacana, mesmo em navegadores mais antigos, olhar para o código transpilado explica o comportamento esperado de forma mais clara.
 
-You may not have realized just from looking at the ES6 version that `undefined` is the only value that can't get explicitly passed in for a default-value parameter, but the transpiled code makes that much more clear.
+Você não deve ter reparado apenas olhando para a versão do ES6 que `undefined` é o único valor que não pode ser passado explicitamente como um valor padrão para um parâmetro, mas o código transpilado nos faz entender de forma muito mais clara.
 
-The last important detail to emphasize about transpilers is that they should now be thought of as a standard part of the JS development ecosystem and process. JS is going to continue to evolve, much more quickly than before, so every few months new syntax and new features will be added.
+O último detalhe importante a enfatizar sobre transpiladores é que eles devem ser pensados agora como uma parte padrão do ecossistema do processo de desenvolvimento. O JS irá continuar a evoluir, muito mais rápido do que antes, então a cada poucos meses novas sintaxes e novas funcionalidades serão adicionadas.
 
-If you use a transpiler by default, you'll always be able to make that switch to newer syntax whenever you find it useful, rather than always waiting for years for today's browsers to phase out.
+Se você usar um transpilador por padrão, você irá sempre poder fazer essa mudança para uma sintaxe mais nova sempre que você achá-la útil, ao invés de ter que ficar esperando por anos para os navegadores de hoje se tornarem obsoletos.
 
-There are quite a few great transpilers for you to choose from. Here are some good options at the time of this writing:
+Existem alguns grandes transpiladores para escolher. Aqui algumas boas opções no momento da escrita dessa redação:
 
-* Babel (https://babeljs.io) (formerly 6to5): Transpiles ES6+ into ES5
-* Traceur (https://github.com/google/traceur-compiler): Transpiles ES6, ES7, and beyond into ES5
+* Babel (https://babeljs.io) (antigo 6to5): Transpila ES6+ em ES5
+* Traceur (https://github.com/google/traceur-compiler): Transpila ES6, ES7, e além, em ES5
 
-## Non-JavaScript
+## Não-JavaScript
 
-So far, the only things we've covered are in the JS language itself. The reality is that most JS is written to run in and interact with environments like browsers. A good chunk of the stuff that you write in your code is, strictly speaking, not directly controlled by JavaScript. That probably sounds a little strange.
+Até aqui, a única coisa que cobrimos foi a linguagem do JS propriamente dito. A realidade é que grande parte do JS é escrito para rodar e interagir com ambientes como navegadores. Uma boa parte das coisas que você escreve no seu código são, estritamente falando, não diretamente controladas por JavaScript. Isso provavelmente soa um pouco estranho.
 
-The most common non-JavaScript JavaScript you'll encounter is the DOM API. For example:
+A forma mais comum de JavaScript não-JavaScript que você vai encontrar é o DOM API. Por exemplo:
 
 ```js
 var el = document.getElementById( "foo" );
 ```
 
-The `document` variable exists as a global variable when your code is running in a browser. It's not provided by the JS engine, nor is it particularly controlled by the JavaScript specification. It takes the form of something that looks an awful lot like a normal JS `object`, but it's not really exactly that. It's a special `object,` often called a "host object."
+A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo mecanismo do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, ma não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
 
-Moreover, the `getElementById(..)` method on `document` looks like a normal JS function, but it's just a thinly exposed interface to a built-in method provided by the DOM from your browser. In some (newer-generation) browsers, this layer may also be in JS, but traditionally the DOM and its behavior is implemented in something more like C/C++.
+Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegaores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
 
-Another example is with input/output (I/O).
+Um outro exemplo é com input/output (I/O).
 
-Everyone's favorite `alert(..)` pops up a message box in the user's browser window. `alert(..)` is provided to your JS program by the browser, not by the JS engine itself. The call you make sends the message to the browser internals and it handles drawing and displaying the message box.
+O favorito de todos, `alert(..)`, *pipoca* uma caixa de mensagem na janela do navegador do usuário. O `alert(..)` é provido para seu programa em JS pelo navegador, não pelo mecanismo do JS propriamente dito. O chamado que você faz envia uma mensagem para os mecanismos internos do navegador que fazem o desenho e enfim mostram a caixa de mensagem.
 
-The same goes with `console.log(..)`; your browser provides such mechanisms and hooks them up to the developer tools.
+O mesmo acontece com o `console.log(..)`; seu navegaor provê os devidos mecanismos e colocam-os nas *ferramentas do desenvolvedor*.
 
-This book, and this whole series, focuses on JavaScript the language. That's why you don't see any substantial coverage of these non-JavaScript JavaScript mechanisms. Nevertheless, you need to be aware of them, as they'll be in every JS program you write!
+Este livro, e toda esta série, focam na linguagem JavaScript. Esse é o motivo de você não ver nenhuma cobertura substancial desses mecanismos JavaScript não-JavaScript. Independentemente, você precisa estar atento à eles, visto que eles estarão em todo programa em JS que você for escrever!
 
 ## Revisão
 
