@@ -9,3 +9,4 @@
 * [Nelson Henrique](https://github.com/nersoh)
 * [Rodnei Ribeiro](https://github.com/raribeiro)
 * [Nelson P. Junior](https://github.com/nelsonpjunior)
+* [Marcelo F. S. Diniz](https://github.com/marcelod)
