@@ -79,21 +79,21 @@ O título *Assíncrono & Desempenho* (*Async & Performance*) é feito para te da
 
 ## ES6 & Além
 
-Não importa o quanto você se sinta o mestre em JavaScript até aqui, a verdade é que JavaScript nunca deixará de evoluir, e além disso, a taxa de evolução está aumentando rapidamente. Este fato é quase uma metáfora para o esírito desta série, compreender que nós nunca vamos *saber* tudo sobre JS, porque assim como você dominar tudo, surgirão coisas novas que irão para a fila do que você precisa aprender.
+Não importa o quanto você se sinta o mestre em JavaScript até aqui, a verdade é que JavaScript nunca deixará de evoluir, e além disso, a taxa de evolução está aumentando rapidamente. Este fato é quase uma metáfora para o espírito desta série, compreender que nós nunca vamos *saber* tudo sobre JS, porque tão logo você dominar tudo, surgirão coisas novas que irão para a fila do que você precisa aprender.
 
 Este título é dedicado tanto para visões de curto e médio prazo de para onde a linguagem caminha, não apenas as coisas *conhecidas* como ES6 mas as também as coisas *prováveis* que estão por vir.
 
 Enquanto todos os títulos desta série compreendem o estado do JavaScript do momento em que foram escritos, que está na metade do caminho para a adoção do ES6, o foco primário desta série tem sido mais no ES5. Agora, nós queremos voltar nossa atenção para o ES6, ES7, e...
 
-Já que o ES6 está quase completo, no momento da redação deste texto, *ES6 & Além* começa dividindo o matérial sólido da paisagem do ES6 em diversas categorias chave, incluindo a nova sintaxe, as novas (coleções de) estruturas de dados, e a nova capacidade de processamento e APIs. Nós cobriremos cada uma dessas novas características do ES6, em diferentes níveis de detalhe, incluindo a revisão de detahles que já foram citados em outros livros desta série.
+Já que o ES6 está quase completo, no momento da redação deste texto, *ES6 & Além* começa dividindo o matérial sólido da paisagem do ES6 em diversas categorias chave, incluindo a nova sintaxe, as novas (coleções de) estruturas de dados, e a nova capacidade de processamento e APIs. Nós cobriremos cada uma dessas novas características do ES6, em diferentes níveis de detalhe, incluindo a revisão de detalhes que já foram citados em outros livros desta série.
 
-Algumas coisas interessantes do ES6 é olhar para frente e ler sobre: desestruturação, parâmetros com valores padrão, símbolos, métodos concisos, propriedades calculadas, arrow functions, bloco de escopo, promessas, geradores, iterators, módulos, proxies, weakmaps, e mais, muito mais! Ufa, o ES6 tem muito poder!
+Algumas coisas interessantes do ES6 para acompanhar e ler sobre: desestruturação, parâmetros com valores padrão, símbolos, métodos concisos, propriedades calculadas, arrow functions, bloco de escopo, promessas, geradores, iterators, módulos, proxies, weakmaps, e mais, muito mais! Ufa, o ES6 tem muito poder!
 
 A primeira parte do livro é um roteiro para todas as coisas que você precisa aprender para se preparar para o novo e melhorado JavaScript que você vai escrever e explorar pelos próximos anos.
 
-A última parte do livro volta foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir caracteristica por caracteristica a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
+A última parte do livro volta foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir funcionalidade por funcionalidade a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
 
-O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprender isso!?
+O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprendê-lo!?
 
 ## Revisão
 
