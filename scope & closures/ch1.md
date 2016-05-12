@@ -3,7 +3,7 @@
 
 Um dos paradigmas mais fundamentais de quase todas as linguagens de programação é a capacidade de armazenar valores em variáveis e, posteriormente, obter ou modificar esses valores. Na verdade, a habilidade de armazenar e pegar valores de variáveis é o que fornece *estado* a um programa.
 
-Sem ter uma ideia por trás, um progrma pode realizar algumas tarefas, mas elas seriam extremamente limitadas e extremamente não interessantes.
+Sem esse conceito, um progrma pode realizar algumas tarefas, mas elas seriam extremamente limitadas e extremamente desinteressantes.
 
 Mas a inclusão de variáveis em nossos programas gera perguntas mais interessantes como: onde essas variáveis *vivem*? Em outras palavras, onde elas são armazenadas? E, mais importante, como nossos programas as encontram quando eles precisam delas?
 
@@ -13,9 +13,9 @@ Mas, onde e como essas regras de *Escopo* são definidas?
 
 ## Teoria de Compiladores
 
-Talvez seja evidente, ou pode ser que seja uma novidade, dependendo do seu nível de interação com muitas linguagens, mas apesar do fato de Javascript ser geralmente colocada na categoria de linguagens "dinâmicas" ou "interpretadas", ela é na verdade uma linguagem compilada. Ela *não* é compilada muito antes, como muitas outras linguagens tradicionalmente compiladas, e os resultados da compilação não são nem mesmo portáteis entre vários sistemas distribuídos.
+Talvez seja evidente, ou pode ser que seja uma novidade, dependendo do seu nível de interação com linguagens diversas, mas apesar do fato de Javascript ser geralmente colocada na categoria de linguagens "dinâmicas" ou "interpretadas", ela é de fato uma linguagem compilada. Ela *não* é compilada com muita antecedência, como são muitas outras linguagens tradicionalmente compiladas, e nem os resultados da compilação são portáteis entre vários sistemas distribuídos.
 
-Mas, mesmo assim, o motor do Javascript realiza muitos passos semelhantes, embora de maneiras mais sofisticadas do que nós estamos acostumados a ver na maioria dos compiladores tradicionais.
+Mas, mesmo assim, o mecanismo do Javascript realiza muitos passos semelhantes, embora de maneiras mais sofisticadas do que nós estamos acostumados a ver na maioria dos compiladores tradicionais.
 
 Em um processo tradicional de uma linguagem compilada, um pedaço de código fonte, seu programa, vai tipicamente passar por três passos *antes* de ser executado, grosseiramente chamado "compilação":
 
