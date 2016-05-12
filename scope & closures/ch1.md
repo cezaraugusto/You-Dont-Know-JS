@@ -11,14 +11,13 @@ Estas perguntas mostram a necessidade de um conjunto bem definido de regras para
 
 Mas, onde e como essas regras de *Escopo* são definidas?
 
-## Compiler Theory
-## Teoria do Compilador
+## Teoria de Compiladores
 
-It may be self-evident, or it may be surprising, depending on your level of interaction with various languages, but despite the fact that JavaScript falls under the general category of "dynamic" or "interpreted" languages, it is in fact a compiled language. It is *not* compiled well in advance, as are many traditionally-compiled languages, nor are the results of compilation portable among various distributed systems.
+Talvez seja evidente, ou pode ser que seja uma novidade, dependendo do seu nível de interação com muitas linguagens, mas apesar do fato de Javascript ser geralmente colocada na categoria de linguagens "dinâmicas" ou "interpretadas", ela é na verdade uma linguagem compilada. Ela *não* é compilada muito antes, como muitas outras linguagens tradicionalmente compiladas, e os resultados da compilação não são nem mesmo portáteis entre vários sistemas distribuídos.
 
-But, nevertheless, the JavaScript engine performs many of the same steps, albeit in more sophisticated ways than we may commonly be aware, of any traditional language-compiler.
+Mas, mesmo assim, o motor do Javascript realiza muitos passos semelhantes, embora de maneiras mais sofisticadas do que nós estamos acostumados a ver na maioria dos compiladores tradicionais.
 
-In traditional compiled-language process, a chunk of source code, your program, will undergo typically three steps *before* it is executed, roughly called "compilation":
+Em um processo tradicional de uma linguagem compilada, um pedaço de código fonte, seu programa, vai tipicamente passar por três passos *antes* de ser executado, grosseiramente chamado "compilação":
 
 1. **Tokenizing/Lexing:** breaking up a string of characters into meaningful (to the language) chunks, called tokens. For instance, consider the program: `var a = 2;`. This program would likely be broken up into the following tokens: `var`, `a`, `=`, `2`, and `;`. Whitespace may or may not be persisted as a token, depending on whether it's meaningful or not.
 
