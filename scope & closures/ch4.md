@@ -1,15 +1,15 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 4: Hoisting
+# You Don't Know JS: Escopos & Encerramentos
+# Capítulo 4: Elevação (Hoisting)
 
-By now, you should be fairly comfortable with the idea of scope, and how variables are attached to different levels of scope depending on where and how they are declared. Both function scope and block scope behave by the same rules in this regard: any variable declared within a scope is attached to that scope.
+A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes leveis de escopo  dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada ele.
 
-But there's a subtle detail of how scope attachment works with declarations that appear in various locations within a scope, and that detail is what we will examine here.
+Mas existe um pequeno detalhe de como o anexo de escopo funciona com declarações que aparecem em vários lugares dentro de um escopo, e este detalhe é o que nós analisaremos aqui.
 
-## Chicken Or The Egg?
+## O Ovo ou a Galinha?
 
-There's a temptation to think that all of the code you see in a JavaScript program is interpreted line-by-line, top-down in order, as the program executes. While that is substantially true, there's one part of that assumption which can lead to incorrect thinking about your program.
+Existe um hábito em pensar que todo o código que você vê em um programa JavaScript é interpretado linha por linha, na ordem de cima para baixo, assim que o programa é executado. Mesmo sendo substancialmente verdade, há uma parte dessa suposição que pode levar à uma ideia errada sobre o seu programa.
 
-Consider this code:
+Considere esse código:
 
 ```js
 a = 2;
@@ -19,11 +19,11 @@ var a;
 console.log( a );
 ```
 
-What do you expect to be printed in the `console.log(..)` statement?
+O que você espera que seja impresso na instrução `console.log(..)`?
 
-Many developers would expect `undefined`, since the `var a` statement comes after the `a = 2`, and it would seem natural to assume that the variable is re-defined, and thus assigned the default `undefined`. However, the output will be `2`.
+Muitos desenvolvedores esperariam `undefined`, uma vez que a instrução `var a` vem depois de `a = 2`, e pareceria natural assumir que a variável é redefinida, de modo que é atribuído o valor padrão `undefined`. Entretanto, a saída será `2`.
 
-Consider another piece of code:
+Considere outra parte de código:
 
 ```js
 console.log( a );
@@ -31,21 +31,21 @@ console.log( a );
 var a = 2;
 ```
 
-You might be tempted to assume that, since the previous snippet exhibited some less-than-top-down looking behavior, perhaps in this snippet, `2` will also be printed. Others may think that since the `a` variable is used before it is declared, this must result in a `ReferenceError` being thrown.
+Você pode ser tentado a supor que, já que o exemplo anterior mostrou um certo comportamento aparentemente não tão de-cima-pra-baixo assim, talvez nesse trecho de código, `2` também será impresso. Outros podem pensar que um vez que variável `a` é usada antes de ser declarada, isso deve resultar em um `ReferenceError` sendo lançado.
 
-Unfortunately, both guesses are incorrect. `undefined` is the output.
+Infelizmente, os dois palpites estão errados. `undefined` é a saída.
 
-**So, what's going on here?** It would appear we have a chicken-and-the-egg question. Which comes first, the declaration ("egg"), or the assignment ("chicken")?
+**Então, o que está acontecendo aqui?** Parece que temos a questão do ovo e da galinha. Quem vem primeiro, a declaração ("ovo") ou a atribuição ("galinha")?
 
-## The Compiler Strikes Again
+## O Compilador ataca novamente
 
-To answer this question, we need to refer back to Chapter 1, and our discussion of compilers. Recall that the *Engine* actually will compile your JavaScript code before it interprets it. Part of the compilation phase was to find and associate all declarations with their appropriate scopes. Chapter 2 showed us that this is the heart of Lexical Scope.
+Para responder essa pergunta, precisamos voltar ao capítulo 1 com a discussão sobre compiladores. Relembre que o *Engine* irá, na verdade, compilar seu código JavaScript antes de interpretá-lo. Parte da fase de compilação era encontrar e associar todas as declarações com seus escopos corretos. Vimos no capítulo 2 que isso é o coração do Escopo Léxico.
 
-So, the best way to think about things is that all declarations, both variables and functions, are processed first, before any part of your code is executed.
+Então, a melhor forma de pensar sobre como as coisas funcionam é que todas as declarações, tanto variáveis quanto funções, são processadas primeiro, antes que qualquer parte do nosso código seja executado.
 
-When you see `var a = 2;`, you probably think of that as one statement. But JavaScript actually thinks of it as two statements: `var a;` and `a = 2;`. The first statement, the declaration, is processed during the compilation phase. The second statement, the assignment, is left **in place** for the execution phase.
+Quando você vê `var a = 2;`, você provavelmente pensa nisso como uma instrução. Mas, na verdade, JavaScript pensa como sendo duas instruções: `var a;` e `a = 2;`. A primeira instrução, a declaração, é processada durante a fase de compilação. A segunda instrução, a atribuição, é deixada **no lugar** para a fase de execução.
 
-Our first snippet then should be thought of as being handled like this:
+Com isso, deveríamos pensar no nosso primeiro trecho de código como sendo tratado assim:
 
 ```js
 var a;
@@ -56,9 +56,9 @@ a = 2;
 console.log( a );
 ```
 
-...where the first part is the compilation and the second part is the execution.
+...onde a primeiro parte é a compilação e a segunda é a execução.
 
-Similarly, our second snippet is actually processed as:
+De maneira similar, nosso segundo trecho de código é, de fato, processado da seguinte forma:
 
 ```js
 var a;
@@ -69,11 +69,11 @@ console.log( a );
 a = 2;
 ```
 
-So, one way of thinking, sort of metaphorically, about this process, is that variable and function declarations are "moved" from where they appear in the flow of the code to the top of the code. This gives rise to the name "Hoisting".
+Portanto, uma maneira de pensar, meio que metaforicamente, a respeito desse processo, é que declarações de variável e função são "movidas" de onde elas aparecem, no fluxo do código, para o topo do código. Este processo dá origem ao termo "Elevação" (Hoisting).
 
-In other words, **the egg (declaration) comes before the chicken (assignment)**.
+Em outras palavras, **o ovo (declaração) vem primeiro que a galinha (atribuição)**.
 
-**Note:** Only the declarations themselves are hoisted, while any assignments or other executable logic are left *in place*. If hoisting were to re-arrange the executable logic of our code, that could wreak havoc.
+**Lembrete:** Apenas as próprias declarações são "elevadas", enquanto qualquer atribuição ou lógica executável são deixadas *no lugar*. Se "Elevação" (Hoisting) reorganizasse a lógica executável do nosso código, isso poderia causar estragos.
 
 ```js
 foo();
@@ -85,9 +85,9 @@ function foo() {
 }
 ```
 
-The function `foo`'s declaration (which in this case *includes* the implied value of it as an actual function) is hoisted, such that the call on the first line is able to execute.
+A declaração da função `foo` (na qual nesse caso *inclui* o seu valor implícito como uma função real) é "elevada", de maneira que a chamada da primeira linha está pronta para ser executada.
 
-It's also important to note that hoisting is **per-scope**. So while our previous snippets were simplified in that they only included global scope, the `foo(..)` function we are now examining itself exhibits that `var a` is hoisted to the top of `foo(..)` (not, obviously, to the top of the program). So the program can perhaps be more accurately interpreted like this:
+Também é importante entender que "elevação" (hoisting) é **por escopo**. Portanto, enquanto nossos trechos de código anterior eram simplificados nesse ponto, eles apenas incluíam o escopo global, a própria função `foo(...)` que estamos examinando agora, mostra que `var a` é "elevada" para o topo de `foo(...)` (não para o topo do programa, obviamente). Desde modo, o programa pode ser interpretado mais precisamente dessa forma:
 
 ```js
 function foo() {
@@ -101,19 +101,19 @@ function foo() {
 foo();
 ```
 
-Function declarations are hoisted, as we just saw. But function expressions are not.
+Declarações de função são "elevadas", como acabamos de ver. Mas expressões de função não são.
 
 ```js
-foo(); // not ReferenceError, but TypeError!
+foo(); // não é ReferenceError, mas um TypeError!
 
 var foo = function bar() {
 	// ...
 };
 ```
 
-The variable identifier `foo` is hoisted and attached to the enclosing scope (global) of this program, so `foo()` doesn't fail as a `ReferenceError`. But `foo` has no value yet (as it would if it had been a true function declaration instead of expression). So, `foo()` is attempting to invoke the `undefined` value, which is a `TypeError` illegal operation.
+O identificador da variável `foo` é "elevado" e anexado ao escopo delimitado (global) do programa, logo `foo()` não falha devido a `ReferenceError`. Mas `foo` não possui valor ainda (como teria se fosse um declaração de função real em vez de expressão). Portanto, `foo()` é tentada a invocar o valor `undefined`, que é uma operação ilegal `TypeError`.
 
-Also recall that even though it's a named function expression, the name identifier is not available in the enclosing scope:
+Também lembre que apesar de ser uma expressão de função nomeada, o identificador de nome não está disponível no escopo delimitado:
 
 ```js
 foo(); // TypeError
@@ -124,7 +124,7 @@ var foo = function bar() {
 };
 ```
 
-This snippet is more accurately interpreted (with hoisting) as:
+Esse trecho de código é mais precisamente interpretado (com hoisting) como:
 
 ```js
 var foo;
@@ -138,11 +138,12 @@ foo = function() {
 }
 ```
 
-## Functions First
 
-Both function declarations and variable declarations are hoisted. But a subtle detail (that *can* show up in code with multiple "duplicate" declarations) is that functions are hoisted first, and then variables.
+## Primeiro as Funções
 
-Consider:
+Declarações de função e variável são "elevadas". Mas um detalhe  (que *pode* aparecer no código com múltiplas declarações "duplicadas") é que primeiro são "elevadas" as funções, e depois as variáveis.
+
+Considere:
 
 ```js
 foo(); // 1
@@ -158,7 +159,7 @@ foo = function() {
 };
 ```
 
-`1` is printed instead of `2`! This snippet is interpreted by the *Engine* as:
+`1` é impresso em vez de `2`! Esse trecho é interpretado pelo *Engine* como:
 
 ```js
 function foo() {
@@ -172,9 +173,9 @@ foo = function() {
 };
 ```
 
-Notice that `var foo` was the duplicate (and thus ignored) declaration, even though it came before the `function foo()...` declaration, because function declarations are hoisted before normal variables.
+Note que `var foo` era a declaração duplicada (neste caso ignorada), apesar dela vir antes da declaração `function foo()...`, porque declarações de função são "elevadas" antes de variáveis normais.
 
-While multiple/duplicate `var` declarations are effectively ignored, subsequent function declarations *do* override previous ones.
+Enquanto múltiplas/duplicadas declarações `var` são efetivamente ignoradas, declarações de função subsequentes *sobrescrevem* declarações anteriores.
 
 ```js
 foo(); // 3
@@ -192,9 +193,9 @@ function foo() {
 }
 ```
 
-While this all may sound like nothing more than interesting academic trivia, it highlights the fact that duplicate definitions in the same scope are a really bad idea and will often lead to confusing results.
+Embora isso tudo possa parecer nada além de algo interessantemente trivial, destaca-se o fato de que definições duplicadas no mesmo escopo são uma má ideia e muitas vezes irão levar à resultados confusos.
 
-Function declarations that appear inside of normal blocks typically hoist to the enclosing scope, rather than being conditional as this code implies:
+Declarações de função que aparecem dentro de blocos normais tipicamente "elevam" para o escopo delimitado, em vez de serem condicionais como o seguinte código sugere:
 
 ```js
 foo(); // "b"
@@ -208,14 +209,14 @@ else {
 }
 ```
 
-However, it's important to note that this behavior is not reliable and is subject to change in future versions of JavaScript, so it's probably best to avoid declaring functions in blocks.
+Entretanto, é importante entender que esse comportamento não é confiável e está sujeito a mudanças em futuras versões do JavaScript, por isso é melhor evitar declarar funções em blocos.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-We can be tempted to look at `var a = 2;` as one statement, but the JavaScript *Engine* does not see it that way. It sees `var a` and `a = 2` as two separate statements, the first one a compiler-phase task, and the second one an execution-phase task.
+Podemos ser tentados a olhar para `var a = 2;` como sendo uma instrução, mas o *Engine* do JavaScript não vê dessa maneira. Ele vê `var a` e `a = 2` como duas instruções separadas, a primeira como uma tarefa da fase de compilação e a segunda como tarefa da fase de execução.
 
-What this leads to is that all declarations in a scope, regardless of where they appear, are processed *first* before the code itself is executed. You can visualize this as declarations (variables and functions) being "moved" to the top of their respective scopes, which we call "hoisting".
+Isso nos leva à concluir que todas as declarações em um escopo, independente de onde elas aparecerem, são processadas *primeiro* antes do próprio código ser executado. Você pode entender esse processo como declarações sendo "movidas" para o topo de seus respectivos escopos, o qual nós chamamos de "elevação" (hoisting).
 
-Declarations themselves are hoisted, but assignments, even assignments of function expressions, are *not* hoisted.
+As próprias declarações são "elevadas", mas atribuições, mesmo atribuições de expressões de função, *não* são "elevadas".
 
-Be careful about duplicate declarations, especially mixed between normal var declarations and function declarations -- peril awaits if you do!
+Cuidado com declarações duplicadas, especialmente misturadas entre declarações de variável normal e de função -- há um certo perigo, caso isso aconteça!

@@ -1,104 +1,104 @@
 # You Don't Know JS: Up & Going
-# Chapter 3: Into YDKJS
+# Capítulo 3: Dentro do YDKJS
 
-What is this series all about? Put simply, it's about taking seriously the task of learning *all parts of JavaScript*, not just some subset of the language that someone called "the good parts," and not just whatever minimal amount you need to get your job done at work.
+Sobre o que é essa série? Simplificando, trata-se de levar a sério a tarefa de aprender *todas as partes do JavaScript*, e não apenas um subconjunto da linguagem que alguns chamam de "as partes boas", e também não apenas o mínimo que você precisa fazer para terminar o seu trabalho.
 
-Serious developers in other languages expect to put in the effort to learn most or all of the language(s) they primarily write in, but JS developers seem to stand out from the crowd in the sense of typically not learning very much of the language. This is not a good thing, and it's not something we should continue to allow to be the norm.
+Desenvolvedores sérios em outras linguagens esperam colocar seu esforço para aprender a maioria ou a totalidade da linguagem (ou linguagens) que eles mais usam, mas os desenvolvedores JavaScript parecem se destacar da multidão no sentido de normalmente não aprender muito da linguagem em si. Esta não é uma coisa boa, e não é algo que podemos continuar a permitir a ser o modelo.
 
-The *You Don't Know JS* (*YDKJS*) series stands in stark contrast to the typical approaches to learning JS, and is unlike almost any other JS books you will read. It challenges you to go beyond your comfort zone and to ask the deeper "why" questions for every single behavior you encounter. Are you up for that challenge?
+A série *You Don't Know JS* (*YDKJS*) está em contraste gritante com as abordagens típicas para aprender JS, e é diferente de praticamente qualquer outros livros sobre JS que você vai ler. Ele te desafia a sair da sua zona de conforto e de se perguntar os mais profundos "porquês" para cada comportamento que você encontrar. Você está pronto para esse desafio?
 
-I'm going to use this final chapter to briefly summarize what to expect from the rest of the books in the series, and how to most effectively go about building a foundation of JS learning on top of *YDKJS*.
+Vou usar este capítulo final para resumir o que esperar do resto dos livros da série, e como ir de forma mais eficaz sobre a construção de uma base de aprendizagem de JavaScript em cima da *YDKJS*.
 
-## Scope & Closures
+## Escopo & Encerramentos
 
-Perhaps one of the most fundamental things you'll need to quickly come to terms with is how scoping of variables really works in JavaScript. It's not enough to have anecdotal fuzzy *beliefs* about scope.
+Talvez uma das coisas mais fundamentais que você precisa aprender, é como o escopo de variáveis realmente funciona em JavaScript. Isso não é o suficiente para ter *opiniões* vagas sobre escopo.
 
-The *Scope & Closures* title starts by debunking the common misconception that JS is an "interpreted language" and therefore not compiled. Nope.
+O título *Escopo & Encerramentos* começa por desmascarar o equívoco comum que JS é uma "linguagem interpretada" e, portanto, não compilado. Não.
 
-The JS engine compiles your code right before (and sometimes during!) execution. So we use some deeper understanding of the compiler's approach to our code to understand how it finds and deals with variable and function declarations. Along the way, we see the typical metaphor for JS variable scope management, "Hoisting."
+O motor de JS compila seu código logo antes (e às vezes durante!) a execução. Então, faremos uso de uma abordagem mais profunda do compilador para o nosso código, para entender como ele encontra e lida com declarações de variáveis e funções. Ao longo do caminho, vemos a típica metáfora para gerenciamento de escopo de variáveis em JS, *"Hoisting"* (Elevação).
 
-This critical understanding of "lexical scope" is what we then base our exploration of closure on for the last chapter of the book. Closure is perhaps the single most important concept in all of JS, but if you haven't first grasped firmly how scope works, closure will likely remain beyond your grasp.
+É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Encerramento* para o último capítulo do livro. Talvez *Encerramento* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Encerramento* provavelmente permanecerá fora do seu alcance.
 
-One important application of closure is the module pattern, as we briefly introduced in this book in Chapter 2. The module pattern is perhaps the most prevalent code organization pattern in all of JavaScript; deep understanding of it should be one of your highest priorities.
+Uma aplicação importante de *Encerramento* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso, deve ser uma de suas maiores prioridades.
 
-## this & Object Prototypes
+## this & Prototipagem de Objetos
 
-Perhaps one of the most widespread and persistent mistruths about JavaScript is that the `this` keyword refers to the function it appears in. Terribly mistaken.
+Talvez uma das inverdades mais comuns e persistentes sobre JavaScript é que a palavra-chave `this` se refere à função qual ela aparece. Terrível engano.
 
-The `this` keyword is dynamically bound based on how the function in question is executed, and it turns out there are four simple rules to understand and fully determine `this` binding.
+A palavra-chave `this` é dinamicamente ligada com base em como a função em questão é executada, e existem quatro regras básicas para entender e determinar plenamente a ligação do `this`.
 
-Closely related to the `this` keyword is the object prototype mechanism, which is a look-up chain for properties, similar to how lexical scope variables are found. But wrapped up in the prototypes is the other huge miscue about JS: the idea of emulating (fake) classes and (so-called "prototypal") inheritance.
+Intimamente relacionado com a palavra-chave `this`, está o mecanismo protótipo de objeto (object prototype), que é uma cadeia de pesquisa para as propriedades, similar ao modo léxico que o escopo de variáveis é encontrado. Mas envolto nos protótipos, está outro enorme erro sobre JS: a (falsa) ideia de emular classes e (a chamada "prototipagem") herança.
 
-Unfortunately, the desire to bring class and inheritance design pattern thinking to JavaScript is just about the worst thing you could try to do, because while the syntax may trick you into thinking there's something like classes present, in fact the prototype mechanism is fundamentally opposite in its behavior.
+Infelizmente, o desejo de trazer o design pattern (padrão de projeto) de classes e heranças para o JavaScript é simplesmente a pior coisa que você poderia tentar fazer, porque enquanto a sintaxe pode induzi-lo a pensar que há algo como classes, de fato o mecanismo de protótipo é fundamentalmente oposto em o seu funcionamento.
 
-What's at issue is whether it's better to ignore the mismatch and pretend that what you're implementing is "inheritance," or whether it's more appropriate to learn and embrace how the object prototype system actually works. The latter is more appropriately named "behavior delegation."
+O que está em questão é se é melhor ignorar a incompatibilidade e fingir que o que você está implementando é "herança", ou se é mais apropriado aprender e abraçar como o sistema de protótipo de objeto realmente funciona. Este último é mais apropriadamente chamado de "delegação de comportamento."
 
-This is more than syntactic preference. Delegation is an entirely different, and more powerful, design pattern, one that replaces the need to design with classes and inheritance. But these assertions will absolutely fly in the face of nearly every other blog post, book, and conference talk on the subject for the entirety of JavaScript's lifetime.
+Então isso é mais sobre preferência sintática. A delegação é um sistema totalmente diferente, e mais poderoso, de design pattern, que substitui a necessidade de planejar classes e heranças. Mas essas afirmações com certeza vão pros ares frente à quase todos os outros post, livros, e conferências sobre o assunto para a duração da vida do JavaScript.
 
-The claims I make regarding delegation versus inheritance come not from a dislike of the language and its syntax, but from the desire to see the true capability of the language properly leveraged and the endless confusion and frustration wiped away.
+As afirmações que faço sobre delegação contra herança vem não de uma antipatia da linguagem e da sua sintaxe, mas a partir do desejo de ver a verdadeira capacidade da linguagem adequadamente aproveitada, e, a confusão sem fim e frustração indo embora.
 
-But the case I make regarding prototypes and delegation is a much more involved one than what I will indulge here. If you're ready to reconsider everything you think you know about JavaScript "classes" and "inheritance," I offer you the chance to "take the red pill" (*Matrix* 1999) and check out Chapters 4-6 of the *this & Object Prototypes* title of this series.
+Mas o caso que eu faço a respeito de protótipos e a delegação é muito mais do que o que eu vou falar aqui. Se você está pronto para reconsiderar tudo o que você pensa que sabe sobre as "classes" e "heranças" em JavaScript, eu lhe ofereço a oportunidade para "tomar a pílula vermelha" (*Matrix* 1999) e conferir os capítulos 4-6 do título *this & Protótipo de Objetos* desta série.
 
-## Types & Grammar
+## Tipos e Gramática
 
-The third title in this series primarily focuses on tackling yet another highly controversial topic: type coercion. Perhaps no topic causes more frustration with JS developers than when you talk about the confusions surrounding implicit coercion.
+O terceiro título desta série tem foco principalmente em combater ainda outro tópico altamente controverso: a coerção de tipos. Provavelmente nenhum tópico causa mais frustração entre os desenvolvedores JS que quando você fala sobre as confusões acerca da coerção implícita.
 
-By far, the conventional wisdom is that implicit coercion is a "bad part" of the language and should be avoided at all costs. In fact, some have gone so far as to call it a "flaw" in the design of the language. Indeed, there are tools whose entire job is to do nothing but scan your code and complain if you're doing anything even remotely like coercion.
+De longe, a sabedoria popular diz que a coerção implícita é uma "parte ruim" da linguagem e deve ser evitada a qualquer custo. Na verdade, alguns tem ido tão longe ao ponto de chamá-la de falha na concepção da linguagem. Realmente, existem ferramentas que tem o foco em nada mais que escanear o códido e alertar se você estiver fazendo alguma coisa parecida com a coerção.
 
-But is coercion really so confusing, so bad, so treacherous, that your code is doomed from the start if you use it?
+Mas a coerção é realmente confusa, tão ruim, tão falsa, que seu código estará condenado desde o início, se você usá-la?
 
-I say no. After having built up an understanding of how types and values really work in Chapters 1-3, Chapter 4 takes on this debate and fully explains how coercion works, in all its nooks and crevices. We see just what parts of coercion really are surprising and what parts actually make complete sense if given the time to learn.
+Eu digo que não. Depois de ter consolidado uma compreensão de como tipos e valores realmente funcionam nos capítulos 1-3, o capítulo 4 assume este debate e explicará totalmente como a coerção funciona, com todos os detalhes. Nós veremos apenas que partes da coerção realmente surpreendem e quais partes fazem completo sentido se tiver tempo para aprender.
 
-But I'm not merely suggesting that coercion is sensible and learnable, I'm asserting that coercion is an incredibly useful and totally underestimated tool that *you should be using in your code.* I'm saying that coercion, when used properly, not only works, but makes your code better. All the naysayers and doubters will surely scoff at such a position, but I believe it's one of the main keys to upping your JS game.
+Mas eu não estou apenas sugerindo que a coerção é sensível e pode ser aprendida, eu estou seguro que a coerção é uma ferramenta incrivelmente útil e totalmente menosprezada que *você deve usar em seu código*. Eu estou dizendo que a coerção, quando usada corretamente, não apenas funciona, mas faz seu código ser melhor. Todos os pessimistas e céticos, certamente irão zombar disso, mas eu acredito que isso é uma das principais chaves para elevar seu conhecimento em JS.
 
-Do you want to just keep following what the crowd says, or are you willing to set all the assumptions aside and look at coercion with a fresh perspective? The *Types & Grammar* title of this series will coerce your thinking.
+Você apenas quer continuar seguindo o que a multidão diz, ou você está disposto à deixar todos os pressupostos de lado e olhar para a coerção com uma nova perspectiva? O volume *Tipos & Gramática* desta série irá te forçar a pensar.
 
 ## Async & Performance
 
-The first three titles of this series focus on the core mechanics of the language, but the fourth title branches out slightly to cover patterns on top of the language mechanics for managing asynchronous programming. Asynchrony is not only critical to the performance of our applications, it's increasingly becoming *the* critical factor in writability and maintainability.
+Os três primeiros títulos desta série tem o foco nos mecanismos centrais da linguagem, mas o quarto título ramifica-se levemente para cobrir padrões no topo da linguagem para gerenciar a programação assíncrona. Programação assíncrona não é somente crítica para a performance das nossas aplicações, ela está se tornando cada vez mais o fator crítico para a sua escrita e manutenção.
 
-The book starts first by clearing up a lot of terminology and concept confusion around things like "async," "parallel," and "concurrent," and explains in depth how such things do and do not apply to JS.
+O livro começa primeiramente esclarecendo um monte de conceitos e terminologias confusas acerca de coisas como "assíncrino", "paralelismo" e "simultâneo", e explica detalhadamente como essas coisas se aplicam ou não ao JS.
 
-Then we move into examining callbacks as the primary method of enabling asynchrony. But it's here that we quickly see that the callback alone is hopelessly insufficient for the modern demands of asynchronous programming. We identify two major deficiencies of callbacks-only coding: *Inversion of Control* (IoC) trust loss and lack of linear reason-ability.
+Em seguida, passamos a examinar os callbacks como o principal método à possibilitar porgramação assíncrona. Mas é aqui que vemos rapidamente que o callback em si é insuficiente para as exigências modernas de programação assíncrona. Identificamos duas principais deficiências da codificação somente callback: a perda de confiança na *Inversão de Controle* (IoC), e falta de capacidade de raciocinar linearmente.
 
-To address these two major deficiencies, ES6 introduces two new mechanisms (and indeed, patterns): promises and generators.
+Para tratar dessas duas importantes deficiências, o ES6 introduz dois novos mecanismos (e, na verdade, padrões): promises e generators.
 
-Promises are a time-independent wrapper around a "future value," which lets you reason about and compose them regardless of if the value is ready or not yet. Moreover, they effectively solve the IoC trust issues by routing callbacks through a trustable and composable promise mechanism.
+Promessas (promises) são um agregador independente, sobre um "valor futuro", que permite você pensar sobre ele e compô-los independentemente do valor estar pronto ou ainda não. Além disso, elas efetivamente resolvem os problemas de confiança na IoC roteando os callbacks através de um confiável e composto mecanismo de promise.
 
-Generators introduce a new mode of execution for JS functions, whereby the generator can be paused at `yield` points and be resumed asynchronously later. The pause-and-resume capability enables synchronous, sequential looking code in the generator to be processed asynchronously behind the scenes. By doing so, we address the non-linear, non-local-jump confusions of callbacks and thereby make our asynchronous code sync-looking so as to be more reason-able.
+Os Geradores (Generators) introduzem um novo modo de execução para as funções JS, visto que o gerador pode ser pausado em pontos de `yield` e depois continuar de forma assíncrona. A capacidade de pausa-e-continua permite o síncrono, consequentemente, procura código no gerador para ser processado assincronamente nos bastidores. Ao fazer isso, nós abordamos as confusões não-linear, não-saltos-locais de callbacks, e assim, tornar nosso código assíncrono síncrono, procurando um modo de ser mais razoável.
 
-But it's the combination of promises and generators that "yields" our most effective asynchronous coding pattern to date in JavaScript. In fact, much of the future sophistication of asynchrony coming in ES7 and later will certainly be built on this foundation. To be serious about programming effectively in an async world, you're going to need to get really comfortable with combining promises and generators.
+Mas é essa combinação de promessas e geradores que "produz" nosso mais eficaz padrão de codificação assíncrona, até hoje, em JavaScript. De fato, muito do futuro da sofisticação assíncrona está por vir no ES7 e depois certamente será contruída sobre esse fundamento. Para ser sério sobre programação de modo eficaz em um mundo assíncrono, você deverá se acostumar com a combinação de promessas e geradores.
 
-If promises and generators are about expressing patterns that let our programs run more concurrently and thus get more processing accomplished in a shorter period, JS has many other facets of performance optimization worth exploring.
+Se promessas e geradores representam a expressão de padrões que permitem nossos programas rodarem ao mesmo tempo, e assim, obter mais processamento realizado em um período menor, o JS tem muitas outras facetas de desempenho que vale a pena explorar.
 
-Chapter 5 delves into topics like program parallelism with Web Workers and data parallelism with SIMD, as well as low-level optimization techniques like ASM.js. Chapter 6 takes a look at performance optimization from the perspective of proper benchmarking techniques, including what kinds of performance to worry about and what to ignore.
+O Capítulo 5 explora temas como o paralelismo de programa com o Web Workers e paralelismo de dados com SIMD, bem como técnicas de otimização de baixo nível, como ASM.js. O Capítulo 6 lança um olhar sobre otimização de desempenho do ponto de vista das técnicas de avaliação comparativas adequadas, incluindo que tipo de desempenho a se preocupar e qual ignorar.
 
-Writing JavaScript effectively means writing code that can break the constraint barriers of being run dynamically in a wide range of browsers and other environments. It requires a lot of intricate and detailed planning and effort on our parts to take a program from "it works" to "it works well."
+Escrever JavaScript efetivamente significa escrever código que pode quebrar as barreiras de restrição do que está sendo executado de forma dinâmica em uma ampla gama de navegadores e outros ambientes. Isso exige muito esforço e um planejamento complexo e detalhado da nossa parte, para levar um programa de "isso funciona" para "isso funciona bem".
 
-The *Async & Performance* title is designed to give you all the tools and skills you need to write reasonable and performant JavaScript code.
+O título *Assíncrono & Desempenho* (*Async & Performance*) é feito para te dar todas as ferramentas e habilidades que você precisa para escrever código JavaScript sensato e performático.
 
-## ES6 & Beyond
+## ES6 & Além
 
-No matter how much you feel you've mastered JavaScript to this point, the truth is that JavaScript is never going to stop evolving, and moreover, the rate of evolution is increasing rapidly. This fact is almost a metaphor for the spirit of this series, to embrace that we'll never fully *know* every part of JS, because as soon as you master it all, there's going to be new stuff coming down the line that you'll need to learn.
+Não importa o quanto você se sinta o mestre em JavaScript até aqui, a verdade é que JavaScript nunca deixará de evoluir, e além disso, a taxa de evolução está aumentando rapidamente. Este fato é quase uma metáfora para o espírito desta série, compreender que nós nunca vamos *saber* tudo sobre JS, porque tão logo você dominar tudo, surgirão coisas novas que irão para a fila do que você precisa aprender.
 
-This title is dedicated to both the short- and mid-term visions of where the language is headed, not just the *known* stuff like ES6 but the *likely* stuff beyond.
+Este título é dedicado tanto para visões de curto e médio prazo de para onde a linguagem caminha, não apenas as coisas *conhecidas* como ES6 mas as também as coisas *prováveis* que estão por vir.
 
-While all the titles of this series embrace the state of JavaScript at the time of this writing, which is mid-way through ES6 adoption, the primary focus in the series has been more on ES5. Now, we want to turn our attention to ES6, ES7, and ...
+Enquanto todos os títulos desta série compreendem o estado do JavaScript do momento em que foram escritos, que está na metade do caminho para a adoção do ES6, o foco primário desta série tem sido mais no ES5. Agora, nós queremos voltar nossa atenção para o ES6, ES7, e...
 
-Since ES6 is nearly complete at the time of this writing, *ES6 & Beyond* starts by dividing up the concrete stuff from the ES6 landscape into several key categories, including new syntax, new data structures (collections), and new processing capabilities and APIs. We cover each of these new ES6 features, in varying levels of detail, including reviewing details that are touched on in other books of this series.
+Já que o ES6 está quase completo, no momento da redação deste texto, *ES6 & Além* começa dividindo o matérial sólido da paisagem do ES6 em diversas categorias chave, incluindo a nova sintaxe, as novas (coleções de) estruturas de dados, e a nova capacidade de processamento e APIs. Nós cobriremos cada uma dessas novas características do ES6, em diferentes níveis de detalhe, incluindo a revisão de detalhes que já foram citados em outros livros desta série.
 
-Some exciting ES6 things to look forward to reading about: destructuring, default parameter values, symbols, concise methods, computed properties, arrow functions, block scoping, promises, generators, iterators, modules, proxies, weakmaps, and much, much more! Phew, ES6 packs quite a punch!
+Algumas coisas interessantes do ES6 para acompanhar e ler sobre: desestruturação, parâmetros com valores padrão, símbolos, métodos concisos, propriedades calculadas, arrow functions, bloco de escopo, promessas, geradores, iterators, módulos, proxies, weakmaps, e mais, muito mais! Ufa, o ES6 tem muito poder!
 
-The first part of the book is a roadmap for all the stuff you need to learn to get ready for the new and improved JavaScript you'll be writing and exploring over the next couple of years.
+A primeira parte do livro é um roteiro para todas as coisas que você precisa aprender para se preparar para o novo e melhorado JavaScript que você vai escrever e explorar pelos próximos anos.
 
-The latter part of the book turns attention to briefly glance at things that we can likely expect to see in the near future of JavaScript. The most important realization here is that post-ES6, JS is likely going to evolve feature by feature rather than version by version, which means we can expect to see these near-future things coming much sooner than you might imagine.
+A última parte do livro volta foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir funcionalidade por funcionalidade a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
 
-The future for JavaScript is bright. Isn't it time we start learning it!?
+O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprendê-lo!?
 
-## Review
+## Revisão
 
-The *YDKJS* series is dedicated to the proposition that all JS developers can and should learn all of the parts of this great language. No person's opinion, no framework's assumptions, and no project's deadline should be the excuse for why you never learn and deeply understand JavaScript.
+A série *YDKJS* é dedicada à questão que todos os desenvolvedores JS podem e devem aprender todas as partes desta grandiosa linguagem. Nem a opinião de alguém, nem framework's, nem prazos de projetos devem ser desculpa para você deixar de aprender e compreender JavaScript profundamente.
 
-We take each important area of focus in the language and dedicate a short but very dense book to fully explore all the parts of it that you perhaps thought you knew but probably didn't fully.
+Nós pegamos cada área importante da linguagem, focamos e dedicamos um livro curto mas denso para explorar plenamente todas as partes que você talvez pensou que sabia, mas não provavelmente, não na sua totalidade.
 
-"You Don't Know JS" isn't a criticism or an insult. It's a realization that all of us, myself included, must come to terms with. Learning JavaScript isn't an end goal but a process. We don't know JavaScript, yet. But we will!
+"You Don't Know JS" ("Você Não Sabe JS") não é uma crítica ou um insulto. Isso é uma percepção que todos nós, inclusive eu, devemos chegar a ter. Aprender JavaScript não é um objetivo final, mas um processo. Nós não sabemos JavaScript, ainda. Mas vamos!

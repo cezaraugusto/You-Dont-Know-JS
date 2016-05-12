@@ -1,13 +1,13 @@
-# You Don't Know JS: Scope & Closures
-# Appendix A: Dynamic Scope
+# You Don't Know JS: Escopos & Encerramentos
+# Apêndice A: Escopo Dinâmico
 
-In Chapter 2, we talked about "Dynamic Scope" as a contrast to the "Lexical Scope" model, which is how scope works in JavaScript (and in fact, most other languages).
+No Capítulo 2, falamos sobre "Escopo Dinâmico" como um contraste ao modelo de "Escopo Léxico", que é como os escopos funcionam em JavaScript (e, de fato, na maioria das linguagens).
 
-We will briefly examine dynamic scope, to hammer home the contrast. But, more importantly, dynamic scope actually is a near cousin to another mechanism (`this`) in JavaScript, which we covered in the "*this & Object Prototypes*" title of this book series.
+Iremos brevemente examinar o escopo dinâmico, para reforçar o contraste entre eles. Porém, algo bem mais importante, o escopo dinâmico é na verade um primo próximo de outro mecanismo (`this`) em JavaScript, que cobrimos no título "*This & Prototipagem de Objetos*" desta série.
 
-As we saw in Chapter 2, lexical scope is the set of rules about how the *Engine* can look-up a variable and where it will find it. The key characteristic of lexical scope is that it is defined at author-time, when the code is written (assuming you don't cheat with `eval()` or `with`).
+Como vimos no Capítulo 2, o escopo léxico é um grupo de regras sobre como a *Engrenagem* pode verificar uma variável e onde ela irá encontrá-lo. As características-chave do escopo léxico é que ela é definida no tempo do autor (author-time), quando o código é escrito (assumindo que você não trapaceie com `eval()` ou `with`).
 
-Dynamic scope seems to imply, and for good reason, that there's a model whereby scope can be determined dynamically at runtime, rather than statically at author-time. That is in fact the case. Let's illustrate via code:
+Escopos dinâmicos parecem deduzir, por uma boa causa, que existe um modelo pelo qual o escopo pode ser determinado dinamicamente no tempo de execução (*runtime*), ao invés de estaticamente no momento que o código é escrito (author-time). Este é de fato o caso. Vamos ilustrar por código:
 
 ```js
 function foo() {
@@ -24,15 +24,15 @@ var a = 2;
 bar();
 ```
 
-Lexical scope holds that the RHS reference to `a` in `foo()` will be resolved to the global variable `a`, which will result in value `2` being output.
+O escopo léxico mantém que a referência RHS para `a` em `foo()` será resolvida para a variável global `a`, que irá resultar no valor `2`.
 
-Dynamic scope, by contrast, doesn't concern itself with how and where functions and scopes are declared, but rather **where they are called from**. In other words, the scope chain is based on the call-stack, not the nesting of scopes in code.
+O escopo dinâmico, por contraste, não se importa em como e onde funções e escopos são declarados, mas sim com **de onde eles são chamados**. Em outras palavras, a cadeia do escopo é baseada no agrupamento de chamadas (call-stack), não no aninhamento de escopos no código.
 
-So, if JavaScript had dynamic scope, when `foo()` is executed, **theoretically** the code below would instead result in `3` as the output.
+Sendo assim, se o JavaScript tem um escopo dinâmico, quando `foo()` é executado, **teoricamente** o código abaixo deveria resultar em `3` como resultado.
 
 ```js
 function foo() {
-	console.log( a ); // 3  (not 2!)
+	console.log( a ); // 3  (não 2!)
 }
 
 function bar() {
@@ -45,14 +45,14 @@ var a = 2;
 bar();
 ```
 
-How can this be? Because when `foo()` cannot resolve the variable reference for `a`, instead of stepping up the nested (lexical) scope chain, it walks up the call-stack, to find where `foo()` was *called from*. Since `foo()` was called from `bar()`, it checks the variables in scope for `bar()`, and finds an `a` there with value `3`.
+Como pode ser assim? Por conta de `foo()` não poder resolver a referência da variável para `a`, ao invés de passar para a cadeia de escopo aninhada (léxico), ele percorre o agrupamento de chamadas (call-stack), para achar *de onde* `foo()` *foi chamado*. Já que `foo()` foi chamado pelo `bar()`, ele verifica as variáveis no escopo de `bar()`, e encontra um `a` com o valor `3`.
 
-Strange? You're probably thinking so, at the moment.
+Estranho? Você deve estar pensando, no momento.
 
-But that's just because you've probably only ever worked on (or at least deeply considered) code which is lexically scoped. So dynamic scoping seems foreign. If you had only ever written code in a dynamically scoped language, it would seem natural, and lexical scope would be the odd-ball.
+Mas isso apenas porque você provavelmentes só trabalhou (ou pelo menos considerou profundamente) em códigos que são lexicamente escopados. Por isso o escopo dinâmico parece estranho. Se você só escreveu códigos em uma linguagem de escopo dinâmico, isso te pareceu bem natural, e o escopo léxico seria a parte estranha.
 
-To be clear, JavaScript **does not, in fact, have dynamic scope**. It has lexical scope. Plain and simple. But the `this` mechanism is kind of like dynamic scope.
+Para ser claro, o JavaScript **não tem, de fato, um escopo dinâmico**. Ele tem escopo léxico. Pleno e simples. Mas o mecanismo de `this` é meio que parecido com o escopo dinâmico.
 
-The key contrast: **lexical scope is write-time, whereas dynamic scope (and `this`!) are runtime**. Lexical scope cares *where a function was declared*, but dynamic scope cares where a function was *called from*.
+O contraste chaveÇ **escopo léxico rodam no tempo de escrita (write-time), e o escopo dinâmico (e `this`!) ocorrem no tempo de execução (runtime)**. Escopo léxico se importa com a questão *de onde a função foi declarada*, mas o escopo dinâmico se importa com a questão *de onde ela foi chamada*.
 
-Finally: `this` cares *how a function was called*, which shows how closely related the `this` mechanism is to the idea of dynamic scoping. To dig more into `this`, read the title "*this & Object Prototypes*".
+FinalmenteÇ `this` se importa com *como a função foi chamada*, o que mostra o quão próxima é a relação do mecanismo `this` com a ideia do escopo dinâmico. Para saber mais sobre `this`, leia o título *this & Prototipagem de Objetos*.
