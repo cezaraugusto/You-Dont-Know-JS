@@ -182,7 +182,7 @@ Um valor `string` pode ser englobado por um objeto `String`, um `number` pode se
 
 ### Comparando Valores
 
-Existem dois tipos principais de comparação de valores que você irá preccisar para fazer seus programas em JS: *igualdade* and *desigualdade*. O resultado de qualquer comparação é estritmente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
+Existem dois tipos principais de comparação de valores que você irá preccisar para fazer seus programas em JS: *igualdade* e *desigualdade*. O resultado de qualquer comparação é estritmente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
 
 #### Coerção
 
@@ -326,7 +326,7 @@ Espera, como podem as três comparações serem `false`? Porque o valor de `b` �
 
 A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
-**Nota:** For more information about the inequality comparison rules, see section 11.8.5 of the ES5 specification and also consult Chapter 4 of the *Types & Grammar* title of this series.
+**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos e Grámaticas* dessa série.
 
 ## Variáveis
 
@@ -368,7 +368,7 @@ function foo() {
 console.log( a );   // 2
 ```
 
-**Atenção:** Não é comum nem uma boa ideia se basear no *hoisting* de variáveis para usar uma variável antes de seu escopo do que quando ao invés de quando a declaração `var` aparece; pode ficar confuso. It's much more common and accepted to use *hoisted* function declarations, as we do with the `foo()` call appearing before its formal declaration.
+**Atenção:** Não é comum nem uma boa ideia se basear no *hoisting* de variáveis para usar uma variável antes de seu escopo do que quando ao invés de quando a declaração `var` aparece; pode ficar confuso.É muito mais comum e aceitável utilizar *hoisted* declarações de funções, as we do with the `foo()` call appearing before its formal declaration.
 
 #### Escopos Aninhados
 
@@ -639,7 +639,7 @@ foo();
 
 Como você pode ver, listar `(function IIFE(){ .. })` antes de sua execução `()` é essencialmente a mesma coisa do que executar `foo` antes de sua execução `()`; em ambos os casos, a referência da função é executada com o `()` logo em seguida.
 
-Because an IIFE is just a function, and functions create variable *scope*, using an IIFE in this fashion is often used to declare variables that won't affect the surrounding code outside the IIFE:
+Porque IIFE é apenas uma função, e funções criam variáveis *scope*, usar uma IIFE dessa forma é muitas vezes usado para declarar variáveis que não afetarão o código fora de IIFE:
 
 ```js
 var a = 42;
@@ -855,7 +855,7 @@ Então, o que você faz com as coisas novas? Você só precisa esperar por anos 
 
 Isso é como muitas pessoas pensam sobre essa situação, mas não é realmente uma abordagem saudável para o JS.
 
-Existem duas técnicas principais que você pode usar para "trazer" as coisas novas de JavaScript para os navegadores antigos: polyfilling and transpiling.
+Existem duas técnicas principais que você pode usar para "trazer" as coisas novas de JavaScript para os navegadores antigos: polyfilling e transpiling.
 
 ### Polyfilling
 
