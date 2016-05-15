@@ -43,21 +43,21 @@ Para Javascript, a compilação que ocorre acontece, em muitos casos, somente al
 
 Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de Javascript tem que ser compilado antes (geralmente *exatamente* como dito antes!) de ser executado. Então, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, de imediato.
 
-## Understanding Scope
+## Entendendo Escopo
 
-The way we will approach learning about scope is to think of the process in terms of a conversation. But, *who* is having the conversation?
+A forma como nós vamos abordar o aprendizado sobre escopo é imaginar o processo como uma conversa. Mas, *quem* está tendo essa conversa?
 
-### The Cast
+### O Elenco
 
-Let's meet the cast of characters that interact to process the program `var a = 2;`, so we understand their conversations that we'll listen in on shortly:
+Vamos conhecer o elenco dos personagens que interagem para processar o programa `var a = 2;`, assim entenderemos a conversa que vamos ouvir em breve:
 
-1. *Engine*: responsible for start-to-finish compilation and execution of our JavaScript program.
+1. *Mecanismo*: responsável pela compilação do começo ao fim e pela execução do nosso programa Javascript.
 
-2. *Compiler*: one of *Engine*'s friends; handles all the dirty work of parsing and code-generation (see previous section).
+2. *Compilador*: um dos amigos do *Mecanismo*; gerencia todo o trabalho sujo da análise e da geração de código (veja a seção anterior).
 
-3. *Scope*: another friend of *Engine*; collects and maintains a look-up list of all the declared identifiers (variables), and enforces a strict set of rules as to how these are accessible to currently executing code.
+3. *Escopo*: outro amigo do *Mecanismo*; coleta e mantém uma lista de consultas a todos os identificadores declarados (variáveis), e impõe um rigoroso conjunto de regras sobre a maneira como estes identificadores são acessíveis pelo código que está em execução.
 
-For you to *fully understand* how JavaScript works, you need to begin to *think* like *Engine* (and friends) think, ask the questions they ask, and answer those questions the same.
+Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Mecanismo* (e amigos) pensa, fazer as perguntas que eles fazem, e responder essas perguntas.
 
 ### Back & Forth
 
