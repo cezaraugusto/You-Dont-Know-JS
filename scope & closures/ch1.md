@@ -3,7 +3,7 @@
 
 Um dos paradigmas mais fundamentais de quase todas as linguagens de programação é a capacidade de armazenar valores em variáveis e, posteriormente, obter ou modificar esses valores. Na verdade, a habilidade de armazenar e pegar valores de variáveis é o que fornece *estado* a um programa.
 
-Sem esse conceito, um progrma pode realizar algumas tarefas, mas elas seriam extremamente limitadas e extremamente desinteressantes.
+Sem esse conceito, um programa pode realizar algumas tarefas, mas elas seriam extremamente limitadas e extremamente desinteressantes.
 
 Mas a inclusão de variáveis em nossos programas gera perguntas mais interessantes como: onde essas variáveis *vivem*? Em outras palavras, onde elas são armazenadas? E, mais importante, como nossos programas as encontram quando eles precisam delas?
 
