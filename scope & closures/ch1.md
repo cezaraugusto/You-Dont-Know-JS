@@ -23,7 +23,7 @@ Em um processo tradicional de uma linguagem compilada, um pedaço de código fon
 
     **Nota:** A diferença entre tokenizing e lexing é sutil e teórica, mas centraliza-se no fato desses tokens serem ou não identificados de uma maneira *stateless* ou *stateful*. Colocando de maneira simples, se o tokenizer fosse invocar regras de análise stateful para saber se `a` deve ser considerado um token distinto ou apenas parte de outro token, *isso* seria **lexing**.
 
-2. **Parsing:** pegar um conjunto (array) de tokens e transformar isso numa árvore de elementos aninhados, que juntos representam a estrutura gramática do programa. Essa árvore é conhecida como "AST" (<b>A</b>rvore <b>S</b>intática <b>A</b>bstrata).
+2. **Parsing:** pegar um conjunto (array) de tokens e transformar isso numa árvore de elementos aninhados, que juntos representam a estrutura gramática do programa. Essa árvore é conhecida como "AST" (<b>A</b>bstract <b>S</b>yntax <b>T</b>ree, que, em tradução livre, significa: Árvore Sintática Abstrata).
 
     A árvore para `var a = 2;` pode começar com um nó de nível superior chamado `VariableDeclaration`, que tem um nó filho chamado `Identifier` (cujo valor é `a`), e outro nó filho chamado `AssignmentExpression` que por sua vez tem um filho chamado `NumericLiteral` (cujo valor é `2`).
 
@@ -31,17 +31,17 @@ Em um processo tradicional de uma linguagem compilada, um pedaço de código fon
 
     Então, em vez de focar em detalhes, nós vamos apenas olhar superficialmente e dizer que existe uma forma de obter nossa AST descrita acima para `var a = 2;` e transformá-la em instruções de máquina para de fato *criar* uma variável chamada `a` (incluindo a reserva de memória, etc), e então armazenar um valor em `a`.
 
-    **Note:** Os detalhes de como o mecanismo administra recursos do sistema estão além do que iremos cobrir, então nós vamos apenas considerar que esse mecanismo é capaz de criar e armazenar variáveis conforme necessário.
+    **Nota:** Os detalhes de como o mecanismo administra recursos do sistema estão além do que iremos cobrir, então nós vamos apenas considerar que esse mecanismo é capaz de criar e armazenar variáveis conforme necessário.
 
-O mecanismo de Javascript é vastamente mais complexo do que *apenas* aqueles três passos, da mesma maneira do que os outros compiladores. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
+O mecanismo de Javascript é vastamente mais complexo do que *apenas* aqueles três passos, da mesma maneira do que outros compiladores de linguagem. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
 
-Então, eu estou mostrando de forma bem grosseira aqui. Mas eu acho que vocês verão rapidamente porque *esses* detalhes que nós *cobrimos*, mesmo que superficialmente, são relevantes.
+Sendo assim, eu estou mostrando de forma bem grosseira aqui. Mas eu acho que vocês verão rapidamente porque *esses* detalhes que nós *cobrimos*, mesmo que superficialmente, são relevantes.
 
 Por um lado, o mecanismo de Javascript não tem o luxo (como compiladores de outras linguagens) de ter uma grande disponibilidade de tempo para otimização, porque a compilação de Javascript não acontece numa etapa de preparação anterior, como em outras linguagens.
 
 Para Javascript, a compilação que ocorre acontece, em muitos casos, somente alguns microsegundos (ou menos!) antes do código ser executado. Para garantir o mais alto desempenho, o mecanismo JS utiliza todos os tipos de truques (como JITs, que compilam de maneira preguiçosa e até mesmo recompilam rapidamente, etc.) que são além do escopo da nossa discussão aqui.
 
-Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de Javascript tem que ser compilado antes (geralmente *exatamente* como dito antes!) de ser executado. Então, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, de imediato.
+Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de Javascript tem que ser compilado antes (geralmente *logo antes* como dito anteriormente!) de ser executado. Sendo assim, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, geralmente de imediato.
 
 ## Entendendo Escopo
 
@@ -57,7 +57,7 @@ Vamos conhecer o elenco dos personagens que interagem para processar o programa 
 
 3. *Escopo*: outro amigo do *Mecanismo*; coleta e mantém uma lista de consultas a todos os identificadores declarados (variáveis), e impõe um rigoroso conjunto de regras sobre a maneira como estes identificadores são acessíveis pelo código que está em execução.
 
-Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Mecanismo* (e amigos) pensa, fazer as perguntas que eles fazem, e responder essas perguntas.
+Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Mecanismo* (e seus amigos) pensa, fazer as perguntas que eles fazem, e responder essas perguntas.
 
 ### Back & Forth
 
