@@ -79,6 +79,7 @@
 #### D
 
 * Dynamic typing: Tipagem dinâmica
+* Digging: Pode ser entendido como "brincar um pouco com", "estudar intensamente", ou até mesmo "escavar" no sentido de estudar a fundo
 
 
 #### E
