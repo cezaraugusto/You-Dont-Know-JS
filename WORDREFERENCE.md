@@ -64,7 +64,7 @@
 #### B
 
 * Browser: Navegador
-* Build (no sentido de processo de unificação): Build 
+* Build (no sentido de processo de unificação): Build
 
 
 #### C
@@ -116,6 +116,7 @@
 
 #### L
 
+* Lexing: Lexing
 * Linter: Linter
 
 
@@ -163,6 +164,8 @@
 
 #### T
 
+* Token: Token
+* Tokenizing: Tokenizing
 * Transpiling: Transpiling
 * Transpiled: *Transpilada* (em *itálico*)
 * Types: Tipos
