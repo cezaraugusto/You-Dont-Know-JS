@@ -79,19 +79,19 @@ Se o *Mecanismo* eventualmente encontra uma variável, ele atribui o valor `2` a
 
 Para resumir: duas ações distintas são tomadas para uma atribuição a uma variável: Primeiro, o *Compilador* declara uma variável (se não foi anteriormente declarada no escopo atual), e segundo, quando executa, o *Mecanismo* busca a variável no *Escopo* e atribui a ela, se encontrada.
 
-### Compiler Speak
+### O compilador fala
 
-We need a little bit more compiler terminology to proceed further with understanding.
+Nós precisamos de um pouco mais de termilonogias do compilador para seguir com a compreensão.
 
-When *Engine* executes the code that *Compiler* produced for step (2), it has to look-up the variable `a` to see if it has been declared, and this look-up is consulting *Scope*. But the type of look-up *Engine* performs affects the outcome of the look-up.
+Quando o *Mecanismo* executa o código que o *Compilador* produziu no passo (2), ele tem que buscar pela variável `a` para saber se ela foi declarada, e essa busca é consultando o *Escopo*. Mas o tipo de busca que o *Mecanismo* efetua afeta o resultado da mesma.
 
-In our case, it is said that *Engine* would be performing an "LHS" look-up for the variable `a`. The other type of look-up is called "RHS".
+No nosso caso, é dito que o *Mecanismo* faria uma busca "LHS" para a variável `a`. O outro tipo de busca é chamado de "RHS".
 
-I bet you can guess what the "L" and "R" mean. These terms stand for "Left-hand Side" and "Right-hand Side".
+Eu aposto que você pode adivinhar o que o "L" e o "R" significam. Esses termos significam "Left-hand Side" (que em tradução livre, significa: "Lado esquerdo") e "Right-hand Side" (que em tradução livre, significa: "Lado direito").
 
-Side... of what? **Of an assignment operation.**
+Lado... de que? **Da operação de atribuição.**
 
-In other words, an LHS look-up is done when a variable appears on the left-hand side of an assignment operation, and an RHS look-up is done when a variable appears on the right-hand side of an assignment operation.
+Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
 Actually, let's be a little more precise. An RHS look-up is indistinguishable, for our purposes, from simply a look-up of the value of some variable, whereas the LHS look-up is trying to find the variable container itself, so that it can assign. In this way, RHS doesn't *really* mean "right-hand side of an assignment" per se, it just, more accurately, means "not left-hand side".
 
