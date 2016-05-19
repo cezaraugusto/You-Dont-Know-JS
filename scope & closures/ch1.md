@@ -65,13 +65,13 @@ Quando você vê o programa `var a = 2;`, você provavelmente pensa nele como um
 
 Então, vamos expandir em como o *Mecanismo* e seus amigos vão abordar o programa `var a = 2;`
 
-A primeira coisa que o *Compilador* vai fazer com este programa é realizar uma análise léxica para quebrá-los em tokens, que ele vai transformar numa árvore. Mas quando o *Compilador* chega à geração de código, ele vai tratar este programa um pouco diferente do que você talvez tenha assumido.
+A primeira coisa que o *Compilador* vai fazer com este programa é realizar uma análise léxica para quebrá-los em tokens, que ele vai transformar numa árvore. Mas quando o *Compilador* chega à geração de código, ele vai tratar este programa um pouco diferente do que você talvez tenha suposto.
 
-Uma provável suposição seria que o *Compilador* vai produzir código que poderia ser resumido pelo pseudo-código: "Reserve memória para uma variável, rotule-a como `a`, então ponha o valor `2` nessa variável". Infelizmente, isso não é tão preciso.
+Uma suposição provável seria o *Compilador* produzir códigos que poderiam ser resumidos pelo pseudo-código: "Reserve memória para uma variável, rotule-a como `a`, então ponha o valor `2` nessa variável". Mas infelizmente, isso não é tão preciso.
 
-o *Compilador* vai, em vez disso, proceder como:
+Em vez disso, o *Compilador* vai proceder como:
 
-1. Encontrando `var a`, o *Compilador* pergunta para o *Escopo* para ver se alguma variável `a` já existe para o conjunto particular deste escopo. Se já existe, o *Compilador* ignora essa declaração e segue em frente. Caso contrário, o *Compilador* pede ao *Escopo* para declarar uma nova variável chamada `a` para o conjunto deste escopo.
+1. Encontrando `var a`, o *Compilador* pede ao *Escopo* para ver se alguma variável `a` já existe para o conjunto particular deste escopo. Se já existe, o *Compilador* ignora essa declaração e segue em frente. Caso contrário, o *Compilador* pede ao *Escopo* para declarar uma nova variável chamada `a` para o conjunto deste escopo.
 
 2. o *Compilador* então produz código para que o *Mecanismo* execute mais tarde, para gerenciar a atribuição `a = 2`. O código que o *Mecanismo* executa vai primeiro perguntar ao *Escopo* se existe uma variável chamada `a` acessível no conjunto do escopo atual. Se já existe, o *Mecanismo* usa esta variável. Se não existe, o *Mecanismo* procura *em outro lugar* (veja abaixo a seção *Escopos* aninhados).
 
