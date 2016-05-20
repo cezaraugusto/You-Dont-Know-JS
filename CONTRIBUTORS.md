@@ -11,3 +11,4 @@
 * [Nelson P. Junior](https://github.com/nelsonpjunior)
 * [Marcelo F. S. Diniz](https://github.com/marcelod)
 * [Eduardo Braga Ferreira Jr](https://github.com/ebragaparah)
+* [Tiago Silva Pereira Rodrigues](https://github.com/TiagoSilvaPereira)
