@@ -59,39 +59,39 @@ Vamos conhecer o elenco dos personagens que interagem para processar o programa 
 
 Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Mecanismo* (e seus amigos) pensa, fazer as perguntas que eles fazem, e responder essas perguntas.
 
-### Back & Forth
+### Para a frente e para trás
 
-When you see the program `var a = 2;`, you most likely think of that as one statement. But that's not how our new friend *Engine* sees it. In fact, *Engine* sees two distinct statements, one which *Compiler* will handle during compilation, and one which *Engine* will handle during execution.
+Quando você vê o programa `var a = 2;`, você provavelmente pensa nele como uma instrução. Mas não é como nosso novo amigo *Mecanismo* o vê. Na verdade, o *Mecanismo* vê duas instruções distintas, uma que o *Compilador* vai gerenciar durante a compilação, e uma que o *Mecanismo* vai gerenciar durante a execução.
 
-So, let's break down how *Engine* and friends will approach the program `var a = 2;`.
+Então, vamos expandir em como o *Mecanismo* e seus amigos vão abordar o programa `var a = 2;`
 
-The first thing *Compiler* will do with this program is perform lexing to break it down into tokens, which it will then parse into a tree. But when *Compiler* gets to code-generation, it will treat this program somewhat differently than perhaps assumed.
+A primeira coisa que o *Compilador* vai fazer com este programa é realizar uma análise léxica para quebrá-los em tokens, que ele vai transformar numa árvore. Mas quando o *Compilador* chega à geração de código, ele vai tratar este programa um pouco diferente do que você talvez tenha suposto.
 
-A reasonable assumption would be that *Compiler* will produce code that could be summed up by this pseudo-code: "Allocate memory for a variable, label it `a`, then stick the value `2` into that variable." Unfortunately, that's not quite accurate.
+Uma suposição provável seria o *Compilador* produzir códigos que poderiam ser resumidos pelo pseudo-código: "Reserve memória para uma variável, rotule-a como `a`, então ponha o valor `2` nessa variável". Mas infelizmente, isso não é tão preciso.
 
-*Compiler* will instead proceed as:
+Em vez disso, o *Compilador* vai proceder como:
 
-1. Encountering `var a`, *Compiler* asks *Scope* to see if a variable `a` already exists for that particular scope collection. If so, *Compiler* ignores this declaration and moves on. Otherwise, *Compiler* asks *Scope* to declare a new variable called `a` for that scope collection.
+1. Encontrando `var a`, o *Compilador* pede ao *Escopo* para ver se alguma variável `a` já existe para o conjunto particular deste escopo. Se já existe, o *Compilador* ignora essa declaração e segue em frente. Caso contrário, o *Compilador* pede ao *Escopo* para declarar uma nova variável chamada `a` para o conjunto deste escopo.
 
-2. *Compiler* then produces code for *Engine* to later execute, to handle the `a = 2` assignment. The code *Engine* runs will first ask *Scope* if there is a variable called `a` accessible in the current scope collection. If so, *Engine* uses that variable. If not, *Engine* looks *elsewhere* (see nested *Scope* section below).
+2. o *Compilador* então produz código para que o *Mecanismo* execute mais tarde, para gerenciar a atribuição `a = 2`. O código que o *Mecanismo* executa vai primeiro perguntar ao *Escopo* se existe uma variável chamada `a` acessível no conjunto do escopo atual. Se já existe, o *Mecanismo* usa esta variável. Se não existe, o *Mecanismo* procura *em outro lugar* (veja abaixo a seção *Escopos* aninhados).
 
-If *Engine* eventually finds a variable, it assigns the value `2` to it. If not, *Engine* will raise its hand and yell out an error!
+Se o *Mecanismo* eventualmente encontra uma variável, ele atribui o valor `2` a ela. Se não, o *Mecanismo* vai levantar a mão e gritar que há um erro!
 
-To summarize: two distinct actions are taken for a variable assignment: First, *Compiler* declares a variable (if not previously declared in the current scope), and second, when executing, *Engine* looks up the variable in *Scope* and assigns to it, if found.
+Para resumir: duas ações distintas são tomadas para uma atribuição a uma variável: Primeiro, o *Compilador* declara uma variável (se não foi anteriormente declarada no escopo atual), e segundo, quando executa, o *Mecanismo* busca a variável no *Escopo* e atribui a ela, se encontrada.
 
-### Compiler Speak
+### O compilador fala
 
-We need a little bit more compiler terminology to proceed further with understanding.
+Nós precisamos de um pouco mais de termilonogias do compilador para seguir com a compreensão.
 
-When *Engine* executes the code that *Compiler* produced for step (2), it has to look-up the variable `a` to see if it has been declared, and this look-up is consulting *Scope*. But the type of look-up *Engine* performs affects the outcome of the look-up.
+Quando o *Mecanismo* executa o código que o *Compilador* produziu no passo (2), ele tem que buscar pela variável `a` para saber se ela foi declarada, e essa busca é consultando o *Escopo*. Mas o tipo de busca que o *Mecanismo* efetua afeta o resultado da mesma.
 
-In our case, it is said that *Engine* would be performing an "LHS" look-up for the variable `a`. The other type of look-up is called "RHS".
+No nosso caso, é dito que o *Mecanismo* faria uma busca "LHS" para a variável `a`. O outro tipo de busca é chamado de "RHS".
 
-I bet you can guess what the "L" and "R" mean. These terms stand for "Left-hand Side" and "Right-hand Side".
+Eu aposto que você pode adivinhar o que o "L" e o "R" significam. Esses termos significam "Left-hand Side" (que em tradução livre, significa: "Lado esquerdo") e "Right-hand Side" (que em tradução livre, significa: "Lado direito").
 
-Side... of what? **Of an assignment operation.**
+Lado... de que? **Da operação de atribuição.**
 
-In other words, an LHS look-up is done when a variable appears on the left-hand side of an assignment operation, and an RHS look-up is done when a variable appears on the right-hand side of an assignment operation.
+Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
 Actually, let's be a little more precise. An RHS look-up is indistinguishable, for our purposes, from simply a look-up of the value of some variable, whereas the LHS look-up is trying to find the variable container itself, so that it can assign. In this way, RHS doesn't *really* mean "right-hand side of an assignment" per se, it just, more accurately, means "not left-hand side".
 
