@@ -5,7 +5,7 @@ Muitos desenvolvedores diriam que uma linguagem dinâmica (como JS) não possui 
 
 > Algorítimos dentro desta especificação manipulam valores cada um dos quais possui um tipo associado. Os tipos de valores possíveis são exatamente os definidos nessa cláusula. Tipos são ainda sub-classificados na ECMAScript como tipos de linguagem e tipos de especificação.
 >
-> Um tipo de linguagem ECMAScript corresponde à valores que são diretamente manipulados por um programador ECMAScript usando a linguagem ECMAScript. Os tipos de linguagem da ECMAScript são Undefined, Null, Boolean, String, Number, e Object.
+> A tipagem da linguagem ECMAScript corresponde à valores que são diretamente manipulados por um programador ECMAScript usando a linguagem ECMAScript. Os tipos existentes da linguagem ECMAScript são Undefined, Null, Boolean, String, Number, e Object.
 
 Agora, se você é um fã de linguagens com tipagem forte (tipagem estática), você pode opôr-se a esse uso da palavra "tipo." Nessas linguagens, "tipo" significa muito *mais* do que ele faz aqui no JS.
 
@@ -13,7 +13,7 @@ Algumas pessoas dizem que JS não deveria possuir "tipos," antes estes deveriam 
 
 Bah! Nós iremos usar essa grosseira definição (a mesma que parece dirigir a escrita da especificação): um *tipo* é intrínseco, construído com um conjunto de características que unicamente identifica o comportamento de um valor em particular e distingue-o de outros valores, tanto para o motor (engine) **quanto para o desenvolvedor**.
 
-Em outras palavras, se tanto o motor (engine) quanto o desenvolvedor tratam o valor `42` (o número) diferentemente do que eles tratam o valor `"42"` (a string), então esses dois valores possuem *tipos* diferentes -- `number` e `string`, respectivamente. Quando você usa `42`, você *pretende* fazer algo numérico, como matemática. Mas quando você usa `"42"`, você *pretendende* alguma coisa com texto/strings, como saída para a página, etc. **Esses dois valores possuem diferentes tipos.**
+Em outras palavras, se tanto o motor (engine) quanto o desenvolvedor tratam o valor `42` (o número) diferentemente do que eles tratam o valor `"42"` (a string), então esses dois valores possuem *tipos* diferentes -- `number` e `string`, respectivamente. Quando você usa `42`, você *pretende* fazer algo numérico, como matemática. Mas quando você usa `"42"`, você está *pretendendo* fazer alguma coisa com texto/strings, como saída (output) para a página, etc. **Esses dois valores possuem tipagem diferente.**
 
 Isso não é uma definição perfeita. Mas é bom o suficiente para essa discussão. E é consistente com a maneira que JS descreve-se.
 
