@@ -28,7 +28,7 @@ try{throw 2}catch(a){
 console.log( a ); // ReferenceError
 ```
 
-Nossa! O código está estranho, um pouco feio. Podemos notar o uso de um `try/catch` para forçar o lançamento de um erro, no entanto o "erro" lançado é exatamente o valor 2, assim a declaração da variável que está dentro da cláusula `catch(a)` receberá tal valor. Nossa mente: Boom!
+Nossa! O código ficou estranho, um pouco feio. Contudo, podemos notar o uso de um `try/catch` para forçar o lançamento de um erro, no entanto o "erro" lançado é exatamente o valor 2, assim a declaração da variável que está dentro da cláusula `catch(a)` receberá tal valor. "Nossa mente: Boom!"
 
 Está certo, a cláusula `catch` que forneceu o escopo de bloco ao código, então isso significa que podemos usá-la como uma técnica para ambientes pré-ES6.
 
@@ -36,7 +36,7 @@ Está certo, a cláusula `catch` que forneceu o escopo de bloco ao código, ent�
 
 O ponto é: as ferramentas podem *transpilar* códigos ES6 para trabalhar em ambientes pré-ES6. Você pode escrever códigos utilizando escopo de bloco, se beneficiando de tais funcionalidades, e deixar que as ferramentas, em sua fase de build, se preocupem em produzir códigos que realmente funcionem quando implantados.
 
-Este é na verdade o caminho preferido de todos (quer dizer, da maioria) durante a migração de ambientes pré-ES6 para ES6: usar um *transpilador* de código para produzir códigos compatíveis com ambientes pré-ES6 a partir do ES6.
+Este é na verdade o caminho preferido por todos (quer dizer, pela maioria) durante a migração de ambientes pré-ES6 para ES6: usar um *transpilador* de código para produzir códigos compatíveis com ambientes pré-ES6 a partir do ES6.
 
 ## Traceur
 
