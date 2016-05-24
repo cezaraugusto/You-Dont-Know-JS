@@ -5,6 +5,110 @@
     "CONTRIBUTORS.md"
   ],
   "imageSize": 100,
-  "commit": false,
-  "contributors": []
+  "commit": true,
+  "contributors": [
+    {
+      "login": "cezaraugusto",
+      "name": "Cezar Augusto",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4672033?v=3",
+      "profile": "http://cezaraugusto.net",
+      "contributions": [
+        "doc",
+        "review",
+        "translate"
+      ]
+    },
+    {
+      "login": "nathaliabruno",
+      "name": "Nathalia Bruno",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11399286?v=3",
+      "profile": "https://github.com/nathaliabruno",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "gustavoteodoro",
+      "name": "Gustavo Teodoro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7719986?v=3",
+      "profile": "http://gustavoteodoro.com",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "gabsprates",
+      "name": "Gabriel Prates",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12635603?v=3",
+      "profile": "gabsprates.com",
+      "contributions": [
+        "doc",
+        "review",
+        "translate"
+      ]
+    },
+    {
+      "login": "nersoh",
+      "name": "Nelson Henrique",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1930729?v=3",
+      "profile": "https://github.com/nersoh",
+      "contributions": [
+        "translate"
+      ]
+    },
+    {
+      "login": "raribeiro",
+      "name": "Rodnei A. Ribeiro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2672060?v=3",
+      "profile": "http://engenheirofront.com",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "nelsonpjunior",
+      "name": "Nelson P. Junior",
+      "avatar_url": "https://avatars.githubusercontent.com/u/771149?v=3",
+      "profile": "https://github.com/nelsonpjunior",
+      "contributions": [
+        "translate"
+      ]
+    },
+    {
+      "login": "marcelod",
+      "name": "Marcelo Diniz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/441936?v=3",
+      "profile": "http://www.marcelod.com.br",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "ebragaparah",
+      "name": "Eduardo Braga Ferreira Junior",
+      "avatar_url": "https://avatars.githubusercontent.com/u/265716?v=3",
+      "profile": "https://github.com/ebragaparah",
+      "contributions": [
+        "translate"
+      ]
+    },
+    {
+      "login": "TiagoSilvaPereira",
+      "name": "Tiago Silva Pereira",
+      "avatar_url": "https://avatars.githubusercontent.com/u/11933789?v=3",
+      "profile": "https://github.com/TiagoSilvaPereira",
+      "contributions": [
+        "translate"
+      ]
+    },
+    {
+      "login": "holandajunior",
+      "name": "Holanda Junior",
+      "avatar_url": "https://avatars.githubusercontent.com/u/16870585?v=3",
+      "profile": "https://github.com/holandajunior",
+      "contributions": [
+        "translate"
+      ]
+    }
+  ]
 }
