@@ -1,13 +1,13 @@
-# You Don't Know JS: Scope & Closures
-# Appendix B: Polyfilling Block Scope
+# You Don't Know JS: Escopos e Encerramentos
+# Apêndice B: Polyfilling Escopo de Bloco
 
-In Chapter 3, we explored Block Scope. We saw that `with` and the `catch` clause are both tiny examples of block scope that have existed in JavaScript since at least the introduction of ES3.
+No Capítulo 3, nós exploramos o Escopo de Bloco. Nós vimos que as cláusulas `with` e `catch` são, ambas, pequenos exemplos de escopo de bloco que existem em JavaScript desde de, pelo menos, a introdução ao ES3.
 
-But it's ES6's introduction of `let` that finally gives full, unfettered block-scoping capability to our code. There are many exciting things, both functionally and code-stylistically, that block scope will enable.
+Mas foi com a introdução da cláusula `let` no ES6, que finalmente nos deu a capacidade completa e sem restrições de escopo de bloco ao nosso código. Há muitas coisas interessantes que agora serão permitidas, ambas funcionais e que agregam ao estilo do código.
 
-But what if we wanted to use block scope in pre-ES6 environments?
+Mas e se quiséssemos usar o escopo de bloco em ambientes anteriores ao ES6?
 
-Consider this code:
+Considere este código:
 
 ```js
 {
@@ -18,7 +18,7 @@ Consider this code:
 console.log( a ); // ReferenceError
 ```
 
-This will work great in ES6 environments. But can we do so pre-ES6? `catch` is the answer.
+Em ambientes ES6 isso funcionará perfeitamente. Mas e para ambientes anteriores ao ES6? `catch` é a resposta.
 
 ```js
 try{throw 2}catch(a){
@@ -28,15 +28,15 @@ try{throw 2}catch(a){
 console.log( a ); // ReferenceError
 ```
 
-Whoa! That's some ugly, weird looking code. We see a `try/catch` that appears to forcibly throw an error, but the "error" it throws is just a value `2`, and then the variable declaration that receives it is in the `catch(a)` clause. Mind: blown.
+Nossa! O código está estranho, um pouco feio. Podemos notar o uso de um `try/catch` para forçar o lançamento de um erro, no entanto o "erro" lançado é exatamente o valor 2, assim a declaração da variável que está dentro da cláusula `catch(a)` receberá tal valor. Nossa mente: Boom!
 
-That's right, the `catch` clause has block-scoping to it, which means it can be used as a polyfill for block scope in pre-ES6 environments.
+Está certo, a cláusula `catch` que forneceu o escopo de bloco ao código, então isso significa que podemos usá-la como uma técnica para ambientes pré-ES6.
 
-"But...", you say. "...no one wants to write ugly code like that!" That's true. No one writes (some of) the code output by the CoffeeScript compiler, either. That's not the point.
+"Mas...", você diz. "...Ninguém quer escrever códigos feios como esse!" É verdade. Ninguém escreve (alguns) o código resultante pelo compilador do CoffeeScript, afinal. Mas esse não é o ponto.
 
-The point is that tools can transpile ES6 code to work in pre-ES6 environments. You can write code using block-scoping, and benefit from such functionality, and let a build-step tool take care of producing code that will actually *work* when deployed.
+O ponto é: as ferramentas podem *transpilar* códigos ES6 para trabalhar em ambientes pré-ES6. Você pode escrever códigos utilizando escopo de bloco, se beneficiando de tais funcionalidades, e deixar que as ferramentas, em sua fase de build, se preocupem em produzir códigos que realmente funcionem quando implantados.
 
-This is actually the preferred migration path for all (ahem, most) of ES6: to use a code transpiler to take ES6 code and produce ES5-compatible code during the transition from pre-ES6 to ES6.
+Este é na verdade o caminho preferido de todos (quer dizer, da maioria) durante a migração de ambientes pré-ES6 para ES6: usar um *transpilador* de código para produzir códigos compatíveis com ambientes pré-ES6 a partir do ES6.
 
 ## Traceur
 
