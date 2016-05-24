@@ -17,7 +17,7 @@ Em outras palavras, se tanto o motor (engine) quanto o desenvolvedor tratam o va
 
 Isso não é uma definição perfeita. Mas é bom o suficiente para essa discussão. E é consistente com a maneira que JS descreve-se.
 
-# Um tipo por qualquer outro nome...
+# O que importa em um tipo é o que ele é, não pelo quê é chamado...
 
 Além dos desacordos da definição acadêmica, por que é importante se JavaScript possui *tipos* ou não?
 
