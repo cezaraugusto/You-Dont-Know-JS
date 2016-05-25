@@ -40,9 +40,9 @@ Este é na verdade o caminho preferido por todos (quer dizer, pela maioria) dura
 
 ## Traceur
 
-Google maintains a project called "Traceur" [^note-traceur], which is exactly tasked with transpiling ES6 features into pre-ES6 (mostly ES5, but not all!) for general usage. The TC39 committee relies on this tool (and others) to test out the semantics of the features they specify.
+"Traceur" [^note-traceur] é um projeto mantido pelo Google, desenvolvido para *transpilar* funcionalidades ES6, de uso geral, compatíveis com ambientes pré-ES6 (em sua maioria, ES5). O comitê TC39 confia na ferramenta (e entre outras) para testar a semântica das funcionalidades que são especificadas.  
 
-What does Traceur produce from our snippet? You guessed it!
+O que Traceur produz a partir do nosso trecho de código abaixo? Adivinhe só!
 
 ```js
 {
@@ -57,7 +57,7 @@ What does Traceur produce from our snippet? You guessed it!
 console.log( a );
 ```
 
-So, with the use of such tools, we can start taking advantage of block scope regardless of if we are targeting ES6 or not, because `try/catch` has been around (and worked this way) from ES3 days.
+Então, com o uso dessas ferramentas, nós podemos tirar proveito do escopo de bloco independentemente se nós estamos desenvolvendo para ambientes ES6 ou não, pois `try/catch` está presente desde o ES3.
 
 ## Implicit vs. Explicit Blocks
 
