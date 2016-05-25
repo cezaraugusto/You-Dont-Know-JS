@@ -93,27 +93,26 @@ Lado... de que? **Da operação de atribuição.**
 
 Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
-Actually, let's be a little more precise. An RHS look-up is indistinguishable, for our purposes, from simply a look-up of the value of some variable, whereas the LHS look-up is trying to find the variable container itself, so that it can assign. In this way, RHS doesn't *really* mean "right-hand side of an assignment" per se, it just, more accurately, means "not left-hand side".
+Na verdade, vamos ser um pouco mais precisos. Uma busca RHS é imperceptível, para nossos propósitos, simplesmente uma busca do valor de alguma variável, enquanto que, a busca LHS está tentando encontrar o recipiente por si só, então pode atribuir. Dessa maneira, RHS não significa *exatamente* "lado direito de uma atribuição", isso somente, de forma mais precisa, significa "não estar do lado esquerdo".
 
-Being slightly glib for a moment, you could also think "RHS" instead means "retrieve his/her source (value)", implying that RHS means "go get the value of...".
+Sendo ligeiramente mais simplista por um momento, você poderia também imaginar que "RHS", em vez de "obtenha sua fonte (valor)", significa "vai buscar o valor de...".
 
-Let's dig into that deeper.
+Vamos um pouco mais fundo nisso.
 
-When I say:
+Quando eu digo:
 
 ```js
 console.log( a );
 ```
 
-The reference to `a` is an RHS reference, because nothing is being assigned to `a` here. Instead, we're looking-up to retrieve the value of `a`, so that the value can be passed to `console.log(..)`.
+A referência para `a` é uma referência RHS porque nada está sendo atribuído a `a` aqui. Em vez disso, nós estamos buscando capturar o valor de `a`, para que o valor possa ser passado para `console.log(..)`.
 
-By contrast:
+Em compensação:
 
 ```js
 a = 2;
 ```
-
-The reference to `a` here is an LHS reference, because we don't actually care what the current value is, we simply want to find the variable as a target for the `= 2` assignment operation.
+A referência para `a` aqui é uma referência LHS, porque na verdade não ligamos para qual seja o valor atual, nós simplesmente queremos encontrar a variável como um alvo para a operação de atribuição `= 2`.
 
 **Note:** LHS and RHS meaning "left/right-hand side of an assignment" doesn't necessarily literally mean "left/right side of the `=` assignment operator". There are several other ways that assignments happen, and so it's better to conceptually think about it as: "who's the target of the assignment (LHS)" and "who's the source of the assignment (RHS)".
 
