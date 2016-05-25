@@ -33,9 +33,9 @@ Confusão na coerção é possivelmente uma das mais profundas frustrações par
 
 Armados com total conhecimento dos tipos do JavaScript, nosso objetivo é demonstrar por que a *má reputação* da coerção é largamente famosa e um pouco imerecida -- mudando a sua perspectiva, para ver a coerção como uma poderosa utilidade. Mas primeiro, devemos ter uma compreensão melhor sobre valores e tipos.
 
-## Built-in Types
+## Tipos internos (built-in)
 
-JavaScript defines seven built-in types:
+JavaScript define sete tipos internos:
 
 * `null`
 * `undefined`
@@ -43,42 +43,42 @@ JavaScript defines seven built-in types:
 * `number`
 * `string`
 * `object`
-* `symbol` -- added in ES6!
+* `symbol` -- adicionado no ES6!
 
-**Note:** All of these types except `object` are called "primitives".
+**Nota:** Todos esses tipos, exceto `object` são chamados "primitivos".
 
-The `typeof` operator inspects the type of the given value, and always returns one of seven string values -- surprisingly, there's not an exact 1-to-1 match with the seven built-in types we just listed.
-
-```js
-typeof undefined     === "undefined"; // true
-typeof true          === "boolean";   // true
-typeof 42            === "number";    // true
-typeof "42"          === "string";    // true
-typeof { life: 42 }  === "object";    // true
-
-// added in ES6!
-typeof Symbol()      === "symbol";    // true
-```
-
-These six listed types have values of the corresponding type and return a string value of the same name, as shown. `Symbol` is a new data type as of ES6, and will be covered in Chapter 3.
-
-As you may have noticed, I excluded `null` from the above listing. It's *special* -- special in the sense that it's buggy when combined with the `typeof` operator:
+O operador `typeof` inspeciona o tipo do valor obtido, e sempre retorna um dos sete valores de string -- surpreendentemente, não há uma correspondência exata de 1-para-1 com os sete tipos internos que listamos.
 
 ```js
-typeof null === "object"; // true
+typeof undefined     === "undefined"; // true (verdadeiro)
+typeof true          === "boolean";   // true (verdadeiro)
+typeof 42            === "number";    // true (verdadeiro)
+typeof "42"          === "string";    // true (verdadeiro)
+typeof { life: 42 }  === "object";    // true (verdadeiro)
+
+// adicionado no ES6!
+typeof Symbol()      === "symbol";    // true (verdadeiro)
 ```
 
-It would have been nice (and correct!) if it returned `"null"`, but this original bug in JS has persisted for nearly two decades, and will likely never be fixed because there's too much existing web content that relies on its buggy behavior that "fixing" the bug would *create* more "bugs" and break a lot of web software.
+Estes seis tipos listados possuem valores do tipo correspondente e retornam uma string com o mesmo nome, como mostrado. `Symbol` é um novo tipo de dados introduzido à partir do ES6, e será explicado no Capítulo 3.
 
-If you want to test for a `null` value using its type, you need a compound condition:
+Como você pode perceber, eu excluí `null` da lista acima. Ele é *especial* -- especial no sentido que é problemático quando combinado com o operador `typeof`:
+
+```js
+typeof null === "object"; // true (verdadeiro)
+```
+
+Teria sido legal (e correto!) se retornasse `"null"`, mas esse "bug" original no JS tem persistido por aproximadamente duas décadas, e provavelmente nunca será corrigido porque existe muito conteúdo na web que se baseia nesse comportamente "bugado", e corrigí-lo *criaria* mais "bugs", e causaria rupturas em uma grade quantidade de softwares web.
+
+Se você deseja testar um valor `null` usando seu tipo, precisará de uma condição composta:
 
 ```js
 var a = null;
 
-(!a && typeof a === "object"); // true
+(!a && typeof a === "object"); // true (verdadeiro)
 ```
 
-`null` is the only primitive value that is "falsy" (aka false-like; see Chapter 4) but that also returns `"object"` from the `typeof` check.
+`null` é o único valor primitivo que pode ser "falso" (também conhecido como "false-like"; veja o Capítulo 4) mas que também retorna `"object"` na checagem de `typeof`.
 
 So what's the seventh string value that `typeof` can return?
 
