@@ -93,9 +93,9 @@ Lado... de que? **Da operação de atribuição.**
 
 Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
-Na verdade, vamos ser um pouco mais precisos. Uma busca RHS é imperceptível, para nossos propósitos, simplesmente uma busca do valor de alguma variável, enquanto que, a busca LHS está tentando encontrar o recipiente por si só, então pode atribuir. Dessa maneira, RHS não significa *exatamente* "lado direito de uma atribuição", isso somente, de forma mais precisa, significa "não estar do lado esquerdo".
+Na verdade, vamos ser um pouco mais precisos. Uma busca RHS é imperceptível, para nossos propósitos, por ser simplesmente uma busca do valor de alguma variável, enquanto que, a busca LHS está tentando encontrar o recipiente por conta própria, para assim poder fazer a atribuição. Dessa maneira, o RHS não significa *exatamente* "lado direito de uma atribuição", isso simplesmente, de forma mais precisa, significa "não estar do lado esquerdo".
 
-Sendo ligeiramente mais simplista por um momento, você poderia também imaginar que "RHS", em vez de "obtenha sua fonte (valor)", significa "vai buscar o valor de...".
+Sendo ligeiramente mais simplista por um momento, você poderia também imaginar que "RHS", em vez de "obtenha sua fonte (valor)", significa "vá buscar o valor de...".
 
 Vamos um pouco mais fundo nisso.
 
