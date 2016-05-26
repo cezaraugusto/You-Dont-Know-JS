@@ -93,31 +93,31 @@ Lado... de que? **Da operação de atribuição.**
 
 Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
-Actually, let's be a little more precise. An RHS look-up is indistinguishable, for our purposes, from simply a look-up of the value of some variable, whereas the LHS look-up is trying to find the variable container itself, so that it can assign. In this way, RHS doesn't *really* mean "right-hand side of an assignment" per se, it just, more accurately, means "not left-hand side".
+Na verdade, vamos ser um pouco mais precisos. Uma busca RHS é imperceptível, para nossos propósitos, por ser simplesmente uma busca do valor de alguma variável, enquanto que, a busca LHS está tentando encontrar o recipiente por conta própria, para assim poder fazer a atribuição. Dessa maneira, o RHS não significa *exatamente* "lado direito de uma atribuição", isso simplesmente, de forma mais precisa, significa "não estar do lado esquerdo".
 
-Being slightly glib for a moment, you could also think "RHS" instead means "retrieve his/her source (value)", implying that RHS means "go get the value of...".
+Sendo ligeiramente mais simplista por um momento, você poderia também imaginar que "RHS", em vez de "obtenha sua fonte (valor)", significa "vá buscar o valor de...".
 
-Let's dig into that deeper.
+Vamos um pouco mais fundo nisso.
 
-When I say:
+Quando eu digo:
 
 ```js
 console.log( a );
 ```
 
-The reference to `a` is an RHS reference, because nothing is being assigned to `a` here. Instead, we're looking-up to retrieve the value of `a`, so that the value can be passed to `console.log(..)`.
+A referência para `a` é uma referência RHS porque nada está sendo atribuído a `a` aqui. Em vez disso, nós estamos buscando capturar o valor de `a`, para que o valor possa ser passado para `console.log(..)`.
 
-By contrast:
+Em compensação:
 
 ```js
 a = 2;
 ```
 
-The reference to `a` here is an LHS reference, because we don't actually care what the current value is, we simply want to find the variable as a target for the `= 2` assignment operation.
+A referência para `a` aqui é uma referência LHS, porque na verdade não ligamos para qual seja o valor atual, nós simplesmente queremos encontrar a variável como um alvo para a operação de atribuição `= 2`.
 
-**Note:** LHS and RHS meaning "left/right-hand side of an assignment" doesn't necessarily literally mean "left/right side of the `=` assignment operator". There are several other ways that assignments happen, and so it's better to conceptually think about it as: "who's the target of the assignment (LHS)" and "who's the source of the assignment (RHS)".
+**Nota:** o significado "lado esquerdo/direito de uma atribuição" em LHS e RHS não necessariamente quer dizer "lado esquerdo/direito do operador de atribuição `=`". Existem muitas outras maneiras dessas atribuições acontecerem, então é melhor pensar conceitualmente sobre isso como: "quem é o alvo da atribuição (LHS) e quem é a fonte da atribuição (RHS)".
 
-Consider this program, which has both LHS and RHS references:
+Considere este programa, que tem ambas as referências LHS e RHS:
 
 ```js
 function foo(a) {
@@ -126,8 +126,7 @@ function foo(a) {
 
 foo( 2 );
 ```
-
-The last line that invokes `foo(..)` as a function call requires an RHS reference to `foo`, meaning, "go look-up the value of `foo`, and give it to me." Moreover, `(..)` means the value of `foo` should be executed, so it'd better actually be a function!
+A última linha que invoca `foo(..)` como uma chamada de função requer uma referências RHS para `foo`, significando, "vá buscar o valor de `foo` e entregue para mim". Além disso, `(..)` significa que o valor de `foo` deve ser executado, então é melhor que seja realmente uma função!
 
 There's a subtle but important assignment here. **Did you spot it?**
 
