@@ -112,11 +112,12 @@ Em compensação:
 ```js
 a = 2;
 ```
+
 A referência para `a` aqui é uma referência LHS, porque na verdade não ligamos para qual seja o valor atual, nós simplesmente queremos encontrar a variável como um alvo para a operação de atribuição `= 2`.
 
-**Note:** LHS and RHS meaning "left/right-hand side of an assignment" doesn't necessarily literally mean "left/right side of the `=` assignment operator". There are several other ways that assignments happen, and so it's better to conceptually think about it as: "who's the target of the assignment (LHS)" and "who's the source of the assignment (RHS)".
+**Nota:** o significado "lado esquerdo/direito de uma atribuição" em LHS e RHS não necessariamente quer dizer "lado esquerdo/direito do operador de atribuição `=`". Existem muitas outras maneiras dessas atribuições acontecerem, então é melhor pensar conceitualmente sobre isso como: "quem é o alvo da atribuição (LHS) e quem é a fonte da atribuição (RHS)".
 
-Consider this program, which has both LHS and RHS references:
+Considere este programa, que tem ambas as referências LHS e RHS:
 
 ```js
 function foo(a) {
@@ -125,8 +126,7 @@ function foo(a) {
 
 foo( 2 );
 ```
-
-The last line that invokes `foo(..)` as a function call requires an RHS reference to `foo`, meaning, "go look-up the value of `foo`, and give it to me." Moreover, `(..)` means the value of `foo` should be executed, so it'd better actually be a function!
+A última linha que invoca `foo(..)` como uma chamada de função requer uma referências RHS para `foo`, significando, "vá buscar o valor de `foo` e entregue para mim". Além disso, `(..)` significa que o valor de `foo` deve ser executado, então é melhor que seja realmente uma função!
 
 There's a subtle but important assignment here. **Did you spot it?**
 
