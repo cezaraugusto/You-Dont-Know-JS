@@ -6,11 +6,11 @@ manipular comportamentos de um programa que é esticado através de um período 
 
 Não se trata apenas sobre o que acontece entre início e o fim de um loop `for`, o que é claro leva *algum tempo* (microsegundos à milisegundos) para completar. Se trata do que acontece quando parte do seu programa é executada *agora*, e outra parte do seu programa é executada *depois*  -- existe um vão entre *agora* e *depois* onde seu programa não está sendo executado ativamente.
 
-Praticamente todos os programas não triviais (especialmente em JS) tem de alguma forma ou outra que lidar com esse vão, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta, ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar estado através do vão no tempo. Como famigeradamente se diz em Londres (sobre o buraco entre o vagão e a plataforma): "cuide o vão".
+Praticamente todos os programas não triviais (especialmente em JS) tem de alguma forma ou outra que lidar com esse vão, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta, ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar estado através do vão no tempo. Como famigeradamente se diz em Londres (sobre o vão entre o vagão e a plataforma): "cuide o vão".
 
 Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
-Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente* sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de retorno (callbacks) são boas o suficiente.
+Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de retorno (callbacks) são boas o suficiente.b
 
 Mas enquanto JS continua a crescer em escopo e complexidade, para alcançar as demandas sempre crescentes de uma linguagem de programação de primeira classe que roda em navegadores e servidores e em todos os dispositivos concebíveis entre eles, as dores com as quais lidamos com assincronia estão ficando cada vez mais debilitantes, e elas suplicam por métodos que são mais capazes e razoáveis.
 
@@ -18,29 +18,32 @@ Enquanto isso tudo pode parecer abstrato agora, eu garanto que vamos cuidar diss
 
 Mas antes de podermos chegar lá, vamos ter que entender de uma forma mais aprofundada o que é assincronia e como opera em JS.
 
-<hr> 
-
 ## Um Programa em Pedaços
 
 Você pode escrever seu programa JS em um arquivo *.js*, mas ele é certamente feito de diversos pedaços, do qual apenas um pedaço é executado *agora*, sendo o restante executado *depois*. A unidade mais comum do *pedaço* é a `função`.
 
 O problema que a maioria do desenvolvedores novatos em JS parecem ter, é que *depois* não acontece estritamente e imediatamente depois de *agora*. Em outras palavras, tarefas que não podem completar *agora* serão, por definição, completas de forma assíncrona, não possuindo assim comportamento bloqueante que você intuitivamente espera ou quer.
 
-<hr>
-The problem most developers new to JS seem to have is that *later* doesn't happen strictly and immediately after *now*. In other words, tasks that cannot complete *now* are, by definition, going to complete asynchronously, and thus we will not have blocking behavior as you might intuitively expect or want.
 
 Considere:
 
 ```js
-// ajax(..) is some arbitrary Ajax function given by a library
+// ajax(..) é uma função Ajax arbitária fornecida por uma biblioteca
 var data = ajax( "http://some.url.1" );
 
 console.log( data );
-// Oops! `data` generally won't have the Ajax results
+// Oops! `data` geralmente não conterá os resultados do Ajax
 ```
 
-You're probably aware that standard Ajax requests don't complete synchronously, which means the `ajax(..)` function does not yet have any value to return back to be assigned to `data` variable. If `ajax(..)` *could* block until the response came back, then the `data = ..` assignment would work fine.
+<hr>
 
+Você está provavelmente ciente de que requisições Ajax não completam de forma síncrona, o que significa que a função `ajax(...)` ainda não possui nenhum valor para retornar de volta, para então ser atribuido a variável `data`. Se `ajax(...)` *pudesse* bloquear até o retorno da resposta, então a atribuição `data = ..` funcionaria sem problemas.
+
+Mas não é assim que se faz Ajax. Fazemos uma requisição assíncrona *agora*, e não possuiremos o resultado de volta até *depois*.
+
+A forma mais simples (mas definitivamente não a única, ou nem mesmo a melhor!) de "esperar" de *agora* até *depois* é usando uma função, comumente conhecida como função de retorno.
+
+<hr>
 But that's not how we do Ajax. We make an asynchronous Ajax request *now*, and we won't get the results back until *later*.
 
 The simplest (but definitely not only, or necessarily even best!) way of "waiting" from *now* until *later* is to use a function, commonly called a callback function:
