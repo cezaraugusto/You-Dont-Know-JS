@@ -74,6 +74,7 @@
 * Compound Assignment: Atribuição com Operação
 * Compound Conditionals: Instrução Condicional
 * Convoluted: Debilitado
+* Callback Function: função de callback (retorno) (vide [#41](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/41#issuecomment-222241545))
 
 
 #### D
