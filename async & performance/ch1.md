@@ -1,29 +1,35 @@
-# You Don't Know JS: Async & Performance
-# Chapter 1: Asynchrony: Now & Later
+# You Don't Know JS: Async e Performance
+# Capítulo 1: Assíncronia: Agora & Depois
 
-One of the most important and yet often misunderstood parts of programming in a language like JavaScript is how to express and manipulate program behavior spread out over a period of time.
+Uma das partes mais importantes e mais mal compreendidas da programação em uma linguagem como JavaScript, é como expressar e
+manipular comportamentos de um programa que é esticado através de um período de tempo.
 
-This is not just about what happens from the beginning of a `for` loop to the end of a `for` loop, which of course takes *some time* (microseconds to milliseconds) to complete. It's about what happens when part of your program runs *now*, and another part of your program runs *later* -- there's a gap between *now* and *later* where your program isn't actively executing.
+Não se trata apenas sobre o que acontece entre início e o fim de um loop `for`, o que é claro leva *algum tempo* (microsegundos à milisegundos) para completar. Se trata do que acontece quando parte do seu programa é executada *agora*, e outra parte do seu programa é executada *depois*  -- existe um vão entre *agora* e *depois* onde seu programa não está sendo executado ativamente.
 
-Practically all nontrivial programs ever written (especially in JS) have in some way or another had to manage this gap, whether that be in waiting for user input, requesting data from a database or file system, sending data across the network and waiting for a response, or performing a repeated task at a fixed interval of time (like animation). In all these various ways, your program has to manage state across the gap in time. As they famously say in London (of the chasm between the subway door and the platform): "mind the gap."
+Praticamente todos os programas não triviais (especialmente em JS) tem de alguma forma ou outra que lidar com esse vão, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta, ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar estado através do vão no tempo. Como famigeradamente se diz em Londres (sobre o buraco entre o vagão e a plataforma): "cuide o vão".
 
-In fact, the relationship between the *now* and *later* parts of your program is at the heart of asynchronous programming.
+Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
-Asynchronous programming has been around since the beginning of JS, for sure. But most JS developers have never really carefully considered exactly how and why it crops up in their programs, or explored various *other* ways to handle it. The *good enough* approach has always been the humble callback function. Many to this day will insist that callbacks are more than sufficient.
+Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente* sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de retorno (callbacks) são boas o suficiente.
 
-But as JS continues to grow in both scope and complexity, to meet the ever-widening demands of a first-class programming language that runs in browsers and servers and every conceivable device in between, the pains by which we manage asynchrony are becoming increasingly crippling, and they cry out for approaches that are both more capable and more reason-able.
+Mas enquanto JS continua a crescer em escopo e complexidade, para alcançar as demandas sempre crescentes de uma linguagem de programação de primeira classe que roda em navegadores e servidores e em todos os dispositivos concebíveis entre eles, as dores com as quais lidamos com assincronia estão ficando cada vez mais debilitantes, e elas suplicam por métodos que são mais capazes e razoáveis.
 
-While this all may seem rather abstract right now, I assure you we'll tackle it more completely and concretely as we go on through this book. We'll explore a variety of emerging techniques for async JavaScript programming over the next several chapters.
+Enquanto isso tudo pode parecer abstrato agora, eu garanto que vamos cuidar disso enquanto prosseguimos através do livro. Exploraremos uma variedade de técnicas emergentes para JavaScript assíncrono nos próximos capítulos.
 
-But before we can get there, we're going to have to understand much more deeply what asynchrony is and how it operates in JS.
+Mas antes de podermos chegar lá, vamos ter que entender de uma forma mais aprofundada o que é assincronia e como opera em JS.
 
-## A Program in Chunks
+<hr> 
 
-You may write your JS program in one *.js* file, but your program is almost certainly comprised of several chunks, only one of which is going to execute *now*, and the rest of which will execute *later*. The most common unit of *chunk* is the `function`.
+## Um Programa em Pedaços
 
+Você pode escrever seu programa JS em um arquivo *.js*, mas ele é certamente feito de diversos pedaços, do qual apenas um pedaço é executado *agora*, sendo o restante executado *depois*. A unidade mais comum do *pedaço* é a `função`.
+
+O problema que a maioria do desenvolvedores novatos em JS parecem ter, é que *depois* não acontece estritamente e imediatamente depois de *agora*. Em outras palavras, tarefas que não podem completar *agora* serão, por definição, completas de forma assíncrona, não possuindo assim comportamento bloqueante que você intuitivamente espera ou quer.
+
+<hr>
 The problem most developers new to JS seem to have is that *later* doesn't happen strictly and immediately after *now*. In other words, tasks that cannot complete *now* are, by definition, going to complete asynchronously, and thus we will not have blocking behavior as you might intuitively expect or want.
 
-Consider:
+Considere:
 
 ```js
 // ajax(..) is some arbitrary Ajax function given by a library
