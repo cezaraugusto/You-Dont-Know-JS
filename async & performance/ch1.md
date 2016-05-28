@@ -10,7 +10,7 @@ Praticamente todos os programas não triviais (especialmente em JS) tem de algum
 
 Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
-Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de retorno (callbacks) são boas o suficiente.b
+Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de retorno (callbacks) são boas o suficiente.
 
 Mas enquanto JS continua a crescer em escopo e complexidade, para alcançar as demandas sempre crescentes de uma linguagem de programação de primeira classe que roda em navegadores e servidores e em todos os dispositivos concebíveis entre eles, as dores com as quais lidamos com assincronia estão ficando cada vez mais debilitantes, e elas suplicam por métodos que são mais capazes e razoáveis.
 
@@ -28,8 +28,8 @@ O problema que a maioria do desenvolvedores novatos em JS parecem ter, é que *d
 Considere:
 
 ```js
-// ajax(..) é uma função Ajax arbitária fornecida por uma biblioteca
-var data = ajax( "http://some.url.1" );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+var data = ajax( "http://alguma.url.1" );
 
 console.log( data );
 // Oops! `data` geralmente não conterá os resultados do Ajax
@@ -41,21 +41,35 @@ Você está provavelmente ciente de que requisições Ajax não completam de for
 
 Mas não é assim que se faz Ajax. Fazemos uma requisição assíncrona *agora*, e não possuiremos o resultado de volta até *depois*.
 
-A forma mais simples (mas definitivamente não a única, ou nem mesmo a melhor!) de "esperar" de *agora* até *depois* é usando uma função, comumente conhecida como função de retorno.
-
-<hr>
-But that's not how we do Ajax. We make an asynchronous Ajax request *now*, and we won't get the results back until *later*.
-
-The simplest (but definitely not only, or necessarily even best!) way of "waiting" from *now* until *later* is to use a function, commonly called a callback function:
+A forma mais simples (mas definitivamente não a única, ou nem mesmo a melhor!) de "esperar" de *agora* até *depois* é usando uma função, comumente conhecida como função de callback (retorno).
 
 ```js
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", function myCallbackFunction(data){
-
-	console.log( data ); // Yay, I gots me some `data`!
-
-} );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", function minhaFuncaoDeRetorno(data) {
+	console.log(data); // Yay, temos dados!`!
+});
 ```
+**Atenção:** você pode ter ouvido que é possível fazer requisições Ajax síncronas. Enquanto isso é tecnicamente verdade, você não deveria nunca fazer isso, em nenhuma circunstância, por que tranca a interface do usuário no navegador (botões, menus, rolamento, etc.) e previne qualquer interação. Essa é uma péssima ideia, e sempre deve ser evitada.
+
+Antes que você proteste em discordância, não, seu desejo de evitar a confusão dos callbacks *não* é justificativa para Ajax síncrono bloqueante.
+
+Por exemplo, considere esse código
+
+```js
+function agora () {
+  return 21;
+}
+
+function depois () {
+  resposta = resposta * 2;
+  console.log( "Significado da vida:", resposta);
+}
+
+var resposta = agora();
+
+setTimeout(depois, 1000);
+```
+<hr>
 
 **Warning:** You may have heard that it's possible to make synchronous Ajax requests. While that's technically true, you should never, ever do it, under any circumstances, because it locks the browser UI (buttons, menus, scrolling, etc.) and prevents any user interaction whatsoever. This is a terrible idea, and should always be avoided.
 
