@@ -33,9 +33,9 @@ Confusão na coerção é possivelmente uma das mais profundas frustrações par
 
 Armados com total conhecimento dos tipos do JavaScript, nosso objetivo é demonstrar por que a *má reputação* da coerção é largamente famosa e um pouco imerecida -- mudando a sua perspectiva, para ver a coerção como uma poderosa utilidade. Mas primeiro, devemos ter uma compreensão melhor sobre valores e tipos.
 
-## Tipos internos (built-in)
+## Tipos nativos (built-in)
 
-JavaScript define sete tipos internos:
+JavaScript define sete tipos nativos:
 
 * `null`
 * `undefined`
@@ -47,7 +47,7 @@ JavaScript define sete tipos internos:
 
 **Nota:** Todos esses tipos, exceto `object` são chamados "primitivos".
 
-O operador `typeof` inspeciona o tipo do valor obtido, e sempre retorna um dos sete valores de string -- surpreendentemente, não há uma correspondência exata de 1-para-1 com os sete tipos internos que listamos.
+O operador `typeof` inspeciona o tipo do valor obtido, e sempre retorna um dos sete valores de string -- surpreendentemente, não há uma correspondência exata de 1-para-1 com os sete tipos nativos que listamos.
 
 ```js
 typeof undefined     === "undefined"; // true (verdadeiro)
