@@ -38,7 +38,7 @@
 
 * You Don't Know JS: Título deve ser mantido como o original
 * Up & Going: Iniciando
-* Scope & Closures: Escopos e Encerramentos
+* Scope & Closures: Escopos e Clausuras
 * this & object prototypes: this & Prototipagem de Objetos
 * Types & Grammar: Tipos e Gramática
 * Async & Performance: Async e Performance
@@ -69,7 +69,7 @@
 
 #### C
 
-* Closure: Encerramento
+* Closure: Clausura (vide [(#91](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/91#issuecomment-222319503))
 * Coercion: Coerção
 * Compound Assignment: Atribuição com Operação
 * Compound Conditionals: Instrução Condicional
@@ -85,6 +85,7 @@
 
 #### E
 
+* Engine: Motor
 * Equality: Igualdade
 * Evaluate: Avaliado
 * Expresions: Expressões
@@ -141,12 +142,16 @@
 
 #### P
 
+* Parsing: Análise
 * Polyfilling: Polyfilling
 * Prototype: Prototipagem
 * Pattern: Padrão. _**Dependendo do caso:**_ _traduzir e manter original com parênteses: `singleton pattern` => `padrão singleton (singleton pattern)`_
 
 
 #### Q
+
+* Quiz: Desafio
+* Quiz Answers: Resposta do Desafio
 
 
 #### R
