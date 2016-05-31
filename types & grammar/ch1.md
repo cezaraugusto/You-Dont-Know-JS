@@ -118,7 +118,7 @@ Em JavaScript, variáveis não possuem tipos -- **valores possuem tipos**. Vari�
 
 Outra maneira de pensar sobre tipos do JS é que JS não possui "tipagem forçada (type enforcement)," pois a engine não insiste que uma *variável* sempre terá valores do *mesmo tipo inicial* com que ela começou. Uma variável pode, em uma declaração de atribuição, possuir um valor do tipo `string`, e no futuro ter um `number`, e assim por diante.
 
-O *valor* `42` possui o tipo `number` intrínseco, e seu *type* não pode ser modificado. Um outro valor, como `"42"` com o tipo `string`, pode ser criado *à partir* do valor `42` de tipo `number` através de um processo chamado **coerção (coercion)** (veja o Capítulo 4).
+O *valor* `42` possui o tipo `number` intrínseco, e seu *tipo* não pode ser modificado. Um outro valor, como `"42"` com o tipo `string`, pode ser criado *à partir* do valor `42` de tipo `number` através de um processo chamado **coerção (coercion)** (veja o Capítulo 4).
 
 If you use `typeof` against a variable, it's not asking "what's the type of the variable?" as it may seem, since JS variables have no types. Instead, it's asking "what's the type of the value *in* the variable?"
 
