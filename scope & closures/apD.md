@@ -1,15 +1,13 @@
 # You Don't Know JS: Escopos & Encerramentos
 # Apêndice D: Agradecimentos
 
-Tenho tantas pessoas à agradecer por fazer essa série de livros se tornar realidade.
+Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto eu estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria. O tempo que eu comprometi junto à minha família é o motivo destes livros serem tão profunda e competamente explicados à você, leitor. Devo tudo à minha família.
 
-Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria ser. O tempo que eu comprometi junto à minha família é o motivo desses livros serem tão profunda e competamente explicados à você, leitor. Devo tudo à minha família.
+Gostaria de agradecer aos meus editores da O'Reilly, mais precisamente Simon St.Laurent e Brian MacDonald, assim como o resto do time de editorial e marketing. São pessoas fantásticas de se trabalhar e foram bastante convidativos durante este experimento de escrever, editar e produzir um livro "open source".
 
-Gostaria de agradece aos meus editores da O'Reilly, mais precisamente Simon St.Laurent e Brian MacDonald, assim como o resto do time de editorial e marketing. São pessoas fantásticas de se trabalhar e foram bastante convidativos durante esse experimento de escrever, editar e produzir um livro "open source".
+Obrigado à todas as pessoas que participaram na criação desta série de livros, enviando sugestões editoriais e correções, incluindo Shelley Powers, Tim Ferro, Evan Borden, Forrest L. Norvell, Jennifer Davis, Jesse Harlin, Kris Kowal, Rick Waldron, Jordan Harband, Benjamin Gruenbaum, Vyacheslav Egorov, David Nolen, e tantos outros. Um MUITO OBRIGADO para Jake Archibald por escrever a Introdução desse livro.
 
-Obrigado à todas as pessoas que participaram na criação dessa série de livros enviando sugestões editoriais e correções, incluindo Shelley Powers, Tim Ferro, Evan Borden, Forrest L. Norvell, Jennifer Davis, Jesse Harlin, Kris Kowal, Rick Waldron, Jordan Harband, Benjamin Gruenbaum, Vyacheslav Egorov, David Nolen, and many others. Um grande OBRIGADO para Jenn Lukas por escrever a Introdução desse livro.
-
-Obrigado às inúmeras pessoas da comunidade, incluindo membros do comitê TC39, que tanto compartilharam conhecimento com todos nós, e em especial toleraram e responderam detalhadamente minhas incessantes perguntas com muita paciência. John-David Dalton, Juriy "kangax" Zaytsev, Mathias Bynens, Axel Rauschmayer, Nicholas Zakas, Angus Croll, Reginald Braithwaite, Dave Herman, Brendan Eich, Allen Wirfs-Brock, Bradley Meck, Domenic Denicola, David Walsh, Tim Disney, Peter van der Zee, Andrea Giammarchi, Kit Cambridge, Eric Elliott, e tantos outros que eu não consigo definir nem mesmo a superfície.
+Obrigado às inúmeras pessoas da comunidade, incluindo membros do comitê TC39, que tanto compartilharam conhecimento com todos nós, e em especial toleraram e responderam detalhadamente minhas incessantes perguntas com muita paciência. John-David Dalton, Juriy "kangax" Zaytsev, Mathias Bynens, Axel Rauschmayer, Nicholas Zakas, Angus Croll, Reginald Braithwaite, Dave Herman, Brendan Eich, Allen Wirfs-Brock, Bradley Meck, Domenic Denicola, David Walsh, Tim Disney, Peter van der Zee, Andrea Giammarchi, Kit Cambridge, Eric Elliott, e tantos outros que eu não consigo nem pensar em quantos.
 
 Desde que a série "You Don't Know JS" foi criada no Kickstarter, eu gosto de agradecer meus (quase) 500 apoiadores, os quais sem eles essa série não teria acontecido:
 
