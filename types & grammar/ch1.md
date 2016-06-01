@@ -112,7 +112,7 @@ typeof [1,2,3] === "object"; // true (verdadeiro)
 
 Não, apenas objetos. É muito apropriado pensar sobre eles também como um "subtipo" de objeto (veja o Capítulo 3), neste caso com as características adicionais de serem numéricamente indexáveis (em oposição aos objetos simples com chaves do tipo string) e manterem uma propriedade `.length` automaticamente atualizada.
 
-## Valores possuem Tipos, e não as variáveis
+## Valores como tipos
 
 Em JavaScript, variáveis não possuem tipos -- **valores possuem tipos**. Variáveis podem conter qualquer valor à qualquer momento.
 
