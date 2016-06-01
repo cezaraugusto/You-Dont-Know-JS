@@ -94,8 +94,12 @@ Toda vez que você encapsula uma porção de código numa `função` e especific
 
 ### Async Console
 
-There is no specification or set of requirements around how the `console.*` methods work -- they are not officially part of JavaScript, but are instead added to JS by the *hosting environment* (see the *Types & Grammar* title of this book series).
+Não existe especificação ou grupo de requerimentos sobre como os métodos `console.*` funcionam -- eles não são parte oficial do JavaScript, mas ao invés disso são adicionados ao JS pelo *ambiente hospedeiro* (veja o título *Tipos & Gramática* dessa série de livros).
 
+Então, diferentes navegadores e ambientes JS fazem da sua maneira, o que pode as vezes causar comportamento confuso.
+
+Em particular, existem alguns navegadores e condições nas quais `console.log(..)` não retorna imediatamente o que é dado. 
+O principal motivo pelo qual 
 So, different browsers and JS environments do as they please, which can sometimes lead to confusing behavior.
 
 In particular, there are some browsers and some conditions that `console.log(..)` does not actually immediately output what it's given. The main reason this may happen is because I/O is a very slow and blocking part of many programs (not just JS). So, it may perform better (from the page/UI perspective) for a browser to handle `console` I/O asynchronously in the background, without you perhaps even knowing that occurred.
