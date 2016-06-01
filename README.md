@@ -43,7 +43,7 @@ Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviand
 ## Títulos
 
 * Leia online (grátis!): ["Iniciando"](up & going/README.md#you-dont-know-js-up--going), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920039303.do), ebook format is grátis!
-* Leia online (grátis!): ["Escopos & Encerramentos"](scope & closures/README.md#you-dont-know-js-scope--closures), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
+* Leia online (grátis!): ["Escopos & Clausuras"](scope & closures/README.md#you-dont-know-js-scope--closures), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
 * Leia online (grátis!): ["this & Prototipagem de Objetos"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
 * Leia online (grátis!): ["Tipos & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
 * Leia online (grátis!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
