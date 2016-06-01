@@ -24,7 +24,6 @@ Você pode escrever seu programa JS em um arquivo *.js*, mas ele é certamente f
 
 O problema que a maioria do desenvolvedores novatos em JS parecem ter, é que *depois* não acontece estritamente e imediatamente depois de *agora*. Em outras palavras, tarefas que não podem completar *agora* serão, por definição, completas de forma assíncrona, não possuindo assim comportamento bloqueante que você intuitivamente espera ou quer.
 
-
 Considere:
 
 ```js
@@ -35,9 +34,7 @@ console.log( data );
 // Oops! `data` geralmente não conterá os resultados do Ajax
 ```
 
-<hr>
-
-Você está provavelmente ciente de que requisições Ajax não completam de forma síncrona, o que significa que a função `ajax(...)` ainda não possui nenhum valor para retornar, para então ser atribuido a variável `data`. Se `ajax(...)` *pudesse* bloquear a execução até o retorno da resposta, então a atribuição `data = ..` funcionaria sem problemas.
+Você provavelmente está ciente de que requisições Ajax não completam de forma síncrona, o que significa que a função `ajax(...)` ainda não possui nenhum valor para retornar, para então ser atribuido a variável `data`. Se `ajax(...)` *pudesse* bloquear a execução até o retorno da resposta, então a atribuição `data = ..` funcionaria sem problemas.
 
 Mas não é assim que se faz Ajax. Fazemos uma requisição assíncrona *agora*, e não possuiremos o resultado de volta até *depois*.
 
@@ -49,7 +46,7 @@ ajax( "http://alguma.url.1", function minhaFuncaoDeRetorno(data) {
 	console.log(data); // Yay, temos dados!`!
 });
 ```
-**Atenção:** você pode ter ouvido que é possível fazer requisições Ajax síncronas. Enquanto isso é tecnicamente verdade, você não deveria nunca fazer isso, em nenhuma circunstância, por que tranca a interface do usuário no navegador (botões, menus, rolamento, etc.) e previne qualquer interação. Essa é uma péssima ideia, e sempre deve ser evitada.
+**Atenção:** você pode ter ouvido que é possível fazer requisições Ajax síncronas. Enquanto isso é tecnicamente verdade, você não deveria fazer isso nunca, em nenhuma circunstância, por que tranca a interface do usuário no navegador (botões, menus, rolamento, etc.) e previne qualquer interação. Essa é uma péssima ideia, e deve sempre ser evitada.
 
 Antes que você proteste em discordância, não, seu desejo de evitar a confusão dos callbacks *não* é justificativa para Ajax síncrono bloqueante.
 
@@ -67,55 +64,33 @@ function depois () {
 
 var resposta = agora();
 
-setTimeout(depois, 1000);
+setTimeout( depois, 1000); // Significado da vida: 42
 ```
-<hr>
 
-**Warning:** You may have heard that it's possible to make synchronous Ajax requests. While that's technically true, you should never, ever do it, under any circumstances, because it locks the browser UI (buttons, menus, scrolling, etc.) and prevents any user interaction whatsoever. This is a terrible idea, and should always be avoided.
+Existem duas partes para esse programa: a coisa que vai executar *agora*, e a coisa que vai executar *depois*. Está bem óbvio qual é qual, mas vamos ser super explícitos:
 
-Before you protest in disagreement, no, your desire to avoid the mess of callbacks is *not* justification for blocking, synchronous Ajax.
-
-For example, consider this code:
-
+Agora:
 ```js
-function now() {
+function agora() {
 	return 21;
 }
 
-function later() {
-	answer = answer * 2;
-	console.log( "Meaning of life:", answer );
-}
+function depois() { .. }
 
-var answer = now();
+var resposta = agora();
 
-setTimeout( later, 1000 ); // Meaning of life: 42
+setTimeout( depois, 1000 );
 ```
 
-There are two chunks to this program: the stuff that will run *now*, and the stuff that will run *later*. It should be fairly obvious what those two chunks are, but let's be super explicit:
-
-Now:
+Depois:
 ```js
-function now() {
-	return 21;
-}
-
-function later() { .. }
-
-var answer = now();
-
-setTimeout( later, 1000 );
+resposta = resposta * 2;
+console.log( "Significado da vida:", resposta );
 ```
 
-Later:
-```js
-answer = answer * 2;
-console.log( "Meaning of life:", answer );
-```
+O pedaço *agora* roda de imediato, tão cedo você executar o programa. Mas `setTimeout(...)` também define um evento (um tempo limite) para acontecer *depois*, de maneira que os conteúdos da função `depois()` serão executados posteriormente (1.000 milisegundos a partir de agora). 
 
-The *now* chunk runs right away, as soon as you execute your program. But `setTimeout(..)` also sets up an event (a timeout) to happen *later*, so the contents of the `later()` function will be executed at a later time (1,000 milliseconds from now).
-
-Any time you wrap a portion of code into a `function` and specify that it should be executed in response to some event (timer, mouse click, Ajax response, etc.), you are creating a *later* chunk of your code, and thus introducing asynchrony to your program.
+Toda vez que você encapsula uma porção de código numa `função` e especifica que ela deve ser executada como resposta a algum evento (timer, clique do mouse, resposta do Ajax, etc.), você está criando um pedaço *posterior (depois)* do seu código, assim introduzindo assincronia ao seu programa.
 
 ### Async Console
 
