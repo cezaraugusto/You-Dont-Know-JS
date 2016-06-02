@@ -96,29 +96,30 @@ Toda vez que você encapsula uma porção de código numa `função` e especific
 
 Não existe especificação ou grupo de requerimentos sobre como os métodos `console.*` funcionam -- eles não são parte oficial do JavaScript, mas ao invés disso são adicionados ao JS pelo *ambiente hospedeiro* (veja o título *Tipos & Gramática* dessa série de livros).
 
-Então, diferentes navegadores e ambientes JS fazem da sua maneira, o que pode as vezes causar comportamento confuso.
+Então, diferentes navegadores e ambientes JS fazem da maneira que preferem, o que pode as vezes causar comportamento confuso.
 
 Em particular, existem alguns navegadores e condições nas quais `console.log(..)` não retorna imediatamente o que é dado. 
-O principal motivo pelo qual 
-So, different browsers and JS environments do as they please, which can sometimes lead to confusing behavior.
+O principal motivo pelo qual isso pode acontecer é por que o I/O é uma parte lenta e bloqueante de muitos programas (não apenas JS). Então, pode ser melhor (do ponto de vista página/UI) para um navegador lidar com o I/O do `console` de maneira assíncrona no plano de fundo, sem que você talvez sequer saiba o que ocorreu.
 
-In particular, there are some browsers and some conditions that `console.log(..)` does not actually immediately output what it's given. The main reason this may happen is because I/O is a very slow and blocking part of many programs (not just JS). So, it may perform better (from the page/UI perspective) for a browser to handle `console` I/O asynchronously in the background, without you perhaps even knowing that occurred.
-
-A not terribly common, but possible, scenario where this could be *observable* (not from code itself but from the outside):
+Um cenário improvável, mas possível, de onde isso pode ser *observado* (não através do código em si, mas de fora):
 
 ```js
 var a = {
-	index: 1
+  index: 1
 };
 
-// later
-console.log( a ); // ??
+//depois 
+console.log(a); //?
 
-// even later
+//mais depois
 a.index++;
+
 ```
 
-We'd normally expect to see the `a` object be snapshotted at the exact moment of the `console.log(..)` statement, printing something like `{ index: 1 }`, such that in the next statement when `a.index++` happens, it's modifying something different than, or just strictly after, the output of `a`.
+Normalmente esperaríamos ver o objeto `a` fotografado no exato momento da instrução, imprimindo algo como `{ index: 1 }`, tal qual na próxima instrução quando `a.index++` acontece, está modificando algo diferente, ou estritamente depois da saída de `a`.
+
+Na maior parte do tempo, o código precedente provavelmente vai produzir uma representação de um objeto no console da seção de ferramentas do desenvolvedor do seu navegador(developer tools) da forma como você esperaria. Mas é possível que o mesmo código execute em uma situação onde o navegador sentiu que precisafa deferir o I/O do console para o plano de fundo, o que nesse caso é *possível* que o tempo do objeto seja representado no console do navegador, o `a.index++` já tenha acontecido, e mostre `{index: 2}`.
+<hr>
 
 Most of the time, the preceding code will probably produce an object representation in your developer tools' console that's what you'd expect. But it's possible this same code could run in a situation where the browser felt it needed to defer the console I/O to the background, in which case it's *possible* that by the time the object is represented in the browser console, the `a.index++` has already happened, and it shows `{ index: 2 }`.
 
