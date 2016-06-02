@@ -10,7 +10,7 @@ Praticamente todos os programas não triviais (especialmente em JS) tem de algum
 
 Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
-Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de callback (retorno) são boas o suficiente.
+Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno (callback). Muitos até hoje insistem que funções de callback (retorno) são boas o suficiente.
 
 Mas enquanto JS continua a crescer em escopo e complexidade, para alcançar as demandas sempre crescentes de uma linguagem de programação de primeira classe que roda em navegadores e servidores e em todos os dispositivos concebíveis entre eles, as dores com as quais lidamos com assincronia estão ficando cada vez mais debilitantes, e elas suplicam por métodos que são mais capazes e razoáveis.
 
