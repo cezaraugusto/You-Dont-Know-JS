@@ -106,6 +106,7 @@
 
 #### I
 
+* Invoked: Invocada
 * Immediately Invoked Function Expressions (IIFEs): Expressão de Função Imediatamente Invocada
 * Input: Input (entrada, início)
 
@@ -162,6 +163,7 @@
 
 #### S
 
+* Shadowing: Sombreamento
 * Scope: Escopo
 * See the *SERIE_TITLE_HERE* title of this series: Veja o título desta série *SERIE_TITLE_HERE*
 * Statements: Instruções (carece de definição melhor)

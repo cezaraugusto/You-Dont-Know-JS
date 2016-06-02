@@ -1,23 +1,23 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 2: Lexical Scope
+# You Don't Know JS: Escopos e Clausuras
+# Chapter 2: Escopo Léxico
 
-In Chapter 1, we defined "scope" as the set of rules that govern how the *Engine* can look up a variable by its identifier name and find it, either in the current *Scope*, or in any of the *Nested Scopes* it's contained within.
+No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido. 
 
-There are two predominant models for how scope works. The first of these is by far the most common, used by the vast majority of programming languages. It's called **Lexical Scope**, and we will examine it in-depth. The other model, which is still used by some languages (such as Bash scripting, some modes in Perl, etc.) is called **Dynamic Scope**.
+Existem dois modelos principais para a definição de funcionamento do escopo. O primeiro e mais comum, utilizado pela grande maioria das linguagens de programação, é chamado de **Escopo Léxico**, e vamos examiná-lo em profundidade. O outro modelo, que ainda é utilizado em algumas linguagens como Bash scripting e alguns modos de Perl, é chamado de **Escopo Dinâmico**.
 
-Dynamic Scope is covered in Appendix A. I mention it here only to provide a contrast with Lexical Scope, which is the scope model that JavaScript employs.
+Escopo Dinâmico é tratado no Apêndice A. Menciono esta informação aqui apenas para definir um contraste em relação ao Escopo Léxico, que é o modelo utilizado pelo JavaScript.
 
-## Lex-time
+## Hora do léxico
 
-As we discussed in Chapter 1, the first traditional phase of a standard language compiler is called lexing (aka, tokenizing). If you recall, the lexing process examines a string of source code characters and assigns semantic meaning to the tokens as a result of some stateful parsing.
+Conforme discutimos no Capítulo 1, a primeira etapa da compilação de linguagens tradicionais é chamada de Análise Léxica (ou Tokenização). Caso não se lembre, o processo de Análise Léxica examina uma sequência de caractéres do código fonte e atribui um significado semântico para estes símbolos (tokens) como resultado de uma análise stateful.
 
-It is this concept which provides the foundation to understand what lexical scope is and where the name comes from.
+Este é o conceito que provê as bases para compreensão do que é o Escopo Léxico e a origem do seu nome.
 
-To define it somewhat circularly, lexical scope is scope that is defined at lexing time. In other words, lexical scope is based on where variables and blocks of scope are authored, by you, at write time, and thus is (mostly) set in stone by the time the lexer processes your code.
+Para uma definição de certa forma redundante, o Escopo Léxico é o escopo definido durante a etapa de Análise Léxica. Em outras palavras, o Escopo Léxico baseia-se no local onde variáveis e blocos de escopo são criados por você durante a escrita do código, portanto (normalmente) já definidos no momento que o analisador léxico processa seu código. 
 
-**Note:** We will see in a little bit there are some ways to cheat lexical scope, thereby modifying it after the lexer has passed by, but these are frowned upon. It is considered best practice to treat lexical scope as, in fact, lexical-only, and thus entirely author-time in nature.
+**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa pratica tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código. 
 
-Let's consider this block of code:
+Consideremos o seguinte bloco de código:
 
 ```js
 function foo(a) {
@@ -34,43 +34,43 @@ function foo(a) {
 foo( 2 ); // 2 4 12
 ```
 
-There are three nested scopes inherent in this code example. It may be helpful to think about these scopes as bubbles inside of each other.
+Existem três escopos distintos neste exemplo de código. Talvez facilite pensar neles como bolhas dentro umas das outras.
 
 <img src="fig2.png" width="500">
 
-**Bubble 1** encompasses the global scope, and has just one identifier in it: `foo`.
+**Bolha 1** representa o escopo global, e possui apenas um identificador: `foo`.
 
-**Bubble 2** encompasses the scope of `foo`, which includes the three identifiers: `a`, `bar` and `b`.
+**Bolha 2** representa o escopo de `foo`, que por sua vez possui três identificadores: `a`, `bar` e `b`.
 
-**Bubble 3** encompasses the scope of `bar`, and it includes just one identifier: `c`.
+**Bolha 3** representa o escopo de `bar`, que possui apenas um identificador: `c`.
 
-Scope bubbles are defined by where the blocks of scope are written, which one is nested inside the other, etc. In the next chapter, we'll discuss different units of scope, but for now, let's just assume that each function creates a new bubble of scope.
+Estas bolhas são definidas pelo local onde o escopo foi definido, cada um deles aninhado com outro e assim por diante. No próximo capítulo, vamos discutir diferentes unidades de escopo, mas, por ora, vamos assumir que cada função cria uma nova bolha de escopo.
 
-The bubble for `bar` is entirely contained within the bubble for `foo`, because (and only because) that's where we chose to define the function `bar`.
+A bolha de `bar` está contida na bolha de `foo`, porque (e somente por isso) foi o local que optamos por declarar a função `bar`.
 
-Notice that these nested bubbles are strictly nested. We're not talking about Venn diagrams where the bubbles can cross boundaries. In other words, no bubble for some function can simultaneously exist (partially) inside two other outer scope bubbles, just as no function can partially be inside each of two parent functions.
+Observe que estas bolhas são aninhadas de maneira rigorosa. Não estamos falando de um Diagrama de Venn, onde as fronteiras (dos conjuntos matemáticos) podem ser atravessadas (para definição de interseções). Em outras palavras, e diferente dos conjuntos, não é possível que a bolha de escopo de uma função esteja presente simultaneamente em duas outras bolhas de escopo, assim como não é possível que uma mesma função seja declara parte em uma função e parte em outra.
 
-### Look-ups
+### Consultas
 
-The structure and relative placement of these scope bubbles fully explains to the *Engine* all the places it needs to look to find an identifier.
+A estrutura e a relação de posicionamento destas bolhas de escopo descreve para o *Motor* todos os locais nos quais deve consultar para localizar um identificador.
 
-In the above code snippet, the *Engine* executes the `console.log(..)` statement and goes looking for the three referenced variables `a`, `b`, and `c`. It first starts with the innermost scope bubble, the scope of the `bar(..)` function. It won't find `a` there, so it goes up one level, out to the next nearest scope bubble, the scope of `foo(..)`. It finds `a` there, and so it uses that `a`. Same thing for `b`. But `c`, it does find inside of `bar(..)`.
+No trecho de código acima, o *Motor* executa a instrução `console.log(..)` e vai em busca das três variáveis referenciadas `a`, `b` e `c`. Ele inicia com o escopo mais interno, o escopo da função `bar`. Não encontrará `a` por lá, então sobe um nível para a bolha de escopo mais próxima, o escopo de `foo(..)`. Lá ele localiza `a`, e utiliza este `a`. A mesma coisa ocorre com `b`. Porém, no caso de `c`, ele localiza dentro de `bar(..)`.
 
-Had there been a `c` both inside of `bar(..)` and inside of `foo(..)`, the `console.log(..)` statement would have found and used the one in `bar(..)`, never getting to the one in `foo(..)`.
+Caso houvesse um `c` definido em `bar(..)` e outro em `foo(..)`, a instrução `console.log(..)` teria localizado e utilizado o `c` definido em `bar(..)` e nunca chegaria até o valor definido em `foo(..)`.
 
-**Scope look-up stops once it finds the first match**. The same identifier name can be specified at multiple layers of nested scope, which is called "shadowing" (the inner identifier "shadows" the outer identifier). Regardless of shadowing, scope look-up always starts at the innermost scope being executed at the time, and works its way outward/upward until the first match, and stops.
+**A consulta de escopo se encerra no momento que uma ocorrência é localizada**. Um mesmo identificador pode ser definido em diferentes camadas de escopo aninhadas, o que é chamado de "sombreamento" (*shadowing* -- o identificador interno "põe sombra" sobre o identificador externo). Independente do sombreamento, a consulta de escopo sempre se inicia no escopo mais interno do ponto de execução atual, e segue seu caminho para fora/cima até a localização de uma ocorrência, quando se encerra.
 
-**Note:** Global variables are also automatically properties of the global object (`window` in browsers, etc.), so it *is* possible to reference a global variable not directly by its lexical name, but instead indirectly as a property reference of the global object.
+**Nota:** Variáveis globais tornam-se automaticamente propriedades do objeto global (`window` nos navegadores, etc.), portanto *é possível* referenciar uma variável global de forma direta através de seu nome léxico, mas também de forma indireta ao referenciar uma propriedade do objeto global.
 
 ```js
 window.a
 ```
 
-This technique gives access to a global variable which would otherwise be inaccessible due to it being shadowed. However, non-global shadowed variables cannot be accessed.
+Esta técnica garante o acesso a uma variável global que não poderia ser acessada por conta de um eventual sombreamento. Entretanto, variáveis não-globais e que foram sombreadas não podem ser acessadas. 
 
-No matter *where* a function is invoked from, or even *how* it is invoked, its lexical scope is **only** defined by where the function was declared.
+Não importa o *local* onde uma função é invocada, ou até mesmo *como* é invocada, seu escopo léxico será definido **apenas** pelo local onde a função foi declarada.
 
-The lexical scope look-up process *only* applies to first-class identifiers, such as the `a`, `b`, and `c`. If you had a reference to `foo.bar.baz` in a piece of code, the lexical scope look-up would apply to finding the `foo` identifier, but once it locates that variable, object property-access rules take over to resolve the `bar` and `baz` properties, respectively.
+O processo de consulta ao escopo léxico ocorre *apenas" em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso à propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
 
 ## Cheating Lexical
 
