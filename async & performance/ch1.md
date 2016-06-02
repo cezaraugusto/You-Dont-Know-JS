@@ -10,7 +10,7 @@ Praticamente todos os programas não triviais (especialmente em JS) tem de algum
 
 Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
-Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de retorno (callbacks) são boas o suficiente.
+Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno. Muitos até hoje insistem que funções de callback (retorno) são boas o suficiente.
 
 Mas enquanto JS continua a crescer em escopo e complexidade, para alcançar as demandas sempre crescentes de uma linguagem de programação de primeira classe que roda em navegadores e servidores e em todos os dispositivos concebíveis entre eles, as dores com as quais lidamos com assincronia estão ficando cada vez mais debilitantes, e elas suplicam por métodos que são mais capazes e razoáveis.
 
@@ -118,69 +118,72 @@ a.index++;
 
 Normalmente esperaríamos ver o objeto `a` fotografado no exato momento da instrução, imprimindo algo como `{ index: 1 }`, tal qual na próxima instrução quando `a.index++` acontece, está modificando algo diferente, ou estritamente depois da saída de `a`.
 
-Na maior parte do tempo, o código precedente provavelmente vai produzir uma representação de um objeto no console da seção de ferramentas do desenvolvedor do seu navegador(developer tools) da forma como você esperaria. Mas é possível que o mesmo código execute em uma situação onde o navegador sentiu que precisafa deferir o I/O do console para o plano de fundo, o que nesse caso é *possível* que o tempo do objeto seja representado no console do navegador, o `a.index++` já tenha acontecido, e mostre `{index: 2}`.
-<hr>
+Na maior parte do tempo, o código precedente provavelmente vai produzir uma representação de um objeto no console da seção de ferramentas do desenvolvedor do seu navegador (developer tools) da forma como você esperaria. Mas é possível que o mesmo código execute em uma situação onde o navegador sentiu que precisafa deferir o I/O do console para o plano de fundo, e que nesse caso seja *possível* que no momento em que o objeto tenha sido representado no console do navegador, `a.index++` já tenha acontecido, e mostre `{ index: 2 }`.
 
-Most of the time, the preceding code will probably produce an object representation in your developer tools' console that's what you'd expect. But it's possible this same code could run in a situation where the browser felt it needed to defer the console I/O to the background, in which case it's *possible* that by the time the object is represented in the browser console, the `a.index++` has already happened, and it shows `{ index: 2 }`.
+As condições exatas nas quais o I/O do `console` será deferido, ou mesmo se será observável ou não é oscilante. Apenas se lembre dessa possível "assincronicidade" no I/O no caso de você se deparar com problemas ao tentar debugar o código em situações onde o objeto foi modificado *depois* da instrução `console.log(..)`, e ainda assim as modificações inesperadas apareçam.
 
-It's a moving target under what conditions exactly `console` I/O will be deferred, or even whether it will be observable. Just be aware of this possible asynchronicity in I/O in case you ever run into issues in debugging where objects have been modified *after* a `console.log(..)` statement and yet you see the unexpected modifications show up.
+**Nota:** Se você se deparar com esse cenário carro, a melhor opção é usar pontos de quebra no seu debugados JS ao invés de contar com a saída do `console`. A segunda melhor opção seria forçar uma fotografia do objeto em questão ao serializá-lo em uma `string`, como com 'JSON.stringidy(..)`.
 
-**Note:** If you run into this rare scenario, the best option is to use breakpoints in your JS debugger instead of relying on `console` output. The next best option would be to force a "snapshot" of the object in question by serializing it to a `string`, like with `JSON.stringify(..)`.
+## Laço de Eventos (Event Loop)
 
-## Event Loop
+Vamos fazer uma afirmação (talvez chocante): apesar de claramente permitir código assíncrono (como o timeout que acabamos de ver), até recentmente (ES6), JavaScript nunca de verdade teve uma noção direta de assíncronia intrínseca.
 
-Let's make a (perhaps shocking) claim: despite clearly allowing asynchronous JS code (like the timeout we just looked at), up until recently (ES6), JavaScript itself has actually never had any direct notion of asynchrony built into it.
+**O que!?** Isso parece uma afirmação louca, certo? Na verdade, é verdade. O motor JS nunca fez nada além de executar um pedaço único de código do seu programa em um dado momento qualquer, quando solicitado.
 
-**What!?** That seems like a crazy claim, right? In fact, it's quite true. The JS engine itself has never done anything more than execute a single chunk of your program at any given moment, when asked to.
+"Quando solicitado." Por quem? Essa é a parte importante!
 
-"Asked to." By whom? That's the important part!
+O motor JS não roda isolado. Roda dentro de um *ambiente hospedeiro*, que é para muitos desenvolvedores o típico navegador da web.
+Através do últimos muitos anos (de nenhuma forma exclusivamente), JS expandiou além do navegador em outros ambientes, tal qual servidores, através de coisas como Node.js. Na verdade, JavaScript é anexado nos mais variados tipos de dispositivos hoje em dia, de robos à lampadas.
 
-The JS engine doesn't run in isolation. It runs inside a *hosting environment*, which is for most developers the typical web browser. Over the last several years (but by no means exclusively), JS has expanded beyond the browser into other environments, such as servers, via things like Node.js. In fact, JavaScript gets embedded into all kinds of devices these days, from robots to lightbulbs.
+Mas uma parte comum de todos esses ambientes é que eles tem um mecanismo que lida com a execução de múltiplos pedaços do seu programa *ao longo do tempo*, a cada momento invocando o motor JS chamado "loop de eventos".
 
-But the one common "thread" (that's a not-so-subtle asynchronous joke, for what it's worth) of all these environments is that they have a mechanism in them that handles executing multiple chunks of your program *over time*, at each moment invoking the JS engine, called the "event loop."
+Em outras palavras, o motor JS não tem senso inato de *tempo*, mas está ao invés disso, em um ambiente de execução on-demand para qualquer código arbitrário de JS. É o ambiente periférico que tem sempre *agendado* os "eventos" (execuções de código JS).
 
-In other words, the JS engine has had no innate sense of *time*, but has instead been an on-demand execution environment for any arbitrary snippet of JS. It's the surrounding environment that has always *scheduled* "events" (JS code executions).
+Então, por exemplo, quando seu programa JS faz uma requisição Ajax para pegar algum dado de um servidor, você define o código de "resposta" em uma função (comumente chamada de "callback"), e o motor JS informa ao ambiente hospedeiro, "Ei, eu vou suspender a execução agora, mas assim que você terminar com aquela requisição na rede, e você tiver algum dado, por favor *chame* (call), essa função *de volta* (back)."
 
-So, for example, when your JS program makes an Ajax request to fetch some data from a server, you set up the "response" code in a function (commonly called a "callback"), and the JS engine tells the hosting environment, "Hey, I'm going to suspend execution for now, but whenever you finish with that network request, and you have some data, please *call* this function *back*."
+O navegador então fica a postos escutando pela resposta do servidor, e quando tem algo para te dar, agenda a função de callback (retorno) para ser executada ao inserí-la no *laço de eventos* (event loop).
 
-The browser is then set up to listen for the response from the network, and when it has something to give you, it schedules the callback function to be executed by inserting it into the *event loop*.
+Então o que é o *laço de eventos* (event loop)?
 
-So what is the *event loop*?
-
-Let's conceptualize it first through some fake-ish code:
+Vamos contextualizar através de um (meio que) pseudo código:
 
 ```js
-// `eventLoop` is an array that acts as a queue (first-in, first-out)
-var eventLoop = [ ];
-var event;
-
-// keep going "forever"
-while (true) {
-	// perform a "tick"
-	if (eventLoop.length > 0) {
-		// get the next event in the queue
-		event = eventLoop.shift();
-
-		// now, execute the next event
-		try {
-			event();
-		}
-		catch (err) {
-			reportError(err);
-		}
-	}
-}
+ // eventLoop é uma array que age como uma lista de espera (primeiro a entrar, primeiro a sair)
+ var eventLoop = [];
+ var event;
+ 
+ // continua indo "para sempre"
+ while (true) {
+   //faz a verificação
+   if(eventLoop.length > 0) {
+   	// insere o próximo evento na fila
+   	event = eventLoop.shift();
+   	
+   	// agora, executa o próximo evento
+   	try {
+   	   event();
+   	} 
+   	catch (err) {
+   	   reportError(err);
+   	}
+   }
+ }
 ```
 
-This is, of course, vastly simplified pseudocode to illustrate the concepts. But it should be enough to help get a better understanding.
+Esse é um pseudo código muito simplificado para ilustrar o conceito. Mas deve ser suficiente para ajudar a ter um entendimento melhor.
 
-As you can see, there's a continuously running loop represented by the `while` loop, and each iteration of this loop is called a "tick." For each tick, if an event is waiting on the queue, it's taken off and executed. These events are your function callbacks.
+Como você pode ver, existe um laço contínuo representado pelo laço `while`, e cada iteração desse laço é chamada de um "tick". Para cada tick, se um evento está esperando na fila, é removido e executado. Esses eventos são as suas funções de callback (retorno).
 
-It's important to note that `setTimeout(..)` doesn't put your callback on the event loop queue. What it does is set up a timer; when the timer expires, the environment places your callback into the event loop, such that some future tick will pick it up and execute it.
+É importante notar que `setTimeout(..)` não coloca sua função de callback na lista de espera do laço de eventos (event loop). O que faz é definir um contador; quando o contador expira, o ambiente coloca sua função de callback no laço de eventos, de modo que um tick futuro vai pegá-lo e executá-lo.
 
-What if there are already 20 items in the event loop at that moment? Your callback waits. It gets in line behind the others -- there's not normally a path for preempting the queue and skipping ahead in line. This explains why `setTimeout(..)` timers may not fire with perfect temporal accuracy. You're guaranteed (roughly speaking) that your callback won't fire *before* the time interval you specify, but it can happen at or after that time, depending on the state of the event queue.
+E se já existem 20 itens no laço de eventos naquele momento? Sua função de callback espera. Fica na fila atrás das outras -- normalmente não existe uma maneira de antecipar a espera e pular na frente da fila. Isso explica porque temporizadores `setTimeout(..)` podem não acionar com precisão temporal perfeita. É garantido (de maneira geral) que a sua função de retorno não vai acionar *antes* do tempo especificado, mas pode acontecer depois, dependendo do estado da fila de eventos.
 
-So, in other words, your program is generally broken up into lots of small chunks, which happen one after the other in the event loop queue. And technically, other events not related directly to your program can be interleaved within the queue as well.
+Então, em outras palavras, seu programa é geralmente quebrado em diversos pequenos pedaços, que podem acontecer um após o outro na lista de espera do laço de eventos. E tecnicamente, outros eventos não relacionados diretamente com o seu programa também podem ser alternados dentro da fila.
+
+
+**Nota:** Mencionamos "até recentemente" em relação ao ES6 mudando a natureza de onde laço de eventos é gerenciado. É em sua maioria uma tecnicalidade formal, mas o ES6 agora especifica como o laço de eventos funciona, o que significa que está dentro do alcance do motor JS, ao invés de apenas no *ambiente hospedeiro*. Um motivo principal para essa mudança é a introdução das Promises do ES6, as quais discutiremos no Capítulo 3, por que elas requerem a habilidade de ter controle direto e preciso do agendamento de operações na lista de espera do laço de eventos.
+
+<hr>
 
 **Note:** We mentioned "up until recently" in relation to ES6 changing the nature of where the event loop queue is managed. It's mostly a formal technicality, but ES6 now specifies how the event loop works, which means technically it's within the purview of the JS engine, rather than just the *hosting environment*. One main reason for this change is the introduction of ES6 Promises, which we'll discuss in Chapter 3, because they require the ability to have direct, fine-grained control over scheduling operations on the event loop queue (see the discussion of `setTimeout(..0)` in the "Cooperation" section).
 
