@@ -122,7 +122,7 @@ Na maior parte do tempo, o código precedente provavelmente vai produzir uma rep
 
 As condições exatas nas quais o I/O do `console` será deferido, ou mesmo se será observável ou não é oscilante. Apenas se lembre dessa possível "assincronicidade" no I/O no caso de você se deparar com problemas ao tentar debugar o código em situações onde o objeto foi modificado *depois* da instrução `console.log(..)`, e ainda assim as modificações inesperadas apareçam.
 
-**Nota:** Se você se deparar com esse cenário carro, a melhor opção é usar pontos de quebra no seu debugados JS ao invés de contar com a saída do `console`. A segunda melhor opção seria forçar uma fotografia do objeto em questão ao serializá-lo em uma `string`, como com 'JSON.stringidy(..)`.
+**Nota:** Se você se deparar com esse cenário raro, a melhor opção é usar pontos de quebra no seu debugados JS ao invés de contar com a saída do `console`. A segunda melhor opção seria forçar uma fotografia do objeto em questão ao serializá-lo em uma `string`, como com 'JSON.stringidy(..)`.
 
 ## Laço de Eventos (Event Loop)
 
