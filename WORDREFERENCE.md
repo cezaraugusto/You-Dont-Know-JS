@@ -118,7 +118,8 @@
 
 #### L
 
-* Lexing: Lexing
+* Lexer: Analisador Léxico
+* Lexing: Análise Léxica
 * Linter: Linter
 
 
@@ -171,7 +172,8 @@
 #### T
 
 * Token: Token
-* Tokenizing: Tokenizing
+* Tokenizer: Tokenizador
+* Tokenizing: Tokenização
 * Transpiling: Transpiling
 * Transpiled: *Transpilada* (em *itálico*)
 * Types: Tipos
