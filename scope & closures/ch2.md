@@ -48,7 +48,7 @@ Estas bolhas são definidas pelo local onde o escopo foi definido, cada um deles
 
 A bolha de `bar` está contida na bolha de `foo`, porque (e somente por isso) foi o local que optamos por declarar a função `bar`.
 
-Observe que estas bolhas são aninhadas de maneira rigorosa. Não estamos falando de um Diagrama de Venn, onde as fronteiras (dos conjuntos matemáticos) podem ser atravessadas (para definição de interseções). Em outras palavras, e diferente dos conjuntos, não é possível que a bolha de escopo de uma função esteja presente simultaneamente em duas outras bolhas de escopo, assim como não é possível que uma mesma função seja declara parte em uma função e parte em outra.
+Observe que estas bolhas são estritamente aninhadas. Não estamos falando de um Diagrama de Venn, onde as fronteiras (dos conjuntos matemáticos) podem ser atravessadas (para definição de interseções). Em outras palavras, e diferente dos conjuntos, não é possível que a bolha de escopo de uma função esteja presente simultaneamente em duas outras bolhas de escopo, assim como não é possível que uma mesma função seja declarada parte em uma função e parte em outra.
 
 ### Consultas
 
@@ -58,7 +58,7 @@ No trecho de código acima, o *Motor* executa a instrução `console.log(..)` e 
 
 Caso houvesse um `c` definido em `bar(..)` e outro em `foo(..)`, a instrução `console.log(..)` teria localizado e utilizado o `c` definido em `bar(..)` e nunca chegaria até o valor definido em `foo(..)`.
 
-**A consulta de escopo se encerra no momento que uma ocorrência é localizada**. Um mesmo identificador pode ser definido em diferentes camadas de escopo aninhadas, o que é chamado de "sombreamento" (*shadowing* -- o identificador interno "põe sombra" sobre o identificador externo). Independente do sombreamento, a consulta de escopo sempre se inicia no escopo mais interno do ponto de execução atual, e segue seu caminho para fora/cima até a localização de uma ocorrência, quando se encerra.
+**A consulta de escopo se encerra no momento que uma ocorrência é localizada**. Um mesmo identificador pode ser definido em diferentes camadas de escopo aninhadas, o que é chamado de "sombreamento" (*shadowing* -- o identificador interno "põe sombra" sobre o identificador externo). Independente do sombreamento, a consulta de escopo sempre se inicia no escopo mais próximo do ponto de execução atual, e segue seu caminho para fora/cima até a localização de uma ocorrência, quando se encerra.
 
 **Nota:** Variáveis globais tornam-se automaticamente propriedades do objeto global (`window` nos navegadores, etc.), portanto *é possível* referenciar uma variável global de forma direta através de seu nome léxico, mas também de forma indireta ao referenciar uma propriedade do objeto global.
 
