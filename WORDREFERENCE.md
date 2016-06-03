@@ -106,7 +106,6 @@
 
 #### I
 
-* Invoked: Invocada
 * Immediately Invoked Function Expressions (IIFEs): Expressão de Função Imediatamente Invocada
 * Input: Input (entrada, início)
 
@@ -119,8 +118,7 @@
 
 #### L
 
-* Lexer: Analisador Léxico
-* Lexing: Análise Léxica
+* Lexing: Lexing
 * Linter: Linter
 * Look-up: Consulta
 
@@ -164,7 +162,6 @@
 
 #### S
 
-* Shadowing: Sombreamento
 * Scope: Escopo
 * See the *SERIE_TITLE_HERE* title of this series: Veja o título desta série *SERIE_TITLE_HERE*
 * Statements: Instruções (carece de definição melhor)
@@ -177,8 +174,7 @@
 #### T
 
 * Token: Token
-* Tokenizer: Tokenizador
-* Tokenizing: Tokenização
+* Tokenizing: Tokenizing
 * Transpiling: Transpiling
 * Transpiled: *Transpilada* (em *itálico*)
 * Types: Tipos
