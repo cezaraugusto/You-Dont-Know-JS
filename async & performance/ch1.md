@@ -191,7 +191,7 @@ Então, em outras palavras, seu programa é geralmente quebrado em diversos pequ
 
 A ferramenta mais comum para computação paralela são processos e threads. Processos e threads executam de forma independente e podem executar simultaneamente: em processadores, ou mesmo em computadores diferentes, mas inúmeras threads podem compartilhar a memória de um único processo.
 
-Um laço de evento, por sua vez, quebra o trabalho em tarefas e executa eles em série, não permitindo acessos e mudanças paralelas à memória compartilhada. Paralelismo e "serialismo" podem coexistir na forma de laços de evento cooperando em threads separadas.
+Um laço de eventos, por sua vez, quebra o trabalho em tarefas e executa eles em série, não permitindo acessos e mudanças paralelas à memória compartilhada. Paralelismo e "serialismo" podem coexistir na forma de laços de evento cooperando em threads separadas.
 
 A alternância de threads paralelas de execução e a alternância de eventos assíncronos ocorrem em diferentes níveis de granularidade.
 
@@ -218,7 +218,7 @@ Considere:
   }
   
   function bar() {
-      a = a + 2;
+      a = a * 2;
   }
   
   // ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
