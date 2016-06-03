@@ -29,10 +29,10 @@
 
 ## Global
 
+* Blocos de código não devem ser traduzidos.
 * Links não devem ser traduzidos, de nenhuma forma.
 * Comentários em blocos de código **devem** ser traduzidos.
-* Em caso de dúvida, manter parte inalterada (em inglês), fazendo um apontando (bold/caixa alta/etc)
-
+* Em caso de dúvida, manter parte inalterada (em inglês), fazendo um apontamento (bold/caixa alta/etc)
 
 ## Títulos
 
@@ -75,7 +75,7 @@
 * Compound Conditionals: Instrução Condicional
 * Convoluted: Debilitado
 * Callback Function: função de callback (retorno) (vide [#41](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/41#issuecomment-222241545))
-
+* Code snippet: trecho de código
 
 #### D
 
@@ -120,6 +120,7 @@
 
 * Lexing: Lexing
 * Linter: Linter
+* Look-up: Consulta
 
 
 #### M
@@ -166,7 +167,9 @@
 * Statements: Instruções (carece de definição melhor)
 * Static typing: Tipagem estática
 * Strict Mode: Modo estrito (strict mode)
-
+* Snippet: Trecho (de código)
+* Scope look-up: Consulta de escopo
+* Shadowing: Sombreamento (shadowing)
 
 #### T
 
