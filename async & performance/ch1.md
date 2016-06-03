@@ -285,7 +285,7 @@ JavaScript nunca compartilha informações entre threads, o que significa que *e
 
 **Nota:** pode não ser óbvio até então, mas nem todo indeterminismo é ruim. As vezes é irrelevante, e algumas vezes é intencional. Veremos mais exemplos disso ao longo desse e dos próximos capítulos.
 
-### Run-to-Completion (tradução pendente)
+### Run-to-Completion
 
 Por causa da thread única do JavaScript, o código dentro de `foo()` (e `bar()`) é atômico, o que significa que uma vez que `foo()` começa a ser executado, a completude do código será finalizada antes do código em `bar()` possa ser executado, ou vice versa. Isso é chamado comportamento "run-to-completion".
 
@@ -376,15 +376,20 @@ a; // 183
 b; // 180
 ```
 
+Duas saídas do mesmo código significa que ainda temos indeterminância! Mas é em nível de ordenamento de função (evento), ao invés de no nível de ordenamento de instrução (ou, na verdade, no nível de ordenamento da operação da expressão) como é com threads. Em outras palavras é *mais determinístico* do que threads seriam.
+
+Como aplicado no comportamento JavaScript, essa indeterminância de ordem de função é o termo mum "condição de corrida", como `foo()` e `bar()` estão correndo um contra o outro para ver qual roda primeiro. Especificamente é uma "condição de corrida" por que você não pode prever confiavelmente como `a` e `b` vão se sair.
+
+**Nota:** Se houvesse uma função em JS que de alguma forma não tivesse comportamento run-to-completion, poderíamos ter muitas possíveis saídas diferentes, certo? Acontece que ES6 nos traz exatamente isso (veja Capítulo 4 "Geradores"), mas não se preocupe agora, voltaremos a isso!
+
+## Concorrência
+Vamos imaginar um site que mostre uma lista de atualizações de status (como atualizações de uma rede social) que progressivamente carrega ao passo que o usuário rola para baixo. Para fazer tal aplicação funcionar corretamente, (ao menos) dois "processos" separados vão precisar ser executados *simultaneamente* (isto é, durante a mesma janela de tempo, mas não necessariamente ao mesmo instante).
+
+**Nota:** Usamos "processo" em aspas aqui por que eles não são processos verdadeiros em nível de sistema operacional no sentido da ciência da computação. Eles são processos virtuais, ou tarefas, que representam uma série sequencial de operações logicamente conectadas. Vamos preferir "processo" ao invés de "tarefa", pois a terminologia corresponde com a definição dos conceitos que estamos explorando.
 
 <hr>
 
 <hr>
-Two outcomes from the same code means we still have nondeterminism! But it's at the function (event) ordering level, rather than at the statement ordering level (or, in fact, the expression operation ordering level) as it is with threads. In other words, it's *more deterministic* than threads would have been.
-
-As applied to JavaScript's behavior, this function-ordering nondeterminism is the common term "race condition," as `foo()` and `bar()` are racing against each other to see which runs first. Specifically, it's a "race condition" because you cannot predict reliably how `a` and `b` will turn out.
-
-**Note:** If there was a function in JS that somehow did not have run-to-completion behavior, we could have many more possible outcomes, right? It turns out ES6 introduces just such a thing (see Chapter 4 "Generators"), but don't worry right now, we'll come back to that!
 
 ## Concurrency
 
