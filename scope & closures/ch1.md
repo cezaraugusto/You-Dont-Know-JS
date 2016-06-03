@@ -19,9 +19,9 @@ Mas, no entanto, o motor do Javascript realiza muitos dos passos efetuados por q
 
 Em um processo tradicional de uma linguagem compilada, um pedaço de código fonte, seu programa, vai tipicamente passar por três passos *antes* de ser executado, grosseiramente chamado "compilação":
 
-1. **Tokenizing/Lexing:** quebrar uma string de caracteres em pedaços com algum significado (para a linguagem), chamados tokens. Por exemplo, considere o programa: `var a = 2;`. Esse programa provavelmente seria quebrado nos seguintes tokens: `var`, `a`, `=`, `2`, e `;`. Espaço em branco pode ou não ser mantido como um token, dependendo se tem ou não algum significado.
+1. **Tokenização/Análise Léxica:** quebrar uma string de caracteres em pedaços com algum significado (para a linguagem), chamados tokens. Por exemplo, considere o programa: `var a = 2;`. Esse programa provavelmente seria quebrado nos seguintes tokens: `var`, `a`, `=`, `2`, e `;`. Espaço em branco pode ou não ser mantido como um token, dependendo se tem ou não algum significado.
 
-    **Nota:** A diferença entre tokenizing e lexing é sutil e teórica, mas centraliza-se no fato desses tokens serem ou não identificados de uma maneira *stateless* ou *stateful*. Colocando de maneira simples, se o tokenizer fosse invocar regras de análise stateful para saber se `a` deve ser considerado um token distinto ou apenas parte de outro token, *isso* seria **lexing**.
+    **Nota:** A diferença entre Tokenização e Análise Léxica é sutil e teórica, mas centraliza-se no fato desses tokens serem ou não identificados de uma maneira *stateless* ou *stateful*. Colocando de maneira simples, se o Tokenizador fosse invocar regras de análise stateful para saber se `a` deve ser considerado um token distinto ou apenas parte de outro token, *isso* seria **Análise Léxica**.
 
 2. **Análise:** pegar um conjunto (array) de tokens e transformar isso numa árvore de elementos aninhados, que juntos representam a estrutura gramática do programa. Essa árvore é conhecida como "AST" (<b>A</b>bstract <b>S</b>yntax <b>T</b>ree, que, em tradução livre, significa: Árvore Sintática Abstrata).
 
@@ -260,11 +260,11 @@ Quando a busca RHS ocorre para `b` pela primeira vez, a variável não será loc
 
 Se uma busca RHS falha ao encontrar uma variável em qualquer lugar dos *Escopos* aninhados, esta operação resulta em um `ReferenceError` lançado pelo *Motor*. É importante salientar que o erro é do tipo `ReferenceError`. 
 
-Por outro lado, se o *Motor* executa uma busca LHS e chega no último andar (*Escopo* global) sem localizar a variável, e se o programa não está sendo executado em "Strict Mode" [^note-strictmode], então o *Escopo* global irá criar uma nova variável com este nome **no escopo global** e repassá-la para o *Motor*
+Por outro lado, se o *Motor* executa uma busca LHS e chega no último andar (*Escopo* global) sem localizar a variável, e se o programa não está sendo executado em "Modo estrito" (strict mode) [^note-strictmode], então o *Escopo* global irá criar uma nova variável com este nome **no escopo global** e repassá-la para o *Motor*
 
 *"Não, não tinha nada com esse nome, mas fui prestativo e criei pra você."*
 
-"Strict Mode" [^note-strictmode], adicionado na versão ES5, possui uma série de diferenças comportamentais em relação ao modo normal/relaxado/preguiçoso. Uma destas diferenças é a proibição da criação automática/implícita de variáveis globais. Neste caso, em uma busca LHS, não haveria uma variável de *Escopo* global para ser repassada, e o *Motor* lançaria um `ReferenceError` como no caso da busca RHS.
+"Modo estrito" (strict mode) [^note-strictmode], adicionado na versão ES5, possui uma série de diferenças comportamentais em relação ao modo normal/relaxado/preguiçoso. Uma destas diferenças é a proibição da criação automática/implícita de variáveis globais. Neste caso, em uma busca LHS, não haveria uma variável de *Escopo* global para ser repassada, e o *Motor* lançaria um `ReferenceError` como no caso da busca RHS.
 
 Agora, se uma variável é encontrada em uma busca RHS mas você tenta realizar uma ação impossível, como executar como função um valor que não é uma função ou tentar ler uma propriedade a partir de valores como `null` ou `undefined`, então o *Motor* irá lançar um tipo diferente de erro, chamado de `TypeError`.
 
@@ -284,7 +284,7 @@ O *Motor* JavaScript primeiro compila o código para depois executá-lo, e, para
 
 Ambas buscas por referências LHS e RHS iniciam no *Escopo* atual de execução, e em caso de necessidade (ou seja, na ocasião de não serem encontradas por lá), seguem em frente pelos *Escopos* aninhados, um escopo (andar) de cada vez, buscando pelo identificador, até que atinjam o escopo global (último andar) e encerrem a busca, encontrando ou não a variável.
 
-Referências RHS não satisfeitas resultam no lançamento de um `ReferenceError`. Referências LHS não satisfeitas resultam na criação automática e implícita de uma variável global de mesmo nome (caso não esteja em "Strict Mode" [^note-strictmode]) ou em um `ReferenceError` (caso esteja em "Strict Mode" [^note-strictmode]).
+Referências RHS não satisfeitas resultam no lançamento de um `ReferenceError`. Referências LHS não satisfeitas resultam na criação automática e implícita de uma variável global de mesmo nome (caso não esteja em "Modo estrito" (strict mode) [^note-strictmode]) ou em um `ReferenceError` (caso esteja em "Modo estrito" (strict mode) [^note-strictmode]).
 
 ### Resposta do Desafio
 
