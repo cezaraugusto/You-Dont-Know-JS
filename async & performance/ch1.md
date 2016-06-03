@@ -148,7 +148,7 @@ Então o que é o *laço de eventos* (event loop)?
 Vamos contextualizar através de um (meio que) pseudo código:
 
 ```js
- // eventLoop é uma array que age como uma lista de espera (primeiro a entrar, primeiro a sair)
+ // eventLoop é uma array que age como uma fila de espera (primeiro a entrar, primeiro a sair)
  var eventLoop = [];
  var event;
  
@@ -174,123 +174,122 @@ Esse é um pseudo código muito simplificado para ilustrar o conceito. Mas deve 
 
 Como você pode ver, existe um laço contínuo representado pelo laço `while`, e cada iteração desse laço é chamada de um "tick". Para cada tick, se um evento está esperando na fila, é removido e executado. Esses eventos são as suas funções de callback (retorno).
 
-É importante notar que `setTimeout(..)` não coloca sua função de callback na lista de espera do laço de eventos (event loop). O que faz é definir um contador; quando o contador expira, o ambiente coloca sua função de callback no laço de eventos, de modo que um tick futuro vai pegá-lo e executá-lo.
+É importante notar que `setTimeout(..)` não coloca sua função de callback na fila de espera do laço de eventos (event loop). O que faz é definir um contador; quando o contador expira, o ambiente coloca sua função de callback no laço de eventos, de modo que um tick futuro vai pegá-lo e executá-lo.
 
 E se já existem 20 itens no laço de eventos naquele momento? Sua função de callback espera. Fica na fila atrás das outras -- normalmente não existe uma maneira de antecipar a espera e pular na frente da fila. Isso explica porque temporizadores `setTimeout(..)` podem não acionar com precisão temporal perfeita. É garantido (de maneira geral) que a sua função de retorno não vai acionar *antes* do tempo especificado, mas pode acontecer depois, dependendo do estado da fila de eventos.
 
-Então, em outras palavras, seu programa é geralmente quebrado em diversos pequenos pedaços, que podem acontecer um após o outro na lista de espera do laço de eventos. E tecnicamente, outros eventos não relacionados diretamente com o seu programa também podem ser alternados dentro da fila.
+Então, em outras palavras, seu programa é geralmente quebrado em diversos pequenos pedaços, que podem acontecer um após o outro na fila de espera do laço de eventos. E tecnicamente, outros eventos não relacionados diretamente com o seu programa também podem ser alternados dentro da fila.
 
 
-**Nota:** Mencionamos "até recentemente" em relação ao ES6 mudando a natureza de onde laço de eventos é gerenciado. É em sua maioria uma tecnicalidade formal, mas o ES6 agora especifica como o laço de eventos funciona, o que significa que está dentro do alcance do motor JS, ao invés de apenas no *ambiente hospedeiro*. Um motivo principal para essa mudança é a introdução das Promises do ES6, as quais discutiremos no Capítulo 3, por que elas requerem a habilidade de ter controle direto e preciso do agendamento de operações na lista de espera do laço de eventos.
+**Nota:** Mencionamos "até recentemente" em relação ao ES6 mudando a natureza de onde laço de eventos é gerenciado. É em sua maioria uma tecnicalidade formal, mas o ES6 agora especifica como o laço de eventos funciona, o que significa que está dentro do alcance do motor JS, ao invés de apenas no *ambiente hospedeiro*. Um motivo principal para essa mudança é a introdução das Promises do ES6, as quais discutiremos no Capítulo 3, por que elas requerem a habilidade de ter controle direto e preciso do agendamento de operações na fila de espera do laço de eventos.
 
 <hr>
 
-**Note:** We mentioned "up until recently" in relation to ES6 changing the nature of where the event loop queue is managed. It's mostly a formal technicality, but ES6 now specifies how the event loop works, which means technically it's within the purview of the JS engine, rather than just the *hosting environment*. One main reason for this change is the introduction of ES6 Promises, which we'll discuss in Chapter 3, because they require the ability to have direct, fine-grained control over scheduling operations on the event loop queue (see the discussion of `setTimeout(..0)` in the "Cooperation" section).
+## Threading Paralelo
 
-## Parallel Threading
+É muito comum confundir os termos "assíncrono" (async) e "paralelo" (parallel), mas são na verdade bem diferentes. Lembre-se, assíncrono trata-se do vão entre *agora* e *depois*. Mas paralelo são sobre coisas sendo capazes de ocorrer simultâneamente.
 
-It's very common to conflate the terms "async" and "parallel," but they are actually quite different. Remember, async is about the gap between *now* and *later*. But parallel is about things being able to occur simultaneously.
+A ferramenta mais comum para computação paralela são processos e threads. Processos e threads executam de forma independente e podem executar simultaneamente: em processadores, ou mesmo em computadores diferentes, mas inúmeras threads podem compartilhar a memória de um único processo.
 
-The most common tools for parallel computing are processes and threads. Processes and threads execute independently and may execute simultaneously: on separate processors, or even separate computers, but multiple threads can share the memory of a single process.
+Um laço de evento, por sua vez, quebra o trabalho em tarefas e executa eles em série, não permitindo acessos e mudanças paralelas à memória compartilhada. Paralelismo e "serialismo" podem coexistir na forma de laços de evento cooperando em threads separadas.
 
-An event loop, by contrast, breaks its work into tasks and executes them in serial, disallowing parallel access and changes to shared memory. Parallelism and "serialism" can coexist in the form of cooperating event loops in separate threads.
+A alternância de threads paralelas de execução e a alternância de eventos assíncronos ocorrem em diferentes níveis de granularidade.
 
-The interleaving of parallel threads of execution and the interleaving of asynchronous events occur at very different levels of granularity.
-
-For example:
+Por exemplo:
 
 ```js
-function later() {
-	answer = answer * 2;
-	console.log( "Meaning of life:", answer );
-}
+  function depois() {
+     resposta = resposta * 2;
+     console.log("Significado da vida:", resposta);
+  }
 ```
 
-While the entire contents of `later()` would be regarded as a single event loop queue entry, when thinking about a thread this code would run on, there's actually perhaps a dozen different low-level operations. For example, `answer = answer * 2` requires first loading the current value of `answer`, then putting `2` somewhere, then performing the multiplication, then taking the result and storing it back into `answer`.
+Enquanto o conteúdo inteiro de `depois()` seria visto como um único item na fila do laço de eventos, quando pensado sobre a thread no qual esse código seria executado, existe na verdade talvez uma dúzia de operações em camadas mais profundas do código (low-level). Por exemplo, `resposta = resposta * 2` requer primeiro carregar o valor atual de `resposta`, armazenar o valor `2` em algum lugar, para depois fazer a multiplicação e por último pegar o resultado final e armazenar de volta em `resposta`.
 
-In a single-threaded environment, it really doesn't matter that the items in the thread queue are low-level operations, because nothing can interrupt the thread. But if you have a parallel system, where two different threads are operating in the same program, you could very likely have unpredictable behavior.
+Em um ambiente de thread única (single-threaded), não importa que os itens na fila da thread são operações low-level, por que nada pode interromper a thread. Mas se você tem um sistema paralelo, onde duas threads diferentes estão operando em um mesmo programa, você poderia muito provavelmente experienciar comportamento imprevisível.
 
-Consider:
+Considere:
 
 ```js
-var a = 20;
-
-function foo() {
-	a = a + 1;
-}
-
-function bar() {
-	a = a * 2;
-}
-
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+  var a = 20;
+  
+  function foo() {
+      a = a + 1;
+  }
+  
+  function bar() {
+      a = a + 2;
+  }
+  
+  // ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+  ajax("http://alguma.url.1", foo);
+  ajax("http://alguma.url.2", bar);
+  
 ```
 
-In JavaScript's single-threaded behavior, if `foo()` runs before `bar()`, the result is that `a` has `42`, but if `bar()` runs before `foo()` the result in `a` will be `41`.
-
-If JS events sharing the same data executed in parallel, though, the problems would be much more subtle. Consider these two lists of pseudocode tasks as the threads that could respectively run the code in `foo()` and `bar()`, and consider what happens if they are running at exactly the same time:
-
-Thread 1 (`X` and `Y` are temporary memory locations):
+ No comportamento de thread única do JavaScript, se `foo()` é executado antes de `bar()`, o resultado é que `a` é `42`, mas se `bar()` for executado antes de `foo()` o resultado em `a` será `41`.
+ 
+ Se porém, os eventos JS compartilham o mesmo dado executado em paralelo, os problemas seriam mais sutis. Considere essas duas listas de tarefas em pseudo código como as thread que poderiam rodar respectivamente em `foo()` e `bar()`, e considere o que acontece se elas forem executados ao mesmo tempo:
+ 
+ Thread 1 (`X` e `Y` são locações temporárias de memória):
+ ```
+    foo():
+    a. guarda valor de `a` em `X`
+    b. guarda `1` em `Y`
+    c. soma `X` e `Y`, guarda resultado em `X`
+    d. guarda valor de `X` em `a`
+ ```
+ 
+ Thread 2 (`X` e `Y` são locações temporárias de memória):
 ```
-foo():
-  a. load value of `a` in `X`
-  b. store `1` in `Y`
-  c. add `X` and `Y`, store result in `X`
-  d. store value of `X` in `a`
-```
-
-Thread 2 (`X` and `Y` are temporary memory locations):
-```
-bar():
-  a. load value of `a` in `X`
-  b. store `2` in `Y`
-  c. multiply `X` and `Y`, store result in `X`
-  d. store value of `X` in `a`
-```
-
-Now, let's say that the two threads are running truly in parallel. You can probably spot the problem, right? They use shared memory locations `X` and `Y` for their temporary steps.
-
-What's the end result in `a` if the steps happen like this?
-
-```
-1a  (load value of `a` in `X`   ==> `20`)
-2a  (load value of `a` in `X`   ==> `20`)
-1b  (store `1` in `Y`   ==> `1`)
-2b  (store `2` in `Y`   ==> `2`)
-1c  (add `X` and `Y`, store result in `X`   ==> `22`)
-1d  (store value of `X` in `a`   ==> `22`)
-2c  (multiply `X` and `Y`, store result in `X`   ==> `44`)
-2d  (store value of `X` in `a`   ==> `44`)
+   bar():
+    a. carrega valor de `a` em `X`
+    b. guarda `2` em `Y`
+    c. multiplica `X` e `Y`, guarda resultado em `X`
+    d. guarda valor de `X` em `a`
 ```
 
-The result in `a` will be `44`. But what about this ordering?
+Agora, digamos que as duas threads estão executando em paralelo verdadeiramente. Você consegue apontar o problema, certo? Eles usam locações de memória compartilhada `X` e `Y` para seus passos temporários.
+
+Qual é o resultado final em `a` se os passos ocorrem dessa maneira?
 
 ```
-1a  (load value of `a` in `X`   ==> `20`)
-2a  (load value of `a` in `X`   ==> `20`)
-2b  (store `2` in `Y`   ==> `2`)
-1b  (store `1` in `Y`   ==> `1`)
-2c  (multiply `X` and `Y`, store result in `X`   ==> `20`)
-1c  (add `X` and `Y`, store result in `X`   ==> `21`)
-1d  (store value of `X` in `a`   ==> `21`)
-2d  (store value of `X` in `a`   ==> `21`)
+1a (carrega o valor de `a` em `X` ==> `20`)
+2a (carrega o valor de `a` em `X` ==> `20`)
+1b (guarda `1` em `Y` ==> `1`)
+2b (guarda `2` em `Y` ==> `2`)
+1c (adiciona `X` e `Y`, guarda resultado em `X` ==> `22`)
+1d (guarda valor de `X` em `a` ==> `22` )
+2c (multiplica `X` e `Y`, guarda resultado em `X` ==> `44`)
+2d (guarda valor de `X` em `a` ===> `44`)
 ```
 
-The result in `a` will be `21`.
+O resultado em `a` será `44`. Mas e nessa ordem?
 
-So, threaded programming is very tricky, because if you don't take special steps to prevent this kind of interruption/interleaving from happening, you can get very surprising, nondeterministic behavior that frequently leads to headaches.
+```
+1a  (carrega valor de `a` em `X` ==> `20`)
+2a  (carrega valor de `a` em `X` ==> `20`)
+2b  (guarda `2` em `Y`   ==> `2`)
+1b  (guarda `1` em `Y`   ==> `1`)
+2c  (multiplica `X` e `Y`, guarda resultado em `X`   ==> `20`)
+1c  (soma `X` e `Y`, guarda resultado em `X`   ==> `21`)
+1d  (guarda valor de `X` em `a`   ==> `21`)
+2d  (guarda valor de `X` em `a`   ==> `21`)
+```
 
-JavaScript never shares data across threads, which means *that* level of nondeterminism isn't a concern. But that doesn't mean JS is always deterministic. Remember earlier, where the relative ordering of `foo()` and `bar()` produces two different results (`41` or `42`)?
+O resultado em `a` será `21`.
 
-**Note:** It may not be obvious yet, but not all nondeterminism is bad. Sometimes it's irrelevant, and sometimes it's intentional. We'll see more examples of that throughout this and the next few chapters.
+Então, programação com threads é bem capciosa, por que se você não toma precauções para prevenir esse tipo de interrupção/alternância de acontecer, você pode ser pego de surpresa com o comportamento indeterminado que frequentemente leva a dores de cabeça.
 
-### Run-to-Completion
+JavaScript nunca compartilha informações entre threads, o que significa que *esse* nível de indeterminância não é um problema. Mas isso não significa que JS é sempre determinista. Lembre-se de mais cedo, quando a ordem de `foo()` e `bar()` produzia dois resultados diferentes (`41` ou `42`)?
 
-Because of JavaScript's single-threading, the code inside of `foo()` (and `bar()`) is atomic, which means that once `foo()` starts running, the entirety of its code will finish before any of the code in `bar()` can run, or vice versa. This is called "run-to-completion" behavior.
+**Nota:** pode não ser óbvio até então, mas nem todo indeterminismo é ruim. As vezes é irrelevante, e algumas vezes é intencional. Veremos mais exemplos disso ao longo desse e dos próximos capítulos.
 
-In fact, the run-to-completion semantics are more obvious when `foo()` and `bar()` have more code in them, such as:
+### Run-to-Completion (tradução pendente)
+
+Por causa da thread única do JavaScript, o código dentro de `foo()` (e `bar()`) é atômico, o que significa que uma vez que `foo()` começa a ser executado, a completude do código será finalizada antes do código em `bar()` possa ser executado, ou vice versa. Isso é chamado comportamento "run-to-completion".
+
+Na verdade, a semântica de "run-to-completion" é mais óbvia quando `foo()` e `bar()` tem código neles, como em:
 
 ```js
 var a = 1;
@@ -308,38 +307,38 @@ function bar() {
 	b = a * 2;
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-Because `foo()` can't be interrupted by `bar()`, and `bar()` can't be interrupted by `foo()`, this program only has two possible outcomes depending on which starts running first -- if threading were present, and the individual statements in `foo()` and `bar()` could be interleaved, the number of possible outcomes would be greatly increased!
+Dado que `foo()` não pode ser interrompido por `bar()`, e `bar()` não pode ser interrompido por `foo()`, esse programa só possui duas saídas possíveis, dependendo de quem começa a rodar primeiro -- se o threading estivesse presente, e as instruções individuais em `foo()` e `bar()` pudessem ser alternadas, o número de saídas possíveis seria consideravelmente aumentado!
 
-Chunk 1 is synchronous (happens *now*), but chunks 2 and 3 are asynchronous (happen *later*), which means their execution will be separated by a gap of time.
+Pedaço 1 é síncrono (acontece *agora*), mas 2 e 3 são assíncronos (acontecem *depois*), o que significa que a sua execução será separada por um vão de tempo.
 
-Chunk 1:
+Pedaço 1:
 ```js
 var a = 1;
 var b = 2;
 ```
 
-Chunk 2 (`foo()`):
+Pedaço 2 (`foo()`):
 ```js
 a++;
 b = b * a;
 a = b + 3;
 ```
 
-Chunk 3 (`bar()`):
+Pedaço 3 (`bar()`):
 ```js
 b--;
 a = 8 + b;
 b = a * 2;
 ```
 
-Chunks 2 and 3 may happen in either-first order, so there are two possible outcomes for this program, as illustrated here:
+Pedaços 2 e 3 podem acontecer primeiro em qualquer ordem, então existem duas saídas possíveis para esse programa, como ilustrado aqui:
 
-Outcome 1:
+Saída 1:
 ```js
 var a = 1;
 var b = 2;
@@ -358,7 +357,7 @@ a; // 11
 b; // 22
 ```
 
-Outcome 2:
+Saída 2:
 ```js
 var a = 1;
 var b = 2;
@@ -377,6 +376,10 @@ a; // 183
 b; // 180
 ```
 
+
+<hr>
+
+<hr>
 Two outcomes from the same code means we still have nondeterminism! But it's at the function (event) ordering level, rather than at the statement ordering level (or, in fact, the expression operation ordering level) as it is with threads. In other words, it's *more deterministic* than threads would have been.
 
 As applied to JavaScript's behavior, this function-ordering nondeterminism is the common term "race condition," as `foo()` and `bar()` are racing against each other to see which runs first. Specifically, it's a "race condition" because you cannot predict reliably how `a` and `b` will turn out.
