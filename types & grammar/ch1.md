@@ -80,15 +80,15 @@ var a = null;
 
 `null` é o único valor primitivo que pode ser "falso" (também conhecido como "false-like"; veja o Capítulo 4) mas que também retorna `"object"` na checagem de `typeof`.
 
-So what's the seventh string value that `typeof` can return?
+Então qual é o sétimo valor de string que `typeof` pode retornar?
 
 ```js
-typeof function a(){ /* .. */ } === "function"; // true
+typeof function a(){ /* .. */ } === "function"; // true (verdadeiro)
 ```
 
-It's easy to think that `function` would be a top-level built-in type in JS, especially given this behavior of the `typeof` operator. However, if you read the spec, you'll see it's actually a "subtype" of object. Specifically, a function is referred to as a "callable object" -- an object that has an internal `[[Call]]` property that allows it to be invoked.
+É fácil pensar que `function (função)` é um tipo nativo de alto nível no JS, especialmente obtendo esse comportamento do operador `typeof`. Contudo, se você ler a especificação, verá que atualmente é um "subtipo" de objeto. Especificamente, uma função é referenciada como um "objeto chamável (callable object)" -- um objeto que possui uma propriedade `[[Call]]` interna que possibilita ao mesmo ser invocado.
 
-The fact that functions are actually objects is quite useful. Most importantly, they can have properties. For example:
+O fato de funções atualmente serem objetos é muito útil. Mais importante, elas podem ter propriedades. Por exemplo:
 
 ```js
 function a(b,c) {
@@ -96,29 +96,29 @@ function a(b,c) {
 }
 ```
 
-The function object has a `length` property set to the number of formal parameters it is declared with.
+O objeto de função tem uma propriedade `length` definido com o número de parâmetros formais com o qual a função foi declarada.
 
 ```js
 a.length; // 2
 ```
 
-Since you declared the function with two formal named parameters (`b` and `c`), the "length of the function" is `2`.
+Uma vez que você tenha declarado a função com dois parâmetros formalmente nomeados (`b` e `c`), o "length (tamanho) da função" será `2`.
 
-What about arrays? They're native to JS, so are they a special type?
+E quanto aos arrays? Eles são nativos para o JS, então eles são um tipo especial?
 
 ```js
-typeof [1,2,3] === "object"; // true
+typeof [1,2,3] === "object"; // true (verdadeiro)
 ```
 
-Nope, just objects. It's most appropriate to think of them also as a "subtype" of object (see Chapter 3), in this case with the additional characteristics of being numerically indexed (as opposed to just being string-keyed like plain objects) and maintaining an automatically updated `.length` property.
+Não, apenas objetos. É muito apropriado pensar sobre eles também como um "subtipo" de objeto (veja o Capítulo 3), neste caso com as características adicionais de serem numéricamente indexáveis (em oposição aos objetos simples com chaves do tipo string) e manterem uma propriedade `.length` automaticamente atualizada.
 
-## Values as Types
+## Valores como tipos
 
-In JavaScript, variables don't have types -- **values have types**. Variables can hold any value, at any time.
+Em JavaScript, variáveis não possuem tipos -- **valores possuem tipos**. Variáveis podem conter qualquer valor à qualquer momento.
 
-Another way to think about JS types is that JS doesn't have "type enforcement," in that the engine doesn't insist that a *variable* always holds values of the *same initial type* that it starts out with. A variable can, in one assignment statement, hold a `string`, and in the next hold a `number`, and so on.
+Outra maneira de pensar sobre tipos do JS é que JS não possui "tipagem forçada (type enforcement)," pois a engine não insiste que uma *variável* sempre terá valores do *mesmo tipo inicial* com que ela começou. Uma variável pode, em uma declaração de atribuição, possuir um valor do tipo `string`, e no futuro ter um `number`, e assim por diante.
 
-The *value* `42` has an intrinsic type of `number`, and its *type* cannot be changed. Another value, like `"42"` with the `string` type, can be created *from* the `number` value `42` through a process called **coercion** (see Chapter 4).
+O *valor* `42` possui o tipo `number` intrínseco, e seu *tipo* não pode ser modificado. Um outro valor, como `"42"` com o tipo `string`, pode ser criado *à partir* do valor `42` de tipo `number` através de um processo chamado **coerção (coercion)** (veja o Capítulo 4).
 
 If you use `typeof` against a variable, it's not asking "what's the type of the variable?" as it may seem, since JS variables have no types. Instead, it's asking "what's the type of the value *in* the variable?"
 
