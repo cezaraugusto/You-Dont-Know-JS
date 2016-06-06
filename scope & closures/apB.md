@@ -59,11 +59,11 @@ console.log( a );
 
 Então, com o uso dessas ferramentas, nós podemos tirar proveito do escopo de bloco independentemente se nós estamos desenvolvendo para ambientes ES6 ou não, pois `try/catch` está presente desde o ES3.
 
-## Implicit vs. Explicit Blocks
+## Blocos Implícitos x Explícitos
 
-In Chapter 3, we identified some potential pitfalls to code maintainability/refactorability when we introduce block-scoping. Is there another way to take advantage of block scope but to reduce this downside?
+No capítulo 3, nós identificamos potenciais problemas à manutenibilidade quando introduzimos o escopo de bloco. Será que há maneiras de tirarmos proveito do escopo de bloco reduzindo esses possíveis aspectos negativos?
 
-Consider this alternate form of `let`, called the "let block" or "let statement" (contrasted with "let declarations" from before).
+Considere a seguinte alternativa de uso do `let`, chamado de "let block" ou "let statement" (ao contrário de "let declarations", como antes).
 
 ```js
 let (a = 2) {
@@ -73,13 +73,13 @@ let (a = 2) {
 console.log( a ); // ReferenceError
 ```
 
-Instead of implicitly hijacking an existing block, the let-statement creates an explicit block for its scope binding. Not only does the explicit block stand out more, and perhaps fare more robustly in code refactoring, it produces somewhat cleaner code by, grammatically, forcing all the declarations to the top of the block. This makes it easier to look at any block and know what's scoped to it and not.
+Em vez de atrelar-se, implicitamente, à um bloco existente, o `let` cria seu bloco explícitamente. Além do bloco explícito ser mais visível, melhorando a manutenibilidade, produz um código mais limpo, falando gramaticalmente, fazendo com que todas as declarações sejam feitas no início. Isso torna mais fácil o reconhecimento do que está vinculado ao escopo do bloco.
 
-As a pattern, it mirrors the approach many people take in function-scoping when they manually move/hoist all their `var` declarations to the top of the function. The let-statement puts them there at the top of the block by intent, and if you don't use `let` declarations strewn throughout, your block-scoping declarations are somewhat easier to identify and maintain.
+Como um padrão, isso reflete na abordagem de muitas pessoas que, durante o escopo de uma função, colocam todas as suas declarações de `var` no início. Contudo, a estrutura do `let` requer isso, e se você não usar `let` espalhado por aí, suas declarações de escopo de bloco serão mais fáceis de serem identificadas e mantidas.
 
-But, there's a problem. The let-statement form is not included in ES6. Neither does the official Traceur compiler accept that form of code.
+Mas, há um problema. A estrutura do `let` apresentada não foi incluida no ES6. Nem mesmo o compilador oficial do Traceur aceita essa forma.
 
-We have two options. We can format using ES6-valid syntax and a little sprinkle of code discipline:
+Então nós temos duas opções, uma seria utilizar a sintaxe válida do ES6 e um pouco de criatividade:
 
 ```js
 /*let*/ { let a = 2;
@@ -89,11 +89,11 @@ We have two options. We can format using ES6-valid syntax and a little sprinkle 
 console.log( a ); // ReferenceError
 ```
 
-But, tools are meant to solve our problems. So the other option is to write explicit let statement blocks, and let a tool convert them to valid, working code.
+Mas as ferramentas são feitas para solucionar nossos problemas, então uma outra opção é escrever explicitamente a estrutura do `let`, deixando para uma ferramenta a tarefa de conversão para um código válido.
 
-So, I built a tool called "let-er" [^note-let_er] to address just this issue. *let-er* is a build-step code transpiler, but its only task is to find let-statement forms and transpile them. It will leave alone any of the rest of your code, including any let-declarations. You can safely use *let-er* as the first ES6 transpiler step, and then pass your code through something like Traceur if necessary.
+Por isso, eu desenvolvi uma ferramenta chamada "let-er" [^note-let_er]. *let-er* é um *transpilador* de código durante a fase de build, tendo como tarefa, encontrar a estrutura do `let` e *transpilá-la*. Todo o restante do seu código será isolado, incluindo declarações `let`. Você pode utilizar o *let-er* como uma primeira fase ao *transpilar*, para então encaminhar seu código à uma outra ferramenta, tal como Traceur.
 
-Moreover, *let-er* has a configuration flag `--es6`, which when turned on (off by default), changes the kind of code produced. Instead of the `try/catch` ES3 polyfill hack, *let-er* would take our snippet and produce the fully ES6-compliant, non-hacky:
+Aliás, *let-er* possui uma *flag* de configuração `--es6`, que quando ativada (desativada por padrão), modifica o tipo de código produzido. Em vez de um *polyfill* `try/catch`, *let-er* produz um código totalmente compatível com ES6, sem adaptações:
 
 ```js
 {
@@ -104,9 +104,9 @@ Moreover, *let-er* has a configuration flag `--es6`, which when turned on (off b
 console.log( a ); // ReferenceError
 ```
 
-So, you can start using *let-er* right away, and target all pre-ES6 environments, and when you only care about ES6, you can add the flag and instantly target only ES6.
+Assim, você pode começar a usar *let-er* a partir de agora, atingindo todos os ambientes pré-ES6. E quando quiser produzir apenas para ES6, basta ativar a *flag*.
 
-And most importantly, **you can use the more preferable and more explicit let-statement form** even though it is not an official part of any ES version (yet).
+E o mais importante, **você pode utilizar a estrutura do `let` que preferir, mesmo que não seja parte oficial de qualquer versão ES (ainda)**.
 
 ## Performance
 
