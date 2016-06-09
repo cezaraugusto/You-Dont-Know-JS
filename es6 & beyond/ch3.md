@@ -15,7 +15,7 @@ Iteradores são uma maneira de organizar o consumo ordenado, sequencial e basead
 
 Por exemplo, você pode implementar um utilitário que produz um novo identificador único a cada vez que é requisitado. Ou você pode produzir uma série infinita de valores que alternam através de uma lista fixa, pelo método de round-robin. Ou você pode anexar um iterador a uma consulta de banco de dados para obter novas linhas, uma por vez.
 
-Embora eles não sejam geralmente usados em JS de tal forma, iteradores também podem ser considerados como comportamentos de controle de passos, um de cada vez. Isso pode ser ilustrado de forma mais clara quando pensamos em geradores (veja "Geradores" depois nesse capítulo), então você pode certamente fazer a mesma coisa sem geradores.
+Embora eles não sejam geralmente usados em JS de tal forma, iteradores também podem ser considerados como comportamentos de controle de etapas, uma de cada vez. Isso pode ser ilustrado de forma mais clara quando pensamos em geradores (veja "Geradores" mais à frente nesse capítulo), certamente você possa fazer a mesma coisa sem geradores.
 
 ### Interfaces
 
