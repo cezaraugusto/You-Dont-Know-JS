@@ -120,71 +120,71 @@ Outra maneira de pensar sobre tipos do JS é que JS não possui "tipagem forçad
 
 O *valor* `42` possui o tipo `number` intrínseco, e seu *tipo* não pode ser modificado. Um outro valor, como `"42"` com o tipo `string`, pode ser criado *à partir* do valor `42` de tipo `number` através de um processo chamado **coerção (coercion)** (veja o Capítulo 4).
 
-If you use `typeof` against a variable, it's not asking "what's the type of the variable?" as it may seem, since JS variables have no types. Instead, it's asking "what's the type of the value *in* the variable?"
+Se você usa `typeof` em uma variável, não está perguntando "qual o tipo da variável?" como pode parecer, pois variáveis JS não possuem tipos. Pelo contrário, está perguntando "qual é o tipo do valor *na* variável?"
 
 ```js
 var a = 42;
-typeof a; // "number"
+typeof a; // "number" ("número")
 
 a = true;
-typeof a; // "boolean"
+typeof a; // "boolean" ("booleano")
 ```
 
-The `typeof` operator always returns a string. So:
+O operador `typeof` sempre retorna uma string. Assim:
 
 ```js
 typeof typeof 42; // "string"
 ```
 
-The first `typeof 42` returns `"number"`, and `typeof "number"` is `"string"`.
+O primeiro `typeof 42` retorna `"number"`, e `typeof "number"` é `"string"`.
 
 ### `undefined` vs "undeclared"
 
-Variables that have no value *currently*, actually have the `undefined` value. Calling `typeof` against such variables will return `"undefined"`:
+Variáveis que não possuem valores *neste momento*, atualmente possuem o valor `undefined`. Chamar `typeof` nestas variáveis retornará `"undefined"`:
 
 ```js
 var a;
 
-typeof a; // "undefined"
+typeof a; // "undefined" ("indefinido")
 
 var b = 42;
 var c;
 
-// later
+// depois
 b = c;
 
-typeof b; // "undefined"
-typeof c; // "undefined"
+typeof b; // "undefined" ("indefinido")
+typeof c; // "undefined" ("indefinido")
 ```
 
-It's tempting for most developers to think of the word "undefined" and think of it as a synonym for "undeclared." However, in JS, these two concepts are quite different.
+É tentador para muitos desenvolvedores olharem para a palavra "undefined" e pensar nela como sinônimo para "undeclared." Contudo, em JS, esses dois conceitos são bastante diferentes.
 
-An "undefined" variable is one that has been declared in the accessible scope, but *at the moment* has no other value in it. By contrast, an "undeclared" variable is one that has not been formally declared in the accessible scope.
+Uma variável "undefined" é uma que foi declarada no escopo acessível, mas *neste momento* não possui algum outro valor. Por contraste, uma variável "undeclared" é uma que não foi formalmente declarada no escopo acessível.
 
-Consider:
+Considere:
 
 ```js
 var a;
 
-a; // undefined
-b; // ReferenceError: b is not defined
+a; // undefined (indefinido)
+b; // ReferenceError: b is not defined (Erro de Referência: b não está definido)
 ```
 
-An annoying confusion is the error message that browsers assign to this condition. As you can see, the message is "b is not defined," which is of course very easy and reasonable to confuse with "b is undefined." Yet again, "undefined" and "is not defined" are very different things. It'd be nice if the browsers said something like "b is not found" or "b is not declared," to reduce the confusion!
+Uma irritante confusão é a mensagem de erro que os navegadores atribuem para essa condição. Como você pode ver, a mensagem é "b is not defined (b não está definido)," a qual é com certeza muito fácil de confundir com "b is undefined (b é indefinido)." Novamente, "undefined (indefinido)" e "is not defined (não está definido)" são coisas bem diferentes. Seria ótimo se os navegadores retornassem algo como "b is not found (b não foi encontrado)" ou "b is not declared (b não está declarado) ," para reduzir essa confusão!
 
-There's also a special behavior associated with `typeof` as it relates to undeclared variables that even further reinforces the confusion. Consider:
+Há também um comportamento especial associado com `typeof` no que se refere às variáveis não declaradas que reforça ainda mais a confusão. Considere:
 
 ```js
 var a;
 
-typeof a; // "undefined"
+typeof a; // "undefined" ("indefinido")
 
-typeof b; // "undefined"
+typeof b; // "undefined" ("indefinido"?)
 ```
 
-The `typeof` operator returns `"undefined"` even for "undeclared" (or "not defined") variables. Notice that there was no error thrown when we executed `typeof b`, even though `b` is an undeclared variable. This is a special safety guard in the behavior of `typeof`.
+O operador `typeof` retorna `"undefined"` até para variáveis "undeclared (não declaradas)" (ou "não definidas"). Note que aqui não há erros disparados quando nós executamos `typeof b`, apesar de `b` ser uma variável "não declarada". Isso é uma questão especial de segurança no comportamento de `typeof`.
 
-Similar to above, it would have been nice if `typeof` used with an undeclared variable returned "undeclared" instead of conflating the result value with the different "undefined" case.
+Similarmente, teria sido ótimo se `typeof` usado com uma variável não declarada retornasse "undeclared" ao invés de confundir o resultado com os diferentes tipos de "undefined".
 
 ### `typeof` Undeclared
 
