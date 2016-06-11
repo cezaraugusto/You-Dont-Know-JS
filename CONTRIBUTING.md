@@ -20,11 +20,12 @@ Para manter a tradução com o mesmo padrão elevado do livro original, precisam
 
 ## Curtiu a ideia? Mãos a obra!
 
-1. Veja nosso [Issue Tracker](https://waffle.io/cezaraugusto/You-Dont-Know-JS), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
-2. Comente na Issue o projeto que você deseja contribuir. Algo como "quero fazer essa parte!".
-3. Faça um `fork` do projeto.
-4. Caso necessário, utilize o branch `master` como modelo para a tradução. 
-5. Por se tratar de um documento técnico, muitas palavras e frases se repetem e por vezes é difícil encontrar sua equivalência em português. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
+1. Nosso processo é bem simples. Se você está acostumado com o GitHub flow, é praticamente o mesmo. Se não, [veja aqui](https://guides.github.com/introduction/flow/).
+2. Veja nosso [Issue Tracker](https://waffle.io/cezaraugusto/You-Dont-Know-JS), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
+3. Comente na Issue o projeto que você deseja contribuir. Algo como "quero fazer essa parte!".
+4. Faça um `fork` do projeto.
+5. Caso necessário, utilize o branch `master` como modelo para a tradução. 
+6. Por se tratar de um documento técnico, muitas palavras e frases se repetem e por vezes é difícil encontrar sua equivalência em português. Para evitar divergências, veja [este arquivo](WORDREFERENCE.md).
 7. Faça a tradução e revise-a com carinho :two_hearts:  -- seu nome constará na parte que você traduziu.
 8. Ao terminar sua parte da tradução, faça um `Pull Request` para o branch `portuguese-translation`. 
 9. Feito o `merge`, seu nome constará [nessa lista](CONTRIBUTORS.md) e seu trabalho estará contribuindo diretamente para nossa briosa comunidade. :star2: 

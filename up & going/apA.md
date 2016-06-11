@@ -3,13 +3,13 @@
 
 Tenho tantas pessoas à agradecer por fazer essa série de livros se tornar realidade.
 
-Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria ser. O tempo que eu comprometi junto à minha família é o motivo desses livros serem tão profunda e competamente explicados à você, leitor. Devo tudo à minha família.
+Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria ser. O tempo que eu comprometi junto à minha família é o motivo desses livros serem tão profunda e completamente explicados à você, leitor. Devo tudo à minha família.
 
-Gostaria de agradece aos meus editores da O'Reilly, mais precisamente Simon St.Laurent e Brian MacDonald, assim como o resto do time de editorial e marketing. São pessoas fantásticas de se trabalhar e foram bastante convidativos durante esse experimento de escrever, editar e produzir um livro "open source".
+Gostaria de agradecer aos meus editores da O'Reilly, mais precisamente Simon St. Laurent e Brian MacDonald, assim como o resto do time de editorial e marketing. São pessoas fantásticas de se trabalhar e foram bastante convidativos durante esse experimento de escrever, editar e produzir um livro "open source".
 
-Obrigado à todas as pessoas que participaram na criação dessa série de livros enviando sugestões editoriais e correções, incluindo Shelley Powers, Tim Ferro, Evan Borden, Forrest L. Norvell, Jennifer Davis, Jesse Harlin, Kris Kowal, Rick Waldron, Jordan Harband, Benjamin Gruenbaum, Vyacheslav Egorov, David Nolen, and many others. Um grande OBRIGADO para Jenn Lukas por escrever a Introdução desse livro.
+Obrigado à todas as pessoas que participaram na criação dessa série de livros enviando sugestões editoriais e correções, incluindo Shelley Powers, Tim Ferro, Evan Borden, Forrest L. Norvell, Jennifer Davis, Jesse Harlin, Kris Kowal, Rick Waldron, Jordan Harband, Benjamin Gruenbaum, Vyacheslav Egorov, David Nolen, e muitos outros. Um grande OBRIGADO para Jenn Lukas por escrever a Introdução desse livro.
 
-Obrigado às inúmeras pessoas da comunidade, incluindo membros do comitê TC39, que tanto compartilharam conhecimento  com todos nós, e em especial toleraram e responderam detalhadamente minhas incessantes perguntas com muita paciência. John-David Dalton, Juriy "kangax" Zaytsev, Mathias Bynens, Axel Rauschmayer, Nicholas Zakas, Angus Croll, Reginald Braithwaite, Dave Herman, Brendan Eich, Allen Wirfs-Brock, Bradley Meck, Domenic Denicola, David Walsh, Tim Disney, Peter van der Zee, Andrea Giammarchi, Kit Cambridge, Eric Elliott, e tantos outros que eu não consigo definir nem mesmo a superfície.
+Obrigado às inúmeras pessoas da comunidade, incluindo membros do comitê TC39, que tanto compartilharam conhecimento com todos nós, e em especial toleraram e responderam detalhadamente minhas incessantes perguntas com muita paciência. John-David Dalton, Juriy "kangax" Zaytsev, Mathias Bynens, Axel Rauschmayer, Nicholas Zakas, Angus Croll, Reginald Braithwaite, Dave Herman, Brendan Eich, Allen Wirfs-Brock, Bradley Meck, Domenic Denicola, David Walsh, Tim Disney, Peter van der Zee, Andrea Giammarchi, Kit Cambridge, Eric Elliott, e tantos outros que eu não consigo definir nem mesmo a superfície.
 
 Desde que a série "You Don't Know JS" foi criada no Kickstarter, eu gosto de agradecer meus (quase) 500 apoiadores, os quais sem eles essa série não teria acontecido:
 
@@ -17,4 +17,4 @@ Desde que a série "You Don't Know JS" foi criada no Kickstarter, eu gosto de ag
 
 Essa série está sendo produzida de maneira open source, incluindo a edição e produção. Nós temos uma dívida de gradidão ao GitHub por fazer esse tipo de acontecimento possível para a comunidade!
 
-Obrigado novamente a todos as incontáveis pessoas que não pude nomear mas a quem eu no entanto devo meus agradecimentos. Que essa série de livros possa ser de "propriedade" de todos nós e servir para disseminar o conhecimento da linguagem JavaScript, para benefício de todos os que contribuem para a comunidade de hoje e de amanhã.
+Obrigado novamente a todas as incontáveis pessoas que não pude nomear mas a quem eu, no entanto, devo meus agradecimentos. Que essa série de livros possa ser de "propriedade" de todos nós e servir para disseminar o conhecimento da linguagem JavaScript, para benefício de todos os que contribuem para a comunidade de hoje e de amanhã.

@@ -65,6 +65,7 @@
 
 * Browser: Navegador
 * Build (no sentido de processo de unificação): Build
+* Bound: Limitadas
 
 
 #### C
@@ -98,6 +99,7 @@
 
 #### G
 
+* Gotcha: Pegadinha
 
 #### H
 
@@ -155,7 +157,7 @@
 
 * Quiz: Desafio
 * Quiz Answers: Resposta do Desafio
-
+* Quirks: confusões
 
 #### R
 
@@ -182,6 +184,7 @@
 * Transpiling: Transpiling
 * Transpiled: *Transpilada* (em *itálico*)
 * Types: Tipos
+* Throws: Lança
 
 
 #### U
