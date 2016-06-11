@@ -59,6 +59,7 @@
 #### A
 
 * Assignment: Atribuição
+* Author-time: (no momento da / durante a) escrita do código (vide [#96](https://github.com/cezaraugusto/You-Dont-Know-JS/pull/96#issuecomment-223985831))
 
 
 #### B
