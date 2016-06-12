@@ -74,7 +74,7 @@ O processo de consulta ao escopo léxico ocorre *apenas" em identificadores de p
 
 ## Trapaceando o Léxico
 
-Se o escopo léxico é de fato definido apenas pelo local onde uma função é declarada, cuja decisão vem do autor do código durante a programação, como pode haver uma maneira de "modificar" (ou trapacear) o escopo léxico em tempo de execução?
+Se o escopo léxico é de fato definido apenas pelo local onde uma função é declarada e este local é escolhido no momento da escrita do código, como pode haver uma maneira de "modificar" (ou trapacear) o escopo léxico em tempo de execução?
 
 JavaScript possui dois mecanismos para isso. Ambos são vistos como má prática e igualmente (e amplamente!) desencorajados pela comunidade de modo geral, embora os argumentos que sustentam esta opinião normalmente não trazem consigo o ponto mais relevante: **trapacear o escopo léxico leva a um pior desempenho.**
 
@@ -84,7 +84,7 @@ Antes de explicar a questão da performance, porém, vamos olhar a forma com que
 
 A função `eval(..)` em JavaScript recebe uma string como argumento e trata o conteúdo desta string como se tivesse de fato sido programado pelo autor do código naquele ponto do programa. Em outras palavras, você pode gerar código dinamicamente dentro do seu programa e executar este código como se estivesse lá desde o momento da programação.
 
-Colocando desta forma, deve estar claro a forma com que `eval(..)` permite a você modificar o ambiente do escopo léxico ao trapacear e portanto fingir que aquele código estava lá desde o princípio.
+Colocando desta forma, deve estar claro como `eval(..)` permite a você modificar o ambiente do escopo léxico ao trapacear e portanto fingir que aquilo que foi gerado dinamicamente estava lá desde o momento da escrita do código.
 
 Durante a execução das linhas que sucedem a chamada para `eval(..)`, o *Motor* não vai "saber" ou "se importar" se o código em questão foi interpretado dinamicamente e portanto modificou o ambiente do escopo léxico. O *Motor* vai seguir efetuando suas consultas ao escopo léxico da mesma forma de sempre.
 
