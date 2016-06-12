@@ -105,11 +105,11 @@ A string `"var b = 3;"` é tratada, naquele ponto onde `eval(..)` é chamado, co
 
 Quando a chamada para `console.log(..)` ocorre, são encontradas tanto `a` quanto `b` no escopo de `foo(..)`, e portanto nunca a variável `b` externa. Sendo assim, imprimimos "1, 3" em vez de "1, 2" como normalmente ocorreria.
 
-**Note:** In this example, for simplicity's sake, the string of "code" we pass in was a fixed literal. But it could easily have been programmatically created by adding characters together based on your program's logic. `eval(..)` is usually used to execute dynamically created code, as dynamically evaluating essentially static code from a string literal would provide no real benefit to just authoring the code directly.
+**Nota:** Neste exemplo, por questões de simplificação, a string de "código" que interpretamos possui um valor fixo, mas poderia facilmente ter sido gerada dinamicamente a partir de fragmentos obtidos pela lógica do seu programa. `eval(..)`é normalmente utilizada para executar código gerado dinamicamente, afinal não há qualquer benefício em interpretar dinamicamente um trecho de código estático a partir de uma string se você pode adicionar este mesmo trecho no momento da escrita do código.
 
-By default, if a string of code that `eval(..)` executes contains one or more declarations (either variables or functions), this action modifies the existing lexical scope in which the `eval(..)` resides. Technically, `eval(..)` can be invoked "indirectly", through various tricks (beyond our discussion here), which causes it to instead execute in the context of the global scope, thus modifying it. But in either case, `eval(..)` can at runtime modify an author-time lexical scope.
+Por padrão, se uma string de código executada via `eval(..)` possui uma ou mais declarações (seja de variáveis ou funções), esta ação modifica o escopo léxico no qual esta chamada para `eval(..)` se encontra. Tecnicamente, `eval(..)` pode ser invocada "indiretamente" por meio de vários truques (os quais vão além da nossa discussão), o que faz com que seja executada no contexto do escopo global, e assim sendo, modificando-o. Mas de qualquer maneira, `eval(..)` pode em tempo de execução modificar um escopo léxico definido durante a escrita do código.
 
-**Note:** `eval(..)` when used in a strict-mode program operates in its own lexical scope, which means declarations made inside of the `eval()` do not actually modify the enclosing scope.
+**Note:** Quando utilizada em um programa em Modo estrito (strict mode), `eval(..)` opera em seu próprio escopo léxico, o que significa que as declarações efetuadas dentro de `eval()` não modificam o escopo superior.
 
 ```js
 function foo(str) {
@@ -121,11 +121,11 @@ function foo(str) {
 foo( "var a = 2" );
 ```
 
-There are other facilities in JavaScript which amount to a very similar effect to `eval(..)`. `setTimeout(..)` and `setInterval(..)` *can* take a string for their respective first argument, the contents of which are `eval`uated as the code of a dynamically-generated function. This is old, legacy behavior and long-since deprecated. Don't do it!
+Javascript provê outras maneiras de se obter resultados similares aos de `eval(..)`. `setTimeout(..)` e `setInterval(..)` *podem* receber uma string como primeiro argumento, conteúdo este que será interpretado por `eval(..)` como o código de uma função gerada dinamicamente. Isto é um comportamento velho, legado, e desaconselhado há muito tempo. Não faça isso!
 
-The `new Function(..)` function constructor similarly takes a string of code in its **last** argument to turn into a dynamically-generated function (the first argument(s), if any, are the named parameters for the new function). This function-constructor syntax is slightly safer than `eval(..)`, but it should still be avoided in your code.
+O construtor de função `new Function(..)`, de forma similar, recebe uma string de código como seu **último** argumento para torná-la uma função gerada dinamicamente -- o(s) primeiro(s) argumento(s), se existir(em), nomeia(m) o(s) parâmetro(s) da nova função. Ainda assim, isso deve ser evitado em seu código.
 
-The use-cases for dynamically generating code inside your program are incredibly rare, as the performance degradations are almost never worth the capability.
+Os casos de uso para geração dinâmica de código são incrivelmente raros, visto que as perdas de performance quase nunca tornam esta prática vantajosa.
 
 ### `with`
 
