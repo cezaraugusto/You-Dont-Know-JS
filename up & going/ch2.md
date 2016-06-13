@@ -59,7 +59,7 @@ Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o 
 
 ### Objetos
 
-O tipo `object` se refere à um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript:
+O tipo `object` se refere a um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript:
 
 
 ```js
@@ -218,7 +218,7 @@ b;              // 42 -- o número!
 
 #### Truthy & Falsy
 
-No Capítulo 1, nós mencionamos a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coergido para um valor `boolean`, eles se tornam `true` ou `false` respectivamente?
+No Capítulo 1, nós mencionamos a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coagido para um valor `boolean`, ele se torna de fato `true` ou `false`?
 
 A lista de valores "falsy" em JavaScript é a seguinte:
 
@@ -236,13 +236,13 @@ Qualquer valor que não esteja nessa lista de "falsy", é considerado "truthy". 
 * `{ }`, `{ a: 42 }` (objects)
 * `function foo() { .. }` (functions)
 
-É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coergido para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não estamos.
+É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coagido para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não estamos.
 
 #### Igualdade
 
 Existem quatro operadores de igualdade: `==`, `===`, `!=`, e `!==`. A forma `!` é a versão simétrica de "não igual" de suas contrapartes; *não-igualdade* não deve ser confundido com  *desigualdade*.
 
-A diferença entre `==` e `===` é geralmente caracterizada por `==` verificar a igualdade de valores e `===` verificar a igualdade do valor e do tipo. Entretanto, essa forma não é a mais apurada. A maneira correta de caracterizá-los é que `==` verifica  por igualdade com coerção autorizada, e `===` verifica a igualdade do valor sem autorizar a coerção; `===` é comumente chamado de "igualdade estrita" por essa razão.
+A diferença entre `==` e `===` é geralmente caracterizada por `==` verificar a igualdade de valores e `===` verificar a igualdade do valor e do tipo. Entretanto, essa forma não é a mais apurada. A maneira correta de caracterizá-los é que `==` verifica  por igualdade com coerção autorizada, e `===` verifica a igualdade do valor sem autorizar a coerção; `===` é comumente chamada de "igualdade estrita" por essa razão.
 
 Considere a coerção implícita que é autorizada pelo comparador de igualdade `==` e não permitido com a igualdade estrita `===`:
 
@@ -262,7 +262,7 @@ Resposta: `"42"` se torna `42`, para fazer a comparação `42 == 42`. Nesse exem
 
 A igualdade `a === b` produz um resultado `false`, porque a coerção não é permitida, assim obviamente a comparação falha. Muitos desenvolvedores pregam que `===` é mais previsível, permanecendo usando sempre esta forma e ficando longe de `==`. Acho esse ponto de vista limitado. Acredito que `==` é uma ferramenta poderosa que pode ajudar você em seus programas,  *se você se dedicar a aprender como ele funciona.*
 
-Não vamos nos aprofundar nos detalhes de como a coerção em comparações com `==` funciona. Muito sobre ele é bem intuitivo, mas existem casos específicos importantes de se tomar nota. Você pode ler a seção 11.9.3 da especificação do ES5 (http://www.ecma-international.org/ecma-262/5.1/) para ver suas regras exatas, e você ficará surpreso em como seu mecanismo é bem desenvolvido, comparado a toda hype negativa a sua volta.
+Não vamos nos aprofundar nos detalhes de como a coerção em comparações com `==` funciona. Muito sobre ela é bem intuitivo, mas existem casos específicos importantes de se tomar nota. Você pode ler a seção 11.9.3 da especificação do ES5 (http://www.ecma-international.org/ecma-262/5.1/) para ver suas regras exatas, e você ficará surpreso em como seu mecanismo é bem desenvolvido, comparado a toda hype negativa à sua volta.
 
 Para resumir um monte de detalhes em passos bem simples e ajudar você a decidir sobre usar `==` ou `===` em várias situações, aqui vão minhas regras simples:
 
@@ -309,9 +309,9 @@ a < b;      // true
 b < c;      // true
 ```
 
-O que acontece aqui: Na seção 11.8.5, da especificaão do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palasvras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coergidos para serem `number`s, e uma comparação típica de números acontece.
+O que acontece aqui: Na seção 11.8.5, da especificaão do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palasvras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coagidos para serem `number`s, e uma comparação típica de números acontece.
 
-A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformados em um números válidos, como por exemplo:
+A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformado em um número válido, como por exemplo:
 
 ```js
 var a = 42;
@@ -322,7 +322,7 @@ a > b;      // false
 a == b;     // false
 ```
 
-Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coergido para um "valor numérico inválido" (`NaN`) nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
+Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coagido para um "valor numérico inválido" (`NaN`) nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
 
 A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
@@ -368,7 +368,7 @@ function foo() {
 console.log( a );   // 2
 ```
 
-**Atenção:** Não é comum nem uma boa ideia se basear no *hoisting* de variáveis para usar uma variável antes de seu escopo do que quando ao invés de quando a declaração `var` aparece; pode ficar confuso.É muito mais comum e aceitável utilizar declarações de funções *hoisted*, assim como fazemos com a função `foo()` que aparece antes da sua declaração formal.
+**Atenção:** não é comum nem uma boa ideia confiar no hoisting de variáveis para utilizar uma determinada variável dentro do seu escopo antes de sua declaração aparecer no código; pode ficar um tanto confuso. É muito mais comum e aceito utilizar funções que sofreram hoisting em sua declaração, assim como fazemos com a chamada para foo() que aparece antes de sua declaração formal.
 
 #### Escopos Aninhados
 
@@ -400,7 +400,7 @@ foo();
 
 Note que `c` não está disponível dentro de `bar()`, porque está declarado dentro do escopo de `baz()`, e o `b` não está disponível para `foo()` pelo mesmo motivo.
 
-Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro. Para isso você precisa ter declarado "strict mode" (veja "Strict Mode"). Vamos dar uma olhada:
+Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro (caso tenha declarado "strict mode"). Para isso você precisa ter declarado "strict mode" (veja "Strict Mode"). Vamos dar uma olhada:
 
 ```js
 function foo() {
@@ -413,7 +413,7 @@ a;          // 1 -- oops, você acaba de criar uma variável global automática 
 
 Esta é uma prática muito ruim. Não faça isso! Sempre declare suas variáveis formalmente.
 
-Além de criarmos declarações de variáveis no mesmo nível da função, o ES6 possuie o (let) que deixa você criar variáveis que irão pertencer a blocos individuais (pares de `{ .. }`), usando a palavra-chave `let`. Apesar de suas nuances e detalhes, as regras do escopo terão o comportamento bem parecido com o que vimos em funções.
+Além de criarmos declarações de variáveis no mesmo nível da função, o ES6 *deixa* (let) você criar variáveis que irão pertencer a blocos individuais (pares de `{ .. }`), usando a palavra-chave `let`. Apesar de suas nuances e detalhes, as regras do escopo terão o comportamento bem parecido com o que vimos em funções.
 
 ```js
 function foo() {
@@ -521,7 +521,7 @@ O operador condicional não precisa necessariamente ser usado em uma atribuiçã
 
 ## Modo Estrito (Strict Mode)
 
-O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito, em geral, seu código será melhor otimizado pelo *engine*. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
+O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito, em geral, seu código será melhor otimizado pelo *Motor*. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
 
 Você pode optar pelo modo estrito em uma função individualmente, ou em todo um arquivo, dependendo de onde você determinar o pragma do modo estrito:
 
@@ -566,7 +566,7 @@ function foo() {
 foo();
 ```
 
-Se você habilitar o modo estrito em seu código, e você receber erros, ou o código se comporta de maneira *bugada*, a tentação é evitar o modo estrito. Mas esse instinto é uma ma ideia de se deixar acontecer. Se o modo estrito gera problemas no seu programa, é certo que isso é um sinal que existem coisas que você deve consertar.
+Se você habilitar o modo estrito em seu código, e você receber erros, ou o código se comporta de maneira *bugada*, a tentação é evitar o modo estrito. Mas esse instinto é uma má ideia de se deixar acontecer. Se o modo estrito gera problemas no seu programa, é certo que isso é um sinal que existem coisas que você deve consertar.
 
 O modo estrito não irá apenas deixar seu código em um caminho mais seguro, também deixará seu código mais otimizável e também representando o futuro da linguagem. É mais fácil se acostumar com o modo estrito agora do que deixá-lo de lado -- vai ser mais difícil se converter a ele mais tarde!
 
@@ -893,7 +893,7 @@ Você pode se perguntar porquê você se meteria em confusão ao escrever uma si
 
 Existem diversas razões importantes que você deveria se importar em relação ao transpiling:
 
-* A nova sintaxe adicionada á linguagem é desenhada para fazer seu código ser mais legível e fácil de manter. Os equivalentes mais antigos são geralmente muito mais debilitados. Você deve optar por escrever a sintaxe mais moderna e clara, não apenas para você mas para todos os membros do seu time de desenvolvimento.
+* A nova sintaxe adicionada à linguagem é desenhada para fazer seu código ser mais legível e fácil de manter. Os equivalentes mais antigos são geralmente muito mais debilitados. Você deve optar por escrever a sintaxe mais moderna e clara, não apenas para você mas para todos os membros do seu time de desenvolvimento.
 
 * Se você transpilar apenas para navegadores antigos, mas servir a nova sintaxe para os navegadores mais novos, você teria uma vantagem por conta da otimização da performance do navegador devido a nova sintaxe. Isso também permite que os criadores dos browsers tenham códigos do mundo-real (em produção) para testar neles suas implementações e otimizações.
 * Usando a nova sintaxe de forma precoce faz com que ela possa ser testada de forma mais robusta no mundo real, o que dá um feedback prematuro para o comitê do JavaScript (TC39). Se problemas forem encontrados brevemente, eles podem ser alterados/consertados antes que esses erros de design da linguagem serem implementados permanentemente.
