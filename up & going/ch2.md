@@ -5,9 +5,9 @@ No capítulo anterior, fiz uma introdução básica sobre os blocos construtores
 
 Iremos introduzir alguns conceitos neste capítulo que não serão totalmente explorados até a sequência dos próximos livros desta série. Você pode pensar nesse capítulo como uma visão geral dos tópicos que serão abordados ao longo dos outros livros.
 
-Especialmente se você for novo ao JavaScript, você pode esperar utilizar boa parte do seu tempo revisando por diversas vezes os conceitos e exemplos de código abordados. Toda boa fundação é feita de tijolo em tijolo, então não espere que você entenderá de imediato conforme for progredindo na leitura.
+Especialmente se você for novo ao JavaScript, você pode esperar utilizar boa parte do seu tempo revisando por diversas vezes os conceitos e exemplos de código abordados. Toda boa fundação é feita de tijolo em tijolo, então não espere entender de imediato a medida que for progredindo em sua leitura.
 
-Sua jornada para entender à fundo JavaScript começa aqui.
+Sua jornada para entender a fundo JavaScript começa aqui.
 
 **Nota:** Como havia dito no Capítulo 1, você deve definitivamente testar por conta própria todos os códigos apresentados enquanto você estiver lendo através do capítulo. Tome nota que alguns dos códigos escritos aqui utilizam capacidades introduzidas na nova versão do  JavaScript no momento em que estou escrevendo  (comumente chamado de "ES6" por ser a 6ª edição do ECMAScript -- o nome oficial da especificação JS). Caso aconteça de você estar utilizando um navegador antigo, pre-ES6, o código pode não funcionar. Uma versão atualizada de um navegador moderno (como Chrome, Firefox, or IE) deverá ser usada.
 
@@ -55,11 +55,11 @@ Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valo
 
 **Atenção:** Esse é um bug antigo em JS, mas um do tipo que é provável de nunca ser consertado. Muitos códigos na Web dependem desse bug e portanto consertá-lo iria trazer ainda mais bugs!
 
-Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o valor `undefined`, mas a forma com que se comporta não é diferente de uma variável que não tem valor definido, como a linha `var a;`no topo do snippet. Uma variável pode chegar a esse valor "undefined" de diversas maneiras, incluíndo funções que não retornam valores e o uso do operador`void`.
+Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o valor `undefined`, mas a forma com que se comporta não é diferente de uma variável que não tem valor definido, como a linha `var a;`no topo do snippet. Uma variável pode chegar a esse valor "undefined" de diversas maneiras, incluindo funções que não retornam valores e o uso do operador`void`.
 
 ### Objetos
 
-O tipo `object` se refere a um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript:
+O tipo `object` se refere à um valor composto onde você pode definir propriedades (lugares nomeados prontos para armazenar informação) que podem armazenar seus próprios valores de qualquer tipo. Esse é talvez um dos tipos de valor mais úteis em todo JavaScript:
 
 
 ```js
@@ -84,7 +84,7 @@ Talvez seja útil pensar nesse valor `obj` visualmente:
 
 Propriedades podem ser acessadas tanto com *notação com ponto* (_dot notation_, ex: `obj.a`) quanto por notação em colchetes (ex: `obj["a"]`). A notação por ponto é menor e geralmente mais fácil de ser lida, e por isso é a notação preferida, sempre que possível.
 
-A notação em colchetes é útil caso você tenha um nome de propriedade que conténha caracteres especiais nele, como `obj["hello world!"]` -- esses tipos de propriedades são geralmente referenciadas com chaves (*keys*) quando acessadas por notação em colchetes. A notação `[ ]`  requer ou uma variável (explicarei a seguir) ou uma `string` *literal* (que precisa ser englobada em `" .. "` ou `' .. '`).
+A notação em colchetes é útil caso você tenha um nome de propriedade que contenha caracteres especiais nele, como `obj["hello world!"]` -- esses tipos de propriedades são geralmente referenciadas com chaves (*keys*) quando acessadas por notação em colchetes. A notação `[ ]`  requer ou uma variável (explicarei a seguir) ou uma `string` *literal* (que precisa ser englobada em `" .. "` ou `' .. '`).
 
 É claro, a notação em colchetes também é útil se você quiser acessar uma propriedade/chave onde o nome é armazenado dentro de outra variável, como por exemplo:
 
@@ -218,7 +218,7 @@ b;              // 42 -- o número!
 
 #### Truthy & Falsy
 
-No Capítulo 1, nós mencionamos a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coergido para um valor `boolean`, eke se tornam `true` ou `false`, respectivamente?
+No Capítulo 1, nós mencionamos a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coergido para um valor `boolean`, eles se tornam `true` ou `false` respectivamente?
 
 A lista de valores "falsy" em JavaScript é a seguinte:
 
@@ -236,13 +236,13 @@ Qualquer valor que não esteja nessa lista de "falsy", é considerado "truthy". 
 * `{ }`, `{ a: 42 }` (objects)
 * `function foo() { .. }` (functions)
 
-É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coergido para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não está.
+É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coergido para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não estamos.
 
 #### Igualdade
 
 Existem quatro operadores de igualdade: `==`, `===`, `!=`, e `!==`. A forma `!` é a versão simétrica de "não igual" de suas contrapartes; *não-igualdade* não deve ser confundido com  *desigualdade*.
 
-A diferença entre `==` e `===` é geralmente caracterizada por `==` verificar a igualdade de valores e `===` verificar a igualdade do valor e do tipo. Entretanto, essa forma não é a mais apurada. A maneira correta de caracterizá-los é que `==` verifica  por igualdade com coerção autorizada, e `===` verifica a igualdade do valor sem autorizar a coerção; `===` é comumente chamada de "igualdade estrita" por essa razão.
+A diferença entre `==` e `===` é geralmente caracterizada por `==` verificar a igualdade de valores e `===` verificar a igualdade do valor e do tipo. Entretanto, essa forma não é a mais apurada. A maneira correta de caracterizá-los é que `==` verifica  por igualdade com coerção autorizada, e `===` verifica a igualdade do valor sem autorizar a coerção; `===` é comumente chamado de "igualdade estrita" por essa razão.
 
 Considere a coerção implícita que é autorizada pelo comparador de igualdade `==` e não permitido com a igualdade estrita `===`:
 
@@ -262,7 +262,7 @@ Resposta: `"42"` se torna `42`, para fazer a comparação `42 == 42`. Nesse exem
 
 A igualdade `a === b` produz um resultado `false`, porque a coerção não é permitida, assim obviamente a comparação falha. Muitos desenvolvedores pregam que `===` é mais previsível, permanecendo usando sempre esta forma e ficando longe de `==`. Acho esse ponto de vista limitado. Acredito que `==` é uma ferramenta poderosa que pode ajudar você em seus programas,  *se você se dedicar a aprender como ele funciona.*
 
-Não vamos nos aprofundar nos detalhes de como a coerção em comparações com `==` funciona. Muito sobre ele é bem intuitivo, mas existem casos específicos importantes de se tomar nota. Você pode ler a seção 11.9.3 da especificação do ES5 (http://www.ecma-international.org/ecma-262/5.1/) para ver suas regras exatas, e você ficará surpreso em como seu mecanismo é bem desenvolvido, comparado a toda hype negativa à sua volta.
+Não vamos nos aprofundar nos detalhes de como a coerção em comparações com `==` funciona. Muito sobre ele é bem intuitivo, mas existem casos específicos importantes de se tomar nota. Você pode ler a seção 11.9.3 da especificação do ES5 (http://www.ecma-international.org/ecma-262/5.1/) para ver suas regras exatas, e você ficará surpreso em como seu mecanismo é bem desenvolvido, comparado a toda hype negativa a sua volta.
 
 Para resumir um monte de detalhes em passos bem simples e ajudar você a decidir sobre usar `==` ou `===` em várias situações, aqui vão minhas regras simples:
 
@@ -311,7 +311,7 @@ b < c;      // true
 
 O que acontece aqui: Na seção 11.8.5, da especificaão do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palasvras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coergidos para serem `number`s, e uma comparação típica de números acontece.
 
-A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformado em um número válido, como por exemplo:
+A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformados em um números válidos, como por exemplo:
 
 ```js
 var a = 42;
@@ -322,7 +322,7 @@ a > b;      // false
 a == b;     // false
 ```
 
-Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coergido para um "valor numérico inválido" (`NaN`), nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
+Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coergido para um "valor numérico inválido" (`NaN`) nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
 
 A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
@@ -368,7 +368,7 @@ function foo() {
 console.log( a );   // 2
 ```
 
-**Atenção:** Não é comum nem uma boa ideia se basear no *hoisting* de variáveis para usar uma variável antes de seu escopo do que quando ao invés de quando a declaração `var` aparece; pode ficar confuso.É muito mais comum e aceitável utilizar *hoisted* declarações de funções, as we do with the `foo()` call appearing before its formal declaration.
+**Atenção:** Não é comum nem uma boa ideia se basear no *hoisting* de variáveis para usar uma variável antes de seu escopo do que quando ao invés de quando a declaração `var` aparece; pode ficar confuso.É muito mais comum e aceitável utilizar declarações de funções *hoisted*, assim como fazemos com a função `foo()` que aparece antes da sua declaração formal.
 
 #### Escopos Aninhados
 
@@ -400,20 +400,20 @@ foo();
 
 Note que `c` não está disponível dentro de `bar()`, porque está declarado dentro do escopo de `baz()`, e o `b` não está disponível para `foo()` pelo mesmo motivo.
 
-Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou gerar um erro, dependendo de você ter declarado "strict mode" (veja "Strict Mode"). Vamos dar uma olhada:
+Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro. Para isso você precisa ter declarado "strict mode" (veja "Strict Mode"). Vamos dar uma olhada:
 
 ```js
 function foo() {
-    a = 1;  // `a` not formally declared
+    a = 1;  // `a` não foi formalmente declarada
 }
 
 foo();
-a;          // 1 -- oops, auto global variable :(
+a;          // 1 -- oops, você acaba de criar uma variável global automática :(
 ```
 
-Esta é uma prática muito ruim. Não faa isso! Sempre declare suas variáveis formalmente.
+Esta é uma prática muito ruim. Não faça isso! Sempre declare suas variáveis formalmente.
 
-Além de criarmos declarações de variáveis no mesmo nível da função, o ES6 *deixa* (let) você criar variáveis que irão pertencer os blocos individuais (pares de `{ .. }`), usando a palavra-chave `let`. Apesar de suas nuances e detalhes, as regras do escopo terão o comportamento bem parecido com o que vimos em funções.
+Além de criarmos declarações de variáveis no mesmo nível da função, o ES6 possuie o (let) que deixa você criar variáveis que irão pertencer a blocos individuais (pares de `{ .. }`), usando a palavra-chave `let`. Apesar de suas nuances e detalhes, as regras do escopo terão o comportamento bem parecido com o que vimos em funções.
 
 ```js
 function foo() {
@@ -437,7 +437,7 @@ foo();
 
 Por usarmos `let` ao invés de `var`, `b` irá pertencer apenas à instrução `if` e não para todo o escopo da função `foo()`. De maneira similar, `c` pertence somente ao loop `while`. Escopamentos de bloco são muito úteis para controlar seus escopos de variáveis, usando uma maneira requintada, o que faz seu código muito mais fácil de manter ao longo do tempo.
 
-**Nota:** Para mais informações sobre escopos, veja o título desta série *Escopos & Encerramentos*. Veja o título *ES6 & Além*para mais informações sobre o bloco de escopo `let`.
+**Nota:** Para mais informações sobre escopos, veja o título desta série *Escopos & Encerramentos*. Veja o título *ES6 & Além* para mais informações sobre o bloco de escopo `let`.
 
 ## Condicionais
 
@@ -456,7 +456,7 @@ else if (a == 42) {
     // faça outra coisa diferente
 }
 else {
-    // resultado se nenhuma instrução for atendida (fallback) 
+    // resultado se nenhuma instrução for atendida (fallback)
 }
 ```
 
@@ -474,7 +474,7 @@ switch (a) {
         // faça outra coisa diferente
         break;
     default:
-        // resultado se nenhuma instrução for atendida (fallback) 
+        // resultado se nenhuma instrução for atendida (fallback)
 }
 ```
 
@@ -490,13 +490,13 @@ switch (a) {
         // outra coisa
         break;
     default:
-        // resultado se nenhuma instrução for atendida (fallback) 
+        // resultado se nenhuma instrução for atendida (fallback)
 }
 ```
 
 Aqui, se `a` for ou `2` ou `10`, iremos  executar a instrução de código "some cool stuff".
 
-Uma outra forma de condicional em JavaScript é o "operador condicional," chamado também de "operador ternário." Ele é como se fosse uma forma concisa/simplificada de uma instrução `if..else`, como em:
+Uma outra forma de condicional em JavaScript é o "operador condicional," chamado também de "operador ternário." Ele é uma forma concisa/simplificada de uma instrução `if..else`, como em:
 
 ```js
 var a = 42;
@@ -521,7 +521,7 @@ O operador condicional não precisa necessariamente ser usado em uma atribuiçã
 
 ## Modo Estrito (Strict Mode)
 
-O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente, essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito faz, em geral, seu código melhor otimizado pelo *engine*. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
+O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito, em geral, seu código será melhor otimizado pelo *engine*. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
 
 Você pode optar pelo modo estrito em uma função individualmente, ou em todo um arquivo, dependendo de onde você determinar o pragma do modo estrito:
 
@@ -566,9 +566,9 @@ function foo() {
 foo();
 ```
 
-Se você habilitar o modo estrito em seu código, e você receber erros, ou o código se comporta de maneira *bugada*, a tentação é evitar o modo estrito. Mas esse instinto é uma má ideia de se deixar acontecer. Se o modo estrito gera problemas no seu programa, quase certo que isso é um sinal que existem coisas no seu programa que você deve consertar.
+Se você habilitar o modo estrito em seu código, e você receber erros, ou o código se comporta de maneira *bugada*, a tentação é evitar o modo estrito. Mas esse instinto é uma ma ideia de se deixar acontecer. Se o modo estrito gera problemas no seu programa, é certo que isso é um sinal que existem coisas que você deve consertar.
 
-Não apenas o modo estrito irá deixar seu código em um caminho mais seguro, e não apenas deixará seu código mais otimizável, mas também estará representando o futuro da linguagem. É mais fácil se acostumar com o modo estrito agora do que deixá-lo de lado -- vai ser mais difícil se converter a ele mais tarde!
+O modo estrito não irá apenas deixar seu código em um caminho mais seguro, também deixará seu código mais otimizável e também representando o futuro da linguagem. É mais fácil se acostumar com o modo estrito agora do que deixá-lo de lado -- vai ser mais difícil se converter a ele mais tarde!
 
 **Nota:** Para mais informações sobre o modo estrito, veja o Capítulo 5 do título desta série *Tipos & Gramática*.
 
@@ -584,7 +584,7 @@ function foo() {
 
 Apesar de não parecer óbvio por essa sintaze, `foo` é basicamente apenas uma variável que referencia um escopo por onde é feita a referência para a função (`function`) que está sendo declarada. Isso é, a `function` por si só é um valor, assim como `42` ou `[1,2,3]` podem ser.
 
-Pode parecer um conceito estranho de primeira, então vamos tirar um tempo para ponderar. Você não apenas pode passar uma um valor (argumento) *para* a função, mas *a função por conta própria pode ser um valor* que pode ser designado a uma variável, ou, passado para ou retornado por, outras funções.
+Pode parecer um conceito estranho de primeira, então vamos tirar um tempo para ponderar. Você não apenas pode passar um valor (argumento) *para* a função, mas *a função por conta própria pode ser um valor* que pode ser designado a uma variável, ou, passado para ou retornado por, outras funções.
 
 Sendo assim, o valor de uma função deve ser pensado como uma expressão, assim como qualquer outro valor ou expressão.
 
@@ -602,7 +602,7 @@ var x = function bar(){
 
 A primeira expressão da função designada para a variável `foo` é chamada de *anônima* porque não tem `nome`.
 
-A segunda epressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expresões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
+A segunda expressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expresões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
 
 Para mais informações, veja o título desta série *Escopos & Encerramentos*.
 
@@ -716,7 +716,7 @@ Não se preocupe se parecer estranho e confuso no começo -- pode ser mesmo! Vai
 
 Mas acredite em mim, uma vez que conseguir entender, vai perceber que é uma das mais poderosa e mais úteis  técnicas em toda linguagem. É definitivamente válido o esforço de deixar seu cérebro acostumado com encerramentos. Na próxima seção, vamos ter um pouco mais de prática com encerramentos.
 
-#### Modulos
+#### Módulos
 
 A forma de uso mais comum de um encerramento (closure) em JavaScript é o padrão módulo (module pattern). Módulos deixam você definir detalhes privados de implementação (variáveis, funções) que estarão escondidas do mundo externo, assim como uma API pública que *é* acessível *de fora*.
 
@@ -746,7 +746,7 @@ var fred = User();
 fred.login( "fred", "12Battery34!" );
 ```
 
-A função `User()` serve como um escopo externo que mantém as variáveis `username` e `password`, assim comoa função interna `doLogin()`; eles são todos detalhes internos desse módulo `User` que não podem ser acessados de fora.
+A função `User()` serve como um escopo externo que mantém as variáveis `username` e `password` protegidas, assim como a função interna `doLogin()`; esses itens são todos detalhes internos desse módulo `User` que não podem ser acessados de fora.
 
 **Atenção:** Nós não estamos chamando `new User()` aqui, de propósito. Apesar do fato de que provavelmente esta ser a forma mais comum para a maioria dos usuários. `User()` é apenas uma função, não uma classe a ser instanciada, então ela é chamada normalmente. Usar `new` poderia ser inapropriado e até mesmo um desperdício de recursos.
 
@@ -770,7 +770,7 @@ Outro conceito comumente incompreendido em JavaScript é o identificador`this`. 
 
 Enquanto geralmente possa parecer que `this` está relacionado aos padrões de orientação à objetos, em JS o `this` é um mecanismo diferente.
 
-Se uma função tiver uma referência ao `this` dentro dela, esse `this` geralmente aponta para um `object`. Mas qual objeto que ela aponta depende de como a função é chamada.
+Se uma função tiver uma referência ao `this` dentro dela, esse `this` geralmente aponta para um `object`. Mas qual objeto que this aponta irá depender de como a função é chamada.
 
 É importante entender que`this` *não* se refere à função propriamente dita, visto que essa é a parte mais comumente confundida.
 
@@ -815,7 +815,7 @@ Fim da linha: para entender o que `this` aponta, você precisa examinar como a f
 
 O mecanismo de protótipos em JavaScript é bem complicado. Aqui vamos só vê-lo de relance. Você irá precisar de algum tempo revisando os Capítulos 4-6 do título desta série *this & Prototipagem de Objetos* para saber todos os detalhes.
 
-Quando você referencia uma propriedade em um objeto, se essa propriedade não existir, o JavaScript irá automaticamente usar aquela referência ao protótipo interno do objeto para achar outro objeto procurando pela propriedade em si. Você pode pensar nisso como um fallback para caso a propriedade esteja faltando.
+Quando você referencia uma propriedade em um objeto, se essa propriedade não existir, o JavaScript irá automaticamente usar aquela referência ao protótipo interno do objeto para achar outro objeto procurando pela propriedade em si. Você pode pensar nisso como um fallback para o caso da propriedade estar faltando.
 
 A referência da relação ao protótipo interno de um objeto para o seu fallback acontece no tempo em que o objeto é criado. A maneira mais simples de ilustrar isso é com sua utilidade nativa chamada `Object.create(..)`.
 
@@ -883,7 +883,7 @@ Ou melhor ainda, use um vetado grupo de polyfills que você pode confiar, como o
 
 ### Transpiling
 
-Não existe nenhuma forma de *plyfillar* uma nova sintaxe, que ainda não foi incluída na linguagem. A nova sintaxe iria retornar um erro no mecanismo do JS como não reconhecida/inválida.
+Não existe nenhuma forma de *polyfillar* uma nova sintaxe, que ainda não foi incluída na linguagem. A nova sintaxe iria retornar um erro no mecanismo do JS como não reconhecida/inválida.
 
 Sendo assim a melhor opção é usar uma ferramenta que converte seu código novo em um código antigo equivalente. Esse processo é comumente chamado "transpiling".
 
@@ -893,10 +893,10 @@ Você pode se perguntar porquê você se meteria em confusão ao escrever uma si
 
 Existem diversas razões importantes que você deveria se importar em relação ao transpiling:
 
-* A nova sintaxe adicionada á linguagem é desenhada para fazer seu código ser mais legível e fácil de manter. Os equivalentes mais antigos são geralmente muito mais debilitado. Você deve optar por escrever a sintaxe mais moderna e clara, não apenas para você mas para todos os membros do seu time de desenvolvimento.
+* A nova sintaxe adicionada á linguagem é desenhada para fazer seu código ser mais legível e fácil de manter. Os equivalentes mais antigos são geralmente muito mais debilitados. Você deve optar por escrever a sintaxe mais moderna e clara, não apenas para você mas para todos os membros do seu time de desenvolvimento.
 
-* Se você transpilar apenas para navegadores antigos, mas servir a nova sintaxe para os navegadores mais novos, você teria uma vantagem por conta da otimização da performance do navegador por conta da nova sintaxe. Isso também permite que os criadores dos browsers tenham códigos do mundo-real (em produção) para testar neles suas implementações e otimizações.
-* Usando a nova sintaxe de forma precoce permite0a ser testada de forma mais robusta no mundo real, o que dá um feedback prematuro para o comitê do JavaScript (TC39). Se problemas forem encontrados brevemente, eles podem ser alterados/consertados antes que esses erros de design da linguagem sejam implementados permanentemente.
+* Se você transpilar apenas para navegadores antigos, mas servir a nova sintaxe para os navegadores mais novos, você teria uma vantagem por conta da otimização da performance do navegador devido a nova sintaxe. Isso também permite que os criadores dos browsers tenham códigos do mundo-real (em produção) para testar neles suas implementações e otimizações.
+* Usando a nova sintaxe de forma precoce faz com que ela possa ser testada de forma mais robusta no mundo real, o que dá um feedback prematuro para o comitê do JavaScript (TC39). Se problemas forem encontrados brevemente, eles podem ser alterados/consertados antes que esses erros de design da linguagem serem implementados permanentemente.
 
 Aqui um breve exemplo de transpiling. O ES6 adiciona uma funcionalidade chamada "valor padrão de parâmetro". Ele se parece com isso:
 
