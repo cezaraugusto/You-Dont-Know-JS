@@ -120,7 +120,7 @@ Outra maneira de pensar sobre tipos do JS é que JS não possui "tipagem forçad
 
 O *valor* `42` possui o tipo `number` intrínseco, e seu *tipo* não pode ser modificado. Um outro valor, como `"42"` com o tipo `string`, pode ser criado *à partir* do valor `42` de tipo `number` através de um processo chamado **coerção (coercion)** (veja o Capítulo 4).
 
-Se você usa `typeof` em uma variável, não está perguntando "qual o tipo da variável?" como pode parecer, pois variáveis JS não possuem tipos. Pelo contrário, está perguntando "qual é o tipo do valor *na* variável?"
+Se você usa o `typeof` em uma variável, ele não está perguntando "qual o tipo da variável?" como pode parecer, pois variáveis JS não possuem tipos. Pelo contrário, ele está perguntando "qual é o tipo do valor *na* variável?"
 
 ```js
 var a = 42;
@@ -140,7 +140,7 @@ O primeiro `typeof 42` retorna `"number"`, e `typeof "number"` é `"string"`.
 
 ### `undefined` vs "undeclared"
 
-Variáveis que não possuem valores *neste momento*, atualmente possuem o valor `undefined`. Chamar `typeof` nestas variáveis retornará `"undefined"`:
+Variáveis que não possuem valores *neste momento*, atualmente possuem o valor `undefined (indefinido)`. Chamar `typeof` nestas variáveis retornará `"undefined"`:
 
 ```js
 var a;
@@ -157,9 +157,9 @@ typeof b; // "undefined" ("indefinido")
 typeof c; // "undefined" ("indefinido")
 ```
 
-É tentador para muitos desenvolvedores olharem para a palavra "undefined" e pensar nela como sinônimo para "undeclared." Contudo, em JS, esses dois conceitos são bastante diferentes.
+É tentador para muitos desenvolvedores olharem para a palavra "undefined (indefinido)" e pensar nela como sinônimo para "undeclared (não declarada)." Contudo, em JS, esses dois conceitos são bastante diferentes.
 
-Uma variável "undefined" é uma que foi declarada no escopo acessível, mas *neste momento* não possui algum outro valor. Por contraste, uma variável "undeclared" é uma que não foi formalmente declarada no escopo acessível.
+Uma variável "undefined" é aquela que foi declarada no escopo acessível, mas *neste momento* não possui nenhum outro valor. Por contraste, uma variável "undeclared" é aquela que não foi formalmente declarada no escopo acessível.
 
 Considere:
 
