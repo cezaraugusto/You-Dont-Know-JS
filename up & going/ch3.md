@@ -3,7 +3,7 @@
 
 Sobre o que é essa série? Simplificando, trata-se de levar a sério a tarefa de aprender *todas as partes do JavaScript*, e não apenas um subconjunto da linguagem que alguns chamam de "as partes boas", e também não apenas o mínimo que você precisa fazer para terminar o seu trabalho.
 
-Desenvolvedores sérios em outras linguagens esperam colocar seu esforço para aprender a maioria ou a totalidade da linguagem (ou linguagens) que eles mais usam, mas os desenvolvedores JavaScript parecem se destacar da multidão no sentido de normalmente não aprender muito da linguagem em si. Esta não é uma coisa boa, e não é algo que podemos continuar a permitir a ser o modelo.
+Desenvolvedores sérios em outras linguagens esperam colocar seu esforço para aprender a maioria ou a totalidade da linguagem (ou linguagens) que eles mais usam, mas os desenvolvedores JavaScript parecem se destacar da multidão no sentido de normalmente não aprender muito da linguagem em si. Esta não é uma coisa boa, e não é algo que podemos continuar a permitir ser o modelo.
 
 A série *You Don't Know JS* (*YDKJS*) está em contraste gritante com as abordagens típicas para aprender JS, e é diferente de praticamente qualquer outros livros sobre JS que você vai ler. Ele te desafia a sair da sua zona de conforto e de se perguntar os mais profundos "porquês" para cada comportamento que você encontrar. Você está pronto para esse desafio?
 
@@ -29,7 +29,7 @@ A palavra-chave `this` é dinamicamente ligada com base em como a função em qu
 
 Intimamente relacionado com a palavra-chave `this`, está o mecanismo protótipo de objeto (object prototype), que é uma cadeia de pesquisa para as propriedades, similar ao modo léxico que o escopo de variáveis é encontrado. Mas envolto nos protótipos, está outro enorme erro sobre JS: a (falsa) ideia de emular classes e (a chamada "prototipagem") herança.
 
-Infelizmente, o desejo de trazer o design pattern (padrão de projeto) de classes e heranças para o JavaScript é simplesmente a pior coisa que você poderia tentar fazer, porque enquanto a sintaxe pode induzi-lo a pensar que há algo como classes, de fato o mecanismo de protótipo é fundamentalmente oposto em o seu funcionamento.
+Infelizmente, o desejo de trazer o design pattern (padrão de projeto) de classes e heranças para o JavaScript é simplesmente a pior coisa que você poderia tentar fazer, porque enquanto a sintaxe pode induzí-lo a pensar que há algo como classes, de fato o mecanismo de protótipo é fundamentalmente oposto em o seu funcionamento.
 
 O que está em questão é se é melhor ignorar a incompatibilidade e fingir que o que você está implementando é "herança", ou se é mais apropriado aprender e abraçar como o sistema de protótipo de objeto realmente funciona. Este último é mais apropriadamente chamado de "delegação de comportamento."
 
@@ -59,7 +59,7 @@ Os três primeiros títulos desta série tem o foco nos mecanismos centrais da l
 
 O livro começa primeiramente esclarecendo um monte de conceitos e terminologias confusas acerca de coisas como "assíncrino", "paralelismo" e "simultâneo", e explica detalhadamente como essas coisas se aplicam ou não ao JS.
 
-Em seguida, passamos a examinar os callbacks como o principal método à possibilitar porgramação assíncrona. Mas é aqui que vemos rapidamente que o callback em si é insuficiente para as exigências modernas de programação assíncrona. Identificamos duas principais deficiências da codificação somente callback: a perda de confiança na *Inversão de Controle* (IoC), e falta de capacidade de raciocinar linearmente.
+Em seguida, passamos a examinar os callbacks como o principal método à possibilitar programação assíncrona. Mas é aqui que vemos rapidamente que o callback em si é insuficiente para as exigências modernas de programação assíncrona. Identificamos duas principais deficiências da codificação somente callback: a perda de confiança na *Inversão de Controle* (IoC), e falta de capacidade de raciocinar linearmente.
 
 Para tratar dessas duas importantes deficiências, o ES6 introduz dois novos mecanismos (e, na verdade, padrões): promises e generators.
 
@@ -91,14 +91,14 @@ Algumas coisas interessantes do ES6 para acompanhar e ler sobre: desestruturaç�
 
 A primeira parte do livro é um roteiro para todas as coisas que você precisa aprender para se preparar para o novo e melhorado JavaScript que você vai escrever e explorar pelos próximos anos.
 
-A última parte do livro volta foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir funcionalidade por funcionalidade a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
+A última parte do livro volta e foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir funcionalidade por funcionalidade a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
 
 O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprendê-lo!?
 
 ## Revisão
 
-A série *YDKJS* é dedicada à questão que todos os desenvolvedores JS podem e devem aprender todas as partes desta grandiosa linguagem. Nem a opinião de alguém, nem framework's, nem prazos de projetos devem ser desculpa para você deixar de aprender e compreender JavaScript profundamente.
+A série *YDKJS* é dedicada à questão de que todos os desenvolvedores JS podem e devem aprender todas as partes desta grandiosa linguagem. Nem a opinião de alguém, nem framework's, nem prazos de projetos devem ser desculpa para você deixar de aprender e compreender JavaScript profundamente.
 
-Nós pegamos cada área importante da linguagem, focamos e dedicamos um livro curto mas denso para explorar plenamente todas as partes que você talvez pensou que sabia, mas não provavelmente, não na sua totalidade.
+Nós pegamos cada área importante da linguagem, focamos e dedicamos um livro curto mas denso para explorar plenamente todas as partes que você talvez pensou que sabia, mas não provavelmente em sua totalidade.
 
-"You Don't Know JS" ("Você Não Sabe JS") não é uma crítica ou um insulto. Isso é uma percepção que todos nós, inclusive eu, devemos chegar a ter. Aprender JavaScript não é um objetivo final, mas um processo. Nós não sabemos JavaScript, ainda. Mas vamos!
+"You Don't Know JS" ("Você Não Sabe JS") não é uma crítica ou um insulto. Isso é uma percepção que todos nós, inclusive eu, devemos ter. Aprender JavaScript não é um objetivo final, mas um processo. Nós não sabemos JavaScript ainda, mas vamos!
