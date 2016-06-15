@@ -217,7 +217,7 @@ foo( 2 ); // 4
 
 A referência RHS para `b` não pode ser resolvida dentro da função `foo`, mas pode ser resolvida no *Escopo* ao redor desta (neste caso, o escopo global).
 
-Assim, retomando o díalogo entre *Motor* e *Escopo*, nós escutaríamos: 
+Assim, retomando o díalogo entre *Motor* e *Escopo*, nós escutaríamos:
 
 > ***Motor***: "Ei, *Escopo* de `foo`, já ouviu falar de `b`? Tenho uma referência RHS para ela."
 
@@ -256,9 +256,9 @@ function foo(a) {
 foo( 2 );
 ```
 
-Quando a busca RHS ocorre para `b` pela primeira vez, a variável não será localizada. É tomada por uma variável "não-declarada" porque não é encontrada no escopo. 
+Quando a busca RHS ocorre para `b` pela primeira vez, a variável não será localizada. É tomada por uma variável "não-declarada" porque não é encontrada no escopo.
 
-Se uma busca RHS falha ao encontrar uma variável em qualquer lugar dos *Escopos* aninhados, esta operação resulta em um `ReferenceError` lançado pelo *Motor*. É importante salientar que o erro é do tipo `ReferenceError`. 
+Se uma busca RHS falha ao encontrar uma variável em qualquer lugar dos *Escopos* aninhados, esta operação resulta em um `ReferenceError` lançado pelo *Motor*. É importante salientar que o erro é do tipo `ReferenceError`.
 
 Por outro lado, se o *Motor* executa uma busca LHS e chega no último andar (*Escopo* global) sem localizar a variável, e se o programa não está sendo executado em "Modo estrito" (strict mode) [^note-strictmode], então o *Escopo* global irá criar uma nova variável com este nome **no escopo global** e repassá-la para o *Motor*
 
@@ -268,7 +268,7 @@ Por outro lado, se o *Motor* executa uma busca LHS e chega no último andar (*Es
 
 Agora, se uma variável é encontrada em uma busca RHS mas você tenta realizar uma ação impossível, como executar como função um valor que não é uma função ou tentar ler uma propriedade a partir de valores como `null` ou `undefined`, então o *Motor* irá lançar um tipo diferente de erro, chamado de `TypeError`.
 
-`ReferenceError` está relacionado à falha na resolução de *Escopo*, enquanto `TypeError` sugere que a resolução de *Escopo* foi bem sucedidade, mas houve uma tentativa de operação ilegal/impossível no resultado que foi obtido.
+`ReferenceError` está relacionado à falha na resolução de *Escopo*, enquanto `TypeError` sugere que a resolução de *Escopo* foi bem sucedida, mas houve uma tentativa de operação ilegal/impossível no resultado que foi obtido.
 
 ## Revisão (TL;DR)
 
@@ -276,9 +276,9 @@ Escopo é o conjunto de regras que determina onde e como uma variável (identifi
 
 Referências LHS resultam das operações de atribuição. Atribuições relacionadas a *Escopo* podem ocorrer tanto com o uso do operador `=` quanto com a passagem de argumentos para uma função, quando os valores são atribuídos aos parâmetros definidos na sua declaração.
 
-O *Motor* JavaScript primeiro compila o código para depois executá-lo, e, para isso, divide instruções como `var a = 2;` em dois passos distintos: 
+O *Motor* JavaScript primeiro compila o código para depois executá-lo, e, para isso, divide instruções como `var a = 2;` em dois passos distintos:
 
-1. Primeiro, `var a` para declaração no *Escopo* atual. Isto é realizado bem no início, antes da execução do código. 
+1. Primeiro, `var a` para declaração no *Escopo* atual. Isto é realizado bem no início, antes da execução do código.
 
 2. Em seguida, `a = 2` para buscar pela variável (referência LHS) para então atribuir-lhe um valor se encontrada.
 
