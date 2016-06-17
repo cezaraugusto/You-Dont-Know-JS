@@ -81,6 +81,7 @@
 
 #### D
 
+* Deprecated: Desaconselhada(o)/Desencorajada(o) (vide [thesaurus](http://www.dictionary.com/browse/deprecated))
 * Dynamic typing: Tipagem dinâmica
 * Digging: Pode ser entendido como "brincar um pouco com", "estudar intensamente", ou até mesmo "escavar" no sentido de estudar a fundo
 
