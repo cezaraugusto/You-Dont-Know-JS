@@ -1,5 +1,5 @@
 # You Don't Know JS: Escopos e Clausuras
-# Chapter 2: Escopo Léxico
+# Capítulo 2: Escopo Léxico
 
 No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido.
 
@@ -202,22 +202,22 @@ O identificador `a` não pode ser achado no escopo de `o2`, no escopo de `foo(..
 
 ### Performance
 
-Both `eval(..)` and `with` cheat the otherwise author-time defined lexical scope by modifying or creating new lexical scope at runtime.
+Ambas `eval(..)` e `with` trapaceiam o escopo léxico que havia sido definido no momento da escrita do código ao modificar ou criar um novo escopo léxico em tempo de execução.
 
-So, what's the big deal, you ask? If they offer more sophisticated functionality and coding flexibility, aren't these *good* features? **No.**
+Você está se perguntando qual o problema nisso tudo? Se elas oferecem uma funcionalidade mais sofisticada e flexibilidade para o código, não seriam *boas* funcionalidades? **Não.**
 
-The JavaScript *Engine* has a number of performance optimizations that it performs during the compilation phase. Some of these boil down to being able to essentially statically analyze the code as it lexes, and pre-determine where all the variable and function declarations are, so that it takes less effort to resolve identifiers during execution.
+O *Motor* do JavaScript possui uma série de otimizações de performance que ocorrem durante a fase de compilação. Algumas delas se resumem a possibilitar que seja feita uma análise estática do código durante a Análise Léxica para predeterminar onde são feitas as declarações de todas as variáveis e funções, de modo que a resolução de identificadores seja menos custosa durante a execução.
 
-But if the *Engine* finds an `eval(..)` or `with` in the code, it essentially has to *assume* that all its awareness of identifier location may be invalid, because it cannot know at lexing time exactly what code you may pass to `eval(..)` to modify the lexical scope, or the contents of the object you may pass to `with` to create a new lexical scope to be consulted.
+Mas se o *Motor* encontra uma `eval(..)` ou `with` no código, este naturalmente deve *supor* que toda sua consciência em relação à localização de identificadores pode ser inválida porque ele não tem como conhecer, durante a Análise Léxica, qual código você pode vir a passar para `eval(..)` para então alterar o escopo léxico, ou qual o conteúdo do objeto que você pode vir a passar para `with` para então criar um novo escopo léxico para ser consultado.
 
-In other words, in the pessimistic sense, most of those optimizations it *would* make are pointless if `eval(..)` or `with` are present, so it simply doesn't perform the optimizations *at all*.
+Em outras palavras, no sentido pessimista, a maior parte das otimizações que *poderiam* ser feitas não fazem sentido se `eval(..)` ou `with` estão presentes, de modo que ele simplesmente *não executa* estas otimizações.
 
-Your code will almost certainly tend to run slower simply by the fact that you include an `eval(..)` or `with` anywhere in the code. No matter how smart the *Engine* may be about trying to limit the side-effects of these pessimistic assumptions, **there's no getting around the fact that without the optimizations, code runs slower.**
+É muito provável que seu código tenda a executar mais lentamente pelo fato de você incluir uma `eval(..)` ou `with` em qualquer ponto do código. Não importa quão esperto o *Motor* possa ser em relação a limitar efeitos colaterais destas premissas pessimistas, **é inegável que código sem estas otimizações é mais lento.**
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Lexical scope means that scope is defined by author-time decisions of where functions are declared. The lexing phase of compilation is essentially able to know where and how all identifiers are declared, and thus predict how they will be looked-up during execution.
+Escopo léxico significa que o escopo é definido pelo local onde funções são declaradas, através de decisões que são tomadas no momento da escrita do código. A fase de Análise Léxica da compilação é capaz de saber onde e como todos os identificadores são declarados, e portanto prever como serão buscados durante a execução.
 
-Two mechanisms in JavaScript can "cheat" lexical scope: `eval(..)` and `with`. The former can modify existing lexical scope (at runtime) by evaluating a string of "code" which has one or more declarations in it. The latter essentially creates a whole new lexical scope (again, at runtime) by treating an object reference *as* a "scope" and that object's properties as scoped identifiers.
+Dois mecanismos do JavaScript podem "trapacear" o escopo léxico: `eval(..)` e `with`. O primeiro pode modificar o escopo existente (em tempo de execução) ao interpretar uma string de "código" que contenha uma ou mais declarações. O segundo cria um escopo léxico totalmente novo (também em tempo de execução) ao tratar a referência para um objeto *como* um "escopo" e as propriedades deste objeto como identificadores deste escopo.
 
-The downside to these mechanisms is that it defeats the *Engine*'s ability to perform compile-time optimizations regarding scope look-up, because the *Engine* has to assume pessimistically that such optimizations will be invalid. Code *will* run slower as a result of using either feature. **Don't use them.**
+O problema destes mecanismos é que ambos acabam com a capacidade do *Motor* de executar, em tempo de compilação, otimizações na consulta de escopo, porque o *Motor* precisa supor de modo pessimista que todas as otimizações serão inválidas. O código *irá* ser executado mais lentamente como resultado da utilização de qualquer uma destas funcionalidades. **Não utilize-as.**
