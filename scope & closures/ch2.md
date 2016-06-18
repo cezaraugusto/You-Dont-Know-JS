@@ -1,7 +1,7 @@
 # You Don't Know JS: Escopos e Clausuras
 # Chapter 2: Escopo Léxico
 
-No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido. 
+No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido.
 
 Existem dois modelos principais para a definição de funcionamento do escopo. O primeiro e mais comum, utilizado pela grande maioria das linguagens de programação, é chamado de **Escopo Léxico**, e vamos examiná-lo em profundidade. O outro modelo, que ainda é utilizado em algumas linguagens como Bash scripting e alguns modos de Perl, é chamado de **Escopo Dinâmico**.
 
@@ -13,9 +13,9 @@ Conforme discutimos no Capítulo 1, a primeira etapa da compilação de linguage
 
 Este é o conceito que provê as bases para compreensão do que é o Escopo Léxico e a origem do seu nome.
 
-Para uma definição de certa forma redundante, o Escopo Léxico é o escopo definido durante a etapa de Análise Léxica. Em outras palavras, o Escopo Léxico baseia-se no local onde variáveis e blocos de escopo são criados por você durante a escrita do código, portanto (normalmente) já definidos no momento que o analisador léxico processa seu código. 
+Para uma definição de certa forma redundante, o Escopo Léxico é o escopo definido durante a etapa de Análise Léxica. Em outras palavras, o Escopo Léxico baseia-se no local onde variáveis e blocos de escopo são criados por você durante a escrita do código, portanto (normalmente) já definidos no momento que o analisador léxico processa seu código.
 
-**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa pratica tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código. 
+**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa pratica tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código.
 
 Consideremos o seguinte bloco de código:
 
@@ -66,7 +66,7 @@ Caso houvesse um `c` definido em `bar(..)` e outro em `foo(..)`, a instrução `
 window.a
 ```
 
-Esta técnica garante o acesso a uma variável global que não poderia ser acessada por conta de um eventual sombreamento. Entretanto, variáveis não-globais e que foram sombreadas não podem ser acessadas. 
+Esta técnica garante o acesso a uma variável global que não poderia ser acessada por conta de um eventual sombreamento. Entretanto, variáveis não-globais e que foram sombreadas não podem ser acessadas.
 
 Não importa o *local* onde uma função é invocada, ou até mesmo *como* é invocada, seu escopo léxico será definido **apenas** pelo local onde a função foi declarada.
 
@@ -129,11 +129,11 @@ Os casos de uso para geração dinâmica de código são incrivelmente raros, vi
 
 ### `with`
 
-The other frowned-upon (and now deprecated!) feature in JavaScript which cheats lexical scope is the `with` keyword. There are multiple valid ways that `with` can be explained, but I will choose here to explain it from the perspective of how it interacts with and affects lexical scope.
+A outra funcionalidade mal vista (e agora desaconselhada!) em JavaScript e com a qual se pode trapacear o escopo léxico é a palavra-chave `with`. Existem muitas maneiras válidas de se explicar `with`, mas vou escolher explicar sob a óptica de como este mecanismo interage e afeta o escopo léxico.
 
-`with` is typically explained as a short-hand for making multiple property references against an object *without* repeating the object reference itself each time.
+`with` é comumente definido como um "atalho" para a criação de diversas referências à propriedades de um determinado objeto sem precisarmos referenciá-lo em cada uma delas.
 
-For example:
+Por exemplo:
 
 ```js
 var obj = {
@@ -142,12 +142,12 @@ var obj = {
 	c: 3
 };
 
-// more "tedious" to repeat "obj"
+// forma mais "chata", repetindo "obj"
 obj.a = 2;
 obj.b = 3;
 obj.c = 4;
 
-// "easier" short-hand
+// "atalho" mais fácil
 with (obj) {
 	a = 3;
 	b = 4;
@@ -155,7 +155,7 @@ with (obj) {
 }
 ```
 
-However, there's much more going on here than just a convenient short-hand for object property access. Consider:
+Entretanto, há muito mais coisas acontecendo por aqui do que a simples conveniência de acesso às propriedades de um objeto. Considerando:
 
 ```js
 function foo(obj) {
@@ -177,28 +177,28 @@ console.log( o1.a ); // 2
 
 foo( o2 );
 console.log( o2.a ); // undefined
-console.log( a ); // 2 -- Oops, leaked global!
+console.log( a ); // 2 -- Opa, "vazou" para o escopo global!
 ```
 
-In this code example, two objects `o1` and `o2` are created. One has an `a` property, and the other does not. The `foo(..)` function takes an object reference `obj` as an argument, and calls `with (obj) { .. }` on the reference. Inside the `with` block, we make what appears to be a normal lexical reference to a variable `a`, an LHS reference in fact (see Chapter 1), to assign to it the value of `2`.
+No código deste exemplo, dois objetos `o1` e `o2` são criados. Um possui uma propriedade `a` e o outro não. A função `foo(...)` recebe a referência de um objeto `obj` como argumento, e chama `with (obj) { .. }` com esta referência. Dentro do bloco `with`, criamos o que parece se tratar de uma referência léxica comum para a variável `a`, uma referência LHS para ser mais exato (veja o Capítulo 1), de forma a atribuir-lhe o valor 2.
 
-When we pass in `o1`, the `a = 2` assignment finds the property `o1.a` and assigns it the value `2`, as reflected in the subsequent `console.log(o1.a)` statement. However, when we pass in `o2`, since it does not have an `a` property, no such property is created, and `o2.a` remains `undefined`.
+Quando passamos `o1`, a atribuição `a = 2` encontra a propriedade `o1.a` e atribui-lhe o valor `2`, conforme podemos observar na instrução `console.log(o1.a)` logo a seguir. Porém, quando passamos `o2`, tendo em vista que este não possui uma propriedade `a`, nenhuma propriedade é criada e `o2.a` segue sendo `undefined`.
 
-But then we note a peculiar side-effect, the fact that a global variable `a` was created by the `a = 2` assignment. How can this be?
+Então percebemos um efeito colateral peculiar, o fato de que a variável global `a` foi criada pela atribuição `a = 2`. Como isso pode ter acontecido?
 
-The `with` statement takes an object, one which has zero or more properties, and **treats that object as if *it* is a wholly separate lexical scope**, and thus the object's properties are treated as lexically defined identifiers in that "scope".
+A instrução `with` recebe um objeto com zero ou mais propriedades, **trata *este* objeto como se fosse um escopo léxico à parte** e portanto suas propriedades são tratadas como identificadores definidos de forma lexical neste "escopo".
 
-**Note:** Even though a `with` block treats an object like a lexical scope, a normal `var` declaration inside that `with` block will not be scoped to that `with` block, but instead the containing function scope.
+**Nota:** Embora um bloco `with` trate um objeto como um escopo léxico, uma declaração `var` dentro deste bloco não terá seu escopo atrelado ao bloco `with`, mas sim ao escopo no qual este bloco se encontra.
 
-While the `eval(..)` function can modify existing lexical scope if it takes a string of code with one or more declarations in it, the `with` statement actually creates a **whole new lexical scope** out of thin air, from the object you pass to it.
+Enquanto a função `eval(..)` pode modificar o escopo léxico ao receber uma string com um código que possua uma ou mais declarações, a instrução `with`, por sua vez, cria um **escopo léxico totalmente novo** a partir do objeto que você passou.
 
-Understood in this way, the "scope" declared by the `with` statement when we passed in `o1` was `o1`, and that "scope" had an "identifier" in it which corresponds to the `o1.a` property. But when we used `o2` as the "scope", it had no such `a` "identifier" in it, and so the normal rules of LHS identifier look-up (see Chapter 1) occurred.
+Entendido desta forma, o "escopo" declarado pela instrução `with` quando passamos `o1` era `o1`, e aquele "escopo" possuía um "identificador" que correspondia à propriedade `o1.a`. Mas quando utilizamos `o2` como "escopo", este não possuía um "identificador" `a`, então se aplicam as regras normais de uma busca LHS (veja o Capítulo 1).
 
-Neither the "scope" of `o2`, nor the scope of `foo(..)`, nor the global scope even, has an `a` identifier to be found, so when `a = 2` is executed, it results in the automatic-global being created (since we're in non-strict mode).
+O identificador `a` não pode ser achado no escopo de `o2`, no escopo de `foo(...) nem no escopo global, então quando `a = 2` é executado, resulta na criação da variável global, já que não estamos em Modo estrito (strict mode).
 
-It is a strange sort of mind-bending thought to see `with` turning, at runtime, an object and its properties into a "scope" *with* "identifiers". But that is the clearest explanation I can give for the results we see.
+É um pouco alucinante pernsarmos no bloco `with` tornando, em tempo de execução, um objeto e suas propriedades em um "escopo" *com* "identificadores". Mas é a forma mais clara que eu tenho para apresentar os resultados que vemos.
 
-**Note:** In addition to being a bad idea to use, both `eval(..)` and `with` are affected (restricted) by Strict Mode. `with` is outright disallowed, whereas various forms of indirect or unsafe `eval(..)` are disallowed while retaining the core functionality.
+**Nota:** Somando-se ao fato de não ser uma boa ideia utilizá-las, `eval(..)` e `with` são afetadas (restringidas) pelo Modo Estrito (strict mode). `with` é totalmente proibida, ao passo que várias formas indiretas ou inseguras de se utilizar `eval(..)` são proibidas ainda que sua funcionalidade central seja mantida.
 
 ### Performance
 
