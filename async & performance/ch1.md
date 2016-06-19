@@ -387,166 +387,158 @@ Vamos imaginar um site que mostre uma lista de atualizações de status (como at
 
 **Nota:** Usamos "processo" em aspas aqui por que eles não são processos verdadeiros em nível de sistema operacional no sentido da ciência da computação. Eles são processos virtuais, ou tarefas, que representam uma série sequencial de operações logicamente conectadas. Vamos preferir "processo" ao invés de "tarefa", pois a terminologia corresponde com a definição dos conceitos que estamos explorando.
 
-<hr>
+O primeiro "processo" responderá a eventos `onscroll` (fazendo requisições Ajax por novo conteúdo) enquanto são acionadas quando o usuário rola continuamente para baixo. O segundo "processo" receberá respostas do Ajax (para renderizar o conteúdo na página).
 
-<hr>
+Obviamente, se o usuário rola rápido demais, você poderá ver dois ou mais eventos `onscroll` acionados durante o tempo que leva para receber e processar a primeira resposta, portanto você terá eventos `onscroll` e eventos de resposta Ajax acionando rapidamente, alternando entre si.
 
-## Concurrency
+Concorrência é quando dois ou mais "processos" são executados simultâneamente no mesmo periodo, independentemente de se seus constituintes individuais acontecem *em paralelo* (ao mesmo instânte em processadores ou núcleos separados) ou não. Você pode pensar em concorrência como paralelismo em nível de "processo" (ou nível de tarefa), em oposição ao paralelismo em nível de operação (threads em processadores diferentes).
 
-Let's imagine a site that displays a list of status updates (like a social network news feed) that progressively loads as the user scrolls down the list. To make such a feature work correctly, (at least) two separate "processes" will need to be executing *simultaneously* (i.e., during the same window of time, but not necessarily at the same instant).
+**Nota:** Concorrência também introduz uma noção opcional desses "processos" interagindo entre si. Voltaremos a isso mais tarde.
 
-**Note:** We're using "process" in quotes here because they aren't true operating system–level processes in the computer science sense. They're virtual processes, or tasks, that represent a logically connected, sequential series of operations. We'll simply prefer "process" over "task" because terminology-wise, it will match the definitions of the concepts we're exploring.
+Para uma dada janela de tempo (poucos segundos de rolamento do usuário), vamos visualizar cada "processo" independente como uma série de eventos/operações.
 
-The first "process" will respond to `onscroll` events (making Ajax requests for new content) as they fire when the user has scrolled the page further down. The second "process" will receive Ajax responses back (to render content onto the page).
-
-Obviously, if a user scrolls fast enough, you may see two or more `onscroll` events fired during the time it takes to get the first response back and process, and thus you're going to have `onscroll` events and Ajax response events firing rapidly, interleaved with each other.
-
-Concurrency is when two or more "processes" are executing simultaneously over the same period, regardless of whether their individual constituent operations happen *in parallel* (at the same instant on separate processors or cores) or not. You can think of concurrency then as "process"-level (or task-level) parallelism, as opposed to operation-level parallelism (separate-processor threads).
-
-**Note:** Concurrency also introduces an optional notion of these "processes" interacting with each other. We'll come back to that later.
-
-For a given window of time (a few seconds worth of a user scrolling), let's visualize each independent "process" as a series of events/operations:
-
-"Process" 1 (`onscroll` events):
-```
-onscroll, request 1
-onscroll, request 2
-onscroll, request 3
-onscroll, request 4
-onscroll, request 5
-onscroll, request 6
-onscroll, request 7
-```
-
-"Process" 2 (Ajax response events):
-```
-response 1
-response 2
-response 3
-response 4
-response 5
-response 6
-response 7
-```
-
-It's quite possible that an `onscroll` event and an Ajax response event could be ready to be processed at exactly the same *moment*. For example let's visualize these events in a timeline:
+"Processo" 1 (eventos `onscroll`):
 
 ```
-onscroll, request 1
-onscroll, request 2          response 1
-onscroll, request 3          response 2
-response 3
-onscroll, request 4
-onscroll, request 5
-onscroll, request 6          response 4
-onscroll, request 7
-response 6
-response 5
-response 7
+onscroll, requisição 1
+onscroll, requisição 2
+onscroll, requisição 3
+onscroll, requisição 4
+onscroll, requisição 5
+onscroll, requisição 6
+onscroll, requisição 7
 ```
 
-But, going back to our notion of the event loop from earlier in the chapter, JS is only going to be able to handle one event at a time, so either `onscroll, request 2` is going to happen first or `response 1` is going to happen first, but they cannot happen at literally the same moment. Just like kids at a school cafeteria, no matter what crowd they form outside the doors, they'll have to merge into a single line to get their lunch!
-
-Let's visualize the interleaving of all these events onto the event loop queue.
-
-Event Loop Queue:
+"Processo" 2 (eventos de resposta Ajax):
 ```
-onscroll, request 1   <--- Process 1 starts
-onscroll, request 2
-response 1            <--- Process 2 starts
-onscroll, request 3
-response 2
-response 3
-onscroll, request 4
-onscroll, request 5
-onscroll, request 6
-response 4
-onscroll, request 7   <--- Process 1 finishes
-response 6
-response 5
-response 7            <--- Process 2 finishes
+resposta 1
+resposta 2
+resposta 3
+resposta 4
+resposta 5
+resposta 6
+resposta 7
 ```
 
-"Process 1" and "Process 2" run concurrently (task-level parallel), but their individual events run sequentially on the event loop queue.
+É bem possível que um evento `onscroll` e uma resposta Ajax possam estar prontos para serem processados no exato mesmo *momento*. 
+Por exemplo, vamos visualizar esses eventos em uma linha do tempo:
 
-By the way, notice how `response 6` and `response 5` came back out of expected order?
+```
+onscroll, requisição 1
+onscroll, requisição 2          resposta 1
+onscroll, requisição 3          resposta 2
+resposta 3
+onscroll, requisição 4
+onscroll, requisição 5
+onscroll, requisição 6          resposta 4
+onscroll, requisição 7
+resposta 6
+resposta 5
+resposta 7
+```
 
-The single-threaded event loop is one expression of concurrency (there are certainly others, which we'll come back to later).
+Mas, voltando para a nossa noção do loop de eventos mais cedo no capítulo, JS só vai poder manusear um evento por vez, então ou `onscroll, requisição 2` vai acontecer primeiro ou `resposta 1` vai acontecer primeiro, mas eles não podem acontecer literalmente no mesmo momento. Assim como crianças na cafeteria da escola, não importa a multidão que se forme fora das portas, eles terão que se aglomerar em uma fila única para pegar o seu almoço!
 
-### Noninteracting
+Vamos visualizar o intercalamento de todos esses eventos na lista de loop de eventos.
 
-As two or more "processes" are interleaving their steps/events concurrently within the same program, they don't necessarily need to interact with each other if the tasks are unrelated. **If they don't interact, nondeterminism is perfectly acceptable.**
+Lista de Loop de Eventos:
+```
+onscroll, requisição 1   <--- Processo 1 começa
+onscroll, requisição 2
+resposta 1            <--- Processo 2 começa
+onscroll, requisição 3
+resposta 2
+resposta 3
+onscroll, requisição 4
+onscroll, requisição 5
+onscroll, requisição 6
+resposta 4
+onscroll, requisição 7   <--- Processo 1 termina
+resposta 6
+resposta 5
+resposta 7            <--- Processo 2 termina
+```
 
-For example:
+"Processo 1" e "Processo 2" correm concorrentemente (paralelismo em nível de tarefa), mas seus eventos individuais correm em sequência na lista do loop de eventos.
+
+Alias, percebeu como `resposta 6` e `resposta 5` voltaram fora da ordem esperada? 
+
+O loop de eventos em thread únidca é uma expressão de concorrência (existem certamente outros, dos quais retornaremos mais tarde).
+
+### Não-interação
+
+Ao passo que dois ou mais "processos" intercalam seus passos/eventos concorrentemente dentro do mesmo programa, eles não necessariamente precisam interagir entre si se as tarefas não são relacionadas. **Se eles não interagem, indeterminismo é perfeitamente aceitável.**
+
+Por exemplo:
 
 ```js
 var res = {};
 
-function foo(results) {
-	res.foo = results;
+function foo(resultados) {
+	res.foo = resultados;
 }
 
-function bar(results) {
-	res.bar = results;
+function bar(resultados) {
+	res.bar = resultados;
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-`foo()` and `bar()` are two concurrent "processes," and it's nondeterminate which order they will be fired in. But we've constructed the program so it doesn't matter what order they fire in, because they act independently and as such don't need to interact.
+`foo()` e `bar()` são dois "processos" concorrentes, e é indeterminado em qual ordem serão acionados. Mas construímos o programa de uma maneira que não importa a ordem que são executados, por que eles agem independentemente de forma a não precisar interagir.
 
-This is not a "race condition" bug, as the code will always work correctly, regardless of the ordering.
+Esse não é um bug de "condição de corrida", pois o código vai sempre funcionar corretamente, independente da ordem.
 
-### Interaction
+### Interação
 
-More commonly, concurrent "processes" will by necessity interact, indirectly through scope and/or the DOM. When such interaction will occur, you need to coordinate these interactions to prevent "race conditions," as described earlier.
+Mais comumente, "processos" concorrentes vão interagir por necessidade, indiretamente através do escopo e ou do DOM. Quando tal interação ocorrer, você precisa coordená-las para prevenir "condição de corrida", como descrito préviamente.
 
-Here's a simple example of two concurrent "processes" that interact because of implied ordering, which is only *sometimes broken*:
+Aqui vai um exemplo simples de dois "processos" concorrentes que interagem por causa da ordem implícita, que é apenas *algumas vezes quebrada*:
 
 ```js
 var res = [];
 
-function response(data) {
-	res.push( data );
+function resposta(dado) {
+	res.push( dado );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
 
-The concurrent "processes" are the two `response()` calls that will be made to handle the Ajax responses. They can happen in either-first order.
+Os "processos" concorrentes são as duas chamadas de `resposta()` que serão feitas para lidar com as respostas do Ajax. Elas podem acontecer em qualquer ordem.
 
-Let's assume the expected behavior is that `res[0]` has the results of the `"http://some.url.1"` call, and `res[1]` has the results of the `"http://some.url.2"` call. Sometimes that will be the case, but sometimes they'll be flipped, depending on which call finishes first. There's a pretty good likelihood that this nondeterminism is a "race condition" bug.
+Vamos assumir que o comportamento esperado é que `res[0]` possua o resultado da chamada de `"http://alguma.url.1"`, e `res[1]` possua o resultado da chamada de `"http://alguma.url.2"`. Algumas vezes, esse será o caso, mas em outras, estarão em ordem inverrsa, dependendo de qual finalize primeiro. Existe uma boa probabilidade de que esse indeterminismo seja um bug de "condição de corrida".
 
-**Note:** Be extremely wary of assumptions you might tend to make in these situations. For example, it's not uncommon for a developer to observe that `"http://some.url.2"` is "always" much slower to respond than `"http://some.url.1"`, perhaps by virtue of what tasks they're doing (e.g., one performing a database task and the other just fetching a static file), so the observed ordering seems to always be as expected. Even if both requests go to the same server, and *it* intentionally responds in a certain order, there's no *real* guarantee of what order the responses will arrive back in the browser.
+**Nota:** Seja extremamente cauteloso em presunções que você tenda a fazer nessas situações. Por exemplo, não é incomum para um desenvolvedor observar que `"http://some.url.2"` é "sempre" mais lento em responder do que `"http://some.url.1"`, talvez pela natureza das tarefas que eles fazem (por exemplo, um fazendo uma consulta em banco, e o outro apenas buscando um arquivo estático), de forma que a ordem observada pareça sempre a esperada. Mesmo se duas requisições vão para o mesmo servidor, e intencionalmente respondam em uma ordem certa, não existe garantia *real* de qual ordem as respostas chegarão de volta no navegador.
 
-So, to address such a race condition, you can coordinate ordering interaction:
+Então para resolver tal condição de corrida, você pode coordenar interação de ordenamento:
 
 ```js
 var res = [];
 
-function response(data) {
-	if (data.url == "http://some.url.1") {
-		res[0] = data;
+function resposta(dado) {
+	if (dado.url == "http://alguma.url.1") {
+		res[0] = dado;
 	}
-	else if (data.url == "http://some.url.2") {
-		res[1] = data;
+	else if (dado.url == "http://alguma.url.2") {
+		res[1] = dado;
 	}
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
 
-Regardless of which Ajax response comes back first, we inspect the `data.url` (assuming one is returned from the server, of course!) to figure out which position the response data should occupy in the `res` array. `res[0]` will always hold the `"http://some.url.1"` results and `res[1]` will always hold the `"http://some.url.2"` results. Through simple coordination, we eliminated the "race condition" nondeterminism.
+Independentemente de qual resposta Ajax voltará primeiro, inspecionamos o `dado.url` (assumindo que seja retornado do servidor, claro!) para descobrirmos qual posição o dado de resposta deve ocupar na array `res`. `res[0]` sempre conterá os resultados de `"http://alguma.url.1"` e `res[1]` sempre conterá os resultados de `"http://alguma.url.2"`. Através de simples coordenação, eliminiamos o indeterminismo da condição de corrida.
 
-The same reasoning from this scenario would apply if multiple concurrent function calls were interacting with each other through the shared DOM, like one updating the contents of a `<div>` and the other updating the style or attributes of the `<div>` (e.g., to make the DOM element visible once it has content). You probably wouldn't want to show the DOM element before it had content, so the coordination must ensure proper ordering interaction.
+A mesma lógica desse cenário se aplicaria se múltiplas chamadas de função concorrente estivessem interagindo entre si através do DOM compartilhado, como uma atualizando o conteúdo de um `<div>` e a outra atualizando o estilo ou atributos do `<div>` (exemplo, tornando o elemento visível uma vez que possua conteúdo). Você provavelmente não iria querer mostrar o elemento do DOM antes de ter conteúdo, então coordenação deve garantir ordem de interação apropriada.
 
-Some concurrency scenarios are *always broken* (not just *sometimes*) without coordinated interaction. Consider:
+Alguns cenários de concorrência são *sempre quebrados* (não apenas *as vezes*) sem interação coordenada. Considere: 
 
 ```js
 var a, b;
@@ -565,9 +557,9 @@ function baz() {
 	console.log(a + b);
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
 In this example, whether `foo()` or `bar()` fires first, it will always cause `baz()` to run too early (either `a` or `b` will still be `undefined`), but the second invocation of `baz()` will work, as both `a` and `b` will be available.
