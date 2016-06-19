@@ -218,7 +218,7 @@ b;              // 42 -- o número!
 
 #### Truthy & Falsy
 
-No Capítulo 1, nós mencionamos a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coagido para um valor `boolean`, ele se torna de fato `true` ou `false`?
+No Capítulo 1, nós mencionamos brevemente a natureza "truthy" e "falsy" dos valores: quando um valor não-`boolean` é coagido para um valor `boolean`, ele se torna de fato `true` ou `false`?
 
 A lista de valores "falsy" em JavaScript é a seguinte:
 
@@ -236,7 +236,7 @@ Qualquer valor que não esteja nessa lista de "falsy", é considerado "truthy". 
 * `{ }`, `{ a: 42 }` (objects)
 * `function foo() { .. }` (functions)
 
-É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coagido para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não estamos.
+É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coagindo para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não estamos.
 
 #### Igualdade
 
@@ -400,7 +400,7 @@ foo();
 
 Note que `c` não está disponível dentro de `bar()`, porque está declarado dentro do escopo de `baz()`, e o `b` não está disponível para `foo()` pelo mesmo motivo.
 
-Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro (caso tenha declarado "strict mode"). Para isso você precisa ter declarado "strict mode" (veja "Strict Mode"). Vamos dar uma olhada:
+Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro (caso tenha declarado "strict mode", **veja "Strict Mode"**). Vamos dar uma olhada:
 
 ```js
 function foo() {
