@@ -210,7 +210,7 @@ E aqui um exemplo de coerção *implícita*:
 ```js
 var a = "42";
 
-var b = a * 1;  // "42" implicitamente coergido para 42 aqui
+var b = a * 1;  // "42" implicitamente coagido para 42 aqui
 
 a;              // "42"
 b;              // 42 -- o número!
@@ -236,7 +236,7 @@ Qualquer valor que não esteja nessa lista de "falsy", é considerado "truthy". 
 * `{ }`, `{ a: 42 }` (objects)
 * `function foo() { .. }` (functions)
 
-É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coagindo para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coergindo um valor para um `boolean` quando na verdade não estamos.
+É importante lembrar que um valor não-`boolean` segue a coerção como "truthy"/"falsy" apenas se ele for coagindo para `boolean`. Não é difícil se confundir com uma situação onde parece que estamos coagindo um valor para um `boolean` quando na verdade não estamos.
 
 #### Igualdade
 
@@ -254,7 +254,7 @@ a == b;         // true
 a === b;        // false
 ```
 
-Na comparação `a == b`, o JS percebe que os tipos não combinam, então ele segue uma sequência de etapas para coergir um ou ambos os valores para um tipo diferente até que os tipos combinem, de forma que um valor de igualdade simples possa ser considerado.
+Na comparação `a == b`, o JS percebe que os tipos não combinam, então ele segue uma sequência de etapas para coagir um ou ambos os valores para um tipo diferente até que os tipos combinem, de forma que um valor de igualdade simples possa ser considerado.
 
 Se você pensar sobre isso, não existem dois modos possíveis onde `a == b` possa dar `true` por coerção. Ou a comparação por se dar por `42 == 42` ou ela pode ser `"42" == "42"`. Sendo assim, qual das duas é a correta?
 
