@@ -70,7 +70,7 @@ Esta técnica garante o acesso a uma variável global que não poderia ser acess
 
 Não importa o *local* onde uma função é invocada, ou até mesmo *como* é invocada, seu escopo léxico será definido **apenas** pelo local onde a função foi declarada.
 
-O processo de consulta ao escopo léxico ocorre *apenas" em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso à propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
+O processo de consulta ao escopo léxico ocorre *apenas* em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso à propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
 
 ## Trapaceando o Léxico
 
@@ -194,7 +194,7 @@ Enquanto a função `eval(..)` pode modificar o escopo léxico ao receber uma st
 
 Entendido desta forma, o "escopo" declarado pela instrução `with` quando passamos `o1` era `o1`, e aquele "escopo" possuía um "identificador" que correspondia à propriedade `o1.a`. Mas quando utilizamos `o2` como "escopo", este não possuía um "identificador" `a`, então se aplicam as regras normais de uma busca LHS (veja o Capítulo 1).
 
-O identificador `a` não pode ser achado no escopo de `o2`, no escopo de `foo(...) nem no escopo global, então quando `a = 2` é executado, resulta na criação da variável global, já que não estamos em Modo estrito (strict mode).
+O identificador `a` não pode ser achado no escopo de `o2`, no escopo de `foo(...)`, nem no escopo global, então quando `a = 2` é executado, resulta na criação da variável global, já que não estamos em Modo estrito (strict mode).
 
 É um pouco alucinante pernsarmos no bloco `with` tornando, em tempo de execução, um objeto e suas propriedades em um "escopo" *com* "identificadores". Mas é a forma mais clara que eu tenho para apresentar os resultados que vemos.
 
