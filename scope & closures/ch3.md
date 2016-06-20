@@ -1,103 +1,103 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 3: Function vs. Block Scope
+# You Don't Know JS: Escopos e Clausuras
+# Capítulo 3: Escopo de função vs. Bloco de escopo
 
-As we explored in Chapter 2, scope consists of a series of "bubbles" that each act as a container or bucket, in which identifiers (variables, functions) are declared. These bubbles nest neatly inside each other, and this nesting is defined at author-time.
+Conforme exploramos no Capítulo 2, o escopo consiste em uma série de "bolhas" que atuam como recipientes nos quais identificadores (variáveis, funções) são declarados. Estas bolhas aninham-se umas às outras de forma muito organizada, e este aninhamento é definido durante a escrita do código.
 
-But what exactly makes a new bubble? Is it only the function? Can other structures in JavaScript create bubbles of scope?
+Mas o que exatamente faz estas bolhas? Seriam apenas as funções? Ou teríamos outras estruturas em JavaScript para criar bolhas de escopo?
 
-## Scope From Functions
+## Escopo a partir de funções
 
-The most common answer to those questions is that JavaScript has function-based scope. That is, each function you declare creates a bubble for itself, but no other structures create their own scope bubbles. As we'll see in just a little bit, this is not quite true.
+A resposta mais comum para estas perguntas é que JavaScript possui escopo baseado em funções. Isto é, cada função que você declara cria uma bolha para si, mas nenhuma outra estrutura cria suas próprias bolhas de escopo. Conforme veremos em breve, isso não é bem a verdade.
 
-But first, let's explore function scope and its implications.
+Mas primeiro vamos explorar o escopo de funções e suas consequências.
 
-Consider this code:
+Considere este código:
 
 ```js
 function foo(a) {
 	var b = 2;
 
-	// some code
+	// algum código
 
 	function bar() {
 		// ...
 	}
 
-	// more code
+	// mais código
 
 	var c = 3;
 }
 ```
 
-In this snippet, the scope bubble for `foo(..)` includes identifiers `a`, `b`, `c` and `bar`. **It doesn't matter** *where* in the scope a declaration appears, the variable or function belongs to the containing scope bubble, regardless. We'll explore how exactly *that* works in the next chapter.
+Neste trecho, a bolha de escopo de `foo(..)` inclui os identificadores `a`, `b`, `c` e `bar`. **Não importa** *onde* a declaração aparece dentro do escopo, a variável ou função pertence à bolha de escopo onde está inserida, independente de qualquer coisa. Vamos explorar no próximo capítulo como exatamente *isso* acontece.
 
-`bar(..)` has its own scope bubble. So does the global scope, which has just one identifier attached to it: `foo`.
+`bar(..)` tem sua própria bolha de escopo. Assim como o escopo global, que possui apenas um identificador: `foo`.
 
-Because `a`, `b`, `c`, and `bar` all belong to the scope bubble of `foo(..)`, they are not accessible outside of `foo(..)`. That is, the following code would all result in `ReferenceError` errors, as the identifiers are not available to the global scope:
+Pelo fato de `a`, `b`, `c` e `bar` pertencerem à bolha de escopo de `foo(..)`, elas não estão acessíveis fora de `foo(..)`. Isto é, o código a seguir resultará em um erro `ReferenceError`, visto que os identificadores não ficam disponíveis para o escopo global:
 
 ```js
-bar(); // fails
+bar(); // vai falhar
 
-console.log( a, b, c ); // all 3 fail
+console.log( a, b, c ); // as três falham
 ```
 
-However, all these identifiers (`a`, `b`, `c`, `foo`, and `bar`) are accessible *inside* of `foo(..)`, and indeed also available inside of `bar(..)` (assuming there are no shadow identifier declarations inside `bar(..)`).
+Porém, todos estes identificadores (`a`, `b`, `c`, `foo` e `bar`) podem ser acessados *dentro* de `foo(..)`, assim como também ficam disponíveis dentro de `bar(..)` (partindo do princípio que não foram sombreados por identificadores declarados dentro de `bar(..)`).
 
-Function scope encourages the idea that all variables belong to the function, and can be used and reused throughout the entirety of the function (and indeed, accessible even to nested scopes). This design approach can be quite useful, and certainly can make full use of the "dynamic" nature of JavaScript variables to take on values of different types as needed.
+Escopo de função encoraja a ideia de que todas as variáveis pertencem à função e podem ser usadas e reutilizadas por toda sua extensão (e, de fato, acessíveis inclusive para escopos aninhados). Esta abordagem de projeto pode ser muito útil e certamente pode aproveitar por completo a natureza "dinâmica" das variáveis JavaScript ao receber valores de diferentes tipos quando necessário.
 
-On the other hand, if you don't take careful precautions, variables existing across the entirety of a scope can lead to some unexpected pitfalls.
+Por outro lado, se você não toma algumas medidas de precaução, variáveis que existem por toda a extensão de um determinado escopo podem se transformar em armadilhas inesperadas.
 
-## Hiding In Plain Scope
+## Escondendo-se em pleno escopo
 
-The traditional way of thinking about functions is that you declare a function, and then add code inside it. But the inverse thinking is equally powerful and useful: take any arbitrary section of code you've written, and wrap a function declaration around it, which in effect "hides" the code.
+A forma tradicional de pensarmos sobre funções é que você as declara e então adiciona código dentro dela. Mas o pensamento inverso é igualmente poderoso e útil: pegue um trecho qualquer de código que você escreveu e envolva uma declaração de funcão ao seu redor, isso acaba por "esconder" este código.
 
-The practical result is to create a scope bubble around the code in question, which means that any declarations (variable or function) in that code will now be tied to the scope of the new wrapping function, rather than the previously enclosing scope. In other words, you can "hide" variables and functions by enclosing them in the scope of a function.
+O resultado prático é a criação de uma bolha de escopo ao redor do código em questão, o que significa que quaquer declaração (de variáveis ou funções) neste código estará atrelada ao escopo da nova função que a envolve em vez do escopo que a envolvia anteriormente. Em outras palavras, você pode "esconder" variáveis e funções ao envolvê-las no escopo de uma função.
 
-Why would "hiding" variables and functions be a useful technique?
+Mas por que "ocultar" variáveis e funções seria uma técnica útil?
 
-There's a variety of reasons motivating this scope-based hiding. They tend to arise from the software design principle "Principle of Least Privilege" [^note-leastprivilege], also sometimes called "Least Authority" or "Least Exposure". This principle states that in the design of software, such as the API for a module/object, you should expose only what is minimally necessary, and "hide" everything else.
+Existem uma série de fatores que motivam este ocultamento baseado em escopo. Eles tendem a surgir de um princípio de projeto de software chamado "Princípio do privilégio mínimo" [^note-leastprivilege], também chamado de (Princípio da) "Menor autoridade" ou "Exposição mínima". Este princípio define que, no projeto de determinado software, como por exemplo a API de um módulo/objeto, você deve expôr somente o mínimo necessário e "esconder" todo o resto.
 
-This principle extends to the choice of which scope to contain variables and functions. If all variables and functions were in the global scope, they would of course be accessible to any nested scope. But this would violate the "Least..." principle in that you are (likely) exposing many variables or functions which you should otherwise keep private, as proper use of the code would discourage access to those variables/functions.
+Este princípio se estende à escolha de qual escopo deve conter determina variável ou função. Se todas as variáveis e funções estivessem disponíveis no escopo global, elas certamente poderiam ser acessadas por qualquer escopo aninhado. Mas isto violaria o "Princípio" pelo fato de você (provavelmente) estar expondo muitas variáveis e funções que deveriam ser mantidas ocultas, visto que um uso mais adequado para este código poderia desencorajar a utilização destas variáveis/funções.
 
-For example:
+Por exemplo:
 
 ```js
-function doSomething(a) {
-	b = a + doSomethingElse( a * 2 );
+function fazerAlgo(a) {
+	b = a + fazerOutraCoisa( a * 2 );
 
 	console.log( b * 3 );
 }
 
-function doSomethingElse(a) {
+function fazerOutraCoisa(a) {
 	return a - 1;
 }
 
 var b;
 
-doSomething( 2 ); // 15
+fazerAlgo( 2 ); // 15
 ```
 
-In this snippet, the `b` variable and the `doSomethingElse(..)` function are likely "private" details of how `doSomething(..)` does its job. Giving the enclosing scope "access" to `b` and `doSomethingElse(..)` is not only unnecessary but also possibly "dangerous", in that they may be used in unexpected ways, intentionally or not, and this may violate pre-condition assumptions of `doSomething(..)`.
+Neste trecho, a variável `b` e a função `fazerOutraCoisa(..)` são detalhes "privados" de como `fazerAlgo(..)` faz seu trabalho. Dar "acesso" à `b` e `fazerOutraCoisa(..)` para o escopo superior não só é desnecessário mas também posivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `fazerAlgo(..)`.
 
-A more "proper" design would hide these private details inside the scope of `doSomething(..)`, such as:
+Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `fazerAlgo(..)`, como por exemplo:
 
 ```js
-function doSomething(a) {
-	function doSomethingElse(a) {
+function fazerAlgo(a) {
+	function fazerOutraCoisa(a) {
 		return a - 1;
 	}
 
 	var b;
 
-	b = a + doSomethingElse( a * 2 );
+	b = a + fazerOutraCoisa( a * 2 );
 
 	console.log( (b * 3) );
 }
 
-doSomething( 2 ); // 15
+fazerAlgo( 2 ); // 15
 ```
 
-Now, `b` and `doSomethingElse(..)` are not accessible to any outside influence, instead controlled only by `doSomething(..)`. The functionality and end-result has not been affected, but the design keeps private details private, which is usually considered better software.
+Agora, `b` e `fazerOutraCoisa(..)` não estão sujeitas a nenhuma influência externa, sendo controladas apenas por `fazerAlgo(..)`. A funcionalidade e o resultado final não foram afetados, mas o projeto manteve oculto os detalhes privados, o que normalmente é considerado como um software de melhor qualidade.
 
 ### Collision Avoidance
 
