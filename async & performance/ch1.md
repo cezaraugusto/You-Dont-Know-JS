@@ -656,87 +656,87 @@ Não existe nenhuma virtude em chegar na segunda posição!
 
 ### Cooperação
 
-Outra expressão de coordenação de concorrência é chamada "concorrência cooperativa". Aqui, o foco não é tanto interagir compartilhando valores no escopo (apenas de ser obviamente permitido!). O objetivo é pegar um "processo" e quebrá-lo em passos ou fornadas para que outros "processos" concorrentes tenham a chance de intercalar suas operações no loop de eventos.
+Outra expressão de coordenação de concorrência é chamada "concorrência cooperativa". Aqui, o foco não é tanto interagir compartilhando valores no escopo (apenas de ser obviamente permitido!). O objetivo é pegar um "processo" e quebrá-lo em passos ou fornadas para que outros "processos" concorrentes tenham a chance de intercalar suas operações na fila do Loop de Eventos.
 
-Another expression of concurrency coordination is called "cooperative concurrency." Here, the focus isn't so much on interacting via value sharing in scopes (though that's obviously still allowed!). The goal is to take a long-running "process" and break it up into steps or batches so that other concurrent "processes" have a chance to interleave their operations into the event loop queue.
-
-For example, consider an Ajax response handler that needs to run through a long list of results to transform the values. We'll use `Array#map(..)` to keep the code shorter:
+Por exemplo, considere uma função de callback (retorno) que precise vasculhar uma longa lista de resultados para transformar seus valores. Usaremos `Array#map` para manter o código curto:
 
 ```js
 var res = [];
 
-// `response(..)` receives array of results from the Ajax call
-function response(data) {
-	// add onto existing `res` array
+// `resposta(..)` recebe uma array de resultados da chamada do Ajax
+function resposta(dados) {
+	// adiciona na array `res` já existente
 	res = res.concat(
-		// make a new transformed array with all `data` values doubled
-		data.map( function(val){
+		// cria uma nova array transformada com todos os dados `dados` dobrados
+		dados.map( function(val){
 			return val * 2;
 		} )
 	);
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
 
-If `"http://some.url.1"` gets its results back first, the entire list will be mapped into `res` all at once. If it's a few thousand or less records, this is not generally a big deal. But if it's say 10 million records, that can take a while to run (several seconds on a powerful laptop, much longer on a mobile device, etc.).
+Se `"http://alguma.url.1"` recebe seu resultado primeiro, a lista inteira será mapeada dentro de `res` de uma vez. Se possuir poucos milhares ou menos registros, em geral não é um problema. Mas se digamos, possua 10 milhões de registros, isso pode demorar um pouco para executar (diversos segundos em um laptop poderoso, ainda mais em um dispositivo móvel, etc).
 
-While such a "process" is running, nothing else in the page can happen, including no other `response(..)` calls, no UI updates, not even user events like scrolling, typing, button clicking, and the like. That's pretty painful.
+Quando tal "processo" executa, nada mais pode acontecer na página, incluindo outras chamadas à `response(..)`, sem atualizações na UI, nem mesmo eventos como rolamento, digitação, cliques e similares. Isso é bem doloroso.
 
-So, to make a more cooperatively concurrent system, one that's friendlier and doesn't hog the event loop queue, you can process these results in asynchronous batches, after each one "yielding" back to the event loop to let other waiting events happen.
+Então, para fazer um sistema de concorrência mais cooperativo, um que seja mais amigável e não monopolize a fila do loop de eventos, você pode processar os resultados em fornadas assíncronas, uma após a outra de volta ao loop de eventos para dar a vez para outros eventos acontecerem.
 
-Here's a very simple approach:
+Uma solução bem simples:
 
 ```js
 var res = [];
 
-// `response(..)` receives array of results from the Ajax call
-function response(data) {
-	// let's just do 1000 at a time
-	var chunk = data.splice( 0, 1000 );
+// `resposta(..)` recebe uma array de resultados da chamada Ajax
+function resposta(dados) {
+	// vamos fazer apenas 1000 por vez
+	var chunk = dados.splice( 0, 1000 );
 
-	// add onto existing `res` array
+	// adiciona a array `res` existente
 	res = res.concat(
-		// make a new transformed array with all `chunk` values doubled
+		// cria uma uma nova array transformada com todos os valores `chunk` dobrados
 		chunk.map( function(val){
 			return val * 2;
 		} )
 	);
 
-	// anything left to process?
-	if (data.length > 0) {
-		// async schedule next batch
+	// ainda falta processar algo?
+	if (dados.length > 0) {
+	        // agenda a próxima fornada
 		setTimeout( function(){
-			response( data );
+			resposta( dados );
 		}, 0 );
 	}
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
+Processamos o conjunto de dados em pedaços com um tamanho máximo de 1.000 itens. Dessa maneira, garantimos um processo de execução curta, mesmo que isso signifique mais "processos" subsequentes, ao passo que a alternância na fila do loop de eventos vai nos dar um site/app muito mais responsivo. 
 
-We process the data set in maximum-sized chunks of 1,000 items. By doing so, we ensure a short-running "process," even if that means many more subsequent "processes," as the interleaving onto the event loop queue will give us a much more responsive (performant) site/app.
+Claro, não estamos coordenando a interação do ordenamento de nenhum deses "processos", então a ordem dos resultados em `res` não será previsível. Se ordenamento fosse necessário, você precisaria usar técnicas de interação como aquelas mencionadas antes, ou algumas que cobriremos nos próximos capítulos deste livro.
 
-Of course, we're not interaction-coordinating the ordering of any of these "processes," so the order of results in `res` won't be predictable. If ordering was required, you'd need to use interaction techniques like those we discussed earlier, or ones we will cover in later chapters of this book.
+Nós usaremos o `setTimeout(..0)` (hack) para agendamento assíncrono, que basicamente significa apenas "coloque essa função no fim da fila atual do loop de eventos".
 
-We use the `setTimeout(..0)` (hack) for async scheduling, which basically just means "stick this function at the end of the current event loop queue."
+**Nota:** `setTimeout(..0)` não é tecnicamente inserir um item diretamente dentro da da fila do loop de eventos. O temporizador vai inserir o evento na próxima oportunidade. Por exemplo, duas chamadas `setTimeout(..0)` subsequentes não serão necessariamente processadas em ordem de chamada, então *é* possível ver varias condições estilo timer onde a ordem de tais eventos não é previsível. Em Node.js, uma solução mais simples é `process.nextTick(..)`. Apesar de quão conveniente (e usualmente mais rápido) seja, não existe uma única direção (ao menos até então) através de todos os ambientes para garantir ordenamento de eventos assíncronos. Cobriremos esse tópico em mais detalhe na próxima seção.
 
-**Note:** `setTimeout(..0)` is not technically inserting an item directly onto the event loop queue. The timer will insert the event at its next opportunity. For example, two subsequent `setTimeout(..0)` calls would not be strictly guaranteed to be processed in call order, so it *is* possible to see various conditions like timer drift where the ordering of such events isn't predictable. In Node.js, a similar approach is `process.nextTick(..)`. Despite how convenient (and usually more performant) it would be, there's not a single direct way (at least yet) across all environments to ensure async event ordering. We cover this topic in more detail in the next section.
+## Fila de Tarefas
 
-## Jobs
+A partir do ES6, existe um novo conceito coberto no topo da fila do event loop, chamada fila de tarefas ("job queue"). A exposição mais provável que você terá com ela é com o comportamento assíncrono das Promises (veja o capítulo 3).
 
-As of ES6, there's a new concept layered on top of the event loop queue, called the "Job queue." The most likely exposure you'll have to it is with the asynchronous behavior of Promises (see Chapter 3).
+Infelizmente, no momento é apenas um mecanismo sem um API exposto, e assim demonstrando que é um pouco mais enrolado. Então iremos ter que apenas descrevê-la conceitualmente, para que quando discutamos comportamento assíncrono com Promises no capítulo 3, você entenderá como essas ações estão sendo agendadas e processadas.
 
-Unfortunately, at the moment it's a mechanism without an exposed API, and thus demonstrating it is a bit more convoluted. So we're going to have to just describe it conceptually, such that when we discuss async behavior with Promises in Chapter 3, you'll understand how those actions are being scheduled and processed.
+Então, a melhor maneira de se pensar sobre isso que eu achei é que a "fila de tarefas" é uma fila pendurada no fim de todo tique na fila do event loop. Algumas ações presumidamente implícitas que podem ocorrer durante um tique não causarão a adição de um novo evento completo na fila do event loop, mas vão ao invés disso adicionar um item (também conhecido como tarefa) ao fim do tique atual na fila de tarefas.
 
-So, the best way to think about this that I've found is that the "Job queue" is a queue hanging off the end of every tick in the event loop queue. Certain async-implied actions that may occur during a tick of the event loop will not cause a whole new event to be added to the event loop queue, but will instead add an item (aka Job) to the end of the current tick's Job queue.
+É meio como dizer "oh, aqui está essa outra coisa que eu preciso fazer *depois*, mas garanta que aconteça logo antes do que qualquer outra coisa possa acontecer".
 
-It's kinda like saying, "oh, here's this other thing I need to do *later*, but make sure it happens right away before anything else can happen."
+Ou usando uma metáfora: a fila do event loop é como um carrinho no parque de diversões, onde toda vez que você termina a corrida, você tem que voltar para o fim da fila para brincar de novo. Mas a fila de tarefas é como terminar a corrida, mas cortar a fila e entrar novamente.
 
+<hr>
 Or, to use a metaphor: the event loop queue is like an amusement park ride, where once you finish the ride, you have to go to the back of the line to ride again. But the Job queue is like finishing the ride, but then cutting in line and getting right back on.
 
 A Job can also cause more Jobs to be added to the end of the same queue. So, it's theoretically possible that a Job "loop" (a Job that keeps adding another Job, etc.) could spin indefinitely, thus starving the program of the ability to move on to the next event loop tick. This would conceptually be almost the same as just expressing a long-running or infinite loop (like `while (true) ..`) in your code.
