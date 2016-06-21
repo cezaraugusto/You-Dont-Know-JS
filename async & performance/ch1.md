@@ -561,10 +561,9 @@ function baz() {
 ajax( "http://alguma.url.1", foo );
 ajax( "http://alguma.url.2", bar );
 ```
+Nesse exemplo, seja `foo()` ou `bar()` que execute primeiro, sempre fará com que `baz()` seja executado muito cedo (`a` ou `b` ainda serão `undefined`), mas a segunda invocação de `baz()` funcionará, já que ambos `a` e `b` estarão disponíveis.
 
-In this example, whether `foo()` or `bar()` fires first, it will always cause `baz()` to run too early (either `a` or `b` will still be `undefined`), but the second invocation of `baz()` will work, as both `a` and `b` will be available.
-
-There are different ways to address such a condition. Here's one simple way:
+Existem maneiras diferentes de endereçar essa confição. Aqui vai uma simples:
 
 ```js
 var a, b;
@@ -587,16 +586,16 @@ function baz() {
 	console.log( a + b );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-The `if (a && b)` conditional around the `baz()` call is traditionally called a "gate," because we're not sure what order `a` and `b` will arrive, but we wait for both of them to get there before we proceed to open the gate (call `baz()`).
+O condicional `if (a && b)` ao redor da chamada de `baz()` é tradicionalmente chamado de "portão", por que não sabemos em qual ordem `a` e `b` chegarão, mas esperamos por ambos chegarem lá antes de precedermos a abrir o portão (chamado `baz()`).
 
-Another concurrency interaction condition you may run into is sometimes called a "race," but more correctly called a "latch." It's characterized by "only the first one wins" behavior. Here, nondeterminism is acceptable, in that you are explicitly saying it's OK for the "race" to the finish line to have only one winner.
+Outra condição de interação de concorrência que você pode se deparar é as vezes chamada de "corrida", mas mais corretamente chamada de "tranca". É caracterizada pelo comportamento "apenas o primeiro ganha". Aqui, indeterminismo é aceitável, e você assume explicitamente sua posição de aceitar que a "corrida" até a linha de chegada possua apenas um vencedor.
 
-Consider this broken code:
+Considere esse código quebrado:
 
 ```js
 var a;
@@ -615,14 +614,14 @@ function baz() {
 	console.log( a );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-Whichever one (`foo()` or `bar()`) fires last will not only overwrite the assigned `a` value from the other, but it will also duplicate the call to `baz()` (likely undesired).
+Qualquer dos dois (`foo()` ou `bar()`) que executar por último, não sobrescreverá o valor atribuído de `a` do outro, mas também duplicara a chamada (provavelmente indesejeada) à `baz()`.
 
-So, we can coordinate the interaction with a simple latch, to let only the first one through:
+Então, podemos coordenar a interação com uma simples tranca, que permitirá que apenas o primeiro passe:
 
 ```js
 var a;
@@ -645,16 +644,19 @@ function baz() {
 	console.log( a );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-The `if (a == undefined)` conditional allows only the first of `foo()` or `bar()` through, and the second (and indeed any subsequent) calls would just be ignored. There's just no virtue in coming in second place!
+O condicional `if (a == undefined)` permite apenas que o primeiro entre  `foo()` ou `bar()` passe, ignorando a segunda chamada (muito menos qualquer outra subsequente). 
+Não existe nenhuma virtude em chegar na segunda posição!
 
-**Note:** In all these scenarios, we've been using global variables for simplistic illustration purposes, but there's nothing about our reasoning here that requires it. As long as the functions in question can access the variables (via scope), they'll work as intended. Relying on lexically scoped variables (see the *Scope & Closures* title of this book series), and in fact global variables as in these examples, is one obvious downside to these forms of concurrency coordination. As we go through the next few chapters, we'll see other ways of coordination that are much cleaner in that respect.
+**Nota:** Em todos esses cenários, usamos as variáveis globais por motivos de ilustração simples, mas não tem nada sobre a nossa lógica que as requer. Enquanto as funções em questão podem acessar as variáveis (através do escopo), elas funcionarão como desejadas. Depender de variáveis escopadas lexicamente (veja o título *Scope & Closures* dessa série de livros), e de variáveis globais como nestes exemplos, é um aspecto negativo desses métodos de coordenação de concorrência. Ao avançarmos nos próximos capítulos, veremos outros métodos de coordenação que são muito mais limpos nesse aspecto.
 
-### Cooperation
+### Cooperação
+
+Outra expressão de coordenação de concorrência é chamada "concorrência cooperativa". Aqui, o foco não é tanto interagir compartilhando valores no escopo (apenas de ser obviamente permitido!). O objetivo é pegar um "processo" e quebrá-lo em passos ou fornadas para que outros "processos" concorrentes tenham a chance de intercalar suas operações no loop de eventos.
 
 Another expression of concurrency coordination is called "cooperative concurrency." Here, the focus isn't so much on interacting via value sharing in scopes (though that's obviously still allowed!). The goal is to take a long-running "process" and break it up into steps or batches so that other concurrent "processes" have a chance to interleave their operations into the event loop queue.
 
