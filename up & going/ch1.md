@@ -7,9 +7,9 @@ Bem vindo à série *You Don't Know JS* (*YDKJS*).
 
 Esse livro começa explicando os princípios básicos de programação em uma camada mais alta. É mais indicado se você está começando *YDKJS* com pouca ou nenhuma experiência anterior com programação, e está procurando nesses livros uma ajuda para começar na longa jornada de entender como programar através da visão do JavaScript.
 
-O Capítulo 1 deve ser abordado como uma visão geral de coisas que você irá querer aprender e praticar mais para *iniciar na programação*.Existem também outros recursos para entende melhor essa introdução à programação e eu encorajo você a aprender através deles em adição à este capítulo.
+O Capítulo 1 deve ser abordado como uma visão geral de coisas que você irá querer aprender e praticar mais para *iniciar na programação*.Existem também outros recursos para entender melhor essa introdução à programação e eu encorajo você a aprender através deles em adição à este capítulo.
 
-Uma vez que você se sentir confortável com os básico da programação, o Capítulo 2 irá te familiarizar com o modo de programar com JavaScript. O Capítulo 2 faz uma introdução sobre do que o JavaScript é capaz, mas novamente, ele não é um guia compreensivo -- esse é a finalidade do resto da série *YDKJS*!
+Uma vez que você se sentir confortável com os conceitos básicos da programação, o Capítulo 2 irá te familiarizar com o modo de programar com JavaScript. O Capítulo 2 faz uma introdução sobre do que o JavaScript é capaz, mas novamente, ele não é um guia compreensivo -- esse é a finalidade do resto da série *YDKJS*!
 
 Se você já se sente confortável com JavaScript, dê uma olhada no Capítulo 3 como uma breve visão do que esperar com *YDKJS*, e caia de cabeça!
 
@@ -29,7 +29,7 @@ Em linguagens de computação, um grupo de palavras, números e operadores que r
 a = b * 2;
 ```
 
-Os caracteres `a` e `b` são chamados *variáveis* (veja "Variáveis"), que são recipientes que você pode armazenar qualquer coisa dentro. Em programas, variáveis detém valores (como o número `42`) que serão utilizados pelo programa. Pense neles como nomes simbólicos para chamarmos os valores.
+Os caracteres `a` e `b` são chamados *variáveis* (veja "Variáveis"), que são recipientes em que você pode armazenar qualquer coisa dentro. Em programas, variáveis detém valores (como o número `42`) que serão utilizados pelo programa. Pense neles como nomes simbólicos para chamarmos os valores.
 
 Em contrapartida, o `2` é apenas um valor, chamado *valor literal*, por que é apresentado sozinho, sem estar armazenado em uma variável.
 
@@ -55,7 +55,7 @@ Essa instrução tem quatro expressões dentro dela:
 
 * `2` é uma *expressão de valor literal*
 * `b` é uma *expressão de valor variável*, que significa que ela armazena seu valor atual
-* `b * 2` é uma *expressão aritmética*, que significa excecute a multiplicação
+* `b * 2` é uma *expressão aritmética*, que significa execute a multiplicação
 * `a = b * 2` é uma *expressão de atribuição*, que significa designar o resultado da expressão `b * 2` para a variável `a` (mais instruções depois).
 
 Uma expressão genérica que permanece sozinha é também chamada de *instrução de expressão*, como o exemplo abaixo:
@@ -84,7 +84,7 @@ Para algumas linguagens, essa tradução dos comandos é típicamente feita de c
 Para outras linguagens, a tradução é feita em tempos distintos, chamado *compilamento* do código. Dessa forma, o programa *roda* depois, ou seja: o que está rodando são as instruções prontas, já compiladas. 
 **NT** *Definem uma linguagem compilada.*
 
-Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, a *engine* o JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
+Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, a *engine* do JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
 
 **Nota:** Para mais informações sobre compilação em JavaScript, veja os dois primeiros capítulos do livro desta série *Escopos & Encerramentos*.
 
@@ -122,7 +122,7 @@ Você deve ter suspeitado: essa é exatamente a forma como imprimimos texto (tam
 
 Primeiro, a parte do `log( b )` é usada como uma função de chamada (veja "Funções"). O que está acontecendo é que estamos usando a variável `b` na função para pegar seu valor e imprimir no console.
 
-Depois, a parte do `console.` é uma referência ao objeto onde a função `log(..)`está localizada. Iremos obrir objetos e suas propriedades com mais detalhes no Capítulo 2.
+Depois, a parte do `console.` é uma referência ao objeto onde a função `log(..)`está localizada. Iremos cobrir objetos e suas propriedades com mais detalhes no Capítulo 2.
 
 Outra forma de criar um output que você possa visualizar é rodar a instrução `alert(..)`. Por exemplo:
 
@@ -132,7 +132,7 @@ alert( b );
 
 Se você rodar esse comando, irá perceber que ao invés de imprimir o resultado no console, um popup com o conteúdo da variável `b` e um botão de "OK" irão aparecer. Entretanto, usar `console.log(..)` em geral vai facilitar seu aprendizado e a forma de rodar seus programas, mais do que se estivesse usando o `alert(..)`, porque com o `console.log(..)` você pode expressar mais valores de uma vez sem interromper a interface do navegador.
 
-Para esse livro, iremos  usar sempre o `console.log(..)` para os nossos *outputs*.
+Para esse livro, iremos usar sempre o `console.log(..)` para os nossos *outputs*.
 
 ### Input
 
@@ -154,7 +154,7 @@ O resultado deve ser parecido com a imagem abaixo:
 
 <img src="fig2.png" width="500">
 
-Uma vez que você enviar a informação ao clicar em "OK", observe que o valor que você digitou é armazenado na variável`age`, que nós então fazemos o *output* com `console.log(..)`:
+Uma vez que você enviar a informação ao clicar em "OK", observe que o valor que você digitou é armazenado na variável `age`, que nós então fazemos o *output* com `console.log(..)`:
 
 <img src="fig3.png" width="500">
 
@@ -179,7 +179,7 @@ b = a + 1;
 
 Aqui, atribuimos o valor`2` à variável `a`. Assim, pegamos o valor da variável `a` (ainda `2`), adicionamos `1` a ele, resultando no valor `3`, então armazenamos esse valor na variável `b`.
 
-Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em casa programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja "Variables").
+Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em casa programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja "Variáveis").
 
 Você sempre deve declarar a variável por nome antes de usá-la. Mas você precisa declarar a variável apenas uma vez para cada *escopo* (veja "Escopo"); ela pode ser usada depois quantas vezes forem necessárias. Por exemplo:
 
@@ -211,7 +211,7 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
 
    Esses operadores são usados para expressar instruções condicionais (veja "Condicionais"), como *se* `a` *ou* `b` for verdadeiro.
 
-**Note:** Para muito mais detalhes, e cobertura dos operadores não mencionados aqui, veja mais no Mozilla Developer Network (MDN)'s "Expressions and Operators" (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators).
+**Note:** Para muito mais detalhes, e cobertura dos operadores não mencionados aqui, veja mais no Mozilla Developer Network (MDN)'s "Expressões e Operadores" (https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Guide/Expressions_and_Operators).
 
 ## Valores & Tipos
 
@@ -229,7 +229,7 @@ Essas diferentes representações para valores são chamados *tipos* na terminol
 * Quando você precisar imprimir um valor na tela, você precisará de uma `string` (um ou mais caracteres, palavras, sentenças).
 * Quando você precisar tomar uma decisão em seu programa, você vai precisar de um `boolean` (`true` ou `false`).
 
-Valores que são incluídos diretamente no código fonte são chamados *literais*. literais `string` são sempre envolvidas por aspas duplas `"..."` ou aspas simples (`'...'`) -- a única diferença é a preferência estética. literais `number` e `boolean`  são apresentadas como são (exemplos: `42`, `true`, etc.).
+Valores que são incluídos diretamente no código fonte são chamados *literais*. Literais `string` são sempre envolvidas por aspas duplas `"..."` ou aspas simples (`'...'`) -- a única diferença é a preferência estética. Literais `number` e `boolean` são apresentadas como são (exemplos: `42`, `true`, etc.).
 
 Considere:
 
@@ -245,9 +245,9 @@ false;
 
 Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de programação proverem *arrays*, *objetos*, *funções*, e mais. Iremos cobrir muito mais sobre valores e tipos ao longo desse capítulo e também do próximo.
 
-### coerções entre Tipos
+### Coerções entre Tipos
 
-Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript essa coerção é chamada de "coerção." De maneira similar, se alguém insere uma série caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um numero(`number`).
+Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript isso é chamado de "coerção." De maneira similar, se alguém insere uma série de caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um numero(`number`).
 
 O JavaScript fornece diversas facilidades para forçar a coerção entre *tipos*. Por exemplo:
 
@@ -263,13 +263,13 @@ Usando `Number(..)` (uma função nativa) como demonstrado, estamos realizando u
 
 Um tópico controverso acontece quando você tenta comparar dois valores que ainda não são do mesmo tipo, que requer uma coerção *implícita*.
 
-Quand comparada a string `"99.99"` com o número `99.99`, muitos concordam que elas sejam equivalentes. Mas ele não são exatamente iguais, são? É o mesmo valor em duas representações diferentes, dois *tipos* diferentes. Você poderia dizer que eles são "igualdade nao-estrita", não poderia?
+Quando comparada a string `"99.99"` com o número `99.99`, muitos concordam que elas sejam equivalentes. Mas ele não são exatamente iguais, são? É o mesmo valor em duas representações diferentes, dois *tipos* diferentes. Você poderia dizer que eles são "igualdade nao-estrita", não poderia?
 
 Para te ajudar nessas situações, o JavaScript irá, em alguns casos, *implicitamente* converter os valores para os tipos certos.
 
 Sendo assim, se você usar o operador de igualdade não-estrita `==`  para fazer uma comparação entre `"99.99" == 99.99`, o JavaScript vai converter o lado da mão esquerda `"99.99"` para seu número(`number`) equivalente `99.99`. A comparação então se torna `99.99 == 99.99`, que é claro, é verdadeira (`true`).
 
-Apesar de ter sido feito para te ajudar, coerções implícitas geram confusão se você não teve tempo de aprender as regras que regem seu comportamento. A maioria dos desenvolvedores de JS nunca nunca tiveram, então o sentimento geral é que coerções implícitas são confusas e deixam os programas com bugs inesperados, e os mesmos devem ser evitados. Em alguns casos até o design da linguagem é considerado falho.
+Apesar de ter sido feito para te ajudar, coerções implícitas geram confusão se você não teve tempo de aprender as regras que regem seu comportamento. A maioria dos desenvolvedores de JS nunca tiveram, então o sentimento geral é que coerções implícitas são confusas e deixam os programas com bugs inesperados, e os mesmos devem ser evitados. Em alguns casos até o design da linguagem é considerado falho.
 
 Entretanto, coerções implícitas é um mecanismo que *pode ser aprendido*, e mais ainda *deve ser aprendido* por qualquer um que queira levar a programação em JavaScript a sério. Não apenas as coerções não são confusas, uma vez que aprendidas as regras, como pode fazer os seus programas melhores! Os esforços para aprender valerão a pena.
 
@@ -283,13 +283,13 @@ Uma das lições mais importantes que você pode aprender sobre códigos é que 
 
 Seu computador se importa apenas com código de máquina, uma série de binários, 0s e 1s, que vem da *compilação*. Existe uma infinidade de programas que você pode escrever que produzem as mesmas séries de 0s e 1s. As escolhas que você faz sobre como programar importam -- não apenas para você, mas para toda a equipe que você está trabalhando e até para você mesmo no futuro.
 
-Você deve se empenhar não apenas em escrever programas que funcionam corretamente, mas programas que fazem sentido ao serem examinados. Você pode percorrer uma boa parte desse caminhinho começando por escolher bons nomes para variáveis (veja "Variáveis") e funções (veja "Funções").
+Você deve se empenhar não apenas em escrever programas que funcionam corretamente, mas programas que fazem sentido ao serem examinados. Você pode percorrer uma boa parte desse caminho começando por escolher bons nomes para variáveis (veja "Variáveis") e funções (veja "Funções").
 
 Uma parte importante do nosso código são os comentários. Eles são blocos de texto no seu programa que são inseridos com o propósito único de explicar coisas a um humano. O interpretador/compilador sempre irá ignorar esses comentários.
 
 Existem diversas opiniões sobre o que faz um código ser bem documentado; não podemos definir regras universais. Entretanto, algumas observações e orientações são bastante úteis:
 
-* Códigos sem comentários não é ideal.
+* Códigos sem comentários não são ideais.
 * Muitos comentários (um por linha, por exemplo) é provavelmente sinal de código mal escrito.
 * Comentários devem explicar *porquê* e não *o quê*. Eles podem opcionalmente explicar *como* se a parte for particularmente confusa.
 
@@ -377,7 +377,7 @@ De qualquer forma, você irá notar que `amount` armazena um valor corrente que 
 
 Em outras palavras, *estado* é o acompanhamento das mudanças dos valores conforme seu programa está rodando.
 
-Outro exemplo comum de como usar uma variável quando você deseja definir as opçoes de valores. Isso é geralmente chamado de *constante*, quando você declara uma variável com um valor e deseja que o valor *não mude* ao longo do programa.
+Outro exemplo comum de como usar uma variável é quando você deseja definir as opçoes de valores. Isso é geralmente chamado de *constante*, quando você declara uma variável com um valor e deseja que o valor *não mude* ao longo do programa.
 
 Você declara essas *constantes* geralmente no início do programa, de forma a se tornar um lugar conveniente de se visitar caso deseje alterar algum valor. Por convenção, variáveis definidas como constantes em JavaSscript são geralmente capitalizadas e separadas por um sublinhado.
 
@@ -396,7 +396,7 @@ console.log( amount );				// 215.9784
 console.log( amount.toFixed( 2 ) );	// "215.98"
 ```
 
-**Nota:** Assim como `console.log(..)` tem a função `log(..)` accessada como uma propriedade do valor do objeto de `console`, `toFixed(..)`é uma função que pode ser acessada para valores `number`. O `number` em JavaScript não é automaticamente formatado para ser o valor de uma moeda -- o sistema não sabe o que se pretende fazer e não existe um tipo específico para moedas. `toFixed(..)` nos deixa especificar quantos valores decimais gostaríamos que o `number` fosse arredondado, e ele produz a `string` como necessário.
+**Nota:** Assim como `console.log(..)` tem a função `log(..)` acessada como uma propriedade do valor do objeto de `console`, `toFixed(..)`é uma função que pode ser acessada para valores `number`. O `number` em JavaScript não é automaticamente formatado para ser o valor de uma moeda -- o sistema não sabe o que se pretende fazer e não existe um tipo específico para moedas. `toFixed(..)` nos deixa especificar quantos valores decimais gostaríamos que o `number` fosse arredondado, e ele produz a `string` como necessário.
 
 A variável `TAX_RATE` só é uma *constante* por convenção -- não existe nada especial nesse programa que não permita que ela seja alterada. Mas se a cidade aumentar o valor das taxas para 9%, nós ainda poderemos atualizar o valor de `TAX_RATE` para `0.09` no mesmo lugar, ao invés de procurar diversas ocorrências do valor `0.08` ao longo do programa e ter que atualizá-los um por um.
 
@@ -421,7 +421,7 @@ Falando nisso, o tipo de "proteção" contra acidentes é similar ao de linguage
 
 A vendedora da loja de celulares precisa seguir uma série de etapas para efetivar a compra do seu novo celular.
 
-De maneira siminar, em código nós muitas vezes precisamos agrupar uma série de instruções, as quais podemos chamar de *blocos*. Em JavaScript, um bloco é definido por englobar uma ou mais instruções dentro de um par de chaves `{ .. }`. Considere:
+De maneira similar, em código nós muitas vezes precisamos agrupar uma série de instruções, as quais podemos chamar de *blocos*. Em JavaScript, um bloco é definido por englobar uma ou mais instruções dentro de um par de chaves `{ .. }`. Considere:
 
 ```js
 var amount = 99.99;
@@ -445,7 +445,7 @@ if (amount > 10) {			// <-- bloco anexado ao `if`
 }
 ```
 
-Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, o bloco `{ .. }`com suas duas intruções é anexado ao `if (amount > 10)`; as instruções dentro do bloco só irão ser processadas se a condicional for aceita.
+Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, o bloco `{ .. }`com suas duas instruções é anexado ao `if (amount > 10)`; as instruções dentro do bloco só irão ser processadas se a condicional for aceita.
 
 **Nota:** Ao contrário da maioria das instruções como `console.log(amount);`, uma instrução de bloco não precisa de um ponto-e-vírgula (`;`) para ser concluída.
 
@@ -462,7 +462,7 @@ var bank_balance = 302.13;
 var amount = 99.99;
 
 if (amount < bank_balance) {
-	console.log( "Quebro comprar esse celular!" );
+	console.log( "Quero comprar esse celular!" );
 }
 ```
 A condicional `if` requer uma expressão entre parênteses `( )` que pode ser definida como verdadeira (`true`) ou falsa (`false`). Nesse programa, declaramos a expressão `amount < bank_balance`, que irá determinar se o valor é `true` ou  `false`, dependendo da quantidade dentro da variável `bank_balance`.
@@ -484,19 +484,19 @@ if ( amount < bank_balance ) {
 }
 // se não pudermos:
 else {
-	console.log( "No, thanks." );
+	console.log( "Não, obrigado." );
 }
 ```
 
 Aqui, se `amount < bank_balance` for `true`, iremos imprimir `"Vou levar este acessório!"` e adicionar `9.99` para a nossa variável `amount`. Ou senão pudermos, a cláusula `else` diz que podemos responder, polidamente, `"Não, obrigado."` e deixar o `amount` inalterado.
 
-Como discutimos em "Valores & Tipos" anteriormente, valores que não são de algum tipo anteriormente definido, geralmente é corgido para o novo tipo. Se a condicional `if` esperar um tipo `boolean`, mas o argumento que você passou for de algum tipo que não seja `boolean`, uma coerção irá acontecer.
+Como discutimos em "Valores & Tipos" anteriormente, valores que não são de algum tipo anteriormente definido, geralmente é coergido para o novo tipo. Se a condicional `if` esperar um tipo `boolean`, mas o argumento que você passou for de algum tipo que não seja `boolean`, uma coerção irá acontecer.
 
 O JavaScript define uma lista de valores específicos que são considerados "falsinhos" porque quando coergido para `boolean`, eles se tornam `false` -- esses valores incluem `0` e `""`. Qualquer outro valor não incluído na lista de  "falsinhos" será automaticamente definido como "verdadeirinho" -- quando coergidos para `boolean` se tornam `true`. Valores verdadeirinhos incluem coisas como `99.99` e `"free"`. Veja "Verdadeirinhos & Falsinhos" no Capítulo 2 para mais informaçoes.
 
 *Condicionais* existem em outras formas além do `if`. Por exemplo, a instrução `switch` pode ser usada como um atalho para uma série de instruções `if..else` (veja o Capítulo 2). Os Loops (veja "Loops") usam uma *condicional* para determinar se um loop deve prosseguir rodando ou parar.
 
-**Nota:** Para conhecer mais afundo sobre coerções que podem ocorrer implicitamente ao testar expressões em *condicionais*, veja o Capítulo 4 do título desta série *Tipos & Gramática*.
+**Nota:** Para conhecer mais a fundo sobre coerções que podem ocorrer implicitamente ao testar expressões em *condicionais*, veja o Capítulo 4 do título desta série *Tipos & Gramática*.
 
 ## Loops
 
@@ -530,7 +530,7 @@ do {
 
 A única diferença prática entre esses dois loops é como a condicional é executada, se antes da primeira iteração (`while`) ou após a primeira iteração (`do..while`).
 
-De qualquer forma, se o teste da condicional retorna falso (`false`), a próxima iteração não irá rodar. Isso significa que se a condição inicial for `false`, um loop `while` nnca irá rodar, mas um loop `do..while` irá rodar apenas a primeira vez.
+De qualquer forma, se o teste da condicional retorna falso (`false`), a próxima iteração não irá rodar. Isso significa que se a condição inicial for `false`, um loop `while` nunca irá rodar, mas um loop `do..while` irá rodar apenas a primeira vez.
 
 Às vezes você está fazendo um loop com a finalidade de contar uma certa quantidade de números, como de `0` à `9` (dez números). Você pode fazer isso definindo uma iteração utilizando uma variável `i` para o valor `0` e ir incrementando `1` para cada iteração.
 
@@ -573,7 +573,7 @@ Como você pôde ver, nos dois casos a condicional `i <= 9` foi verdadeira(`true
 
 O loop `for` tem três instruções: uma atribuição inicial (`var i=0`), um teste condicional (`i <= 9`), e uma atualização (`i = i + 1`). Sendo assim, se o que você pretende fazer com a iteração é uma contagem, `for` é a forma mais compacta e em geral mais fácil de entender e escrever.
 
-Existem outros loops especializados que são designados a iterar sobre valores específicos, como propriedades de um objeto (veja o Capítulo 2) onde a aplicação do teste condicional é saber se todas as propriedades foram processadas. O conceito de "iterar até determinada condição falhar" permanece idependentemente do formato do loop.
+Existem outros loops especializados que são designados a iterar sobre valores específicos, como propriedades de um objeto (veja o Capítulo 2) onde a aplicação do teste condicional é saber se todas as propriedades foram processadas. O conceito de "iterar até determinada condição falhar" permanece independentemente do formato do loop.
 
 ## Funções
 
