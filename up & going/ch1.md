@@ -793,7 +793,7 @@ Eles funcionam como blocos de montar. Para construir uma torre alta, você preci
 * Você precisa de *variáveis* para armazenar informação (conhecido como *estado*) durante a execução de um programa.
 * Você precisa de *condicionais* como `if` para tomar decisões.
 * Você precisa de *loops* para repetir tarefas até uma condição deixar de ser verdadeira (`true`).
-* Você precisa de *funções* (*function*) para organizar seu código de forma lógica e em compotentes reutilizáveis.
+* Você precisa de *funções* (*function*) para organizar seu código de forma lógica e em componentes reutilizáveis.
 
 Comentários no código são uma maneira efetiva de escrever um código mais legível, o que irá fazer seu programa fácil de entender, manter e consertar caso tenha algum problema no futuro.
 
