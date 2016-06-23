@@ -51,7 +51,7 @@ Por outro lado, se você não toma algumas medidas de precaução, variáveis qu
 
 A forma tradicional de pensarmos sobre funções é que você as declara e então adiciona código dentro dela. Mas o pensamento inverso é igualmente poderoso e útil: pegue um trecho qualquer de código que você escreveu e envolva uma declaração de funcão ao seu redor, isso acaba por "esconder" este código.
 
-O resultado prático é a criação de uma bolha de escopo ao redor do código em questão, o que significa que quaquer declaração (de variáveis ou funções) neste código estará atrelada ao escopo da nova função que a envolve em vez do escopo que a envolvia anteriormente. Em outras palavras, você pode "esconder" variáveis e funções ao envolvê-las no escopo de uma função.
+O resultado prático é a criação de uma bolha de escopo ao redor do código em questão, o que significa que qualquer declaração (de variáveis ou funções) neste código estará atrelada ao escopo da nova função que a envolve em vez do escopo que a envolvia anteriormente. Em outras palavras, você pode "esconder" variáveis e funções ao envolvê-las no escopo de uma função.
 
 Mas por que "ocultar" variáveis e funções seria uma técnica útil?
 
@@ -77,7 +77,7 @@ var b;
 fazerAlgo( 2 ); // 15
 ```
 
-Neste trecho, a variável `b` e a função `fazerOutraCoisa(..)` são detalhes "privados" de como `fazerAlgo(..)` faz seu trabalho. Dar "acesso" à `b` e `fazerOutraCoisa(..)` para o escopo superior não só é desnecessário mas também posivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `fazerAlgo(..)`.
+Neste trecho, a variável `b` e a função `fazerOutraCoisa(..)` são detalhes "privados" de como `fazerAlgo(..)` faz seu trabalho. Dar "acesso" à `b` e `fazerOutraCoisa(..)` para o escopo superior não só é desnecessário mas também possivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `fazerAlgo(..)`.
 
 Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `fazerAlgo(..)`, como por exemplo:
 
