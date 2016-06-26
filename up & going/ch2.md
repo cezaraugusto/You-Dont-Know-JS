@@ -51,7 +51,7 @@ O valor que é retornado pelo operador `typeof`é sempre um dos seis (sete com o
 
 Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valor, e apesar de parecer, `typeof a` não está perguntando pelo "tipo de `a`", mas sim pelo "tipo de valor atualmente armazenado em `a`." Apenas valores possuem tipos em JavaScript; variáveis são apenas _containers_ para esses valores.
 
-`typeof null` é um caso interessante, porque erradamente retorna um `"objeto"`, enquanto você espera que ele reetorne `"null"`.
+`typeof null` é um caso interessante, porque erradamente retorna um `"objeto"`, enquanto você espera que ele retorne `"null"`.
 
 **Atenção:** Esse é um bug antigo em JS, mas um do tipo que é provável de nunca ser consertado. Muitos códigos na Web dependem desse bug e portanto consertá-lo iria trazer ainda mais bugs!
 
@@ -178,11 +178,11 @@ Quando você usa um valor primitivo, como "hello world", como um `object` refere
 
 Um valor `string` pode ser englobado por um objeto `String`, um `number` pode ser englobado por um objeto `Number`, e um `boolean` pode ser englobado por um objeto `Boolean`. Para a maioria dos casos, você não precisa se preocupar sobre isso ou usar diretamente essas formas de agregar os valores do objeto -- preferindo a forma de valores primitivos em todos os casos que puder e o JavaScript vai cuidar do resto pra você.
 
-**Nota:** Para mais iformações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
+**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
 
 ### Comparando Valores
 
-Existem dois tipos principais de comparação de valores que você irá preccisar para fazer seus programas em JS: *igualdade* e *desigualdade*. O resultado de qualquer comparação é estritmente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
+Existem dois tipos principais de comparação de valores que você irá precisar para fazer seus programas em JS: *igualdade* e *desigualdade*. O resultado de qualquer comparação é estritamente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
 
 #### Coerção
 
