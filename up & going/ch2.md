@@ -1,5 +1,5 @@
 # You Don't Know JS: Iniciando
-# Chapter 2: Por dentro do JavaScript
+# Capitulo 2: Por dentro do JavaScript
 
 No capítulo anterior, fiz uma introdução básica sobre os blocos construtores da programação, como variáveis, loops, condicionais e funções. Claro, todo o código demonstrado foi em JavaScript. Mas neste capítulo, iremos focar especificamente no que deve ser aprendido em JavaScript para começarmos como um desenvolvedor JS.
 
