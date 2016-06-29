@@ -1,5 +1,5 @@
 # You Don't Know JS: Iniciando
-# Chapter 2: Por dentro do JavaScript
+# Capítulo 2: Por dentro do JavaScript
 
 No capítulo anterior, fiz uma introdução básica sobre os blocos construtores da programação, como variáveis, loops, condicionais e funções. Claro, todo o código demonstrado foi em JavaScript. Mas neste capítulo, iremos focar especificamente no que deve ser aprendido em JavaScript para começarmos como um desenvolvedor JS.
 
@@ -51,7 +51,7 @@ O valor que é retornado pelo operador `typeof`é sempre um dos seis (sete com o
 
 Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valor, e apesar de parecer, `typeof a` não está perguntando pelo "tipo de `a`", mas sim pelo "tipo de valor atualmente armazenado em `a`." Apenas valores possuem tipos em JavaScript; variáveis são apenas _containers_ para esses valores.
 
-`typeof null` é um caso interessante, porque erradamente retorna um `"objeto"`, enquanto você espera que ele reetorne `"null"`.
+`typeof null` é um caso interessante, porque erradamente retorna um `"objeto"`, enquanto você espera que ele retorne `"null"`.
 
 **Atenção:** Esse é um bug antigo em JS, mas um do tipo que é provável de nunca ser consertado. Muitos códigos na Web dependem desse bug e portanto consertá-lo iria trazer ainda mais bugs!
 
@@ -100,7 +100,7 @@ obj[b];         // "hello world"
 obj["b"];       // 42
 ```
 
-**Nota:** Para mais informação sobre objetos (`objects`) em JavaScrip, veja o título desta série *this & Prototipagem de Objetos*, especificamente o Capítulo 3.
+**Nota:** Para mais informação sobre objetos (`objects`) em JavaScript, veja o título desta série *this & Prototipagem de Objetos*, especificamente o Capítulo 3.
 
 Existem outros tipos de valores que você pode facilmente interagir com programas em JavaScript: *array* e *function*. Mas ao invés de serem tipos nativos (built-in), eles devem ser vistos mais como sub-tipos -- versões especializadas do tipo `object`.
 
@@ -178,11 +178,11 @@ Quando você usa um valor primitivo, como "hello world", como um `object` refere
 
 Um valor `string` pode ser englobado por um objeto `String`, um `number` pode ser englobado por um objeto `Number`, e um `boolean` pode ser englobado por um objeto `Boolean`. Para a maioria dos casos, você não precisa se preocupar sobre isso ou usar diretamente essas formas de agregar os valores do objeto -- preferindo a forma de valores primitivos em todos os casos que puder e o JavaScript vai cuidar do resto pra você.
 
-**Nota:** Para mais iformações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
+**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
 
 ### Comparando Valores
 
-Existem dois tipos principais de comparação de valores que você irá preccisar para fazer seus programas em JS: *igualdade* e *desigualdade*. O resultado de qualquer comparação é estritmente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
+Existem dois tipos principais de comparação de valores que você irá precisar para fazer seus programas em JS: *igualdade* e *desigualdade*. O resultado de qualquer comparação é estritamente um valor `boolean` (`true` ou `false`), independente do tipo de valor comparado.
 
 #### Coerção
 
@@ -192,7 +192,7 @@ A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coer�
 
 Você provavelmente ouviu coisas como "coerção é do mau", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
-Coerções não são do mau, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a corção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
+Coerções não são do mau, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
 
 Aqui temos um exemplo de coerção *explícita*:
 
@@ -258,7 +258,7 @@ Na comparação `a == b`, o JS percebe que os tipos não combinam, então ele se
 
 Se você pensar sobre isso, não existem dois modos possíveis onde `a == b` possa dar `true` por coerção. Ou a comparação por se dar por `42 == 42` ou ela pode ser `"42" == "42"`. Sendo assim, qual das duas é a correta?
 
-Resposta: `"42"` se torna `42`, para fazer a comparação `42 == 42`. Nesse exemplo simples, não parece importante saber qual processo será, no final o resultado é o mesmo. Existem casos mais complexos onde não apenas importa qual é o resultado final como *como* foi possível chegar lá.
+Resposta: `"42"` se torna `42`, para fazer a comparação `42 == 42`. Nesse exemplo simples, não parece importante saber qual processo será, no final o resultado é o mesmo. Existem casos mais complexos onde não apenas importa qual é o resultado final *como* foi possível chegar lá.
 
 A igualdade `a === b` produz um resultado `false`, porque a coerção não é permitida, assim obviamente a comparação falha. Muitos desenvolvedores pregam que `===` é mais previsível, permanecendo usando sempre esta forma e ficando longe de `==`. Acho esse ponto de vista limitado. Acredito que `==` é uma ferramenta poderosa que pode ajudar você em seus programas,  *se você se dedicar a aprender como ele funciona.*
 
@@ -292,7 +292,7 @@ a == b;     // false
 
 #### Desigualdade
 
-Os operadores `<`, `>`, `<=`, e `>=` são usados para representar uma desigualdade, sendo referenciados na especificação como "compraradores relacionais". Tipicamente eles são usados para comparar valores ordinários como `number`s. É fácil entender que  `3 < 4`.
+Os operadores `<`, `>`, `<=`, e `>=` são usados para representar uma desigualdade, sendo referenciados na especificação como "comparadores relacionais". Tipicamente eles são usados para comparar valores ordinários como `number`s. É fácil entender que  `3 < 4`.
 
 Mas em JavaScript, valores `string` também podem ser comparados para desigualdade, usando regras alfabéticas (`"bar" < "foo"`).
 
@@ -309,7 +309,7 @@ a < b;      // true
 b < c;      // true
 ```
 
-O que acontece aqui: Na seção 11.8.5, da especificaão do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palasvras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coagidos para serem `number`s, e uma comparação típica de números acontece.
+O que acontece aqui: Na seção 11.8.5, da especificação do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palavras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coagidos para serem `number`s, e uma comparação típica de números acontece.
 
 A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformado em um número válido, como por exemplo:
 
@@ -582,7 +582,7 @@ function foo() {
 }
 ```
 
-Apesar de não parecer óbvio por essa sintaze, `foo` é basicamente apenas uma variável que referencia um escopo por onde é feita a referência para a função (`function`) que está sendo declarada. Isso é, a `function` por si só é um valor, assim como `42` ou `[1,2,3]` podem ser.
+Apesar de não parecer óbvio por essa sintaxe, `foo` é basicamente apenas uma variável que referência um escopo por onde é feita a referência para a função (`function`) que está sendo declarada. Isso é, a `function` por si só é um valor, assim como `42` ou `[1,2,3]` podem ser.
 
 Pode parecer um conceito estranho de primeira, então vamos tirar um tempo para ponderar. Você não apenas pode passar um valor (argumento) *para* a função, mas *a função por conta própria pode ser um valor* que pode ser designado a uma variável, ou, passado para ou retornado por, outras funções.
 
@@ -758,7 +758,7 @@ A função interna `doLogin()` tem um encerramento sobre `username` e `password`
 
 Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe um encerramento (closure) na função `login()` que os mantém vivos.
 
-É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode aessar as variáveis internas `username` e `password`.
+É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode acessar as variáveis internas `username` e `password`.
 
 Existe uma boa chance que com apenas este resumo breve sobre encerramentos e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
@@ -861,7 +861,7 @@ Existem duas técnicas principais que você pode usar para "trazer" as coisas no
 
 A palavras "polyfill" é um termo inventado (por Remy Sharp) (https://remysharp.com/2010/10/08/what-is-a-polyfill) usado para referenciar a definição de uma nova funcionalidade e reproduzir um pedaço de código que é equivalente ao comportamento, mas que pode rodar em ambientes com o JS antigo.
 
-Por exemplo, o ES6 define uma utilidade chamada `Number.isNaN(..)` para prover um check acurado e livre de bugs para valores `NaN`, deixando obsoleto a utlidade original `isNaN(..)`. Mas é fácil criar um polyfill para essa utilidade de forma que você possa usar no seu código independente do usuário final estar usando um navegador com suporte ao ES6 ou não.
+Por exemplo, o ES6 define uma utilidade chamada `Number.isNaN(..)` para prover um check acurado e livre de bugs para valores `NaN`, deixando obsoleto a utilidade original `isNaN(..)`. Mas é fácil criar um polyfill para essa utilidade de forma que você possa usar no seu código independente do usuário final estar usando um navegador com suporte ao ES6 ou não.
 
 Considere:
 
@@ -945,13 +945,13 @@ var el = document.getElementById( "foo" );
 
 A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo mecanismo do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, ma não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
 
-Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegaores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
+Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegadores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
 
 Um outro exemplo é com input/output (I/O).
 
 O favorito de todos, `alert(..)`, *pipoca* uma caixa de mensagem na janela do navegador do usuário. O `alert(..)` é provido para seu programa em JS pelo navegador, não pelo mecanismo do JS propriamente dito. O chamado que você faz envia uma mensagem para os mecanismos internos do navegador que fazem o desenho e enfim mostram a caixa de mensagem.
 
-O mesmo acontece com o `console.log(..)`; seu navegaor provê os devidos mecanismos e colocam-os nas *ferramentas do desenvolvedor*.
+O mesmo acontece com o `console.log(..)`; seu navegador provê os devidos mecanismos e colocam-os nas *ferramentas do desenvolvedor*.
 
 Este livro, e toda esta série, focam na linguagem JavaScript. Esse é o motivo de você não ver nenhuma cobertura substancial desses mecanismos JavaScript não-JavaScript. Independentemente, você precisa estar atento à eles, visto que eles estarão em todo programa em JS que você for escrever!
 
