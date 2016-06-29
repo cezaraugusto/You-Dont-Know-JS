@@ -62,42 +62,42 @@ Este princípio se estende à escolha de qual escopo deve conter determina vari�
 Por exemplo:
 
 ```js
-function fazerAlgo(a) {
-	b = a + fazerOutraCoisa( a * 2 );
+function doSomething(a) {
+	b = a + doSomethingElse( a * 2 );
 
 	console.log( b * 3 );
 }
 
-function fazerOutraCoisa(a) {
+function doSomethingElse(a) {
 	return a - 1;
 }
 
 var b;
 
-fazerAlgo( 2 ); // 15
+doSomething( 2 ); // 15
 ```
 
-Neste trecho, a variável `b` e a função `fazerOutraCoisa(..)` são detalhes "privados" de como `fazerAlgo(..)` faz seu trabalho. Dar "acesso" à `b` e `fazerOutraCoisa(..)` para o escopo superior não só é desnecessário mas também possivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `fazerAlgo(..)`.
+Neste trecho, a variável `b` e a função `doSomethingElse(..)` são detalhes "privados" de como `doSomething(..)` faz seu trabalho. Dar "acesso" à `b` e `doSomethingElse(..)` para o escopo superior não só é desnecessário mas também possivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `doSomething(..)`.
 
-Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `fazerAlgo(..)`, como por exemplo:
+Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `doSomething(..)`, como por exemplo:
 
 ```js
-function fazerAlgo(a) {
-	function fazerOutraCoisa(a) {
+function doSomething(a) {
+	function doSomethingElse(a) {
 		return a - 1;
 	}
 
 	var b;
 
-	b = a + fazerOutraCoisa( a * 2 );
+	b = a + doSomethingElse( a * 2 );
 
 	console.log( (b * 3) );
 }
 
-fazerAlgo( 2 ); // 15
+doSomething( 2 ); // 15
 ```
 
-Agora, `b` e `fazerOutraCoisa(..)` não estão sujeitas a nenhuma influência externa, sendo controladas apenas por `fazerAlgo(..)`. A funcionalidade e o resultado final não foram afetados, mas o projeto manteve oculto os detalhes privados, o que normalmente é considerado como um software de melhor qualidade.
+Agora, `b` e `doSomethingElse(..)` não estão sujeitas a nenhuma influência externa, sendo controladas apenas por `doSomething(..)`. A funcionalidade e o resultado final não foram afetados, mas o projeto manteve oculto os detalhes privados, o que normalmente é considerado como um software de melhor qualidade.
 
 ### Collision Avoidance
 
