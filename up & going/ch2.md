@@ -758,7 +758,7 @@ A função interna `doLogin()` tem um encerramento sobre `username` e `password`
 
 Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe um encerramento (closure) na função `login()` que os mantém vivos.
 
-É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode aessar as variáveis internas `username` e `password`.
+É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode acessar as variáveis internas `username` e `password`.
 
 Existe uma boa chance que com apenas este resumo breve sobre encerramentos e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
@@ -861,7 +861,7 @@ Existem duas técnicas principais que você pode usar para "trazer" as coisas no
 
 A palavras "polyfill" é um termo inventado (por Remy Sharp) (https://remysharp.com/2010/10/08/what-is-a-polyfill) usado para referenciar a definição de uma nova funcionalidade e reproduzir um pedaço de código que é equivalente ao comportamento, mas que pode rodar em ambientes com o JS antigo.
 
-Por exemplo, o ES6 define uma utilidade chamada `Number.isNaN(..)` para prover um check acurado e livre de bugs para valores `NaN`, deixando obsoleto a utlidade original `isNaN(..)`. Mas é fácil criar um polyfill para essa utilidade de forma que você possa usar no seu código independente do usuário final estar usando um navegador com suporte ao ES6 ou não.
+Por exemplo, o ES6 define uma utilidade chamada `Number.isNaN(..)` para prover um check acurado e livre de bugs para valores `NaN`, deixando obsoleto a utilidade original `isNaN(..)`. Mas é fácil criar um polyfill para essa utilidade de forma que você possa usar no seu código independente do usuário final estar usando um navegador com suporte ao ES6 ou não.
 
 Considere:
 
@@ -945,13 +945,13 @@ var el = document.getElementById( "foo" );
 
 A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo mecanismo do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, ma não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
 
-Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegaores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
+Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegadores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
 
 Um outro exemplo é com input/output (I/O).
 
 O favorito de todos, `alert(..)`, *pipoca* uma caixa de mensagem na janela do navegador do usuário. O `alert(..)` é provido para seu programa em JS pelo navegador, não pelo mecanismo do JS propriamente dito. O chamado que você faz envia uma mensagem para os mecanismos internos do navegador que fazem o desenho e enfim mostram a caixa de mensagem.
 
-O mesmo acontece com o `console.log(..)`; seu navegaor provê os devidos mecanismos e colocam-os nas *ferramentas do desenvolvedor*.
+O mesmo acontece com o `console.log(..)`; seu navegador provê os devidos mecanismos e colocam-os nas *ferramentas do desenvolvedor*.
 
 Este livro, e toda esta série, focam na linguagem JavaScript. Esse é o motivo de você não ver nenhuma cobertura substancial desses mecanismos JavaScript não-JavaScript. Independentemente, você precisa estar atento à eles, visto que eles estarão em todo programa em JS que você for escrever!
 
