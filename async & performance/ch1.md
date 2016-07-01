@@ -736,14 +736,11 @@ Então, a melhor maneira de se pensar sobre isso que eu achei é que a "fila de 
 
 Ou usando uma metáfora: a fila do event loop é como um carrinho no parque de diversões, onde toda vez que você termina a corrida, você tem que voltar para o fim da fila para brincar de novo. Mas a fila de tarefas é como terminar a corrida, mas cortar a fila e entrar novamente.
 
-<hr>
-Or, to use a metaphor: the event loop queue is like an amusement park ride, where once you finish the ride, you have to go to the back of the line to ride again. But the Job queue is like finishing the ride, but then cutting in line and getting right back on.
+Uma tarefa também pode fazer com que mais tarefas sejam adicionadas ao fim da mesma fila. Então, é teoricamente possível que um loop de tarefas (uma tarefa que continua adicionando outra, etc) pode girar indefinidamente, assim privando o programa da habilidade de prosseguir para o próximo tique do event loop. Isso seria conceitualmente quase a mesma coisa a expressar um loop infinito (como `while(true)..`) no seu código.
 
-A Job can also cause more Jobs to be added to the end of the same queue. So, it's theoretically possible that a Job "loop" (a Job that keeps adding another Job, etc.) could spin indefinitely, thus starving the program of the ability to move on to the next event loop tick. This would conceptually be almost the same as just expressing a long-running or infinite loop (like `while (true) ..`) in your code.
+Tarefas são como o espírito do hack do `setTimeout(..0)`, mas implementados de uma forma a ter um controle muito mais bem definido e com ordenamento garantido: **depois, mas o mais cedo possível**. 
 
-Jobs are kind of like the spirit of the `setTimeout(..0)` hack, but implemented in such a way as to have a much more well-defined and guaranteed ordering: **later, but as soon as possible**.
-
-Let's imagine an API for scheduling Jobs (directly, without hacks), and call it `schedule(..)`. Consider:
+Vamos imaginar uma API para agendamento de tarefas (diretamente, sem hacks), e chamá-la de `agenda(..)`. Considere:
 
 ```js
 console.log( "A" );
@@ -752,7 +749,7 @@ setTimeout( function(){
 	console.log( "B" );
 }, 0 );
 
-// theoretical "Job API"
+// "API Tarefa" teorético
 schedule( function(){
 	console.log( "C" );
 
