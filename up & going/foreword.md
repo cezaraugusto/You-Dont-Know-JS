@@ -17,4 +17,4 @@ Quanto mais exposto ao JavaScript você está, mais claro ele se torna. Palavras
 
 Jenn Lukas<br>
 [jennlukas.com](http://jennlukas.com/), [@jennlukas](https://twitter.com/jennlukas)<br>
-Consutora Front-end
+Consultora Front-end
