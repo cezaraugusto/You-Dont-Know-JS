@@ -437,7 +437,7 @@ foo();
 
 Por usarmos `let` ao invés de `var`, `b` irá pertencer apenas à instrução `if` e não para todo o escopo da função `foo()`. De maneira similar, `c` pertence somente ao loop `while`. Escopamentos de bloco são muito úteis para controlar seus escopos de variáveis, usando uma maneira requintada, o que faz seu código muito mais fácil de manter ao longo do tempo.
 
-**Nota:** Para mais informações sobre escopos, veja o título desta série *Escopos & Encerramentos*. Veja o título *ES6 & Além* para mais informações sobre o bloco de escopo `let`.
+**Nota:** Para mais informações sobre escopos, veja o título desta série *Escopos & Clausuras*. Veja o título *ES6 & Além* para mais informações sobre o bloco de escopo `let`.
 
 ## Condicionais
 
@@ -604,7 +604,7 @@ A primeira expressão da função designada para a variável `foo` é chamada de
 
 A segunda expressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expresões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
 
-Para mais informações, veja o título desta série *Escopos & Encerramentos*.
+Para mais informações, veja o título desta série *Escopos & Clausuras*.
 
 ### Expressões de Função Invocadas Imediatamente (IIFEs)
 
@@ -664,11 +664,11 @@ x;  // 42
 
 O valor `42` é `return`ado da função nomeada `IIFE`, e depois designada à variável `x`.
 
-### Encerramento
+### Clausura
 
-O *Encerramento* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos e Encerramentos*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
+A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos e Clausuras*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
 
-Você pode pensar em um encerramento como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
+Você pode pensar em uma clausura como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
 
 Considere:
 
@@ -677,7 +677,7 @@ function makeAdder(x) {
     // parâmetro `x` é uma variável interna
 
     // função interna `add()` usa `x`, então
-    // ele tem um "encerramento" que o envolve
+    // ele tem uma "clausura" que o envolve
     function add(y) {
         return y + x;
     };
@@ -689,13 +689,13 @@ function makeAdder(x) {
 A referêcia para a função interna `add(..)`, que faz um retorno com cada chamada para sua função externa `makeAdder(..)` é apta a se lembrar sempre que o valor `x` for passado para `makeAdder(..)`. Agora, vamos usar o  `makeAdder(..)`:
 
 ```js
-// `plusOne` pega a refereência para a função interna add(..)`
-// função com encerramento sobre o parâmetro `x` da
+// `plusOne` pega a referência para a função interna add(..)`
+// função com clausura sobre o parâmetro `x` da
 // função externa `makeAdder(..)`
 var plusOne = makeAdder( 1 );
 
 // `plusTen` pega a referência para a função interna `add(..)`
-// função com encerramento sobre o parâmetro `x` da
+// função com clausura sobre o parâmetro `x` da
 // função externa `makeAdder(..
 var plusTen = makeAdder( 10 );
 
@@ -714,13 +714,13 @@ Mais sobre como esse código funciona:
 
 Não se preocupe se parecer estranho e confuso no começo -- pode ser mesmo! Vai precisar de muita prática para entender completamente.
 
-Mas acredite em mim, uma vez que conseguir entender, vai perceber que é uma das mais poderosa e mais úteis  técnicas em toda linguagem. É definitivamente válido o esforço de deixar seu cérebro acostumado com encerramentos. Na próxima seção, vamos ter um pouco mais de prática com encerramentos.
+Mas acredite em mim, uma vez que conseguir entender, vai perceber que é uma das mais poderosa e mais úteis  técnicas em toda linguagem. É definitivamente válido o esforço de deixar seu cérebro acostumado com clausuras. Na próxima seção, vamos ter um pouco mais de prática com clausuras.
 
 #### Módulos
 
-A forma de uso mais comum de um encerramento (closure) em JavaScript é o padrão módulo (module pattern). Módulos deixam você definir detalhes privados de implementação (variáveis, funções) que estarão escondidas do mundo externo, assim como uma API pública que *é* acessível *de fora*.
+A forma de uso mais comum de um clausura (closure) em JavaScript é o padrão módulo (module pattern). Módulos deixam você definir detalhes privados de implementação (variáveis, funções) que estarão escondidas do mundo externo, assim como uma API pública que *é* acessível *de fora*.
 
-Consider:
+Considere:
 
 ```js
 function User(){
@@ -752,17 +752,17 @@ A função `User()` serve como um escopo externo que mantém as variáveis `user
 
 Executar `User()` cria uma *instância* do módulo `User` -- todo um novo escopo é criado, e assim toda uma nova cópia de cada uma das variáveis/funções internas. Nós designamos essa instância para `fred`. Se nós rodarmos `User()` novamente, teríamos uma nova instância completamente separada do `fred`.
 
-A função interna `doLogin()` tem um encerramento sobre `username` e `password`, significando que ela iria reter seus acessos à eles mesmo após a função `User()` terminar.
+A função interna `doLogin()` tem uma clausura sobre `username` e `password`, significando que ela iria reter seus acessos à eles mesmo após a função `User()` terminar.
 
 `publicAPI` é um objeto com uma propriedade/método nela, o `login`, que é uma referência à função interna `doLogin()`. Quando nós retornamos `publicAPI` de `User()`, ele se torna a instância que chamamos de `fred`.
 
-Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe um encerramento (closure) na função `login()` que os mantém vivos.
+Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe uma clausura (closure) na função `login()` que os mantém vivos.
 
 É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode acessar as variáveis internas `username` e `password`.
 
-Existe uma boa chance que com apenas este resumo breve sobre encerramentos e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
+Existe uma boa chance que com apenas este resumo breve sobre clausuras e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
-Daqui, vá para o título desta série *Escopos e Encerramentos* para uma exploração do assunto muito mais profunda.
+Daqui, vá para o título desta série *Escopos e Clausuras* para uma exploração do assunto muito mais profunda.
 
 ## Identificador `this`
 
@@ -957,7 +957,7 @@ Este livro, e toda esta série, focam na linguagem JavaScript. Esse é o motivo 
 
 ## Revisão
 
-O primeiro passo para aprender o sabor JavaScript de programação é ter um entendimento básico dos mecanismos básicos como valores, tipos, encerramentos de funções, `this` e prototipagem.
+O primeiro passo para aprender o sabor JavaScript de programação é ter um entendimento básico dos mecanismos básicos como valores, tipos, clausuras de funções, `this` e prototipagem.
 
 Claro, cada um desses tópicos merecem uma cobertura muito maior do que você viu aqui, mas é por isso que eles tem capítulos e livros dedicados para eles ao longo desta série de livros. Depois de se sentir confortável com os conceitos e exemplos de código deste capítulo, o resto da série te aguarda para que você se aprofunde na linguagem.
 
