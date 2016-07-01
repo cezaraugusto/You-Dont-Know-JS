@@ -3,7 +3,7 @@
 
 Bem vindo à série *You Don't Know JS* (*YDKJS*).
 
-*Iniciando* é uma introdução à diversos conceitos básicos de programação -- claro que inclinado ao uso do JavaScript (muitas vezes abreviado como JS) especificamente -- e como abordar e entender o resto dos títulos nessa série. Especialmente se você está começando em programação ou JavaScript, esse livro irá, de forma breve, explorar tudo que você precisa saber para *iniciar*. 
+*Iniciando* é uma introdução à diversos conceitos básicos de programação -- claro que inclinado ao uso do JavaScript (muitas vezes abreviado como JS) especificamente -- e como abordar e entender o resto dos títulos nessa série. Especialmente se você está começando em programação ou JavaScript, esse livro irá, de forma breve, explorar tudo que você precisa saber para *iniciar*.
 
 Esse livro começa explicando os princípios básicos de programação em uma camada mais alta. É mais indicado se você está começando *YDKJS* com pouca ou nenhuma experiência anterior com programação, e está procurando nesses livros uma ajuda para começar na longa jornada de entender como programar através da visão do JavaScript.
 
@@ -40,7 +40,7 @@ A maioria das intruões em JavaScript termina com um ponto e vírgula (`;`) no f
 A instrução `a = b * 2;` diz ao computador, grosseiramente falando, para pegar o valor atual dentro da variável `b`, multiplicar esse valor por `2`, depois armazenar o resultado dentro de outra variável, chamada `a`.
 
 Programas são apenas coleções de muitas instruções, que juntas descrevem todas as etapas que são necessárias para cumprir a finalidade do programa.
- 
+
 ### Expressões
 
 Instruções são feitas de uma ou mais *expressões*. Uma expressão é qualquer referência à uma variável ou valor, ou um conjunto de variáveis e valores combinados com operadores.
@@ -78,10 +78,10 @@ Como essas coleções de instruções em programação dizem ao computador o que
 
 Instruções como `a = b * 2` são úteis quando desenvolvedores estão lendo e escrevendo, mas não são numa forma que o computador possa entender. Sendo assim, uma ferramenta especial (tanto um *interpretador* como um *compilador*) é usado para traduzir o código que você escreveu em comandos que o computador possa entender.
 
-Para algumas linguagens, essa tradução dos comandos é típicamente feita de cima para baixo, linha por linha, cada vez que o programa roda. Essas etapas são geralmente chamadas de *interpretação* do código 
+Para algumas linguagens, essa tradução dos comandos é típicamente feita de cima para baixo, linha por linha, cada vez que o programa roda. Essas etapas são geralmente chamadas de *interpretação* do código
 **NT** *definem uma linguagem interpretada.*
 
-Para outras linguagens, a tradução é feita em tempos distintos, chamado *compilamento* do código. Dessa forma, o programa *roda* depois, ou seja: o que está rodando são as instruções prontas, já compiladas. 
+Para outras linguagens, a tradução é feita em tempos distintos, chamado *compilamento* do código. Dessa forma, o programa *roda* depois, ou seja: o que está rodando são as instruções prontas, já compiladas.
 **NT** *Definem uma linguagem compilada.*
 
 Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, a *engine* do JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
@@ -179,7 +179,7 @@ b = a + 1;
 
 Aqui, atribuimos o valor`2` à variável `a`. Assim, pegamos o valor da variável `a` (ainda `2`), adicionamos `1` a ele, resultando no valor `3`, então armazenamos esse valor na variável `b`.
 
-Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em casa programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja "Variáveis").
+Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em cada programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja "Variáveis").
 
 Você sempre deve declarar a variável por nome antes de usá-la. Mas você precisa declarar a variável apenas uma vez para cada *escopo* (veja "Escopo"); ela pode ser usada depois quantas vezes forem necessárias. Por exemplo:
 
@@ -300,7 +300,7 @@ Considere:
 ```js
 // Esse é um comentário de linha simṕles
 
-/* Mas esse é 
+/* Mas esse é
        um comentário
              multi-linhas.
                       */
@@ -433,7 +433,7 @@ var amount = 99.99;
 }
 ```
 
-Essa forma de formatação do bloco`{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `ìf` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo: 
+Essa forma de formatação do bloco`{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `ìf` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo:
 
 ```js
 var amount = 99.99;
@@ -645,7 +645,7 @@ Apesar de `calculateFinalPurchaseAmount(..)` ser chamado apenas uma vez, organiz
 
 ### Escopo
 
-Se você pedir à vendedora da loja de celulares por um modelo que não está em estoque, ela não poderá te vender o celular que você quer. Ela só tem acesso aos aparelhos que estão em estoque, você terá que ir até outra loja para saber se eles têm o telefone que você deseja. 
+Se você pedir à vendedora da loja de celulares por um modelo que não está em estoque, ela não poderá te vender o celular que você quer. Ela só tem acesso aos aparelhos que estão em estoque, você terá que ir até outra loja para saber se eles têm o telefone que você deseja.
 
 Em programação temos um termo para esse conceito: *escopo* (tecnicamente chamado *escopo léxico*). Em JavaScript, cada função tem seu próprio escopo. O escopo é basicamente uma coleção de variáveis e regras de como essas variáveis serão acessadas pelo nome. Apenas o código dentro dessa função poderá as variáveis dentro daquele *escopo*.
 
@@ -659,7 +659,7 @@ function one() {
 }
 
 function two() {
-	// essa variável `a` só pertence à função `two()` 
+	// essa variável `a` só pertence à função `two()`
 	var a = 2;
 	console.log( a );
 }
@@ -801,7 +801,7 @@ Por fim, não esqueça o poder da prática. A melhor forma de aprender como escr
 
 Estou empolgado que você está progredindo na sua caminhada para aprender a programar. Continue assim. Não esqueça de ver também outros recursos para começar a programar (blogs, outros livros, treinamento online, etc.) Este capítulo e este livro são um grande começo, mas são apenas uma breve introdução.
 
-No próximo capíulo iremos revisar muitos dos conceitos deste capítulo, mas de uma perspectiva mais específica para o JavaScript, que irá destacar a maioria dos grandes tópicos que iremos abordar mais à fundo ao longo da série.
+No próximo capítulo iremos revisar muitos dos conceitos deste capítulo, mas de uma perspectiva mais específica para o JavaScript, que irá destacar a maioria dos grandes tópicos que iremos abordar mais à fundo ao longo da série.
 
 *Observação:*
 **NT:** Nota do tradutor.
