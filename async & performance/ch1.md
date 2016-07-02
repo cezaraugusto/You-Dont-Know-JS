@@ -786,7 +786,7 @@ console.log( a + b ); // 42
 
 Esse código não tem assincronia expressa nele (além do raro I/O do `console` async discutido antes), então a presunção mais provavel é que seria processado linha por linha de cima para baixo.
 
-Mas é *possível* que a engine JS, depois de compilar esse código (sim, JS é compilado -- veja o título *Scope & Closures* dessa série de livros!) pode encontra oportunidades de rodar esse código mais rápido ao reordenar (com segurança) a ordem das instruções. Essencialmente, desde que você não consiga observar o reordenamento, vale tudo.
+Mas é *possível* que a engine JS, depois de compilar esse código (sim, JS é compilado -- veja o título *Scope & Closures* dessa série de livros!) possa encontrar de rodar esse código mais rápido ao reordenar (com segurança) a ordem das instruções. Essencialmente, desde que você não consiga observar o reordenamento, vale tudo.
 
 Por exemplo, a engine pode achar mais rápido executar o código assim:
 
@@ -878,20 +878,18 @@ b = 30 + c.bar;
 // ...
 ```
 
-Enquanto a semântica do JS por sorte nos protege dos pesadelos *observáveis* que a instrução de reordenamento do compilador pe
-<hr>
-While JS semantics thankfully protect us from the *observable* nightmares that compiler statement reordering would seem to be in danger of, it's still important to understand just how tenuous a link there is between the way source code is authored (in top-down fashion) and the way it runs after compilation.
+Enquanto a semântica JS afortunadamente nos protege dos pesadelos observáveis que o ordenamento da instrução do compilador pode parecer nos causar, ainda é importante entendermos quão tênue é a ligação que existe entre a forma como o código é auditado (de cima para baixo) e a forma como é executado após a compilação.
 
-Compiler statement reordering is almost a micro-metaphor for concurrency and interaction. As a general concept, such awareness can help you understand async JS code flow issues better.
+Reordenamento da instrução do compilador é quase uma micro-metáfora para concorrência e interação. Como conceito geral, tal entendimento pode ajudar a comprender melhor os problemas do código assíncrono no JS.
 
-## Review
+## Revisão
 
-A JavaScript program is (practically) always broken up into two or more chunks, where the first chunk runs *now* and the next chunk runs *later*, in response to an event. Even though the program is executed chunk-by-chunk, all of them share the same access to the program scope and state, so each modification to state is made on top of the previous state.
+Um programa JavaScript é (praticamente) sempre quebrado em dois ou mais pedaços, onde o primeiro pedaço roda *agora* e o próximo roda *depois*, em resposta a um evento. Apesar do programa ser executado pedaço à pedaço, todos eles compartilham o mesmo acesso ao estado e escopo do programa, então cada modificação ao estado é feito em cima do estado anterior.
 
-Whenever there are events to run, the *event loop* runs until the queue is empty. Each iteration of the event loop is a "tick." User interaction, IO, and timers enqueue events on the event queue.
+Sempre que existem eventos a serem executados, o *loop de eventos* roda até a fila estar vazia. Cada iteração do loop de eventos é um "tique". Interação do usuário, IO, e temporizadores enfileiram eventos na fila de eventos.
 
-At any given moment, only one event can be processed from the queue at a time. While an event is executing, it can directly or indirectly cause one or more subsequent events.
+Em qualquer dado momento, apenas um evento pode ser processado da lista por vez. Enquanto um evento executa, pode direta ou indiretamente causar um ou mais eventos subsequentes.
 
-Concurrency is when two or more chains of events interleave over time, such that from a high-level perspective, they appear to be running *simultaneously* (even though at any given moment only one event is being processed).
+Concorrência é quando duas ou mais cadeias de eventos intercalam ao longo do tempo, de maneira que de uma perspectiva ampla, elas aparentem estar rodando *simultâneamente* (apesar de que em qualquer dado momento apenas um evento é processado).
 
-It's often necessary to do some form of interaction coordination between these concurrent "processes" (as distinct from operating system processes), for instance to ensure ordering or to prevent "race conditions." These "processes" can also *cooperate* by breaking themselves into smaller chunks and to allow other "process" interleaving.
+É frequentemente necessário fazer algum tipo de cordenação de interação entre "processos" concorrentes (diferentes de processos de sistema operacional), por exemplo para garantir ordenamento ou prevenir "condição de corrida". Tais "processos" também podem *cooperar* ao quebrar a si mesmos em pedaços menores e permitir que outros "processos" intercalem.
