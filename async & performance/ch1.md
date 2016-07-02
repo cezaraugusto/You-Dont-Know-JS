@@ -749,7 +749,7 @@ setTimeout( function(){
 	console.log( "B" );
 }, 0 );
 
-// "API Tarefa" teorético
+// "API Tarefa" teórico
 schedule( function(){
 	console.log( "C" );
 
@@ -758,20 +758,19 @@ schedule( function(){
 	} );
 } );
 ```
+Você poderia esperar que isso imprimisse `A B C D`, mas ao invés disso, imprimiria `A C D B`, por que tarefas acontecem no fim de cada tique do loop de eventos, e o temporizador engatilha o angendamento para o *próximo** tique (se disponível!).
 
-You might expect this to print out `A B C D`, but instead it would print out `A C D B`, because the Jobs happen at the end of the current event loop tick, and the timer fires to schedule for the *next* event loop tick (if available!).
+No capítulo 3, veremos que os comportamentos assíncronos das Promises são baseadas em tarefas, então é importante manter claro como isso se relaciona com o comportamento do loop de eventos.
 
-In Chapter 3, we'll see that the asynchronous behavior of Promises is based on Jobs, so it's important to keep clear how that relates to event loop behavior.
+## Ordenamento de Instruções
 
-## Statement Ordering
+A ordem na qual expressamos instruções no nosso código não é necessariamente a mesma ordem da qual a engine JS vai executá-las. Pode parecer uma asserção estranha de se fazer, então vamos explorá-la rapidamente.
 
-The order in which we express statements in our code is not necessarily the same order as the JS engine will execute them. That may seem like quite a strange assertion to make, so we'll just briefly explore it.
+Mas antes disso, devemos estar absolutamente claros em uma coisa: as regras/gramática da lingua (veja o título *Tipos e Gramática* dessa série de livros) dita um comportamento bastante previsível e confiável para ordenamento de instruções do ponto de vista do programa. Então o que discutiremos a seguir **não são coisas que você deveria poder observar** no seu programa JS.
 
-But before we do, we should be crystal clear on something: the rules/grammar of the language (see the *Types & Grammar* title of this book series) dictate a very predictable and reliable behavior for statement ordering from the program point of view. So what we're about to discuss are **not things you should ever be able to observe** in your JS program.
+**Cuidado:** Se em algum momento você puder *observar* reordenamento de instruções no compilador como estamos quase ilustrando, isso seria uma clara violação da especificação, e seria inquestionavelmente em virtude de algum bug na engine JS em questão -- um que deveria ser reportado e consertado prontamente! Mas é muito mais comum que você *suspeite* que algo louco está acontecendo na engine JS, quando na verdade é só um bug (provavelmente uma "condição de corrida") no seu código -- então verifique lá primeiro, e denovo e denovo. O debugador JS, usando pontos de quebra e avançando através do código linha por linha, será sua ferramenta mais poderosa para detectar tais bugs no *seu código*.
 
-**Warning:** If you are ever able to *observe* compiler statement reordering like we're about to illustrate, that'd be a clear violation of the specification, and it would unquestionably be due to a bug in the JS engine in question -- one which should promptly be reported and fixed! But it's vastly more common that you *suspect* something crazy is happening in the JS engine, when in fact it's just a bug (probably a "race condition"!) in your own code -- so look there first, and again and again. The JS debugger, using breakpoints and stepping through code line by line, will be your most powerful tool for sniffing out such bugs in *your code*.
-
-Consider:
+Considere:
 
 ```js
 var a, b;
@@ -785,11 +784,11 @@ b = b + 1;
 console.log( a + b ); // 42
 ```
 
-This code has no expressed asynchrony to it (other than the rare `console` async I/O discussed earlier!), so the most likely assumption is that it would process line by line in top-down fashion.
+Esse código não tem assincronia expressa nele (além do raro I/O do `console` async discutido antes), então a presunção mais provavel é que seria processado linha por linha de cima para baixo.
 
-But it's *possible* that the JS engine, after compiling this code (yes, JS is compiled -- see the *Scope & Closures* title of this book series!) might find opportunities to run your code faster by rearranging (safely) the order of these statements. Essentially, as long as you can't observe the reordering, anything's fair game.
+Mas é *possível* que a engine JS, depois de compilar esse código (sim, JS é compilado -- veja o título *Scope & Closures* dessa série de livros!) pode encontra oportunidades de rodar esse código mais rápido ao reordenar (com segurança) a ordem das instruções. Essencialmente, desde que você não consiga observar o reordenamento, vale tudo.
 
-For example, the engine might find it's faster to actually execute the code like this:
+Por exemplo, a engine pode achar mais rápido executar o código assim:
 
 ```js
 var a, b;
@@ -803,7 +802,7 @@ b++;
 console.log( a + b ); // 42
 ```
 
-Or this:
+Ou assim:
 
 ```js
 var a, b;
@@ -814,17 +813,16 @@ b = 31;
 console.log( a + b ); // 42
 ```
 
-Or even:
+Ou mesmo:
 
 ```js
-// because `a` and `b` aren't used anymore, we can
-// inline and don't even need them!
+// por que `a` e `b` não são mais usados,
+// podemos removê-los e nem precisaremos mais deles!
 console.log( 42 ); // 42
 ```
+Em todos esses casos, a engine JS está fazendo otimizações seguras durante sua compilação, enquanto o fim *observável* será o mesmo.
 
-In all these cases, the JS engine is performing safe optimizations during its compilation, as the end *observable* result will be the same.
-
-But here's a scenario where these specific optimizations would be unsafe and thus couldn't be allowed (of course, not to say that it's not optimized at all):
+Mas aqui temos um cenário onde essas otimizações específicas seriam inseguras e portanto não seriam permitidas (claro, sem mencionar que isso não seria otimizar de forma alguma).
 
 ```js
 var a, b;
@@ -832,7 +830,7 @@ var a, b;
 a = 10;
 b = 30;
 
-// we need `a` and `b` in their preincremented state!
+// precisamos `a` e `b` em seus estados pré-incrementados!
 console.log( a * b ); // 300
 
 a = a + 1;
@@ -841,9 +839,9 @@ b = b + 1;
 console.log( a + b ); // 42
 ```
 
-Other examples where the compiler reordering could create observable side effects (and thus must be disallowed) would include things like any function call with side effects (even and especially getter functions), or ES6 Proxy objects (see the *ES6 & Beyond* title of this book series).
+Outros exemplos onde o reordenamento de compilação pode criar efeitos colaterais indesejados (e portanto devem ser desabilitados) incluiriam coisas como qualquer chamada de função com efeitos colaterais (especialmente funções `getter`), ou objetos Proxy do ES6 (veja o título *ES6 e Além* dessa série de livros).
 
-Consider:
+Considere:
 
 ```js
 function foo() {
@@ -853,7 +851,7 @@ function foo() {
 
 var a, b, c;
 
-// ES5.1 getter literal syntax
+// Síntaxe literal ES5.1
 c = {
 	get bar() {
 		console.log( a );
@@ -869,8 +867,7 @@ b += c.bar;				// 11
 
 console.log( a + b );	// 42
 ```
-
-If it weren't for the `console.log(..)` statements in this snippet (just used as a convenient form of observable side effect for the illustration), the JS engine would likely have been free, if it wanted to (who knows if it would!?), to reorder the code to:
+Se não fosse pelo `console.log(..)` nesse código (usado apenas como uma forma conveniente de observação de efeito colateral para essa ilustração), a engine JS provavelmente estaria livre, se quisesse (quem sabe se iria querer!?), para reordenar o código para:
 
 ```js
 // ...
@@ -881,6 +878,8 @@ b = 30 + c.bar;
 // ...
 ```
 
+Enquanto a semântica do JS por sorte nos protege dos pesadelos *observáveis* que a instrução de reordenamento do compilador pe
+<hr>
 While JS semantics thankfully protect us from the *observable* nightmares that compiler statement reordering would seem to be in danger of, it's still important to understand just how tenuous a link there is between the way source code is authored (in top-down fashion) and the way it runs after compilation.
 
 Compiler statement reordering is almost a micro-metaphor for concurrency and interaction. As a general concept, such awareness can help you understand async JS code flow issues better.
