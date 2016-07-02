@@ -96,7 +96,7 @@ Toda vez que você encapsula uma porção de código numa `função` e especific
 
 Não existe especificação ou grupo de requerimentos sobre como os métodos `console.*` funcionam -- eles não são parte oficial do JavaScript, mas ao invés disso são adicionados ao JS pelo *ambiente hospedeiro* (veja o título *Tipos & Gramática* dessa série de livros).
 
-Então, diferentes navegadores e ambientes JS fazem da maneira que preferem, o que pode as vezes causar comportamento confuso.
+Então, diferentes navegadores e ambientes JS fazem da maneira que preferirem, o que as vezes pode causar comportamento confuso.
 
 Em particular, existem alguns navegadores e condições nas quais `console.log(..)` não retorna imediatamente o que é dado. 
 O principal motivo pelo qual isso pode acontecer é por que o I/O é uma parte lenta e bloqueante de muitos programas (não apenas JS). Então, pode ser melhor (do ponto de vista página/UI) para um navegador lidar com o I/O do `console` de maneira assíncrona no plano de fundo, sem que você talvez sequer saiba o que ocorreu.
@@ -126,11 +126,11 @@ As condições exatas nas quais o I/O do `console` será deferido, ou mesmo se s
 
 ## Laço de Eventos (Event Loop)
 
-Vamos fazer uma afirmação (talvez chocante): apesar de claramente permitir código assíncrono (como o timeout que acabamos de ver), até recentmente (ES6), JavaScript nunca de verdade teve uma noção direta de assíncronia intrínseca.
+Vamos fazer uma afirmação (talvez chocante): apesar de claramente permitir código assíncrono (como o timeout que acabamos de ver), até recentemente (ES6), JavaScript nunca teve de verdade uma noção direta de assíncronia intrínseca.
 
-**O que!?** Isso parece uma afirmação louca, certo? Na verdade, é verdade. O motor JS nunca fez nada além de executar um pedaço único de código do seu programa em um dado momento qualquer, quando solicitado.
+**O que!?** Isso parece loucura, certo? E é verdade. O motor JS nunca fez nada além de executar um pedaço único de código do seu programa em um dado momento qualquer, quando solicitado.
 
-"Quando solicitado." Por quem? Essa é a parte importante!
+"Quando solicitado". Por quem? Essa é a parte importante!
 
 O motor JS não roda isolado. Roda dentro de um *ambiente hospedeiro*, que é para muitos desenvolvedores o típico navegador da web.
 Através do últimos muitos anos (de nenhuma forma exclusivamente), JS expandiou além do navegador em outros ambientes, tal qual servidores, através de coisas como Node.js. Na verdade, JavaScript é anexado nos mais variados tipos de dispositivos hoje em dia, de robos à lampadas.
@@ -182,8 +182,6 @@ Então, em outras palavras, seu programa é geralmente quebrado em diversos pequ
 
 
 **Nota:** Mencionamos "até recentemente" em relação ao ES6 mudando a natureza de onde laço de eventos é gerenciado. É em sua maioria uma tecnicalidade formal, mas o ES6 agora especifica como o laço de eventos funciona, o que significa que está dentro do alcance do motor JS, ao invés de apenas no *ambiente hospedeiro*. Um motivo principal para essa mudança é a introdução das Promises do ES6, as quais discutiremos no Capítulo 3, por que elas requerem a habilidade de ter controle direto e preciso do agendamento de operações na fila de espera do laço de eventos.
-
-<hr>
 
 ## Threading Paralelo
 
@@ -437,7 +435,7 @@ resposta 5
 resposta 7
 ```
 
-Mas, voltando para a nossa noção do loop de eventos mais cedo no capítulo, JS só vai poder manusear um evento por vez, então ou `onscroll, requisição 2` vai acontecer primeiro ou `resposta 1` vai acontecer primeiro, mas eles não podem acontecer literalmente no mesmo momento. Assim como crianças na cafeteria da escola, não importa a multidão que se forme fora das portas, eles terão que se aglomerar em uma fila única para pegar o seu almoço!
+Mas, voltando para a nossa noção do loop de eventos mais cedo no capítulo, JS só vai poder manusear um evento por vez, então ou `onscroll, requisição 2` vai acontecer primeiro ou `resposta 1` vai acontecer primeiro, mas eles não podem acontecer literalmente no mesmo momento. Assim como crianças na cafeteria da escola, não importa a multidão que se forme fora das portas, eles terão que se aglomerar em uma fila única para pegar seus almoços!
 
 Vamos visualizar o intercalamento de todos esses eventos na lista de loop de eventos.
 
