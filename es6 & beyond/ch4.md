@@ -1,28 +1,27 @@
 # You Don't Know JS: ES6 e além
 # Chapter 4: Controle de fluxo assincrono
 
-Não é mistério, se você escreveu alguma quantidade significativa de JavaScript, que programação assincrona é uma habilidade requerida. O mecanismo principal para gerenciar assicronicidade tem sido o sudo de funções callback.
+Se você já escreveu uma quantidade significativa de JavaScript, não é segredo que programação assincrona é uma habilidade necessária. Até o momento, o mecanismo principal para gerenciar assicronicidade tem sido o uso de funções *callback*.
 
-No entanto, o ES6 adiciona um novo recurso que ajuda a resolver as deficiências significativas de assicronicidade com callbacks: *Promises*. Ainda, podemos revisar o capítulo anterior sobre generators e ver um padrão que combina os dois que é melhoria ao programar controles de fluxo assincrono no JavaScript.
+No entanto, o ES6 adiciona um novo recurso que ajuda a resolver as deficiências significativas de assicronicidade com *callbacks*: *Promises*. Ainda, podemos revisar o capítulo anterior sobre `generators` e ver um padrão que combina os dois que é melhoria ao programar controles de fluxo assincrono no JavaScript.
 
 ## Promises
 
-Vamos esclarecer alguns equivocos: Promises não substituem callbacks. Promises provêm uma intermediação confiável -- isso é, entre a execução do seu código e o código assincrono que processará a tarefa -- para gerenciar callbacks.
+Vamos esclarecer alguns equivocos: *Promises* não substituem *callbacks*. *Promises* provêm uma intermediação confiável -- isso é, entre a execução do seu código e o código assincrono que processará a tarefa -- para gerenciar *callbacks*.
 
-Outra forma de pensar a respeito de uma Promise é como sendo um event listener, onde você registra um evento que te informa quanto uma tarefa foi concluída. É um evento que será disparado apenas uma vez, mas mesmo assim podemos imaginal-los como se fosse um evento.
+Outra forma de pensar a respeito de uma *promise* é como sendo um *event listener*, onde você registra um evento que te informa quanto uma tarefa foi concluída. É um evento que será disparado apenas uma vez, mas mesmo assim podemos imaginal-los como se fosse um evento.
 
-Promises podem ser encadeadas, em uma sequencia de passos completados assincronamente. Juntas com uma abstração de alto-nivel como o método `all(...)` (em termo classico, um portal) e o método `race(...)` (em um tempo classico, um trinco), promise encadeadas proporciona um mecanismo para controle de fluxo assincrono.
+*Promises* podem ser encadeadas em conjunto, as quais podem sequenciar uma série de passos que completam-se assincronamente. Juntas com uma abstração de alto-nivel como o método `all(..)` (em termo classico, uma porta) e o método `race(..)` (em um termo classico, um cadeado), o encadeamento de uma *promise* proporciona um mecanismo para controle de fluxo assincrono.
 
-Ainda uma outra forma de se entender uma Promise é que tem um *valor futuro*, um recipiente independente de tempo envolvido em torno de um valor. Esse recipiente pode ser .... . Observando a resolução de uma Promise exrtai esse valor uma vez avaliado. Em outras palavras, uma Promise diz ser a versão assincrona de valores retornados por funções.
+Ainda, mais uma forma de se entender uma *promise*, é que ela tem um valor futuro, um recipiente em torno de um valor que é independente do tempo envolvido. Esse recipiente pode ser subentendido de forma idêntica, independentemente se o seu valor é ou não o final, observando-se que a resolução de uma *promise* extrai este valor uma vez que ele estiver disponível. Em outras palavras, uma *promise* é dita como a versão assincrona de valores retornados por funções síncronas.
 
-Uma promise pode apenas possuir apenas um das duas possíves resoluções: cumprida (fulfilled) ou rejeitada (rejected), com um valor único opicional. Se uma Promise for cumprida, o valor final é chamado de cumprimento. Se for rejeitada, o valor final é denominado de motivo (como sendo, o "motivo da rejeição"). Promises podem apenas ser resolvidas (cumprida ou rejeitada) uma única vez. Qualquer tentativa futura de cumprir ou rejeitar são simplesmente ignoradas. Assim, uma vez que uma Promise for resolvida, seu valor se torna imutavel, o qual não pode ser alterado.
+Uma *promise* pode possuir apenas uma, das duas possíves resoluções: concluída ou rejeitada, com um valor único opcional. Se uma *promise* for cumprida, o valor final é chamado de cumprimento. Se for rejeitada, o valor final é denominado de motivo (como sendo, o "motivo da rejeição"). *Promises* podem apenas ser resolvidas (cumpridas ou rejeitadas) uma única vez. Qualquer tentativa futura de cumpri-las ou rejeita-las são simplesmente ignoradas. Assim, uma vez que uma *promise* for resolvida, seu valor se torna imutável, e não pode ser alterado.
 
-Claramente, há muitas maneiras difrentes de imaginar o que uma Promise é. Nenhuma das perspectiva é completamente suficiente, mas cada uma provê um aspecto diferente do todo. Podemos concluir que Promises oferecem melhorias significantes a respeito da utilização de callbacks para código assincrono, sabendo que elas promovem ordem, previsibilidade e confiabilidade.
+Claramente, há muitas maneiras difrentes de imaginar o que uma *promise* é. Nenhuma das perspectiva é completamente suficiente, mas cada uma provê um aspecto diferente do todo. Podemos concluir que *Promises* oferecem melhorias significantes a respeito da utilização de *callbacks* para código assincrono, visto que elas promovem ordem, previsibilidade e confiabilidade.
 
 ### Fazendo e Usando Promises
 
-Para instanciar uma promise, use seu construtor `Promise(..)`:
-To construct a promise instance, use the `Promise(..)` constructor:
+Para instanciar uma *promise*, use seu construtor `Promise(..)`:
 
 ```js
 var p = new Promise( function pr(resolve,reject){
@@ -32,11 +31,11 @@ var p = new Promise( function pr(resolve,reject){
 
 O construtor `Promise(..)` utiliza uma função (`pr(..)`), que é chamada imediatamente e recebe duas funções de controle como argumentos, normalmente chamada de `resolve(..)` e `reject(..)`. Elas são usadas assim:
 
-* Se você invocar `reject(..)`, a promise é rejeitada, e se algum valor for passado para `reject(..)`, ele será considerado como o motivo da rejeição.
-* Se você invocar `resolve(..)` sem passar um valor, ou algum valor que não seja uma promise, a promise será cumprida.
-* Se você invocar `resolve(..)` e passar uma outra promise, a primeira promise simplesmente adota o estado -- sendo imediato ou eventual -- da segunda promise informada (sendo ela cumprida ou rejeitada).
+* Se você invocar `reject(..)`, a *promise* é rejeitada, e se algum valor for passado para `reject(..)`, ele será considerado como o motivo da rejeição.
+* Se você invocar `resolve(..)` sem passar um valor, ou algum valor que não seja uma *promise*, a *promise* será cumprida.
+* Se você invocar `resolve(..)` e passar uma outra *promise*, a primeira *promise* simplesmente adota o estado -- sendo imediato ou eventual -- da segunda *promise* informada (sendo ela cumprida ou rejeitada).
 
-Aqui está como você normalmente usa uma promise para refatorar uma chamada de função callback. Vamos iniciar com uma função utilitária `ajax(..)` que espera ser capaz de primeiramente tratar algum erro no callback:
+Aqui está como você normalmente utiliza uma *promise* para refatorar uma chamada de função *callback*. Vamos iniciar com uma função utilitária `ajax(..)` que espera ser capaz de primeiramente tratar algum erro no *callback*:
 
 ```js
 function ajax(url,cb) {
@@ -78,13 +77,13 @@ ajax( "http://some.url.1" )
 );
 ```
 
-Promises possuiem um metodo chamado `then(..)` que aceita uma ou duas funções como callback. A primeira função (se presente) é tratata como o manipulador de uma promise cumprida com sucesso. A segunda função (se presente) é tratada como o manipulador se a primise for explicitamente rejeitada, ou se algum erro ou exeção ocorrer durante a resolução.
+*Promises* possuiem um metodo chamado `then(..)` que aceita uma ou duas funções como *callback*. A primeira função (se presente) é tratata como o manipulador de uma *promise* cumprida com sucesso. A segunda função (se presente) é tratada como o manipulador se a *promise* for explicitamente rejeitada, ou se algum erro ou exeção ocorrer durante a resolução.
 
-Se um dos argumentos for omitido ou se não for uma função válida -- normalmente você usará `null` -- um valor padrão equivalente é usado. O callback padrão de sucesso passa seu valor de cumprimento adiante e a função callback padrão de erro propaga seu valor de rejeição adiante.
+Se um dos argumentos for omitido ou se não for uma função válida -- normalmente você usará `null` em vez isso -- um valor padrão equivalente é usado. O *callback* padrão de sucesso passa seu valor de cumprimento adiante e a função *callback* padrão de erro propaga seu valor de rejeição adiante.
 
 O atalho para chamar o método `then(null,handleRejection)` é `catch(handleRejection)`.
 
-Ambos `then(..)` e `catch(..)` automaticamente constroem e retornam uma instancia de outra promise, que está preparada para receber a resolução de qualquer que seja o valor de retorno da promise original, cumprimento ou rejeição (seja como for realmente chamado). Considere:
+Ambos `then(..)` e `catch(..)` automaticamente constroem e retornam uma instancia de outra *promise*, que está preparada para receber a resolução de qualquer que seja o valor de retorno da *promise* original, cumprimento ou rejeição (seja como for realmente chamado). Considere:
 
 ```js
 ajax( "http://some.url.1" )
@@ -101,7 +100,7 @@ ajax( "http://some.url.1" )
 } );
 ```
 
-Nesse trexo de código, estamos retornando um valor apartir de qualquer um dos métodos `fulfilled(..)` ou `rejected(..)`, que então é recebido no próximo `fulfilled(..)` do segundo `then(..)`. Se ao invés disso retornarmos uma nova promise, essa nova promise é adotada como a resolução:
+Nesse trexo de código, estamos retornando um valor apartir de qualquer um dos métodos `fulfilled(..)` ou `rejected(..)`, que então é recebido no próximo `fulfilled(..)` do segundo `then(..)`. Se ao invés disso retornarmos uma nova *promise*, essa nova *promise* é adotada como a resolução:
 
 ```js
 ajax( "http://some.url.1" )
@@ -122,11 +121,11 @@ ajax( "http://some.url.1" )
 } );
 ```
 
-É importante notar que uma exceção (ou uma promise rejeitada) no primeiro `fulfilled(..)` *não* resultará  na primeira execução do método `rejected(..)`, já que esse manipulador responde apenas a resolução da promise original. Ao invés, a segunda promise, cujo segundo `then(..)` é chamado, recebe a rejeição.
+É importante notar que uma exceção (ou uma *promise* rejeitada) no primeiro `fulfilled(..)` *não* resultará  na primeira execução do método `rejected(..)`, já que esse manipulador responde apenas a resolução da *promise* original. Ao invés disso, a segunda *promise*, cujo segundo `then(..)` é chamado de encontro, recebe a rejeição.
 
-Nesse snippet anterior, nós não estamos ouvindo a rejeição, significando que será silenciosamente guardada para futuras observações. Se você não lidar com a rejeição utilizando `then(..)` ou `catch(..)`, então ela não será processada. Os consoles de alguns browsers podem detectar essas rejeições não processadas e reporta-las, mas isso não é garantido; you deveria sempre observar a rejeição da promise.
+ No trecho de código anterior, não estamos ouvindo a rejeição, o que significa que ela será silenciosamente guardada para futuras observações. Se você não lidar com a rejeição utilizando `then(..)` ou `catch(..)`, ela não será processada. Os consoles de alguns navegadores podem detectar essas rejeições não processadas e reporta-las, mas isso não é garantido; você deveria sempre observar a rejeição de uma *promise*.
 
-**Note:** Isso foi apenas uma visão geral breve da teoria e comportamento respeito de Promise. Para uma exploração detalhada, veje o Capitulo 3 do título dessa série *Async & Performance*.
+**Nota:** Isso foi apenas uma visão geral e breve da teoria e comportamento em respeito de uma *promise*. Para uma exploração detalhada, veje o Capitulo 3 do título dessa série *Async & Performance*.
 
 ### Thenables
 
@@ -155,9 +154,9 @@ Prior to ES6, there was never any special reservation made on methods called `th
 
 The onus will be on you to guard against directly using values with the Promise mechanism that would be incorrectly assumed to be a thenable.
 
-### `Promise` API
+### *promise* API
 
-The `Promise` API also provides some static methods for working with Promises.
+The *promise* API also provides some static methods for working with Promises.
 
 `Promise.resolve(..)` creates a promise resolved to the value passed in. Let's compare how it works to the more manual approach:
 
