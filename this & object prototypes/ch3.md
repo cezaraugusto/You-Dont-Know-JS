@@ -1,13 +1,21 @@
-# You Don't Know JS: *this* & Object Prototypes
-# Chapter 3: Objects
+<!-- # You Don't Know JS: *this* & Object Prototypes -->
+# You Don't Know JS: *this* & Protótipos de Objeto
+<!--# Chapter 3: Objects -->
+# Capítulo 3: Objetos
 
-In Chapters 1 and 2, we explained how the `this` binding points to various objects depending on the call-site of the function invocation. But what exactly are objects, and why do we need to point to them? We will explore objects in detail in this chapter.
 
-## Syntax
+<!--In Chapters 1 and 2, we explained how the `this` binding points to various objects depending on the call-site of the function invocation. But what exactly are objects, and why do we need to point to them? We will explore objects in detail in this chapter.-->
 
-Objects come in two forms: the declarative (literal) form, and the constructed form.
+Nos capítulos 1 e 2, nós explicamos como a ligação do `this` aponta para vários objetos dependendo de onde é feita a chamada da função. Mas o que exatamente são objetos, e por que nós precisamos salientá-los? Nós exploraremos objetos em datalhes nessa capítulo.
 
-The literal syntax for an object looks like this:
+<!-- ## Syntax -->
+## Sintaxe
+
+<!-- Objects come in two forms: the declarative (literal) form, and the constructed form. -->
+Objetos possuem duas formas: a forma declarativa (literal) e a forma construída.
+
+<!-- The literal syntax for an object looks like this: -->
+A sintaxe literal de um objeto se parece com isso:
 
 ```js
 var myObj = {
@@ -16,20 +24,28 @@ var myObj = {
 };
 ```
 
-The constructed form looks like this:
+<!-- The constructed form looks like this: -->
+A forma construída se parece com isso:
 
 ```js
 var myObj = new Object();
 myObj.key = value;
 ```
 
-The constructed form and the literal form result in exactly the same sort of object. The only difference really is that you can add one or more key/value pairs to the literal declaration, whereas with constructed-form objects, you must add the properties one-by-one.
+<!-- The constructed form and the literal form result in exactly the same sort of object. The only difference really is that you can add one or more key/value pairs to the literal declaration, whereas with constructed-form objects, you must add the properties one-by-one. -->
 
-**Note:** It's extremely uncommon to use the "constructed form" for creating objects as just shown. You would pretty much always want to use the literal syntax form. The same will be true of most of the built-in objects (see below).
+A forma construída e a forma literal resultam exatamente no mesmo tipo de objeto. A única diferença é que você pode adicionar um ou mais pares chave/valor na declaração literal, enquanto que com objetos de forma construída, você tem que adicionar as propriedades uma por uma.
 
-## Type
+<!-- **Note:** It's extremely uncommon to use the "constructed form" for creating objects as just shown. You would pretty much always want to use the literal syntax form. The same will be true of most of the built-in objects (see below). -->
 
-Objects are the general building block upon which much of JS is built. They are one of the 6 primary types (called "language types" in the specification) in JS:
+**Lembrete:** É extremamente raro o uso da "forma contruída" para a criação de objetos como mostrado. Você praticamente sempre preferirá usar a sintaxa da forma literal. O mesmo acontece com a maioria dos objetos nativos (veja abaixo).
+
+<!-- ## Type -->
+## Tipo
+
+<!-- Objects are the general building block upon which much of JS is built. They are one of the 6 primary types (called "language types" in the specification) in JS: -->
+
+Objetos são o bloco de contrução geral no qual muito do JS é contruído. Eles são  um do 6 tipos primários (chamados "tipos de linguagem" na especificação) em JS:
 
 * `string`
 * `number`
@@ -38,19 +54,30 @@ Objects are the general building block upon which much of JS is built. They are 
 * `undefined`
 * `object`
 
-Note that the *simple primitives* (`string`, `number`, `boolean`, `null`, and `undefined`) are **not** themselves `objects`. `null` is sometimes referred to as an object type, but this misconception stems from a bug in the language which causes `typeof null` to return the string `"object"` incorrectly (and confusingly). In fact, `null` is its own primitive type.
+<!-- Note that the *simple primitives* (`string`, `number`, `boolean`, `null`, and `undefined`) are **not** themselves `objects`. `null` is sometimes referred to as an object type, but this misconception stems from a bug in the language which causes `typeof null` to return the string `"object"` incorrectly (and confusingly). In fact, `null` is its own primitive type. -->
 
-**It's a common mis-statement that "everything in JavaScript is an object". This is clearly not true.**
+Note que os *primitivos simples* (`string`, `number`, `boolean`, `null`, e `undefined`) **não** são eles próprios `objetcs`. `null` é algumas vezes referido como um tipo de objeto, mas esse equívoco surge a partir de um bug na linguagem que faz com que `typeof null` retorne a string `"object"` incorretamente (e confusa). De fato, `null` é o seu próprio tipo primitivo.
 
-By contrast, there *are* a few special object sub-types, which we can refer to as *complex primitives*.
+<!-- **It's a common mis-statement that "everything in JavaScript is an object". This is clearly not true.** -->
+**Há uma frequente distorção de que "Tudo em JavaScript é um objeto. Isso claramente não é verdade".**
 
-`function` is a sub-type of object (technically, a "callable object"). Functions in JS are said to be "first class" in that they are basically just normal objects (with callable behavior semantics bolted on), and so they can be handled like any other plain object.
+<!-- By contrast, there *are* a few special object sub-types, which we can refer to as *complex primitives*. -->
+Por outro lado, há alguns subtipos de objeto especiais, os quais podemos referir como *primtivos complexos*
 
-Arrays are also a form of objects, with extra behavior. The organization of contents in arrays is slightly more structured than for general objects.
+<!-- `function` is a sub-type of object (technically, a "callable object"). Functions in JS are said to be "first class" in that they are basically just normal objects (with callable behavior semantics bolted on), and so they can be handled like any other plain object. -->
 
-### Built-in Objects
+`function` é um subtipo de objeto (tecnicamente, um "objeto que pode ser chamado"). Funções em JS são consideradas como "primeira classe" que elas são basicamente objetos normais(com a adição de semântica de comportamento de algo que pode ser chamado), e então elas podem ser manipuladas como qualquer outro objeto simples.
 
-There are several other object sub-types, usually referred to as built-in objects. For some of them, their names seem to imply they are directly related to their simple primitives counter-parts, but in fact, their relationship is more complicated, which we'll explore shortly.
+<!-- Arrays are also a form of objects, with extra behavior. The organization of contents in arrays is slightly more structured than for general objects. -->
+
+Arrays também são uma forma de objetos, com comportamento extra. A organização de conteúdos nos arrays é uma pouco mais estruturada que em objetos gerais.
+
+<!-- ### Built-in Objects -->
+### Objetos nativos
+
+<!-- There are several other object sub-types, usually referred to as built-in objects. For some of them, their names seem to imply they are directly related to their simple primitives counter-parts, but in fact, their relationship is more complicated, which we'll explore shortly. -->
+
+Existem diversos outros subtipos de objetos, normalmente referidos como objetos nativos. Para alguns deles, seus nomes parecem sugerir que eles estão diretamente relacionados, em contrapartida, a seus primitivos simples, mas na verdade, o relacionamento deles é mais complicado, o qual iremos explorar em breve.
 
 * `String`
 * `Number`
@@ -62,9 +89,13 @@ There are several other object sub-types, usually referred to as built-in object
 * `RegExp`
 * `Error`
 
-These built-ins have the appearance of being actual types, even classes, if you rely on the similarity to other languages such as Java's `String` class.
+<!-- These built-ins have the appearance of being actual types, even classes, if you rely on the similarity to other languages such as Java's `String` class. -->
 
-But in JS, these are actually just built-in functions. Each of these built-in functions can be used as a constructor (that is, a function call with the `new` operator -- see Chapter 2), with the result being a newly *constructed* object of the sub-type in question. For instance:
+Esses nativos aparentam ser tipos reais, até mesmo classes, se você considerar a similaridade com outras linguagens como a classe `String` do Java.
+
+<!-- But in JS, these are actually just built-in functions. Each of these built-in functions can be used as a constructor (that is, a function call with the `new` operator -- see Chapter 2), with the result being a newly *constructed* object of the sub-type in question. For instance: -->
+
+But no JS, existem, na verdade, apenas funções nativas. Cada uma dessas funções nativas podem ser usadas como um construtor (que é uma chamada de função com o operador `new` -- veja o Capítulo 2), com o resultado sendo novamente um objeto *construído* do subtipo em questão. Por exemplo:
 
 ```js
 var strPrimitive = "I am a string";
@@ -79,13 +110,20 @@ strObject instanceof String;					// true
 Object.prototype.toString.call( strObject );	// [object String]
 ```
 
-We'll see in detail in a later chapter exactly how the `Object.prototype.toString...` bit works, but briefly, we can inspect the internal sub-type by borrowing the base default `toString()` method, and you can see it reveals that `strObject` is an object that was in fact created by the `String` constructor.
+<!-- We'll see in detail in a later chapter exactly how the `Object.prototype.toString...` bit works, but briefly, we can inspect the internal sub-type by borrowing the base default `toString()` method, and you can see it reveals that `strObject` is an object that was in fact created by the `String` constructor. -->
 
-The primitive value `"I am a string"` is not an object, it's a primitive literal and immutable value. To perform operations on it, such as checking its length, accessing its individual character contents, etc, a `String` object is required.
+Nós veremos, em detalhes, mais adiante nesse capítulo exatamente como o trecho `Object.prototype.toString...` funciona, mas brevemente, podemos inspecionar o interior o subtipo pegando emprestado o padrão base do método `toString()`, e você pode ver que ele revela que `strObject` é um objeto que foi de fato criado pelo construtor de `String`.
 
-Luckily, the language automatically coerces a `"string"` primitive to a `String` object when necessary, which means you almost never need to explicitly create the Object form. It is **strongly preferred** by the majority of the JS community to use the literal form for a value, where possible, rather than the constructed object form.
+<!-- The primitive value `"I am a string"` is not an object, it's a primitive literal and immutable value. To perform operations on it, such as checking its length, accessing its individual character contents, etc, a `String` object is required. -->
 
-Consider:
+O valor primitivo `"I am a string"` não é um objeto, mas sim um primitivo literal e valor imutável. Para realizar operações com ele, tais como checar seu comprimento, acessar o conteúdo de caracteres individuais etc, um objeto `String` é necessário.
+
+<!-- Luckily, the language automatically coerces a `"string"` primitive to a `String` object when necessary, which means you almost never need to explicitly create the Object form. It is **strongly preferred** by the majority of the JS community to use the literal form for a value, where possible, rather than the constructed object form. -->
+
+Por sorte, a linguagem automaticamente converte um primitivo `"string"` para um objeto `String` quando necessário, o que significa que você quase nunca precisa explicitamente criar a forma de objeto. É **fortemente preferível** pela maior parte da comunidade de JS usar o forma literal para um valor, quando possível, em vez da forma de objeto construído.
+
+<!-- Consider: -->
+Considere:
 
 ```js
 var strPrimitive = "I am a string";
@@ -95,23 +133,41 @@ console.log( strPrimitive.length );			// 13
 console.log( strPrimitive.charAt( 3 ) );	// "m"
 ```
 
-In both cases, we call a property or method on a string primitive, and the engine automatically coerces it to a `String` object, so that the property/method access works.
+<!-- In both cases, we call a property or method on a string primitive, and the engine automatically coerces it to a `String` object, so that the property/method access works. -->
 
-The same sort of coercion happens between the number literal primitive `42` and the `new Number(42)` object wrapper, when using methods like `42.359.toFixed(2)`. Likewise for `Boolean` objects from `"boolean"` primitives.
+Em ambos os casos, podemos chamar uma propriedade ou método de uma string primitiva, e o *Engine* automaticamente converte a mesma para um objeto `String` para que o acesso a propriedade/método funcione.
 
-`null` and `undefined` have no object wrapper form, only their primitive values. By contrast, `Date` values can *only* be created with their constructed object form, as they have no literal form counter-part.
+<!-- The same sort of coercion happens between the number literal primitive `42` and the  `new Number(42)` object wrapper, when using methods like `42.359.toFixed(2)`. Likewise for `Boolean` objects from `"boolean"` primitives. -->
 
-`Object`s, `Array`s, `Function`s, and `RegExp`s (regular expressions) are all objects regardless of whether the literal or constructed form is used. The constructed form does offer, in some cases, more options in creation than the literal form counterpart. Since objects are created either way, the simpler literal form is almost universally preferred. **Only use the constructed form if you need the extra options.**
+O mesmo tipo de comportamento acontece entre o número primitivo liteal `42` e o invólucro do objeto `new Number(42)`, para o uso de métodos como `42.359.toFixed(2)`. Da mesma maneira para objetos `Boolean` de primitivos `"boolean"`.
 
-`Error` objects are rarely created explicitly in code, but usually created automatically when exceptions are thrown. They can be created with the constructed form `new Error(..)`, but it's often unnecessary.
+<!-- `null` and `undefined` have no object wrapper form, only their primitive values. By contrast, `Date` values can *only* be created with their constructed object form, as they have no literal form counter-part. -->
 
-## Contents
+`null` e `undefined` não tem formato de invólucro de objeto, apenas valores primitivos. De maneira oposta, valores de `Date` só podem ser criados a partir da forma de objetos construídos, uma vez que eles não possuem uma forma literal.
 
-As mentioned earlier, the contents of an object consist of values (any type) stored at specifically named *locations*, which we call properties.
+<!-- `Object`s, `Array`s, `Function`s, and `RegExp`s (regular expressions) are all objects regardless of whether the literal or constructed form is used. The constructed form does offer, in some cases, more options in creation than the literal form counterpart. Since objects are created either way, the simpler literal form is almost universally preferred. **Only use the constructed form if you need the extra options.** -->
 
-It's important to note that while we say "contents" which implies that these values are *actually* stored inside the object, that's merely an appearance. The engine stores values in implementation-dependent ways, and may very well not store them *in* some object container. What *is* stored in the container are these property names, which act as pointers (technically, *references*) to where the values are stored.
+`Object`s, `Array`s, `Function`s, e `RegExp`s (expressões regulares) são todos objetos independente se a forma literal ou construída é usada. A forma construída oferece, em alguns casos, mais opções na criação do que a forma literal. Uma vez que objetos são criados das duas formas, a forma literal mais simples é quase que universalmente preferida. **Apenas use a forma construída se você precisar de opções extras.**
 
-Consider:
+
+<!-- `Error` objects are rarely created explicitly in code, but usually created automatically when exceptions are thrown. They can be created with the constructed form `new Error(..)`, but it's often unnecessary. -->
+
+Objetos `Error` são raramente criados explicitamente em código, mas geralmente são criados automaticamente quando exceções são lançadas. Eles pode ser criados com a forma de instanciação `new Error(..)`, mas muitas vezes é desnecessário.
+
+<!-- ## Contents -->
+## Conteúdos
+
+<!-- As mentioned earlier, the contents of an object consist of values (any type) stored at specifically named *locations*, which we call properties. -->
+
+Como mencionamos anteriormente, o conteúdo de um objeto consiste de valores (qualquer tipo) armazenados em locais específicos, o qual chamamos de propriedades.
+
+<!-- It's important to note that while we say "contents" which implies that these values are *actually* stored inside the object, that's merely an appearance. The engine stores values in implementation-dependent ways, and may very well not store them *in* some object container. What *is* stored in the container are these property names, which act as pointers (technically, *references*) to where the values are stored. -->
+
+É importante notar que quando dizemos "conteúdos" o qual implica que esses valores são *na verdade* armazenados dentro do objeto, que é meramente uma aparência. A engine armazena valores de maneiras dependentes de implementação, e pode muito bem armazená-los *em* algum container de objeto. O que *é* armazenado no container são nomes de propriedade, que funcionam como ponteiros (tecnicamente, *referências*) para onde os valores são armazenados.
+
+
+<!-- Consider: -->
+Considere:
 
 ```js
 var myObject = {
@@ -127,7 +183,9 @@ To access the value at the *location* `a` in `myObject`, we need to use either t
 
 The main difference between the two syntaxes is that the `.` operator requires an `Identifier` compatible property name after it, whereas the `[".."]` syntax can take basically any UTF-8/unicode compatible string as the name for the property. To reference a property of the name "Super-Fun!", for instance, you would have to use the `["Super-Fun!"]` access syntax, as `Super-Fun!` is not a valid `Identifier` property name.
 
-Also, since the `[".."]` syntax uses a string's **value** to specify the location, this means the program can programmatically build up the value of the string, such as:
+<!-- Also, since the `[".."]` syntax uses a string's **value** to specify the location, this means the program can programmatically build up the value of the string, such as: -->
+
+Além disso, um vez que a sintaxe `[".."]` usa **valor** de string para especificar a localização, significa que o programa pode, programaticamente, construir um valor de string, tal como:
 
 ```js
 var wantA = true;
@@ -142,11 +200,14 @@ if (wantA) {
 }
 
 // later
+// depois
 
 console.log( myObject[idx] ); // 2
 ```
 
-In objects, property names are **always** strings. If you use any other value besides a `string` (primitive) as the property, it will first be converted to a string. This even includes numbers, which are commonly used as array indexes, so be careful not to confuse the use of numbers between objects and arrays.
+<!-- In objects, property names are **always** strings. If you use any other value besides a `string` (primitive) as the property, it will first be converted to a string. This even includes numbers, which are commonly used as array indexes, so be careful not to confuse the use of numbers between objects and arrays. -->
+
+Em objetos, os nomes de propriedade são  **sempre** strings. Se você usa qualquer outro valor além de um `string` (primitivo) como propriedade, ele será convertido para string primeiro. Isso inclue até mesmo números, que são normalmente usados como índices de array, então tenha cuidado para não confundir o uso de números entre objetos e arrays.
 
 ```js
 var myObject = { };
@@ -160,11 +221,16 @@ myObject["3"];					// "bar"
 myObject["[object Object]"];	// "baz"
 ```
 
-### Computed Property Names
+<!-- ### Computed Property Names -->
+### Nomes de propriedade computadas
 
-The `myObject[..]` property access syntax we just described is useful if you need to use a computed expression value *as* the key name, like `myObject[prefix + name]`. But that's not really helpful when declaring objects using the object-literal syntax.
+<!-- The `myObject[..]` property access syntax we just described is useful if you need to use a computed expression value *as* the key name, like `myObject[prefix + name]`. But that's not really helpful when declaring objects using the object-literal syntax. -->
 
-ES6 adds *computed property names*, where you can specify an expression, surrounded by a `[ ]` pair, in the key-name position of an object-literal declaration:
+A sintaxe de acesso as propriedades de `myObject[..]` que acabamos de descrever é útil se você precisar usar um valor de expressão computado *como* o valor chave, tal como `myObject[prefix + name]`. Mas não é realmente útil quando se declara objetos usando a sintaxe de objeto-literal.
+
+<!-- ES6 adds *computed property names*, where you can specify an expression, surrounded by a `[ ]` pair, in the key-name position of an object-literal declaration: -->
+
+ES6 adiciona *nomes de propriedade computados*, onde você pode especificar uma expressão, cercado por um par de `[ ]`, na posição do nome-chave de uma declaração de objeto-literal.
 
 ```js
 var prefix = "foo";
@@ -258,7 +324,9 @@ myArray[0];			// "foo"
 myArray[2];			// "bar"
 ```
 
-Arrays *are* objects, so even though each index is a positive integer, you can *also* add properties onto the array:
+<!-- Arrays *are* objects, so even though each index is a positive integer, you can *also* add properties onto the array: -->
+
+Arrays *são* objetos, então mesmo que cada índice seja um inteiro positivo, você *também* pode adicionar propriedades no array.
 
 ```js
 var myArray = [ "foo", 42, "bar" ];
@@ -286,9 +354,12 @@ myArray.length;	// 4
 myArray[3];		// "baz"
 ```
 
-### Duplicating Objects
+<!-- ### Duplicating Objects -->
+### Duplicando Objetos
 
 One of the most commonly requested features when developers newly take up the JavaScript language is how to duplicate an object. It would seem like there should just be a built-in `copy()` method, right? It turns out that it's a little more complicated than that, because it's not fully clear what, by default, should be the algorithm for the duplication.
+
+Um dos recursos mais requisitados frequentemente por novos desenvolvedores JavaScript é como duplicar um objeto. Pareceria como se devesse ter um método nativo `copy()`, certo? Acontece que é um pouco mais complicado que isso, porque não é totalmente claro, por padrão,
 
 For example, consider this object:
 
@@ -342,13 +413,21 @@ newObj.d === anotherFunction;	// true
 
 **Note:** In the next section, we describe "property descriptors" (property characteristics) and show the use of `Object.defineProperty(..)`. The duplication that occurs for `Object.assign(..)` however is purely `=` style assignment, so any special characteristics of a property (like `writable`) on a source object **are not preserved** on the target object.
 
-### Property Descriptors
+<!-- ### Property Descriptors -->
 
-Prior to ES5, the JavaScript language gave no direct way for your code to inspect or draw any distinction between the characteristics of properties, such as whether the property was read-only or not.
+### Descritores de propriedade
 
-But as of ES5, all properties are described in terms of a **property descriptor**.
+<!-- Prior to ES5, the JavaScript language gave no direct way for your code to inspect or draw any distinction between the characteristics of properties, such as whether the property was read-only or not. -->
 
-Consider this code:
+Antes do ES5, o linguagem JavaScript não dava nenhuma forma direta no seu coódigo para inspecionar ou obter qualquer distinção entre as características de propriedades, tais como se a propriedade era somente-leitura ou não.
+
+<!-- But as of ES5, all properties are described in terms of a **property descriptor**. -->
+
+Mas como no ES5, todas as propriedades são descritas em termos de um **descritor de propriedade**.
+
+<!-- Consider this code: -->
+
+Considere esse código:
 
 ```js
 var myObject = {
@@ -364,7 +443,9 @@ Object.getOwnPropertyDescriptor( myObject, "a" );
 // }
 ```
 
-As you can see, the property descriptor (called a "data descriptor" since it's only for holding a data value) for our normal object property `a` is much more than just its `value` of `2`. It includes 3 other characteristics: `writable`, `enumerable`, and `configurable`.
+<!-- As you can see, the property descriptor (called a "data descriptor" since it's only for holding a data value) for our normal object property `a` is much more than just its `value` of `2`. It includes 3 other characteristics: `writable`, `enumerable`, and `configurable`. -->
+
+Como pode ver, o descritor da propriedade (chamado de "descritor de dados", um vez que ele apenas guarda um valor de dado) para nossa propriedade de objeto normal `a` é muito mais que apenas o `valor` de `2`. Ele inclue outras 3 características: `writable`, `enumerable`, and `configurable`.
 
 While we can see what the default values for the property descriptor characteristics are when we create a normal property, we can use `Object.defineProperty(..)` to add a new property, or modify an existing one (if it's `configurable`!), with the desired characteristics.
 
@@ -383,7 +464,9 @@ Object.defineProperty( myObject, "a", {
 myObject.a; // 2
 ```
 
-Using `defineProperty(..)`, we added the plain, normal `a` property to `myObject` in a manually explicit way. However, you generally wouldn't use this manual approach unless you wanted to modify one of the descriptor characteristics from its normal behavior.
+<!-- Using `defineProperty(..)`, we added the plain, normal `a` property to `myObject` in a manually explicit way. However, you generally wouldn't use this manual approach unless you wanted to modify one of the descriptor characteristics from its normal behavior. -->
+
+Usando `defineProperty(..)`, adicionamos uma simples propriedade `a` ao `myObject` de maneira explícita manualmente. Entretanto, geralmente não usaríamos essa forma manual a mesmo que quiséssemos modificar uma das características do descritor a partir de seu comportamento normal.
 
 #### Writable
 
@@ -406,7 +489,9 @@ myObject.a = 3;
 myObject.a; // 2
 ```
 
-As you can see, our modification of the `value` silently failed. If we try in `strict mode`, we get an error:
+<!-- As you can see, our modification of the `value` silently failed. If we try in `strict mode`, we get an error: -->
+
+Como pode ver, nossa modificação do `value` falhou silenciosamente. Se tentarmos em `strict mode`, obtemos um erro:
 
 ```js
 "use strict";
@@ -423,13 +508,17 @@ Object.defineProperty( myObject, "a", {
 myObject.a = 3; // TypeError
 ```
 
-The `TypeError` tells us we cannot change a non-writable property.
+<!-- The `TypeError` tells us we cannot change a non-writable property. -->
+O `TypeError` diz que não podemos mudar uma propriedade não gravável.
 
 **Note:** We will discuss getters/setters shortly, but briefly, you can observe that `writable:false` means a value cannot be changed, which is somewhat equivalent to if you defined a no-op setter. Actually, your no-op setter would need to throw a `TypeError` when called, to be truly conformant to `writable:false`.
 
-#### Configurable
+<!-- #### Configurable -->
+#### Configurável
 
-As long as a property is currently configurable, we can modify its descriptor definition, using the same `defineProperty(..)` utility.
+<!-- As long as a property is currently configurable, we can modify its descriptor definition, using the same `defineProperty(..)` utility. -->
+
+Contanto que uma propriedade seja configurável, podemos modificar sua definição de descritor usando o mesmo método `defineProperty(..)`.
 
 ```js
 var myObject = {
@@ -442,7 +531,7 @@ myObject.a;					// 3
 Object.defineProperty( myObject, "a", {
 	value: 4,
 	writable: true,
-	configurable: false,	// not configurable!
+	configurable: false,	// não configurável!
 	enumerable: true
 } );
 
@@ -485,19 +574,27 @@ delete myObject.a;
 myObject.a;				// 2
 ```
 
-As you can see, the last `delete` call failed (silently) because we made the `a` property non-configurable.
+<!-- As you can see, the last `delete` call failed (silently) because we made the `a` property non-configurable. -->
+Como pode ver, a última chamada de `delete` falhou (silenciosamente) porque definimos a propriedade `a` como não-configurável.
 
 `delete` is only used to remove object properties (which can be removed) directly from the object in question. If an object property is the last remaining *reference* to some object/function, and you `delete` it, that removes the reference and now that unreferenced object/function can be garbage collected. But, it is **not** proper to think of `delete` as a tool to free up allocated memory as it does in other languages (like C/C++). `delete` is just an object property removal operation -- nothing more.
 
 #### Enumerable
 
-The final descriptor characteristic we will mention here (there are two others, which we deal with shortly when we discuss getter/setters) is `enumerable`.
+<!-- The final descriptor characteristic we will mention here (there are two others, which we deal with shortly when we discuss getter/setters) is `enumerable`. -->
 
-The name probably makes it obvious, but this characteristic controls if a property will show up in certain object-property enumerations, such as the `for..in` loop. Set to `false` to keep it from showing up in such enumerations, even though it's still completely accessible. Set to `true` to keep it present.
+A última característica descritor que vamos mencionar aqui (existem outros dois, que veremos em breve quando discutimos getter/setters) é `enumerable`.
 
-All normal user-defined properties are defaulted to `enumerable`, as this is most commonly what you want. But if you have a special property you want to hide from enumeration, set it to `enumerable:false`.
+<!-- The name probably makes it obvious, but this characteristic controls if a property will show up in certain object-property enumerations, such as the `for..in` loop. Set to `false` to keep it from showing up in such enumerations, even though it's still completely accessible. Set to `true` to keep it present. -->
 
-We'll demonstrate enumerability in much more detail shortly, so keep a mental bookmark on this topic.
+O nome provavelmente é óbvio, mas essa característica controla se uma propriedade aparecerá em certas enumerações objeto-propriedade, tal como o laço `for..in`. Configure para `false` para não aparecer em tais enumerações, mesmo que ainda esteja completamente acessível. Configure `true` para mantê-lo presente.
+
+<!-- All normal user-defined properties are defaulted to `enumerable`, as this is most commonly what you want. But if you have a special property you want to hide from enumeration, set it to `enumerable:false`. -->
+
+Todas as propriedades normais definidas pelo usuário são padronizadas para `enumerable`, visto que isso é que você geralmente deseja. Mas se você tem uma propriedade especial que queira ocultar da enumeração, configure-o para `enumerable:false`.
+
+<!-- We'll demonstrate enumerability in much more detail shortly, so keep a mental bookmark on this topic. -->
+Iremos demonstrar enumerabilidade em mais detalhes mais adiante, então lembre-se desse tópico.
 
 ### Immutability
 
@@ -515,9 +612,12 @@ We assume in this snippet that `myImmutableObject` is already created and protec
 
 **Note:** It is not terribly common to create deeply entrenched immutable objects in JS programs. Special cases can certainly call for it, but as a general design pattern, if you find yourself wanting to *seal* or *freeze* all your objects, you may want to take a step back and reconsider your program design to be more robust to potential changes in objects' values.
 
-#### Object Constant
+<!-- #### Object Constant -->
+### Constante de Objeto
 
-By combining `writable:false` and `configurable:false`, you can essentially create a *constant* (cannot be changed, redefined or deleted) as an object property, like:
+<!-- By combining `writable:false` and `configurable:false`, you can essentially create a *constant* (cannot be changed, redefined or deleted) as an object property, like: -->
+
+Combinando `writable:false` e `configurable:false`, você pode essencialmente criar uma *constante* (não pode ser alterada, redefinida ou removida) como uma propriedade de objeto, como:
 
 ```js
 var myObject = {};
@@ -529,9 +629,12 @@ Object.defineProperty( myObject, "FAVORITE_NUMBER", {
 } );
 ```
 
-#### Prevent Extensions
+<!-- #### Prevent Extensions -->
+### Prevenir Extensões
 
-If you want to prevent an object from having new properties added to it, but otherwise leave the rest of the object's properties alone, call `Object.preventExtensions(..)`:
+<!-- If you want to prevent an object from having new properties added to it, but otherwise leave the rest of the object's properties alone, call `Object.preventExtensions(..)`: -->
+
+Se você quiser prevenir que um objeto tenha novas propriedades adicionadas a ele, mantendo apenas o resto das propriedades do objeto, chame `Object.preventExtensions(..)`:
 
 ```js
 var myObject = {
@@ -544,7 +647,9 @@ myObject.b = 3;
 myObject.b; // undefined
 ```
 
-In `non-strict mode`, the creation of `b` fails silently. In `strict mode`, it throws a `TypeError`.
+<!-- In `non-strict mode`, the creation of `b` fails silently. In `strict mode`, it throws a `TypeError`. -->
+
+No `non-strict mode`, a criação de `b` falha silenciosamente. No `strict mode`, é lançado um `TypeError`.
 
 #### Seal
 
@@ -563,9 +668,11 @@ You could "deep freeze" an object by calling `Object.freeze(..)` on the object, 
 
 ### `[[Get]]`
 
-There's a subtle, but important, detail about how property accesses are performed.
+<!-- There's a subtle, but important, detail about how property accesses are performed. -->
+Há um pequeno, mas importante, detalhe sobre como os acessos as propriedades são realizados.
 
-Consider:
+<!-- Consider: -->
+Considere:
 
 ```js
 var myObject = {
@@ -575,13 +682,20 @@ var myObject = {
 myObject.a; // 2
 ```
 
-The `myObject.a` is a property access, but it doesn't *just* look in `myObject` for a property of the name `a`, as it might seem.
+<!-- The `myObject.a` is a property access, but it doesn't *just* look in `myObject` for a property of the name `a`, as it might seem. -->
+O `myObject.a` é um acesso à propriedade, mas não é *apenas* procurar em `myObject` por uma propriedade de nome `a`, como pode parecer.
 
-According to the spec, the code above actually performs a `[[Get]]` operation (kinda like a function call: `[[Get]]()`) on the `myObject`. The default built-in `[[Get]]` operation for an object *first* inspects the object for a property of the requested name, and if it finds it, it will return the value accordingly.
+<!-- According to the spec, the code above actually performs a `[[Get]]` operation (kinda like a function call: `[[Get]]()`) on the `myObject`. The default built-in `[[Get]]` operation for an object *first* inspects the object for a property of the requested name, and if it finds it, it will return the value accordingly. -->
 
-However, the `[[Get]]` algorithm defines other important behavior if it does *not* find a property of the requested name. We will examine in Chapter 5 what happens *next* (traversal of the `[[Prototype]]` chain, if any).
+De acordo com a especificação, o código acima na verdade realiza uma operação `[[Get]]` (tipo uma chamada de função: `[[Get]]()`) no `myObject`. A operação `[[Get]]` nativa padrão de um objeto inspeciona *primeiro* o objeto à procura de uma propriedade do nome solicitado, se encontrar, retornará o respectivo valor.
 
-But one important result of this `[[Get]]` operation is that if it cannot through any means come up with a value for the requested property, it instead returns the value `undefined`.
+<!-- However, the `[[Get]]` algorithm defines other important behavior if it does *not* find a property of the requested name. We will examine in Chapter 5 what happens *next* (traversal of the `[[Prototype]]` chain, if any). -->
+
+Entretando, o algoritmo de `[[Get]]` define outro importante comportamento caso *não* encontre a propriedade do nome solicidado. Examinaremos no Capítulo 5 o que acontece *em seguida* (passagem pela cadeia de `[[Prototype]]`, caso houver).
+
+<!-- But one important result of this `[[Get]]` operation is that if it cannot through any means come up with a value for the requested property, it instead returns the value `undefined`. -->
+
+Mas um importante resultado dessa operação `[[Get]]` é que se a propriedade solicitada não for encontrada, o valor `undefined` é retornado.
 
 ```js
 var myObject = {
@@ -591,7 +705,9 @@ var myObject = {
 myObject.b; // undefined
 ```
 
-This behavior is different from when you reference *variables* by their identifier names. If you reference a variable that cannot be resolved within the applicable lexical scope look-up, the result is not `undefined` as it is for object properties, but instead a `ReferenceError` is thrown.
+<!-- This behavior is different from when you reference *variables* by their identifier names. If you reference a variable that cannot be resolved within the applicable lexical scope look-up, the result is not `undefined` as it is for object properties, but instead a `ReferenceError` is thrown. -->
+
+Esse comportamento é diferente de quando você referencia *variáveis* através de seus nomes de identificadores. Se você referencia uma variável que não pode ser resolvida no escopo léxico aplicável, o resultado não é `undefined` como é para propriedades de objeto, mas em vez disso um `ReferenceError` é lançado.
 
 ```js
 var myObject = {
@@ -725,9 +841,12 @@ In that scenario, a more robust way of performing such a check is `Object.protot
 
 **Note:** The `in` operator has the appearance that it will check for the existence of a *value* inside a container, but it actually checks for the existence of a property name. This difference is important to note with respect to arrays, as the temptation to try a check like `4 in [2, 4, 6]` is strong, but this will not behave as expected.
 
-#### Enumeration
+<!-- #### Enumeration -->
+#### Enumeração
 
-Previously, we explained briefly the idea of "enumerability" when we looked at the `enumerable` property descriptor characteristic. Let's revisit that and examine it in more close detail.
+<!-- Previously, we explained briefly the idea of "enumerability" when we looked at the `enumerable` property descriptor characteristic. Let's revisit that and examine it in more close detail. -->
+
+Anteriormente, explicamos brevemente a ideia de "enumerabilidade" quando olhamos para a característica do descritor de propriedade de `enumerable`. Vamos rever e examinar isso mais detalhadamente.
 
 ```js
 var myObject = { };
@@ -735,14 +854,14 @@ var myObject = { };
 Object.defineProperty(
 	myObject,
 	"a",
-	// make `a` enumerable, as normal
+	// torne `a` enumerable, as normal
 	{ enumerable: true, value: 2 }
 );
 
 Object.defineProperty(
 	myObject,
 	"b",
-	// make `b` NON-enumerable
+	// torne `b` NON-enumerable
 	{ enumerable: false, value: 3 }
 );
 
@@ -758,11 +877,17 @@ for (var k in myObject) {
 // "a" 2
 ```
 
-You'll notice that `myObject.b` in fact **exists** and has an accessible value, but it doesn't show up in a `for..in` loop (though, surprisingly, it **is** revealed by the `in` operator existence check). That's because "enumerable" basically means "will be included if the object's properties are iterated through".
+<!-- You'll notice that `myObject.b` in fact **exists** and has an accessible value, but it doesn't show up in a `for..in` loop (though, surprisingly, it **is** revealed by the `in` operator existence check). That's because "enumerable" basically means "will be included if the object's properties are iterated through". -->
 
-**Note:** `for..in` loops applied to arrays can give somewhat unexpected results, in that the enumeration of an array will include not only all the numeric indices, but also any enumerable properties. It's a good idea to use `for..in` loops *only* on objects, and traditional `for` loops with numeric index iteration for the values stored in arrays.
+Você vai perceber que `myObject.b` de fato **existe** e tem um valor acessível, mas não aparece no laço `for..in` (embora, surpreendentemente, ele seja mostrado pelo operador de `in` que verifica se a propriedade existe). Isso acontece porque "enumerable" basicamente significa "será incluído se for possível iterar sobre as propriedades do objeto".
 
-Another way that enumerable and non-enumerable properties can be distinguished:
+
+**Lembrete:** Laços `for..in` aplicados a arrays podem gerar resultados inesperados, nisso a enumeração de um array incluirá não apenas todos os índices numéricos, mas também qualquer propriedade enumerável. É uma boa ideia usar laços `for..in` *apenas* em objetos, e laços tradicionais `for` com iteração com índices numéricos para os valores armazenados em arrays.
+
+<!-- **Note:** `for..in` loops applied to arrays can give somewhat unexpected results, in that the enumeration of an array will include not only all the numeric indices, but also any enumerable properties. It's a good idea to use `for..in` loops *only* on objects, and traditional `for` loops with numeric index iteration for the values stored in arrays. -->
+
+<!-- Another way that enumerable and non-enumerable properties can be distinguished: -->
+Outra maneira que propriedades enumeráveis e não-enumeráveis podem ser distinguidas:
 
 ```js
 var myObject = { };
@@ -930,6 +1055,7 @@ for (var n of randoms) {
 ```
 
 This iterator will generate random numbers "forever", so we're careful to only pull out 100 values so our program doesn't hang.
+
 
 ## Review (TL;DR)
 
