@@ -110,9 +110,9 @@ E o mais importante, **você pode utilizar a estrutura do `let` que preferir, me
 
 ## Desempenho
 
-Vou adicionar uma última nota em relação ao desempenho do `try/catch`, e abordar a seguinte questão: "Por que não apenas usar um IIFE para criar o escopo?"
+Deixe-me adicionar uma última nota em relação ao desempenho do `try/catch`, e abordar a seguinte questão: "Por que não apenas usar um IIFE para criar o escopo?"
 
-Primeiramente, o desempenho do `try/catch` é inferior, mas não há razões para ser, ou mesmo que será sempre assim. Desde que o *transpilador* ES6, aprovado por parte do TC39, utiliza `try/catch`, o time do Traceur tem solicitado ao Chrome para melhorar o desempenho, e eles estão motivados para isso.
+Primeiramente, o desempenho do `try/catch` é mais lento, mas não há razões para ter que ser assim, ou mesmo que será sempre assim. Uma vez que o *transpilador* ES6, aprovado pelo TC39, utiliza `try/catch`, o time do Traceur solicitou ao Chrome para melhorar o desempenho do `try/catch`, e eles estão motivados para fazer isso.
 
 Em segundo lugar, não é justo comparar IIFE com `try/catch`, pois uma função envolvida em torno de um código arbitrário modifica o significado, o contexto do código, de `this`, `return`, `break` e `continue`. IIFE não é um substituto geral adequado. Poderia ser usado em alguns casos, apenas.
 
