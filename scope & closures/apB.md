@@ -108,15 +108,15 @@ Assim, você pode começar a usar *let-er* a partir de agora, atingindo todos os
 
 E o mais importante, **você pode utilizar a estrutura do `let` que preferir, mesmo que não seja parte oficial de qualquer versão ES (ainda)**.
 
-## Performance
+## Desempenho
 
-Let me add one last quick note on the performance of `try/catch`, and/or to address the question, "why not just use an IIFE to create the scope?"
+Deixe-me adicionar uma última nota em relação ao desempenho do `try/catch`, e abordar a seguinte questão: "Por que não apenas usar um IIFE para criar o escopo?"
 
-Firstly, the performance of `try/catch` *is* slower, but there's no reasonable assumption that it *has* to be that way, or even that it *always will be* that way. Since the official TC39-approved ES6 transpiler uses `try/catch`, the Traceur team has asked Chrome to improve the performance of `try/catch`, and they are obviously motivated to do so.
+Primeiramente, o desempenho do `try/catch` é mais lento, mas não há razões para ter que ser assim, ou mesmo que será sempre assim. Uma vez que o *transpilador* ES6, aprovado pelo TC39, utiliza `try/catch`, o time do Traceur solicitou ao Chrome para melhorar o desempenho do `try/catch`, e eles estão motivados para fazer isso.
 
-Secondly, IIFE is not a fair apples-to-apples comparison with `try/catch`, because a function wrapped around any arbitrary code changes the meaning, inside of that code, of `this`, `return`, `break`, and `continue`. IIFE is not a suitable general substitute. It could only be used manually in certain cases.
+Em segundo lugar, não é justo comparar IIFE com `try/catch`, pois uma função envolvida em torno de um código arbitrário modifica o significado, o contexto do código, de `this`, `return`, `break` e `continue`. IIFE não é um substituto geral adequado. Poderia ser usado em alguns casos, apenas.
 
-The question really becomes: do you want block-scoping, or not. If you do, these tools provide you that option. If not, keep using `var` and go on about your coding!
+Então questionamos o seguinte: você quer escopo de bloco ou não? Se sim, as ferramentas abaixo te darão essa opção. Caso não, continue usando `var` e *keep coding!*
 
 [^note-traceur]: [Google Traceur](http://traceur-compiler.googlecode.com/git/demo/repl.html)
 
