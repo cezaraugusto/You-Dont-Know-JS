@@ -95,9 +95,13 @@ Geralmente, não é uma boa ideia adicionar chaves/propriedades `string` a `arra
 
 Generally, it's not a great idea to add `string` keys/properties to `array`s. Use `object`s for holding values in keys/properties, and save `array`s for strictly numerically indexed values.
 
-### Array-Likes
+### Estruturas Semelhantes a Arrays
+
+Haverá ocasiões onde você quererá convertar estrturas semelhantes a arrays (uma coleções numericamente indexada de valores) em um array, propriamente dito. Geralmente, você irá chamar funções de array (como `indexOf(..)`, `concat(..)`, `forEach(..)`, etc.) nesta coleção de valores.
 
 There will be occasions where you need to convert an `array`-like value (a numerically indexed collection of values) into a true `array`, usually so you can call array utilities (like `indexOf(..)`, `concat(..)`, `forEach(..)`, etc.) against the collection of values.
+
+Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são estruturas convertíveis em `array`s.
 
 For example, various DOM query operations return lists of DOM elements that are not true `array`s but are `array`-like enough for our conversion purposes. Another common example is when functions expose the `arguments` (`array`-like) object (as of ES6, deprecated) to access the arguments as a list.
 
