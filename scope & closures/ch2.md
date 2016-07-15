@@ -1,7 +1,7 @@
 # You Don't Know JS: Escopos e Clausuras
-# Chapter 2: Escopo Léxico
+# Capítulo 2: Escopo Léxico
 
-No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido. 
+No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido.
 
 Existem dois modelos principais para a definição de funcionamento do escopo. O primeiro e mais comum, utilizado pela grande maioria das linguagens de programação, é chamado de **Escopo Léxico**, e vamos examiná-lo em profundidade. O outro modelo, que ainda é utilizado em algumas linguagens como Bash scripting e alguns modos de Perl, é chamado de **Escopo Dinâmico**.
 
@@ -13,9 +13,9 @@ Conforme discutimos no Capítulo 1, a primeira etapa da compilação de linguage
 
 Este é o conceito que provê as bases para compreensão do que é o Escopo Léxico e a origem do seu nome.
 
-Para uma definição de certa forma redundante, o Escopo Léxico é o escopo definido durante a etapa de Análise Léxica. Em outras palavras, o Escopo Léxico baseia-se no local onde variáveis e blocos de escopo são criados por você durante a escrita do código, portanto (normalmente) já definidos no momento que o analisador léxico processa seu código. 
+Para uma definição de certa forma redundante, o Escopo Léxico é o escopo definido durante a etapa de Análise Léxica. Em outras palavras, o Escopo Léxico baseia-se no local onde variáveis e blocos de escopo são criados por você durante a escrita do código, portanto (normalmente) já definidos no momento que o analisador léxico processa seu código.
 
-**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa pratica tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código. 
+**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa pratica tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código.
 
 Consideremos o seguinte bloco de código:
 
@@ -66,33 +66,33 @@ Caso houvesse um `c` definido em `bar(..)` e outro em `foo(..)`, a instrução `
 window.a
 ```
 
-Esta técnica garante o acesso a uma variável global que não poderia ser acessada por conta de um eventual sombreamento. Entretanto, variáveis não-globais e que foram sombreadas não podem ser acessadas. 
+Esta técnica garante o acesso a uma variável global que não poderia ser acessada por conta de um eventual sombreamento. Entretanto, variáveis não-globais e que foram sombreadas não podem ser acessadas.
 
 Não importa o *local* onde uma função é invocada, ou até mesmo *como* é invocada, seu escopo léxico será definido **apenas** pelo local onde a função foi declarada.
 
-O processo de consulta ao escopo léxico ocorre *apenas" em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso à propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
+O processo de consulta ao escopo léxico ocorre *apenas* em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso à propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
 
-## Cheating Lexical
+## Trapaceando o Léxico
 
-If lexical scope is defined only by where a function is declared, which is entirely an author-time decision, how could there possibly be a way to "modify" (aka, cheat) lexical scope at run-time?
+Se o escopo léxico é de fato definido apenas pelo local onde uma função é declarada e este local é escolhido no momento da escrita do código, como pode haver uma maneira de "modificar" (ou trapacear) o escopo léxico em tempo de execução?
 
-JavaScript has two such mechanisms. Both of them are equally frowned-upon in the wider community as bad practices to use in your code. But the typical arguments against them are often missing the most important point: **cheating lexical scope leads to poorer performance.**
+JavaScript possui dois mecanismos para isso. Ambos são vistos como má prática e igualmente (e amplamente!) desencorajados pela comunidade de modo geral, embora os argumentos que sustentam esta opinião normalmente não trazem consigo o ponto mais relevante: **trapacear o escopo léxico leva a um pior desempenho.**
 
-Before I explain the performance issue, though, let's look at how these two mechanisms work.
+Antes de explicar a questão da performance, porém, vamos olhar a forma com que estes dois mecanismos funcionam.
 
 ### `eval`
 
-The `eval(..)` function in JavaScript takes a string as an argument, and treats the contents of the string as if it had actually been authored code at that point in the program. In other words, you can programmatically generate code inside of your authored code, and run the generated code as if it had been there at author time.
+A função `eval(..)` em JavaScript recebe uma string como argumento e trata o conteúdo desta string como se tivesse de fato sido programado pelo autor do código naquele ponto do programa. Em outras palavras, você pode gerar código dinamicamente dentro do seu programa e executar este código como se estivesse lá desde o momento da programação.
 
-Evaluating `eval(..)` (pun intended) in that light, it should be clear how `eval(..)` allows you to modify the lexical scope environment by cheating and pretending that author-time (aka, lexical) code was there all along.
+Colocando desta forma, deve estar claro como `eval(..)` permite a você modificar o ambiente do escopo léxico ao trapacear e portanto fingir que aquilo que foi gerado dinamicamente estava lá desde o momento da escrita do código.
 
-On subsequent lines of code after an `eval(..)` has executed, the *Engine* will not "know" or "care" that the previous code in question was dynamically interpreted and thus modified the lexical scope environment. The *Engine* will simply perform its lexical scope look-ups as it always does.
+Durante a execução das linhas que sucedem a chamada para `eval(..)`, o *Motor* não vai "saber" ou "se importar" se o código em questão foi interpretado dinamicamente e portanto modificou o ambiente do escopo léxico. O *Motor* vai seguir efetuando suas consultas ao escopo léxico da mesma forma de sempre.
 
-Consider the following code:
+Considere o código a seguir:
 
 ```js
 function foo(str, a) {
-	eval( str ); // cheating!
+	eval( str ); // trapaça!
 	console.log( a, b );
 }
 
@@ -101,15 +101,15 @@ var b = 2;
 foo( "var b = 3;", 1 ); // 1, 3
 ```
 
-The string `"var b = 3;"` is treated, at the point of the `eval(..)` call, as code that was there all along. Because that code happens to declare a new variable `b`, it modifies the existing lexical scope of `foo(..)`. In fact, as mentioned above, this code actually creates variable `b` inside of `foo(..)` that shadows the `b` that was declared in the outer (global) scope.
+A string `"var b = 3;"` é tratada, naquele ponto onde `eval(..)` é chamado, como um código que esteve lá desde o princípio. Pelo fato deste código declarar uma nova variável `b`, ele modifica o atual escopo léxico de `foo(..)`. O que ocorre, como mencionado acima, é que este código literalmente cria a variável `b` dentro de `foo(..)`, o que acaba por sombrear a variável `b` que foi declarada no escopo externo (neste caso, o global).
 
-When the `console.log(..)` call occurs, it finds both `a` and `b` in the scope of `foo(..)`, and never finds the outer `b`. Thus, we print out "1, 3" instead of "1, 2" as would have normally been the case.
+Quando a chamada para `console.log(..)` ocorre, são encontradas tanto `a` quanto `b` no escopo de `foo(..)`, e portanto nunca a variável `b` externa. Sendo assim, imprimimos "1, 3" em vez de "1, 2" como normalmente ocorreria.
 
-**Note:** In this example, for simplicity's sake, the string of "code" we pass in was a fixed literal. But it could easily have been programmatically created by adding characters together based on your program's logic. `eval(..)` is usually used to execute dynamically created code, as dynamically evaluating essentially static code from a string literal would provide no real benefit to just authoring the code directly.
+**Nota:** Neste exemplo, por questões de simplificação, a string de "código" que interpretamos possui um valor fixo, mas poderia facilmente ter sido gerada dinamicamente a partir de fragmentos obtidos pela lógica do seu programa. `eval(..)`é normalmente utilizada para executar código gerado dinamicamente, afinal não há qualquer benefício em interpretar dinamicamente um trecho de código estático a partir de uma string se você pode adicionar este mesmo trecho no momento da escrita do código.
 
-By default, if a string of code that `eval(..)` executes contains one or more declarations (either variables or functions), this action modifies the existing lexical scope in which the `eval(..)` resides. Technically, `eval(..)` can be invoked "indirectly", through various tricks (beyond our discussion here), which causes it to instead execute in the context of the global scope, thus modifying it. But in either case, `eval(..)` can at runtime modify an author-time lexical scope.
+Por padrão, se uma string de código executada via `eval(..)` possui uma ou mais declarações (seja de variáveis ou funções), esta ação modifica o escopo léxico no qual esta chamada para `eval(..)` se encontra. Tecnicamente, `eval(..)` pode ser invocada "indiretamente" por meio de vários truques (os quais vão além da nossa discussão), o que faz com que seja executada no contexto do escopo global, e assim sendo, modificando-o. Mas de qualquer maneira, `eval(..)` pode em tempo de execução modificar um escopo léxico definido durante a escrita do código.
 
-**Note:** `eval(..)` when used in a strict-mode program operates in its own lexical scope, which means declarations made inside of the `eval()` do not actually modify the enclosing scope.
+**Note:** Quando utilizada em um programa em Modo estrito (strict mode), `eval(..)` opera em seu próprio escopo léxico, o que significa que as declarações efetuadas dentro de `eval()` não modificam o escopo superior.
 
 ```js
 function foo(str) {
@@ -121,19 +121,19 @@ function foo(str) {
 foo( "var a = 2" );
 ```
 
-There are other facilities in JavaScript which amount to a very similar effect to `eval(..)`. `setTimeout(..)` and `setInterval(..)` *can* take a string for their respective first argument, the contents of which are `eval`uated as the code of a dynamically-generated function. This is old, legacy behavior and long-since deprecated. Don't do it!
+Javascript provê outras maneiras de se obter resultados similares aos de `eval(..)`. `setTimeout(..)` e `setInterval(..)` *podem* receber uma string como primeiro argumento, conteúdo este que será interpretado por `eval(..)` como o código de uma função gerada dinamicamente. Isto é um comportamento velho, legado, e desaconselhado há muito tempo. Não faça isso!
 
-The `new Function(..)` function constructor similarly takes a string of code in its **last** argument to turn into a dynamically-generated function (the first argument(s), if any, are the named parameters for the new function). This function-constructor syntax is slightly safer than `eval(..)`, but it should still be avoided in your code.
+O construtor de função `new Function(..)`, de forma similar, recebe uma string de código como seu **último** argumento para torná-la uma função gerada dinamicamente -- o(s) primeiro(s) argumento(s), se existir(em), nomeia(m) o(s) parâmetro(s) da nova função. Ainda assim, isso deve ser evitado em seu código.
 
-The use-cases for dynamically generating code inside your program are incredibly rare, as the performance degradations are almost never worth the capability.
+Os casos de uso para geração dinâmica de código são incrivelmente raros, visto que as perdas de performance quase nunca tornam esta prática vantajosa.
 
 ### `with`
 
-The other frowned-upon (and now deprecated!) feature in JavaScript which cheats lexical scope is the `with` keyword. There are multiple valid ways that `with` can be explained, but I will choose here to explain it from the perspective of how it interacts with and affects lexical scope.
+A outra funcionalidade mal vista (e agora desaconselhada!) em JavaScript e com a qual se pode trapacear o escopo léxico é a palavra-chave `with`. Existem muitas maneiras válidas de se explicar `with`, mas vou escolher explicar sob a óptica de como este mecanismo interage e afeta o escopo léxico.
 
-`with` is typically explained as a short-hand for making multiple property references against an object *without* repeating the object reference itself each time.
+`with` é comumente definido como um "atalho" para a criação de diversas referências à propriedades de um determinado objeto sem precisarmos referenciá-lo em cada uma delas.
 
-For example:
+Por exemplo:
 
 ```js
 var obj = {
@@ -142,12 +142,12 @@ var obj = {
 	c: 3
 };
 
-// more "tedious" to repeat "obj"
+// forma mais "chata", repetindo "obj"
 obj.a = 2;
 obj.b = 3;
 obj.c = 4;
 
-// "easier" short-hand
+// "atalho" mais fácil
 with (obj) {
 	a = 3;
 	b = 4;
@@ -155,7 +155,7 @@ with (obj) {
 }
 ```
 
-However, there's much more going on here than just a convenient short-hand for object property access. Consider:
+Entretanto, há muito mais coisas acontecendo por aqui do que a simples conveniência de acesso às propriedades de um objeto. Considerando:
 
 ```js
 function foo(obj) {
@@ -177,47 +177,47 @@ console.log( o1.a ); // 2
 
 foo( o2 );
 console.log( o2.a ); // undefined
-console.log( a ); // 2 -- Oops, leaked global!
+console.log( a ); // 2 -- Opa, "vazou" para o escopo global!
 ```
 
-In this code example, two objects `o1` and `o2` are created. One has an `a` property, and the other does not. The `foo(..)` function takes an object reference `obj` as an argument, and calls `with (obj) { .. }` on the reference. Inside the `with` block, we make what appears to be a normal lexical reference to a variable `a`, an LHS reference in fact (see Chapter 1), to assign to it the value of `2`.
+No código deste exemplo, dois objetos `o1` e `o2` são criados. Um possui uma propriedade `a` e o outro não. A função `foo(...)` recebe a referência de um objeto `obj` como argumento, e chama `with (obj) { .. }` com esta referência. Dentro do bloco `with`, criamos o que parece se tratar de uma referência léxica comum para a variável `a`, uma referência LHS para ser mais exato (veja o Capítulo 1), de forma a atribuir-lhe o valor 2.
 
-When we pass in `o1`, the `a = 2` assignment finds the property `o1.a` and assigns it the value `2`, as reflected in the subsequent `console.log(o1.a)` statement. However, when we pass in `o2`, since it does not have an `a` property, no such property is created, and `o2.a` remains `undefined`.
+Quando passamos `o1`, a atribuição `a = 2` encontra a propriedade `o1.a` e atribui-lhe o valor `2`, conforme podemos observar na instrução `console.log(o1.a)` logo a seguir. Porém, quando passamos `o2`, tendo em vista que este não possui uma propriedade `a`, nenhuma propriedade é criada e `o2.a` segue sendo `undefined`.
 
-But then we note a peculiar side-effect, the fact that a global variable `a` was created by the `a = 2` assignment. How can this be?
+Então percebemos um efeito colateral peculiar, o fato de que a variável global `a` foi criada pela atribuição `a = 2`. Como isso pode ter acontecido?
 
-The `with` statement takes an object, one which has zero or more properties, and **treats that object as if *it* is a wholly separate lexical scope**, and thus the object's properties are treated as lexically defined identifiers in that "scope".
+A instrução `with` recebe um objeto com zero ou mais propriedades, **trata *este* objeto como se fosse um escopo léxico à parte** e portanto suas propriedades são tratadas como identificadores definidos de forma lexical neste "escopo".
 
-**Note:** Even though a `with` block treats an object like a lexical scope, a normal `var` declaration inside that `with` block will not be scoped to that `with` block, but instead the containing function scope.
+**Nota:** Embora um bloco `with` trate um objeto como um escopo léxico, uma declaração `var` dentro deste bloco não terá seu escopo atrelado ao bloco `with`, mas sim ao escopo no qual este bloco se encontra.
 
-While the `eval(..)` function can modify existing lexical scope if it takes a string of code with one or more declarations in it, the `with` statement actually creates a **whole new lexical scope** out of thin air, from the object you pass to it.
+Enquanto a função `eval(..)` pode modificar o escopo léxico ao receber uma string com um código que possua uma ou mais declarações, a instrução `with`, por sua vez, cria um **escopo léxico totalmente novo** a partir do objeto que você passou.
 
-Understood in this way, the "scope" declared by the `with` statement when we passed in `o1` was `o1`, and that "scope" had an "identifier" in it which corresponds to the `o1.a` property. But when we used `o2` as the "scope", it had no such `a` "identifier" in it, and so the normal rules of LHS identifier look-up (see Chapter 1) occurred.
+Entendido desta forma, o "escopo" declarado pela instrução `with` quando passamos `o1` era `o1`, e aquele "escopo" possuía um "identificador" que correspondia à propriedade `o1.a`. Mas quando utilizamos `o2` como "escopo", este não possuía um "identificador" `a`, então se aplicam as regras normais de uma busca LHS (veja o Capítulo 1).
 
-Neither the "scope" of `o2`, nor the scope of `foo(..)`, nor the global scope even, has an `a` identifier to be found, so when `a = 2` is executed, it results in the automatic-global being created (since we're in non-strict mode).
+O identificador `a` não pode ser achado no escopo de `o2`, no escopo de `foo(...)`, nem no escopo global, então quando `a = 2` é executado, resulta na criação da variável global, já que não estamos em Modo estrito (strict mode).
 
-It is a strange sort of mind-bending thought to see `with` turning, at runtime, an object and its properties into a "scope" *with* "identifiers". But that is the clearest explanation I can give for the results we see.
+É um pouco alucinante pernsarmos no bloco `with` tornando, em tempo de execução, um objeto e suas propriedades em um "escopo" *com* "identificadores". Mas é a forma mais clara que eu tenho para apresentar os resultados que vemos.
 
-**Note:** In addition to being a bad idea to use, both `eval(..)` and `with` are affected (restricted) by Strict Mode. `with` is outright disallowed, whereas various forms of indirect or unsafe `eval(..)` are disallowed while retaining the core functionality.
+**Nota:** Somando-se ao fato de não ser uma boa ideia utilizá-las, `eval(..)` e `with` são afetadas (restringidas) pelo Modo Estrito (strict mode). `with` é totalmente proibida, ao passo que várias formas indiretas ou inseguras de se utilizar `eval(..)` são proibidas ainda que sua funcionalidade central seja mantida.
 
 ### Performance
 
-Both `eval(..)` and `with` cheat the otherwise author-time defined lexical scope by modifying or creating new lexical scope at runtime.
+Ambas `eval(..)` e `with` trapaceiam o escopo léxico que havia sido definido no momento da escrita do código ao modificar ou criar um novo escopo léxico em tempo de execução.
 
-So, what's the big deal, you ask? If they offer more sophisticated functionality and coding flexibility, aren't these *good* features? **No.**
+Você está se perguntando qual o problema nisso tudo? Se elas oferecem uma funcionalidade mais sofisticada e flexibilidade para o código, não seriam *boas* funcionalidades? **Não.**
 
-The JavaScript *Engine* has a number of performance optimizations that it performs during the compilation phase. Some of these boil down to being able to essentially statically analyze the code as it lexes, and pre-determine where all the variable and function declarations are, so that it takes less effort to resolve identifiers during execution.
+O *Motor* do JavaScript possui uma série de otimizações de performance que ocorrem durante a fase de compilação. Algumas delas se resumem a possibilitar que seja feita uma análise estática do código durante a Análise Léxica para predeterminar onde são feitas as declarações de todas as variáveis e funções, de modo que a resolução de identificadores seja menos custosa durante a execução.
 
-But if the *Engine* finds an `eval(..)` or `with` in the code, it essentially has to *assume* that all its awareness of identifier location may be invalid, because it cannot know at lexing time exactly what code you may pass to `eval(..)` to modify the lexical scope, or the contents of the object you may pass to `with` to create a new lexical scope to be consulted.
+Mas se o *Motor* encontra uma `eval(..)` ou `with` no código, este naturalmente deve *supor* que toda sua consciência em relação à localização de identificadores pode ser inválida porque ele não tem como conhecer, durante a Análise Léxica, qual código você pode vir a passar para `eval(..)` para então alterar o escopo léxico, ou qual o conteúdo do objeto que você pode vir a passar para `with` para então criar um novo escopo léxico para ser consultado.
 
-In other words, in the pessimistic sense, most of those optimizations it *would* make are pointless if `eval(..)` or `with` are present, so it simply doesn't perform the optimizations *at all*.
+Em outras palavras, no sentido pessimista, a maior parte das otimizações que *poderiam* ser feitas não fazem sentido se `eval(..)` ou `with` estão presentes, de modo que ele simplesmente *não executa* estas otimizações.
 
-Your code will almost certainly tend to run slower simply by the fact that you include an `eval(..)` or `with` anywhere in the code. No matter how smart the *Engine* may be about trying to limit the side-effects of these pessimistic assumptions, **there's no getting around the fact that without the optimizations, code runs slower.**
+É muito provável que seu código tenda a executar mais lentamente pelo fato de você incluir uma `eval(..)` ou `with` em qualquer ponto do código. Não importa quão esperto o *Motor* possa ser em relação a limitar efeitos colaterais destas premissas pessimistas, **é inegável que código sem estas otimizações é mais lento.**
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Lexical scope means that scope is defined by author-time decisions of where functions are declared. The lexing phase of compilation is essentially able to know where and how all identifiers are declared, and thus predict how they will be looked-up during execution.
+Escopo léxico significa que o escopo é definido pelo local onde funções são declaradas, através de decisões que são tomadas no momento da escrita do código. A fase de Análise Léxica da compilação é capaz de saber onde e como todos os identificadores são declarados, e portanto prever como serão buscados durante a execução.
 
-Two mechanisms in JavaScript can "cheat" lexical scope: `eval(..)` and `with`. The former can modify existing lexical scope (at runtime) by evaluating a string of "code" which has one or more declarations in it. The latter essentially creates a whole new lexical scope (again, at runtime) by treating an object reference *as* a "scope" and that object's properties as scoped identifiers.
+Dois mecanismos do JavaScript podem "trapacear" o escopo léxico: `eval(..)` e `with`. O primeiro pode modificar o escopo existente (em tempo de execução) ao interpretar uma string de "código" que contenha uma ou mais declarações. O segundo cria um escopo léxico totalmente novo (também em tempo de execução) ao tratar a referência para um objeto *como* um "escopo" e as propriedades deste objeto como identificadores deste escopo.
 
-The downside to these mechanisms is that it defeats the *Engine*'s ability to perform compile-time optimizations regarding scope look-up, because the *Engine* has to assume pessimistically that such optimizations will be invalid. Code *will* run slower as a result of using either feature. **Don't use them.**
+O problema destes mecanismos é que ambos acabam com a capacidade do *Motor* de executar, em tempo de compilação, otimizações na consulta de escopo, porque o *Motor* precisa supor de modo pessimista que todas as otimizações serão inválidas. O código *irá* ser executado mais lentamente como resultado da utilização de qualquer uma destas funcionalidades. **Não utilize-as.**

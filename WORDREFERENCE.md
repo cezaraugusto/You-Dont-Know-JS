@@ -59,12 +59,14 @@
 #### A
 
 * Assignment: Atribuição
+* Author-time: (no momento da / durante a) escrita do código (vide [#96](https://github.com/cezaraugusto/You-Dont-Know-JS/pull/96#issuecomment-223985831))
 
 
 #### B
 
 * Browser: Navegador
 * Build (no sentido de processo de unificação): Build
+* Bound: Limitadas
 
 
 #### C
@@ -80,6 +82,7 @@
 
 #### D
 
+* Deprecated: Desaconselhada(o)/Desencorajada(o) (vide [thesaurus](http://www.dictionary.com/browse/deprecated))
 * Dynamic typing: Tipagem dinâmica
 * Digging: Pode ser entendido como "brincar um pouco com", "estudar intensamente", ou até mesmo "escavar" no sentido de estudar a fundo
 
@@ -99,6 +102,7 @@
 
 #### G
 
+* Gotcha: Pegadinha
 
 #### H
 
@@ -116,6 +120,8 @@
 
 
 #### K
+
+* Keyword: Palavra-chave
 
 
 #### L
@@ -156,7 +162,7 @@
 
 * Quiz: Desafio
 * Quiz Answers: Resposta do Desafio
-
+* Quirks: confusões
 
 #### R
 
@@ -183,6 +189,7 @@
 * Transpiling: Transpiling
 * Transpiled: *Transpilada* (em *itálico*)
 * Types: Tipos
+* Throws: Lança
 
 
 #### U
