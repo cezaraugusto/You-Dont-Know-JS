@@ -50,15 +50,15 @@ Iremos direcionar nossa atenção agora para *como* o call-site determina onde o
 
 Você precisa inspecionar o call-site e determinar onde as 4 regras se aplicam. Iremos primeiro explicar cada uma dessas 4 regras de maneira independente, e depois iremos ilustrar sua ordem de precedência, caso *pudermos* aplicar multiplas regraspara o call-site.
 
-### Default Binding
+### Binding padrão
 
-The first rule we will examine comes from the most common case of function calls: standalone function invocation. Think of *this* `this` rule as the default catch-all rule when none of the other rules apply.
+A primeira regra que iremos examinar vem do caso mais comum ao se chamar uma função: invocar uma função separada. Pense *nessa* regra de `this` como a regra padrão para todos os casos quando nenhuma outra regra puder ser aplicada. 
 
-Consider this code:
+Considere esse código:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -66,19 +66,19 @@ var a = 2;
 foo(); // 2
 ```
 
-The first thing to note, if you were not already aware, is that variables declared in the global scope, as `var a = 2` is, are synonymous with global-object properties of the same name. They're not copies of each other, they *are* each other. Think of it as two sides of the same coin.
+A primeira coisa a se notar, se você ainda não estiver notado, é que as variáveis declaradas no escopo global, como `var a = 2`, são sinônimos de propriedades de objetos globais com o mesmo nome. Elas não são cópias umas das outras, eles *são* as outras. Pense nisso como os dois lados da mesma moeda.
 
-Secondly, we see that when `foo()` is called, `this.a` resolves to our global variable `a`. Why? Because in this case, the *default binding* for `this` applies to the function call, and so points `this` at the global object.
+A segunda coisa a se notar, nós vemos que quando `foo()` é chamado, `this.a` se refere à nossa variável global `a`. Porque? Por que nesse caso, o *binding padrão* para `this`se aplica ao chamado da função, sendo assim ela aponta `this`para o objeto global.
 
-How do we know that the *default binding* rule applies here? We examine the call-site to see how `foo()` is called. In our snippet, `foo()` is called with a plain, un-decorated function reference. None of the other rules we will demonstrate will apply here, so the *default binding* applies instead.
+Como podemos saber se a regra do *binding padrão* se aplica aqui? Nós examinaremos o call-site para ver como `foo()` é chamado. No nosso trecho de código, `foo()` é chamado como uma referência plana, sem nenhuma decoração. Nenhuma das outras regras que iremos demonstrar seriam aplicadas aqui, sendo assim o *binding padrão* é o que seria aplicado.
 
-If `strict mode` is in effect, the global object is not eligible for the *default binding*, so the `this` is instead set to `undefined`.
+Se o `strict mode` estiver ativo, o objeto global não é elegível para o *binding padrão*, sendo `this` nesse caso sendo apresentado como `undefined`.
 
 ```js
 function foo() {
-	"use strict";
+  "use strict";
 
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -86,23 +86,23 @@ var a = 2;
 foo(); // TypeError: `this` is `undefined`
 ```
 
-A subtle but important detail is: even though the overall `this` binding rules are entirely based on the call-site, the global object is **only** eligible for the *default binding* if the **contents** of `foo()` are **not** running in `strict mode`; the `strict mode` state of the call-site of `foo()` is irrelevant.
+Um detalhe sutil, mas importante, é que: mesmo que a regra geral do binding de `this` seja inteiramente baseada no call-site, o objeto global é eligível **apenas** para o *binding padrão* se o **conteúdo** de `foo()` não estiver rodando em `strict mode`; o estado `strict mode` do call-site de `foo()` é irrelevante.
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
 
 (function(){
-	"use strict";
+  "use strict";
 
-	foo(); // 2
+  foo(); // 2
 })();
 ```
 
-**Note:** Intentionally mixing `strict mode` and non-`strict mode` together in your own code is generally frowned upon. Your entire program should probably either be **Strict** or **non-Strict**. However, sometimes you include a third-party library that has different **Strict**'ness than your own code, so care must be taken over these subtle compatibility details.
+**Nota:** Misturar código `strict mode` e código não-`strict mode` juntos não é uma boa ideia. Seu programa deveria ser inteiramente ou **Strict** ou **não-Strict**. Entretanto, às vezes você inclui uma biblioteca externa que tem um modo diferente do seu código, então esteja atento com esse sutil detalhe sobre compatibilidade.
 
 ### Implicit Binding
 
@@ -112,12 +112,12 @@ Consider:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 obj.foo(); // 2
@@ -135,17 +135,17 @@ Only the top/last level of an object property reference chain matters to the cal
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj2 = {
-	a: 42,
-	foo: foo
+  a: 42,
+  foo: foo
 };
 
 var obj1 = {
-	a: 2,
-	obj2: obj2
+  a: 2,
+  obj2: obj2
 };
 
 obj1.obj2.foo(); // 42
@@ -159,12 +159,12 @@ Consider:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 var bar = obj.foo; // function reference/alias!
@@ -180,18 +180,18 @@ The more subtle, more common, and more unexpected way this occurs is when we con
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 function doFoo(fn) {
-	// `fn` is just another reference to `foo`
+  // `fn` is just another reference to `foo`
 
-	fn(); // <-- call-site!
+  fn(); // <-- call-site!
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 var a = "oops, global"; // `a` also property on global object
@@ -205,12 +205,12 @@ What if the function you're passing your callback to is not your own, but built-
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 var a = "oops, global"; // `a` also property on global object
@@ -222,8 +222,8 @@ Think about this crude theoretical pseudo-implementation of `setTimeout()` provi
 
 ```js
 function setTimeout(fn,delay) {
-	// wait (somehow) for `delay` milliseconds
-	fn(); // <-- call-site!
+  // wait (somehow) for `delay` milliseconds
+  fn(); // <-- call-site!
 }
 ```
 
@@ -245,11 +245,11 @@ Consider:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 foo.call( obj ); // 2
@@ -269,15 +269,15 @@ But a variation pattern around *explicit binding* actually does the trick. Consi
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = function() {
-	foo.call( obj );
+  foo.call( obj );
 };
 
 bar(); // 2
@@ -294,16 +294,16 @@ The most typical way to wrap a function with a *hard binding* creates a pass-thr
 
 ```js
 function foo(something) {
-	console.log( this.a, something );
-	return this.a + something;
+  console.log( this.a, something );
+  return this.a + something;
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = function() {
-	return foo.apply( obj, arguments );
+  return foo.apply( obj, arguments );
 };
 
 var b = bar( 3 ); // 2 3
@@ -314,19 +314,19 @@ Another way to express this pattern is to create a re-usable helper:
 
 ```js
 function foo(something) {
-	console.log( this.a, something );
-	return this.a + something;
+  console.log( this.a, something );
+  return this.a + something;
 }
 
 // simple `bind` helper
 function bind(fn, obj) {
-	return function() {
-		return fn.apply( obj, arguments );
-	};
+  return function() {
+    return fn.apply( obj, arguments );
+  };
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = bind( foo, obj );
@@ -339,12 +339,12 @@ Since *hard binding* is such a common pattern, it's provided with a built-in uti
 
 ```js
 function foo(something) {
-	console.log( this.a, something );
-	return this.a + something;
+  console.log( this.a, something );
+  return this.a + something;
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = foo.bind( obj );
@@ -365,11 +365,11 @@ For instance:
 
 ```js
 function foo(el) {
-	console.log( el, this.id );
+  console.log( el, this.id );
 }
 
 var obj = {
-	id: "awesome"
+  id: "awesome"
 };
 
 // use `obj` as `this` for `foo(..)` calls
@@ -413,7 +413,7 @@ Consider this code:
 
 ```js
 function foo(a) {
-	this.a = a;
+  this.a = a;
 }
 
 var bar = new foo( 2 );
@@ -432,17 +432,17 @@ Which is more precedent, *implicit binding* or *explicit binding*? Let's test it
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj1 = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 var obj2 = {
-	a: 3,
-	foo: foo
+  a: 3,
+  foo: foo
 };
 
 obj1.foo(); // 2
@@ -458,11 +458,11 @@ Now, we just need to figure out where *new binding* fits in the precedence.
 
 ```js
 function foo(something) {
-	this.a = something;
+  this.a = something;
 }
 
 var obj1 = {
-	foo: foo
+  foo: foo
 };
 
 var obj2 = {};
@@ -490,7 +490,7 @@ Let's check:
 
 ```js
 function foo(something) {
-	this.a = something;
+  this.a = something;
 }
 
 var obj1 = {};
@@ -510,9 +510,9 @@ This should be surprising if you go back to our "fake" bind helper:
 
 ```js
 function bind(fn, obj) {
-	return function() {
-		fn.apply( obj, arguments );
-	};
+  return function() {
+    fn.apply( obj, arguments );
+  };
 }
 ```
 
@@ -522,34 +522,34 @@ But the built-in `Function.prototype.bind(..)` as of ES5 is more sophisticated, 
 
 ```js
 if (!Function.prototype.bind) {
-	Function.prototype.bind = function(oThis) {
-		if (typeof this !== "function") {
-			// closest thing possible to the ECMAScript 5
-			// internal IsCallable function
-			throw new TypeError( "Function.prototype.bind - what " +
-				"is trying to be bound is not callable"
-			);
-		}
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== "function") {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError( "Function.prototype.bind - what " +
+        "is trying to be bound is not callable"
+      );
+    }
 
-		var aArgs = Array.prototype.slice.call( arguments, 1 ),
-			fToBind = this,
-			fNOP = function(){},
-			fBound = function(){
-				return fToBind.apply(
-					(
-						this instanceof fNOP &&
-						oThis ? this : oThis
-					),
-					aArgs.concat( Array.prototype.slice.call( arguments ) )
-				);
-			}
-		;
+    var aArgs = Array.prototype.slice.call( arguments, 1 ),
+      fToBind = this,
+      fNOP = function(){},
+      fBound = function(){
+        return fToBind.apply(
+          (
+            this instanceof fNOP &&
+            oThis ? this : oThis
+          ),
+          aArgs.concat( Array.prototype.slice.call( arguments ) )
+        );
+      }
+    ;
 
-		fNOP.prototype = this.prototype;
-		fBound.prototype = new fNOP();
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();
 
-		return fBound;
-	};
+    return fBound;
+  };
 }
 ```
 
@@ -577,7 +577,7 @@ For example:
 
 ```js
 function foo(p1,p2) {
-	this.val = p1 + p2;
+  this.val = p1 + p2;
 }
 
 // using `null` here because we don't care about
@@ -624,7 +624,7 @@ If you pass `null` or `undefined` as a `this` binding parameter to `call`, `appl
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -638,7 +638,7 @@ It's quite common to use `apply(..)` for spreading out arrays of values as param
 
 ```js
 function foo(a,b) {
-	console.log( "a:" + a + ", b:" + b );
+  console.log( "a:" + a + ", b:" + b );
 }
 
 // spreading out array as parameters
@@ -669,7 +669,7 @@ Whatever you call it, the easiest way to set it up as **totally empty** is `Obje
 
 ```js
 function foo(a,b) {
-	console.log( "a:" + a + ", b:" + b );
+  console.log( "a:" + a + ", b:" + b );
 }
 
 // our DMZ empty object
@@ -693,7 +693,7 @@ One of the most common ways that *indirect references* occur is from an assignme
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -718,23 +718,23 @@ We can construct a so-called *soft binding* utility which emulates our desired b
 
 ```js
 if (!Function.prototype.softBind) {
-	Function.prototype.softBind = function(obj) {
-		var fn = this,
-			curried = [].slice.call( arguments, 1 ),
-			bound = function bound() {
-				return fn.apply(
-					(!this ||
-						(typeof window !== "undefined" &&
-							this === window) ||
-						(typeof global !== "undefined" &&
-							this === global)
-					) ? obj : this,
-					curried.concat.apply( curried, arguments )
-				);
-			};
-		bound.prototype = Object.create( fn.prototype );
-		return bound;
-	};
+  Function.prototype.softBind = function(obj) {
+    var fn = this,
+      curried = [].slice.call( arguments, 1 ),
+      bound = function bound() {
+        return fn.apply(
+          (!this ||
+            (typeof window !== "undefined" &&
+              this === window) ||
+            (typeof global !== "undefined" &&
+              this === global)
+          ) ? obj : this,
+          curried.concat.apply( curried, arguments )
+        );
+      };
+    bound.prototype = Object.create( fn.prototype );
+    return bound;
+  };
 }
 ```
 
@@ -775,19 +775,19 @@ Let's illustrate arrow-function lexical scope:
 
 ```js
 function foo() {
-	// return an arrow function
-	return (a) => {
-		// `this` here is lexically adopted from `foo()`
-		console.log( this.a );
-	};
+  // return an arrow function
+  return (a) => {
+    // `this` here is lexically adopted from `foo()`
+    console.log( this.a );
+  };
 }
 
 var obj1 = {
-	a: 2
+  a: 2
 };
 
 var obj2 = {
-	a: 3
+  a: 3
 };
 
 var bar = foo.call( obj1 );
@@ -800,14 +800,14 @@ The most common use-case will likely be in the use of callbacks, such as event h
 
 ```js
 function foo() {
-	setTimeout(() => {
-		// `this` here is lexically adopted from `foo()`
-		console.log( this.a );
-	},100);
+  setTimeout(() => {
+    // `this` here is lexically adopted from `foo()`
+    console.log( this.a );
+  },100);
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 foo.call( obj ); // 2
@@ -817,14 +817,14 @@ While arrow-functions provide an alternative to using `bind(..)` on a function t
 
 ```js
 function foo() {
-	var self = this; // lexical capture of `this`
-	setTimeout( function(){
-		console.log( self.a );
-	}, 100 );
+  var self = this; // lexical capture of `this`
+  setTimeout( function(){
+    console.log( self.a );
+  }, 100 );
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 foo.call( obj ); // 2
