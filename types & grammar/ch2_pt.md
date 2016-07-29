@@ -101,9 +101,11 @@ Haverá ocasiões onde você quererá convertar estrturas semelhantes a arrays (
 
 There will be occasions where you need to convert an `array`-like value (a numerically indexed collection of values) into a true `array`, usually so you can call array utilities (like `indexOf(..)`, `concat(..)`, `forEach(..)`, etc.) against the collection of values.
 
-Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são estruturas convertíveis em `array`s.
+Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são estruturas convertíveis em `array`s. Outro exemplo comum é quando funções expõem o objeto `arguments` (estrutura equivalente a arrays, deprecada na ES6) para acesso aos argumentos como uma lista.
 
 For example, various DOM query operations return lists of DOM elements that are not true `array`s but are `array`-like enough for our conversion purposes. Another common example is when functions expose the `arguments` (`array`-like) object (as of ES6, deprecated) to access the arguments as a list.
+
+Uma forma comum de fazer tal conversão é usar a função `slice(..)` contra um valor:
 
 One very common way to make such a conversion is to borrow the `slice(..)` utility against the value:
 
@@ -117,7 +119,12 @@ function foo() {
 foo( "bar", "baz" ); // ["bar","baz","bam"]
 ```
 
+Se `slice()` é chamada sem nenhum parâmetros, como no exemplo acima, os valores padrão de seus parâmetros tem o efeito de
+de duplicar o `array` (neste caso, uma estrutura semelhante a arrays).
+
 If `slice()` is called without any other parameters, as it effectively is in the above snippet, the default values for its parameters have the effect of duplicating the `array` (or, in this case, `array`-like).
+
+A partir da ES6, existe uma função padrão chamada `Array.from(..)` que pode fazer o mesmo efeito:
 
 As of ES6, there's also a built-in utility called `Array.from(..)` that can do the same task:
 
@@ -127,7 +134,9 @@ var arr = Array.from( arguments );
 ...
 ```
 
-**Note:** `Array.from(..)` has several powerful capabilities, and will be covered in detail in the _ES6 & Beyond_ title of this series.
+**Nota:** `Array.from(..)` possue várias capacidades poderosa, as quais iremos cobrir em detalhes em no livro _ES6 e Além_ desta série.
+
+**Note:** `Array.from(..)` has several powerful capabilities, and will be covered in detail in the  _ES6 & Beyond_ title of this series.
 
 ## Strings
 
