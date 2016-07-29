@@ -140,7 +140,11 @@ var arr = Array.from( arguments );
 
 ## Strings
 
+É muito comum acreditar-se que uma `string` é essencialmente apenas um `array` de caracteres. Independentemente da implementação da linguagem usar ou não `array`s, é importante notar que `string`s em Javascript não são a mesma coisa que `array`s de caracteres. Sua similaridade é apenas superficial.
+
 It's a very common belief that `string`s are essentially just `array`s of characters. While the implementation under the covers may or may not use `array`s, it's important to realize that JavaScript `string`s are really not the same as `array`s of characters. The similarity is mostly just skin-deep.
+
+Por exemplo, considere os dois valores abaixo:
 
 For example, let's consider these two values:
 
@@ -148,6 +152,8 @@ For example, let's consider these two values:
 var a = "foo";
 var b = ["f","o","o"];
 ```
+
+Strings tem uma semelhança com `array` -- estruturas semelhantes a `array`s, no caso -- por exemplo, ambos tem uma propriedade `length` (tamanho, em português), um método `indexOf(..)` (`array`s apenas a partir da versão ES5) e um método `concat(..)` (concatenar, em português):
 
 Strings do have a shallow resemblance to `array`s -- `array`-likes, as above -- for instance, both of them having a `length` property, an `indexOf(..)` method (`array` version only as of ES5), and a `concat(..)` method:
 
@@ -168,6 +174,8 @@ a;                                    // "foo"
 b;                                    // ["f","o","o"]
 ```
 
+Então, ambos são basicamente apenas "arrays de caracateres", certo? **Não exatamente**:
+
 So, they're both basically just "arrays of characters", right? **Not exactly**:
 
 ```javascript
@@ -178,7 +186,11 @@ a; // "foo"
 b; // ["f","O","o"]
 ```
 
+`String`s em Javascript são imutáveis, enquanto `arrays` são mutáveis. Adicionalmente, a forma de acesso da posição de caracter `a[1]` nunca foi amplamente aceita em Javascript. Antigas versões do IE não permitiam esta sintaxe (atualmente, é aceita). Em vez disso, a forma _correta_ era `a.chartAt(1)`.
+
 JavaScript `string`s are immutable, while `array`s are quite mutable. Moreover, the `a[1]` character position access form was not always widely valid JavaScript. Older versions of IE did not allow that syntax (but now they do). Instead, the _correct_ approach has been `a.charAt(1)`.
+
+Outra consequência da imutabilidade de `string`s é que nenhum método que altera seu conteúdo pode ser feito localmente, mas sim gera-se uma nova `string`, que é retornada. Em contraste, muitos método que mudam o conteúdo de `array`s modificam localmente.
 
 A further consequence of immutable `string`s is that none of the `string` methods that alter its contents can modify in-place, but rather must create and return new `string`s. By contrast, many of the methods that change `array` contents actually _do_ modify in-place.
 
@@ -190,7 +202,10 @@ c;            // "FOO"
 
 b.push( "!" );
 b;            // ["f","O","o","!"]
+
 ```
+
+Muitos métodos de `array` pode ser úteis quando lidando com `string`s, quando podemos "pegar emprestado" métodos não-mutáveis de `array`s em `string`s:
 
 Also, many of the `array` methods that could be helpful when dealing with `string`s are not actually available for them, but we can "borrow" non-mutation `array` methods against our `string`:
 
@@ -207,6 +222,8 @@ c;                // "f-o-o"
 d;                // "F.O.O."
 ```
 
+Vamos olhar em outro exemplo: Revertendo uma `string` (incidentalmente, uma pergunta comum em entrevistas de Javascript). `array`s tem um método de mutação local `reverse()`, mas `string`s não tem:
+
 Let's take another example: reversing a `string` (incidentally, a common JavaScript interview trivia question!). `array`s have a `reverse()` in-place mutator method, but `string`s do not:
 
 ```javascript
@@ -216,12 +233,35 @@ b.reverse();    // ["!","o","O","f"]
 b;                // ["!","o","O","f"]
 ```
 
+Infelizmente, esse "empréstimo" não funciona com método mutáveis, pois `string`s são imutáveis e, por tanto, não podem ser modificadas localmente:
+
+```javascript
+Array.prototype.reverse.call( a );
+// ainda retorna um objeto wrapper de String (ver capítulo 3)
+// for "foo" :(
+```
+
+
 Unfortunately, this "borrowing" doesn't work with `array` mutators, because `string`s are immutable and thus can't be modified in place:
 
 ```javascript
 Array.prototype.reverse.call( a );
 // still returns a String object wrapper (see Chapter 3)
 // for "foo" :(
+```
+
+Outra alternativa (ou seja, um hack) é converter uma `string` em um `array`, realizar a operação desejada, e converter de volta em uma `string`.
+
+```javascript
+var c = a
+    // transforma `a` em um array de caracteres
+    .split( "" )
+    // inverte o array de caracteres
+    .reverse()
+    // transforma o array de caracteres em uma string
+    .join( "" );
+
+c; // "oof"
 ```
 
 Another workaround (aka hack) is to convert the `string` into an `array`, perform the desired operation, then convert it back to a `string`.
@@ -238,9 +278,15 @@ var c = a
 c; // "oof"
 ```
 
+Se isso parece feio, é porque é mesmo. Entretanto, _isso funciona__ para `string`s simples, então, se você precisa de algo rápido, em geral, essa abordagem servirá.
+
 If that feels ugly, it is. Nevertheless, _it works_ for simple `string`s, so if you need something quick-n-dirty, often such an approach gets the job done.
 
+**Aviso:** Tenha cuidado! Essa abordagem **não funciona** para `string`s com caracteres complexos (unicode, simbólos astrológicos, caracteres multibyte, etc). Nestes casos, você precisa de bibliotecas mais sofisticadas, para lidar com caracteres unicode corretamente. Veja o trabalo de Mathias Bynens neste assunto: _Esrever_ (<https://github.com/mathiasbynens/esrever>).
+
 **Warning:** Be careful! This approach **doesn't work** for `string`s with complex (unicode) characters in them (astral symbols, multibyte characters, etc.). You need more sophisticated library utilities that are unicode-aware for such operations to be handled accurately. Consult Mathias Bynens' work on the subject: _Esrever_ (<https://github.com/mathiasbynens/esrever>).
+
+Outra visão nesse ponto é: Se você comumente trata "strings" como _arrays de caracteres_, talvez seja melhor usar `array`s, ao invés de `strings`. Você provavelmente salvará muito trabalho de conversão de `string` para `array` cada vez. Você sempre pode chamar `join("")` em um `array` _de caracteres_ sempre que realmente precisar da representação de `string`.
 
 The other way to look at this is: if you are more commonly doing tasks on your "strings" that treat them as basically _arrays of characters_, perhaps it's better to just actually store them as `array`s rather than as `string`s. You'll probably save yourself a lot of hassle of converting from `string` to `array` each time. You can always call `join("")` on the `array` _of characters_ whenever you actually need the `string` representation.
 
