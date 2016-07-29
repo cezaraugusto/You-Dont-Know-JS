@@ -80,7 +80,7 @@ Geralmente, não é uma boa ideia adicionar chaves/propriedades `string` a `arra
 
 Haverá ocasiões onde você quererá convertar estrturas semelhantes a arrays (uma coleção numericamente indexada de valores) em um array, propriamente dito. Geralmente, você irá chamar funções de array (como `indexOf(..)`, `concat(..)`, `forEach(..)`, etc.) nesta coleção de valores.
 
-Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são estruturas convertíveis em `array`s. Outro exemplo comum é quando funções expõem o objeto `arguments` (estrutura equivalente a arrays, deprecada na ES6) para acesso aos argumentos como uma lista.
+Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são estruturas convertíveis em `array`s. Outro exemplo comum é quando funções expõem o objeto `arguments` (estrutura equivalente a arrays, desencorajada na ES6) para acesso aos argumentos como uma lista.
 
 Uma forma comum de fazer tal conversão é usar a função `slice(..)` em um valor:
 
