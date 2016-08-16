@@ -156,9 +156,9 @@ A responsabilidade será sua de se proteger de usar diretamente valores com meca
 
 ### *promise* API
 
-The *promise* API also provides some static methods for working with Promises.
+A API *promise* também provê alguns métodos estáticos para trabalhar com *Promises*
 
-`Promise.resolve(..)` creates a promise resolved to the value passed in. Let's compare how it works to the more manual approach:
+`Promise.resolve(..)` cria uma `promise` resolvida para o valor informado. Vamos comparar como isso funciona em uma abordagem manual:
 
 ```js
 var p1 = Promise.resolve( 42 );
@@ -168,7 +168,7 @@ var p2 = new Promise( function pr(resolve){
 } );
 ```
 
-`p1` and `p2` will have essentially identical behavior. The same goes for resolving with a promise:
+`p1` e `p2` terão essencialmente comportamentos idênticos. O mesmo vale para resolver uma `promise`:
 
 ```js
 var theP = ajax( .. );
@@ -180,9 +180,9 @@ var p2 = new Promise( function pr(resolve){
 } );
 ```
 
-**Tip:** `Promise.resolve(..)` is the solution to the thenable trust issue raised in the previous section. Any value that you are not already certain is a trustable promise -- even if it could be an immediate value -- can be normalized by passing it to `Promise.resolve(..)`. If the value is already a recognizable promise or thenable, its state/resolution will simply be adopted, insulating you from misbehavior. If it's instead an immediate value, it will be "wrapped" in a genuine promise, thereby normalizing its behavior to be async.
+**Dica** `Promise.resolve(..)` é uma solução para problemas de confiabilidade de *thenable* abordado na seção anterior. Qualquer valor que você ainda não está seguro se é uma promise confiável -- mesmo podendo ser um valor imediato -- pode ser normalizado passando-o como argumento para `Promise.resolve(..)`. Se o valor já for uma *promise* reconhecida ou *thenable*, seu estado/resolução será simplesmente adotado, prevenindo-o de comportamentos não esperados. E mesmo sendo um valor imediato, o mesmo será envolvido em uma *promise* genuína, normalizando assim seu comportamento para ser assíncrono.
 
-`Promise.reject(..)` creates an immediately rejected promise, the same as its `Promise(..)` constructor counterpart:
+`Promise.reject(..)` cria imediatamente uma `promise` rejeitada, o mesmo que seu construtor `Promise(..)`: 
 
 ```js
 var p1 = Promise.reject( "Oops" );
@@ -192,7 +192,7 @@ var p2 = new Promise( function pr(resolve,reject){
 } );
 ```
 
-While `resolve(..)` and `Promise.resolve(..)` can accept a promise and adopt its state/resolution, `reject(..)` and `Promise.reject(..)` do not differentiate what value they receive. So, if you reject with a promise or thenable, the promise/thenable itself will be set as the rejection reason, not its underlying value.
+Enquanto `resolve(..)` e `Promise.resolve(..)` podem aceitar uma promisse e adotar seu estado/resolução, `reject(..)` e `Promise.reject(..)` não diferenciam qual valor eles recebem. Então, se você rejeitar com uma `promise` ou `thenable`, a `promise/thenable` por se só será setadas como a rezão da rejeição, e não o seu valor subjacente.
 
 `Promise.all([ .. ])` accepts an array of one or more values (e.g., immediate values, promises, thenables). It returns a promise back that will be fulfilled if all the values fulfill, or reject immediately once the first of any of them rejects.
 
