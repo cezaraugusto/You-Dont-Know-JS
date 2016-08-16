@@ -129,36 +129,36 @@ ajax( "http://some.url.1" )
 
 ### Thenables
 
-Promises are genuine instances of the `Promise(..)` constructor. However, there are promise-like objects called *thenables* that generally can interoperate with the Promise mechanisms.
+*Promises* são instâncias do construtor `Promise(..)`. Contudo, há objetos *semelhantes à promise* chamados *thenables* que geralmente podem trabalhar em conjunto com mecanismos *Promise*
 
-Any object (or function) with a `then(..)` function on it is assumed to be a thenable. Any place where the Promise mechanisms can accept and adopt the state of a genuine promise, they can also handle a thenable.
+Qualquer objeto (ou função) com um método `then(..)` é tido como um *thenable*. Qualquer lugar onde mecanismos *Promise* podem aceitar e adotar o estado de uma *promise* genuína, ele pode também lidar com um *thenable*.
 
-Thenables are basically a general label for any promise-like value that may have been created by some other system than the actual `Promise(..)` constructor. In that perspective, a thenable is generally less trustable than a genuine Promise. Consider this misbehaving thenable, for example:
+*Thenables* são basicamente rótulos genericos para qualquer valor *semelhante à promise* que pode ter sido criado por outro mecanismo diferente do atual construtor `Promise()`. Nessa perspectiva, um *thenable* é geralmente menos confiável que uma *Promise* genuína. Considere esse *thenable* inapropriado, por exemplo:
 
 ```js
 var th = {
 	then: function thener( fulfilled ) {
-		// call `fulfilled(..)` once every 100ms forever
+		// chama `fulfilled(..)` uma vez a cada 100ms eternamete.
 		setInterval( fulfilled, 100 );
 	}
 };
 ```
 
-If you received that thenable and chained it with `th.then(..)`, you'd likely be surprised that your fulfillment handler is called repeatedly, when normal Promises are supposed to only ever be resolved once.
+If you received that thenable and chained it with `th.then(..)`, você provavelmente se surpreendeu pelo manipulador de cumprimento ter sido chamado repetidamente, enquanto em *Promises* originais espera-se que sejam resolvidas apenas uma única vez.
 
-Generally, if you're receiving what purports to be a promise or thenable back from some other system, you shouldn't just trust it blindly. In the next section, we'll see a utility included with ES6 Promises that helps address this trust concern.
+Geralmente, você não deve confirar cegamente se você está esperando receber o que se propõe a ser uma *promise* ou *thenable* de algum outro sistema. Na próxima seção, nós veremos uma vantagem incluída nas Promises do ES6 que ajuda a endereçar essas preocupações com a confiabilidade.
 
-But to further understand the perils of this issue, consider that *any* object in *any* piece of code that's ever been defined to have a method on it called `then(..)` can be potentially confused as a thenable -- if used with Promises, of course -- regardless of if that thing was ever intended to even remotely be related to Promise-style async coding.
+Mas para entender melhor os perigos desse assunto, considere que *qualquer* objeto em *qualquer* pedaço de código que foi definido para ter um método chamado `then(..)` pode ser pontencialmente confundido com um *thenable* -- se usado como *Promises*, claro -- mesmo se esse código nem remotamente tiver sido destinado a ser um código assincrono *estilo Promise*.
 
-Prior to ES6, there was never any special reservation made on methods called `then(..)`, and as you can imagine there's been at least a few cases where that method name has been chosen prior to Promises ever showing up on the radar screen. The most likely case of mistaken thenable will be async libraries that use `then(..)` but which are not strictly Promises-compliant -- there are several out in the wild.
+Antes do ES6, nunca houve qualquer método reservado chamado `then(..)`, e como você pode imaginar há ao menos alguns casos onde esse nome foi escolhido para um método antes das *Promises* terem entrado em cena. O equívoco mais provável de *thenable* seriam bibliotecas assíncronas que usam `then(..)` mas que não são estritamente compatíveis com Promises -- existem muitas por aí.
 
-The onus will be on you to guard against directly using values with the Promise mechanism that would be incorrectly assumed to be a thenable.
+A responsabilidade será sua de se proteger de usar diretamente valores com mecanismo *Promise* que poderíam ser erradamente assumindos como *thenable*.
 
 ### *promise* API
 
-The *promise* API also provides some static methods for working with Promises.
+A API *promise* também provê alguns métodos estáticos para trabalhar com *Promises*
 
-`Promise.resolve(..)` creates a promise resolved to the value passed in. Let's compare how it works to the more manual approach:
+`Promise.resolve(..)` cria uma `promise` resolvida para o valor informado. Vamos comparar como isso funciona em uma abordagem manual:
 
 ```js
 var p1 = Promise.resolve( 42 );
@@ -168,7 +168,7 @@ var p2 = new Promise( function pr(resolve){
 } );
 ```
 
-`p1` and `p2` will have essentially identical behavior. The same goes for resolving with a promise:
+`p1` e `p2` terão essencialmente comportamentos idênticos. O mesmo vale para resolver uma `promise`:
 
 ```js
 var theP = ajax( .. );
@@ -180,9 +180,9 @@ var p2 = new Promise( function pr(resolve){
 } );
 ```
 
-**Tip:** `Promise.resolve(..)` is the solution to the thenable trust issue raised in the previous section. Any value that you are not already certain is a trustable promise -- even if it could be an immediate value -- can be normalized by passing it to `Promise.resolve(..)`. If the value is already a recognizable promise or thenable, its state/resolution will simply be adopted, insulating you from misbehavior. If it's instead an immediate value, it will be "wrapped" in a genuine promise, thereby normalizing its behavior to be async.
+**Dica** `Promise.resolve(..)` é uma solução para problemas de confiabilidade de *thenable* abordado na seção anterior. Qualquer valor que você ainda não está seguro se é uma promise confiável -- mesmo podendo ser um valor imediato -- pode ser normalizado passando-o como argumento para `Promise.resolve(..)`. Se o valor já for uma *promise* reconhecida ou *thenable*, seu estado/resolução será simplesmente adotado, prevenindo-o de comportamentos não esperados. E mesmo sendo um valor imediato, o mesmo será envolvido em uma *promise* genuína, normalizando assim seu comportamento para ser assíncrono.
 
-`Promise.reject(..)` creates an immediately rejected promise, the same as its `Promise(..)` constructor counterpart:
+`Promise.reject(..)` cria imediatamente uma `promise` rejeitada, o mesmo que seu construtor `Promise(..)`: 
 
 ```js
 var p1 = Promise.reject( "Oops" );
@@ -192,7 +192,7 @@ var p2 = new Promise( function pr(resolve,reject){
 } );
 ```
 
-While `resolve(..)` and `Promise.resolve(..)` can accept a promise and adopt its state/resolution, `reject(..)` and `Promise.reject(..)` do not differentiate what value they receive. So, if you reject with a promise or thenable, the promise/thenable itself will be set as the rejection reason, not its underlying value.
+Enquanto `resolve(..)` e `Promise.resolve(..)` podem aceitar uma promisse e adotar seu estado/resolução, `reject(..)` e `Promise.reject(..)` não diferenciam qual valor eles recebem. Então, se você rejeitar com uma `promise` ou `thenable`, a `promise/thenable` por se só será setadas como a rezão da rejeição, e não o seu valor subjacente.
 
 `Promise.all([ .. ])` accepts an array of one or more values (e.g., immediate values, promises, thenables). It returns a promise back that will be fulfilled if all the values fulfill, or reject immediately once the first of any of them rejects.
 
