@@ -92,7 +92,7 @@
 * Engine: Motor
 * Equality: Igualdade
 * Evaluate: Avaliado
-* Expresions: Expressões
+* Expressions: Expressões
 
 
 #### F
