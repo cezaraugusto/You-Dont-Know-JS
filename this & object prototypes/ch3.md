@@ -29,9 +29,7 @@ A forma construída e a forma literal resultam exatamente no mesmo tipo de objet
 
 **Lembrete:** É extremamente raro o uso da "forma contruída" para a criação de objetos como mostrado. Você praticamente sempre preferirá usar a sintaxe da forma literal. O mesmo acontece com a maioria dos objetos nativos (veja abaixo).
 
-
 ## Tipo
-
 
 Objetos são o bloco de contrução geral no qual muito do JS é contruído. Eles são  um do 6 tipos primários (chamados "tipos de linguagem" na especificação) em JS:
 
@@ -323,9 +321,7 @@ O que exatamente deveria ser a representação de um *copy* de `myObject`?
 
 Primeiramente, nós devemos responder se deveria ser uma cópia *rasa* ou *profunda*? Uma cópia rasa terminaria com `a` no novo objeto como uma cópia do valor `2`, mas as propriedades `b`, `c`, e `d` são apenas referências para o objeto original. Uma cópia profunda duplicaria não apenas `myObject`, mas `anotherObject` e `anotherArray`. Mas temos problemas nos quais `anotherArray` possue referências para `anotherObject` e `myObject`, então *esses* também devem ser duplicados em vez de preservarem referências. Agora temos um problema de duplicação circular infinita por causa da referência circular.
 
-
 Devemos detectar uma referência circular e apenas quebrar a transversal circular (deixando o elemento profundo não completamente duplicado)?
-
 
 Além disso, não fica realmente claro o que "duplicar" um função significaria? Existem alguns hacks como retirar a serialização do `toString()` do código fonte de uma função (que varia entre diferentes implementações e nem é confiável em todos os motores JS, dependendo do tipo de de função que está sendo inspecionada).
 
@@ -380,7 +376,7 @@ Object.getOwnPropertyDescriptor( myObject, "a" );
 
 Como pode ver, o descritor da propriedade (chamado de "descritor de dados", um vez que ele apenas guarda um valor de dado) para nossa propriedade de objeto normal `a` é muito mais que apenas o `valor` de `2`. Ele inclue outras 3 características: `writable`, `enumerable`, and `configurable`.
 
-Enquanto nós podemos ver o que os valores padrão para as características do descritor de propriedade são quando criamos uma propriedade normal, nós podemos usar `Object.defineProperty(..)` para adicionar uma nova propriedade, ou modificar uma já existente (se ela for `configurable`!), com as caracteriísticas desejadas.
+Enquanto nós podemos ver o que os valores padrão para as características do descritor de propriedade são quando criamos uma propriedade normal, nós podemos usar `Object.defineProperty(..)` para adicionar uma nova propriedade, ou modificar uma já existente (se ela for `configurable`!), com as características desejadas.
 
 Por exemplo:
 
@@ -546,7 +542,6 @@ Object.defineProperty( myObject, "FAVORITE_NUMBER", {
 
 ### Prevenir Extensões
 
-
 Se você quiser prevenir que um objeto tenha novas propriedades adicionadas a ele, mantendo apenas o resto das propriedades do objeto, chame `Object.preventExtensions(..)`:
 
 ```js
@@ -642,32 +637,32 @@ Se a propriedade ainda não estiver presente no objeto em questão, a operação
 
 ### Getters & Setters
 
-The default `[[Put]]` and `[[Get]]` operations for objects completely control how values are set to existing or new properties, or retrieved from existing properties, respectively.
+As operações padrão `[[Put]]` e `[[Get]]` de objetos controlam como valores são definidos em propriedades novas ou já existentes, ou obtidos de propriedades existentes, respectivamente.
 
-**Note:** Using future/advanced capabilities of the language, it may be possible to override the default `[[Get]]` or `[[Put]]` operations for an entire object (not just per property). This is beyond the scope of our discussion in this book, but will be covered later in the "You Don't Know JS" series.
+**Nota:** Utilizando futuros/avançados recursos da linguagem, pode ser possível sobrescrever as operações padrão `[[Get]]` or `[[Put]]` para um objeto inteiro (não apenas por propriedade). Isso está além do escopo da nossa discussão nesse livro, mas será abordado depois nas séries "You Don't Know JS".
 
-ES5 introduced a way to override part of these default operations, not on an object level but a per-property level, through the use of getters and setters. Getters are properties which actually call a hidden function to retrieve a value. Setters are properties which actually call a hidden function to set a value.
+ES5 introduziu uma forma de sobrescrever parte dessas operações, não no nível de objeto mas no nível por-propriedade, através do uso de _getters_ e _setters_. Getters são propriedades que, na verdade, chamam uma função oculta para recuperar um valor. Setters são propriedades que chamam uma função oculta para estabelecer um valor.
 
-When you define a property to have either a getter or a setter or both, its definition becomes an "accessor descriptor" (as opposed to a "data descriptor"). For accessor-descriptors, the `value` and `writable` characteristics of the descriptor are moot and ignored, and instead JS considers the `set` and `get` characteristics of the property (as well as `configurable` and `enumerable`).
+Quando você define uma propriedade para ter um getter ou um setter ou ambos, a definição da propriedade se torna um "descritor acessor" (o oposto de um "descritor de dados"). Para descritores-acessor, os características da propriedade de `value` e `writable` são discutíveis e ignoradas, em vez disso, o JS considera as características da propriedade de `set` e `get` (como também `configurable` e `enumerable`).
 
-Consider:
+Considere:
 
 ```js
 var myObject = {
-	// define a getter for `a`
+	// define um getter para `a`
 	get a() {
 		return 2;
 	}
 };
 
 Object.defineProperty(
-	myObject,	// target
-	"b",		// property name
-	{			// descriptor
-		// define a getter for `b`
+	myObject,	// alvo
+	"b",		// nome da propriedade
+	{			// descritor
+		// define um getter para `b`
 		get: function(){ return this.a * 2 },
 
-		// make sure `b` shows up as an object property
+		// certifica que `b` aparece como uma propriedade do objeto
 		enumerable: true
 	}
 );
@@ -677,11 +672,11 @@ myObject.a; // 2
 myObject.b; // 4
 ```
 
-Either through object-literal syntax with `get a() { .. }` or through explicit definition with `defineProperty(..)`, in both cases we created a property on the object that actually doesn't hold a value, but whose access automatically results in a hidden function call to the getter function, with whatever value it returns being the result of the property access.
+Através da sintaxe de objeto-literal com `get a() { .. }` ou por definição explícita com `defineProperty(..)`, nos dois casos nós criamos uma propriedade do objeto que realmente não mantém um valor, mas o acesso à propriedade resulta automaticamente em uma chamada de função oculta a uma função getter, com qualquer valor que ela retorna sendo o resultado do acesso à propriedade. 
 
 ```js
 var myObject = {
-	// define a getter for `a`
+	// define um getter para `a`
 	get a() {
 		return 2;
 	}
@@ -692,18 +687,18 @@ myObject.a = 3;
 myObject.a; // 2
 ```
 
-Since we only defined a getter for `a`, if we try to set the value of `a` later, the set operation won't throw an error but will just silently throw the assignment away. Even if there was a valid setter, our custom getter is hard-coded to return only `2`, so the set operation would be moot.
+Desde que nós apenas definimos um getter para `a`, se tentarmos definir o valor de `a` depois, a operação de set não lançará um erro, mas irá descartar a atribuição silenciosamente. Mesmo se houvesse um setter válido, nosso getter personalizado é _hard-coded_ para retornar apenas `2`, logo o operação de set seria discutível. 
 
-To make this scenario more sensible, properties should also be defined with setters, which override the default `[[Put]]` operation (aka, assignment), per-property, just as you'd expect. You will almost certainly want to always declare both getter and setter (having only one or the other often leads to unexpected/surprising behavior):
+Para deixar esse cenário mais sensível, propriedades deveriam ser definidades com setters também, que sobrescrevem a operação `[[Put]]` padrão (conhecida como atribuição), por-propriedade, apenas como esperaríamos. Você provavelmente vai sempre querer declarar tanto getter como setter (ter apenas um ou outro geralmente leva a um comportamento inesperado/espantoso):
 
 ```js
 var myObject = {
-	// define a getter for `a`
+	// define um getter para `a`
 	get a() {
 		return this._a_;
 	},
 
-	// define a setter for `a`
+	// define um setter para `a`
 	set a(val) {
 		this._a_ = val * 2;
 	}
@@ -714,13 +709,13 @@ myObject.a = 2;
 myObject.a; // 4
 ```
 
-**Note:** In this example, we actually store the specified value `2` of the assignment (`[[Put]]` operation) into another variable `_a_`. The `_a_` name is purely by convention for this example and implies nothing special about its behavior -- it's a normal property like any other.
+**Nota:** Nesse exemplo, nós armazenamos um específico valor `2` da atribuição (`[[Put]]` operation) em outra variável `_a_`. O nome `_a_` é uma mera convenção para esse exemplo e não implica em nada especial em relação a comportamento -- é uma propriedade normal assim como qualquer outra.
 
-### Existence
+### Existência
 
-We showed earlier that a property access like `myObject.a` may result in an `undefined` value if either the explicit `undefined` is stored there or the `a` property doesn't exist at all. So, if the value is the same in both cases, how else do we distinguish them?
+Nós mostramos anteriormente que o acesso à propriedade como `myObject.a` pode resultar em um valor `undefined` caso o `undefined` for armazenado explicitamente na propriedade ou a propriedade `a` não existir de forma alguma. Logo, se o valor é o mesmo em ambos os casos, como é que diferenciamos? 
 
-We can ask an object if it has a certain property *without* asking to get that property's value:
+Podemos perguntar a um objeto se ele possue certa propriedade *sem* pedir para obter o valor da propriedade: 
 
 ```js
 var myObject = {
@@ -734,18 +729,15 @@ myObject.hasOwnProperty( "a" );	// true
 myObject.hasOwnProperty( "b" );	// false
 ```
 
-The `in` operator will check to see if the property is *in* the object, or if it exists at any higher level of the `[[Prototype]]` chain object traversal (see Chapter 5). By contrast, `hasOwnProperty(..)` checks to see if *only* `myObject` has the property or not, and will *not* consult the `[[Prototype]]` chain. We'll come back to the important differences between these two operations in Chapter 5 when we explore `[[Prototype]]`s in detail.
+O operador `in` verificará se a propriedade *está* no objeto ou se ela existe em algum nível mais alto da cadeia de  `[[Prototype]]` do objeto (veja Capítulo 5). Em contraste ao `in`, `hasOwnProperty(..)` verifica *apenas* se `myObject` tem a propriedade ou não, e não consultará a cadeia de `[[Prototype]]`. Nós voltaremos a discutir importantes diferenças entre essas duas operações no Capítulo 5, onde examinamos `[[Prototype]]`s em detalhes.
 
-`hasOwnProperty(..)` is accessible for all normal objects via delegation to `Object.prototype` (see Chapter 5). But it's possible to create an object that does not link to `Object.prototype` (via `Object.create(null)` -- see Chapter 5). In this case, a method call like `myObject.hasOwnProperty(..)` would fail.
+`hasOwnProperty(..)` é acessível para todos os objetos normais via delegação ao `Object.prototype` (veja o Capítulo 5). Mas é possível criar um objeto que seja ligado ao `Object.prototype` (via `Object.create(null)`) -- (veja o Capítulo 5). Nesse caso, uma chamada de método como `myObject.hasOwnProperty(..)` falharia.
 
-In that scenario, a more robust way of performing such a check is `Object.prototype.hasOwnProperty.call(myObject,"a")`, which borrows the base `hasOwnProperty(..)` method and uses *explicit `this` binding* (see Chapter 2) to apply it against our `myObject`.
+Nesse cenário, um modo mais robusto de realizar tal verificação é `Object.prototype.hasOwnProperty.call(myObject,"a")`, que toma emprestado o método base `hasOwnProperty(..)` e usa um *_binding_ explícito de `this`* (veja o Capítulo 2) para aplicar ao nosso `myObject`.
 
-**Note:** The `in` operator has the appearance that it will check for the existence of a *value* inside a container, but it actually checks for the existence of a property name. This difference is important to note with respect to arrays, as the temptation to try a check like `4 in [2, 4, 6]` is strong, but this will not behave as expected.
+**Nota:** O operador `in` aparenta que verificará a existência de um *valor* dentro de um container, mas na verdade ele verifica a existência de um nome de propriedade. Essa diferença é importante de se notar no que se diz respeito a arrays, onde há uma forte tentação de verificar algo como `4 in [2, 4, 6]`, mas isso não se comportará da maneira esperada.
 
-<!-- #### Enumeration -->
 #### Enumeração
-
-<!-- Previously, we explained briefly the idea of "enumerability" when we looked at the `enumerable` property descriptor characteristic. Let's revisit that and examine it in more close detail. -->
 
 Anteriormente, explicamos brevemente a ideia de "enumerabilidade" quando olhamos para a característica do descritor de propriedade de `enumerable`. Vamos rever e examinar isso mais detalhadamente.
 
@@ -780,7 +772,6 @@ for (var k in myObject) {
 
 Você vai perceber que `myObject.b` de fato **existe** e tem um valor acessível, mas não aparece no laço `for..in` (embora, surpreendentemente, ele seja mostrado pelo operador de `in` que verifica se a propriedade existe). Isso acontece porque "enumerable" basicamente significa "será incluído se for possível iterar sobre as propriedades do objeto".
 
-
 **Lembrete:** Laços `for..in` aplicados a arrays podem gerar resultados inesperados, nisso a enumeração de um array incluirá não apenas todos os índices numéricos, mas também qualquer propriedade enumerável. É uma boa ideia usar laços `for..in` *apenas* em objetos, e laços tradicionais `for` com iteração com índices numéricos para os valores armazenados em arrays.
 
 Outra maneira que propriedades enumeráveis e não-enumeráveis podem ser distinguidas:
@@ -811,15 +802,15 @@ Object.getOwnPropertyNames( myObject ); // ["a", "b"]
 
 `propertyIsEnumerable(..)` testa se dado nome de propriedade existe *diretamente* em um objeto e também se é `enumerable:true`.
 
-`Object.keys(..)` returns an array of all enumerable properties, whereas `Object.getOwnPropertyNames(..)` returns an array of *all* properties, enumerable or not.
+`Object.keys(..)` retorna um array de todas propriedades enumeráveis, enquanto que `Object.getOwnPropertyNames(..)` retorna um array de *todas* as propriedades, enumerável ou não.
 
-Whereas `in` vs. `hasOwnProperty(..)` differ in whether they consult the `[[Prototype]]` chain or not, `Object.keys(..)` and `Object.getOwnPropertyNames(..)` both inspect *only* the direct object specified.
+Enquanto que `in` vs. `hasOwnProperty(..)` divergem com relação se eles consultam a cadeia de `[[Prototype]]` ou não, `Object.keys(..)` e `Object.getOwnPropertyNames(..)` inspecionam *apenas* o objeto direto especificado.
 
-There's (currently) no built-in way to get a list of **all properties** which is equivalent to what the `in` operator test would consult (traversing all properties on the entire `[[Prototype]]` chain, as explained in Chapter 5). You could approximate such a utility by recursively traversing the `[[Prototype]]` chain of an object, and for each level, capturing the list from `Object.keys(..)` -- only enumerable properties.
+Atualmente, não há uma maneira nativa de obter uma lista de **todas as propriedades** equivalente ao que o operator `in` faz (percorrendo todas as propriedades de toda a cadeia de `[[Prototype]]`, como foi explicado no Capítulo 5). Você poderia ter um recurso parecido percorrendo recursivamente a cadeia de `[[Prototype]]` de um objeto e, para cada nível, capturar a lista de propriedades de `Object.keys(..)` -- apenas propriedades enumeráveis.
 
 ## Iteração
 
-O laço `for..in` itera sobre a lista de proprieades enumeráveis de um objeto (incluindo a série de `[[Prototype]]`). Mas e se você quiser iterar sobre os valores?
+O laço `for..in` itera sobre a lista de propriedades enumeráveis de um objeto (incluindo a série de `[[Prototype]]`). Mas e se você quiser iterar sobre os valores?
 
 Com arrays indexados numericamente, iterar sobre os valores é geralmente realizado usado o laço padrão `for`, assim:
 
@@ -877,7 +868,7 @@ Como o trecho acima revela, o valor de retorno de uma chamada `next()` do iterad
 
 Note que o valor `3` foi retornado com `done:false`, que parece estranho à primeira vista. Você tem que chamar o `next()` uma quarta vez (que o laço `for..of` no trecho de código anterior faz automaticamente) para obter `done:true` e saber que você realmente finalizou a iteração. A razão for this quirk estaá aleém do escopo do que iremos discutir aqui, mas vem de semânticas de funções do gerador no ES6.
 
-Enquanto arrays iteram automaticamente nos laços `for..of`, objetos comuns **naão possuem um `@@iterator` nativo**.
+Enquanto arrays iteram automaticamente nos laços `for..of`, objetos comuns **não possuem um `@@iterator` nativo**.
 As razões para omissão intencional são mais complexas do que examinaremos aqui, mas em geral foi melhor não incluir alguma implementação que pudesse ser problemática em futuros tipos de objetos. 
 
 *É* possível definir seu próprio `@@iterator` padrão para qualquer objeto que você queira iterar. Por exemplo:
@@ -954,16 +945,16 @@ for (var n of randoms) {
 Esse iterador gerará números randômicos "para sempre", por isso tivermos cuidado em pegar apenas 100 valores, fazendo com que nosso programa não fique suspenso.
 
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Objects in JS have both a literal form (such as `var a = { .. }`) and a constructed form (such as `var a = new Array(..)`). The literal form is almost always preferred, but the constructed form offers, in some cases, more creation options.
+Objetos em JS possuem uma forma literal (tal como `var a = { .. }`) e uma forma construída (tal como `var a = new Array(..)`). A forma literal é quase sempre preferível, mas a forma construída oferece, em alguns casos, mais opções de criação.
 
-Many people mistakingly claim "everything in JavaScript is an object", but this is incorrect. Objects are one of the 6 (or 7, depending on your perspective) primitive types. Objects have sub-types, including `function`, and also can be behavior-specialized, like `[object Array]` as the internal label representing the array object sub-type.
+Muitas pessoas alegam erradamente que "tudo em JavaScript é um objeto", mas essa afirmação é incorreta. Objetos são um dos 6 (or 7, dependendo de sua perspectiva) tipos primitivos. Objetos têm sub-tipos, incluindo `function`, e também podem ser comportamento-especializado, como `[object Array]`, rótulo interno representando o sub-tipo de objeto de array.
 
-Objects are collections of key/value pairs. The values can be accessed as properties, via `.propName` or `["propName"]` syntax. Whenever a property is accessed, the engine actually invokes the internal default `[[Get]]` operation (and `[[Put]]` for setting values), which not only looks for the property directly on the object, but which will traverse the `[[Prototype]]` chain (see Chapter 5) if not found.
+Objetos são coleções de pares chave/valor. Os valores podem ser acessados como propriedades, via sintaxe `.propName` ou `["propName"]`. A qualquer momento que uma propriedade é acessada, o motor JS, na verdade, invoca a operação interna `[[Get]]` padrão (e `[[Put]]` para definir valores), que não só procura pela propriedade diretamente no objeto, mas irá percorrer a cadeia de `[[Prototype]]` se não for encontrada.
 
-Properties have certain characteristics that can be controlled through property descriptors, such as `writable` and `configurable`. In addition, objects can have their mutability (and that of their properties) controlled to various levels of immutability using `Object.preventExtensions(..)`, `Object.seal(..)`, and `Object.freeze(..)`.
+Propriedades têm certas características que podem ser controladas por decritores de propriedade, tais como `writable` e `configurable`. Além disso, objetos podem ter suas mutabilidades (e de suas propriedades) controladas para vários níveis de imutabilidade usando `Object.preventExtensions(..)`, `Object.seal(..)` e `Object.freeze(..)`.
 
-Properties don't have to contain values -- they can be "accessor properties" as well, with getters/setters. They can also be either *enumerable* or not, which controls if they show up in `for..in` loop iterations, for instance.
+Propriedades não têm que conter valores -- elas podem ser "propriedades de acessor" também, com getters/setters. Elas também podem ser *enumeráveis* ou não, que controlam se eles aparecem nas iterações do laço `for..in`, por exemplo.
 
-You can also iterate over **the values** in data structures (arrays, objects, etc) using the ES6 `for..of` syntax, which looks for either a built-in or custom `@@iterator` object consisting of a `next()` method to advance through the data values one at a time.
+Você também pode iterar sobre **os valores** nas estruturas de dados (arrays, objetos etc) usando a sintaxe `for..of` do ES6, que procura por um objeto `@@iterator` nativo ou personalizado consistindo de um método `next()` para avançar pelos valores de dados um de cada vez.
