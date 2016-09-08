@@ -27,11 +27,11 @@ myObj.key = value;
 
 A forma construída e a forma literal resultam exatamente no mesmo tipo de objeto. A única diferença é que você pode adicionar um ou mais pares chave/valor na declaração literal, enquanto que com objetos de forma construída, você tem que adicionar as propriedades uma por uma.
 
-**Lembrete:** É extremamente raro o uso da "forma contruída" para a criação de objetos como foi mostrado. Você praticamente sempre irá preferir usar a sintaxe da forma literal. O mesmo acontece com a maioria dos objetos nativos (veja abaixo).
+**Lembrete:** É extremamente raro o uso da "forma construída" para a criação de objetos como foi mostrado. Você praticamente sempre irá preferir usar a sintaxe da forma literal. O mesmo acontece com a maioria dos objetos nativos (veja abaixo).
 
 ## Tipo
 
-Objetos são o bloco de contrução geral no qual muito do JS é contruído. Eles são um do 6 tipos primários (chamados "tipos de linguagem" na especificação) em JS:
+Objetos são o bloco de construção geral no qual muito do JS é construído. Eles são um do 6 tipos primários (chamados "tipos de linguagem" na especificação) em JS:
 
 * `string`
 * `number`
@@ -80,7 +80,7 @@ var strObject = new String( "I am a string" );
 typeof strObject; 								// "object"
 strObject instanceof String;					// true
 
-// inspect the object sub-type
+// inspeciona o subtipo de 'object'
 Object.prototype.toString.call( strObject );	// [object String]
 ```
 
@@ -861,7 +861,7 @@ it.next(); // { done:true }
 
 Como o trecho acima revela, o valor de retorno de uma chamada `next()` do iterador é um objeto na forma de `{ value: .. , done: .. }`, onde `value` é o atual valor da iteração e o `done` é um `boolean` que indica se há algo mais para iterar.
 
-Note que o valor `3` foi retornado com `done:false`, que parece estranho à primeira vista. Você tem que chamar o `next()` uma quarta vez (que o laço `for..of` no trecho de código anterior faz automaticamente) para obter `done:true` e saber que você realmente finalizou a iteração. A razão for this quirk estaá aleém do escopo do que iremos discutir aqui, mas vem de semânticas de funções do gerador no ES6.
+Note que o valor `3` foi retornado com `done:false`, que parece estranho à primeira vista. Você tem que chamar o `next()` uma quarta vez (que o laço `for..of` no trecho de código anterior faz automaticamente) para obter `done:true` e saber que você realmente finalizou a iteração. O motivo dessa peculiaridade está além do escopo do que iremos discutir aqui, mas vem de semânticas de funções do gerador no ES6. 
 
 Enquanto arrays iteram automaticamente nos laços `for..of`, objetos comuns **não possuem um `@@iterator` nativo**.
 As razões para omissão intencional são mais complexas do que examinaremos aqui, mas em geral foi melhor não incluir alguma implementação que pudesse ser problemática em futuros tipos de objetos. 
