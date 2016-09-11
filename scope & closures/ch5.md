@@ -1,11 +1,11 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 5: Scope Closure
+# You Don't Know JS: Escopos e Clausuras
+# Capítulo 5: Scope Closure
 
-We arrive at this point with hopefully a very healthy, solid understanding of how scope works.
+Com esperança, até este ponto nós já alcançamos uma compreensão sólida e muito saudável de como escopo funciona.
 
-We turn our attention to an incredibly important, but persistently elusive, *almost mythological*, part of the language: **closure**. If you have followed our discussion of lexical scope thus far, the payoff is that closure is going to be, largely, anti-climatic, almost self-obvious. *There's a man behind the wizard's curtain, and we're about to see him*. No, his name is not Crockford!
+Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente ilusória, *quase mitológica*, parte da linguagem: **clausura** (*closure*). Se você acompanhou nossa discussão sobre escopo léxico até agora, a recompensa é que clausura será, em grande parte, quase evidente por natureza. *Há um homem escondido atrás da cortina do mágico, e estamos prestes a vê-lo*. Não, seu nome não é Crockford!
 
-If however you have nagging questions about lexical scope, now would be a good time to go back and review Chapter 2 before proceeding.
+No entanto, se você tem perguntas irritantes sobre escopo léxico, agora deve ser uma boa hora para voltar e rever o Capítulo 2, antes de prosseguir.
 
 ## Enlightenment
 
