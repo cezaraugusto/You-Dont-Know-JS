@@ -7,9 +7,9 @@ Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente
 
 No entanto, se você tem perguntas irritantes sobre escopo léxico, agora deve ser uma boa hora para voltar e rever o Capítulo 2, antes de prosseguir.
 
-## Enlightenment
+## Esclarecimento
 
-For those who are somewhat experienced in JavaScript, but have perhaps never fully grasped the concept of closures, *understanding closure* can seem like a special nirvana that one must strive and sacrifice to attain.
+Para aqueles que são um pouco experientes em JavaScript, mas que porventura nunca tenham entendido completamente o conceito de clausuras, *entender clausura* pode parecer como um nirvana especial, que para atingí-lo é necessário muita luta e sacrifício.
 
 I recall years back when I had a firm grasp on JavaScript, but had no idea what closure was. The hint that there was *this other side* to the language, one which promised even more capability than I already possessed, teased and taunted me. I remember reading through the source code of early frameworks trying to understand how it actually worked. I remember the first time something of the "module pattern" began to emerge in my mind. I remember the *a-ha!* moments quite vividly.
 
