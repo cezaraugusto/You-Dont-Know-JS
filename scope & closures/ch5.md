@@ -13,7 +13,7 @@ Para aqueles que são um pouco experientes em JavaScript, mas que porventura nun
 
 Eu me lembro de anos atrás, quando eu tinha uma forte compreensão sobre JavaScript, mas não tinha ideia do que era clausura. A sugestão de que havia *o outro lado* da linguagem, um que prometia ainda mais capacidade do que eu já possuia, me provocava. Me lembro de ler todo o código fonte dos primeiros frameworks tentando entender como eles realmente funcionavam. Lembro da primeira vez que algo do "módulo padrão" começou a surgir em minha mente. Eu me lembro dos momentos intensos de *a-ha!*.
 
-What I didn't know back then, what took me years to understand, and what I hope to impart to you presently, is this secret: **closure is all around you in JavaScript, you just have to recognize and embrace it.** Closures are not a special opt-in tool that you must learn new syntax and patterns for. No, closures are not even a weapon that you must learn to wield and master as Luke trained in The Force.
+O que eu não sabia naquela época, o que levei anos para entender, e o que eu espero transmitir para você em breve, é esse segredo: **em JavaScript, clausura é tudo que estiver ao seu redor, você só precisa reconhecer e abraçar isso.** Clausura não é uma ferramenta especial para a qual você deve aprender nova sintaxe e novos padrões. Não, clausura não é uma arma que você aprende a manejar com destreza, como Luke treinado na Força.
 
 Closures happen as a result of writing code that relies on lexical scope. They just happen. You do not even really have to intentionally create closures to take advantage of them. Closures are created and used for you all over your code. What you are *missing* is the proper mental context to recognize, embrace, and leverage closures for your own will.
 
