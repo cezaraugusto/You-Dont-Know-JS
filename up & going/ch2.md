@@ -849,7 +849,7 @@ Mas uma forma mais natural de aplicar prototipagens é em um padrão chamado "de
 
 ## Velho & Novo
 
-Algumas das funcionalidades de JS que já cobrimos, e certamente muitas das funcionalidades que cobriremos no resto dessa série, são novas adições que não necessariamente estarão disponíveis em navegadores antigos. De fato, algumas das novas funcionalidades disponíveis na especificação nem mesmo foram implememntadas em navegadores estáveis ainda.
+Algumas das funcionalidades de JS que já cobrimos, e certamente muitas das funcionalidades que cobriremos no resto dessa série, são novas adições que não necessariamente estarão disponíveis em navegadores antigos. De fato, algumas das novas funcionalidades disponíveis na especificação nem mesmo foram implementadas em navegadores estáveis ainda.
 
 Então, o que você faz com as coisas novas? Você só precisa esperar por anos ou décadas por todos os navegadores antigos apagarem e sumirem na escuridão?
 
