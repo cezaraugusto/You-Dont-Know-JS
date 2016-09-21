@@ -15,7 +15,7 @@ Eu me lembro de anos atrás, quando eu tinha uma forte compreensão sobre JavaSc
 
 O que eu não sabia naquela época, o que levei anos para entender, e o que eu espero transmitir para você em breve, é esse segredo: **em JavaScript, clausura é tudo que estiver ao seu redor, você só precisa reconhecer e abraçar isso.** Clausura não é uma ferramenta especial para a qual você deve aprender nova sintaxe e novos padrões. Não, clausura não é uma arma que você aprende a manejar com destreza, como Luke treinado na Força.
 
-Closures happen as a result of writing code that relies on lexical scope. They just happen. You do not even really have to intentionally create closures to take advantage of them. Closures are created and used for you all over your code. What you are *missing* is the proper mental context to recognize, embrace, and leverage closures for your own will.
+Clausuras acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar clausura intencionalmente para tirar proveito delas. Elas são criadas e usadas por você por todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar clausura por sua própria vontade.
 
 The enlightenment moment should be: **oh, closures are already occurring all over my code, I can finally *see* them now.** Understanding closures is like when Neo sees the Matrix for the first time.
 
