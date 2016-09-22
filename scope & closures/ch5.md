@@ -17,7 +17,7 @@ O que eu não sabia naquela época, o que levei anos para entender, e o que eu e
 
 Clausuras acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar clausura intencionalmente para tirar proveito delas. Elas são criadas e usadas por você por todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar clausura por sua própria vontade.
 
-The enlightenment moment should be: **oh, closures are already occurring all over my code, I can finally *see* them now.** Understanding closures is like when Neo sees the Matrix for the first time.
+O momento de esclarecimento deve ser: **oh, clausuras já estão surgindo por todo o meu código, eu finalmente consigo *vê-las*.** O entendimento de clausura é como quando Neo vê a Matrix pela primeira vez.
 
 ## Nitty Gritty
 
