@@ -1,58 +1,58 @@
 # You Don't Know JS: ES6 & Beyond
-# Chapter 5: Collections
+# Capítulo 5: Coleções
 
-Structured collection and access to data is a critical component of just about any JS program. From the beginning of the language up to this point, the array and the object have been our primary mechanism for creating data structures. Of course, many higher-level data structures have been built on top of these, as user-land libraries.
+Coleções estruturadas e acesso a informações são componentes críticos de praticamente qualquer programa JS. Desde o começo da linguagem até hoje, os vetores e objetos tem sido nosso principal mecanismo para se criar estruturas de dados. É claro, muitas estruturas de alto-nível foram construídas no topo destas, como bibliotecas que rodam em modo usuário.
 
-As of ES6, some of the most useful (and performance-optimizing!) data structure abstractions have been added as native components of the language.
+A partir do ES6, algumas das abstrações de estruturas de dados mais úteis (e otimizadas para performance!) foram adicionados como componentes nativos da linguagem.
 
-We'll start this chapter first by looking at *TypedArrays*, technically contemporary to ES5 efforts several years ago, but only standardized as companions to WebGL and not JavaScript itself. As of ES6, these have been adopted directly by the language specification, which gives them first-class status.
+Nós começaremos este capítulo observando primeiramente TypedArrays (Vetores Tipados), tecnicamente contemporânea aos esforços do ES5 já há alguns anos, mas apenas padronizada como acompanhante do WebGL e não do JavaScript. A partir do ES6, eles foram adotadas diretamente pela especificação da linguagem, o que lhes garante o status de primeira-classe.
 
-Maps are like objects (key/value pairs), but instead of just a string for the key, you can use any value -- even another object or map! Sets are similar to arrays (lists of values), but the values are unique; if you add a duplicate, it's ignored. There are also weak (in relation to memory/garbage collection) counterparts: WeakMap and WeakSet.
+Mapas (Maps) são como objetos (pares de chave/valor), mas ao invés de apenas uma string para a chave, você pode usar qualquer valor -- até mesmo outro objeto ou mapa! Conjuntos (Sets) são similares à vetores (listas de valores), mas os valores são únicos; caso você adicione um valor duplicado, é ignorado. Também existem as versões fracas (em relação ao coletor de memória/lixo): WeakMap e WeakSet.
 
-## TypedArrays
+## TypedArrays (Vetores Tipados)
 
-As we cover in the *Types & Grammar* title of this series, JS does have a set of built-in types, like `number` and `string`. It'd be tempting to look at a feature named "typed array" and assume it means an array of a specific type of values, like an array of only strings.
+Como nós vimos no livro *Tipos & Gramática* desta série, JS tem um conjunto de tipos embutidos (built-in), como `number` e `string`. Seria tentador olhar para uma funcionalidade chamada "vetor tipado" e assumir que isso significa um vetor com valores de um tipo específico, como um vetor que contenha apenas strings.
 
-However, typed arrays are really more about providing structured access to binary data using array-like semantics (indexed access, etc.). The "type" in the name refers to a "view" layered on type of the bucket of bits, which is essentially a mapping of whether the bits should be viewed as an array of 8-bit signed integers, 16-bit signed integers, and so on.
+Entretanto, TypedArrays tem mais a ver com prover acesso estruturado à informações binárias usando uma semântica similar à de vetores (acesso indexado, etc.). O "tipo" no nome se refere a uma "view" que é colocado no tipo do balde de bits, o que é essencialmente um mapeamento se os bits devem ser vistos como uma array de 8-bits inteiros com sinais, 16-bits de inteiros com sinais, e assim por adiante.
 
-How do you construct such a bit-bucket? It's called a "buffer," and you construct it most directly with the `ArrayBuffer(..)` constructor:
+Como se constrói esse esse tal balde de bits? Ele é chamado de "buffer," e você o constrói mais diretamente com o construtor `ArrayBuffer(..)`:
 
 ```js
 var buf = new ArrayBuffer( 32 );
 buf.byteLength;							// 32
 ```
 
-`buf` is now a binary buffer that is 32-bytes long (256-bits), that's pre-initialized to all `0`s. A buffer by itself doesn't really allow you any interaction exception for checking its `byteLength` property.
+`buf` é agora um buffer binário com tamanho de 32-bytes (256-bits), onde todos os valores são pré-inicializados para `0`. Um buffer por si só não permite qualquer interação, com a exceção de verificar qual é a sua propriedade `byteLength`.
 
-**Tip:** Several web platform features use or return array buffers, such as `FileReader#readAsArrayBuffer(..)`, `XMLHttpRequest#send(..)`, and `ImageData` (canvas data).
+**Dica:** Diversas funcionalidades de plataformas web usam ou retornam vetores de buffer, por exemplo `FileReader#readAsArrayBuffer(..)`, `XMLHttpRequest#send(..)`, e `ImageData` (canvas data).
 
-But on top of this array buffer, you can then layer a "view," which comes in the form of a typed array. Consider:
+Mas por cima deste vetor de buffer, você pode então colocar uma "view," que vem na forma de uma TypedArray. Considere:
 
 ```js
 var arr = new Uint16Array( buf );
 arr.length;							// 16
 ```
 
-`arr` is a typed array of 16-bit unsigned integers mapped over the 256-bit `buf` buffer, meaning you get 16 elements.
+`arr` é uma TypedArray de inteiros sem sinais mapeados através do buffer de 256-bit chamado `buf`, isso quer dizer que você tem 16 elementos.
 
-### Endianness
+### Extremidade
 
-It's very important to understand that the `arr` is mapped using the endian-setting (big-endian or little-endian) of the platform the JS is running on. This can be an issue if the binary data is created with one endianness but interpreted on a platform with the opposite endianness.
+É muito importante entender que `arr` é mapeado se usando uma configuração endian (big-endian ou little-endian) da plataforma que o JS está rodando. Isso pode ser um problema se os dados binários forem criados em uma extremidade mas interpretados numa plataforma que possuí a extremidade inversa.
 
-Endian means if the low-order byte (collection of 8-bits) of a multi-byte number -- such as the 16-bit unsigned ints we created in the earlier snippet -- is on the right or the left of the number's bytes.
+Endian significa se o byte de menor ordem (coleção de 8-bits) de um número de vários bytes -- como aqueles de 16-bits inteiros e sem sinais que criamos no trecho anterior -- está à direita ou à esquerda dos bytes do número.
 
-For example, let's imagine the base-10 number `3085`, which takes 16-bits to represent. If you have just one 16-bit number container, it'd be represented in binary as `0000110000001101` (hexadecimal `0c0d`) regardless of endianness.
+Por exemplo, vamos imaginar o número na base 10 `3085`, que precisa de 16-bits para ser representado. Se você tiver apenas um container para números de 16-bits, ele seria representado como binário por `0000110000001101` (hexadecimal `0c0d`) independentemente da extremidade.
 
-But if `3085` was represented with two 8-bit numbers, the endianness would significantly affect its storage in memory:
+Mas se `3085` fosse representado por dois números de 8-bits, a extremidade afetaria significantemente seu armazenamentos na memória:
 
 * `0000110000001101` / `0c0d` (big endian)
 * `0000110100001100` / `0d0c` (little endian)
 
-If you received the bits of `3085` as `0000110100001100` from a little-endian system, but you layered a view on top of it in a big-endian system, you'd instead see value `3340` (base-10) and `0d0c` (base-16).
+Se você recebesse os bits de `3085` como `0000110100001100` de um sistema little-endian, mas tivesse colocado uma view por cima dele em um sistema big-endian, você teria visto o valor `3340` (base-10) e `0d0c` (base-16).
 
-Little endian is the most common representation on the web these days, but there are definitely browsers where that's not true. It's important that you understand the endianness of both the producer and consumer of a chunk of binary data.
+Little endian é a representação mais comum na web atualmente, mas definitivamente existem navegadores onde isto não é verdade. É importante que você entenda a extremidade tanto do produtor quanto do consumidor de blocos de dados binários.
 
-From MDN, here's a quick way to test the endianness of your JavaScript:
+Do MDN, aqui esta uma maneira rápida de testar a extremidade do seu JavaScript:
 
 ```js
 var littleEndian = (function() {
@@ -62,9 +62,9 @@ var littleEndian = (function() {
 })();
 ```
 
-`littleEndian` will be `true` or `false`; for most browsers, it should return `true`. This test uses `DataView(..)`, which allows more low-level, fine-grained control over accessing (setting/getting) the bits from the view you layer over the buffer. The third parameter of the `setInt16(..)` method in the previous snippet is for telling the `DataView` what endianness you're wanting it to use for that operation.
+`littleEndian` será `true`ou`false`; para a maioria dos navegadores, deve retornar `true`. Esse teste usa `DataView(..)`, o que permite um nível mais baixo, e um controle mais fino para acessar (definir/pegar) os bits da view que você colocou sobre o buffer. O terceiro parâmetro do método `setInt16(..)` no trecho anterior é para dizer para a `DataView` qual é a extremidade que você quer usar para a operação.
 
-**Warning:** Do not confuse endianness of underlying binary storage in array buffers with how a given number is represented when exposed in a JS program. For example, `(3085).toString(2)` returns `"110000001101"`, which with an assumed leading four `"0"`s appears to be the big-endian representation. In fact, this representation is based on a single 16-bit view, not a view of two 8-bit bytes. The `DataView` test above is the best way to determine endianness for your JS environment.
+**Cuidado:** Não confunda a extremidade de um armazenamento binário em array de buffers com como um dado número é representado quando exposto em um programa JS. Por exemplo,(3085).toString(2)` retorna`"110000001101"`, o que com uma liderança assumida de quatro `"0"`s parece ser uma representação em big-endian. Na verdade, essa representação é baseado numa única view de 16-bits, não em uma view de dois bytes de 8-bits. O teste do `DataView` é a melhor forma de representar a extremidade do seu ambiente JS.
 
 ### Multiple Views
 
