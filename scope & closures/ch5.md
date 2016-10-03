@@ -27,7 +27,7 @@ Aqui está uma definição suja do que você precisa saber para entender e recon
 
 > Closure é quando uma função é capaz de evocar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
 
-Let's jump into some code to illustrate that definition.
+Vamos entrar em um pedaço código para ilustrar esta definição.
 
 ```js
 function foo() {
