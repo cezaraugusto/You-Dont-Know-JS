@@ -25,7 +25,7 @@ OK, chega de exageros e referências sem-vergonhas de filmes.
 
 Aqui está uma definição suja do que você precisa saber para entender e reconhecer clousure:
 
-> Closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope.
+> Closure é quando uma função é capaz de evocar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
 
 Let's jump into some code to illustrate that definition.
 
