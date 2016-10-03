@@ -23,7 +23,7 @@ O momento de esclarecimento deve ser: **oh, clausuras já estão surgindo por to
 
 OK, chega de exageros e referências sem-vergonhas de filmes.
 
-Here's a down-n-dirty definition of what you need to know to understand and recognize closures:
+Aqui está uma definição suja do que você precisa saber para entender e reconhecer clousure:
 
 > Closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope.
 
