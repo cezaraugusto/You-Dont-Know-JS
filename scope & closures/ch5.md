@@ -1,23 +1,23 @@
-# You Don't Know JS: Escopos e Clausuras
+# You Don't Know JS: Escopos e Clousures
 # Capítulo 5: Scope Closure
 
 Com esperança, até este ponto nós já alcançamos uma compreensão sólida e muito saudável de como escopo funciona.
 
-Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente ilusória, *quase mitológica*, parte da linguagem: **clausura** (*closure*). Se você acompanhou nossa discussão sobre escopo léxico até agora, a recompensa é que clausura será, em grande parte, quase evidente por natureza. *Há um homem escondido atrás da cortina do mágico, e estamos prestes a vê-lo*. Não, seu nome não é Crockford!
+Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente ilusória, *quase mitológica*, parte da linguagem: **clousure** (*closure*). Se você acompanhou nossa discussão sobre escopo léxico até agora, a recompensa é que clousure será, em grande parte, quase evidente por natureza. *Há um homem escondido atrás da cortina do mágico, e estamos prestes a vê-lo*. Não, seu nome não é Crockford!
 
 No entanto, se você tem perguntas irritantes sobre escopo léxico, agora deve ser uma boa hora para voltar e rever o Capítulo 2, antes de prosseguir.
 
 ## Esclarecimento
 
-Para aqueles que são um pouco experientes em JavaScript, mas que porventura nunca tenham entendido completamente o conceito de clausuras, *entender clausura* pode parecer como um nirvana especial, que para atingí-lo é necessário muita luta e sacrifício.
+Para aqueles que são um pouco experientes em JavaScript, mas que porventura nunca tenham entendido completamente o conceito de clousures, *entender clousure* pode parecer como um nirvana especial, que para atingí-lo é necessário muita luta e sacrifício.
 
-Eu me lembro de anos atrás, quando eu tinha uma forte compreensão sobre JavaScript, mas não tinha ideia do que era clausura. A sugestão de que havia *o outro lado* da linguagem, um que prometia ainda mais capacidade do que eu já possuia, me provocava. Me lembro de ler todo o código fonte dos primeiros frameworks tentando entender como eles realmente funcionavam. Lembro da primeira vez que algo do "módulo padrão" começou a surgir em minha mente. Eu me lembro dos momentos intensos de *a-ha!*.
+Eu me lembro de anos atrás, quando eu tinha uma forte compreensão sobre JavaScript, mas não tinha ideia do que era clousure. A sugestão de que havia *o outro lado* da linguagem, um que prometia ainda mais capacidade do que eu já possuia, me provocava. Me lembro de ler todo o código fonte dos primeiros frameworks tentando entender como eles realmente funcionavam. Lembro da primeira vez que algo do "módulo padrão" começou a surgir em minha mente. Eu me lembro dos momentos intensos de *a-ha!*.
 
-O que eu não sabia naquela época, o que levei anos para entender, e o que eu espero transmitir para você em breve, é esse segredo: **em JavaScript, clausura é tudo que estiver ao seu redor, você só precisa reconhecer e abraçar isso.** Clausura não é uma ferramenta especial para a qual você deve aprender nova sintaxe e novos padrões. Não, clausura não é uma arma que você aprende a manejar com destreza, como Luke treinado na Força.
+O que eu não sabia naquela época, o que levei anos para entender, e o que eu espero transmitir para você em breve, é esse segredo: **em JavaScript, clousure é tudo que estiver ao seu redor, você só precisa reconhecer e abraçar isso.** Clousure não é uma ferramenta especial para a qual você deve aprender nova sintaxe e novos padrões. Não, clousure não é uma arma que você aprende a manejar com destreza, como Luke treinado na Força.
 
-Clausuras acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar clausura intencionalmente para tirar proveito delas. Elas são criadas e usadas por você por todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar clausura por sua própria vontade.
+Clousures acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar clousure intencionalmente para tirar proveito delas. Elas são criadas e usadas por você por todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar clousure por sua própria vontade.
 
-O momento de esclarecimento deve ser: **oh, clausuras já estão surgindo por todo o meu código, eu finalmente consigo *vê-las*.** O entendimento de clausura é como quando Neo vê a Matrix pela primeira vez.
+O momento de esclarecimento deve ser: **oh, clousures já estão surgindo por todo o meu código, eu finalmente consigo *vê-las*.** O entendimento de clousure é como quando Neo vê a Matrix pela primeira vez.
 
 ## Nitty Gritty
 
