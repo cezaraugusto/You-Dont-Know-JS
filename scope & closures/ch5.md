@@ -21,7 +21,7 @@ O momento de esclarecimento deve ser: **oh, clausuras já estão surgindo por to
 
 ## Nitty Gritty
 
-OK, enough hyperbole and shameless movie references.
+OK, chega de exageros e referências sem-vergonhas de filmes.
 
 Here's a down-n-dirty definition of what you need to know to understand and recognize closures:
 
