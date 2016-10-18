@@ -253,7 +253,7 @@ Promise.race( [p2,p4] )
 );
 ```
 
-**Atenção:** Enquanto `Promise.all([])` se cumprirá imediatamente (sem valores), `Promise.race([])` irá aguardar para sempre. Essa é uma estranha incosistência, e sujere que você nunca deveria usar esses métodos com arrays vazios.
+**Atenção:** Enquanto `Promise.all([])` se cumprirá imediatamente (sem valores), `Promise.race([])` irá aguardar para sempre. Essa é uma estranha inconsistência, e sugere que você nunca deveria usar esses métodos com arrays vazios.
 
 ## Generators + Promises
 
