@@ -1,5 +1,5 @@
 # Contribuições :wolf: :zap:
-[![All Contributors](https://img.shields.io/badge/all_contributors-16-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-20-orange.svg?style=flat-square)](#contributors)
 
 > Quer ver seu nome aqui também? [Junte-se a nós](CONTRIBUTING.md)!
 
@@ -42,6 +42,8 @@ Carlos carloszan https://github.com/carloszan tests
 Fernando_Souza fernandosouza https://github.com/fernandosouza translation
 Amanda Vilela amandavilela https://github.com/amandavilela tests
 Felipe Santos fesnt https://github.com/fesnt translation
+Filipe Silva ninrod https://github.com/ninrod tests
+zavjs zavjs https://github.com/zavjs translation
 
 Contributors END -->
 <!-- Contributors table START -->
@@ -51,6 +53,6 @@ Contributors END -->
 | [![Marcelo Diniz](https://avatars.githubusercontent.com/marcelod?s=100)<br /><sub>Marcelo Diniz</sub>](http://www.marcelod.com.br)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=marcelod) | [![Eduardo Braga](https://avatars.githubusercontent.com/ebragaparah?s=100)<br /><sub>Eduardo Braga</sub>](https://github.com/ebragaparah)<br />[📖](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=ebragaparah) 🌍 | [![Tiago S. Pereira](https://avatars.githubusercontent.com/TiagoSilvaPereira?s=100)<br /><sub>Tiago S. Pereira</sub>](https://github.com/TiagoSilvaPereira)<br />🌍 | [![Holanda Junior](https://avatars.githubusercontent.com/holandajunior?s=100)<br /><sub>Holanda Junior</sub>](https://github.com/holandajunior)<br />🌍 | [![William Oliveira](https://avatars.githubusercontent.com/woliveiras?s=100)<br /><sub>William Oliveira</sub>](http://woliveiras.com.br)<br />📢 | [![George Secrieru](https://avatars.githubusercontent.com/gmsecrieru?s=100)<br /><sub>George Secrieru</sub>](https://gmsecrie.ru)<br />🌍 [⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=gmsecrieru) 👀 💡 | [![Maicon Giovani](https://avatars.githubusercontent.com/doomsterinc?s=100)<br /><sub>Maicon Giovani</sub>](https://github.com/doomsterinc)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=doomsterinc) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 
-| [![Carlos](https://avatars.githubusercontent.com/carloszan?s=100)<br /><sub>Carlos</sub>](https://github.com/carloszan)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=carloszan) | [![Fernando Souza](https://avatars.githubusercontent.com/fernandosouza?s=100)<br /><sub>Fernando Souza</sub>](https://github.com/fernandosouza)<br />🌍 | [![Fernando Souza](https://avatars.githubusercontent.com/amandavilela?s=100)<br /><sub>Amanda Vilela</sub>](https://github.com/amandavilela)<br />⚠️ | [![Felipe Santos](https://avatars.githubusercontent.com/fesnt?s=100)<br /><sub>Felipe Santos</sub>](https://github.com/fesnt)<br /> 🌍 
-| :---: | :---: | :---: | :---: |
+| [![Carlos](https://avatars.githubusercontent.com/carloszan?s=100)<br /><sub>Carlos</sub>](https://github.com/carloszan)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=carloszan) | [![Fernando Souza](https://avatars.githubusercontent.com/fernandosouza?s=100)<br /><sub>Fernando Souza</sub>](https://github.com/fernandosouza)<br />🌍 | [![Fernando Souza](https://avatars.githubusercontent.com/amandavilela?s=100)<br /><sub>Amanda Vilela</sub>](https://github.com/amandavilela)<br />⚠️ | [![Felipe Santos](https://avatars.githubusercontent.com/fesnt?s=100)<br /><sub>Felipe Santos</sub>](https://github.com/fesnt)<br /> 🌍 | [![zavjs](https://avatars.githubusercontent.com/zavjs?s=100)<br /><sub>zavjs</sub>](https://github.com/zavjs)<br /> ⚠️ | [![Filipe Silva](https://avatars.githubusercontent.com/ninrod?s=100)<br /><sub>Filipe Silva</sub>](https://github.com/ninrod)<br /> 🌍 
+| :---: | :---: | :---: | :---: | :---: | :---: |
 <!-- Contributors table END -->
