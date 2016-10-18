@@ -1,290 +1,293 @@
-# You Don't Know JS: Async & Performance
-# Chapter 1: Asynchrony: Now & Later
+# You Don't Know JS: Async e Performance
+# Capítulo 1: Assíncronia: Agora & Depois
 
-One of the most important and yet often misunderstood parts of programming in a language like JavaScript is how to express and manipulate program behavior spread out over a period of time.
+Uma das partes mais importantes e mais mal compreendidas da programação em uma linguagem como JavaScript, é como expressar e
+manipular comportamentos de um programa que é esticado através de um período de tempo.
 
-This is not just about what happens from the beginning of a `for` loop to the end of a `for` loop, which of course takes *some time* (microseconds to milliseconds) to complete. It's about what happens when part of your program runs *now*, and another part of your program runs *later* -- there's a gap between *now* and *later* where your program isn't actively executing.
+Não se trata apenas sobre o que acontece entre início e o fim de um loop `for`, o que é claro leva *algum tempo* (microsegundos à milisegundos) para completar. Se trata do que acontece quando parte do seu programa é executada *agora*, e outra parte do seu programa é executada *depois*  -- existe um vão entre *agora* e *depois* onde seu programa não está sendo executado ativamente.
 
-Practically all nontrivial programs ever written (especially in JS) have in some way or another had to manage this gap, whether that be in waiting for user input, requesting data from a database or file system, sending data across the network and waiting for a response, or performing a repeated task at a fixed interval of time (like animation). In all these various ways, your program has to manage state across the gap in time. As they famously say in London (of the chasm between the subway door and the platform): "mind the gap."
+Praticamente todos os programas não triviais (especialmente em JS) tem de alguma forma ou outra que lidar com esse vão, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta, ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar estado através do vão no tempo. Como famigeradamente se diz em Londres (sobre o vão entre o vagão e a plataforma): "cuide o vão".
 
-In fact, the relationship between the *now* and *later* parts of your program is at the heart of asynchronous programming.
+Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
-Asynchronous programming has been around since the beginning of JS, for sure. But most JS developers have never really carefully considered exactly how and why it crops up in their programs, or explored various *other* ways to handle it. The *good enough* approach has always been the humble callback function. Many to this day will insist that callbacks are more than sufficient.
+Programação assíncrona já existia desde o início de JS, claro. Mas a maioria dos desenvolvedores JS nunca consideraram com cuidado como e por que ela acontece repentinamente em seus programas, ou exploraram diversas *outras* maneiras de lidar com ela. O método "bom o suficiente" sempre foi a humilde função de retorno (callback). Até hoje, muitos insistem que elas são boas o suficiente.
 
-But as JS continues to grow in both scope and complexity, to meet the ever-widening demands of a first-class programming language that runs in browsers and servers and every conceivable device in between, the pains by which we manage asynchrony are becoming increasingly crippling, and they cry out for approaches that are both more capable and more reason-able.
+Mas enquanto JS continua a crescer em escopo e complexidade, para alcançar as demandas sempre crescentes de uma linguagem de programação de primeira classe que roda em navegadores e servidores e em todos os dispositivos concebíveis entre eles, as dores com as quais lidamos com assincronia estão ficando cada vez mais debilitantes, e elas suplicam por métodos que são mais capazes e razoáveis.
 
-While this all may seem rather abstract right now, I assure you we'll tackle it more completely and concretely as we go on through this book. We'll explore a variety of emerging techniques for async JavaScript programming over the next several chapters.
+Enquanto isso tudo pode parecer abstrato agora, eu garanto que vamos cuidar disso enquanto prosseguimos através do livro. Exploraremos uma variedade de técnicas emergentes para JavaScript assíncrono nos próximos capítulos.
 
-But before we can get there, we're going to have to understand much more deeply what asynchrony is and how it operates in JS.
+Mas antes de podermos chegar lá, vamos ter que entender de uma forma mais aprofundada o que é assincronia e como opera em JS.
 
-## A Program in Chunks
+## Um Programa em Pedaços
 
-You may write your JS program in one *.js* file, but your program is almost certainly comprised of several chunks, only one of which is going to execute *now*, and the rest of which will execute *later*. The most common unit of *chunk* is the `function`.
+Você pode escrever seu programa JS em um arquivo *.js*, mas ele é certamente feito de diversos pedaços, do qual apenas um pedaço é executado *agora*, sendo o restante executado *depois*. A unidade mais comum do *pedaço* é a `função`.
 
-The problem most developers new to JS seem to have is that *later* doesn't happen strictly and immediately after *now*. In other words, tasks that cannot complete *now* are, by definition, going to complete asynchronously, and thus we will not have blocking behavior as you might intuitively expect or want.
+O problema que a maioria do desenvolvedores novatos em JS parecem ter, é que *depois* não acontece estritamente e imediatamente depois de *agora*. Em outras palavras, tarefas que não podem completar *agora* serão, por definição, completas de forma assíncrona, não possuindo assim comportamento bloqueante que você intuitivamente espera ou quer.
 
-Consider:
+Considere:
 
 ```js
-// ajax(..) is some arbitrary Ajax function given by a library
-var data = ajax( "http://some.url.1" );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+var data = ajax( "http://alguma.url.1" );
 
 console.log( data );
-// Oops! `data` generally won't have the Ajax results
+// Oops! `data` geralmente não conterá os resultados do Ajax
 ```
 
-You're probably aware that standard Ajax requests don't complete synchronously, which means the `ajax(..)` function does not yet have any value to return back to be assigned to `data` variable. If `ajax(..)` *could* block until the response came back, then the `data = ..` assignment would work fine.
+Você provavelmente está ciente de que requisições Ajax não completam de forma síncrona, o que significa que a função `ajax(...)` ainda não possui nenhum valor para retornar, para então ser atribuido a variável `data`. Se `ajax(...)` *pudesse* bloquear a execução até o retorno da resposta, então a atribuição `data = ..` funcionaria sem problemas.
 
-But that's not how we do Ajax. We make an asynchronous Ajax request *now*, and we won't get the results back until *later*.
+Mas não é assim que se faz Ajax. Fazemos uma requisição assíncrona *agora*, e não possuiremos o resultado de volta até *depois*.
 
-The simplest (but definitely not only, or necessarily even best!) way of "waiting" from *now* until *later* is to use a function, commonly called a callback function:
+A forma mais simples (mas definitivamente não a única, ou nem mesmo a melhor!) de "esperar" de *agora* até *depois* é usando uma função, comumente conhecida como função de callback (retorno).
 
 ```js
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", function myCallbackFunction(data){
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", function minhaFuncaoDeRetorno(data) {
+	console.log(data); // Yay, temos dados!`!
+});
+```
+**Atenção:** você pode ter ouvido que é possível fazer requisições Ajax síncronas. Enquanto isso é tecnicamente verdade, você não deveria fazer isso nunca, em nenhuma circunstância, por que tranca a interface do usuário no navegador (botões, menus, rolamento, etc.) e previne qualquer interação. Essa é uma péssima ideia, e deve sempre ser evitada.
 
-	console.log( data ); // Yay, I gots me some `data`!
+Antes que você proteste em discordância, não, seu desejo de evitar a confusão dos callbacks *não* é justificativa para Ajax síncrono bloqueante.
 
-} );
+Por exemplo, considere esse código
+
+```js
+function agora () {
+  return 21;
+}
+
+function depois () {
+  resposta = resposta * 2;
+  console.log( "Significado da vida:", resposta);
+}
+
+var resposta = agora();
+
+setTimeout( depois, 1000); // Significado da vida: 42
 ```
 
-**Warning:** You may have heard that it's possible to make synchronous Ajax requests. While that's technically true, you should never, ever do it, under any circumstances, because it locks the browser UI (buttons, menus, scrolling, etc.) and prevents any user interaction whatsoever. This is a terrible idea, and should always be avoided.
+Existem duas partes para esse programa: a coisa que vai executar *agora*, e a coisa que vai executar *depois*. Está bem óbvio qual é qual, mas vamos ser super explícitos:
 
-Before you protest in disagreement, no, your desire to avoid the mess of callbacks is *not* justification for blocking, synchronous Ajax.
-
-For example, consider this code:
-
+Agora:
 ```js
-function now() {
+function agora() {
 	return 21;
 }
 
-function later() {
-	answer = answer * 2;
-	console.log( "Meaning of life:", answer );
-}
+function depois() { .. }
 
-var answer = now();
+var resposta = agora();
 
-setTimeout( later, 1000 ); // Meaning of life: 42
+setTimeout( depois, 1000 );
 ```
 
-There are two chunks to this program: the stuff that will run *now*, and the stuff that will run *later*. It should be fairly obvious what those two chunks are, but let's be super explicit:
-
-Now:
+Depois:
 ```js
-function now() {
-	return 21;
-}
-
-function later() { .. }
-
-var answer = now();
-
-setTimeout( later, 1000 );
+resposta = resposta * 2;
+console.log( "Significado da vida:", resposta );
 ```
 
-Later:
-```js
-answer = answer * 2;
-console.log( "Meaning of life:", answer );
-```
+O pedaço *agora* roda de imediato, tão cedo você executar o programa. Mas `setTimeout(...)` também define um evento (um tempo limite) para acontecer *depois*, de maneira que os conteúdos da função `depois()` serão executados posteriormente (1.000 milisegundos a partir de agora). 
 
-The *now* chunk runs right away, as soon as you execute your program. But `setTimeout(..)` also sets up an event (a timeout) to happen *later*, so the contents of the `later()` function will be executed at a later time (1,000 milliseconds from now).
-
-Any time you wrap a portion of code into a `function` and specify that it should be executed in response to some event (timer, mouse click, Ajax response, etc.), you are creating a *later* chunk of your code, and thus introducing asynchrony to your program.
+Toda vez que você encapsula uma porção de código numa `função` e especifica que ela deve ser executada como resposta a algum evento (timer, clique do mouse, resposta do Ajax, etc.), você está criando um pedaço *posterior (depois)* do seu código, assim introduzindo assincronia ao seu programa.
 
 ### Async Console
 
-There is no specification or set of requirements around how the `console.*` methods work -- they are not officially part of JavaScript, but are instead added to JS by the *hosting environment* (see the *Types & Grammar* title of this book series).
+Não existe especificação ou grupo de requerimentos sobre como os métodos `console.*` funcionam -- eles não são parte oficial do JavaScript, mas ao invés disso são adicionados ao JS pelo *ambiente hospedeiro* (veja o título *Tipos & Gramática* dessa série de livros).
 
-So, different browsers and JS environments do as they please, which can sometimes lead to confusing behavior.
+Então, diferentes navegadores e ambientes JS fazem da maneira que preferirem, o que as vezes pode causar comportamento confuso.
 
-In particular, there are some browsers and some conditions that `console.log(..)` does not actually immediately output what it's given. The main reason this may happen is because I/O is a very slow and blocking part of many programs (not just JS). So, it may perform better (from the page/UI perspective) for a browser to handle `console` I/O asynchronously in the background, without you perhaps even knowing that occurred.
+Em particular, existem alguns navegadores e condições nas quais `console.log(..)` não retorna imediatamente o que é dado. 
+O principal motivo pelo qual isso pode acontecer é por que o I/O é uma parte lenta e bloqueante de muitos programas (não apenas JS). Então, pode ser melhor (do ponto de vista página/UI) para um navegador lidar com o I/O do `console` de maneira assíncrona no plano de fundo, sem que você talvez sequer saiba o que ocorreu.
 
-A not terribly common, but possible, scenario where this could be *observable* (not from code itself but from the outside):
+Um cenário improvável, mas possível, de onde isso pode ser *observado* (não através do código em si, mas de fora):
 
 ```js
 var a = {
-	index: 1
+  index: 1
 };
 
-// later
-console.log( a ); // ??
+//depois 
+console.log(a); //?
 
-// even later
+//mais depois
 a.index++;
+
 ```
 
-We'd normally expect to see the `a` object be snapshotted at the exact moment of the `console.log(..)` statement, printing something like `{ index: 1 }`, such that in the next statement when `a.index++` happens, it's modifying something different than, or just strictly after, the output of `a`.
+Normalmente esperaríamos ver o objeto `a` fotografado no exato momento da instrução, imprimindo algo como `{ index: 1 }`, tal qual na próxima instrução quando `a.index++` acontece, está modificando algo diferente, ou estritamente depois da saída de `a`.
 
-Most of the time, the preceding code will probably produce an object representation in your developer tools' console that's what you'd expect. But it's possible this same code could run in a situation where the browser felt it needed to defer the console I/O to the background, in which case it's *possible* that by the time the object is represented in the browser console, the `a.index++` has already happened, and it shows `{ index: 2 }`.
+Na maior parte do tempo, o código precedente provavelmente vai produzir uma representação de um objeto no console da seção de ferramentas do desenvolvedor do seu navegador (developer tools) da forma como você esperaria. Mas é possível que o mesmo código execute em uma situação onde o navegador sentiu que precisafa deferir o I/O do console para o plano de fundo, e que nesse caso seja *possível* que no momento em que o objeto tenha sido representado no console do navegador, `a.index++` já tenha acontecido, e mostre `{ index: 2 }`.
 
-It's a moving target under what conditions exactly `console` I/O will be deferred, or even whether it will be observable. Just be aware of this possible asynchronicity in I/O in case you ever run into issues in debugging where objects have been modified *after* a `console.log(..)` statement and yet you see the unexpected modifications show up.
+As condições exatas nas quais o I/O do `console` será deferido, ou mesmo se será observável ou não é oscilante. Apenas se lembre dessa possível "assincronicidade" no I/O no caso de você se deparar com problemas ao tentar debugar o código em situações onde o objeto foi modificado *depois* da instrução `console.log(..)`, e ainda assim as modificações inesperadas apareçam.
 
-**Note:** If you run into this rare scenario, the best option is to use breakpoints in your JS debugger instead of relying on `console` output. The next best option would be to force a "snapshot" of the object in question by serializing it to a `string`, like with `JSON.stringify(..)`.
+**Nota:** Se você se deparar com esse cenário raro, a melhor opção é usar pontos de quebra no seu debugador JS ao invés de contar com a saída do `console`. A segunda melhor opção seria forçar uma fotografia do objeto em questão ao serializá-lo em uma `string`, como com 'JSON.stringify(..)`.
 
-## Event Loop
+## Laço de Eventos (Event Loop)
 
-Let's make a (perhaps shocking) claim: despite clearly allowing asynchronous JS code (like the timeout we just looked at), up until recently (ES6), JavaScript itself has actually never had any direct notion of asynchrony built into it.
+Vamos fazer uma afirmação (talvez chocante): apesar de claramente permitir código assíncrono (como o timeout que acabamos de ver), até recentemente (ES6), JavaScript nunca teve de verdade uma noção direta de assíncronia intrínseca.
 
-**What!?** That seems like a crazy claim, right? In fact, it's quite true. The JS engine itself has never done anything more than execute a single chunk of your program at any given moment, when asked to.
+**O que!?** Isso parece loucura, certo? E é verdade. O motor JS nunca fez nada além de executar um pedaço único de código do seu programa em um dado momento qualquer, quando solicitado.
 
-"Asked to." By whom? That's the important part!
+"Quando solicitado". Por quem? Essa é a parte importante!
 
-The JS engine doesn't run in isolation. It runs inside a *hosting environment*, which is for most developers the typical web browser. Over the last several years (but by no means exclusively), JS has expanded beyond the browser into other environments, such as servers, via things like Node.js. In fact, JavaScript gets embedded into all kinds of devices these days, from robots to lightbulbs.
+O motor JS não roda isolado. Roda dentro de um *ambiente hospedeiro*, que é para muitos desenvolvedores o típico navegador da web.
+Através do últimos muitos anos (de nenhuma forma exclusivamente), JS expandiou além do navegador em outros ambientes, tal qual servidores, através de coisas como Node.js. Na verdade, JavaScript é anexado nos mais variados tipos de dispositivos hoje em dia, de robos à lampadas.
 
-But the one common "thread" (that's a not-so-subtle asynchronous joke, for what it's worth) of all these environments is that they have a mechanism in them that handles executing multiple chunks of your program *over time*, at each moment invoking the JS engine, called the "event loop."
+Mas uma parte comum de todos esses ambientes é que eles tem um mecanismo que lida com a execução de múltiplos pedaços do seu programa *ao longo do tempo*, a cada momento invocando o motor JS chamado "loop de eventos".
 
-In other words, the JS engine has had no innate sense of *time*, but has instead been an on-demand execution environment for any arbitrary snippet of JS. It's the surrounding environment that has always *scheduled* "events" (JS code executions).
+Em outras palavras, o motor JS não tem senso inato de *tempo*, mas está ao invés disso, em um ambiente de execução on-demand para qualquer código arbitrário de JS. É o ambiente periférico que tem sempre *agendado* os "eventos" (execuções de código JS).
 
-So, for example, when your JS program makes an Ajax request to fetch some data from a server, you set up the "response" code in a function (commonly called a "callback"), and the JS engine tells the hosting environment, "Hey, I'm going to suspend execution for now, but whenever you finish with that network request, and you have some data, please *call* this function *back*."
+Então, por exemplo, quando seu programa JS faz uma requisição Ajax para pegar algum dado de um servidor, você define o código de "resposta" em uma função (comumente chamada de "callback"), e o motor JS informa ao ambiente hospedeiro, "Ei, eu vou suspender a execução agora, mas assim que você terminar com aquela requisição na rede, e você tiver algum dado, por favor *chame* (call), essa função *de volta* (back)."
 
-The browser is then set up to listen for the response from the network, and when it has something to give you, it schedules the callback function to be executed by inserting it into the *event loop*.
+O navegador então fica a postos escutando pela resposta do servidor, e quando tem algo para te dar, agenda a função de callback (retorno) para ser executada ao inserí-la no *laço de eventos* (event loop).
 
-So what is the *event loop*?
+Então o que é o *laço de eventos* (event loop)?
 
-Let's conceptualize it first through some fake-ish code:
+Vamos contextualizar através de um (meio que) pseudo código:
 
 ```js
-// `eventLoop` is an array that acts as a queue (first-in, first-out)
-var eventLoop = [ ];
-var event;
-
-// keep going "forever"
-while (true) {
-	// perform a "tick"
-	if (eventLoop.length > 0) {
-		// get the next event in the queue
-		event = eventLoop.shift();
-
-		// now, execute the next event
-		try {
-			event();
-		}
-		catch (err) {
-			reportError(err);
-		}
-	}
-}
+ // eventLoop é uma array que age como uma fila de espera (primeiro a entrar, primeiro a sair)
+ var eventLoop = [];
+ var event;
+ 
+ // continua indo "para sempre"
+ while (true) {
+   //faz a verificação
+   if(eventLoop.length > 0) {
+   	// insere o próximo evento na fila
+   	event = eventLoop.shift();
+   	
+   	// agora, executa o próximo evento
+   	try {
+   	   event();
+   	} 
+   	catch (err) {
+   	   reportError(err);
+   	}
+   }
+ }
 ```
 
-This is, of course, vastly simplified pseudocode to illustrate the concepts. But it should be enough to help get a better understanding.
+Esse é um pseudo código muito simplificado para ilustrar o conceito. Mas deve ser suficiente para ajudar a ter um entendimento melhor.
 
-As you can see, there's a continuously running loop represented by the `while` loop, and each iteration of this loop is called a "tick." For each tick, if an event is waiting on the queue, it's taken off and executed. These events are your function callbacks.
+Como você pode ver, existe um laço contínuo representado pelo laço `while`, e cada iteração desse laço é chamada de um "tick". Para cada tick, se um evento está esperando na fila, é removido e executado. Esses eventos são as suas funções de callback (retorno).
 
-It's important to note that `setTimeout(..)` doesn't put your callback on the event loop queue. What it does is set up a timer; when the timer expires, the environment places your callback into the event loop, such that some future tick will pick it up and execute it.
+É importante notar que `setTimeout(..)` não coloca sua função de callback na fila de espera do laço de eventos (event loop). O que faz é definir um contador; quando o contador expira, o ambiente coloca sua função de callback no laço de eventos, de modo que um tick futuro vai pegá-lo e executá-lo.
 
-What if there are already 20 items in the event loop at that moment? Your callback waits. It gets in line behind the others -- there's not normally a path for preempting the queue and skipping ahead in line. This explains why `setTimeout(..)` timers may not fire with perfect temporal accuracy. You're guaranteed (roughly speaking) that your callback won't fire *before* the time interval you specify, but it can happen at or after that time, depending on the state of the event queue.
+E se já existem 20 itens no laço de eventos naquele momento? Sua função de callback espera. Fica na fila atrás das outras -- normalmente não existe uma maneira de antecipar a espera e pular na frente da fila. Isso explica porque temporizadores `setTimeout(..)` podem não acionar com precisão temporal perfeita. É garantido (de maneira geral) que a sua função de retorno não vai acionar *antes* do tempo especificado, mas pode acontecer depois, dependendo do estado da fila de eventos.
 
-So, in other words, your program is generally broken up into lots of small chunks, which happen one after the other in the event loop queue. And technically, other events not related directly to your program can be interleaved within the queue as well.
+Então, em outras palavras, seu programa é geralmente quebrado em diversos pequenos pedaços, que podem acontecer um após o outro na fila de espera do laço de eventos. E tecnicamente, outros eventos não relacionados diretamente com o seu programa também podem ser alternados dentro da fila.
 
-**Note:** We mentioned "up until recently" in relation to ES6 changing the nature of where the event loop queue is managed. It's mostly a formal technicality, but ES6 now specifies how the event loop works, which means technically it's within the purview of the JS engine, rather than just the *hosting environment*. One main reason for this change is the introduction of ES6 Promises, which we'll discuss in Chapter 3, because they require the ability to have direct, fine-grained control over scheduling operations on the event loop queue (see the discussion of `setTimeout(..0)` in the "Cooperation" section).
 
-## Parallel Threading
+**Nota:** Mencionamos "até recentemente" em relação ao ES6 mudando a natureza de onde laço de eventos é gerenciado. É em sua maioria uma tecnicalidade formal, mas o ES6 agora especifica como o laço de eventos funciona, o que significa que está dentro do alcance do motor JS, ao invés de apenas no *ambiente hospedeiro*. Um motivo principal para essa mudança é a introdução das Promises do ES6, as quais discutiremos no Capítulo 3, por que elas requerem a habilidade de ter controle direto e preciso do agendamento de operações na fila de espera do laço de eventos.
 
-It's very common to conflate the terms "async" and "parallel," but they are actually quite different. Remember, async is about the gap between *now* and *later*. But parallel is about things being able to occur simultaneously.
+## Threading Paralelo
 
-The most common tools for parallel computing are processes and threads. Processes and threads execute independently and may execute simultaneously: on separate processors, or even separate computers, but multiple threads can share the memory of a single process.
+É muito comum confundir os termos "assíncrono" (async) e "paralelo" (parallel), mas são na verdade bem diferentes. Lembre-se, assíncrono trata-se do vão entre *agora* e *depois*. Mas paralelo são sobre coisas sendo capazes de ocorrer simultâneamente.
 
-An event loop, by contrast, breaks its work into tasks and executes them in serial, disallowing parallel access and changes to shared memory. Parallelism and "serialism" can coexist in the form of cooperating event loops in separate threads.
+A ferramenta mais comum para computação paralela são processos e threads. Processos e threads executam de forma independente e podem executar simultaneamente: em processadores, ou mesmo em computadores diferentes, mas inúmeras threads podem compartilhar a memória de um único processo.
 
-The interleaving of parallel threads of execution and the interleaving of asynchronous events occur at very different levels of granularity.
+Um laço de eventos, por sua vez, quebra o trabalho em tarefas e executa eles em série, não permitindo acessos e mudanças paralelas à memória compartilhada. Paralelismo e "serialismo" podem coexistir na forma de laços de evento cooperando em threads separadas.
 
-For example:
+A alternância de threads paralelas de execução e a alternância de eventos assíncronos ocorrem em diferentes níveis de granularidade.
+
+Por exemplo:
 
 ```js
-function later() {
-	answer = answer * 2;
-	console.log( "Meaning of life:", answer );
-}
+  function depois() {
+     resposta = resposta * 2;
+     console.log("Significado da vida:", resposta);
+  }
 ```
 
-While the entire contents of `later()` would be regarded as a single event loop queue entry, when thinking about a thread this code would run on, there's actually perhaps a dozen different low-level operations. For example, `answer = answer * 2` requires first loading the current value of `answer`, then putting `2` somewhere, then performing the multiplication, then taking the result and storing it back into `answer`.
+Enquanto o conteúdo inteiro de `depois()` seria visto como um único item na fila do laço de eventos, quando pensado sobre a thread no qual esse código seria executado, existe na verdade talvez uma dúzia de operações em camadas mais profundas do código (low-level). Por exemplo, `resposta = resposta * 2` requer primeiro carregar o valor atual de `resposta`, armazenar o valor `2` em algum lugar, para depois fazer a multiplicação e por último pegar o resultado final e armazenar de volta em `resposta`.
 
-In a single-threaded environment, it really doesn't matter that the items in the thread queue are low-level operations, because nothing can interrupt the thread. But if you have a parallel system, where two different threads are operating in the same program, you could very likely have unpredictable behavior.
+Em um ambiente de thread única (single-threaded), não importa que os itens na fila da thread são operações low-level, por que nada pode interromper a thread. Mas se você tem um sistema paralelo, onde duas threads diferentes estão operando em um mesmo programa, você poderia muito provavelmente experienciar comportamento imprevisível.
 
-Consider:
+Considere:
 
 ```js
-var a = 20;
-
-function foo() {
-	a = a + 1;
-}
-
-function bar() {
-	a = a * 2;
-}
-
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+  var a = 20;
+  
+  function foo() {
+      a = a + 1;
+  }
+  
+  function bar() {
+      a = a * 2;
+  }
+  
+  // ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+  ajax("http://alguma.url.1", foo);
+  ajax("http://alguma.url.2", bar);
+  
 ```
 
-In JavaScript's single-threaded behavior, if `foo()` runs before `bar()`, the result is that `a` has `42`, but if `bar()` runs before `foo()` the result in `a` will be `41`.
-
-If JS events sharing the same data executed in parallel, though, the problems would be much more subtle. Consider these two lists of pseudocode tasks as the threads that could respectively run the code in `foo()` and `bar()`, and consider what happens if they are running at exactly the same time:
-
-Thread 1 (`X` and `Y` are temporary memory locations):
+ No comportamento de thread única do JavaScript, se `foo()` é executado antes de `bar()`, o resultado é que `a` é `42`, mas se `bar()` for executado antes de `foo()` o resultado em `a` será `41`.
+ 
+ Se porém, os eventos JS compartilham o mesmo dado executado em paralelo, os problemas seriam mais sutis. Considere essas duas listas de tarefas em pseudo código como as thread que poderiam rodar respectivamente em `foo()` e `bar()`, e considere o que acontece se elas forem executados ao mesmo tempo:
+ 
+ Thread 1 (`X` e `Y` são locações temporárias de memória):
+ ```
+    foo():
+    a. guarda valor de `a` em `X`
+    b. guarda `1` em `Y`
+    c. soma `X` e `Y`, guarda resultado em `X`
+    d. guarda valor de `X` em `a`
+ ```
+ 
+ Thread 2 (`X` e `Y` são locações temporárias de memória):
 ```
-foo():
-  a. load value of `a` in `X`
-  b. store `1` in `Y`
-  c. add `X` and `Y`, store result in `X`
-  d. store value of `X` in `a`
-```
-
-Thread 2 (`X` and `Y` are temporary memory locations):
-```
-bar():
-  a. load value of `a` in `X`
-  b. store `2` in `Y`
-  c. multiply `X` and `Y`, store result in `X`
-  d. store value of `X` in `a`
-```
-
-Now, let's say that the two threads are running truly in parallel. You can probably spot the problem, right? They use shared memory locations `X` and `Y` for their temporary steps.
-
-What's the end result in `a` if the steps happen like this?
-
-```
-1a  (load value of `a` in `X`   ==> `20`)
-2a  (load value of `a` in `X`   ==> `20`)
-1b  (store `1` in `Y`   ==> `1`)
-2b  (store `2` in `Y`   ==> `2`)
-1c  (add `X` and `Y`, store result in `X`   ==> `22`)
-1d  (store value of `X` in `a`   ==> `22`)
-2c  (multiply `X` and `Y`, store result in `X`   ==> `44`)
-2d  (store value of `X` in `a`   ==> `44`)
+   bar():
+    a. carrega valor de `a` em `X`
+    b. guarda `2` em `Y`
+    c. multiplica `X` e `Y`, guarda resultado em `X`
+    d. guarda valor de `X` em `a`
 ```
 
-The result in `a` will be `44`. But what about this ordering?
+Agora, digamos que as duas threads estão executando em paralelo verdadeiramente. Você consegue apontar o problema, certo? Eles usam locações de memória compartilhada `X` e `Y` para seus passos temporários.
+
+Qual é o resultado final em `a` se os passos ocorrem dessa maneira?
 
 ```
-1a  (load value of `a` in `X`   ==> `20`)
-2a  (load value of `a` in `X`   ==> `20`)
-2b  (store `2` in `Y`   ==> `2`)
-1b  (store `1` in `Y`   ==> `1`)
-2c  (multiply `X` and `Y`, store result in `X`   ==> `20`)
-1c  (add `X` and `Y`, store result in `X`   ==> `21`)
-1d  (store value of `X` in `a`   ==> `21`)
-2d  (store value of `X` in `a`   ==> `21`)
+1a (carrega o valor de `a` em `X` ==> `20`)
+2a (carrega o valor de `a` em `X` ==> `20`)
+1b (guarda `1` em `Y` ==> `1`)
+2b (guarda `2` em `Y` ==> `2`)
+1c (adiciona `X` e `Y`, guarda resultado em `X` ==> `22`)
+1d (guarda valor de `X` em `a` ==> `22` )
+2c (multiplica `X` e `Y`, guarda resultado em `X` ==> `44`)
+2d (guarda valor de `X` em `a` ===> `44`)
 ```
 
-The result in `a` will be `21`.
+O resultado em `a` será `44`. Mas e nessa ordem?
 
-So, threaded programming is very tricky, because if you don't take special steps to prevent this kind of interruption/interleaving from happening, you can get very surprising, nondeterministic behavior that frequently leads to headaches.
+```
+1a  (carrega valor de `a` em `X` ==> `20`)
+2a  (carrega valor de `a` em `X` ==> `20`)
+2b  (guarda `2` em `Y`   ==> `2`)
+1b  (guarda `1` em `Y`   ==> `1`)
+2c  (multiplica `X` e `Y`, guarda resultado em `X`   ==> `20`)
+1c  (soma `X` e `Y`, guarda resultado em `X`   ==> `21`)
+1d  (guarda valor de `X` em `a`   ==> `21`)
+2d  (guarda valor de `X` em `a`   ==> `21`)
+```
 
-JavaScript never shares data across threads, which means *that* level of nondeterminism isn't a concern. But that doesn't mean JS is always deterministic. Remember earlier, where the relative ordering of `foo()` and `bar()` produces two different results (`41` or `42`)?
+O resultado em `a` será `21`.
 
-**Note:** It may not be obvious yet, but not all nondeterminism is bad. Sometimes it's irrelevant, and sometimes it's intentional. We'll see more examples of that throughout this and the next few chapters.
+Então, programação com threads é bem capciosa, por que se você não toma precauções para prevenir esse tipo de interrupção/alternância de acontecer, você pode ser pego de surpresa com o comportamento indeterminado que frequentemente leva a dores de cabeça.
+
+JavaScript nunca compartilha informações entre threads, o que significa que *esse* nível de indeterminância não é um problema. Mas isso não significa que JS é sempre determinista. Lembre-se de mais cedo, quando a ordem de `foo()` e `bar()` produzia dois resultados diferentes (`41` ou `42`)?
+
+**Nota:** pode não ser óbvio até então, mas nem todo indeterminismo é ruim. As vezes é irrelevante, e algumas vezes é intencional. Veremos mais exemplos disso ao longo desse e dos próximos capítulos.
 
 ### Run-to-Completion
 
-Because of JavaScript's single-threading, the code inside of `foo()` (and `bar()`) is atomic, which means that once `foo()` starts running, the entirety of its code will finish before any of the code in `bar()` can run, or vice versa. This is called "run-to-completion" behavior.
+Por causa da thread única do JavaScript, o código dentro de `foo()` (e `bar()`) é atômico, o que significa que uma vez que `foo()` começa a ser executado, a completude do código será finalizada antes do código em `bar()` possa ser executado, ou vice versa. Isso é chamado comportamento "run-to-completion".
 
-In fact, the run-to-completion semantics are more obvious when `foo()` and `bar()` have more code in them, such as:
+Na verdade, a semântica de "run-to-completion" é mais óbvia quando `foo()` e `bar()` tem código neles, como em:
 
 ```js
 var a = 1;
@@ -302,38 +305,38 @@ function bar() {
 	b = a * 2;
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-Because `foo()` can't be interrupted by `bar()`, and `bar()` can't be interrupted by `foo()`, this program only has two possible outcomes depending on which starts running first -- if threading were present, and the individual statements in `foo()` and `bar()` could be interleaved, the number of possible outcomes would be greatly increased!
+Dado que `foo()` não pode ser interrompido por `bar()`, e `bar()` não pode ser interrompido por `foo()`, esse programa só possui duas saídas possíveis, dependendo de quem começa a rodar primeiro -- se o threading estivesse presente, e as instruções individuais em `foo()` e `bar()` pudessem ser alternadas, o número de saídas possíveis seria consideravelmente aumentado!
 
-Chunk 1 is synchronous (happens *now*), but chunks 2 and 3 are asynchronous (happen *later*), which means their execution will be separated by a gap of time.
+Pedaço 1 é síncrono (acontece *agora*), mas 2 e 3 são assíncronos (acontecem *depois*), o que significa que a sua execução será separada por um vão de tempo.
 
-Chunk 1:
+Pedaço 1:
 ```js
 var a = 1;
 var b = 2;
 ```
 
-Chunk 2 (`foo()`):
+Pedaço 2 (`foo()`):
 ```js
 a++;
 b = b * a;
 a = b + 3;
 ```
 
-Chunk 3 (`bar()`):
+Pedaço 3 (`bar()`):
 ```js
 b--;
 a = 8 + b;
 b = a * 2;
 ```
 
-Chunks 2 and 3 may happen in either-first order, so there are two possible outcomes for this program, as illustrated here:
+Pedaços 2 e 3 podem acontecer primeiro em qualquer ordem, então existem duas saídas possíveis para esse programa, como ilustrado aqui:
 
-Outcome 1:
+Saída 1:
 ```js
 var a = 1;
 var b = 2;
@@ -352,7 +355,7 @@ a; // 11
 b; // 22
 ```
 
-Outcome 2:
+Saída 2:
 ```js
 var a = 1;
 var b = 2;
@@ -371,168 +374,169 @@ a; // 183
 b; // 180
 ```
 
-Two outcomes from the same code means we still have nondeterminism! But it's at the function (event) ordering level, rather than at the statement ordering level (or, in fact, the expression operation ordering level) as it is with threads. In other words, it's *more deterministic* than threads would have been.
+Duas saídas do mesmo código significa que ainda temos indeterminância! Mas é em nível de ordenamento de função (evento), ao invés de no nível de ordenamento de instrução (ou, na verdade, no nível de ordenamento da operação da expressão) como é com threads. Em outras palavras é *mais determinístico* do que threads seriam.
 
-As applied to JavaScript's behavior, this function-ordering nondeterminism is the common term "race condition," as `foo()` and `bar()` are racing against each other to see which runs first. Specifically, it's a "race condition" because you cannot predict reliably how `a` and `b` will turn out.
+Como aplicado no comportamento JavaScript, essa indeterminância de ordem de função é o termo mum "condição de corrida", como `foo()` e `bar()` estão correndo um contra o outro para ver qual roda primeiro. Especificamente é uma "condição de corrida" por que você não pode prever confiavelmente como `a` e `b` vão se sair.
 
-**Note:** If there was a function in JS that somehow did not have run-to-completion behavior, we could have many more possible outcomes, right? It turns out ES6 introduces just such a thing (see Chapter 4 "Generators"), but don't worry right now, we'll come back to that!
+**Nota:** Se houvesse uma função em JS que de alguma forma não tivesse comportamento run-to-completion, poderíamos ter muitas possíveis saídas diferentes, certo? Acontece que ES6 nos traz exatamente isso (veja Capítulo 4 "Geradores"), mas não se preocupe agora, voltaremos a isso!
 
-## Concurrency
+## Concorrência
+Vamos imaginar um site que mostre uma lista de atualizações de status (como atualizações de uma rede social) que progressivamente carrega ao passo que o usuário rola para baixo. Para fazer tal aplicação funcionar corretamente, (ao menos) dois "processos" separados vão precisar ser executados *simultaneamente* (isto é, durante a mesma janela de tempo, mas não necessariamente ao mesmo instante).
 
-Let's imagine a site that displays a list of status updates (like a social network news feed) that progressively loads as the user scrolls down the list. To make such a feature work correctly, (at least) two separate "processes" will need to be executing *simultaneously* (i.e., during the same window of time, but not necessarily at the same instant).
+**Nota:** Usamos "processo" em aspas aqui por que eles não são processos verdadeiros em nível de sistema operacional no sentido da ciência da computação. Eles são processos virtuais, ou tarefas, que representam uma série sequencial de operações logicamente conectadas. Vamos preferir "processo" ao invés de "tarefa", pois a terminologia corresponde com a definição dos conceitos que estamos explorando.
 
-**Note:** We're using "process" in quotes here because they aren't true operating system–level processes in the computer science sense. They're virtual processes, or tasks, that represent a logically connected, sequential series of operations. We'll simply prefer "process" over "task" because terminology-wise, it will match the definitions of the concepts we're exploring.
+O primeiro "processo" responderá a eventos `onscroll` (fazendo requisições Ajax por novo conteúdo) enquanto são acionadas quando o usuário rola continuamente para baixo. O segundo "processo" receberá respostas do Ajax (para renderizar o conteúdo na página).
 
-The first "process" will respond to `onscroll` events (making Ajax requests for new content) as they fire when the user has scrolled the page further down. The second "process" will receive Ajax responses back (to render content onto the page).
+Obviamente, se o usuário rola rápido demais, você poderá ver dois ou mais eventos `onscroll` acionados durante o tempo que leva para receber e processar a primeira resposta, portanto você terá eventos `onscroll` e eventos de resposta Ajax acionando rapidamente, alternando entre si.
 
-Obviously, if a user scrolls fast enough, you may see two or more `onscroll` events fired during the time it takes to get the first response back and process, and thus you're going to have `onscroll` events and Ajax response events firing rapidly, interleaved with each other.
+Concorrência é quando dois ou mais "processos" são executados simultâneamente no mesmo periodo, independentemente de se seus constituintes individuais acontecem *em paralelo* (ao mesmo instânte em processadores ou núcleos separados) ou não. Você pode pensar em concorrência como paralelismo em nível de "processo" (ou nível de tarefa), em oposição ao paralelismo em nível de operação (threads em processadores diferentes).
 
-Concurrency is when two or more "processes" are executing simultaneously over the same period, regardless of whether their individual constituent operations happen *in parallel* (at the same instant on separate processors or cores) or not. You can think of concurrency then as "process"-level (or task-level) parallelism, as opposed to operation-level parallelism (separate-processor threads).
+**Nota:** Concorrência também introduz uma noção opcional desses "processos" interagindo entre si. Voltaremos a isso mais tarde.
 
-**Note:** Concurrency also introduces an optional notion of these "processes" interacting with each other. We'll come back to that later.
+Para uma dada janela de tempo (poucos segundos de rolamento do usuário), vamos visualizar cada "processo" independente como uma série de eventos/operações.
 
-For a given window of time (a few seconds worth of a user scrolling), let's visualize each independent "process" as a series of events/operations:
-
-"Process" 1 (`onscroll` events):
-```
-onscroll, request 1
-onscroll, request 2
-onscroll, request 3
-onscroll, request 4
-onscroll, request 5
-onscroll, request 6
-onscroll, request 7
-```
-
-"Process" 2 (Ajax response events):
-```
-response 1
-response 2
-response 3
-response 4
-response 5
-response 6
-response 7
-```
-
-It's quite possible that an `onscroll` event and an Ajax response event could be ready to be processed at exactly the same *moment*. For example let's visualize these events in a timeline:
+"Processo" 1 (eventos `onscroll`):
 
 ```
-onscroll, request 1
-onscroll, request 2          response 1
-onscroll, request 3          response 2
-response 3
-onscroll, request 4
-onscroll, request 5
-onscroll, request 6          response 4
-onscroll, request 7
-response 6
-response 5
-response 7
+onscroll, requisição 1
+onscroll, requisição 2
+onscroll, requisição 3
+onscroll, requisição 4
+onscroll, requisição 5
+onscroll, requisição 6
+onscroll, requisição 7
 ```
 
-But, going back to our notion of the event loop from earlier in the chapter, JS is only going to be able to handle one event at a time, so either `onscroll, request 2` is going to happen first or `response 1` is going to happen first, but they cannot happen at literally the same moment. Just like kids at a school cafeteria, no matter what crowd they form outside the doors, they'll have to merge into a single line to get their lunch!
-
-Let's visualize the interleaving of all these events onto the event loop queue.
-
-Event Loop Queue:
+"Processo" 2 (eventos de resposta Ajax):
 ```
-onscroll, request 1   <--- Process 1 starts
-onscroll, request 2
-response 1            <--- Process 2 starts
-onscroll, request 3
-response 2
-response 3
-onscroll, request 4
-onscroll, request 5
-onscroll, request 6
-response 4
-onscroll, request 7   <--- Process 1 finishes
-response 6
-response 5
-response 7            <--- Process 2 finishes
+resposta 1
+resposta 2
+resposta 3
+resposta 4
+resposta 5
+resposta 6
+resposta 7
 ```
 
-"Process 1" and "Process 2" run concurrently (task-level parallel), but their individual events run sequentially on the event loop queue.
+É bem possível que um evento `onscroll` e uma resposta Ajax possam estar prontos para serem processados no exato mesmo *momento*. 
+Por exemplo, vamos visualizar esses eventos em uma linha do tempo:
 
-By the way, notice how `response 6` and `response 5` came back out of expected order?
+```
+onscroll, requisição 1
+onscroll, requisição 2          resposta 1
+onscroll, requisição 3          resposta 2
+resposta 3
+onscroll, requisição 4
+onscroll, requisição 5
+onscroll, requisição 6          resposta 4
+onscroll, requisição 7
+resposta 6
+resposta 5
+resposta 7
+```
 
-The single-threaded event loop is one expression of concurrency (there are certainly others, which we'll come back to later).
+Mas, voltando para a nossa noção do loop de eventos mais cedo no capítulo, JS só vai poder manusear um evento por vez, então ou `onscroll, requisição 2` vai acontecer primeiro ou `resposta 1` vai acontecer primeiro, mas eles não podem acontecer literalmente no mesmo momento. Assim como crianças na cafeteria da escola, não importa a multidão que se forme fora das portas, eles terão que se aglomerar em uma fila única para pegar seus almoços!
 
-### Noninteracting
+Vamos visualizar o intercalamento de todos esses eventos na lista de loop de eventos.
 
-As two or more "processes" are interleaving their steps/events concurrently within the same program, they don't necessarily need to interact with each other if the tasks are unrelated. **If they don't interact, nondeterminism is perfectly acceptable.**
+Lista de Loop de Eventos:
+```
+onscroll, requisição 1   <--- Processo 1 começa
+onscroll, requisição 2
+resposta 1            <--- Processo 2 começa
+onscroll, requisição 3
+resposta 2
+resposta 3
+onscroll, requisição 4
+onscroll, requisição 5
+onscroll, requisição 6
+resposta 4
+onscroll, requisição 7   <--- Processo 1 termina
+resposta 6
+resposta 5
+resposta 7            <--- Processo 2 termina
+```
 
-For example:
+"Processo 1" e "Processo 2" correm concorrentemente (paralelismo em nível de tarefa), mas seus eventos individuais correm em sequência na lista do loop de eventos.
+
+Alias, percebeu como `resposta 6` e `resposta 5` voltaram fora da ordem esperada? 
+
+O loop de eventos em thread únidca é uma expressão de concorrência (existem certamente outros, dos quais retornaremos mais tarde).
+
+### Não-interação
+
+Ao passo que dois ou mais "processos" intercalam seus passos/eventos concorrentemente dentro do mesmo programa, eles não necessariamente precisam interagir entre si se as tarefas não são relacionadas. **Se eles não interagem, indeterminismo é perfeitamente aceitável.**
+
+Por exemplo:
 
 ```js
 var res = {};
 
-function foo(results) {
-	res.foo = results;
+function foo(resultados) {
+	res.foo = resultados;
 }
 
-function bar(results) {
-	res.bar = results;
+function bar(resultados) {
+	res.bar = resultados;
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-`foo()` and `bar()` are two concurrent "processes," and it's nondeterminate which order they will be fired in. But we've constructed the program so it doesn't matter what order they fire in, because they act independently and as such don't need to interact.
+`foo()` e `bar()` são dois "processos" concorrentes, e é indeterminado em qual ordem serão acionados. Mas construímos o programa de uma maneira que não importa a ordem que são executados, por que eles agem independentemente de forma a não precisar interagir.
 
-This is not a "race condition" bug, as the code will always work correctly, regardless of the ordering.
+Esse não é um bug de "condição de corrida", pois o código vai sempre funcionar corretamente, independente da ordem.
 
-### Interaction
+### Interação
 
-More commonly, concurrent "processes" will by necessity interact, indirectly through scope and/or the DOM. When such interaction will occur, you need to coordinate these interactions to prevent "race conditions," as described earlier.
+Mais comumente, "processos" concorrentes vão interagir por necessidade, indiretamente através do escopo e ou do DOM. Quando tal interação ocorrer, você precisa coordená-las para prevenir "condição de corrida", como descrito préviamente.
 
-Here's a simple example of two concurrent "processes" that interact because of implied ordering, which is only *sometimes broken*:
+Aqui vai um exemplo simples de dois "processos" concorrentes que interagem por causa da ordem implícita, que é apenas *algumas vezes quebrada*:
 
 ```js
 var res = [];
 
-function response(data) {
-	res.push( data );
+function resposta(dado) {
+	res.push( dado );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
 
-The concurrent "processes" are the two `response()` calls that will be made to handle the Ajax responses. They can happen in either-first order.
+Os "processos" concorrentes são as duas chamadas de `resposta()` que serão feitas para lidar com as respostas do Ajax. Elas podem acontecer em qualquer ordem.
 
-Let's assume the expected behavior is that `res[0]` has the results of the `"http://some.url.1"` call, and `res[1]` has the results of the `"http://some.url.2"` call. Sometimes that will be the case, but sometimes they'll be flipped, depending on which call finishes first. There's a pretty good likelihood that this nondeterminism is a "race condition" bug.
+Vamos assumir que o comportamento esperado é que `res[0]` possua o resultado da chamada de `"http://alguma.url.1"`, e `res[1]` possua o resultado da chamada de `"http://alguma.url.2"`. Algumas vezes, esse será o caso, mas em outras, estarão em ordem inverrsa, dependendo de qual finalize primeiro. Existe uma boa probabilidade de que esse indeterminismo seja um bug de "condição de corrida".
 
-**Note:** Be extremely wary of assumptions you might tend to make in these situations. For example, it's not uncommon for a developer to observe that `"http://some.url.2"` is "always" much slower to respond than `"http://some.url.1"`, perhaps by virtue of what tasks they're doing (e.g., one performing a database task and the other just fetching a static file), so the observed ordering seems to always be as expected. Even if both requests go to the same server, and *it* intentionally responds in a certain order, there's no *real* guarantee of what order the responses will arrive back in the browser.
+**Nota:** Seja extremamente cauteloso em presunções que você tenda a fazer nessas situações. Por exemplo, não é incomum para um desenvolvedor observar que `"http://some.url.2"` é "sempre" mais lento em responder do que `"http://some.url.1"`, talvez pela natureza das tarefas que eles fazem (por exemplo, um fazendo uma consulta em banco, e o outro apenas buscando um arquivo estático), de forma que a ordem observada pareça sempre a esperada. Mesmo se duas requisições vão para o mesmo servidor, e intencionalmente respondam em uma ordem certa, não existe garantia *real* de qual ordem as respostas chegarão de volta no navegador.
 
-So, to address such a race condition, you can coordinate ordering interaction:
+Então para resolver tal condição de corrida, você pode coordenar interação de ordenamento:
 
 ```js
 var res = [];
 
-function response(data) {
-	if (data.url == "http://some.url.1") {
-		res[0] = data;
+function resposta(dado) {
+	if (dado.url == "http://alguma.url.1") {
+		res[0] = dado;
 	}
-	else if (data.url == "http://some.url.2") {
-		res[1] = data;
+	else if (dado.url == "http://alguma.url.2") {
+		res[1] = dado;
 	}
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
 
-Regardless of which Ajax response comes back first, we inspect the `data.url` (assuming one is returned from the server, of course!) to figure out which position the response data should occupy in the `res` array. `res[0]` will always hold the `"http://some.url.1"` results and `res[1]` will always hold the `"http://some.url.2"` results. Through simple coordination, we eliminated the "race condition" nondeterminism.
+Independentemente de qual resposta Ajax voltará primeiro, inspecionamos o `dado.url` (assumindo que seja retornado do servidor, claro!) para descobrirmos qual posição o dado de resposta deve ocupar na array `res`. `res[0]` sempre conterá os resultados de `"http://alguma.url.1"` e `res[1]` sempre conterá os resultados de `"http://alguma.url.2"`. Através de simples coordenação, eliminiamos o indeterminismo da condição de corrida.
 
-The same reasoning from this scenario would apply if multiple concurrent function calls were interacting with each other through the shared DOM, like one updating the contents of a `<div>` and the other updating the style or attributes of the `<div>` (e.g., to make the DOM element visible once it has content). You probably wouldn't want to show the DOM element before it had content, so the coordination must ensure proper ordering interaction.
+A mesma lógica desse cenário se aplicaria se múltiplas chamadas de função concorrente estivessem interagindo entre si através do DOM compartilhado, como uma atualizando o conteúdo de um `<div>` e a outra atualizando o estilo ou atributos do `<div>` (exemplo, tornando o elemento visível uma vez que possua conteúdo). Você provavelmente não iria querer mostrar o elemento do DOM antes de ter conteúdo, então coordenação deve garantir ordem de interação apropriada.
 
-Some concurrency scenarios are *always broken* (not just *sometimes*) without coordinated interaction. Consider:
+Alguns cenários de concorrência são *sempre quebrados* (não apenas *as vezes*) sem interação coordenada. Considere: 
 
 ```js
 var a, b;
@@ -551,14 +555,13 @@ function baz() {
 	console.log(a + b);
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
+Nesse exemplo, seja `foo()` ou `bar()` que execute primeiro, sempre fará com que `baz()` seja executado muito cedo (`a` ou `b` ainda serão `undefined`), mas a segunda invocação de `baz()` funcionará, já que ambos `a` e `b` estarão disponíveis.
 
-In this example, whether `foo()` or `bar()` fires first, it will always cause `baz()` to run too early (either `a` or `b` will still be `undefined`), but the second invocation of `baz()` will work, as both `a` and `b` will be available.
-
-There are different ways to address such a condition. Here's one simple way:
+Existem maneiras diferentes de endereçar essa confição. Aqui vai uma simples:
 
 ```js
 var a, b;
@@ -581,16 +584,16 @@ function baz() {
 	console.log( a + b );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-The `if (a && b)` conditional around the `baz()` call is traditionally called a "gate," because we're not sure what order `a` and `b` will arrive, but we wait for both of them to get there before we proceed to open the gate (call `baz()`).
+O condicional `if (a && b)` ao redor da chamada de `baz()` é tradicionalmente chamado de "portão", por que não sabemos em qual ordem `a` e `b` chegarão, mas esperamos por ambos chegarem lá antes de precedermos a abrir o portão (chamado `baz()`).
 
-Another concurrency interaction condition you may run into is sometimes called a "race," but more correctly called a "latch." It's characterized by "only the first one wins" behavior. Here, nondeterminism is acceptable, in that you are explicitly saying it's OK for the "race" to the finish line to have only one winner.
+Outra condição de interação de concorrência que você pode se deparar é as vezes chamada de "corrida", mas mais corretamente chamada de "tranca". É caracterizada pelo comportamento "apenas o primeiro ganha". Aqui, indeterminismo é aceitável, e você assume explicitamente sua posição de aceitar que a "corrida" até a linha de chegada possua apenas um vencedor.
 
-Consider this broken code:
+Considere esse código quebrado:
 
 ```js
 var a;
@@ -609,14 +612,14 @@ function baz() {
 	console.log( a );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-Whichever one (`foo()` or `bar()`) fires last will not only overwrite the assigned `a` value from the other, but it will also duplicate the call to `baz()` (likely undesired).
+Qualquer dos dois (`foo()` ou `bar()`) que executar por último, não sobrescreverá o valor atribuído de `a` do outro, mas também duplicara a chamada (provavelmente indesejeada) à `baz()`.
 
-So, we can coordinate the interaction with a simple latch, to let only the first one through:
+Então, podemos coordenar a interação com uma simples tranca, que permitirá que apenas o primeiro passe:
 
 ```js
 var a;
@@ -639,103 +642,103 @@ function baz() {
 	console.log( a );
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", foo );
-ajax( "http://some.url.2", bar );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", foo );
+ajax( "http://alguma.url.2", bar );
 ```
 
-The `if (a == undefined)` conditional allows only the first of `foo()` or `bar()` through, and the second (and indeed any subsequent) calls would just be ignored. There's just no virtue in coming in second place!
+O condicional `if (a == undefined)` permite apenas que o primeiro entre  `foo()` ou `bar()` passe, ignorando a segunda chamada (muito menos qualquer outra subsequente). 
+Não existe nenhuma virtude em chegar na segunda posição!
 
-**Note:** In all these scenarios, we've been using global variables for simplistic illustration purposes, but there's nothing about our reasoning here that requires it. As long as the functions in question can access the variables (via scope), they'll work as intended. Relying on lexically scoped variables (see the *Scope & Closures* title of this book series), and in fact global variables as in these examples, is one obvious downside to these forms of concurrency coordination. As we go through the next few chapters, we'll see other ways of coordination that are much cleaner in that respect.
+**Nota:** Em todos esses cenários, usamos as variáveis globais por motivos de ilustração simples, mas não tem nada sobre a nossa lógica que as requer. Enquanto as funções em questão podem acessar as variáveis (através do escopo), elas funcionarão como desejadas. Depender de variáveis escopadas lexicamente (veja o título *Scope & Closures* dessa série de livros), e de variáveis globais como nestes exemplos, é um aspecto negativo desses métodos de coordenação de concorrência. Ao avançarmos nos próximos capítulos, veremos outros métodos de coordenação que são muito mais limpos nesse aspecto.
 
-### Cooperation
+### Cooperação
 
-Another expression of concurrency coordination is called "cooperative concurrency." Here, the focus isn't so much on interacting via value sharing in scopes (though that's obviously still allowed!). The goal is to take a long-running "process" and break it up into steps or batches so that other concurrent "processes" have a chance to interleave their operations into the event loop queue.
+Outra expressão de coordenação de concorrência é chamada "concorrência cooperativa". Aqui, o foco não é tanto interagir compartilhando valores no escopo (apenas de ser obviamente permitido!). O objetivo é pegar um "processo" e quebrá-lo em passos ou fornadas para que outros "processos" concorrentes tenham a chance de intercalar suas operações na fila do Loop de Eventos.
 
-For example, consider an Ajax response handler that needs to run through a long list of results to transform the values. We'll use `Array#map(..)` to keep the code shorter:
+Por exemplo, considere uma função de callback (retorno) que precise vasculhar uma longa lista de resultados para transformar seus valores. Usaremos `Array#map` para manter o código curto:
 
 ```js
 var res = [];
 
-// `response(..)` receives array of results from the Ajax call
-function response(data) {
-	// add onto existing `res` array
+// `resposta(..)` recebe uma array de resultados da chamada do Ajax
+function resposta(dados) {
+	// adiciona na array `res` já existente
 	res = res.concat(
-		// make a new transformed array with all `data` values doubled
-		data.map( function(val){
+		// cria uma nova array transformada com todos os dados `dados` dobrados
+		dados.map( function(val){
 			return val * 2;
 		} )
 	);
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
 
-If `"http://some.url.1"` gets its results back first, the entire list will be mapped into `res` all at once. If it's a few thousand or less records, this is not generally a big deal. But if it's say 10 million records, that can take a while to run (several seconds on a powerful laptop, much longer on a mobile device, etc.).
+Se `"http://alguma.url.1"` recebe seu resultado primeiro, a lista inteira será mapeada dentro de `res` de uma vez. Se possuir poucos milhares ou menos registros, em geral não é um problema. Mas se digamos, possua 10 milhões de registros, isso pode demorar um pouco para executar (diversos segundos em um laptop poderoso, ainda mais em um dispositivo móvel, etc).
 
-While such a "process" is running, nothing else in the page can happen, including no other `response(..)` calls, no UI updates, not even user events like scrolling, typing, button clicking, and the like. That's pretty painful.
+Quando tal "processo" executa, nada mais pode acontecer na página, incluindo outras chamadas à `response(..)`, sem atualizações na UI, nem mesmo eventos como rolamento, digitação, cliques e similares. Isso é bem doloroso.
 
-So, to make a more cooperatively concurrent system, one that's friendlier and doesn't hog the event loop queue, you can process these results in asynchronous batches, after each one "yielding" back to the event loop to let other waiting events happen.
+Então, para fazer um sistema de concorrência mais cooperativo, um que seja mais amigável e não monopolize a fila do loop de eventos, você pode processar os resultados em fornadas assíncronas, uma após a outra de volta ao loop de eventos para dar a vez para outros eventos acontecerem.
 
-Here's a very simple approach:
+Uma solução bem simples:
 
 ```js
 var res = [];
 
-// `response(..)` receives array of results from the Ajax call
-function response(data) {
-	// let's just do 1000 at a time
-	var chunk = data.splice( 0, 1000 );
+// `resposta(..)` recebe uma array de resultados da chamada Ajax
+function resposta(dados) {
+	// vamos fazer apenas 1000 por vez
+	var chunk = dados.splice( 0, 1000 );
 
-	// add onto existing `res` array
+	// adiciona a array `res` existente
 	res = res.concat(
-		// make a new transformed array with all `chunk` values doubled
+		// cria uma uma nova array transformada com todos os valores `chunk` dobrados
 		chunk.map( function(val){
 			return val * 2;
 		} )
 	);
 
-	// anything left to process?
-	if (data.length > 0) {
-		// async schedule next batch
+	// ainda falta processar algo?
+	if (dados.length > 0) {
+	        // agenda a próxima fornada
 		setTimeout( function(){
-			response( data );
+			resposta( dados );
 		}, 0 );
 	}
 }
 
-// ajax(..) is some arbitrary Ajax function given by a library
-ajax( "http://some.url.1", response );
-ajax( "http://some.url.2", response );
+// ajax(..) é uma função Ajax arbitrária fornecida por uma biblioteca
+ajax( "http://alguma.url.1", resposta );
+ajax( "http://alguma.url.2", resposta );
 ```
+Processamos o conjunto de dados em pedaços com um tamanho máximo de 1.000 itens. Dessa maneira, garantimos um processo de execução curta, mesmo que isso signifique mais "processos" subsequentes, ao passo que a alternância na fila do loop de eventos vai nos dar um site/app muito mais responsivo. 
 
-We process the data set in maximum-sized chunks of 1,000 items. By doing so, we ensure a short-running "process," even if that means many more subsequent "processes," as the interleaving onto the event loop queue will give us a much more responsive (performant) site/app.
+Claro, não estamos coordenando a interação do ordenamento de nenhum deses "processos", então a ordem dos resultados em `res` não será previsível. Se ordenamento fosse necessário, você precisaria usar técnicas de interação como aquelas mencionadas antes, ou algumas que cobriremos nos próximos capítulos deste livro.
 
-Of course, we're not interaction-coordinating the ordering of any of these "processes," so the order of results in `res` won't be predictable. If ordering was required, you'd need to use interaction techniques like those we discussed earlier, or ones we will cover in later chapters of this book.
+Nós usaremos o `setTimeout(..0)` (hack) para agendamento assíncrono, que basicamente significa apenas "coloque essa função no fim da fila atual do loop de eventos".
 
-We use the `setTimeout(..0)` (hack) for async scheduling, which basically just means "stick this function at the end of the current event loop queue."
+**Nota:** `setTimeout(..0)` não é tecnicamente inserir um item diretamente dentro da da fila do loop de eventos. O temporizador vai inserir o evento na próxima oportunidade. Por exemplo, duas chamadas `setTimeout(..0)` subsequentes não serão necessariamente processadas em ordem de chamada, então *é* possível ver varias condições estilo timer onde a ordem de tais eventos não é previsível. Em Node.js, uma solução mais simples é `process.nextTick(..)`. Apesar de quão conveniente (e usualmente mais rápido) seja, não existe uma única direção (ao menos até então) através de todos os ambientes para garantir ordenamento de eventos assíncronos. Cobriremos esse tópico em mais detalhe na próxima seção.
 
-**Note:** `setTimeout(..0)` is not technically inserting an item directly onto the event loop queue. The timer will insert the event at its next opportunity. For example, two subsequent `setTimeout(..0)` calls would not be strictly guaranteed to be processed in call order, so it *is* possible to see various conditions like timer drift where the ordering of such events isn't predictable. In Node.js, a similar approach is `process.nextTick(..)`. Despite how convenient (and usually more performant) it would be, there's not a single direct way (at least yet) across all environments to ensure async event ordering. We cover this topic in more detail in the next section.
+## Fila de Tarefas
 
-## Jobs
+A partir do ES6, existe um novo conceito coberto no topo da fila do event loop, chamada fila de tarefas ("job queue"). A exposição mais provável que você terá com ela é com o comportamento assíncrono das Promises (veja o capítulo 3).
 
-As of ES6, there's a new concept layered on top of the event loop queue, called the "Job queue." The most likely exposure you'll have to it is with the asynchronous behavior of Promises (see Chapter 3).
+Infelizmente, no momento é apenas um mecanismo sem um API exposto, e assim demonstrando que é um pouco mais enrolado. Então iremos ter que apenas descrevê-la conceitualmente, para que quando discutamos comportamento assíncrono com Promises no capítulo 3, você entenderá como essas ações estão sendo agendadas e processadas.
 
-Unfortunately, at the moment it's a mechanism without an exposed API, and thus demonstrating it is a bit more convoluted. So we're going to have to just describe it conceptually, such that when we discuss async behavior with Promises in Chapter 3, you'll understand how those actions are being scheduled and processed.
+Então, a melhor maneira de se pensar sobre isso que eu achei é que a "fila de tarefas" é uma fila pendurada no fim de todo tique na fila do event loop. Algumas ações presumidamente implícitas que podem ocorrer durante um tique não causarão a adição de um novo evento completo na fila do event loop, mas vão ao invés disso adicionar um item (também conhecido como tarefa) ao fim do tique atual na fila de tarefas.
 
-So, the best way to think about this that I've found is that the "Job queue" is a queue hanging off the end of every tick in the event loop queue. Certain async-implied actions that may occur during a tick of the event loop will not cause a whole new event to be added to the event loop queue, but will instead add an item (aka Job) to the end of the current tick's Job queue.
+É meio como dizer "oh, aqui está essa outra coisa que eu preciso fazer *depois*, mas garanta que aconteça logo antes do que qualquer outra coisa possa acontecer".
 
-It's kinda like saying, "oh, here's this other thing I need to do *later*, but make sure it happens right away before anything else can happen."
+Ou usando uma metáfora: a fila do event loop é como um carrinho no parque de diversões, onde toda vez que você termina a corrida, você tem que voltar para o fim da fila para brincar de novo. Mas a fila de tarefas é como terminar a corrida, mas cortar a fila e entrar novamente.
 
-Or, to use a metaphor: the event loop queue is like an amusement park ride, where once you finish the ride, you have to go to the back of the line to ride again. But the Job queue is like finishing the ride, but then cutting in line and getting right back on.
+Uma tarefa também pode fazer com que mais tarefas sejam adicionadas ao fim da mesma fila. Então, é teoricamente possível que um loop de tarefas (uma tarefa que continua adicionando outra, etc) pode girar indefinidamente, assim privando o programa da habilidade de prosseguir para o próximo tique do event loop. Isso seria conceitualmente quase a mesma coisa a expressar um loop infinito (como `while(true)..`) no seu código.
 
-A Job can also cause more Jobs to be added to the end of the same queue. So, it's theoretically possible that a Job "loop" (a Job that keeps adding another Job, etc.) could spin indefinitely, thus starving the program of the ability to move on to the next event loop tick. This would conceptually be almost the same as just expressing a long-running or infinite loop (like `while (true) ..`) in your code.
+Tarefas são como o espírito do hack do `setTimeout(..0)`, mas implementados de uma forma a ter um controle muito mais bem definido e com ordenamento garantido: **depois, mas o mais cedo possível**. 
 
-Jobs are kind of like the spirit of the `setTimeout(..0)` hack, but implemented in such a way as to have a much more well-defined and guaranteed ordering: **later, but as soon as possible**.
-
-Let's imagine an API for scheduling Jobs (directly, without hacks), and call it `schedule(..)`. Consider:
+Vamos imaginar uma API para agendamento de tarefas (diretamente, sem hacks), e chamá-la de `agenda(..)`. Considere:
 
 ```js
 console.log( "A" );
@@ -744,7 +747,7 @@ setTimeout( function(){
 	console.log( "B" );
 }, 0 );
 
-// theoretical "Job API"
+// "API Tarefa" teórico
 schedule( function(){
 	console.log( "C" );
 
@@ -753,20 +756,19 @@ schedule( function(){
 	} );
 } );
 ```
+Você poderia esperar que isso imprimisse `A B C D`, mas ao invés disso, imprimiria `A C D B`, por que tarefas acontecem no fim de cada tique do loop de eventos, e o temporizador engatilha o angendamento para o *próximo** tique (se disponível!).
 
-You might expect this to print out `A B C D`, but instead it would print out `A C D B`, because the Jobs happen at the end of the current event loop tick, and the timer fires to schedule for the *next* event loop tick (if available!).
+No capítulo 3, veremos que os comportamentos assíncronos das Promises são baseadas em tarefas, então é importante manter claro como isso se relaciona com o comportamento do loop de eventos.
 
-In Chapter 3, we'll see that the asynchronous behavior of Promises is based on Jobs, so it's important to keep clear how that relates to event loop behavior.
+## Ordenamento de Instruções
 
-## Statement Ordering
+A ordem na qual expressamos instruções no nosso código não é necessariamente a mesma ordem da qual a engine JS vai executá-las. Pode parecer uma asserção estranha de se fazer, então vamos explorá-la rapidamente.
 
-The order in which we express statements in our code is not necessarily the same order as the JS engine will execute them. That may seem like quite a strange assertion to make, so we'll just briefly explore it.
+Mas antes disso, devemos estar absolutamente claros em uma coisa: as regras/gramática da lingua (veja o título *Tipos e Gramática* dessa série de livros) dita um comportamento bastante previsível e confiável para ordenamento de instruções do ponto de vista do programa. Então o que discutiremos a seguir **não são coisas que você deveria poder observar** no seu programa JS.
 
-But before we do, we should be crystal clear on something: the rules/grammar of the language (see the *Types & Grammar* title of this book series) dictate a very predictable and reliable behavior for statement ordering from the program point of view. So what we're about to discuss are **not things you should ever be able to observe** in your JS program.
+**Cuidado:** Se em algum momento você puder *observar* reordenamento de instruções no compilador como estamos quase ilustrando, isso seria uma clara violação da especificação, e seria inquestionavelmente em virtude de algum bug na engine JS em questão -- um que deveria ser reportado e consertado prontamente! Mas é muito mais comum que você *suspeite* que algo louco está acontecendo na engine JS, quando na verdade é só um bug (provavelmente uma "condição de corrida") no seu código -- então verifique lá primeiro, e denovo e denovo. O debugador JS, usando pontos de quebra e avançando através do código linha por linha, será sua ferramenta mais poderosa para detectar tais bugs no *seu código*.
 
-**Warning:** If you are ever able to *observe* compiler statement reordering like we're about to illustrate, that'd be a clear violation of the specification, and it would unquestionably be due to a bug in the JS engine in question -- one which should promptly be reported and fixed! But it's vastly more common that you *suspect* something crazy is happening in the JS engine, when in fact it's just a bug (probably a "race condition"!) in your own code -- so look there first, and again and again. The JS debugger, using breakpoints and stepping through code line by line, will be your most powerful tool for sniffing out such bugs in *your code*.
-
-Consider:
+Considere:
 
 ```js
 var a, b;
@@ -780,11 +782,11 @@ b = b + 1;
 console.log( a + b ); // 42
 ```
 
-This code has no expressed asynchrony to it (other than the rare `console` async I/O discussed earlier!), so the most likely assumption is that it would process line by line in top-down fashion.
+Esse código não tem assincronia expressa nele (além do raro I/O do `console` async discutido antes), então a presunção mais provavel é que seria processado linha por linha de cima para baixo.
 
-But it's *possible* that the JS engine, after compiling this code (yes, JS is compiled -- see the *Scope & Closures* title of this book series!) might find opportunities to run your code faster by rearranging (safely) the order of these statements. Essentially, as long as you can't observe the reordering, anything's fair game.
+Mas é *possível* que a engine JS, depois de compilar esse código (sim, JS é compilado -- veja o título *Scope & Closures* dessa série de livros!) possa encontrar de rodar esse código mais rápido ao reordenar (com segurança) a ordem das instruções. Essencialmente, desde que você não consiga observar o reordenamento, vale tudo.
 
-For example, the engine might find it's faster to actually execute the code like this:
+Por exemplo, a engine pode achar mais rápido executar o código assim:
 
 ```js
 var a, b;
@@ -798,7 +800,7 @@ b++;
 console.log( a + b ); // 42
 ```
 
-Or this:
+Ou assim:
 
 ```js
 var a, b;
@@ -809,17 +811,16 @@ b = 31;
 console.log( a + b ); // 42
 ```
 
-Or even:
+Ou mesmo:
 
 ```js
-// because `a` and `b` aren't used anymore, we can
-// inline and don't even need them!
+// por que `a` e `b` não são mais usados,
+// podemos removê-los e nem precisaremos mais deles!
 console.log( 42 ); // 42
 ```
+Em todos esses casos, a engine JS está fazendo otimizações seguras durante sua compilação, enquanto o fim *observável* será o mesmo.
 
-In all these cases, the JS engine is performing safe optimizations during its compilation, as the end *observable* result will be the same.
-
-But here's a scenario where these specific optimizations would be unsafe and thus couldn't be allowed (of course, not to say that it's not optimized at all):
+Mas aqui temos um cenário onde essas otimizações específicas seriam inseguras e portanto não seriam permitidas (claro, sem mencionar que isso não seria otimizar de forma alguma).
 
 ```js
 var a, b;
@@ -827,7 +828,7 @@ var a, b;
 a = 10;
 b = 30;
 
-// we need `a` and `b` in their preincremented state!
+// precisamos `a` e `b` em seus estados pré-incrementados!
 console.log( a * b ); // 300
 
 a = a + 1;
@@ -836,9 +837,9 @@ b = b + 1;
 console.log( a + b ); // 42
 ```
 
-Other examples where the compiler reordering could create observable side effects (and thus must be disallowed) would include things like any function call with side effects (even and especially getter functions), or ES6 Proxy objects (see the *ES6 & Beyond* title of this book series).
+Outros exemplos onde o reordenamento de compilação pode criar efeitos colaterais indesejados (e portanto devem ser desabilitados) incluiriam coisas como qualquer chamada de função com efeitos colaterais (especialmente funções `getter`), ou objetos Proxy do ES6 (veja o título *ES6 e Além* dessa série de livros).
 
-Consider:
+Considere:
 
 ```js
 function foo() {
@@ -848,7 +849,7 @@ function foo() {
 
 var a, b, c;
 
-// ES5.1 getter literal syntax
+// Síntaxe literal ES5.1
 c = {
 	get bar() {
 		console.log( a );
@@ -864,8 +865,7 @@ b += c.bar;				// 11
 
 console.log( a + b );	// 42
 ```
-
-If it weren't for the `console.log(..)` statements in this snippet (just used as a convenient form of observable side effect for the illustration), the JS engine would likely have been free, if it wanted to (who knows if it would!?), to reorder the code to:
+Se não fosse pelo `console.log(..)` nesse código (usado apenas como uma forma conveniente de observação de efeito colateral para essa ilustração), a engine JS provavelmente estaria livre, se quisesse (quem sabe se iria querer!?), para reordenar o código para:
 
 ```js
 // ...
@@ -876,18 +876,18 @@ b = 30 + c.bar;
 // ...
 ```
 
-While JS semantics thankfully protect us from the *observable* nightmares that compiler statement reordering would seem to be in danger of, it's still important to understand just how tenuous a link there is between the way source code is authored (in top-down fashion) and the way it runs after compilation.
+Enquanto a semântica JS afortunadamente nos protege dos pesadelos observáveis que o ordenamento da instrução do compilador pode parecer nos causar, ainda é importante entendermos quão tênue é a ligação que existe entre a forma como o código é auditado (de cima para baixo) e a forma como é executado após a compilação.
 
-Compiler statement reordering is almost a micro-metaphor for concurrency and interaction. As a general concept, such awareness can help you understand async JS code flow issues better.
+Reordenamento da instrução do compilador é quase uma micro-metáfora para concorrência e interação. Como conceito geral, tal entendimento pode ajudar a comprender melhor os problemas do código assíncrono no JS.
 
-## Review
+## Revisão
 
-A JavaScript program is (practically) always broken up into two or more chunks, where the first chunk runs *now* and the next chunk runs *later*, in response to an event. Even though the program is executed chunk-by-chunk, all of them share the same access to the program scope and state, so each modification to state is made on top of the previous state.
+Um programa JavaScript é (praticamente) sempre quebrado em dois ou mais pedaços, onde o primeiro pedaço roda *agora* e o próximo roda *depois*, em resposta a um evento. Apesar do programa ser executado pedaço à pedaço, todos eles compartilham o mesmo acesso ao estado e escopo do programa, então cada modificação ao estado é feito em cima do estado anterior.
 
-Whenever there are events to run, the *event loop* runs until the queue is empty. Each iteration of the event loop is a "tick." User interaction, IO, and timers enqueue events on the event queue.
+Sempre que existem eventos a serem executados, o *loop de eventos* roda até a fila estar vazia. Cada iteração do loop de eventos é um "tique". Interação do usuário, IO, e temporizadores enfileiram eventos na fila de eventos.
 
-At any given moment, only one event can be processed from the queue at a time. While an event is executing, it can directly or indirectly cause one or more subsequent events.
+Em qualquer dado momento, apenas um evento pode ser processado da lista por vez. Enquanto um evento executa, pode direta ou indiretamente causar um ou mais eventos subsequentes.
 
-Concurrency is when two or more chains of events interleave over time, such that from a high-level perspective, they appear to be running *simultaneously* (even though at any given moment only one event is being processed).
+Concorrência é quando duas ou mais cadeias de eventos intercalam ao longo do tempo, de maneira que de uma perspectiva ampla, elas aparentem estar rodando *simultâneamente* (apesar de que em qualquer dado momento apenas um evento é processado).
 
-It's often necessary to do some form of interaction coordination between these concurrent "processes" (as distinct from operating system processes), for instance to ensure ordering or to prevent "race conditions." These "processes" can also *cooperate* by breaking themselves into smaller chunks and to allow other "process" interleaving.
+É frequentemente necessário fazer algum tipo de cordenação de interação entre "processos" concorrentes (diferentes de processos de sistema operacional), por exemplo para garantir ordenamento ou prevenir "condição de corrida". Tais "processos" também podem *cooperar* ao quebrar a si mesmos em pedaços menores e permitir que outros "processos" intercalem.
