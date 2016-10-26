@@ -1,5 +1,5 @@
 # You Don't Know JS: ES6 e além
-# Chapter 6: API Additions
+# Chapter 6: Adições no API
 
 From conversions of values to mathematic calculations, ES6 adds many static properties and methods to various built-in natives and objects to help with common tasks. In addition, instances of some of the natives have new capabilities via various new prototype methods.
 
