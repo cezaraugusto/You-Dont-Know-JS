@@ -1,9 +1,9 @@
 # You Don't Know JS: ES6 e além
 # Chapter 6: Adições no API
 
-From conversions of values to mathematic calculations, ES6 adds many static properties and methods to various built-in natives and objects to help with common tasks. In addition, instances of some of the natives have new capabilities via various new prototype methods.
+De conversão de valores a cálculos matemáticos, ES6 agrega muitas propriedades estáticas e métodos a vários nativos e objetos para ajudar com tarefas comuns. Além disso, instâncias de alguns dos nativos têm capacitações através de vários métodos de prototipagem.
 
-**Note:** Most of these features can be faithfully polyfilled. We will not dive into such details here, but check out "ES6 Shim" (https://github.com/paulmillr/es6-shim/) for standards-compliant shims/polyfills.
+**Nota:** A maioria dessas funcionalidades podem ser fielmente polyfilled. Nós não vamos entrar em detalhes aqui, mas cheque o "ES6 Shim" (https://github.com/paulmillr/es6-shim/) para padrões compátiveis de shims/polyfills.
 
 ## `Array`
 
