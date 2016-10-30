@@ -165,9 +165,9 @@ Array.from( arrLike, function mapper(val,idx){
 
 Veja "Arrays tipados" no Capítulo 5 para um exemplo de uso do `Array.from(..)` traduzindo valores de um array de valores 8-bit para um array de valores 16-bit.
 
-### Creating Arrays and Subtypes
+### Criando Arrays e Subtipos
 
-In the last couple of sections, we've discussed `Array.of(..)` and `Array.from(..)`, both of which create a new array in a similar way to a constructor. But what do they do in subclasses? Do they create instances of the base `Array` or the derived subclass?
+Nas duas últimas seções, nós discutimos `Array.of(..)` e `Array.from(..)`, ambos para criar um novo array de forma similar a um construtor. Mas o que eles fazem nas subclasses? Eles criam instâncias do `Array` base ou de subclasses derivadas?
 
 ```js
 class MyCoolArray extends Array {
@@ -181,9 +181,9 @@ Array.from(
 ) instanceof MyCoolArray;							// false
 ```
 
-Both `of(..)` and `from(..)` use the constructor that they're accessed from to construct the array. So if you use the base `Array.of(..)` you'll get an `Array` instance, but if you use `MyCoolArray.of(..)`, you'll get a `MyCoolArray` instance.
+Ambos `of(..)` e `from(..)` usam o construtor que eles são acessados para construir o array. Então se você usa a base `Array.of(..)` você vai ter uma instância de `Array`, mas se você usa `MyCollArray.of(..)`, você vai ter uma instância de `MyCoolArray`.
 
-In "Classes" in Chapter 3, we covered the `@@species` setting which all the built-in classes (like `Array`) have defined, which is used by any prototype methods if they create a new instance. `slice(..)` is a great example:
+Em "Classes" no Capítulo 3, nós cobrimos a configuração `@@species` que todas as classes nativas (como `Array`) têm definidas, que são usadas por qualquer método prototipado se eles criam uma nova instância. `slice(..)` é um ótimo exemplo:
 
 ```js
 var x = new MyCoolArray( 1, 2, 3 );
@@ -191,7 +191,7 @@ var x = new MyCoolArray( 1, 2, 3 );
 x.slice( 1 ) instanceof MyCoolArray;				// true
 ```
 
-Generally, that default behavior will probably be desired, but as we discussed in Chapter 3, you *can* override if you want:
+Geralmente, o comportamento padrão provavelmente vai ser o desejado, mas como discutimos no Capítulo 3, você *pode* sobrescrevê-lo se quiser:
 
 ```js
 class MyCoolArray extends Array {
@@ -205,7 +205,7 @@ x.slice( 1 ) instanceof MyCoolArray;				// false
 x.slice( 1 ) instanceof Array;						// true
 ```
 
-It's important to note that the `@@species` setting is only used for the prototype methods, like `slice(..)`. It's not used by `of(..)` and `from(..)`; they both just use the `this` binding (whatever constructor is used to make the reference). Consider:
+É importante notar que a configuração de `@@species` só é usada para métodos prototipados, como `slice(..)`. Não é usado por `of(..)` e `from(..)`; ambos somente usam o this (qualquer que seja o construtor usado para fazer referência). Considere:
 
 ```js
 class MyCoolArray extends Array {
