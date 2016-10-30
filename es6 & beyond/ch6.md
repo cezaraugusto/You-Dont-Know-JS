@@ -709,9 +709,9 @@ Number.isSafeInteger( y );			// false
 
 Strings já tem alguns helpers antes do ES6, mas alguns mais foram adicionados à mistura.
 
-### Unicode Functions
+### Funções Unicode
 
-"Unicode-Aware String Operations" in Chapter 2 discusses `String.fromCodePoint(..)`, `String#codePointAt(..)`, and `String#normalize(..)` in detail. They have been added to improve Unicode support in JS string values.
+"Unicode-Aware String Operations" no Capítulo 2 discute `String.fromCodePoint(..)`, `String#codePointAt(..)`, e `String#normalize(..)` em detalhes. Eles foram adicionados para melhorar o suporte a Unicode em valores string de JS.
 
 ```js
 String.fromCodePoint( 0x1d49e );			// "𝒞"
@@ -719,9 +719,9 @@ String.fromCodePoint( 0x1d49e );			// "𝒞"
 "ab𝒞d".codePointAt( 2 ).toString( 16 );		// "1d49e"
 ```
 
-The `normalize(..)` string prototype method is used to perform Unicode normalizations that either combine characters with adjacent "combining marks" or decompose combined characters.
+O método prototipado de string `normalize(..)` é usado para realizar normalizações Unicode que combinam caracteres com "combinação de marcas" adjacentes ou decompõem caractéres combinados.
 
-Generally, the normalization won't create a visible effect on the contents of the string, but will change the contents of the string, which can affect how things like the `length` property are reported, as well as how character access by position behave:
+Geralmente, a normalização não vai criar um efeito visível nos conteúdos da string, mas vai mudar o conteúdo da string, o que pode afetar como coisas como a propriedade `length` é reportada, e também em como um acesso a um caracter pela posição se comporta:
 
 ```js
 var s1 = "e\u0301";
@@ -732,9 +732,9 @@ s2.length;							// 1
 s2 === "\xE9";						// true
 ```
 
-`normalize(..)` takes an optional argument that specifies the normalization form to use. This argument must be one of the following four values: `"NFC"` (default), `"NFD"`, `"NFKC"`, or `"NFKD"`.
+`normalize(..)` aceita um argumento opcional que especifica a forma normalizada de usar. Esse argumento deve ser um dos 4 valores a seguir: `"NFC"` (padrão), `"NFD"`, `"NFKC"`, or `"NFKD"`.
 
-**Note:** Normalization forms and their effects on strings is well beyond the scope of what we'll discuss here. See "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) for more information.
+**Nota:** Formas de normalização e seus efeitos nas strings está bem além do escopo que nós estamos discutindo aqui. Veja "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) for more information.
 
 ### `String.raw(..)` Static Function
 
