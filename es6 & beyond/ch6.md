@@ -561,35 +561,35 @@ o2.foo();							// foo
 
 ## `Math`
 
-ES6 adds several new mathematic utilities that fill in holes or aid with common operations. All of these can be manually calculated, but most of them are now defined natively so that in some cases the JS engine can either more optimally perform the calculations, or perform them with better decimal precision than their manual counterparts.
+ES6 adicional diversos utilitários matemáticos que preenchem buracos ou ajudam com operações comuns. Todos podem ser manualmente calculados, mas a maioria está agora definido nativamente, então em alguns casos a engine do JS pode otimizar a performance dos cálculos e ser mais performático com mais precisão de números decimais do que a solução manual.
 
-It's likely that asm.js/transpiled JS code (see the *Async & Performance* title of this series) is the more likely consumer of many of these utilities rather than direct developers.
+É provavel que asm.js/código JS transpilado (veja o título *Async & Performance* dessa série) é o consumidor mais provável de muitos desses utilitários, ao invés de desenvolvedores diretos.
 
-Trigonometry:
+Trigonometria:
 
-* `cosh(..)` - Hyperbolic cosine
-* `acosh(..)` - Hyperbolic arccosine
-* `sinh(..)` - Hyperbolic sine
-* `asinh(..)` - Hyperbolic arcsine
-* `tanh(..)` - Hyperbolic tangent
-* `atanh(..)` - Hyperbolic arctangent
-* `hypot(..)` - The squareroot of the sum of the squares (i.e., the generalized Pythagorean theorem)
+* `cosh(..)` - Coseno hiperbólico
+* `acosh(..)` - Arco-cosseno hiperbólico
+* `sinh(..)` - Seno hiperbólico
+* `asinh(..)` - Arco-seno hiperbólico
+* `tanh(..)` - Tangente hiperbólica
+* `atanh(..)` - Arco-tangente hiperbólica
+* `hypot(..)` - A raíz quadrada da soma dos quadrados (ou seja, o generalizado Teorema de Pitágoras)
 
-Arithmetic:
+Aritmética:
 
-* `cbrt(..)` - Cube root
-* `clz32(..)` - Count leading zeros in 32-bit binary representation
-* `expm1(..)` - The same as `exp(x) - 1`
-* `log2(..)` - Binary logarithm (log base 2)
-* `log10(..)` - Log base 10
-* `log1p(..)` - The same as `log(x + 1)`
-* `imul(..)` - 32-bit integer multiplication of two numbers
+* `cbrt(..)` - Raíz cúbica
+* `clz32(..)` - Conta os zeros à esquerda em uma representação binária de 32-bit
+* `expm1(..)` - O mesmo que `exp(x) - 1`
+* `log2(..)` - Logarítimo binário (log de base 2)
+* `log10(..)` - Log de base 10
+* `log1p(..)` - O mesmo que `log(x + 1)`
+* `imul(..)` - Multiplicação de dois números inteiros de 32-bit
 
 Meta:
 
-* `sign(..)` - Returns the sign of the number
-* `trunc(..)` - Returns only the integer part of a number
-* `fround(..)` - Rounds to nearest 32-bit (single precision) floating-point value
+* `sign(..)` - Retorna o sinal de um número
+* `trunc(..)` - Retorna apenas a parte inteira de um número
+* `fround(..)` - Arrendonda para o valor float mais próximo de 32-bit (precisão única)
 
 ## `Number`
 
