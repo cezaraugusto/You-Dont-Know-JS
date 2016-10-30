@@ -2,20 +2,20 @@
 
 # Capítulo 2: Valores
 
-`array`s, `strings`s e `number`s são os componentes básicos de qualquer programa, mas esses tipos em Javascript tem algumas características únicas que podem frustar ou animar você.
+`array`s, `strings`s e `number`s são os componentes básicos de qualquer programa, mas em JavaScript esses tipos tem algumas características únicas que podem frustar ou animar você.
 
-Vamos examinar vários tipos nativos em JS e explorar como podemos entendê-los de forma completa, com o intuito de usar suas capacidades ao máximo.
+Vamos examinar vários tipos de valores nativos em JS e explorar como podemos entendê-los de forma completa e usar seus comportamentos corretamente.
 
 ## Arrays
 
-Em comparação com outras linguagens fortemente tipadas, os `arary`s em Javascript são apenas caixas para qualquer tipo de valor, como `string`, `number`, `object` e até outros `array` (neste caso, tem-se `array`s multidimensionais).
+Em comparação com outras linguagens fortemente tipadas, os `arary`s em JavaScript são apenas caixas para qualquer tipo de valor, como `string`, `number`, `object` e até outros `array` (neste caso, tem-se `array`s multidimensionais).
 
 ```javascript
 var a = [ 1, "2", [3] ];
 
-a.length;        // 3
-a[0] === 1;        // true
-a[2][0] === 3;    // true
+a.length;       // 3
+a[0] === 1;     // true
+a[2][0] === 3;  // true
 ```
 
 Você não precisa definir o tamanho dos `array`s antecipadamente (veja "Arrays", no capítulo 3), você pode simplesmente declará-los e adicionar valores quando necessário:
@@ -32,7 +32,7 @@ a[2] = [ 3 ];
 a.length;    // 3
 ```
 
-**Aviso:** Usar `delete` em um elemento de um `array` irá remover o espaço do `array`, mas mesmo se você remover o último elemento, a propriedade `length` **não** irá ser atualizada, então tenha cudiado! Iremos entender o operador `delete` em mais detalhes no capítulo 5.
+**Aviso:** Usar `delete` em um elemento de um `array` irá remover o espaço do `array`, mas mesmo se você remover o último elemento, a propriedade `length` **não** será atualizada, então tenha cuidado! Iremos entender o operador `delete` em mais detalhes no capítulo 5.
 
 Tenha cuidado ao criar `array`s "esparsados" (deixando ou criando espaços vazios/indefinidos):
 
@@ -44,14 +44,14 @@ a[0] = 1;
 // o espaço `a[1]` não foi definido
 a[2] = [ 3 ];
 
-a[1];        // indefinido
+a[1];        // undefined
 
 a.length;    // 3
 ```
 
-Apesar de funcionar, "espaços vazios" podem levar a alguns comportamentos confusos. Apesar dos espaços parecerem ter o valor `undefined`, eles não irão se comportar da mesma forma como se o espaço tivesse sido explicitamento definido (`a[1] = undefined`). Veja "Arrays" no capítulo 3 para mais informações.
+Apesar de funcionar, "espaços vazios" podem levar a alguns comportamentos confusos. Apesar dos espaços parecerem ter o valor `undefined`, eles não irão se comportar da mesma forma como se o espaço tivesse sido explicitamente definido (`a[1] = undefined`). Veja "Arrays" no capítulo 3 para mais informações.
 
-`array`s são indexidados numericamente (como esperado), mas também há objetos que podem ter chaves/propriedades `string` adicionads a eles (que não contam para a propriedade `length` de `array`):
+`array`s são indexidados numericamente (como esperado), mas o complicado é que eles também são objetos que podem ter chaves/propriedades `string` adicionadas a eles (que não contam para a propriedade `length` de `array`):
 
 ```javascript
 var a = [ ];
@@ -64,7 +64,7 @@ a["foobar"];    // 2
 a.foobar;        // 2
 ```
 
-Entretanto, uma pegadinha para estar alerta é que se um valor `string` que pode ser convertido para um `number` base-10 é usado como chave, então assume-se que você quis usar um index `number`, ao invés de uma chave `string`!
+Entretanto, uma pegadinha para estar alerta é que se um valor `string` que pode ser convertido para um `number` de base-10 é usado como chave, então assume-se que você quis usar um index `number`, ao invés de uma chave `string`!
 
 ```javascript
 var a = [ ];
@@ -78,9 +78,9 @@ Geralmente, não é uma boa ideia adicionar chaves/propriedades `string` a `arra
 
 ### Estruturas Semelhantes a Arrays
 
-Haverá ocasiões onde você quererá convertar estrturas semelhantes a arrays (uma coleção numericamente indexada de valores) em um array, propriamente dito. Geralmente, você irá chamar funções de array (como `indexOf(..)`, `concat(..)`, `forEach(..)`, etc.) nesta coleção de valores.
+Haverá situações onde você precisará convertar estruturas semelhantes a arrays (uma coleção numericamente indexada de valores) em um array propriamente dito, normalmente para que você possa chamar funções de array (como `indexOf(..)`, `concat(..)`, `forEach(..)`, etc.) nesta coleção de valores.
 
-Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são estruturas convertíveis em `array`s. Outro exemplo comum é quando funções expõem o objeto `arguments` (estrutura equivalente a arrays, desencorajada na ES6) para acesso aos argumentos como uma lista.
+Por exemplo, várias operações de query no DOM retornam listas de elementos DOM que não são verdadeiros `array`s, mas são semelhantes a `array`s o suficiente para a nossa proposta de conversão. Outro exemplo comum é quando funções expõem o objeto `arguments` (estrutura equivalente a `array`s, desencorajada na ES6) para acesso aos argumentos como uma lista.
 
 Uma forma comum de fazer tal conversão é usar a função `slice(..)` em um valor:
 
@@ -95,8 +95,7 @@ function foo() {
 foo( "bar", "baz" ); // ["bar","baz","bam"]
 ```
 
-Se `slice()` é chamada sem nenhum parâmetro, como no exemplo acima, os valores padrão de seus parâmetros tem o efeito de
-de duplicar o `array` (neste caso, uma estrutura semelhante a arrays).
+Se `slice()` é chamada sem nenhum parâmetro, como no exemplo acima, os valores padrão de seus parâmetros tem o efeito de duplicar o `array` (neste caso, uma estrutura semelhante a arrays).
 
 A partir da ES6, existe uma função padrão chamada `Array.from(..)` que pode fazer o mesmo efeito:
 
@@ -107,21 +106,20 @@ var arr = Array.from( arguments );
 ...
 ```
 
-**Nota:** `Array.from(..)` possue várias capacidades poderosas, as quais iremos cobrir em detalhes em no livro _ES6 e Além_ desta série.
+**Nota:** `Array.from(..)` possui alguns recursos poderosos, os quais iremos cobrir em detalhes em no livro _ES6 e Além_ desta série.
 
 ## Strings
 
-É muito comum acreditar-se que uma `string` é essencialmente apenas um `array` de caracteres. Independentemente da implementação da linguagem usar ou não `array`s, é importante notar que `string`s, em Javascript, não são a mesma coisa que `array`s de caracteres. Sua similaridade é apenas superficial.
-Por exemplo, considere os dois valores abaixo:
+É muito comum acreditar que uma `string` é essencialmente apenas um `array` de caracteres. Embora implementação por baixo dos panos poder usar ou não `array`s, é importante notar que `string`s, em JavaScript, não são a mesma coisa que `array`s de caracteres. Sua similaridade é apenas superficial.
 
-For example, let's consider these two values:
+Por exemplo, considere os dois valores abaixo:
 
 ```javascript
 var a = "foo";
 var b = ["f","o","o"];
 ```
 
-Strings tem uma semelhança com `array` -- estruturas semelhantes a `array`s, no caso -- por exemplo, ambos tem uma propriedade `length` (tamanho, em português), um método `indexOf(..)` (`array`s apenas a partir da versão ES5) e um método `concat(..)` (concatenar, em português):
+Strings tem uma semelhança superficial com `array` -- estruturas semelhantes a `array`s, como dito acima -- por exemplo, ambos tem uma propriedade `length` (*tamanho*), um método `indexOf(..)` (`array`s apenas a partir da versão ES5) e um método `concat(..)` (*concatenar*):
 
 ```javascript
 a.length;                            // 3
@@ -150,13 +148,13 @@ a; // "foo"
 b; // ["f","O","o"]
 ```
 
-`String`s em Javascript são imutáveis, enquanto `arrays` são mutáveis. Adicionalmente, a forma de acesso da posição de caracter `a[1]` nunca foi amplamente aceita em Javascript. Antigas versões do IE não permitiam esta sintaxe (atualmente, é aceita). Em vez disso, a forma _correta_ era `a.chartAt(1)`.
+`String`s em JavaScript são imutáveis, enquanto `arrays` são bastante mutáveis. Além do mais, a forma de acesso da posição de caractere `a[1]` nem sempre foi amplamente aceita em JavaScript. Antigas versões do IE não permitiam esta sintaxe (atualmente, elas aceitam). Em vez disso, a forma _correta_ tem sido `a.chartAt(1)`.
 
 Outra consequência da imutabilidade de `string`s é que nenhum método que altera seu conteúdo pode ser feito localmente, mas sim gera-se uma nova `string`, que é retornada. Em contraste, muitos método que mudam o conteúdo de `array`s modificam localmente.
 
 ```javascript
 c = a.toUpperCase();
-a === c;    // false
+a === c;      // false
 a;            // "foo"
 c;            // "FOO"
 
@@ -165,11 +163,11 @@ b;            // ["f","O","o","!"]
 
 ```
 
-Muitos métodos de `array` pode ser úteis quando lidando com `string`s, quando podemos "pegar emprestado" métodos não-mutáveis de `array`s em `string`s:
+Além disso, muitos dos métodos de `array` que poderiam ser úteis para lidar com `string`s, na verdade não estão disponíveis para elas, mas nós podemos "pegar emprestados" métodos não-mutáveis de `array`s para nossas `string`:
 
 ```javascript
-a.join;            // indefinido
-a.map;            // indefinido
+a.join;       // undefined
+a.map;        // undefined
 
 var c = Array.prototype.join.call( a, "-" );
 var d = Array.prototype.map.call( a, function(v){
@@ -180,12 +178,12 @@ c;                // "f-o-o"
 d;                // "F.O.O."
 ```
 
-Vamos olhar em outro exemplo: Invertendo uma `string` (incidentalmente, uma pergunta comum em entrevistas de Javascript). `array`s tem um método de mutação local `reverse()`, mas `string`s não tem:
+Vamos olhar em outro exemplo: Invertendo uma `string` (a propósito, uma pergunta comum em entrevistas de JavaScript). `array`s tem um método modificador local `reverse()`, mas `string`s não tem:
 
 ```javascript
-a.reverse;        // indefinido
+a.reverse;        // undefined
 
-b.reverse();    // ["!","o","O","f"]
+b.reverse();      // ["!","o","O","f"]
 b;                // ["!","o","O","f"]
 ```
 
@@ -211,11 +209,11 @@ var c = a
 c; // "oof"
 ```
 
-Se isso parece feio, é porque é mesmo. Entretanto, _isso funciona_ para `string`s simples, então, se você precisar de algo rápido, em geral, essa abordagem servirá.
+Se isso parece feio, é porque é mesmo. Entretanto, _isso funciona_ para `string`s simples, então, se você precisar de algo rápido e sujo, em geral, essa abordagem servirá.
 
-**Aviso:** Tenha cuidado! Essa abordagem **não funciona** para `string`s com caracteres complexos (unicode, símbolos astrológicos, caracteres multibyte, etc). Nestes casos, você precisa de bibliotecas mais sofisticadas, para lidar com caracteres unicode corretamente. Veja o trabalo de Mathias Bynens neste assunto: _Esrever_ (<https://github.com/mathiasbynens/esrever>).
+**Aviso:** Tenha cuidado! Essa abordagem **não funciona** para `string`s com caracteres complexos (unicode) nelas (símbolos astrais, caracteres multibyte, etc). Você precisa de bibliotecas mais sofisticadas, que são unicode-conscientes, para lidar com caracteres unicode corretamente. Veja o trabalo de Mathias Bynens neste assunto: _Esrever_ (<https://github.com/mathiasbynens/esrever>).
 
-Outra visão nesse ponto é: Se você comumente trata "strings" como _arrays de caracteres_, talvez seja melhor usar `array`s, ao invés de `strings`. Você provavelmente salvará muito trabalho de conversão de `string` para `array` cada vez. Você sempre pode chamar `join("")` em um `array` _de caracteres_ sempre que realmente precisar da representação de `string`.
+Outra visão nesse ponto é: Se você comumente trata "strings" como _arrays de caracteres_, talvez seja melhor usar `array`s, ao invés de `string`s. Você provavelmente salvará muito trabalho de conversão de `string` para `array` cada vez. Você sempre pode chamar `join("")` em um `array` _de caracteres_ sempre que realmente precisar da representação de `string`.
 
 ## Numbers
 
@@ -532,7 +530,7 @@ The expression `void ___` "voids" out any value, so that the result of the expre
 ```js
 var a = 42;
 
-console.log( void a, a ); // indefinido 42
+console.log( void a, a ); // undefined 42
 ```
 
 By convention (mostly from C-language programming), to represent the `undefined` value stand-alone by using `void`, you'd use `void 0` (though clearly even `void true` or any other `void` expression does the same thing). There's no practical difference between `void 0`, `void 1`, and `undefined`.
