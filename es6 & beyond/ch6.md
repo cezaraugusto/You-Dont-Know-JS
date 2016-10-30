@@ -445,9 +445,9 @@ var o = {
 Object.getOwnPropertySymbols( o );	// [ Symbol(bar) ]
 ```
 
-### `Object.setPrototypeOf(..)` Static Function
+### Função Estática `Object.setPrototypeOf(..)`
 
-Also in Chapter 2, we mentioned the `Object.setPrototypeOf(..)` utility, which (unsurprisingly) sets the `[[Prototype]]` of an object for the purposes of *behavior delegation* (see the *this & Object Prototypes* title of this series). Consider:
+Também no Capítulo 2, nós mencionamos o utilitário `Object.setPrototypeOf(..)`, que (sem surpresa) seta o `[[Prototype]]` de um objeto para fins de *delegação de comportamento* (veja o título *this & Object Prototypes* dessa série). Considere:
 
 ```js
 var o1 = {
@@ -463,7 +463,7 @@ Object.setPrototypeOf( o2, o1 );
 o2.foo();							// foo
 ```
 
-Alternatively:
+Alternativamente:
 
 ```js
 var o1 = {
@@ -478,9 +478,9 @@ var o2 = Object.setPrototypeOf( {
 o2.foo();							// foo
 ```
 
-In both previous snippets, the relationship between `o2` and `o1` appears at the end of the `o2` definition. More commonly, the relationship between an `o2` and `o1` is specified at the top of the `o2` definition, as it is with classes, and also with `__proto__` in object literals (see "Setting `[[Prototype]]`" in Chapter 2).
+Em ambos os trechos anteriores, a relação entre `o2` e `o1` aparece no fim da definição do `o2`. Mais comumente, a relação entre um `o2` e `o1` é especificada no topo da definição do `o2`, assim como com classes, e também com `__proto__` em objetos literais (veja "Setting `[[Prototype]]` no Capítulo 2").
 
-**Warning:** Setting a `[[Prototype]]` right after object creation is reasonable, as shown. But changing it much later is generally not a good idea and will usually lead to more confusion than clarity.
+**Atenção:** Configurar um `[[Prototype]]` logo após a criação do objeto é razoável, como mostrado. Mas mudá-lo muito depois de criá-lo não é uma boa ideia e geralmente acaba mais em confusão do que clareza.
 
 ### `Object.assign(..)` Static Function
 
