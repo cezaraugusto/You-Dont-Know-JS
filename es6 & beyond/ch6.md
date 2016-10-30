@@ -429,11 +429,11 @@ Você deveria continuar usando `===` para comparações de igualidade estritas; 
 
 **Nota:** ES6 também adiciona um utilitário `Number.isNaN(..)` (discutido mais adiante nesse capítulo) que pode ser levemente mais conveniente; você pode preferir `Number.isNaN(x)` ao invés de `Object.is(x,NaN)`. Você *pode* precisamente testar para `-0` com um desajeitado `x == 0 && 1 / x === -Infinity`, mas nesse caso `Object.is(x,-0)` é muito melhor.
 
-### `Object.getOwnPropertySymbols(..)` Static Function
+### Função Estática `Object.getOwnPropertySymbols(..)`
 
-The "Symbols" section in Chapter 2 discusses the new Symbol primitive value type in ES6.
+A seção "Símbolos" no Capítulo 2 discute o novo tipo de valor primitivo Symbols em ES6.
 
-Symbols are likely going to be mostly used as special (meta) properties on objects. So the `Object.getOwnPropertySymbols(..)` utility was introduced, which retrieves only the symbol properties directly on an object:
+Símbolos provavelmente vão ser os mais usados como propriedades especiais (meta) em objetos. Então o utilitário `Object.getOwnPropertySymbols(..)` foi introduzido, que recupera apenas as propriedades símbolo diretamente de um objeto:
 
 ```js
 var o = {
