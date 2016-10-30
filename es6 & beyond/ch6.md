@@ -371,11 +371,11 @@ Não use o `findIndex(..) != -1` (do jeito que é feito com `indexOf(..)`) para 
 
 **Nota:** Assim como outros métodos de arrays que aceitam callbacks, `find(..)` aceita um argumento opcional que, se definido, vai especificar o `this` para o callback passado no primeiro argumento. Caso contrário, `this` será indefinido.
 
-### `entries()`, `values()`, `keys()` Prototype Methods
+### Métodos Prototipados `entries()`, `values()`, `keys()`
 
-In Chapter 3, we illustrated how data structures can provide a patterned item-by-item enumeration of their values, via an iterator. We then expounded on this approach in Chapter 5, as we explored how the new ES6 collections (Map, Set, etc.) provide several methods for producing different kinds of iterations.
+No Capítulo 3, nós ilustramos como estruturas de dados podem prover uma enumeração modelada item-por-item dos seus valores, via um iterador. Nós então expusemos essa abordagem no Capítulo 5, quando exploramos como as novas collections do ES6 (Map, Set, etc.) provêem vários métodos para produzir diferentes tipos de iterações.
 
-Because it's not new to ES6, `Array` might not be thought of traditionally as a "collection," but it is one in the sense that it provides these same iterator methods: `entries()`, `values()`, and `keys()`. Consider:
+Por conta de isso não ser novo no ES6, `Array` pode não ser pensado tradicionalmente como uma "coleção", mas é se pensarmos que ele fornece os mesmos métodos para iterar: `entries()`, `values()`, e `keys()`. Considere:
 
 ```js
 var a = [1,2,3];
@@ -387,9 +387,9 @@ var a = [1,2,3];
 [...a[Symbol.iterator]()];			// [1,2,3]
 ```
 
-Just like with `Set`, the default `Array` iterator is the same as what `values()` returns.
+Assim como com `Set`, o iterador padrão `Array` do array retorna o mesmo que `values()`.
 
-In "Avoiding Empty Slots" earlier in this chapter, we illustrated how `Array.from(..)` treats empty slots in an array as just being present slots with `undefined` in them. That's actually because under the covers, the array iterators behave that way:
+Em "Evitando Espaços Vazios" mais acima nesse capítulo, nós ilustramos como `Array.from(..)` trata espaçoes vazios em um array somente colocando `undefined`. Isso é na verdade porque, por baixo dos panos, os iteradores de array se comportam desse jeito:
 
 ```js
 var a = [];
