@@ -269,9 +269,9 @@ var a = [ null, null, null, null ].fill( 42, 1, 3 );
 a;									// [null,42,42,null]
 ```
 
-### `find(..)` Prototype Method
+### Método Prototipado `find(..)`
 
-The most common way to search for a value in an array has generally been the `indexOf(..)` method, which returns the index the value is found at or `-1` if not found:
+A forma mais comum de procurar por um valor em um array, geralmente tem sio o método `indexOf(..)`, que retorna o índice se o valor for encontrado, ou `-1` se não for encontrado:
 
 ```js
 var a = [1,2,3,4,5];
@@ -282,11 +282,11 @@ var a = [1,2,3,4,5];
 (a.indexOf( "2" ) != -1);			// false
 ```
 
-The `indexOf(..)` comparison requires a strict `===` match, so a search for `"2"` fails to find a value of `2`, and vice versa. There's no way to override the matching algorithm for `indexOf(..)`. It's also unfortunate/ungraceful to have to make the manual comparison to the `-1` value.
+A comparação `indexOf` requer uma equivalência estrita com `===`, então a procura por `"2"` falha ao encontrar o valor `2` e vice-versa. Não tem como sobrescrever o algoritmo de equivalência para `indexOf(..)`. E também é infeliz/deselegante ter que fazer uma comparação manual com o valor `-1`.
 
-**Tip:** See the *Types & Grammar* title of this series for an interesting (and controversially confusing) technique to work around the `-1` ugliness with the `~` operator.
+**Dica:** Veja o título *Tipos e Gramática* dessa série para uma técnica interessante (e controversamente confusa) para trabalhar com a feiura do `-1` com o operador `~`.
 
-Since ES5, the most common workaround to have control over the matching logic has been the `some(..)` method. It works by calling a function callback for each element, until one of those calls returns a `true`/truthy value, and then it stops. Because you get to define the callback function, you have full control over how a match is made:
+Desde o ES5, a solução alternativa para ter controle da lógica de equivalência tem sido o método `some(..)`. Ele funciona chamando uma função callback para cada elemento, até que um deles retorne um valor `true`/verdadeiro, e então para. Por conta de você ter que definir uma função callback, você tem total controle de como a equivalência é feita:
 
 ```js
 var a = [1,2,3,4,5];
@@ -300,9 +300,9 @@ a.some( function matcher(v){
 } );								// false
 ```
 
-But the downside to this approach is that you only get the `true`/`false` indicating if a suitably matched value was found, but not what the actual matched value was.
+Mas o lado negativo dessa abordagem é que você só tem o `true`/`false` indicando se uma equivalência adequada foi encontrada, mas não qual o valor dela.
 
-ES6's `find(..)` addresses this. It works basically the same as `some(..)`, except that once the callback returns a `true`/truthy value, the actual array value is returned:
+O `find(..)` do ES6 aborda isso. Funciona basicamente da mesma maneira que o `some(..)`, exceto que uma vez que o callback retorna `true`/valor verdadeiro, o real valor do array é retornado:
 
 ```js
 var a = [1,2,3,4,5];
@@ -316,7 +316,7 @@ a.find( function matcher(v){
 });
 ```
 
-Using a custom `matcher(..)` function also lets you match against complex values like objects:
+Usar uma função customizada `matcher(..)` também te deixa testar a equivalência contra valores complexos, como objetos:
 
 ```js
 var points = [
@@ -335,7 +335,7 @@ points.find( function matcher(point) {
 } );								// { x: 30, y: 40 }
 ```
 
-**Note:** As with other array methods that take callbacks, `find(..)` takes an optional second argument that if set will specify the `this` binding for the callback passed as the first argument. Otherwise, `this` will be `undefined`.
+**Nota:** Assim como outros métodos de arrays que aceitam callbacks, `find(..)` aceita um argumento opcional que, se definido, vai especificar o `this` para o callback passado no primeiro argumento. Caso contrário, `this` será indefinido.
 
 ### `findIndex(..)` Prototype Method
 
