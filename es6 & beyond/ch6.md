@@ -219,13 +219,13 @@ MyCoolArray.from( x ) instanceof MyCoolArray;		// true
 MyCoolArray.of( [2, 3] ) instanceof MyCoolArray;	// true
 ```
 
-### `copyWithin(..)` Prototype Method
+### `copyWithin(..)` Método Prototipado
 
-`Array#copyWithin(..)` is a new mutator method available to all arrays (including Typed Arrays; see Chapter 5). `copyWithin(..)` copies a portion of an array to another location in the same array, overwriting whatever was there before.
+`Array#copyWithin(..)` é um novo método mutador disponível para todos os arrays (incluindo Arrays Tipados; veja o capítulo 5). `copyWithin(..)` copia uma porção de um array a outro local no mesmo array, sobrescrevendo o que quer que estivesse lá antes.
 
-The arguments are *target* (the index to copy to), *start* (the inclusive index to start the copying from), and optionally *end* (the exclusive index to stop copying). If any of the arguments are negative, they're taken to be relative from the end of the array.
+Os argumentos são *target* (o índice a ser copiado), *start* (o índice inclusivo que vamos partir a cópia), e opcionalmente *end* (o índice exclusivo que vamos parar de copiar). Se algum dos argumentos for negativo, eles passam a ser relativos ao final do array.
 
-Consider:
+Considere:
 
 ```js
 [1,2,3,4,5].copyWithin( 3, 0 );			// [1,2,3,1,2]
@@ -237,19 +237,19 @@ Consider:
 [1,2,3,4,5].copyWithin( 0, -2, -1 );	// [4,2,3,4,5]
 ```
 
-The `copyWithin(..)` method does not extend the array's length, as the first example in the previous snippet shows. Copying simply stops when the end of the array is reached.
+O método `copyWithin(..)` não estende o tamanho do array, como o primeiro trecho do exemplo mostra. A cópia simplesmente para quando chega no final do array.
 
-Contrary to what you might think, the copying doesn't always go in left-to-right (ascending index) order. It's possible this would result in repeatedly copying an already copied value if the from and target ranges overlap, which is presumably not desired behavior.
+Ao contrário do que você provavelmente pensa, a cópia nem sempre vai da ordem direita-para-esquerda (índice ascendente). É possível que isso possa resultar em repetidamente copiar algum valor já copiado se o intervalo do alvo e do início sobrepor, o que se presume ser um comportamento não esperado.
 
-So internally, the algorithm avoids this case by copying in reverse order to avoid that gotcha. Consider:
+Então internamente, o algoritmo evita esse caso copiando na ordem inversa para evitar essa pegadinha. Considere:
 
 ```js
 [1,2,3,4,5].copyWithin( 2, 1 );		// ???
 ```
 
-If the algorithm was strictly moving left to right, then the `2` should be copied to overwrite the `3`, then *that* copied `2` should be copied to overwrite `4`, then *that* copied `2` should be copied to overwrite `5`, and you'd end up with `[1,2,2,2,2]`.
+Se o algoritmo foi movido estritamente da direita pra esquerda, então o `2` deve ser copiado para sobrescrever o `3`, então *esse* `2` copiado deve ser copiado para sobrescrever o `4`, então *esse* `2` copiado deve ser copiado para sobrescrever o `5`, e você terminaria com `[1,2,2,2,2]`.
 
-Instead, the copying algorithm reverses direction and copies `4` to overwrite `5`, then copies `3` to overwrite `4`, then copies `2` to overwrite `3`, and the final result is `[1,2,2,3,4]`. That's probably more "correct" in terms of expectation, but it can be confusing if you're only thinking about the copying algorithm in a naive left-to-right fashion.
+Ao invés disso, o algorítmo de cópia inverte a direção e copia o `4` para sobrescrever o `5`, então copia o `3` para sobrescrever o `4`, então copia o `2` para sobrescrever o `3`, e o resultado final é `[1,2,2,3,4]`. Esse é provavelmente o mais "correto" em termos de expectativa, mas pode ser confuso se você está apenas pensando no algorítimo de cópia na moda indênua direita-para-esquerda.
 
 ### `fill(..)` Prototype Method
 
