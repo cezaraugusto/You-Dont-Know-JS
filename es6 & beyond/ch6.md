@@ -59,11 +59,12 @@ z.sum();						// 3
 
 Você não pode criar (facilmente) um construtor para `MyCoolArray` que sobrescreve o comportamento do construtor pai `Array`, porque esse construtor é necessário para criar um valor de array que se comporte bem (inicializando o `this`). O método "herdado" estático `of(..)` na subclasse `MyCoolArray` provê uma boa solução.
 
-### `Array.from(..)` Static Function
+### `Array.from(..)` Função Estática
 
+Um objeto array-like em JavaScript é um objeto que tem uma propriedade `length`, especificamente com um valor inteiro maior que zero.
 An "array-like object" in JavaScript is an object that has a `length` property on it, specifically with an integer value of zero or higher.
 
-These values have been notoriously frustrating to work with in JS; it's been quite common to need to transform them into an actual array, so that the various `Array.prototype` methods (`map(..)`, `indexOf(..)` etc.) are available to use with it. That process usually looks like:
+Esses valores têm sido notóriamente frustrantes de se trabalhar com JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
 
 ```js
 // array-like object
@@ -76,13 +77,13 @@ var arrLike = {
 var arr = Array.prototype.slice.call( arrLike );
 ```
 
-Another common task where `slice(..)` is often used is in duplicating a real array:
+Outra tarefa comum onde `slice(..)` geralmente é usado é em duplicar um array real:
 
 ```js
 var arr2 = arr.slice();
 ```
 
-In both cases, the new ES6 `Array.from(..)` method can be a more understandable and graceful -- if also less verbose -- approach:
+Em ambos os casos, o novo método do ES6 `Array.from(..)` pode ter uma abordagem mais compreensivel e elegante -- e também menos verbosa:
 
 ```js
 var arr = Array.from( arrLike );
@@ -90,11 +91,11 @@ var arr = Array.from( arrLike );
 var arrCopy = Array.from( arr );
 ```
 
-`Array.from(..)` looks to see if the first argument is an iterable (see "Iterators" in Chapter 3), and if so, it uses the iterator to produce values to "copy" into the returned array. Because real arrays have an iterator for those values, that iterator is automatically used.
+`Array.from(..)` verifica se o primeiro argumento é um iterável (veja "Iteráveis" no capítulo 3), e então, usa o iterador para produzir valores para "copiar" para o array retornado. Por conta dos arrays reais terem um iterador para esses valores, o iterador é automaticamente usado.
 
-But if you pass an array-like object as the first argument to `Array.from(..)`, it behaves basically the same as `slice()` (no arguments!) or `apply(..)` does, which is that it simply loops over the value, accessing numerically named properties from `0` up to whatever the value of `length` is.
+Mas se você passar um objeto array-like como primeiro argumento ao `Array.from(..)`, ele se comporta basicamente da mesma forma que o `slice()` (sem argumentos!) ou `apply(..)` faz, que é simplesmente percorrer o valor, acessando propriedades nomeadas numericamente desde `0` até o valor de `length`.
 
-Consider:
+Considere:
 
 ```js
 var arrLike = {
@@ -106,9 +107,9 @@ Array.from( arrLike );
 // [ undefined, undefined, "foo", undefined ]
 ```
 
-Because positions `0`, `1`, and `3` didn't exist on `arrLike`, the result was the `undefined` value for each of those slots.
+Por conta das posições `0`, `1`, e `3` não existirem no `arrLike`, o resultado foi um valor `undefined` para cada um desses espaços.
 
-You could produce a similar outcome like this:
+Você pode produzir uma saída similar assim:
 
 ```js
 var emptySlotsArr = [];
@@ -119,11 +120,11 @@ Array.from( emptySlotsArr );
 // [ undefined, undefined, "foo", undefined ]
 ```
 
-#### Avoiding Empty Slots
+#### Evitando Espaços Vazios
 
-There's a subtle but important difference in the previous snippet between the `emptySlotsArr` and the result of the `Array.from(..)` call. `Array.from(..)` never produces empty slots.
+Há uma diferença sutil mas importante no fragmento anterior entre o `emptySlotsArr` e o resultado da chamada do `Array.from(..)`. `Array.from(..)` nunca produz espaços vazios.
 
-Prior to ES6, if you wanted to produce an array initialized to a certain length with actual `undefined` values in each slot (no empty slots!), you had to do extra work:
+Antes do ES6, se você quisesse produzir um array inicializado com um certo tamanho e valores `undefined` em cada espaço (e não espaços vazios!), você tinha que fazer um trabalho extra:
 
 ```js
 var a = Array( 4 );								// four empty slots!
@@ -131,17 +132,17 @@ var a = Array( 4 );								// four empty slots!
 var b = Array.apply( null, { length: 4 } );		// four `undefined` values
 ```
 
-But `Array.from(..)` now makes this easier:
+Mas `Array.from(..)` agora torna isso mais fácil:
 
 ```js
 var c = Array.from( { length: 4 } );			// four `undefined` values
 ```
 
-**Warning:** Using an empty slot array like `a` in the previous snippets would work with some array functions, but others ignore empty slots (like `map(..)`, etc.). You should never intentionally work with empty slots, as it will almost certainly lead to strange/unpredictable behavior in your programs.
+**Atenção:** Usar um espaço vazio como `a` no fragmento anterior pode funcionar com algumas funções de array, mas outras ignoram espaços vazios (como `map(..)`, etc). Você não deve nunca trabalhar intencionalmente com espaços vazios, já que é quase certo que vai resultar em comportamentos estranhos/imprevisíveis nos seus programas.
 
-#### Mapping
+#### Mapeamento
 
-The `Array.from(..)` utility has another helpful trick up its sleeve. The second argument, if provided, is a mapping callback (almost the same as the regular `Array#map(..)` expects) which is called to map/transform each value from the source to the returned target. Consider:
+O utilitário `Array.from(..)` tem outra carta na manga. O segundo argumento, se passado, é um mapping callback (quase igual ao que o `Array#map(..)` regular espera) que é chamado para mapear/transformar cada valor do original ao alvo retornado. Considere:
 
 ```js
 var arrLike = {
@@ -160,9 +161,9 @@ Array.from( arrLike, function mapper(val,idx){
 // [ 0, 1, "FOO", 3 ]
 ```
 
-**Note:** As with other array methods that take callbacks, `Array.from(..)` takes an optional third argument that if set will specify the `this` binding for the callback passed as the second argument. Otherwise, `this` will be `undefined`.
+**Nota:** Assim como outros métodos de array que aceitam callbacks, `Array.from(..)` aceita um terceiro argumento opicional que se for definido, vai especificar o `this` para o callback passado no segundo argumento. Caso contrário, `this` vai ser `undefined`.
 
-See "TypedArrays" in Chapter 5 for an example of using `Array.from(..)` in translating values from an array of 8-bit values to an array of 16-bit values.
+Veja "Arrays tipados" no Capítulo 5 para um exemplo de uso do `Array.from(..)` traduzindo valores de um array de valores 8-bit para um array de valores 16-bit.
 
 ### Creating Arrays and Subtypes
 
