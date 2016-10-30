@@ -788,14 +788,14 @@ For all the string search/inspection methods, if you look for an empty string `"
 
 **Warning:** These methods will not by default accept a regular expression for the search string. See "Regular Expression Symbols" in Chapter 7 for information about disabling the `isRegExp` check that is performed on this first argument.
 
-## Review
+## Revisão
 
-ES6 adds many extra API helpers on the various built-in native objects:
+ES6 adiciona muitos API de helpers extras nos vários objetos nativos:
 
-* `Array` adds `of(..)` and `from(..)` static functions, as well as prototype functions like `copyWithin(..)` and `fill(..)`.
-* `Object` adds static functions like `is(..)` and `assign(..)`.
-* `Math` adds static functions like `acosh(..)` and `clz32(..)`.
-* `Number` adds static properties like `Number.EPSILON`, as well as static functions like `Number.isFinite(..)`.
-* `String` adds static functions like `String.fromCodePoint(..)` and `String.raw(..)`, as well as prototype functions like `repeat(..)` and `includes(..)`.
+* `Array` adiciona as funções estáticas `of(..)` e `from(..)`, e também funções prototipadas como `copyWithin(..)` e `fill(..)`.
+* `Object` adiciona funções estáticas como `is(..)` e `assign(..)`.
+* `Math` adiciona funções estáticas como `acosh(..)` e `clz32(..)`.
+* `Number` adiciona propriedades estáticas como `Number.EPSILON`, e também funções estáticas como `Number.isFinite(..)`.
+* `String` adiciona funções estáticas como `String.fromCodePoint(..)` e `String.raw(..)`, e também funções de prototipagem como `repeat(..)` e `includes(..)`.
 
-Most of these additions can be polyfilled (see ES6 Shim), and were inspired by utilities in common JS libraries/frameworks.
+A maioria dessas adições podem ser polyfilled (veja ES6 Shim) e foram inspiradas por utilitários em bibliotecas/frameworks comuns de JS.
