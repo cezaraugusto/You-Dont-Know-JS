@@ -607,9 +607,9 @@ ES6 adiciona alguns constante númericos úteis como propriedades estáticas:
 
 **Nota:** Veja o capítulo 2 do título *Types & Grammar* dessa série para mais informações a respeito de inteiros "seguros".
 
-### `Number.isNaN(..)` Static Function
+### Função Estática `Number.isNaN(..)`
 
-The standard global `isNaN(..)` utility has been broken since its inception, in that it returns `true` for things that are not numbers, not just for the actual `NaN` value, because it coerces the argument to a number type (which can falsely result in a NaN). ES6 adds a fixed utility `Number.isNaN(..)` that works as it should:
+O utilitário global padrão `isNaN(..)` tem sido quebrado desde o início, onde ele retornava `true` para coisas que não são números, não apenas o valor `NaN`, porque ele força o argumento a um tipo de número (o que pode falsamente resultar em um NaN). ES6 adiciona um utilitário reparado, que funciona como deveria:
 
 ```js
 var a = NaN, b = "NaN", c = 42;
