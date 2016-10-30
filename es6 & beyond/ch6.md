@@ -751,17 +751,17 @@ String.raw`\ta${str}d\xE9`;
 
 Na string resultante, `\` e `t` são caracteres crus separados, e não o caracter escapado `\t`. A mesma coisa acontece com a sequência de escape Unicode.
 
-### `repeat(..)` Prototype Function
+### Função Prototipada `repeat(..)`
 
-In languages like Python and Ruby, you can repeat a string as:
+Em linguagens como Python e Ruby, você pode repetir uma string assim:
 
 ```js
 "foo" * 3;							// "foofoofoo"
 ```
 
-That doesn't work in JS, because `*` multiplication is only defined for numbers, and thus `"foo"` coerces to the `NaN` number.
+Isso não funciona em JS, porque a multiplicação `*` está definida apenas para números, e assim `"foo"` é forçado para um número `NaN`.
 
-However, ES6 defines a string prototype method `repeat(..)` to accomplish the task:
+No entanto, ES6 define o método prototipado de string `repeat(..)` para realizar a tarefa:
 
 ```js
 "foo".repeat( 3 );					// "foofoofoo"
