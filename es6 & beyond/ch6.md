@@ -736,11 +736,11 @@ s2 === "\xE9";						// true
 
 **Nota:** Formas de normalização e seus efeitos nas strings está bem além do escopo que nós estamos discutindo aqui. Veja "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) for more information.
 
-### `String.raw(..)` Static Function
+### Função Estática `String.raw(..)`
 
-The `String.raw(..)` utility is provided as a built-in tag function to use with template string literals (see Chapter 2) for obtaining the raw string value without any processing of escape sequences.
+O utilitário `String.raw(..)` é fornecido como uma função nativa para ser usado com template string literals (veja o Capítulo 2) para obter o valor crú da string sem o processamento de sequências de escape.
 
-This function will almost never be called manually, but will be used with tagged template literals:
+Essa função quase nunca será chamada manualmente, mas vai ser usada com tagged template literals:
 
 ```js
 var str = "bc";
@@ -749,7 +749,7 @@ String.raw`\ta${str}d\xE9`;
 // "\tabcd\xE9", not "	abcdé"
 ```
 
-In the resultant string, `\` and `t` are separate raw characters, not the one escape sequence character `\t`. The same is true with the Unicode escape sequence.
+Na string resultante, `\` e `t` são caracteres crus separados, e não o caracter escapado `\t`. A mesma coisa acontece com a sequência de escape Unicode.
 
 ### `repeat(..)` Prototype Function
 
