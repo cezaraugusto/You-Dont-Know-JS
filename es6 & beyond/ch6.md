@@ -647,35 +647,36 @@ Number.isFinite( a );				// false
 
 Você pode ainda preferir a coerção, e nesse caso usar o `isFinite(..)` global é uma boa escolha. Uma outra possibilidade, e talvez mais sensível, é você usar `Number.isFinite(+x)`, que explicitamente força `x` a um número antes de passá-lo (veja o Capítulo 4 do título *Types & Grammar* dessa série).
 
-### Integer-Related Static Functions
+### Funções Estáticas Relacionadas Com Inteiros
 
+Valores numéricos de JavaScript são sempre ponteiros flutuantes (IEEE-754). Então a noção de determinar se um número é um "inteiro" não é checando seu tipo, porque JS não faz nenhuma distinção.
 JavaScript number values are always floating point (IEEE-754). So the notion of determining if a number is an "integer" is not about checking its type, because JS makes no such distinction.
 
-Instead, you need to check if there's any non-zero decimal portion of the value. The easiest way to do that has commonly been:
+Ao invés disso, você precisa checar se há algum decimal diferente de zero que é parte do valor. A forma mais fácil de fazer isso tem sido comumente assim:
 
 ```js
 x === Math.floor( x );
 ```
 
-ES6 adds a `Number.isInteger(..)` helper utility that potentially can determine this quality slightly more efficiently:
+ES6 adiciona o utilitário `Number.isInteger(..)` que potencialmente pode determinar sua qualidade de maneira levemente mais eficiente:
 
 ```js
 Number.isInteger( 4 );				// true
 Number.isInteger( 4.2 );			// false
 ```
 
-**Note:** In JavaScript, there's no difference between `4`, `4.`, `4.0`, or `4.0000`. All of these would be considered an "integer", and would thus yield `true` from `Number.isInteger(..)`.
+**Nota:** Em JavaScript, não tem nenhuma diferença entre `4`, `4.`, `4.0` ou `4.0000`. Todos esses seriam considerados como um "inteiro", e, assim, retornariam `true` em `Number.isInteger`.
 
-In addition, `Number.isInteger(..)` filters out some clearly not-integer values that `x === Math.floor(x)` could potentially mix up:
+Alem disso, `Number.isInteger(..)` filtra alguns valores que claramente não são inteiros e `x === Math.floor(x)` potencialmente iria se confundir:
 
 ```js
 Number.isInteger( NaN );			// false
 Number.isInteger( Infinity );		// false
 ```
 
-Working with "integers" is sometimes an important bit of information, as it can simplify certain kinds of algorithms. JS code by itself will not run faster just from filtering for only integers, but there are optimization techniques the engine can take (e.g., asm.js) when only integers are being used.
+Trabalhar com "inteiros" às vezes é importante, já que pode simplificar alguns tipos de algoritmos. Código JS por si só não vai rodar mais rápido apenas por filtrando para somente números inteiros, mas há algumas técnicas de otimização que a engine pode fazer (exemplo, asm.js) onde somente inteiros são usados.
 
-Because of `Number.isInteger(..)`'s handling of `NaN` and `Infinity` values, defining a `isFloat(..)` utility would not be just as simple as `!Number.isInteger(..)`. You'd need to do something like:
+Por conta da forma como `Number.isInteger(..)` lida com valores `NaN` e `Infinity`, definir um utilitário `isFloat` não seria tão simples como `!Number.isInteger(..)`. Ia ser algo como:
 
 ```js
 function isFloat(x) {
@@ -689,9 +690,9 @@ isFloat( NaN );						// false
 isFloat( Infinity );				// false
 ```
 
-**Note:** It may seem strange, but Infinity should neither be considered an integer nor a float.
+**Nota:** Isso pode ser estranho, mas Infinito nunca deveria ser considerado nem inteiro nem float.
 
-ES6 also defines a `Number.isSafeInteger(..)` utility, which checks to make sure the value is both an integer and within the range of `Number.MIN_SAFE_INTEGER`-`Number.MAX_SAFE_INTEGER` (inclusive).
+ES6 também tem um utilitário `Number.isSafeInteger(..)`, que checa para ter certeza que o valor é inteiro e está dentro do intervalo de `Number.MIN_SAFE_INTEGER`-`Number.MAX_SAFE_INTEGER` (inclusivo).
 
 ```js
 var x = Math.pow( 2, 53 ),
