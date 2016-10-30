@@ -623,9 +623,9 @@ Number.isNaN( b );					// false -- fixed!
 Number.isNaN( c );					// false
 ```
 
-### `Number.isFinite(..)` Static Function
+### Função Estática `Number.isFinite(..)`
 
-There's a temptation to look at a function name like `isFinite(..)` and assume it's simply "not infinite". That's not quite correct, though. There's more nuance to this new ES6 utility. Consider:
+Há uma tentação de olhar para uma função nomeada de `isFinite(..)` e assumir que é simplesmente "não infinito". Porém, isso não está exatamente correto. Há uma pequena divergência nesse novo utilitário do ES6. Considere:
 
 ```js
 var a = NaN, b = Infinity, c = 42;
@@ -636,7 +636,7 @@ Number.isFinite( b );				// false
 Number.isFinite( c );				// true
 ```
 
-The standard global `isFinite(..)` coerces its argument, but `Number.isFinite(..)` omits the coercive behavior:
+O padrão global `isFinite(..)` força esse argumento, mas `Number.isFinite(..)` omite esse comportamento forçado:
 
 ```js
 var a = "42";
@@ -645,7 +645,7 @@ isFinite( a );						// true
 Number.isFinite( a );				// false
 ```
 
-You may still prefer the coercion, in which case using the global `isFinite(..)` is a valid choice. Alternatively, and perhaps more sensibly, you can use `Number.isFinite(+x)`, which explicitly coerces `x` to a number before passing it in (see Chapter 4 of the *Types & Grammar* title of this series).
+Você pode ainda preferir a coerção, e nesse caso usar o `isFinite(..)` global é uma boa escolha. Uma outra possibilidade, e talvez mais sensível, é você usar `Number.isFinite(+x)`, que explicitamente força `x` a um número antes de passá-lo (veja o Capítulo 4 do título *Types & Grammar* dessa série).
 
 ### Integer-Related Static Functions
 
