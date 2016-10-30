@@ -194,9 +194,9 @@ var p2 = new Promise( function pr(resolve,reject){
 
 Enquanto `resolve(..)` e `Promise.resolve(..)` podem aceitar uma promisse e adotar seu estado/resolução, `reject(..)` e `Promise.reject(..)` não diferenciam qual valor eles recebem. Então, se você rejeitar com uma `promise` ou `thenable`, a `promise/thenable` por se só será setadas como a rezão da rejeição, e não o seu valor subjacente.
 
-`Promise.all([ .. ])` accepts an array of one or more values (e.g., immediate values, promises, thenables). It returns a promise back that will be fulfilled if all the values fulfill, or reject immediately once the first of any of them rejects.
+`Promise.all([ .. ])` aceita um array de um ou mais valores (ex.: valores imediatos, `promises`, `thenables`). Ele retorna uma promise que será cumprida se todos os valores se cumprirem, ou rejeitados imediatamente assim que o primeiro de um deles for rejeitado.
 
-Starting with these values/promises:
+Iniciando com esses valores/`promises`:
 
 ```js
 var p1 = Promise.resolve( 42 );
@@ -213,7 +213,7 @@ var p4 = new Promise( function pr(resolve,reject){
 } );
 ```
 
-Let's consider how `Promise.all([ .. ])` works with combinations of those values:
+Vamos entender como `Promise.all([ .. ])` funciona com a combinação desses valores:
 
 ```js
 Promise.all( [p1,p2,v3] )
@@ -231,8 +231,7 @@ Promise.all( [p1,p2,v3,p4] )
 	}
 );
 ```
-
-While `Promise.all([ .. ])` waits for all fulfillments (or the first rejection), `Promise.race([ .. ])` waits only for either the first fulfillment or rejection. Consider:
+Enquanto `Promise.all([ .. ])` espera por todos os cumprimentos (ou a primeira rejeição), `Promise.race([ .. ])` aguarda apenas pelo primeiro cumprimento ou rejeijção. Considere: 
 
 ```js
 // NOTE: re-setup all test values to
@@ -254,7 +253,7 @@ Promise.race( [p2,p4] )
 );
 ```
 
-**Warning:** While `Promise.all([])` will fulfill right away (with no values), `Promise.race([])` will hang forever. This is a strange inconsistency, and speaks to the suggestion that you should never use these methods with empty arrays.
+**Atenção:** Enquanto `Promise.all([])` se cumprirá imediatamente (sem valores), `Promise.race([])` irá aguardar para sempre. Essa é uma estranha inconsistência, e sugere que você nunca deveria usar esses métodos com arrays vazios.
 
 ## Generators + Promises
 

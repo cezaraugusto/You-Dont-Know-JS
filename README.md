@@ -5,7 +5,7 @@ Quer falar sobre o projeto? Estamos no Telegram. [Aqui](https://telegram.me/join
 
 ## Fique por dentro
 
-A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezaraugusto). A tradução é em caráter voluntário e tem como único objetivo disponibilizar a comunidade o conteúdo do livro em português.
+A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezaraugusto). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
 
 > Com base na autorização do autor, você concorda que:
 

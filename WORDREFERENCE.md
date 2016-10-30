@@ -67,6 +67,7 @@
 * Browser: Navegador
 * Build (no sentido de processo de unificação): Build
 * Bound: Limitadas
+* Built-in: Nativo
 
 
 #### C
@@ -103,6 +104,7 @@
 #### G
 
 * Gotcha: Pegadinha
+* Garbage Collector: Coletor de lixo
 
 #### H
 
@@ -180,6 +182,8 @@
 * Snippet: Trecho (de código)
 * Scope look-up: Consulta de escopo
 * Shadowing: Sombreamento (shadowing)
+* Signed: Sinalizado(a)
+* Sets: Conjutos
 
 #### T
 
@@ -190,9 +194,12 @@
 * Transpiled: *Transpilada* (em *itálico*)
 * Types: Tipos
 * Throws: Lança
+* TypedArrays: Arrays Tipadas
 
 
 #### U
+
+* Unsigned: Não Sinalizado (a)
 
 
 #### V
