@@ -9,11 +9,11 @@ De conversão de valores a cálculos matemáticos, ES6 agrega muitas propriedade
 
 Uma das funcionalidades estendidas mais comum em JS por várias bibliotecas é o Array type. Não deveria ser surpresa que o ES6 adiciona uma quantidade de helpers para Array, tanto estático quanto prototipagem (instancia).
 
-### `Array.of(..)` Static Function
+### `Array.of(..)` Função Estática
 
-There's a well known gotcha with the `Array(..)` constructor, which is that if there's only one argument passed, and that argument is a number, instead of making an array of one element with that number value in it, it constructs an empty array with a `length` property equal to the number. This action produces the unfortunate and quirky "empty slots" behavior that's reviled about JS arrays.
+Há uma pegadinha bem conhecida com o construtor `Array(..)`, que é se só um argumento é passado e esse argumento é um número, ao invés de criar um array de um elemento contendo esse valor, ele constrói um array vazio com uma propriedade `length` igual ao número. Essa ação produz o infeliz e peculiar comportamento do "slot vazio" que os arrays Javascript tanto são criticados.
 
-`Array.of(..)` replaces `Array(..)` as the preferred function-form constructor for arrays, because `Array.of(..)` does not have that special single-number-argument case. Consider:
+`Array.of(..)` substitui `Array(..)` como o formato preferido de construtor para arrays, porque `Array.of(..)` não tem aquele caso especial de argumento-numérico-único. Considere:
 
 ```js
 var a = Array( 3 );
@@ -29,11 +29,11 @@ c.length;						// 3
 c;								// [1,2,3]
 ```
 
-Under what circumstances would you want to use `Array.of(..)` instead of just creating an array with literal syntax, like `c = [1,2,3]`? There's two possible cases.
+Sob essas circunstâncias, você iria querer usar `Array.of(..)` ao invés de apenas criar um array com sintaxe literal, como `c = [1,2,3]`? Há dois casos possíveis.
 
-If you have a callback that's supposed to wrap argument(s) passed to it in an array, `Array.of(..)` fits the bill perfectly. That's probably not terribly common, but it may scratch an itch for you.
+Se você tem um callback que deve agrupar o(s) argumento(s) passados a ele em um array, `Array.of(..)` encaixa perfeitamente. Isso não é muito comum, mas pode quebrar seu galho.
 
-The other scenario is if you subclass `Array` (see "Classes" in Chapter 3) and want to be able to create and initialize elements in an instance of your subclass, such as:
+O outro cenário é se você criar uma subclasse de `Array` (veja "Classes" no Capítulo 3) e quiser criar e inicializar elementos na instância do seu objeto, como por exemplo:
 
 ```js
 class MyCoolArray extends Array {
@@ -57,7 +57,7 @@ z.length;						// 1
 z.sum();						// 3
 ```
 
-You can't just (easily) create a constructor for `MyCoolArray` that overrides the behavior of the `Array` parent constructor, because that constructor is necessary to actually create a well-behaving array value (initializing the `this`). The "inherited" static `of(..)` method on the `MyCoolArray` subclass provides a nice solution.
+Você não pode criar (facilmente) um construtor para `MyCoolArray` que sobrescreve o comportamento do construtor pai `Array`, porque esse construtor é necessário para criar um valor de array que se comporte bem (inicializando o `this`). O método "herdado" estático `of(..)` na subclasse `MyCoolArray` provê uma boa solução.
 
 ### `Array.from(..)` Static Function
 
