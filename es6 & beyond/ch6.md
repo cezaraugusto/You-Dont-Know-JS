@@ -593,9 +593,9 @@ Meta:
 
 ## `Number`
 
-Importantly, for your program to properly work, it must accurately handle numbers. ES6 adds some additional properties and functions to assist with common numeric operations.
+Importante, para seu programa funcionar corretamente, ele deve lidar com precisão de números. ES6 adiciona algumas propriedades adicionais e funções para ajudar com operações numéricas comuns.
 
-Two additions to `Number` are just references to the preexisting globals: `Number.parseInt(..)` and `Number.parseFloat(..)`.
+Duas adições ao `Number` são apenas referências aos globais preexistentes: `Number.parseInt(..)` e `Number.parseFloat(..)`.
 
 ### Static Properties
 
