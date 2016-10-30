@@ -597,15 +597,15 @@ Importante, para seu programa funcionar corretamente, ele deve lidar com precis�
 
 Duas adições ao `Number` são apenas referências aos globais preexistentes: `Number.parseInt(..)` e `Number.parseFloat(..)`.
 
-### Static Properties
+### Propriedades Estáticas
 
-ES6 adds some helpful numeric constants as static properties:
+ES6 adiciona alguns constante númericos úteis como propriedades estáticas:
 
-* `Number.EPSILON` - The minimum value between any two numbers: `2^-52` (see Chapter 2 of the *Types & Grammar* title of this series regarding using this value as a tolerance for imprecision in floating-point arithmetic)
-* `Number.MAX_SAFE_INTEGER` - The highest integer that can "safely" be represented unambiguously in a JS number value: `2^53 - 1`
-* `Number.MIN_SAFE_INTEGER` - The lowest integer that can "safely" be represented unambiguously in a JS number value: `-(2^53 - 1)` or `(-2)^53 + 1`.
+* `Number.EPSILON` - O valor mínimo entro dois números quaisquer: `2^-52` (veja o Capítulo 2 do título *Types & Grammar* dessa série para usar esse valor como uma tolerância para precisão em aritmética de pontos-flutuantes)
+* `Number.MAX_SAFE_INTEGER` - O maior inteiro que pode ser representado sem ambiguidade com segurança em um valor numérico de JS: `2^53 -1`
+* `Number.MIN_SAFE_INTEGER` - O menor inteiro que pode ser representado sem ambiguidade com segurança em um valor numérico de JS: `-(2^53 - 1)` ou `(-2)^53 + 1`.
 
-**Note:** See Chapter 2 of the *Types & Grammar* title of this series for more information about "safe" integers.
+**Nota:** Veja o capítulo 2 do título *Types & Grammar* dessa série para mais informações a respeito de inteiros "seguros".
 
 ### `Number.isNaN(..)` Static Function
 
