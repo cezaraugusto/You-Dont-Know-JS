@@ -482,13 +482,13 @@ Em ambos os trechos anteriores, a relação entre `o2` e `o1` aparece no fim da 
 
 **Atenção:** Configurar um `[[Prototype]]` logo após a criação do objeto é razoável, como mostrado. Mas mudá-lo muito depois de criá-lo não é uma boa ideia e geralmente acaba mais em confusão do que clareza.
 
-### `Object.assign(..)` Static Function
+### Função Estática `Object.assign(..)`
 
-Many JavaScript libraries/frameworks provide utilities for copying/mixing one object's properties into another (e.g., jQuery's `extend(..)`). There are various nuanced differences between these different utilities, such as whether a property with value `undefined` is ignored or not.
+Muitas bibliotecas/frameworks JavaScript provêem utilitários para copiar/misturar propriedades de um objeto ao outro (por exemplo, `extend(..)` do jQuery). Tem diferenças de nuances entre esses diferentes utilitários, como se a propriedade com valor `undefined` é ignorada ou não.
 
-ES6 adds `Object.assign(..)`, which is a simplified version of these algorithms. The first argument is the *target*, and any other arguments passed are the *sources*, which will be processed in listed order. For each source, its enumerable and own (e.g., not "inherited") keys, including symbols, are copied as if by plain `=` assignment. `Object.assign(..)` returns the target object.
+ES6 adiciona `Object.assign(..)`, que é uma versão simplificada desses algoritmos. O primeiro argumento é o *alvo*, e quaisquer outros argumentos passados são *origens*, que vão ser processadas em uma ordem listada. Para cada origem, seu enumerável e suas próprias chaves (exemplo, não "herdadas"), incluindo símbolos, são copiadas como se fosse uma atribuição com `=`. `Object.assign(..)` retorna o objeto alvo.
 
-Consider this object setup:
+Considere essa configuração de objeto:
 
 ```js
 var target = {},
@@ -520,7 +520,7 @@ Object.defineProperty( o3, Symbol( "h" ), {
 Object.setPrototypeOf( o3, o4 );
 ```
 
-Only the properties `a`, `b`, `c`, `e`, and `Symbol("g")` will be copied to `target`:
+Somente as propriedades `a`, `b`, `c`, `e`, e o  `Symbol("g")` vão ser copiados ao `target`:
 
 ```js
 Object.assign( target, o1, o2, o3 );
@@ -537,9 +537,9 @@ Object.getOwnPropertySymbols( target );
 // [Symbol("g")]
 ```
 
-The `d`, `f`, and `Symbol("h")` properties are omitted from copying; non-enumerable properties and non-owned properties are all excluded from the assignment. Also, `e` is copied as a normal property assignment, not duplicated as a read-only property.
+As propriedades `d`, `f`, e `Symbol("h")` são omitidas da cópia; Propriedades não-enumeráveis e não-próprias são todas excluidas da atribuição. Também, `e` é copiada como uma atribuição normal de propriedade, não duplicada como uma propriedade read-only.
 
-In an earlier section, we showed using `setPrototypeOf(..)` to set up a `[[Prototype]]` relationship between an `o2` and `o1` object. There's another form that leverages `Object.assign(..)`:
+Em uma seção anterior, nós mostramos o uso de `setPrototypeOf(..)` para configurar uma relação `[[Prototype]]` entre os objetos `o2` e `o1`. Tem outra forma que se aproveita do `Object.assign(..)`:
 
 ```js
 var o1 = {
@@ -557,7 +557,7 @@ var o2 = Object.assign(
 o2.foo();							// foo
 ```
 
-**Note:** `Object.create(..)` is the ES5 standard utility that creates an empty object that is `[[Prototype]]`-linked. See the *this & Object Prototypes* title of this series for more information.
+**Nota:** `Object.create(..)` é o utilitário padrão do ES5 que cria um objeto vazio que é `[[Prototype]]`-linked. Veja o título *this & Object Prototypes* dessa série para mais informação.
 
 ## `Math`
 
