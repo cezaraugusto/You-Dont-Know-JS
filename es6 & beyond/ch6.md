@@ -251,9 +251,9 @@ Se o algoritmo foi movido estritamente da direita pra esquerda, então o `2` dev
 
 Ao invés disso, o algorítmo de cópia inverte a direção e copia o `4` para sobrescrever o `5`, então copia o `3` para sobrescrever o `4`, então copia o `2` para sobrescrever o `3`, e o resultado final é `[1,2,2,3,4]`. Esse é provavelmente o mais "correto" em termos de expectativa, mas pode ser confuso se você está apenas pensando no algorítimo de cópia na moda indênua direita-para-esquerda.
 
-### `fill(..)` Prototype Method
+### Método Prototipado `fill(..)`
 
-Filling an existing array entirely (or partially) with a specified value is natively supported as of ES6 with the `Array#fill(..)` method:
+Preencher um array existente por completo (ou parcialmente) com um valor específico é nativamente suportado em ES6 com o método `Array#fill(..)`:
 
 ```js
 var a = Array( 4 ).fill( undefined );
@@ -261,7 +261,7 @@ a;
 // [undefined,undefined,undefined,undefined]
 ```
 
-`fill(..)` optionally takes *start* and *end* parameters, which indicate a subset portion of the array to fill, such as:
+`fill(..)` opcionalmente aceita os parâmetros *início* e *fim*, que indicam o subconjunto do array para preencher, tal como:
 
 ```js
 var a = [ null, null, null, null ].fill( 42, 1, 3 );
