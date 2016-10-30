@@ -707,7 +707,7 @@ Number.isSafeInteger( y );			// false
 
 ## `String`
 
-Strings already have quite a few helpers prior to ES6, but even more have been added to the mix.
+Strings já tem alguns helpers antes do ES6, mas alguns mais foram adicionados à mistura.
 
 ### Unicode Functions
 
