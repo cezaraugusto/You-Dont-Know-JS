@@ -407,13 +407,13 @@ Alguns outros helpers estáticos foram adicionados ao `Object`. Tradicionalmente
 
 Contudo, iniciando com ES6, funções estáticas de `Object` vão servir também para o propósito geral de APIs globais de qualquer tipo que ainda não pertença naturalmente a loutro local (como `Array.from(..)`).
 
-### `Object.is(..)` Static Function
+### Função Estática `Object.is(..)`
 
-The `Object.is(..)` static function makes value comparisons in an even more strict fashion than the `===` comparison.
+A função estática `Object.is(..)` faz comparação de valores de uma maneira ainda mais estilosamente estrita do que a comparação com `===`.
 
-`Object.is(..)` invokes the underlying `SameValue` algorithm (ES6 spec, section 7.2.9). The `SameValue` algorithm is basically the same as the `===` Strict Equality Comparison Algorithm (ES6 spec, section 7.2.13), with two important exceptions.
+`Object.is(..)` invoca o algoritmo subjacente `SameValue` (ES6 spec, seção 7.2.9). O algoritmo `SameValue` é basicamente o mesmo que `===` Algoritmo de Comparação de Igualidade Estrita (ES6 spec, seção 7.2.13), com duas exceções importantes.
 
-Consider:
+Considere:
 
 ```js
 var x = NaN, y = 0, z = -0;
@@ -425,9 +425,9 @@ Object.is( x, x );					// true
 Object.is( y, z );					// false
 ```
 
-You should continue to use `===` for strict equality comparisons; `Object.is(..)` shouldn't be thought of as a replacement for the operator. However, in cases where you're trying to strictly identify a `NaN` or `-0` value, `Object.is(..)` is now the preferred option.
+Você deveria continuar usando `===` para comparações de igualidade estritas; `Object.is(..)` não deveria ser pensado como um substituto para o operador. Entretanto, em casos onde você está tentando estritamente identificar um `NaN` ou o valor `-0`, `Object.is(..)` é agora a opção preferida.
 
-**Note:** ES6 also adds a `Number.isNaN(..)` utility (discussed later in this chapter) which may be a slightly more convenient test; you may prefer `Number.isNaN(x)` over `Object.is(x,NaN)`. You *can* accurately test for `-0` with a clumsy `x == 0 && 1 / x === -Infinity`, but in this case `Object.is(x,-0)` is much better.
+**Nota:** ES6 também adiciona um utilitário `Number.isNaN(..)` (discutido mais adiante nesse capítulo) que pode ser levemente mais conveniente; você pode preferir `Number.isNaN(x)` ao invés de `Object.is(x,NaN)`. Você *pode* precisamente testar para `-0` com um desajeitado `x == 0 && 1 / x === -Infinity`, mas nesse caso `Object.is(x,-0)` é muito melhor.
 
 ### `Object.getOwnPropertySymbols(..)` Static Function
 
