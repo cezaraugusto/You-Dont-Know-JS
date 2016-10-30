@@ -767,9 +767,9 @@ No entanto, ES6 define o método prototipado de string `repeat(..)` para realiza
 "foo".repeat( 3 );					// "foofoofoo"
 ```
 
-### String Inspection Functions
+### Funções de Inspeção de Strings
 
-In addition to `String#indexOf(..)` and `String#lastIndexOf(..)` from prior to ES6, three new methods for searching/inspection have been added: `startsWith(..)`, `endsWidth(..)`, and `includes(..)`.
+Alem de `String#indexOf(..)` e `String#lastIndexOf(..)` de antes do ES6, três novos métodos para busca/inspeção foram adicionados: `startsWith(..)`, `endsWidth(..)`, e `includes(..)`.
 
 ```js
 var palindrome = "step on no pets";
@@ -784,9 +784,9 @@ palindrome.includes( "on" );		// true
 palindrome.includes( "on", 6 );		// false
 ```
 
-For all the string search/inspection methods, if you look for an empty string `""`, it will either be found at the beginning or the end of the string.
+Para todos os métodos de busca/inspeção de string, se você busca em uma string vazia `""`, vai ser encontrado tanto no começo quanto no final da string.
 
-**Warning:** These methods will not by default accept a regular expression for the search string. See "Regular Expression Symbols" in Chapter 7 for information about disabling the `isRegExp` check that is performed on this first argument.
+**Atenção:** Esses métodos não vão por padrão aceitar expressões regulares para buscar nas string. Veja "Regular Expression Symbols" no Capítulo 7 para informação a respeito de desabilitar a checagem `isRegExp` que é realizada nesse primeiro argumento.
 
 ## Revisão
 
