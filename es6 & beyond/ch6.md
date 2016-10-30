@@ -403,9 +403,9 @@ a[1] = 2;
 
 ## `Object`
 
-A few additional static helpers have been added to `Object`. Traditionally, functions of this sort have been seen as focused on the behaviors/capabilities of object values.
+Alguns outros helpers estáticos foram adicionados ao `Object`. Tradicionalmente, funções desse tipo têm sido focadas nos comportamentos/capacidades dos valores do objeto.
 
-However, starting with ES6, `Object` static functions will also be for general-purpose global APIs of any sort that don't already belong more naturally in some other location (i.e., `Array.from(..)`).
+Contudo, iniciando com ES6, funções estáticas de `Object` vão servir também para o propósito geral de APIs globais de qualquer tipo que ainda não pertença naturalmente a loutro local (como `Array.from(..)`).
 
 ### `Object.is(..)` Static Function
 
