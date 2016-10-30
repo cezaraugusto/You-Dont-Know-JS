@@ -337,11 +337,11 @@ points.find( function matcher(point) {
 
 **Nota:** Assim como outros métodos de arrays que aceitam callbacks, `find(..)` aceita um argumento opcional que, se definido, vai especificar o `this` para o callback passado no primeiro argumento. Caso contrário, `this` será indefinido.
 
-### `findIndex(..)` Prototype Method
+### Método Prototipado `findIndex(..)`
 
-While the previous section illustrates how `some(..)` yields a boolean result for a search of an array, and `find(..)` yields the matched value itself from the array search, there's also a need for finding the positional index of the matched value.
+Enquanto a seção anterior ilustra como o `some(..)` produz um resultado booleano para uma procura em um array, `find(..)` produz o próprio valor combinadodo array que buscamos, mas ainda há a necessidade de saber o índice da posição desse valor.
 
-`indexOf(..)` does that, but there's no control over its matching logic; it always uses `===` strict equality. So ES6's `findIndex(..)` is the answer:
+`indexOf(..)` faz isso, mas não há controle sobre a sua lógica de equivalência; ele sempre usa igualdade restrita `===`. Então o `findIndex` do ES6 é a resposta:
 
 ```js
 var points = [
@@ -367,9 +367,9 @@ points.findIndex( function matcher(point) {
 } );								// -1
 ```
 
-Don't use `findIndex(..) != -1` (the way it's always been done with `indexOf(..)`) to get a boolean from the search, because `some(..)` already yields the `true`/`false` you want. And don't do `a[ a.findIndex(..) ]` to get the matched value, because that's what `find(..)` accomplishes. And finally, use `indexOf(..)` if you need the index of a strict match, or `findIndex(..)` if you need the index of a more customized match.
+Não use o `findIndex(..) != -1` (do jeito que é feito com `indexOf(..)`) para pegar um valor booleano da busca, porque `some(..)` já produz o valor `true`/`false` que você quer. E não faça `a[ a.findIndex(..) ]` para pegar o valor combinado, porque é o que o `find(..)` faz. E finalmente, use `indexOf(..)` se você precisa do índice de uma igualdade restrita, ou `findIndex(..)` se você precisa do índice de uma equivalência mais customizada.
 
-**Note:** As with other array methods that take callbacks, `find(..)` takes an optional second argument that if set will specify the `this` binding for the callback passed as the first argument. Otherwise, `this` will be `undefined`.
+**Nota:** Assim como outros métodos de arrays que aceitam callbacks, `find(..)` aceita um argumento opcional que, se definido, vai especificar o `this` para o callback passado no primeiro argumento. Caso contrário, `this` será indefinido.
 
 ### `entries()`, `values()`, `keys()` Prototype Methods
 
