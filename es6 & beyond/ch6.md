@@ -7,7 +7,7 @@ De conversão de valores a cálculos matemáticos, ES6 agrega muitas propriedade
 
 ## `Array`
 
-One of the most commonly extended features in JS by various user libraries is the Array type. It should be no surprise that ES6 adds a number of helpers to Array, both static and prototype (instance).
+Uma das funcionalidades estendidas mais comum em JS por várias bibliotecas é o Array type. Não deveria ser surpresa que o ES6 adiciona uma quantidade de helpers para Array, tanto estático quanto prototipagem (instancia).
 
 ### `Array.of(..)` Static Function
 
