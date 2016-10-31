@@ -7,9 +7,9 @@ De conversão de valores a cálculos matemáticos, ES6 agrega muitas propriedade
 
 ## `Array`
 
-Uma das funcionalidades estendidas mais comum em JS por várias bibliotecas é o Array type. Não deveria ser surpresa que o ES6 adiciona uma quantidade de helpers para Array, tanto estático quanto prototipagem (instancia).
+Uma das funcionalidades em JS mais comumente estendidas por várias bibliotecas é o Array type. Não deveria ser surpresa que o ES6 adiciona uma grande quantidade de helpers para Array, tanto estático quanto prototipagem (instancia).
 
-### `Array.of(..)` Função Estática
+### Função Estática `Array.of(..)`
 
 Há uma pegadinha bem conhecida com o construtor `Array(..)`, que é se só um argumento é passado e esse argumento é um número, ao invés de criar um array de um elemento contendo esse valor, ele constrói um array vazio com uma propriedade `length` igual ao número. Essa ação produz o infeliz e peculiar comportamento do "slot vazio" que os arrays Javascript tanto são criticados.
 
@@ -59,12 +59,12 @@ z.sum();						// 3
 
 Você não pode criar (facilmente) um construtor para `MyCoolArray` que sobrescreve o comportamento do construtor pai `Array`, porque esse construtor é necessário para criar um valor de array que se comporte bem (inicializando o `this`). O método "herdado" estático `of(..)` na subclasse `MyCoolArray` provê uma boa solução.
 
-### `Array.from(..)` Função Estática
+### Função Estática `Array.from(..)`
 
 Um objeto array-like em JavaScript é um objeto que tem uma propriedade `length`, especificamente com um valor inteiro maior que zero.
 An "array-like object" in JavaScript is an object that has a `length` property on it, specifically with an integer value of zero or higher.
 
-Esses valores têm sido notóriamente frustrantes de se trabalhar com JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
+Esses valores têm sido notóriamente frustrantes de se trabalhar em JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
 
 ```js
 // array-like object
@@ -74,10 +74,11 @@ var arrLike = {
 	1: "bar"
 };
 
-var arr = Array.prototype.slice.call( arrLike );
+var arr = Array.prototype.
+.call( arrLike );
 ```
 
-Outra tarefa comum onde `slice(..)` geralmente é usado é em duplicar um array real:
+Outra tarefa comum onde geralmente se utiliza o `slice(..)` é para duplicar um array real:
 
 ```js
 var arr2 = arr.slice();
@@ -91,9 +92,9 @@ var arr = Array.from( arrLike );
 var arrCopy = Array.from( arr );
 ```
 
-`Array.from(..)` verifica se o primeiro argumento é um iterável (veja "Iteráveis" no capítulo 3), e então, usa o iterador para produzir valores para "copiar" para o array retornado. Por conta dos arrays reais terem um iterador para esses valores, o iterador é automaticamente usado.
+`Array.from(..)` verifica se o primeiro argumento é um iterável (veja "Iteradores" no capítulo 3), e então, usa o iterador para produzir valores para "copiar" para o array retornado. Por conta dos arrays reais terem um iterador para esses valores, o iterador é automaticamente usado.
 
-Mas se você passar um objeto array-like como primeiro argumento ao `Array.from(..)`, ele se comporta basicamente da mesma forma que o `slice()` (sem argumentos!) ou `apply(..)` faz, que é simplesmente percorrer o valor, acessando propriedades nomeadas numericamente desde `0` até o valor de `length`.
+Mas se você passar um objeto array-like como primeiro argumento ao `Array.from(..)`, ele se comporta basicamente da mesma forma que o `slice()` (sem argumentos!) ou `apply(..)` fazem, que é simplesmente percorrer o valor, acessando propriedades nomeadas numericamente de `0` até o valor de `length`.
 
 Considere:
 
@@ -124,7 +125,7 @@ Array.from( emptySlotsArr );
 
 Há uma diferença sutil mas importante no fragmento anterior entre o `emptySlotsArr` e o resultado da chamada do `Array.from(..)`. `Array.from(..)` nunca produz espaços vazios.
 
-Antes do ES6, se você quisesse produzir um array inicializado com um certo tamanho e valores `undefined` em cada espaço (e não espaços vazios!), você tinha que fazer um trabalho extra:
+Antes do ES6, se você quisesse criar um array inicializado com um certo tamanho e valores `undefined` em cada espaço (e não espaços vazios!), você tinha que fazer um trabalho extra:
 
 ```js
 var a = Array( 4 );								// four empty slots!
@@ -219,7 +220,7 @@ MyCoolArray.from( x ) instanceof MyCoolArray;		// true
 MyCoolArray.of( [2, 3] ) instanceof MyCoolArray;	// true
 ```
 
-### `copyWithin(..)` Método Prototipado
+### Método Prototipado `copyWithin(..)`
 
 `Array#copyWithin(..)` é um novo método mutador disponível para todos os arrays (incluindo Arrays Tipados; veja o capítulo 5). `copyWithin(..)` copia uma porção de um array a outro local no mesmo array, sobrescrevendo o que quer que estivesse lá antes.
 
