@@ -47,7 +47,7 @@ Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviand
 * Leia online (grátis!): ["this & Prototipagem de Objetos"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
 * Leia online (grátis!): ["Tipos & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
 * Leia online (grátis!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
-* Leia online (grátis!): ["ES6 & Beyond"](es6 & beyond/README.md#you-dont-know-js-es6--beyond), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033769.do)
+* Leia online (grátis!): ["ES6 & Além"](es6 & beyond/README.md#you-dont-know-js-es6--beyond), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033769.do)
 
 ## Publicação
 
@@ -57,7 +57,7 @@ Se você gostar do conteúdo disponível aqui, e quiser colaborar com mais conte
 
 Se você quiser contribuir financeiramente por conta do esforço que tive aqui (ou sobre qualquer outro trabalho) à parte de comprar os livros, eu tenho uma conta no [patreon](https://www.patreon.com/getify) e ficaria agradecido pela sua generosidade.
 
-<a href="https://www.patreon.com/getify"><img src="http://blog.getify.com/wp-content/uploads/patreon.png"></a>
+<a href="https://www.patreon.com/getify">[![patreon.png](https://s11.postimg.org/axpzguh77/patreon.png)](https://www.patreon.com/getify)</a>
 
 ## Treinamento _in persona_
 
