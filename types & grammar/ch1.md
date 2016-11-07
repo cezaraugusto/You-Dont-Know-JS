@@ -188,23 +188,23 @@ Similarmente, teria sido ótimo se `typeof` usado com uma variável não declara
 
 ### `typeof` Undeclared
 
-Nevertheless, this safety guard is a useful feature when dealing with JavaScript in the browser, where multiple script files can load variables into the shared global namespace.
+Mesmo assim, essa medida de segurança é uma funcionalidade útil quando estamos lidando com JavaScript no navegador, onde múltiplos scripts podem carregar variáveis no escopo global compartilhado.
 
-**Note:** Many developers believe there should never be any variables in the global namespace, and that everything should be contained in modules and private/separate namespaces. This is great in theory but nearly impossible in practicality; still it's a good goal to strive toward! Fortunately, ES6 added first-class support for modules, which will eventually make that much more practical.
+**Nota:** Muitos desenvolvedores acreditam que nunca deveria existir nenhuma variável no namespace global, e que tudo deve estar em módulos e namespaces privados/separados. Isso é ótimo em teoria mas praticamente impossível na prática; Ainda é um ótimo objetivo à ser alcançado! Felizmente, o ES6 adotou suporte à classes para os módulos, o que, eventualmente, deixará isso muito mais prático.
 
-As a simple example, imagine having a "debug mode" in your program that is controlled by a global variable (flag) called `DEBUG`. You'd want to check if that variable was declared before performing a debug task like logging a message to the console. A top-level global `var DEBUG = true` declaration would only be included in a "debug.js" file, which you only load into the browser when you're in development/testing, but not in production.
+Como um simples exemplo, imagine ter um "modo de depuração" em seu programa que é controlado por uma variável global (flag) chamada `DEBUG`. Você gostaria de verificar se essa variável foi declarada antes de realizar uma tarefa de depuração, como enviar uma mensagem para o console. A declaração de uma variável global de nível superior `var DEBUG = true` seria incluída em um arquivo "debug.js", o qual você carregaria no seu browser apenas quando estivesse em modo de desenvolvimento/testes, mas não em modo de produção.
 
-However, you have to take care in how you check for the global `DEBUG` variable in the rest of your application code, so that you don't throw a `ReferenceError`. The safety guard on `typeof` is our friend in this case.
+Contudo, você deve ter cuidado no modo como verifica pela variável global `DEBUG` no resto do código de sua aplicação, de modo que não dispare um `ReferenceError`. A medida de segurança no `typeof` é sua amiga nesse caso.
 
 ```js
-// oops, this would throw an error!
+// oops, this would throw an error! (oops, isso irá disparar um erro!)
 if (DEBUG) {
-	console.log( "Debugging is starting" );
+    console.log( "Debugging is starting" );
 }
 
-// this is a safe existence check
+// this is a safe existence check (Essa é uma verificação de existência segura)
 if (typeof DEBUG !== "undefined") {
-	console.log( "Debugging is starting" );
+    console.log( "Debugging is starting" );
 }
 ```
 
