@@ -460,7 +460,7 @@ else {
 }
 ```
 
-Essa estrutura funciona, mais é um pouco verbosa porque você precisa especificar um teste para `a` em cada um dos casos. Abaixo veremos uma outra opção, a instrução `switch`:
+Essa estrutura funciona, mas é um pouco verbosa porque você precisa especificar um teste para `a` em cada um dos casos. Abaixo veremos uma outra opção, a instrução `switch`:
 
 ```js
 switch (a) {
@@ -574,7 +574,7 @@ O modo estrito não irá apenas deixar seu código em um caminho mais seguro, ta
 
 ## Funções como Valores
 
-Até agora, discutimos funções como um mecanismo primário do *escopo* em JavaScript. Você deve se lembrar da típica sintaxe da declaração `function` desse jeito:
+Até agora discutimos funções como um mecanismo primário do *escopo* em JavaScript. Você deve se lembrar da típica sintaxe da declaração `function` desse jeito:
 
 ```js
 function foo() {
@@ -662,7 +662,7 @@ var x = (function IIFE(){
 x;  // 42
 ```
 
-O valor `42` é `return`ado da função nomeada `IIFE`, e depois designada à variável `x`.
+O valor `42` é retornado da função nomeada `IIFE`, e depois designada à variável `x`.
 
 ### Clausura
 
@@ -748,7 +748,7 @@ fred.login( "fred", "12Battery34!" );
 
 A função `User()` serve como um escopo externo que mantém as variáveis `username` e `password` protegidas, assim como a função interna `doLogin()`; esses itens são todos detalhes internos desse módulo `User` que não podem ser acessados de fora.
 
-**Atenção:** Nós não estamos chamando `new User()` aqui, de propósito. Apesar do fato de que provavelmente esta ser a forma mais comum para a maioria dos usuários. `User()` é apenas uma função, não uma classe a ser instanciada, então ela é chamada normalmente. Usar `new` poderia ser inapropriado e até mesmo um desperdício de recursos.
+**Atenção:** Nós não estamos chamando `new User()` aqui de propósito. Apesar do fato de que provavelmente esta ser a forma mais comum para a maioria dos usuários. `User()` é apenas uma função, não uma classe a ser instanciada, então ela é chamada normalmente. Usar `new` poderia ser inapropriado e até mesmo um desperdício de recursos.
 
 Executar `User()` cria uma *instância* do módulo `User` -- todo um novo escopo é criado, e assim toda uma nova cópia de cada uma das variáveis/funções internas. Nós designamos essa instância para `fred`. Se nós rodarmos `User()` novamente, teríamos uma nova instância completamente separada do `fred`.
 
@@ -924,7 +924,7 @@ Em adição ao fato de poder usar agora uma sintaxe mais bacana, mesmo em navega
 
 Você não deve ter reparado apenas olhando para a versão do ES6 que `undefined` é o único valor que não pode ser passado explicitamente como um valor padrão para um parâmetro, mas o código transpilado nos faz entender de forma muito mais clara.
 
-O último detalhe importante a enfatizar sobre transpiladores é que eles devem ser pensados agora como uma parte padrão do ecossistema do processo de desenvolvimento. O JS irá continuar a evoluir, muito mais rápido do que antes, então a cada poucos meses novas sintaxes e novas funcionalidades serão adicionadas.
+O último detalhe importante a enfatizar sobre transpiladores é que eles devem ser pensados agora como uma parte padrão do ecossistema do processo de desenvolvimento. O JS continuará evoluindo, muito mais rápido do que antes, então a cada poucos meses novas sintaxes e novas funcionalidades serão adicionadas.
 
 Se você usar um transpilador por padrão, você irá sempre poder fazer essa mudança para uma sintaxe mais nova sempre que você achá-la útil, ao invés de ter que ficar esperando por anos para os navegadores de hoje se tornarem obsoletos.
 
@@ -935,7 +935,7 @@ Existem alguns grandes transpiladores para escolher. Aqui algumas boas opções 
 
 ## Não-JavaScript
 
-Até aqui, a única coisa que cobrimos foi a linguagem do JS propriamente dito. A realidade é que grande parte do JS é escrito para rodar e interagir com ambientes como navegadores. Uma boa parte das coisas que você escreve no seu código são, estritamente falando, não diretamente controladas por JavaScript. Isso provavelmente soa um pouco estranho.
+Até aqui, a única coisa que cobrimos foi a linguagem do JS propriamente dita. A realidade é que grande parte do JS é escrito para rodar e interagir com ambientes como navegadores. Uma boa parte das coisas que você escreve no seu código são, estritamente falando, não diretamente controladas por JavaScript. Isso provavelmente soa um pouco estranho.
 
 A forma mais comum de JavaScript não-JavaScript que você vai encontrar é o DOM API. Por exemplo:
 
