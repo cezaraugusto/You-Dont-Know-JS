@@ -959,6 +959,6 @@ Este livro, e toda esta série, focam na linguagem JavaScript. Esse é o motivo 
 
 O primeiro passo para aprender o sabor JavaScript de programação é ter um entendimento básico dos mecanismos básicos como valores, tipos, clausuras de funções, `this` e prototipagem.
 
-Claro, cada um desses tópicos merecem uma cobertura muito maior do que você viu aqui, mas é por isso que eles tem capítulos e livros dedicados para eles ao longo desta série de livros. Depois de se sentir confortável com os conceitos e exemplos de código deste capítulo, o resto da série te aguarda para que você se aprofunde na linguagem.
+Claro, cada um desses tópicos merecem uma cobertura muito maior do que você viu aqui, mas é por isso que eles têm capítulos e livros dedicados para eles ao longo desta série de livros. Depois de se sentir confortável com os conceitos e exemplos de código deste capítulo, o resto da série te aguarda para que você se aprofunde na linguagem.
 
 O capítulo final deste livro irá fazer um breve sumário de todos os outros títulos da série e outros conceitos que serão cobertos além do que já exploramos até aqui.
