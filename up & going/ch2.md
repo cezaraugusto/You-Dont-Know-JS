@@ -889,7 +889,7 @@ Sendo assim a melhor opção é usar uma ferramenta que converte seu código nov
 
 Essencialmente, seu código fonte é feito com o formato da nova sintaxe, mas quando você faz o deploy para o navegador ele aparece como um código *transpilado* com o formato da sintaxe velha. Tipicamente você insere o *transpilador* no seu processo de *build*, similar ao seu *linter* ou *minifier*.
 
-Você pode se perguntar porquê você se meteria em confusão ao escrever uma sintaxe nova, apenas para vê-la sendo transpilada para o código antigo. Porquê então não escrever da forma antiga diretamente?
+Você pode se perguntar por que você se meteria em confusão ao escrever uma sintaxe nova, apenas para vê-la sendo transpilada para o código antigo. Por que então não escrever da forma antiga diretamente?
 
 Existem diversas razões importantes que você deveria se importar em relação ao transpiling:
 
