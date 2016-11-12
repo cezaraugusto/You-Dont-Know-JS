@@ -190,9 +190,9 @@ Falamos brevemente sobre coerção no Capítulo 1, mas vamos revisitá-lo aqui.
 
 A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coerção explícita é a forma que você pode, obviamente, através do código, que uma conversão de um tipo para o outro vai acontecer, e a coerção implícita é quando o tipo de conversão ocorre como um efeito paralelo, não tão óbvio, de alguma outra operação.
 
-Você provavelmente ouviu coisas como "coerção é do mau", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
+Você provavelmente ouviu coisas como "coerção é do mal", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
-Coerções não são do mau, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
+Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
 
 Aqui temos um exemplo de coerção *explícita*:
 
