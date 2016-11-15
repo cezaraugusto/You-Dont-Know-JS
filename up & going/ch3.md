@@ -19,7 +19,7 @@ O motor de JS compila seu código logo antes (e às vezes durante!) a execução
 
 É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Encerramento* para o último capítulo do livro. Talvez *Encerramento* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Encerramento* provavelmente permanecerá fora do seu alcance.
 
-Uma aplicação importante de *Encerramento* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso, deve ser uma de suas maiores prioridades.
+Uma aplicação importante de *Encerramento* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso deve ser uma de suas maiores prioridades.
 
 ## this & Prototipagem de Objetos
 
