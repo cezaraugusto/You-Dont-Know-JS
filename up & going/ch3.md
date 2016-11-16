@@ -5,7 +5,7 @@ Sobre o que é essa série? Simplificando, trata-se de levar a sério a tarefa d
 
 Desenvolvedores sérios em outras linguagens esperam colocar seu esforço para aprender a maioria ou a totalidade da linguagem (ou linguagens) que eles mais usam, mas os desenvolvedores JavaScript parecem se destacar da multidão no sentido de normalmente não aprender muito da linguagem em si. Esta não é uma coisa boa, e não é algo que podemos continuar a permitir ser o modelo.
 
-A série *You Don't Know JS* (*YDKJS*) está em contraste gritante com as abordagens típicas para aprender JS, e é diferente de praticamente qualquer outros livros sobre JS que você vai ler. Ele te desafia a sair da sua zona de conforto e de se perguntar os mais profundos "porquês" para cada comportamento que você encontrar. Você está pronto para esse desafio?
+A série *You Don't Know JS* (*YDKJS*) está em contraste gritante com as abordagens típicas para aprender JS, e é diferente de praticamente quaisquer outros livros sobre JS que você vai ler. Ele te desafia a sair da sua zona de conforto e de se perguntar os mais profundos "porquês" para cada comportamento que você encontrar. Você está pronto para esse desafio?
 
 Vou usar este capítulo final para resumir o que esperar do resto dos livros da série, e como ir de forma mais eficaz sobre a construção de uma base de aprendizagem de JavaScript em cima da *YDKJS*.
 
@@ -19,7 +19,7 @@ O motor de JS compila seu código logo antes (e às vezes durante!) a execução
 
 É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Encerramento* para o último capítulo do livro. Talvez *Encerramento* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Encerramento* provavelmente permanecerá fora do seu alcance.
 
-Uma aplicação importante de *Encerramento* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso, deve ser uma de suas maiores prioridades.
+Uma aplicação importante de *Encerramento* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso deve ser uma de suas maiores prioridades.
 
 ## this & Prototipagem de Objetos
 
@@ -29,7 +29,7 @@ A palavra-chave `this` é dinamicamente ligada com base em como a função em qu
 
 Intimamente relacionado com a palavra-chave `this`, está o mecanismo protótipo de objeto (object prototype), que é uma cadeia de pesquisa para as propriedades, similar ao modo léxico que o escopo de variáveis é encontrado. Mas envolto nos protótipos, está outro enorme erro sobre JS: a (falsa) ideia de emular classes e (a chamada "prototipagem") herança.
 
-Infelizmente, o desejo de trazer o design pattern (padrão de projeto) de classes e heranças para o JavaScript é simplesmente a pior coisa que você poderia tentar fazer, porque enquanto a sintaxe pode induzí-lo a pensar que há algo como classes, de fato o mecanismo de protótipo é fundamentalmente oposto em o seu funcionamento.
+Infelizmente, o desejo de trazer o design pattern (padrão de projeto) de classes e heranças para o JavaScript é simplesmente a pior coisa que você poderia tentar fazer, porque enquanto a sintaxe pode induzí-lo a pensar que há algo como classes, de fato o mecanismo de protótipo é fundamentalmente oposto no seu funcionamento.
 
 O que está em questão é se é melhor ignorar a incompatibilidade e fingir que o que você está implementando é "herança", ou se é mais apropriado aprender e abraçar como o sistema de protótipo de objeto realmente funciona. Este último é mais apropriadamente chamado de "delegação de comportamento."
 
@@ -49,9 +49,9 @@ Mas a coerção é realmente confusa, tão ruim, tão falsa, que seu código est
 
 Eu digo que não. Depois de ter consolidado uma compreensão de como tipos e valores realmente funcionam nos capítulos 1-3, o capítulo 4 assume este debate e explicará totalmente como a coerção funciona, com todos os detalhes. Nós veremos apenas que partes da coerção realmente surpreendem e quais partes fazem completo sentido se tiver tempo para aprender.
 
-Mas eu não estou apenas sugerindo que a coerção é sensível e pode ser aprendida, eu estou seguro que a coerção é uma ferramenta incrivelmente útil e totalmente menosprezada que *você deve usar em seu código*. Eu estou dizendo que a coerção, quando usada corretamente, não apenas funciona, mas faz seu código ser melhor. Todos os pessimistas e céticos, certamente irão zombar disso, mas eu acredito que isso é uma das principais chaves para elevar seu conhecimento em JS.
+Mas eu não estou apenas sugerindo que a coerção é sensível e pode ser aprendida, eu estou seguro que a coerção é uma ferramenta incrivelmente útil e totalmente menosprezada que *você deve usar em seu código*. Eu estou dizendo que a coerção, quando usada corretamente, não apenas funciona, mas faz seu código ser melhor. Todos os pessimistas e céticos certamente irão zombar disso, mas eu acredito que isso é uma das principais chaves para elevar seu conhecimento em JS.
 
-Você apenas quer continuar seguindo o que a multidão diz, ou você está disposto à deixar todos os pressupostos de lado e olhar para a coerção com uma nova perspectiva? O volume *Tipos & Gramática* desta série irá te forçar a pensar.
+Você apenas quer continuar seguindo o que a multidão diz, ou você está disposto a deixar todos os pressupostos de lado e olhar para a coerção com uma nova perspectiva? O volume *Tipos & Gramática* desta série irá te forçar a pensar.
 
 ## Async & Performance
 
@@ -99,6 +99,6 @@ O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprend�
 
 A série *YDKJS* é dedicada à questão de que todos os desenvolvedores JS podem e devem aprender todas as partes desta grandiosa linguagem. Nem a opinião de alguém, nem framework's, nem prazos de projetos devem ser desculpa para você deixar de aprender e compreender JavaScript profundamente.
 
-Nós pegamos cada área importante da linguagem, focamos e dedicamos um livro curto mas denso para explorar plenamente todas as partes que você talvez pensou que sabia, mas não provavelmente em sua totalidade.
+Nós pegamos cada área importante da linguagem, focamos e dedicamos um livro curto, mas denso para explorar plenamente todas as partes que você talvez pensou que sabia, mas não provavelmente em sua totalidade.
 
 "You Don't Know JS" ("Você Não Sabe JS") não é uma crítica ou um insulto. Isso é uma percepção que todos nós, inclusive eu, devemos ter. Aprender JavaScript não é um objetivo final, mas um processo. Nós não sabemos JavaScript ainda, mas vamos!
