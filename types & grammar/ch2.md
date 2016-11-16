@@ -215,15 +215,15 @@ Se isso parece feio, é porque é mesmo. Entretanto, _isso funciona_ para `strin
 
 Outra visão nesse ponto é: Se você comumente trata "strings" como _arrays de caracteres_, talvez seja melhor usar `array`s, ao invés de `string`s. Você provavelmente salvará muito trabalho de conversão de `string` para `array` cada vez. Você sempre pode chamar `join("")` em um `array` _de caracteres_ sempre que realmente precisar da representação de `string`.
 
-## Numbers
+## Números
 
-JavaScript has just one numeric type: `number`. This type includes both "integer" values and fractional decimal numbers. I say "integer" in quotes because it's long been a criticism of JS that there are not true integers, as there are in other languages. That may change at some point in the future, but for now, we just have `number`s for everything.
+JavaScript possui apenas um tipo numérico: `number`. Este tipo inclui ambos valores "inteiro" e números decimais. Digo "inteiro" entre aspas porque há uma crítica de longa data ao JavaScript de que não há inteiros verdadeiros, como há em outras linguagens. Isso pode mudar no futuro, mas por enquanto, temos apenas `number`s para tudo.
 
-So, in JS, an "integer" is just a value that has no fractional decimal value. That is, `42.0` is as much an "integer" as `42`.
+Então, em JS, um "inteiro" é apenas um valor que não contém a parte decimal. Sendo assim, `42.0` é tão "inteiro" quanto `42`.
 
-Like most modern languages, including practically all scripting languages, the implementation of JavaScript's `number`s is based on the "IEEE 754" standard, often called "floating-point." JavaScript specifically uses the "double precision" format (aka "64-bit binary") of the standard.
+Como na maioria das linguagens modernas, incluindo praticamente todas as linguagens de script, a implementação de `number`s do JavaScript é baseada no padrão "IEEE 754", frequentemente chamado de "ponto flutuante". JavaScript especificamente usa o formato de "dupla precisão" (ou "binário de 64 bits") desse padrão.
 
-There are many great write-ups on the Web about the nitty-gritty details of how binary floating-point numbers are stored in memory, and the implications of those choices. Because understanding bit patterns in memory is not strictly necessary to understand how to correctly use `number`s in JS, we'll leave it as an exercise for the interested reader if you'd like to dig further into IEEE 754 details.
+Existem vários escritos muito bons na Web que abordam os detalhes essenciais de como números binários de ponto flutuante são armazenados em memória, e as implicações dessas escolhas. Por não ser estritamente necessário o entendimento dos padrões de bit em memória para entender como usar corretamente `number`s em JS, nós o deixaremos como exercício para o leitor que tenha o interesse de se aprofundar nos detalhes do padrão IEEE 754.
 
 ### Numeric Syntax
 
