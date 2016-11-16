@@ -99,6 +99,7 @@
 #### F
 
 * Features: Funcionalidades
+* Floating-point: Ponto flutuante
 
 
 #### G
