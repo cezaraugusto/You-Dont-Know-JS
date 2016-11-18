@@ -225,32 +225,32 @@ Como na maioria das linguagens modernas, incluindo praticamente todas as linguag
 
 Existem vários escritos muito bons na Web que abordam os detalhes essenciais de como números binários de ponto flutuante são armazenados em memória, e as implicações dessas escolhas. Por não ser estritamente necessário o entendimento dos padrões de bit em memória para entender como usar corretamente `number`s em JS, nós o deixaremos como exercício para o leitor que tenha o interesse de se aprofundar nos detalhes do padrão IEEE 754.
 
-### Numeric Syntax
+### Sintaxe Numérica
 
-Number literals are expressed in JavaScript generally as base-10 decimal literals. For example:
+No JavaScript, geralmente números são declarados como decimais literais de base 10. Por exemplo:
 
 ```js
 var a = 42;
 var b = 42.3;
 ```
 
-The leading portion of a decimal value, if `0`, is optional:
+A parte inicial de um valor decimal, se `0`, é opcional:
 
 ```js
 var a = 0.42;
 var b = .42;
 ```
 
-Similarly, the trailing portion (the fractional) of a decimal value after the `.`, if `0`, is optional:
+Semelhantemente, a parte fracionária de um valor decimal após o `.`, se `0`, é opcional:
 
 ```js
 var a = 42.0;
 var b = 42.;
 ```
 
-**Warning:** `42.` is pretty uncommon, and probably not a great idea if you're trying to avoid confusion when other people read your code. But it is, nevertheless, valid.
+**Aviso:** `42.` é bem incomum, e talvez não seja uma boa ideia se você estiver tentando evitar que outras pessoas fiquem confusas ao lerem seu código. Mas, no entanto, é válido.
 
-By default, most `number`s will be outputted as base-10 decimals, with trailing fractional `0`s removed. So:
+A maioria dos `number`s, por padrão, serão exibidos como decimais na base 10, com os `0`s à direita da parte fracionária removidos. Então:
 
 ```js
 var a = 42.300;
@@ -260,7 +260,7 @@ a; // 42.3
 b; // 42
 ```
 
-Very large or very small `number`s will by default be outputted in exponent form, the same as the output of the `toExponential()` method, like:
+Por padrão, `number`s muito grandes ou muito pequenos serão exibidos na forma exponencial, a mesma que é retornada pelo método `toExponential()`, como:
 
 ```js
 var a = 5E10;
@@ -274,7 +274,7 @@ var c = 1 / a;
 c;					// 2e-11
 ```
 
-Because `number` values can be boxed with the `Number` object wrapper (see Chapter 3), `number` values can access methods that are built into the `Number.prototype` (see Chapter 3). For example, the `toFixed(..)` method allows you to specify how many fractional decimal places you'd like the value to be represented with:
+Como valores `number` podem ser encaixotados no objeto wrapper `Number` (veja o Capítulo 3), esses tem acesso aos métodos presentes no `Number.prototype` (veja o Capítulo 3). Por exemplo, o método `toFixed(..)` permite que você especifique com quantas casas decimais você gostaria que o valor fosse representado:
 
 ```js
 var a = 42.59;
@@ -286,9 +286,9 @@ a.toFixed( 3 ); // "42.590"
 a.toFixed( 4 ); // "42.5900"
 ```
 
-Notice that the output is actually a `string` representation of the `number`, and that the value is `0`-padded on the right-hand side if you ask for more decimals than the value holds.
+Note que a saída é uma representação `string` do `number`, e que ao valor são acrescidos `0`s à direita se você solicita mais casas decimais do que o valor mantém.
 
-`toPrecision(..)` is similar, but specifies how many *significant digits* should be used to represent the value:
+`toPrecision(..)` é semelhante, porém especifica quantos *dígitos significativos* deveriam ser usados para representar o valor:
 
 ```js
 var a = 42.59;
@@ -301,63 +301,63 @@ a.toPrecision( 5 ); // "42.590"
 a.toPrecision( 6 ); // "42.5900"
 ```
 
-You don't have to use a variable with the value in it to access these methods; you can access these methods directly on `number` literals. But you have to be careful with the `.` operator. Since `.` is a valid numeric character, it will first be interpreted as part of the `number` literal, if possible, instead of being interpreted as a property accessor.
+Você não precisa usar uma variável com um valor atribuído a ela para acessar estes métodos; você pode acessá-los diretamente em `number`s literais. Porém tenha cuidado com o operador `.`. Como `.` é um caractere numérico válido, ele será primeiro interpretado como parte do `number` literal, se possível, ao invés de ser interpretado como um operador de acesso.
 
 ```js
-// invalid syntax:
+// sintaxe inválida:
 42.toFixed( 3 );	// SyntaxError
 
-// these are all valid:
+// todos estes são válidos:
 (42).toFixed( 3 );	// "42.000"
 0.42.toFixed( 3 );	// "0.420"
 42..toFixed( 3 );	// "42.000"
 ```
 
-`42.toFixed(3)` is invalid syntax, because the `.` is swallowed up as part of the `42.` literal (which is valid -- see above!), and so then there's no `.` property operator present to make the `.toFixed` access.
+`42.toFixed(3)` está com sintaxe inválida, porque o `.` faz parte do literal `42.` (que é válido -- veja acima!), então não há operador de acesso `.` presente para acessar `.toFixed`.
 
-`42..toFixed(3)` works because the first `.` is part of the `number` and the second `.` is the property operator. But it probably looks strange, and indeed it's very rare to see something like that in actual JavaScript code. In fact, it's pretty uncommon to access methods directly on any of the primitive values. Uncommon doesn't mean *bad* or *wrong*.
+`42..toFixed(3)` funciona porque o primeiro `.` é parte do `number` e o segundo `.` é o operador de acesso. Mas isso parece estranho, e na verdade é bastante raro ver algo assim em um código JavaScript atual. De fato, é bem incomum acessar métodos diretamente de qualquer um dos valores primitivos. Incomum não significa *ruim* ou *errado*.
 
-**Note:** There are libraries that extend the built-in `Number.prototype` (see Chapter 3) to provide extra operations on/with `number`s, and so in those cases, it's perfectly valid to use something like `10..makeItRain()` to set off a 10-second money raining animation, or something else silly like that.
+**Nota:** Há bibliotecas que estendem o `Number.prototype` interno (veja o Capítulo 3) para fornecer operações extras em/com `number`s, e nesses casos, é perfeitamente válido usar algo assim `10..makeItRain()` para definir uma chuva de dinheiro de 10 segundos, ou alguma outra tolice como essa.
 
-This is also technically valid (notice the space):
+Isto também é tecnicamente válido (note o espaço):
 
 ```js
 42 .toFixed(3); // "42.000"
 ```
 
-However, with the `number` literal specifically, **this is particularly confusing coding style** and will serve no other purpose but to confuse other developers (and your future self). Avoid it.
+No entanto, especificamente com o `number` literal, **este é um estilo de código particularmente confuso** e não terá propósito algum exceto o de confundir outros desenvolvedores (e você mesmo no futuro). Evite isso.
 
-`number`s can also be specified in exponent form, which is common when representing larger `number`s, such as:
-
-```js
-var onethousand = 1E3;						// means 1 * 10^3
-var onemilliononehundredthousand = 1.1E6;	// means 1.1 * 10^6
-```
-
-`number` literals can also be expressed in other bases, like binary, octal, and hexadecimal.
-
-These formats work in current versions of JavaScript:
+`number`s também podem ser especificados na forma exponencial, algo comum ao representar `number`s grandes, tipo:
 
 ```js
-0xf3; // hexadecimal for: 243
-0Xf3; // ditto
-
-0363; // octal for: 243
+var onethousand = 1E3;						// significa 1 * 10^3
+var onemilliononehundredthousand = 1.1E6;	// significa 1.1 * 10^6
 ```
 
-**Note:** Starting with ES6 + `strict` mode, the `0363` form of octal literals is no longer allowed (see below for the new form). The `0363` form is still allowed in non-`strict` mode, but you should stop using it anyway, to be future-friendly (and because you should be using `strict` mode by now!).
+`number`s literais também podem ser representados em outras bases, como binária, octal, e hexadecimal.
 
-As of ES6, the following new forms are also valid:
+Estes formatos funcionam em versões atuais do JavaScript:
 
 ```js
-0o363;		// octal for: 243
-0O363;		// ditto
+0xf3; // hexadecimal para: 243
+0Xf3; // idem
 
-0b11110011;	// binary for: 243
-0B11110011; // ditto
+0363; // octal para: 243
 ```
 
-Please do your fellow developers a favor: never use the `0O363` form. `0` next to capital `O` is just asking for confusion. Always use the lowercase predicates `0x`, `0b`, and `0o`.
+**Nota:** A partir do ES6 + modo `strict`, a forma `0363` dos octais literais não é mais permitida (veja abaixo a nova forma). A forma `0363` ainda é aceita em modo não `strict`, mas mesmo assim você deveria para de usá-la, para ser aceitável no futuro (e pelo fato de que você já deveria está usando modo `strict`!).
+
+A partir do ES6, as novas formas seguintes são também válidas:
+
+```js
+0o363;		// octal para: 243
+0O363;		// idem
+
+0b11110011;	// binário para: 243
+0B11110011; // idem
+```
+
+Faça um favor aos seus companheiros no desenvolvimento: nunca use a forma `0O363`. Usar o `0` ao lado do `O` maiúsculo é pedir confusão. Sempre use predicados minúsculos `0x`, `0b`, e `0o`.
 
 ### Small Decimal Values
 
