@@ -151,7 +151,7 @@
 
 * Operators: Operadores
 * Output: Output (saída, retorno, valor)
-
+* Object wrapper: Objeto empacotador (Geralmente encapsula um tipo primitivo para utilizá-lo como um objeto)
 
 #### P
 
@@ -159,7 +159,7 @@
 * Polyfilling: Polyfilling
 * Prototype: Prototipagem
 * Pattern: Padrão. _**Dependendo do caso:**_ _traduzir e manter original com parênteses: `singleton pattern` => `padrão singleton (singleton pattern)`_
-
+* Property accessor: Operador de acesso
 
 #### Q
 
