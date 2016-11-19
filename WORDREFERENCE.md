@@ -151,7 +151,7 @@
 
 * Operators: Operadores
 * Output: Output (saída, retorno, valor)
-* Object wrapper: Objeto empacotador (Geralmente encapsula um tipo primitivo para utilizá-lo como um objeto)
+* Object wrapper: Objeto que envolve tipos primitivos
 
 #### P
 

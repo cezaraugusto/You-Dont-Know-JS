@@ -241,7 +241,7 @@ var a = 0.42;
 var b = .42;
 ```
 
-Semelhantemente, a parte fracionária de um valor decimal após o `.`, se `0`, é opcional:
+De maneira similar, a parte fracionária de um valor decimal após o `.`, se `0`, é opcional:
 
 ```js
 var a = 42.0;
@@ -274,7 +274,7 @@ var c = 1 / a;
 c;					// 2e-11
 ```
 
-Como valores `number` podem ser encaixotados no objeto wrapper `Number` (veja o Capítulo 3), esses tem acesso aos métodos presentes no `Number.prototype` (veja o Capítulo 3). Por exemplo, o método `toFixed(..)` permite que você especifique com quantas casas decimais você gostaria que o valor fosse representado:
+Como valores `number` podem ser englobados no objeto `Number`, que envolve tipos primitivos (veja o Capítulo 3), esses tem acesso aos métodos presentes no `Number.prototype` (veja o Capítulo 3). Por exemplo, o método `toFixed(..)` permite que você especifique com quantas casas decimais você gostaria que o valor fosse representado:
 
 ```js
 var a = 42.59;
@@ -301,7 +301,7 @@ a.toPrecision( 5 ); // "42.590"
 a.toPrecision( 6 ); // "42.5900"
 ```
 
-Você não precisa usar uma variável com um valor atribuído a ela para acessar estes métodos; você pode acessá-los diretamente em `number`s literais. Porém tenha cuidado com o operador `.`. Como `.` é um caractere numérico válido, ele será primeiro interpretado como parte do `number` literal, se possível, ao invés de ser interpretado como um operador de acesso.
+Você não precisa usar uma variável com um valor atribuído a ela para acessar estes métodos; você pode acessá-los diretamente em literais `number`. Porém tenha cuidado com o operador `.`. Como `.` é um caractere numérico válido, ele será primeiro interpretado como parte do literal `number`, se possível, ao invés de ser interpretado como um operador de acesso.
 
 ```js
 // sintaxe inválida:
@@ -325,7 +325,7 @@ Isto também é tecnicamente válido (note o espaço):
 42 .toFixed(3); // "42.000"
 ```
 
-No entanto, especificamente com o `number` literal, **este é um estilo de código particularmente confuso** e não terá propósito algum exceto o de confundir outros desenvolvedores (e você mesmo no futuro). Evite isso.
+No entanto, tratando-se especificamente do literal `number`, **isso é um estilo de código particularmente confuso** e não terá propósito algum exceto o de confundir outros desenvolvedores (e você mesmo no futuro). Evite isso.
 
 `number`s também podem ser especificados na forma exponencial, algo comum ao representar `number`s grandes, tipo:
 
@@ -334,7 +334,7 @@ var onethousand = 1E3;						// significa 1 * 10^3
 var onemilliononehundredthousand = 1.1E6;	// significa 1.1 * 10^6
 ```
 
-`number`s literais também podem ser representados em outras bases, como binária, octal, e hexadecimal.
+Literais `number` também podem ser representados em outras bases, como binária, octal, e hexadecimal.
 
 Estes formatos funcionam em versões atuais do JavaScript:
 
@@ -345,7 +345,7 @@ Estes formatos funcionam em versões atuais do JavaScript:
 0363; // octal para: 243
 ```
 
-**Nota:** A partir do ES6 + modo `strict`, a forma `0363` dos octais literais não é mais permitida (veja abaixo a nova forma). A forma `0363` ainda é aceita em modo não `strict`, mas mesmo assim você deveria para de usá-la, para ser aceitável no futuro (e pelo fato de que você já deveria está usando modo `strict`!).
+**Nota:** A partir do ES6 + `strict mode`, a forma `0363` das literais octais não é mais permitida (veja abaixo a nova forma). A forma `0363` ainda é aceita em modo não `strict`, mas mesmo assim você deveria parar de usá-la, para ser aceitável no futuro (e pelo fato de que você já deveria estar usando `strict mode`!).
 
 A partir do ES6, as novas formas seguintes são também válidas:
 
