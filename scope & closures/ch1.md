@@ -33,7 +33,7 @@ Em um processo tradicional de uma linguagem compilada, um pedaço de código fon
 
     **Nota:** Os detalhes de como o motor administra recursos do sistema estão além do que iremos cobrir, então nós vamos apenas considerar que esse motor é capaz de criar e armazenar variáveis conforme necessário.
 
-O motor do Javascript é muito mais complexo do que *apenas* aqueles três passos, assim como o são compiladores de outras linguagem. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
+O motor do Javascript é muito mais complexo do que *apenas* aqueles três passos, assim como são os compiladores de outras linguagens. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
 
 Sendo assim, eu estou mostrando de forma bem grosseira aqui. Mas eu acho que vocês verão em breve porque *esses* detalhes que nós *cobrimos*, mesmo que superficialmente, são relevantes.
 
@@ -89,7 +89,7 @@ No nosso caso, é dito que o *Motor* faria uma busca "LHS" para a variável `a`.
 
 Eu aposto que você pode adivinhar o que o "L" e o "R" significam. Esses termos significam "Left-hand Side" (que em tradução livre, significa: "Lado esquerdo") e "Right-hand Side" (que em tradução livre, significa: "Lado direito").
 
-Lado... de que? **Da operação de atribuição.**
+Lado... de quê? **Da operação de atribuição.**
 
 Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
@@ -130,7 +130,7 @@ A última linha que invoca `foo(..)` como uma chamada de função requer uma ref
 
 Existe uma sútil, porém importante, atribuição aqui. **Conseguiu encontrar?**
 
-Talvez você não tenha notado a operação implícita `a = 2` neste trecho de código. Ela ocorre quando o valor `2` é passado como um argumento para a função `foo(..)`, e assim sendo é **atribuído** ao parâmetro `a`. Para efetuar a atribuição (implícita) no parâmetro `a`, uma busca LHS é efetuada.
+Talvez você não tenha notado a operação implícita `a = 2` neste trecho de código. Ela ocorre quando o valor `2` é passado como um argumento para a função `foo(..)`, e, assim sendo, é **atribuído** ao parâmetro `a`. Para efetuar a atribuição (implícita) no parâmetro `a`, uma busca LHS é efetuada.
 
 Há também uma referência RHS para o valor de `a`, e o valor resultante desta busca é passado para `console.log(..)`. `console.log(..)` também precisa de uma referência para ser executada. É feita uma busca RHS para localizar o objeto `console` e então ocorre a chamada resolução de propriedades para ver se este objeto possui um método chamado `log`.
 
@@ -138,7 +138,7 @@ Finalmente, podemos conceituar que existe uma troca de dados entre as buscas LHS
 
 **Nota:** Talvez você esteja inclinado(a) a conceituar a declaração de uma função `function foo(a) {...` da mesma forma que uma declaração e atribuição comum de variáveis, como `var foo` e `foo = function(a){...`. Desta forma, seria natural pensar que esta declaração envolve uma busca LHS.
 
-Porém, a diferença sútil mas importante é que o *Compilador* trata tanto a declaração quanto a definição do valor durante a etapa de geração de código, de modo que, quando o *Motor* estiver executando o código, não é preciso processamento para "atribuir" um valor de função para `foo`. Portanto, não é correto pensar na declaração de uma função da mesma forma que pensamos em uma atribuição realizada através de uma busca LHS.
+Porém, a diferença sutil, mas importante, é que o *Compilador* trata tanto a declaração quanto a definição do valor durante a etapa de geração de código, de modo que, quando o *Motor* estiver executando o código, não é preciso processamento para "atribuir" um valor de função para `foo`. Portanto, não é correto pensar na declaração de uma função da mesma forma que pensamos em uma atribuição realizada através de uma busca LHS.
 
 ### Diálogo entre Motor e Escopo
 
@@ -266,7 +266,7 @@ Por outro lado, se o *Motor* executa uma busca LHS e chega no último andar (*Es
 
 "Modo estrito" (strict mode) [^note-strictmode], adicionado na versão ES5, possui uma série de diferenças comportamentais em relação ao modo normal/relaxado/preguiçoso. Uma destas diferenças é a proibição da criação automática/implícita de variáveis globais. Neste caso, em uma busca LHS, não haveria uma variável de *Escopo* global para ser repassada, e o *Motor* lançaria um `ReferenceError` como no caso da busca RHS.
 
-Agora, se uma variável é encontrada em uma busca RHS mas você tenta realizar uma ação impossível, como executar como função um valor que não é uma função ou tentar ler uma propriedade a partir de valores como `null` ou `undefined`, então o *Motor* irá lançar um tipo diferente de erro, chamado de `TypeError`.
+Agora, se uma variável é encontrada em uma busca RHS, mas você tenta realizar uma ação impossível, como executar como função um valor que não é uma função ou tentar ler uma propriedade a partir de valores como `null` ou `undefined`, então o *Motor* irá lançar um tipo diferente de erro, chamado de `TypeError`.
 
 `ReferenceError` está relacionado à falha na resolução de *Escopo*, enquanto `TypeError` sugere que a resolução de *Escopo* foi bem sucedida, mas houve uma tentativa de operação ilegal/impossível no resultado que foi obtido.
 
@@ -280,7 +280,7 @@ O *Motor* JavaScript primeiro compila o código para depois executá-lo, e, para
 
 1. Primeiro, `var a` para declaração no *Escopo* atual. Isto é realizado bem no início, antes da execução do código.
 
-2. Em seguida, `a = 2` para buscar pela variável (referência LHS) para então atribuir-lhe um valor se encontrada.
+2. Em seguida, `a = 2` para buscar pela variável (referência LHS) para então atribuir-lhe um valor, se encontrada.
 
 Ambas buscas por referências LHS e RHS iniciam no *Escopo* atual de execução, e em caso de necessidade (ou seja, na ocasião de não serem encontradas por lá), seguem em frente pelos *Escopos* aninhados, um escopo (andar) de cada vez, buscando pelo identificador, até que atinjam o escopo global (último andar) e encerrem a busca, encontrando ou não a variável.
 
