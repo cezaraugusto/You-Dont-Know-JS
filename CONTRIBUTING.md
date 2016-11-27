@@ -21,7 +21,7 @@ Para manter a tradução com o mesmo padrão elevado do livro original, precisam
 ## Curtiu a ideia? Mãos a obra!
 
 1. Nosso processo é bem simples. Se você está acostumado com o GitHub flow, é praticamente o mesmo. Se não, [veja aqui](https://guides.github.com/introduction/flow/).
-2. Veja nosso [Issue Tracker](https://waffle.io/cezaraugusto/You-Dont-Know-JS), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
+2. Veja nosso [Issue Tracker](https://github.com/cezaraugusto/You-Dont-Know-JS/projects/1), para ver quem está fazendo o quê, e quais partes precisam da sua ajuda. Após seguir o **passo 2**, seu nome constará lá também!
 3. Comente na Issue o projeto que você deseja contribuir. Algo como "quero fazer essa parte!".
 4. Faça um `fork` do projeto.
 5. Caso necessário, utilize o branch `master` como modelo para a tradução. 
