@@ -562,7 +562,7 @@ o2.foo();							// foo
 
 ## `Math`
 
-ES6 adicional diversos utilitários matemáticos que preenchem buracos ou ajudam com operações comuns. Todos podem ser manualmente calculados, mas a maioria está agora definido nativamente, então em alguns casos a engine do JS pode otimizar a performance dos cálculos e ser mais performático com mais precisão de números decimais do que a solução manual.
+ES6 adiciona diversos utilitários matemáticos que preenchem buracos ou ajudam com operações comuns. Todos podem ser manualmente calculados, mas a maioria está agora definida nativamente, então em alguns casos o motor do JS pode otimizar a performance dos cálculos e ser mais performático com mais precisão de números decimais do que a solução manual.
 
 É provavel que asm.js/código JS transpilado (veja o título *Async & Performance* dessa série) é o consumidor mais provável de muitos desses utilitários, ao invés de desenvolvedores diretos.
 
@@ -675,7 +675,7 @@ Number.isInteger( NaN );			// false
 Number.isInteger( Infinity );		// false
 ```
 
-Trabalhar com "inteiros" às vezes é importante, já que pode simplificar alguns tipos de algoritmos. Código JS por si só não vai rodar mais rápido apenas por filtrando para somente números inteiros, mas há algumas técnicas de otimização que a engine pode fazer (exemplo, asm.js) onde somente inteiros são usados.
+Trabalhar com "inteiros" às vezes é importante, já que pode simplificar alguns tipos de algoritmos. O Código JS por si só não vai rodar mais rápido apenas por filtrar somente números inteiros, mas há algumas técnicas de otimização que a engine pode fazer (exemplo, asm.js) onde somente inteiros são usados.
 
 Por conta da forma como `Number.isInteger(..)` lida com valores `NaN` e `Infinity`, definir um utilitário `isFloat` não seria tão simples como `!Number.isInteger(..)`. Ia ser algo como:
 
@@ -708,7 +708,7 @@ Number.isSafeInteger( y );			// false
 
 ## `String`
 
-Strings já tem alguns helpers antes do ES6, mas alguns mais foram adicionados à mistura.
+Strings já tinham alguns helpers antes do ES6, mas alguns mais foram adicionados à mistura.
 
 ### Funções Unicode
 
@@ -735,7 +735,7 @@ s2 === "\xE9";						// true
 
 `normalize(..)` aceita um argumento opcional que especifica a forma normalizada de usar. Esse argumento deve ser um dos 4 valores a seguir: `"NFC"` (padrão), `"NFD"`, `"NFKC"`, or `"NFKD"`.
 
-**Nota:** Formas de normalização e seus efeitos nas strings está bem além do escopo que nós estamos discutindo aqui. Veja "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) for more information.
+**Nota:** Formas de normalização e seus efeitos nas strings está bem além do escopo que nós estamos discutindo aqui. Veja "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) para mais informações.
 
 ### Função Estática `String.raw(..)`
 
@@ -785,9 +785,9 @@ palindrome.includes( "on" );		// true
 palindrome.includes( "on", 6 );		// false
 ```
 
-Para todos os métodos de busca/inspeção de string, se você busca em uma string vazia `""`, vai ser encontrado tanto no começo quanto no final da string.
+Para todos os métodos de busca/inspeção de string, se você busca por uma string vazia `""`, ela vai ser encontrada tanto no começo quanto no final da string.
 
-**Atenção:** Esses métodos não vão por padrão aceitar expressões regulares para buscar nas string. Veja "Regular Expression Symbols" no Capítulo 7 para informação a respeito de desabilitar a checagem `isRegExp` que é realizada nesse primeiro argumento.
+**Atenção:** Esses métodos não vão aceitar uma expressão regular por padrão para a string de busca. Veja "Regular Expression Symbols" no Capítulo 7 para informação a respeito de desabilitar a checagem `isRegExp` que é realizada nesse primeiro argumento.
 
 ## Revisão
 
