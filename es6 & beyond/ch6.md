@@ -61,8 +61,7 @@ Você não pode criar (facilmente) um construtor para `MyCoolArray` que sobrescr
 
 ### Função Estática `Array.from(..)`
 
-Um objeto array-like em JavaScript é um objeto que tem uma propriedade `length`, especificamente com um valor inteiro maior que zero.
-An "array-like object" in JavaScript is an object that has a `length` property on it, specifically with an integer value of zero or higher.
+Um objeto array-like em JavaScript é um objeto que tem uma propriedade `length` especificamente com um valor inteiro, igual ou maior que zero.
 
 Esses valores têm sido notóriamente frustrantes de se trabalhar em JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
 
