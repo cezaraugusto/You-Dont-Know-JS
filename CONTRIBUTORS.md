@@ -1,5 +1,5 @@
 # Contribuições :wolf: :zap:
-[![All Contributors](https://img.shields.io/badge/all_contributors-22-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-23-orange.svg?style=flat-square)](#contributors)
 
 > Quer ver seu nome aqui também? [Junte-se a nós](CONTRIBUTING.md)!
 
@@ -46,6 +46,7 @@ Filipe Silva ninrod https://github.com/ninrod tests
 zavjs zavjs https://github.com/zavjs translation
 Bruno Dulcetti https://github.com/dulcetti tests
 Paulo Chaves https://github.com/paulochavesbr translation
+Rogerio Moura https://github.com/Rogerfm translation
 Contributors END -->
 <!-- Contributors table START -->
 | [![Cezar Augusto](https://avatars.githubusercontent.com/cezaraugusto?s=100)<br /><sub>Cezar Augusto</sub>](http://cezaraugusto.net)<br />[📖](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=cezaraugusto) 👀 🌍 📢 | [![Nathalia Bruno](https://avatars.githubusercontent.com/nathaliabruno?s=100)<br /><sub>Nathalia Bruno</sub>](http://nathaliabruno.com)<br />[📖](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=nathaliabruno) 👀 [⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=nathaliabruno) | [![Gustavo Teodoro](https://avatars.githubusercontent.com/gustavoteodoro?s=100)<br /><sub>Gustavo Teodoro</sub>](http://gustavoteodoro.com)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=gustavoteodoro) | [![Gabriel Prates](https://avatars.githubusercontent.com/gabsprates?s=100)<br /><sub>Gabriel Prates</sub>](http://gabsprates.com)<br />👀 🌍 💡 📢 | [![Nelson Henrique](https://avatars.githubusercontent.com/nersoh?s=100)<br /><sub>Nelson Henrique</sub>](https://github.com/nersoh)<br />🌍 | [![Rodnei A. Ribeiro](https://avatars.githubusercontent.com/raribeiro?s=100)<br /><sub>Rodnei A. Ribeiro</sub>](http://engenheirofront.com)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=raribeiro) | [![Nelson P. Junior](https://avatars.githubusercontent.com/nelsonpjunior?s=100)<br /><sub>Nelson P. Junior</sub>](https://github.com/nelsonpjunior)<br />🌍 |
@@ -57,6 +58,6 @@ Contributors END -->
 | [![Carlos](https://avatars.githubusercontent.com/carloszan?s=100)<br /><sub>Carlos</sub>](https://github.com/carloszan)<br />[⚠️](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=carloszan) | [![Fernando Souza](https://avatars.githubusercontent.com/fernandosouza?s=100)<br /><sub>Fernando Souza</sub>](https://github.com/fernandosouza)<br />🌍 | [![Fernando Souza](https://avatars.githubusercontent.com/amandavilela?s=100)<br /><sub>Amanda Vilela</sub>](https://github.com/amandavilela)<br />⚠️ | [![Felipe Santos](https://avatars.githubusercontent.com/fesnt?s=100)<br /><sub>Felipe Santos</sub>](https://github.com/fesnt)<br /> 🌍 | [![zavjs](https://avatars.githubusercontent.com/zavjs?s=100)<br /><sub>zavjs</sub>](https://github.com/zavjs)<br /> 🌍 | [![Filipe Silva](https://avatars.githubusercontent.com/ninrod?s=100)<br /><sub>Filipe Silva</sub>](https://github.com/ninrod)<br /> ⚠️ | [![Bruno Dulcetti](https://avatars.githubusercontent.com/dulcetti?s=100)<br /><sub>Bruno Dulcetti</sub>](https://github.com/dulcetti)<br /> ⚠️ 
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 
-| [![Paulo Chaves](https://avatars.githubusercontent.com/paulochavesbr?s=100)<br /><sub>Paulo Chaves</sub>](https://github.com/paulochavesbr)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=paulochavesbr)
-| :---: |
+| [![Paulo Chaves](https://avatars.githubusercontent.com/paulochavesbr?s=100)<br /><sub>Paulo Chaves</sub>](https://github.com/paulochavesbr)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=paulochavesbr) | [![Rogerio Moura](https://avatars.githubusercontent.com/Rogerfm?s=100)<br /><sub>Rogerio Moura</sub>](https://github.com/Rogerfm)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=Rogerfm)
+| :---: | :---: |
 <!-- Contributors table END -->
