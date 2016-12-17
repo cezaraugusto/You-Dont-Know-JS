@@ -486,7 +486,7 @@ Em ambos os trechos anteriores, a relação entre `o2` e `o1` aparece no fim da 
 
 Muitas bibliotecas/frameworks JavaScript provêem utilitários para copiar/misturar propriedades de um objeto ao outro (por exemplo, `extend(..)` do jQuery). Tem diferenças de nuances entre esses diferentes utilitários, como se a propriedade com valor `undefined` é ignorada ou não.
 
-ES6 adiciona `Object.assign(..)`, que é uma versão simplificada desses algoritmos. O primeiro argumento é o *alvo*, e quaisquer outros argumentos passados são *origens*, que vão ser processadas em uma ordem listada. Para cada origem, seu enumerável e suas próprias chaves (exemplo, não "herdadas"), incluindo símbolos, são copiadas como se fosse uma atribuição com `=`. `Object.assign(..)` retorna o objeto alvo.
+ES6 adiciona `Object.assign(..)`, que é uma versão simplificada desses algoritmos. O primeiro argumento é o *alvo*, e quaisquer outros argumentos passados são *origens* (sources), que vão ser processadas em uma ordem listada. Para cada origem, seu enumerável e suas próprias chaves (exemplo, não "herdadas"), incluindo símbolos, são copiadas como se fosse uma atribuição com `=`. `Object.assign(..)` retorna o objeto alvo.
 
 Considere essa configuração de objeto:
 
