@@ -15,17 +15,17 @@ Considere este código:
 
 ```js
 function foo(a) {
-var b = 2;
+    var b = 2
 
-// algum código
+    // algum código
 
-function bar() {
-// ...
-}
+    function bar() {
+        // ...
+    }
 
-// mais código
+    // mais código
 
-var c = 3;
+    var c = 3;
 }
 ```
 
@@ -63,13 +63,13 @@ Por exemplo:
 
 ```js
 function doSomething(a) {
-b = a + doSomethingElse( a * 2 );
+    b = a + doSomethingElse( a * 2 );
 
-console.log( b * 3 );
+    console.log( b * 3 );
 }
 
 function doSomethingElse(a) {
-return a - 1;
+    return a - 1;
 }
 
 var b;
@@ -83,15 +83,15 @@ Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `doSo
 
 ```js
 function doSomething(a) {
-function doSomethingElse(a) {
-return a - 1;
-}
+    function doSomethingElse(a) {
+        return a - 1;
+    }
 
-var b;
+    var b;
 
-b = a + doSomethingElse( a * 2 );
+    b = a + doSomethingElse( a * 2 );
 
-console.log( (b * 3) );
+    console.log( (b * 3) );
 }
 
 doSomething( 2 ); // 15
@@ -107,14 +107,14 @@ Por exemplo:
 
 ```js
 function foo() {
-function bar(a) {
-i = 3; // alterando o `i` no for-loop do escopo envolvido
-console.log( a + i );
-}
+    function bar(a) {
+        i = 3; // alterando o `i` no for-loop do escopo envolvido
+        console.log( a + i );
+    }
 
-for (var i=0; i<10; i++) {
-bar( i * 2 ); // oops, loop infinito em frente!
-}
+    for (var i=0; i<10; i++) {
+        bar( i * 2 ); // oops, loop infinito em frente!
+    }
 }
 
 foo();
@@ -134,13 +134,13 @@ Por exemplo:
 
 ```js
 var MyReallyCoolLibrary = {
-awesome: "stuff",
-doSomething: function() {
-// ...
-},
-doAnotherThing: function() {
-// ...
-}
+    awesome: "stuff",
+    doSomething: function() {
+        // ...
+    },
+    doAnotherThing: function() {
+        // ...
+    }
 };
 ```
 
@@ -163,8 +163,8 @@ var a = 2;
 
 function foo() { // <-- insira isso
 
-var a = 3;
-console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
 } // <-- e isso
 foo(); // <-- e isso
@@ -181,10 +181,10 @@ Felizmente, JavaScript oferece uma solução para ambos os problemas.
 ```js
 var a = 2;
 
-(function foo(){ // <-- insira isso
+(function foo() { // <-- insira isso
 
-var a = 3;
-console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
 })(); // <-- e isso
 
@@ -209,7 +209,7 @@ Você provavelmente está mais familiarizado com expressões de função como pa
 
 ```js
 setTimeout( function(){
-console.log("Eu espero 1 segundo!");
+    console.log("Eu espero 1 segundo!");
 }, 1000 );
 ```
 
@@ -227,7 +227,7 @@ Expressões de função anônimas são rápidas e fáceis de digitar, e muitas b
 
 ```js
 setTimeout( function timeoutHandler(){ // <-- Olha, eu tenho um nome!
-console.log( "Eu esperei um segundo!" );
+    console.log( "Eu esperei um segundo!" );
 }, 1000 );
 ```
 
@@ -238,8 +238,8 @@ var a = 2;
 
 (function foo(){
 
-var a = 3;
-console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
 })();
 
@@ -257,8 +257,8 @@ var a = 2;
 
 (function IIFE(){
 
-var a = 3;
-console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
 })();
 
@@ -278,9 +278,9 @@ var a = 2;
 
 (function IIFE( global ){
 
-var a = 3;
-console.log( a ); // 3
-console.log( global.a ); // 2
+    var a = 3;
+    console.log( a ); // 3
+    console.log( global.a ); // 2
 
 })( window );
 
@@ -296,10 +296,10 @@ undefined = true; // configurando minas terrestres para outro código! Evite!
 
 (function IIFE( undefined ){
 
-var a;
-if (a === undefined) {
-console.log( "Undefined está salvo aqui!" );
-}
+    var a;
+    if (a === undefined) {
+        console.log( "Undefined está salvo aqui!" );
+    }
 
 })();
 ```
@@ -310,12 +310,12 @@ Ainda que outra variação do IIFE inverta a ordem das coisas, onde a função a
 var a = 2;
 
 (function IIFE( def ){
-def( window );
+    def( window );
 })(function def( global ){
 
-var a = 3;
-console.log( a ); // 3
-console.log( global.a ); // 2
+    var a = 3;
+    console.log( a ); // 3
+    console.log( global.a ); // 2
 
 });
 ```
@@ -332,7 +332,7 @@ Mas mesmo se você nunca escreveu uma única linha de código na forma de escopo
 
 ```js
 for (var i=0; i<10; i++) {
-console.log( i );
+    console.log( i );
 }
 ```
 
@@ -344,9 +344,9 @@ Isso é tudo sobre escopo do bloco. Declarar variáveis tão próximas quanto po
 var foo = true;
 
 if (foo) {
-var bar = foo * 2;
-bar = something( bar );
-console.log( bar );
+    var bar = foo * 2;
+    bar = something( bar );
+    console.log( bar );
 }
 ```
 
@@ -358,7 +358,7 @@ Considere o exemplo for-loop novamente:
 
 ```js
 for (var i=0; i<10; i++) {
-console.log( i );
+    console.log( i );
 }
 ```
 
@@ -382,10 +382,10 @@ Por exemplo:
 
 ```js
 try {
-undefined(); // Operação ilegal para forçar uma exceção!
+    undefined(); // Operação ilegal para forçar uma exceção!
 }
 catch (err) {
-console.log( err ); // Funciona!
+    console.log( err ); // Funciona!
 }
 
 console.log( err ); // ReferenceError: `err` not found
@@ -411,9 +411,9 @@ A palavra-chave `let` atribui uma declaração da variável ao escopo de qualque
 var foo = true;
 
 if (foo) {
-let bar = foo * 2;
-bar = something( bar );
-console.log( bar );
+    let bar = foo * 2;
+    bar = something( bar );
+    console.log( bar );
 }
 
 console.log( bar ); // ReferenceError
@@ -427,11 +427,11 @@ Criando blocos explícitos para os blocos de escopo, podemos chamar a atenção 
 var foo = true;
 
 if (foo) {
-{ // <-- explicit block
-let bar = foo * 2;
-bar = something( bar );
-console.log( bar );
-}
+    { // <-- explicit block
+        let bar = foo * 2;
+        bar = something( bar );
+        console.log( bar );
+    }
 }
 
 console.log( bar ); // ReferenceError
@@ -447,8 +447,8 @@ No entanto, declarações feitas com `let` *não* irão elevar para todo o escop
 
 ```js
 {
-   console.log( bar ); // ReferenceError!
-   let bar = 2;
+    console.log( bar ); // ReferenceError!
+    let bar = 2;
 }
 ```
 
@@ -460,7 +460,7 @@ Considere:
 
 ```js
 function process(data) {
-// faz alguma coisa interessante
+    // faz alguma coisa interessante
 }
 
 var someReallyBigData = { .. };
@@ -470,7 +470,7 @@ process( someReallyBigData );
 var btn = document.getElementById( "my_button" );
 
 btn.addEventListener( "click", function click(evt){
-console.log("button clicked");
+    console.log("button clicked");
 }, /*capturandoFrase=*/false );
 ```
 
@@ -480,21 +480,21 @@ Escopo do bloco pode resolver este problema, tornando-o mais claro para o motor 
 
 ```js
 function process(data) {
-// faz alguma coisa interessante
+    // faz alguma coisa interessante
 }
 
 // Qualquer coisa declarada dentro de bloco pode ir embora depois!
 {
-let someReallyBigData = { .. };
+    let someReallyBigData = { .. };
 
-process( someReallyBigData );
+    process( someReallyBigData );
 }
 
 var btn = document.getElementById( "my_button" );
 
 btn.addEventListener( "click", function click(evt){
-console.log("button clicked");
-}, /*capturandoFrase=*/false );
+    console.log("button clicked");
+}, /*FaseDeCaptura=*/false );
 ```
 
 Declarando blocos explícitos para as variáveis localmente se associarem, é uma ferramenta poderosa que você pode adicionar à sua caixa de ferramentas de código.
@@ -505,7 +505,7 @@ Um caso particular em que `let` brilha é no caso for-loop como discutimos anter
 
 ```js
 for (let i=0; i<10; i++) {
-console.log( i );
+    console.log( i );
 }
 
 console.log( i ); // ReferenceError
@@ -517,11 +517,11 @@ Aqui está outra maneira de ilustrar o comportamento de ligação por-iteração
 
 ```js
 {
-let j;
-for (j=0; j<10; j++) {
-let i = j; // re-associa para cada interação!
-console.log( i );
-}
+    let j;
+    for (j=0; j<10; j++) {
+        let i = j; // re-associa para cada interação!
+        console.log( i );
+    }
 }
 ```
 
@@ -535,13 +535,13 @@ Considere:
 var foo = true, baz = 10;
 
 if (foo) {
-var bar = 3;
+    var bar = 3;
 
-if (baz > bar) {
-console.log( baz );
-}
+    if (baz > bar) {
+        console.log( baz );
+    }
 
-// ...
+    // ...
 }
 ```
 
@@ -551,13 +551,13 @@ Este código é facilmente re-fatorado como:
 var foo = true, baz = 10;
 
 if (foo) {
-var bar = 3;
+    var bar = 3;
 
-// ...
+    // ...
 }
 
 if (baz > bar) {
-console.log( baz );
+    console.log( baz );
 }
 ```
 
@@ -567,11 +567,11 @@ Mas, seja cuidadoso com tais mudanças ao usar variáveis com escopo do bloco:
 var foo = true, baz = 10;
 
 if (foo) {
-let bar = 3;
+    let bar = 3;
 
-if (baz > bar) { // <-- Não esqueça `bar` quando mover!
-console.log( baz );
-}
+    if (baz > bar) { // <-- Não esqueça `bar` quando mover!
+        console.log( baz );
+    }
 }
 ```
 
@@ -585,11 +585,11 @@ Além de `let`, ES6 introduz `const`, que também cria uma variável com escopo 
 var foo = true;
 
 if (foo) {
-var a = 2;
-const b = 3; // escopo do bloco que contém `if`
+    var a = 2;
+    const b = 3; // escopo do bloco que contém `if`
 
-a = 3; // Tudo bem!
-b = 4; // error!
+    a = 3; // Tudo bem!
+    b = 4; // error!
 }
 
 console.log( a ); // 3
