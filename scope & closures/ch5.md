@@ -51,7 +51,7 @@ Bem, tecnicamente... *talvez*. Mas para a nossa definição o-que-você-precisa-
 
 De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a função `bar()` tem uma *closure* sobre o escopo de `foo()` (e, realmente, até sobre o resto dos escopos a que tem acesso, como o escopo global no nosso caso). Colocando de uma forma ligeiramente diferente, é dito que `bar()` envolve o escopo de `foo()`. Por quê? Porque `bar()` aparece aninhado dentro de `foo()`. Claro e simples.
 
-But, closure defined in this way is not directly *observable*, nor do we see closure *exercised* in that snippet. We clearly see lexical scope, but closure remains sort of a mysterious shifting shadow behind the code.
+Mas, definida dessa forma, closure não é diretamente *observável*, nós nem vimos closure *exercida* nesse trecho. Nós vemos claramente o escopo léxico, mas closure permanece uma espécie de sombra deslocando por trás do código.
 
 Let us then consider code which brings closure into full light:
 
