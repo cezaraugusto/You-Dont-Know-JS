@@ -49,7 +49,7 @@ Isso é "closure"?
 
 Bem, tecnicamente... *talvez*. Mas para a nossa definição o-que-você-precisa-saber acima... *não exatamente*. Eu acredito que a forma mais correta de explicar `bar()` fazendo referência a `a` é por meio das regras de procura do escopo léxico, e essas regras são *apenas* (uma importante!) **parte** do que closure é.
 
-From a purely academic perspective, what is said of the above snippet is that the function `bar()` has a *closure* over the scope of `foo()` (and indeed, even over the rest of the scopes it has access to, such as the global scope in our case). Put slightly differently, it's said that `bar()` closes over the scope of `foo()`. Why? Because `bar()` appears nested inside of `foo()`. Plain and simple.
+De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a função `bar()` tem uma *closure* sobre o escopo de `foo()` (e, realmente, até sobre o resto dos escopos a que tem acesso, como o escopo global no nosso caso). Colocando de uma forma ligeiramente diferente, é dito que `bar()` envolve o escopo de `foo()`. Por quê? Porque `bar()` aparece aninhado dentro de `foo()`. Claro e simples.
 
 But, closure defined in this way is not directly *observable*, nor do we see closure *exercised* in that snippet. We clearly see lexical scope, but closure remains sort of a mysterious shifting shadow behind the code.
 
