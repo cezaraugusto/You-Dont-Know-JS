@@ -53,7 +53,7 @@ De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a 
 
 Mas, definida dessa forma, closure não é diretamente *observável*, nós nem vimos closure *exercida* nesse trecho. Nós vemos claramente o escopo léxico, mas closure permanece uma espécie de sombra deslocando por trás do código.
 
-Let us then consider code which brings closure into full light:
+Vamos considerar, então, um código que trás closure totalmente para a luz:
 
 ```js
 function foo() {
@@ -68,7 +68,7 @@ function foo() {
 
 var baz = foo();
 
-baz(); // 2 -- Whoa, closure was just observed, man.
+baz(); // 2 -- Whoa, observamos closure, man.
 ```
 
 The function `bar()` has lexical scope access to the inner scope of `foo()`. But then, we take `bar()`, the function itself, and pass it *as* a value. In this case, we `return` the function object itself that `bar` references.
