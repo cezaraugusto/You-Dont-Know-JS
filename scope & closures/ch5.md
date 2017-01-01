@@ -71,7 +71,7 @@ var baz = foo();
 baz(); // 2 -- Whoa, observamos closure, man.
 ```
 
-The function `bar()` has lexical scope access to the inner scope of `foo()`. But then, we take `bar()`, the function itself, and pass it *as* a value. In this case, we `return` the function object itself that `bar` references.
+A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas então, nós temos `bar()`, a função em si, e passamos ela *como* um valor. Nesse caso, nós damos um `return` no objeto referência da função `bar`.
 
 After we execute `foo()`, we assign the value it returned (our inner `bar()` function) to a variable called `baz`, and then we actually invoke `baz()`, which of course is invoking our inner function `bar()`, just by a different identifier reference.
 
