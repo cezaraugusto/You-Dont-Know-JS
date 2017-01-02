@@ -77,7 +77,7 @@ Depois de executar `foo()`, nós atribuímos o valor retornado (nossa função i
 
 `bar()` é executada, com certeza. Mas nesse caso, é executada *fora* do seu escopo léxico que é declarada.
 
-After `foo()` executed, normally we would expect that the entirety of the inner scope of `foo()` would go away, because we know that the *Engine* employs a *Garbage Collector* that comes along and frees up memory once it's no longer in use. Since it would appear that the contents of `foo()` are no longer in use, it would seem natural that they should be considered *gone*.
+Após a execução de `foo()`, normalmente nós esperamos que o conjunto do escopo interno de `foo()` vá embora, porque nós sabemos que a *Engine* usa um *Coletor de Lixo* que vem paralelamente e libera a memória, uma vez que não está mais em uso. Já que parece que o conteúdo de `foo()` não está mais em uso, parece natural que ele deve ser considerado *passado*.
 
 But the "magic" of closures does not let this happen. That inner scope is in fact *still* "in use", and thus does not go away. Who's using it? **The function `bar()` itself**.
 
