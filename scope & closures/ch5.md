@@ -73,7 +73,7 @@ baz(); // 2 -- Whoa, observamos closure, man.
 
 A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas então, nós temos `bar()`, a função em si, e passamos ela *como* um valor. Nesse caso, nós damos um `return` no objeto referência da função `bar`.
 
-After we execute `foo()`, we assign the value it returned (our inner `bar()` function) to a variable called `baz`, and then we actually invoke `baz()`, which of course is invoking our inner function `bar()`, just by a different identifier reference.
+Depois de executar `foo()`, nós atribuímos o valor retornado (nossa função interna, `bar()`) para a variável chamada `baz`, e então nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
 
 `bar()` is executed, for sure. But in this case, it's executed *outside* of its declared lexical scope.
 
