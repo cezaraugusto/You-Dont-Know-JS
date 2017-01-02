@@ -75,7 +75,7 @@ A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas então, 
 
 Depois de executar `foo()`, nós atribuímos o valor retornado (nossa função interna, `bar()`) para a variável chamada `baz`, e então nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
 
-`bar()` is executed, for sure. But in this case, it's executed *outside* of its declared lexical scope.
+`bar()` é executada, com certeza. Mas nesse caso, é executada *fora* do seu escopo léxico que é declarada.
 
 After `foo()` executed, normally we would expect that the entirety of the inner scope of `foo()` would go away, because we know that the *Engine* employs a *Garbage Collector* that comes along and frees up memory once it's no longer in use. Since it would appear that the contents of `foo()` are no longer in use, it would seem natural that they should be considered *gone*.
 
