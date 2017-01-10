@@ -257,7 +257,7 @@ Promise.race( [p2,p4] )
 
 ## Generators + Promises
 
-It *is* possible to express a series of promises in a chain to represent the async flow control of your program. Consider:
+*É* possível expressar séries de `promises` em cadeia para representar o fluxo assíncrono do seu código. Considere:
 
 ```js
 step1()
@@ -277,11 +277,11 @@ step1()
 .then(step4);
 ```
 
-However, there's a much better option for expressing async flow control, and it will probably be much more preferable in terms of coding style than long promise chains. We can use what we learned in Chapter 3 about generators to express our async flow control.
+Contudo, há uma opção muito melhor para expressar controle de fluxo assíncrono, e provavelmente será muito mais preferível em termos de estilo de códificação do que longas cadeias de `promise`. Nós podemos usar o que aprendemos no *Capitulo 3* sobre `generators` para expressar nosso controle de fluxo assíncrono.
 
-The important pattern to recognize: a generator can yield a promise, and that promise can then be wired to resume the generator with its fulfillment value.
+Um importante padrão a se reconhecer: um `generator` pode produzir uma `promise`, e essa promise pode então ser ligada para retomar o `generator` com seu valor de cumprimento.
 
-Consider the previous snippet's async flow control expressed with a generator:
+Considere o controle de fluxo assíncrono no texo de código anterior escrito com um `generator`.
 
 ```js
 function *main() {
