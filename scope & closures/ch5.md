@@ -83,7 +83,7 @@ Mas a "mágica" das closures não permite que isso aconteça. Esse escopo intern
 
 Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo léxico do escopo interno de `foo()`, que mantem o escopo vivo para `bar()` fazer referência a qualquer momento posterior.
 
-**`bar()` still has a reference to that scope, and that reference is called closure.**
+**`bar()` ainda tem uma referência para esse escopo, e essa referência é chamada de closure.**
 
 So, a few microseconds later, when the variable `baz` is invoked (invoking the inner function we initially labeled `bar`), it duly has *access* to author-time lexical scope, so it can access the variable `a` just as we'd expect.
 
