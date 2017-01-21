@@ -81,7 +81,7 @@ Após a execução de `foo()`, normalmente nós esperamos que o conjunto do esco
 
 Mas a "mágica" das closures não permite que isso aconteça. Esse escopo interno, de fato, *ainda* está "em uso" e, portanto, ele não desaparece. Quem está usando? **A função `baz()`**.
 
-By virtue of where it was declared, `bar()` has a lexical scope closure over that inner scope of `foo()`, which keeps that scope alive for `bar()` to reference at any later time.
+Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo léxico do escopo interno de `foo()`, que mantem o escopo vivo para `bar()` fazer referência a qualquer momento posterior.
 
 **`bar()` still has a reference to that scope, and that reference is called closure.**
 
