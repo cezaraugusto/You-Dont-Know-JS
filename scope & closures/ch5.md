@@ -79,7 +79,7 @@ Depois de executar `foo()`, nós atribuímos o valor retornado (nossa função i
 
 Após a execução de `foo()`, normalmente nós esperamos que o conjunto do escopo interno de `foo()` vá embora, porque nós sabemos que a *Engine* usa um *Coletor de Lixo* que vem paralelamente e libera a memória, uma vez que não está mais em uso. Já que parece que o conteúdo de `foo()` não está mais em uso, parece natural que ele deve ser considerado *passado*.
 
-Mas a "mágica" das closures não permite que isso aconteça. Esse escopo interno, de fato, *ainda* está "em uso" e, portanto, ele não desaparece. Quem está usando? **A função `baz()`**.
+Mas a "mágica" das closures não permite que isso aconteça. Esse escopo interno, de fato, *ainda* está "em uso" e, portanto, ele não desaparece. Quem está usando? **A função `bar()`**.
 
 Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo léxico do escopo interno de `foo()`, que mantem o escopo vivo para `bar()` fazer referência a qualquer momento posterior.
 
