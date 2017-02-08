@@ -85,7 +85,7 @@ Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo léxico
 
 **`bar()` ainda tem uma referência para esse escopo, e essa referência é chamada de closure.**
 
-So, a few microseconds later, when the variable `baz` is invoked (invoking the inner function we initially labeled `bar`), it duly has *access* to author-time lexical scope, so it can access the variable `a` just as we'd expect.
+Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (chamando a função interna que inicialmente chamamos de `bar`), ela tem devido acesso de autor ao escopo léxico, para que que ele possa acessar a variável `a` exatamente como esperávamos.
 
 The function is being invoked well outside of its author-time lexical scope. **Closure** lets the function continue to access the lexical scope it was defined in at author-time.
 
