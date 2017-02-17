@@ -1,9 +1,9 @@
-# You Don't Know JS: Types & Grammar
-# Chapter 3: Natives
+# You Don't Know JS: Tipos e Gramática
+# Capítulo 3: Nativos
 
-Several times in Chapters 1 and 2, we alluded to various built-ins, usually called "natives," like `String` and `Number`. Let's examine those in detail now.
+Várias vezes nos Capítulos 1 e 2, nós aludimos à vários nativos, como `String` e `Number`. Vamos examiná-los em detalhes agora.
 
-Here's a list of the most commonly used natives:
+Aqui está uma lista dos nativos mais comumente usados:
 
 * `String()`
 * `Number()`
@@ -14,11 +14,11 @@ Here's a list of the most commonly used natives:
 * `RegExp()`
 * `Date()`
 * `Error()`
-* `Symbol()` -- added in ES6!
+* `Symbol()` -- adicionado no ES6!
 
-As you can see, these natives are actually built-in functions.
+Como você pode ver, esse nativos são na realidade funções nativas.
 
-If you're coming to JS from a language like Java, JavaScript's `String()` will look like the `String(..)` constructor you're used to for creating string values. So, you'll quickly observe that you can do things like:
+Se você está vindo para o JS de linguagens como Java, a função do JavaScript `String()` vai parecer com o construtor `String(..)` que está acostumado a usar para criar valores string. Assim, observará rapidamente que você pode fazer coisas como:
 
 ```js
 var s = new String( "Hello World!" );
@@ -26,33 +26,33 @@ var s = new String( "Hello World!" );
 console.log( s.toString() ); // "Hello World!"
 ```
 
-It *is* true that each of these natives can be used as a native constructor. But what's being constructed may be different than you think.
+*É* verdade que cada um desses nativos pode ser usado como um construtor. Mas o que está sendo construído pode ser diferente do que você possa pensar.
 
 ```js
 var a = new String( "abc" );
 
-typeof a; // "object" ... not "String"
+typeof a; // "object" ... e não "String"
 
 a instanceof String; // true
 
 Object.prototype.toString.call( a ); // "[object String]"
 ```
 
-The result of the constructor form of value creation (`new String("abc")`) is an object wrapper around the primitive (`"abc"`) value.
+O resultado da criação de valores usando o construtor (`new String("abc")`) é um objeto que envolve o valor primitivo (`"abc"`).
 
-Importantly, `typeof` shows that these objects are not their own special *types*, but more appropriately they are subtypes of the `object` type.
+É importante destacar que, `typeof` mostra que esses objetos não são seus próprios *tipos* especiais, mas mais adequadamente eles são subtipos do tipo `object`.
 
-This object wrapper can further be observed with:
+Esse objeto envoltório pode ainda ser observado com:
 
 ```js
 console.log( a );
 ```
 
-The output of that statement varies depending on your browser, as developer consoles are free to choose however they feel it's appropriate to serialize the object for developer inspection.
+A saída dessa declaração varia dependendo do seu navegador, como os consoles são livres para escolher como eles acharem apropiado para serializar o objeto para a inspeção do desenvolvedor.
 
-**Note:** At the time of writing, the latest Chrome prints something like this: `String {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}`. But older versions of Chrome used to just print this: `String {0: "a", 1: "b", 2: "c"}`. The latest Firefox currently prints `String ["a","b","c"]`, but used to print `"abc"` in italics, which was clickable to open the object inspector. Of course, these results are subject to rapid change and your experience may vary.
+**Nota:** No momento da escrita, a última versão do Chrome imprime algo assim: `String {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}`. Mas versões antigas do Chrome costumavam imprimir apenas isso: `String {0: "a", 1: "b", 2: "c"}`. A última versão do Firefox imprime atualmente `String ["a","b","c"]`, mas costumavam imprimir `"abc"` em itálico, que era clicável para abrir o inspetor de objetos. Claro que esse resultados estão sujeitos à ráida mudança e sua experiência pode variar.
 
-The point is, `new String("abc")` creates a string wrapper object around `"abc"`, not just the primitive `"abc"` value itself.
+O ponto é, `new String("abc")` create a um objeto string ao redor de `"abc"`, não apenas o próprio valor primitivo `"abc"`.
 
 ## Internal `[[Class]]`
 
