@@ -54,9 +54,9 @@ A saída dessa declaração varia dependendo do seu navegador, como os consoles 
 
 O ponto é, `new String("abc")` create a um objeto string ao redor de `"abc"`, não apenas o próprio valor primitivo `"abc"`.
 
-## Internal `[[Class]]`
+## `[[Class]]` interno
 
-Values that are `typeof` `"object"` (such as an array) are additionally tagged with an internal `[[Class]]` property (think of this more as an internal *class*ification rather than related to classes from traditional class-oriented coding). This property cannot be accessed directly, but can generally be revealed indirectly by borrowing the default `Object.prototype.toString(..)` method called against the value. For example:
+Valores que são `typeof` `"object"` (como um array) são adicionalmente marcados com uma propriedade interna `[[Class]]` (pense nisto como uma *class*ificação interna ao invés de classes da tradicional programação orientada a classes). Essa propriedade não pode ser acessada diretamente, mas geralmente pode ser revelada indiretamente por chamar o método `Object.prototype.toString(..)` contra o valor. Por exemplo:
 
 ```js
 Object.prototype.toString.call( [1,2,3] );			// "[object Array]"
@@ -64,18 +64,18 @@ Object.prototype.toString.call( [1,2,3] );			// "[object Array]"
 Object.prototype.toString.call( /regex-literal/i );	// "[object RegExp]"
 ```
 
-So, for the array in this example, the internal `[[Class]]` value is `"Array"`, and for the regular expression, it's `"RegExp"`. In most cases, this internal `[[Class]]` value corresponds to the built-in native constructor (see below) that's related to the value, but that's not always the case.
+Assim para o array no exemplo, o valor `[[Class]]` interno é `"Array"`, e para a expressão regular, é `"RegExp"`. Na maioria dos casos, este valor `[[Class]]` interno corresponde ao construtor nativo (veja abaixo) que é relacionado ao valor, mas nem sempre é o caso.
 
-What about primitive values? First, `null` and `undefined`:
+E quanto aos tipos primitivos? Primeiro, `null` e `undefined`:
 
 ```js
 Object.prototype.toString.call( null );			// "[object Null]"
 Object.prototype.toString.call( undefined );	// "[object Undefined]"
 ```
 
-You'll note that there are no `Null()` or `Undefined()` native constructors, but nevertheless the `"Null"` and `"Undefined"` are the internal `[[Class]]` values exposed.
+Você vai notar de que não há nenhum construtor `Null()` ou `Undefined()`, mas mesmo assim `"Null"` e `"Undefined"` são o valores `[[Class]]` internos expostos.
 
-But for the other simple primitives like `string`, `number`, and `boolean`, another behavior actually kicks in, which is usually called "boxing" (see "Boxing Wrappers" section next):
+Mas para os outros tipos primitivos como `string`, `number`, e `boolean`, outra coisa acontece, que geralmente é chamado de "boxing" (veja a próxima seção "Boxing Wrappers"):
 
 ```js
 Object.prototype.toString.call( "abc" );	// "[object String]"
@@ -83,9 +83,9 @@ Object.prototype.toString.call( 42 );		// "[object Number]"
 Object.prototype.toString.call( true );		// "[object Boolean]"
 ```
 
-In this snippet, each of the simple primitives are automatically boxed by their respective object wrappers, which is why `"String"`, `"Number"`, and `"Boolean"` are revealed as the respective internal `[[Class]]` values.
+Nesse trecho de código, cada um dos tipos primitivos simples são automaticamente encaixotados em seus respectivos objetos que os envolvem, é por isso que `"String"`, `"Number"`, e `"Boolean"` são revelados como seus respectivos valores `[[Class]]` internos.
 
-**Note:** The behavior of `toString()` and `[[Class]]` as illustrated here has changed a bit from ES5 to ES6, but we cover those details in the *ES6 & Beyond* title of this series.
+**Nota:** O comportamento de `toString()` e `[[Class]]` ilustrado aqui mudou um pouco do ES5 para o ES6, mas nós cobrimos esses detalhos no título *ES6 & Beyond* dessa série.
 
 ## Boxing Wrappers
 
