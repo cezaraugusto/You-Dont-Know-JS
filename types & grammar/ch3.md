@@ -118,7 +118,7 @@ if (!a) {
 }
 ```
 
-O problema é que você criou um object wrapper ao redor o valor `false`, mas os próprios objetos são "truthy" (veja o Capítulo 4), então o uso do objeto se comporta de maneira oposta ao uso do valor `false` subjacentes em si, o que é bastante contrário à expectativa normal.
+O problema é que você criou um objeto *wrapper* ao redor do valor `false`, mas objetos são "truthy" por natureza (ver Capítulo 4), portanto o uso deste objeto provê um comportamento oposto ao obtido com a utilização direta do valor `false`, o que de fato representa o oposto do que normalmente se esperaria.
 
 Se você quiser embrulhar um valor primitivo, você pode usar a função `Object(..)` (sem a palavra-chave `new`):
 
