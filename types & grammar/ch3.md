@@ -89,7 +89,7 @@ Nesse trecho de código, cada um dos tipos primitivos simples são automaticamen
 
 ## Boxing Wrappers
 
-These object wrappers serve a very important purpose. Primitive values don't have properties or methods, so to access `.length` or `.toString()` you need an object wrapper around the value. Thankfully, JS will automatically *box* (aka wrap) the primitive value to fulfill such accesses.
+Estes objetos que envolvem os tipos primitos tem um propósito muito importante. Tipos primitivos não tem propriedades ou métodos, então para acessar `.length` ou `.toString()` você precisa que um objeto o envolva. Felizmente, JS automaticamente vai *encaixotar* (também conhecido como envolver) os tipos para realizar esse acessos aos métodos.
 
 ```js
 var a = "abc";
@@ -98,29 +98,28 @@ a.length; // 3
 a.toUpperCase(); // "ABC"
 ```
 
-So, if you're going to be accessing these properties/methods on your string values regularly, like a `i < a.length` condition in a `for` loop for instance, it might seem to make sense to just have the object form of the value from the start, so the JS engine doesn't need to implicitly create it for you.
+Então, se você vai acessar essas propriedade/métodos de suas strings regularmente, como em uma condição `i < a.length` em loop `for` por exemplo, pode parecer fazer sentido apenas usar a forma de objeto desde o início, para o motor JS não precisar criar implicitamente para você.
 
-But it turns out that's a bad idea. Browsers long ago performance-optimized the common cases like `.length`, which means your program will *actually go slower* if you try to "preoptimize" by directly using the object form (which isn't on the optimized path).
+Mas acaba que isso é uma péssima ideia. Os navegadores há muito tempo otimizaram o desempenho dos casos mais comuns como `.length`, que significa que o seu programa vai *na verdade ficar mais lento* se você tentar "pré-otimizar" por usar diretamente o objeto (que não é otimizado).
 
-In general, there's basically no reason to use the object form directly. It's better to just let the boxing happen implicitly where necessary. In other words, never do things like `new String("abc")`, `new Number(42)`, etc -- always prefer using the literal primitive values `"abc"` and `42`.
+Em geral, não há razão para usar os objetos diretamente. É melhor apenas deixar o boxing acontecer implicitamente quando necessário. Em outras palavras, nunca faça coisas como `new String("abc")`, `new Number(42)`, etc -- sempre prefira usar os valores primitivos literais `"abc"` e `42`.
 
-### Object Wrapper Gotchas
+### Pegadinhas do Object Wrapper
 
-There are some gotchas with using the object wrappers directly that you should be aware of if you *do* choose to ever use them.
+Há algumas pegadinhas quando se usa object wrappers diretamente que você precisa estar ciente caso você *escolha* sempre usá-los.
 
-For example, consider `Boolean` wrapped values:
+Por exemplo, considerando valores `Boolean` embrulhados:
 
 ```js
 var a = new Boolean( false );
 
 if (!a) {
-	console.log( "Oops" ); // never runs
+	console.log( "Oops" ); // nunca executa
 }
 ```
+O problema é que você criou um object wrapper ao redor o valor `false`, mas os próprios objetos são "truthy" (veja o Capítulo 4), então o uso do objeto se comporta de maneira oposta ao uso do valor `false` subjacentes em si, o que é bastante contrário à expectativa normal.
 
-The problem is that you've created an object wrapper around the `false` value, but objects themselves are "truthy" (see Chapter 4), so using the object behaves oppositely to using the underlying `false` value itself, which is quite contrary to normal expectation.
-
-If you want to manually box a primitive value, you can use the `Object(..)` function (no `new` keyword):
+Se você quiser embrulhar um valor primitivo, você pode usar a função `Object(..)` (sem a palavra-chave `new`):
 
 ```js
 var a = "abc";
@@ -137,8 +136,7 @@ c instanceof String; // true
 Object.prototype.toString.call( b ); // "[object String]"
 Object.prototype.toString.call( c ); // "[object String]"
 ```
-
-Again, using the boxed object wrapper directly (like `b` and `c` above) is usually discouraged, but there may be some rare occasions you'll run into where they may be useful.
+De novo, ao usar o object wrapper embrulhado diretamente (como `b` e `c` acima) é geralmente desencorajado, mas pode haver raras ocasiões em que eles podem ser úteis.
 
 ## Unboxing
 
