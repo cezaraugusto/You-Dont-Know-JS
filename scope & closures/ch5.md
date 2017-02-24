@@ -87,7 +87,7 @@ Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo léxico
 
 Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (chamando a função interna que inicialmente chamamos de `bar`), ela devidamente tem acesso ao escopo léxico escrito no tempo da autoria do código, para que que ele possa acessar a variável `a` exatamente como esperávamos.
 
-The function is being invoked well outside of its author-time lexical scope. **Closure** lets the function continue to access the lexical scope it was defined in at author-time.
+A função está sendo invocada bem fora do seu escopo léxico de origem. **Closure** permite que a função continue a acessar o escopo léxico no qual foi definida no momento da sua concepção.
 
 Of course, any of the various ways that functions can be *passed around* as values, and indeed invoked in other locations, are all examples of observing/exercising closure.
 
