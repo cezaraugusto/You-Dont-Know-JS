@@ -89,7 +89,7 @@ Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (c
 
 A função está sendo invocada bem fora do seu escopo léxico de origem. **Closure** permite que a função continue a acessar o escopo léxico no qual foi definida no momento da sua concepção.
 
-Of course, any of the various ways that functions can be *passed around* as values, and indeed invoked in other locations, are all examples of observing/exercising closure.
+Naturalmente, qualquer uma das várias maneiras que as funções podem ser *passadas* como valor, e de fato invocada em outros lugares, são todos exemplos de se observar/usar closure.
 
 ```js
 function foo() {
