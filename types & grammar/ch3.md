@@ -141,7 +141,7 @@ De novo, ao usar o object wrapper embrulhado diretamente (como `b` e `c` acima) 
 
 ## Unboxing
 
-If you have an object wrapper and you want to get the underlying primitive value out, you can use the `valueOf()` method:
+Se você tem um objeto *wrapper* e quer obter o seu valor primitivo, pode-se usar o método `valueOf()`:
 
 ```js
 var a = new String( "abc" );
@@ -153,11 +153,11 @@ b.valueOf(); // 42
 c.valueOf(); // true
 ```
 
-Unboxing can also happen implicitly, when using an object wrapper value in a way that requires the primitive value. This process (coercion) will be covered in more detail in Chapter 4, but briefly:
+O *Unboxing* também pode ocorrer implicitamente, quando o objeto *wrapper* é usado de uma forma que requer o valor primitivo. Este processo (coerção) vai ser abrangido em mais detalhes no Capítulo 4, mas de maneira rápida:
 
 ```js
 var a = new String( "abc" );
-var b = a + ""; // `b` has the unboxed primitive value "abc"
+var b = a + ""; // `b` tem o valor primitivo unboxed "abc"
 
 typeof a; // "object"
 typeof b; // "string"
