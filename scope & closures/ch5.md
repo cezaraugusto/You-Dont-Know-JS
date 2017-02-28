@@ -103,11 +103,11 @@ function foo() {
 }
 
 function bar(fn) {
-	fn(); // look ma, I saw closure!
+	fn(); // olhe mamãe, eu vejo closure!
 }
 ```
 
-We pass the inner function `baz` over to `bar`, and call that inner function (labeled `fn` now), and when we do, its closure over the inner scope of `foo()` is observed, by accessing `a`.
+Nós passamos a função interna `baz` para `bar`, e chamamos essa função interna, (agora rotulada de `fn`), e quando fazemos isso, sua closure sobre o escopo interno de `foo()` é observada, acessando `a`.
 
 These passings-around of functions can be indirect, too.
 
