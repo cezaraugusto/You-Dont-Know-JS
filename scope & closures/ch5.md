@@ -109,7 +109,7 @@ function bar(fn) {
 
 Nós passamos a função interna `baz` para `bar`, e chamamos essa função interna, (agora rotulada de `fn`), e quando fazemos isso, sua closure sobre o escopo interno de `foo()` é observada, acessando `a`.
 
-These passings-around of functions can be indirect, too.
+Estas passagens de funções também podem ser indiretamente.
 
 ```js
 var fn;
@@ -121,11 +121,11 @@ function foo() {
 		console.log( a );
 	}
 
-	fn = baz; // assign `baz` to global variable
+	fn = baz; // atribuindo `baz` para a variável global
 }
 
 function bar() {
-	fn(); // look ma, I saw closure!
+	fn(); // olhe mamãe, eu vejo closure!
 }
 
 foo();
