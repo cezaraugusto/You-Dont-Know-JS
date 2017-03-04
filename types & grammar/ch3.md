@@ -163,11 +163,11 @@ typeof a; // "object"
 typeof b; // "string"
 ```
 
-## Natives as Constructors
+## Nativos como Construtores
 
-For `array`, `object`, `function`, and regular-expression values, it's almost universally preferred that you use the literal form for creating the values, but the literal form creates the same sort of object as the constructor form does (that is, there is no nonwrapped value).
+Para valores de  `array`, `object`, `function`, e expressão regular, é quase uma preferência universal usar a forma literal para criar os valores, mas a forma literal cria o mesmo tipo de objeto que o construtor cria (ou seja, não existe valor que não seja *wrapped*).
 
-Just as we've seen above with the other natives, these constructor forms should generally be avoided, unless you really know you need them, mostly because they introduce exceptions and gotchas that you probably don't really *want* to deal with.
+Da mesma forma como os outros nativos, esses construtores devem ser evitados, a não ser que realmente precise dele, principalmente porque eles introduzem exceções e pegadinhas que você provavelmente não vai *querer* lidar.
 
 ### `Array(..)`
 
@@ -179,21 +179,21 @@ var b = [1, 2, 3];
 b; // [1, 2, 3]
 ```
 
-**Note:** The `Array(..)` constructor does not require the `new` keyword in front of it. If you omit it, it will behave as if you have used it anyway. So `Array(1,2,3)` is the same outcome as `new Array(1,2,3)`.
+**Nota:** O construtor `Array(..)` não exige a palavra-chave `new` na frente dele. Se você a omitir, o construtor vai se comportar da mesma maneira se você tivesse usado a palavra-chave. Portanto, `Array(1,2,3)` tem o mesmo resultado que `new Array(1,2,3)`.
 
-The `Array` constructor has a special form where if only one `number` argument is passed, instead of providing that value as *contents* of the array, it's taken as a length to "presize the array" (well, sorta).
+O construtor `Array` tem um comportamento especial quando um único `number` é passado como argumento, em vez de fornecer esse valor como *conteúdo* do array, ele é tomado como um comprimento para "pré-dimensionar o array" (bem, mais ou menos).
 
-This is a terrible idea. Firstly, you can trip over that form accidentally, as it's easy to forget.
+Isso é uma ideia terrível. Primeiramente, você acabar usando essa forma de maneira acidental, porque é fácil se esquecer.
 
-But more importantly, there's no such thing as actually presizing the array. Instead, what you're creating is an otherwise empty array, but setting the `length` property of the array to the numeric value specified.
+Mas mais importante ainda, não existe como pré-dimensionar o array. Em vez disso, você está criando de outra forma um array vazio, mas definindo a propriedade `length` para o valor numérico especificado.
 
-An array that has no explicit values in its slots, but has a `length` property that *implies* the slots exist, is a weird exotic type of data structure in JS with some very strange and confusing behavior. The capability to create such a value comes purely from old, deprecated, historical functionalities ("array-like objects" like the `arguments` object).
+Um array que não tem valores explicitos em seus slots, mas tem uma propiedade `length` que *implica* que os slots existam, é um tipo exótico de estrutura de dado no JS com alguns comportamentos muito confusos e estranhos. A capacidade de criar esses valores vem puramente de antigas, descontinuadas, funcionalidades históricas ("objetos que parecem arrays" como o objeto `arguments`).
 
-**Note:** An array with at least one "empty slot" in it is often called a "sparse array."
+**Nota:** Um array com pelo menos um "slot vazio" é comumente chamado de "sparse array".
 
-It doesn't help matters that this is yet another example where browser developer consoles vary on how they represent such an object, which breeds more confusion.
+Não ajuda nada o fato de que este é mais um exemplo onde cada console de navegador representa tal objeto de uma forma diferente, o que gera mais confusão.
 
-For example:
+Por exemplo:
 
 ```js
 var a = new Array( 3 );
@@ -202,9 +202,9 @@ a.length; // 3
 a;
 ```
 
-The serialization of `a` in Chrome is (at the time of writing): `[ undefined x 3 ]`. **This is really unfortunate.** It implies that there are three `undefined` values in the slots of this array, when in fact the slots do not exist (so-called "empty slots" -- also a bad name!).
+A serialização de `a` no Chrome é (no tempo da escrita): `[ undefined x 3 ]`. **Isso é realmente triste**. O que implica que há três valores `undefined` nos slots deste array, quando na verdade os slots não existem (também chamado de "slots vazios" -- também um nome ruim!).
 
-To visualize the difference, try this:
+Para visualizar as diferenças, tente isto:
 
 ```js
 var a = new Array( 3 );
@@ -217,17 +217,17 @@ b;
 c;
 ```
 
-**Note:** As you can see with `c` in this example, empty slots in an array can happen after creation of the array. Changing the `length` of an array to go beyond its number of actually-defined slot values, you implicitly introduce empty slots. In fact, you could even call `delete b[1]` in the above snippet, and it would introduce an empty slot into the middle of `b`.
+**Nota:** Como você pode ver com o `c` deste exemplo, slots vazios no array podem acontecer após a criação do array. Mudando o `length` de um array para um valor acima do número de slots definidos, você implicitamente introduz slots vazios. Na verdade, você poderia até chamar `delete b[1]` no trecho de código acima, o que introduziria um slot vazio no meio de `b`.
 
-For `b` (in Chrome, currently), you'll find `[ undefined, undefined, undefined ]` as the serialization, as opposed to `[ undefined x 3 ]` for `a` and `c`. Confused? Yeah, so is everyone else.
+Para `b` (no Chrome, atualmente), você vai encontrar `[ undefined, undefined, undefined ]` como serializalção, ao contrário de `[ undefined x 3 ]` para `a` e `c`. Confuso? Sim, assim como todo mundo.
 
-Worse than that, at the time of writing, Firefox reports `[ , , , ]` for `a` and `c`. Did you catch why that's so confusing? Look closely. Three commas implies four slots, not three slots like we'd expect.
+Pior do que isso, no momento da escrita, Firefox imprime `[ , , , ]` para `a` e `c`. Você percebeu por que isso é tão confuso? Olhe mais de perto. Três vírgulas implica quatro slots, e não três slots como esperávamos.
 
-**What!?** Firefox puts an extra `,` on the end of their serialization here because as of ES5, trailing commas in lists (array values, property lists, etc.) are allowed (and thus dropped and ignored). So if you were to type in a `[ , , , ]` value into your program or the console, you'd actually get the underlying value that's like `[ , , ]` (that is, an array with three empty slots). This choice, while confusing if reading the developer console, is defended as instead making copy-n-paste behavior accurate.
+**O quê!?** Firefox coloca uma `,` extra no final da serialização aqui porque no ES5, vírgulas no final de listas (valores de array, lista de propriedades, etc.) são permitidos (e então removidos e ignorados). Então se você colocar um valor `[ , , , ]` no seu programa ou no console, você na verdade obtêm o valor implícito `[ , , ]` (que é, um array com três slots vazios). Essa escolha, apesar de confusa de se ler, é defendida por copiar e colar com precisão o comportamento.
 
-If you're shaking your head or rolling your eyes about now, you're not alone! Shrugs.
+Se você está sacudindo a sua cabeça ou rolando os seus olho agora, você não está sozinho!
 
-Unfortunately, it gets worse. More than just confusing console output, `a` and `b` from the above code snippet actually behave the same in some cases **but differently in others**:
+Infelizmente, fica pior. Mais do que apenas uam saída confusa no console, `a` e `b` do trecho de código acima na verdade se comportam da mesma maneira em alguns casos **mas diferente em outros**:
 
 ```js
 a.join( "-" ); // "--"
@@ -239,7 +239,7 @@ b.map(function(v,i){ return i; }); // [ 0, 1, 2 ]
 
 **Ugh.**
 
-The `a.map(..)` call *fails* because the slots don't actually exist, so `map(..)` has nothing to iterate over. `join(..)` works differently. Basically, we can think of it implemented sort of like this:
+A chamada de `a.map(..)` *falha* por que os slots na verdade não existem, então `map(..)` não tem nada sobre o que iterar. `join(..)` funciona diferente. Basicamente, nós podemos pensar que este método é implementado de uma forma parecida com essa:
 
 ```js
 function fakeJoin(arr,connector) {
@@ -259,32 +259,32 @@ var a = new Array( 3 );
 fakeJoin( a, "-" ); // "--"
 ```
 
-As you can see, `join(..)` works by just *assuming* the slots exist and looping up to the `length` value. Whatever `map(..)` does internally, it (apparently) doesn't make such an assumption, so the result from the strange "empty slots" array is unexpected and likely to cause failure.
+Como você pode ver, `join(..)` funciona apenas *supondo* que os slots existem e looping o valor de `length`. Seja o que for que `map(..)` faz internamente, ele (aparentemente) não faz essa suposição, por isso os resultados dos "slots vazios" é inesperado e propensos à falhas.
 
-So, if you wanted to *actually* create an array of actual `undefined` values (not just "empty slots"), how could you do it (besides manually)?
+Portanto, se você quer *na realidade* criar um array de valores `undefined` reais (não apenas "slots vazios"), como você pode fazer isso (além de manualmente)?
 
 ```js
 var a = Array.apply( null, { length: 3 } );
 a; // [ undefined, undefined, undefined ]
 ```
 
-Confused? Yeah. Here's roughly how it works.
+Confuso? Sim. Assim é mais ou menos como funciona.
 
-`apply(..)` is a utility available to all functions, which calls the function it's used with but in a special way.
+`apply(..)` é um utilitário disponível a todas as funções, que chama a função usada mas de uma maneira especial.
 
-The first argument is a `this` object binding (covered in the *this & Object Prototypes* title of this series), which we don't care about here, so we set it to `null`. The second argument is supposed to be an array (or something *like* an array -- aka an "array-like object"). The contents of this "array" are "spread" out as arguments to the function in question.
+O primeiro argumento é o objeto `this` (abordado no título *this & Prototipagem de Objetos* desta série), que não nos interessa aqui, então nós definimos ele para `null`. O segundo argumento deveria ser um array (ou algo *parecido com* um array -- também conhecido como um "array-like object"). O conteúdo deste "array" é "espalhado" como argumento da função em questão.
 
-So, `Array.apply(..)` is calling the `Array(..)` function and spreading out the values (of the `{ length: 3 }` object value) as its arguments.
+Então, `Array.apply(..)` está chamando a  função `Array(..)` e espalhando os valores (do objeto `{ length: 3 }`) como seu argumento.
 
-Inside of `apply(..)`, we can envision there's another `for` loop (kinda like `join(..)` from above) that goes from `0` up to, but not including, `length` (`3` in our case).
+Dentro do `apply(..)`, nós podemos imaginar outro loop `for` (da mesma forma que o `join(..)` acima) que vai de `0` até, mas não inclui, `length` (`3` em nosso caso).
 
-For each index, it retrieves that key from the object. So if the array-object parameter was named `arr` internally inside of the `apply(..)` function, the property access would effectively be `arr[0]`, `arr[1]`, and `arr[2]`. Of course, none of those properties exist on the `{ length: 3 }` object value, so all three of those property accesses would return the value `undefined`.
+Para cada índice, ele retira aquela chave do objeto. Então se o parâmetro objeto-array for chamado de `arr` internamente dentro da função `apply(..)`, o acesso à propriedade seria efetivamente `arr[0]`, `arr[1]`, e `arr[2]`. Claro que nenhuma dessa propriedades existem no objeto `{ length: 3 }`, por isso todos os três acesso retornariam o valor `undefined`.
 
-In other words, it ends up calling `Array(..)` basically like this: `Array(undefined,undefined,undefined)`, which is how we end up with an array filled with `undefined` values, and not just those (crazy) empty slots.
+Em outras palavras, acaba-se chamando `Array(..)` basicamente dessa forma: `Array(undefined,undefined,undefined)`, que é como nós acabamos com um array preenchido com valores `undefined`, e não apenas com aqueles (loucos) slots vazios.
 
-While `Array.apply( null, { length: 3 } )` is a strange and verbose way to create an array filled with `undefined` values, it's **vastly** better and more reliable than what you get with the footgun'ish `Array(3)` empty slots.
+Enquanto `Array.apply( null, { length: 3 } )` é uma estranha e verbosa de criar um array preenchido com valores `undefined`, é muito melhor e mais confiável que o que se consegue com os autodestrutivos slots vazios de `Array(3)`.
 
-Bottom line: **never ever, under any circumstances**, should you intentionally create and use these exotic empty-slot arrays. Just don't do it. They're nuts.
+Concluindo: **nunca, sobre nenhuma circunstância**, você deve intencionalmente criar e usar esse arrays com exóticos slots vazios. Apenas não faça isso. Eles são esquisitos.
 
 ### `Object(..)`, `Function(..)`, and `RegExp(..)`
 
