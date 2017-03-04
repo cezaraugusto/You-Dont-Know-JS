@@ -137,6 +137,7 @@ c instanceof String; // true
 Object.prototype.toString.call( b ); // "[object String]"
 Object.prototype.toString.call( c ); // "[object String]"
 ```
+
 De novo, ao usar o object wrapper embrulhado diretamente (como `b` e `c` acima) é geralmente desencorajado, mas pode haver raras ocasiões em que eles podem ser úteis.
 
 ## Unboxing
