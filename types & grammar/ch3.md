@@ -287,9 +287,9 @@ Enquanto `Array.apply( null, { length: 3 } )` é uma estranha e verbosa de criar
 
 Concluindo: **nunca, sobre nenhuma circunstância**, você deve intencionalmente criar e usar esse arrays com exóticos slots vazios. Apenas não faça isso. Eles são esquisitos.
 
-### `Object(..)`, `Function(..)`, and `RegExp(..)`
+### `Object(..)`, `Function(..)`, e `RegExp(..)`
 
-The `Object(..)`/`Function(..)`/`RegExp(..)` constructors are also generally optional (and thus should usually be avoided unless specifically called for):
+Os construtores `Object(..)`/`Function(..)`/`RegExp(..)` também são geralmente opcionais ( e portanto devem ser evitados a menos que sejam especificamente chamados):
 
 ```js
 var c = new Object();
@@ -307,11 +307,11 @@ var h = new RegExp( "^a*b+", "g" );
 var i = /^a*b+/g;
 ```
 
-There's practically no reason to ever use the `new Object()` constructor form, especially since it forces you to add properties one-by-one instead of many at once in the object literal form.
+Não há praticamente nenhuma razão para usar o construtor `new Object()`, especialmente porque ele obriga que você adicione as propriedades uma por um em vez de todas de uma vez usando objetos literais.
 
-The `Function` constructor is helpful only in the rarest of cases, where you need to dynamically define a function's parameters and/or its function body. **Do not just treat `Function(..)` as an alternate form of `eval(..)`.** You will almost never need to dynamically define a function in this way.
+O construtor `Function` é útil apenas em raras ocasiões, onde você precisa definir dinamicamente os parâmetros ou o corpo de uma função. **Apenas não trate `Function(..)` como uma alternativa ao `eval(..)`.** Você quase nunca vai precisar definir uma função dinamicamente dessa maneira.
 
-Regular expressions defined in the literal form (`/^a*b+/g`) are strongly preferred, not just for ease of syntax but for performance reasons -- the JS engine precompiles and caches them before code execution. Unlike the other constructor forms we've seen so far, `RegExp(..)` has some reasonable utility: to dynamically define the pattern for a regular expression.
+Expressões regulares definidas na forma literal (`/^a*b+/g`) são fortemente preferidas, não apenas pela sintaxe mais simples mas também por razões de performance -- o motor JS pré-compila e faz o cache antes da execução do código. Diferente dos outros construtores que nós vimos até agora, `RegExp(..)` tem alguma utilidade: definir dinamicamente o padrão da expressão regular.
 
 ```js
 var name = "Kyle";
@@ -320,7 +320,7 @@ var namePattern = new RegExp( "\\b(?:" + name + ")+\\b", "ig" );
 var matches = someText.match( namePattern );
 ```
 
-This kind of scenario legitimately occurs in JS programs from time to time, so you'd need to use the `new RegExp("pattern","flags")` form.
+Esse tipo de cenário realmente ocorre em programas JS de tempos em tempos, então você precisa usar a forma `new RegExp("pattern","flags")`.
 
 ### `Date(..)` and `Error(..)`
 
