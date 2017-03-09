@@ -363,17 +363,17 @@ Os objetos de error geralmente tem pelo menos uma propriedade `message`, e as ve
 
 ### `Symbol(..)`
 
-New as of ES6, an additional primitive value type has been added, called "Symbol". Symbols are special "unique" (not strictly guaranteed!) values that can be used as properties on objects with little fear of any collision. They're primarily designed for special built-in behaviors of ES6 constructs, but you can also define your own symbols.
+No ES6 um novo tipo primitivo foi adicionado, chamado "Symbol". Symbols são valores únicos (não é estritamente garantido!) que podem ser usados como propriedade em objetos com pouco medo de qualquer colisão. Eles são primeiramente projetados para comportamentos nativos de ES6 construtores, mas você pode definir os seus próprios symbols.
 
-Symbols can be used as property names, but you cannot see or access the actual value of a symbol from your program, nor from the developer console. If you evaluate a symbol in the developer console, what's shown looks like `Symbol(Symbol.create)`, for example.
+Symbols podem ser usados como nomes de propriedades, mas você não pode o valor de um symbol de seu programa, nem do console de desenvolvedor. Se você *evalute* um symbol no console de desenvolvedor, o que é mostrado para com `Symbol(Symbol.create)`, por exemplo.
 
-There are several predefined symbols in ES6, accessed as static properties of the `Symbol` function object, like `Symbol.create`, `Symbol.iterator`, etc. To use them, do something like:
+Há vários symbols pré-definidos no ES6, acessado como propriedades estáticos do objeto função `Symbol`, como `Symbol.create`, `Symbol.iterator`, etc. Para usar eles, faça algo como:
 
 ```js
 obj[Symbol.iterator] = function(){ /*..*/ };
 ```
 
-To define your own custom symbols, use the `Symbol(..)` native. The `Symbol(..)` native "constructor" is unique in that you're not allowed to use `new` with it, as doing so will throw an error.
+Para definir os seus próprios symbols customizados, use o nativo `Symbol(..)`. O "construtor" nativo ``Symbol(..)` é único porque você não pode usar `new` com ele, se você fizer isso um erro será gerado.
 
 ```js
 var mysym = Symbol( "my own symbol" );
@@ -388,9 +388,9 @@ Object.getOwnPropertySymbols( a );
 // [ Symbol(my own symbol) ]
 ```
 
-While symbols are not actually private (`Object.getOwnPropertySymbols(..)` reflects on the object and reveals the symbols quite publicly), using them for private or special properties is likely their primary use-case. For most developers, they may take the place of property names with `_` underscore prefixes, which are almost always by convention signals to say, "hey, this is a private/special/internal property, so leave it alone!"
+Apesar de symbols não serem realmente privados (`Object.getOwnPropertySymbols(..)` reflete no objeto e revela os publicamente quase publicamente), usar eles para criar propriedades privadas é provavelmente o seu uso primário. Para a maioria dos desenvolvedores, eles podem tomar o lugar de nomes de propriedade com `_` underscore prefixes, que é quase sempre uma convenção para dizer, "hey, esta é uma propriedade privada/especial/interna, então não mexa nela!"
 
-**Note:** `Symbol`s are *not* `object`s, they are simple scalar primitives.
+**Nota:** `Symbol`s *não* são `objects`s, eles são simples primitivos escalares.
 
 ### Native Prototypes
 
