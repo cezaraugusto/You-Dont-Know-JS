@@ -322,15 +322,15 @@ var matches = someText.match( namePattern );
 
 Esse tipo de cenário realmente ocorre em programas JS de tempos em tempos, então você precisa usar a forma `new RegExp("pattern","flags")`.
 
-### `Date(..)` and `Error(..)`
+### `Date(..)` e `Error(..)`
 
-The `Date(..)` and `Error(..)` native constructors are much more useful than the other natives, because there is no literal form for either.
+Os construtorres `Date(..)` e `Error(..)` são muito mais úteis que os outros nativos, porque não existe uma forma literal para nenhum dos dois.
 
-To create a date object value, you must use `new Date()`. The `Date(..)` constructor accepts optional arguments to specify the date/time to use, but if omitted, the current date/time is assumed.
+Para criar um objeto de date, você precisa usar `new Date()`. O construtor `Date(..)` aceita argumentos opcionais para especificar a data/tempo a ser usado, mas se omitidos, a data/tempo atual é assumido.
 
-By far the most common reason you construct a date object is to get the current timestamp value (a signed integer number of milliseconds since Jan 1, 1970). You can do this by calling `getTime()` on a date object instance.
+Até agora a principal razão para contruir um objeto de data é obter o timestamp atual (o número de milisegundos decorridos desde 1 de janeiro de 1970). Você pode fazer isso por chamar `getTime()` em uma instância do objeto de data.
 
-But an even easier way is to just call the static helper function defined as of ES5: `Date.now()`. And to polyfill that for pre-ES5 is pretty easy:
+Mas uma forma mais fácil de fazer isso é por apenas chamar a função estático definida no ES5: `Date.now()`. E para fazer um polyfill para pre-ES5 é bem fácil:
 
 ```js
 if (!Date.now) {
@@ -340,13 +340,13 @@ if (!Date.now) {
 }
 ```
 
-**Note:** If you call `Date()` without `new`, you'll get back a string representation of the date/time at that moment. The exact form of this representation is not specified in the language spec, though browsers tend to agree on something close to: `"Fri Jul 18 2014 00:31:02 GMT-0500 (CDT)"`.
+**Nota:** Se você chamar `Date()` sem `new`, irá recever uma string representando a data/tempo no momento. A forma exata dessa representação não é especificada na especificação da linguagem, mas os navegadores tendem a fazer algo próximo a: `"Fri Jul 18 2014 00:31:02 GMT-0500 (CDT)"`.
 
-The `Error(..)` constructor (much like `Array()` above) behaves the same with the `new` keyword present or omitted.
+O construtor `Error(..)` (muito parecido com `Array()` acima) se compora da mesma maneira com a palavra-chave `new` estando presente ou não.
 
-The main reason you'd want to create an error object is that it captures the current execution stack context into the object (in most JS engines, revealed as a read-only `.stack` property once constructed). This stack context includes the function call-stack and the line-number where the error object was created, which makes debugging that error much easier.
+A principal razão para criar um objeto de erro é que ele captura o contexto da pilha de execução para dentro do objeto (na maioria dos motores JS, revelado como uma propriedade `.stack` somente de leitura depois de construído). O contexto da pilha de execução inclui o *call-stack* de funções e o número da linha onde o objeto de erro foi criado, o que facilita o *debuhhing* do erro.
 
-You would typically use such an error object with the `throw` operator:
+Normalmente você usuaria um objeto de erro com o operador `throw`:
 
 ```js
 function foo(x) {
@@ -357,9 +357,9 @@ function foo(x) {
 }
 ```
 
-Error object instances generally have at least a `message` property, and sometimes other properties (which you should treat as read-only), like `type`. However, other than inspecting the above-mentioned `stack` property, it's usually best to just call `toString()` on the error object (either explicitly, or implicitly through coercion -- see Chapter 4) to get a friendly-formatted error message.
+Os objetos de error geralmente tem pelo menos uma propriedade `message`, e as vezes outras propriedades (que você deve tratar como somente leitura), como `type`. No entanto, além de inspecionar a propriedade `stack` mencionada acima, normalmente é melhor chamar `toString()` no objeto de erro (explicitamente ou implicitamente através da coerção -- veja o Capítulo 4) para uma mensagem de erro formatado de maneira amigável.
 
-**Tip:** Technically, in addition to the general `Error(..)` native, there are several other specific-error-type natives: `EvalError(..)`, `RangeError(..)`, `ReferenceError(..)`, `SyntaxError(..)`, `TypeError(..)`, and `URIError(..)`. But it's very rare to manually use these specific error natives. They are automatically used if your program actually suffers from a real exception (such as referencing an undeclared variable and getting a `ReferenceError` error).
+**Dica:** Técnicamente, em adição ao nativo `Error(..)` geral, há vários outros nativos para erros específicos: `EvalError(..)`, `RangeError(..)`, `ReferenceError(..)`, `SyntaxError(..)`, `TypeError(..)`, e `URIError(..)`. Mas é bem raro usar manualmente esse nativos de erros específicos. Eles são automaticamente usados se o seu programa sofre com um erro real (como referenciar uma variável que não foi declarado e receber um `ReferenceError`).
 
 ### `Symbol(..)`
 
