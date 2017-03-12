@@ -392,25 +392,25 @@ Apesar de symbols não serem realmente privados (`Object.getOwnPropertySymbols(.
 
 **Nota:** `Symbol`s *não* são `objects`s, eles são simples primitivos escalares.
 
-### Native Prototypes
+### Prototypes Nativos
 
-Each of the built-in native constructors has its own `.prototype` object -- `Array.prototype`, `String.prototype`, etc.
+Cada um dos construtores nativos têm seu próprio objeto `.prototype` -- `Array.prototype`, `String.prototype`, etc.
 
-These objects contain behavior unique to their particular object subtype.
+Estes objetos contém comportamento únicos para seu subtipo de objeto específico.
 
-For example, all string objects, and by extension (via boxing) `string` primitives, have access to default behavior as methods defined on the `String.prototype` object.
+Por exemplo, todos os objetos strings, e por extensão (via boxing) `string` primitivos, têm acesso ao comportamento padrão como métodos definidos no objeto `String.prototype`.
 
-**Note:** By documentation convention, `String.prototype.XYZ` is shortened to `String#XYZ`, and likewise for all the other `.prototype`s.
+**Nota:** Por convenção, `String.prototype.XYZ` é encurtado para `String#XYZ`, e da mesma todos os outros `.prototype`s.
 
-* `String#indexOf(..)`: find the position in the string of another substring
-* `String#charAt(..)`: access the character at a position in the string
-* `String#substr(..)`, `String#substring(..)`, and `String#slice(..)`: extract a portion of the string as a new string
-* `String#toUpperCase()` and `String#toLowerCase()`: create a new string that's converted to either uppercase or lowercase
-* `String#trim()`: create a new string that's stripped of any trailing or leading whitespace
+* `String#indexOf(..)`: encontra a posição na string de outra substring
+* `String#charAt(..)`: acessa o caractere em uma posição na string
+* `String#substr(..)`, `String#substring(..)`, and `String#slice(..)`: extrai uma parte da strsing como uma nova string
+* `String#toUpperCase()` and `String#toLowerCase()`: cria uma nova string a convertendo para maiúscula ou minúscula
+* `String#trim()`: cria uma nova string sem espaços em branco no início e no fim
 
-None of the methods modify the string *in place*. Modifications (like case conversion or trimming) create a new value from the existing value.
+Nenhum desses métodos modifica a string *no lugar*. Modificações (como conversão de caixa ou remoção de espaços) criam um novo valor a partir do valor existente.
 
-By virtue of prototype delegation (see the *this & Object Prototypes* title in this series), any string value can access these methods:
+Em virtudade da delegação de prototype (veja o título *this & Prototipagem de Objetos* nesta série), qualquer qualquer string pode acessar esses métodos.
 
 ```js
 var a = " abc ";
@@ -420,31 +420,31 @@ a.toUpperCase(); // " ABC "
 a.trim(); // "abc"
 ```
 
-The other constructor prototypes contain behaviors appropriate to their types, such as `Number#toFixed(..)` (stringifying a number with a fixed number of decimal digits) and `Array#concat(..)` (merging arrays). All functions have access to `apply(..)`, `call(..)`, and `bind(..)` because `Function.prototype` defines them.
+Os protypes dos outros construtores contém comportamentos apropriados a seus tipos, como `Number#toFixed(..)` (stringify um número com um número fixo de dígitos decimais) e `Array#concat(..)` (funde arrays). Todas as funções tem acessa a `apply(..)`, `call(..)`, e `bind(..)` porque `Function.prototype` define esses métodos.
 
-But, some of the native prototypes aren't *just* plain objects:
+Mas, alguns desse prototypes nativos não são *apenas* simples objetos:
 
 ```js
 typeof Function.prototype;			// "function"
-Function.prototype();				// it's an empty function!
+Function.prototype();				// é uma função vazia!
 
-RegExp.prototype.toString();		// "/(?:)/" -- empty regex
+RegExp.prototype.toString();		// "/(?:)/" -- regex vazia
 "abc".match( RegExp.prototype );	// [""]
 ```
 
-A particularly bad idea, you can even modify these native prototypes (not just adding properties as you're probably familiar with):
+Uma ideia particularmente ruim, você pode ainda modificar esse prototypes nativos (não apenas adicionar propriedades como você já sabe):
 
 ```js
 Array.isArray( Array.prototype );	// true
 Array.prototype.push( 1, 2, 3 );	// 3
 Array.prototype;					// [1,2,3]
 
-// don't leave it that way, though, or expect weirdness!
-// reset the `Array.prototype` to empty
+// não deixe dessa forma sem estranho que coisas estranhas aconteçam!
+// redefina `Array.prototype` para vazio
 Array.prototype.length = 0;
 ```
 
-As you can see, `Function.prototype` is a function, `RegExp.prototype` is a regular expression, and `Array.prototype` is an array. Interesting and cool, huh?
+Como você pode ver, `Function.prototype` é uma função, `RegExp.prototype` é uma expressão regular, e `Array.prototype` é um array. Interessante e legal, huh?
 
 #### Prototypes As Defaults
 
