@@ -446,11 +446,11 @@ Array.prototype.length = 0;
 
 Como você pode ver, `Function.prototype` é uma função, `RegExp.prototype` é uma expressão regular, e `Array.prototype` é um array. Interessante e legal, huh?
 
-#### Prototypes As Defaults
+#### Protótipos como padrões
 
-`Function.prototype` being an empty function, `RegExp.prototype` being an "empty" (e.g., non-matching) regex, and `Array.prototype` being an empty array, make them all nice "default" values to assign to variables if those variables wouldn't already have had a value of the proper type.
+Sendo `Function.prototype` uma função vazia, `RegExp.prototype` uma regex "vazia" (não coincidente), e `Array.prototype` um array vazio, fazem deles um bom valor "padrão" para atribuir a variáveis se essas variáveis ainda não têm  um valor com o tipo apropriado.
 
-For example:
+Por exemplo:
 
 ```js
 function isThisCool(vals,fn,rx) {
@@ -472,13 +472,13 @@ isThisCool(
 );					// false
 ```
 
-**Note:** As of ES6, we don't need to use the `vals = vals || ..` default value syntax trick (see Chapter 4) anymore, because default values can be set for parameters via native syntax in the function declaration (see Chapter 5).
+**Nota:** A partir do ES6, não precisamos mais usar o truque `vals = vals || ..` para definir valores padrões (veja o Capítulo 4), porque valores padrões podem ser definidos através de uma sintaxe nativa na declaração de funções (veja o Capítulo 5).
 
-One minor side-benefit of this approach is that the `.prototype`s are already created and built-in, thus created *only once*. By contrast, using `[]`, `function(){}`, and `/(?:)/` values themselves for those defaults would (likely, depending on engine implementations) be recreating those values (and probably garbage-collecting them later) for *each call* of `isThisCool(..)`. That could be memory/CPU wasteful.
+Um pequeno benefício dessa abordagem é que os `.prototype`s já estão criados, assim são criados apenas uma vez. Em contraste com isso, usar `[]`, `function(){}`, e `/(?:)/` para definir esses padrões (provavelmente, dependendo da implementação do motor) os valores serão recriados (e possivelmente adicionados à garbage-collection depois) para *cada chamada* de `isThisCool(..)`. O que pode resultar em um diperdício de memória/CPU.
 
-Also, be very careful not to use `Array.prototype` as a default value **that will subsequently be modified**. In this example, `vals` is used read-only, but if you were to instead make in-place changes to `vals`, you would actually be modifying `Array.prototype` itself, which would lead to the gotchas mentioned earlier!
+Também, tenha bastante cuidado em não usar `Array.prototype` como um valor padrão **que irá ser modificado depois**. Neste exemplo, `vals` é somente leitura, mas se fosse modificar `vals`, você estaria na verdade modificando o próprio `Array.prototype`, o que levaria às pegadinha mencionadas a pouco!
 
-**Note:** While we're pointing out these native prototypes and some usefulness, be cautious of relying on them and even more wary of modifying them in anyway. See Appendix A "Native Prototypes" for more discussion.
+**Nota:** Enquanto nós estamos mostrando esses prototypes nativos e algumas de suas utilidades, seja cauteloso ao confiar neles e ainda mais prudente se for modificá-los. Veja o Apêncice A "Prototypes Nativos" para maior discussão.
 
 ## Review
 
