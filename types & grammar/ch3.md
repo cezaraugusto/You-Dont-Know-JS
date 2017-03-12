@@ -480,8 +480,8 @@ Também, tenha bastante cuidado em não usar `Array.prototype` como um valor pad
 
 **Nota:** Enquanto nós estamos mostrando esses prototypes nativos e algumas de suas utilidades, seja cauteloso ao confiar neles e ainda mais prudente se for modificá-los. Veja o Apêncice A "Prototypes Nativos" para maior discussão.
 
-## Review
+## Revisão
 
-JavaScript provides object wrappers around primitive values, known as natives (`String`, `Number`, `Boolean`, etc). These object wrappers give the values access to behaviors appropriate for each object subtype (`String#trim()` and `Array#concat(..)`).
+O Javascript disponibiliza *object wrappers* ao redor de valores primitivos, conhecidos como nativos (`String`, `Number`, `Boolean`, etc). Estes *object wrappers* dão aos valores acesso aos comportamentos apropriados para o subtipo de cada objeto (`String#trim()` e `Array#concat(..)`).
 
-If you have a simple scalar primitive value like `"abc"` and you access its `length` property or some `String.prototype` method, JS automatically "boxes" the value (wraps it in its respective object wrapper) so that the property/method accesses can be fulfilled.
+Se tem um simples valor primitivo como `"abc"` e você acessa a sua propriedade `length` ou outro método de `String.prototype`, o JS automaticamente "boxes" o valor (envolve ele no se respectivo *object wrapper*) para que o acesso da propriedade/método para ser cumprido.
