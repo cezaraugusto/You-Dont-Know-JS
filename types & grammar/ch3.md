@@ -16,7 +16,7 @@ Aqui está uma lista dos nativos mais comumente usados:
 * `Error()`
 * `Symbol()` -- adicionado no ES6!
 
-Como você pode ver, esse nativos são na realidade funções nativas.
+Como você pode ver, esses nativos são na realidade funções nativas.
 
 Se você está vindo para o JS de linguagens como Java, a função do JavaScript `String()` vai parecer com o construtor `String(..)` que está acostumado a usar para criar valores string. Assim, observará rapidamente que você pode fazer coisas como:
 
@@ -48,11 +48,11 @@ Esse objeto envoltório pode ainda ser observado com:
 console.log( a );
 ```
 
-A saída dessa declaração varia dependendo do seu navegador, como os consoles são livres para escolher como eles acharem apropiado para serializar o objeto para a inspeção do desenvolvedor.
+A saída dessa declaração varia dependendo do seu navegador, como os consoles são livres para escolher como eles acharem apropriado para serializar o objeto para a inspeção do desenvolvedor.
 
-**Nota:** No momento da escrita, a última versão do Chrome imprime algo assim: `String {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}`. Mas versões antigas do Chrome costumavam imprimir apenas isso: `String {0: "a", 1: "b", 2: "c"}`. A última versão do Firefox imprime atualmente `String ["a","b","c"]`, mas costumavam imprimir `"abc"` em itálico, que era clicável para abrir o inspetor de objetos. Claro que esse resultados estão sujeitos à rápida mudança e sua experiência pode variar.
+**Nota:** No momento da escrita, a última versão do Chrome imprime algo assim: `String {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}`. Mas versões antigas do Chrome costumavam imprimir apenas isso: `String {0: "a", 1: "b", 2: "c"}`. A última versão do Firefox imprime atualmente `String ["a","b","c"]`, mas costumava imprimir `"abc"` em itálico, que era clicável para abrir o inspetor de objetos. Claro que esse resultados estão sujeitos à rápida mudança e sua experiência pode variar.
 
-O ponto é, `new String("abc")` create a um objeto string ao redor de `"abc"`, não apenas o próprio valor primitivo `"abc"`.
+O ponto é, `new String("abc")` cria a um objeto string ao redor de `"abc"`, não apenas o próprio valor primitivo `"abc"`.
 
 ## `[[Class]]` interno
 
@@ -73,7 +73,7 @@ Object.prototype.toString.call( null );			// "[object Null]"
 Object.prototype.toString.call( undefined );	// "[object Undefined]"
 ```
 
-Você vai notar de que não há nenhum construtor `Null()` ou `Undefined()`, mas mesmo assim `"Null"` e `"Undefined"` são os valores internos para `[[Class]]`  expostos.
+Você vai notar de que não há nenhum construtor `Null()` ou `Undefined()`, mas mesmo assim `"Null"` e `"Undefined"` são os valores internos para `[[Class]]` expostos.
 
 Mas para os outros tipos primitivos como `string`, `number`, e `boolean`, outra coisa acontece, que geralmente é chamado de "boxing" (veja a próxima seção "Boxing Wrappers"):
 
@@ -98,7 +98,7 @@ a.length; // 3
 a.toUpperCase(); // "ABC"
 ```
 
-Então, se você vai acessar essas propriedade/métodos de suas strings regularmente, como em uma condição `i < a.length` em loop `for` por exemplo, pode parecer fazer sentido apenas usar a forma de objeto desde o início, para o motor JS não precisar criar implicitamente para você.
+Então, se você vai acessar essas propriedade/métodos de suas strings regularmente, como em uma condição `i < a.length` em um loop `for` por exemplo, pode parecer fazer sentido apenas usar a forma de objeto desde o início, para o motor JS não precisar criar implicitamente para você.
 
 Mas acaba que isso é uma péssima ideia. Os navegadores há muito tempo otimizaram o desempenho dos casos mais comuns como `.length`, que significa que o seu programa vai *na verdade ficar mais lento* se você tentar "pré-otimizar" por usar diretamente o objeto (que não é otimizado).
 
