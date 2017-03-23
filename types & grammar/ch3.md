@@ -73,7 +73,7 @@ Object.prototype.toString.call( null );			// "[object Null]"
 Object.prototype.toString.call( undefined );	// "[object Undefined]"
 ```
 
-Você vai notar de que não há nenhum construtor `Null()` ou `Undefined()`, mas mesmo assim `"Null"` e `"Undefined"` são o valores internos para `[[Class]]`  expostos.
+Você vai notar de que não há nenhum construtor `Null()` ou `Undefined()`, mas mesmo assim `"Null"` e `"Undefined"` são os valores internos para `[[Class]]`  expostos.
 
 Mas para os outros tipos primitivos como `string`, `number`, e `boolean`, outra coisa acontece, que geralmente é chamado de "boxing" (veja a próxima seção "Boxing Wrappers"):
 
@@ -190,7 +190,7 @@ Mas mais importante ainda, não existe como pré-dimensionar o array. Em vez dis
 
 Um array que não tem valores explicitos em suas posições, mas tem uma propriedade `length` que *implica* que as posições existam, é um tipo exótico de estrutura de dado no JS com alguns comportamentos muito confusos e estranhos. A capacidade de criar esses valores vem puramente de antigas, descontinuadas, funcionalidades históricas ("objetos que parecem arrays" como o objeto `arguments`).
 
-**Nota:** Um array com pelo menos um "posição vazia" é comumente chamado de "array escasso".
+**Nota:** Um array com pelo menos uma "posição vazia" é comumente chamado de "array escasso".
 
 Não ajuda nada o fato de que este é mais um exemplo onde cada console de navegador representa tal objeto de uma forma diferente, o que gera mais confusão.
 
@@ -260,7 +260,7 @@ var a = new Array( 3 );
 fakeJoin( a, "-" ); // "--"
 ```
 
-Como você pode ver, `join(..)` funciona apenas *supondo* que as posições existem existem e iterando sobre o valor de `length`. Seja o que for que `map(..)` faz internamente, ele (aparentemente) não faz essa suposição, por isso os resultados das "posições vazias" é inesperado e propensos à falhas.
+Como você pode ver, `join(..)` funciona apenas *supondo* que as posições existem e iterando sobre o valor de `length`. Seja o que for que `map(..)` faz internamente, ele (aparentemente) não faz essa suposição, por isso os resultados das "posições vazias" é inesperado e propensos à falhas.
 
 Portanto, se você quer *na realidade* criar um array de valores `undefined` reais (não apenas "posições vazias"), como você pode fazer isso (além de manualmente)?
 
@@ -365,9 +365,9 @@ Os objetos de error geralmente tem pelo menos uma propriedade `message`, e as ve
 
 No ES6 um novo tipo primitivo foi adicionado, chamado "Symbol". Symbols são valores únicos (não é estritamente garantido!) que podem ser usados como propriedade em objetos com pouco medo de qualquer colisão. Eles são primeiramente projetados para comportamentos nativos de ES6 construtores, mas você pode definir os seus próprios symbols.
 
-Symbols podem ser usados como nomes de propriedades, mas você não pode ver ou acessar o valor de um symbol de seu programa, nem do console de desenvolvedor. Se você avaliar um symbol no console de desenvolvedor, o que é mostrado parace com `Symbol(Symbol.create)`, por exemplo.
+Symbols podem ser usados como nomes de propriedades, mas você não pode ver ou acessar o valor de um symbol de seu programa, nem do console de desenvolvedor. Se você avaliar um symbol no console de desenvolvedor, o que é mostrado parece com `Symbol(Symbol.create)`, por exemplo.
 
-Há vários symbols pré-definidos no ES6, acessados como propriedades estáticos do objeto função `Symbol`, como `Symbol.create`, `Symbol.iterator`, etc. Para usar eles, faça algo como:
+Há vários symbols pré-definidos no ES6, acessados como propriedades estáticas do objeto função `Symbol`, como `Symbol.create`, `Symbol.iterator`, etc. Para usar eles, faça algo como:
 
 ```js
 obj[Symbol.iterator] = function(){ /*..*/ };
@@ -446,7 +446,7 @@ Array.prototype.length = 0;
 
 Como você pode ver, `Function.prototype` é uma função, `RegExp.prototype` é uma expressão regular, e `Array.prototype` é um array. Interessante e legal, huh?
 
-#### Prototypes como padrões
+#### Prototypes como valor padrão (default)
 
 Sendo `Function.prototype` uma função vazia, `RegExp.prototype` uma regex "vazia" (não coincidente), e `Array.prototype` um array vazio, fazem deles um bom valor "padrão" para atribuir a variáveis se essas variáveis ainda não têm um valor com o tipo apropriado.
 
