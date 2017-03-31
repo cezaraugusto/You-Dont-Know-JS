@@ -1,9 +1,9 @@
 # You Don't Know JS: Tipos & Gramática
 # Apêndice B: Agradecimentos
 
-Tenho tantas pessoas à agradecer por fazer essa série de livros se tornar realidade.
+Tenho tantas pessoas a agradecer por fazer essa série de livros se tornar realidade.
 
-Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto eu estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria. O tempo que eu comprometi junto à minha família é o motivo destes livros serem tão profunda e competamente explicados à você, leitor. Devo tudo à minha família.
+Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto eu estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria. O tempo que eu comprometi junto à minha família é o motivo destes livros serem explicados de maneira tão profunda e completa para você, leitor. Devo tudo à minha família.
 
 Gostaria de agradecer aos meus editores da O'Reilly, mais precisamente Simon St.Laurent e Brian MacDonald, assim como o resto do time de editorial e marketing. São pessoas fantásticas de se trabalhar e foram bastante convidativos durante este experimento de escrever, editar e produzir um livro "open source".
 
@@ -17,4 +17,4 @@ Desde que a série "You Don't Know JS" foi criada no Kickstarter, eu gosto de ag
 
 Essa série está sendo produzida de maneira open source, incluindo a edição e produção. Nós temos uma dívida de gradidão ao GitHub por fazer esse tipo de acontecimento possível para a comunidade!
 
-Obrigado novamente a todos as incontáveis pessoas que não pude nomear mas a quem eu no entanto devo meus agradecimentos. Que essa série de livros possa ser de "propriedade" de todos nós e servir para disseminar o conhecimento da linguagem JavaScript, para benefício de todos os que contribuem para a comunidade de hoje e de amanhã.
+Obrigado novamente a todas as incontáveis pessoas que não pude nomear, mas a quem eu devo meus agradecimentos. Que essa série de livros possa ser de "propriedade" de todos nós e servir para disseminar o conhecimento da linguagem JavaScript, para benefício de todos os que contribuem para a comunidade de hoje e de amanhã.
