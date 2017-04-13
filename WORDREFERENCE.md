@@ -72,7 +72,7 @@
 
 #### C
 
-* Closure: Clausura (vide [(#91](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/91#issuecomment-222319503))
+* Closure: Closure (vide [(#91](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/91#issuecomment-222319503))
 * Coercion: Coerção
 * Compound Assignment: Atribuição com Operação
 * Compound Conditionals: Instrução Condicional
