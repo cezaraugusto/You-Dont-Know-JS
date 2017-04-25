@@ -276,7 +276,7 @@ A não igualdade `!=`forma um par com `==`, e sua forma `!==` forma um par com `
 
 Você deve ter uma atenção especial sobre as regras de comparação de `==` e `===` se você estiver comparando dois valores não-primitivos, como `object`s (incluíndo `function` e `array`). Por estes valores serem regidos por suas referências, ambas as comparações `==` e `===` irão apenas verificar se suas referências são compatíveis, e não irá comparar nada sobre seus valores subjacentes.
 
-Por exemplo, `array`s são por padrão convertidas para`string`s por simplesmente se juntarem todos os valores com vírgulas (`,`) entree elas. Você pode pensar que duas `array`s com o mesmo conteúdo são iguais `==`, quando na verdade não são:
+Por exemplo, `array`s são por padrão convertidas para`string`s por simplesmente se juntarem todos os valores com vírgulas (`,`) entre elas. Você pode pensar que duas `array`s com o mesmo conteúdo são iguais `==`, quando na verdade não são:
 
 ```js
 var a = [1,2,3];
@@ -943,7 +943,7 @@ A forma mais comum de JavaScript não-JavaScript que você vai encontrar é o DO
 var el = document.getElementById( "foo" );
 ```
 
-A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo mecanismo do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, ma não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
+A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo mecanismo do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, mas não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
 
 Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegadores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
 
