@@ -1,29 +1,29 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 1: ES? Now & Future
+# You Don't Know JS: ES6 & Além
+# Chapter 1: ES? Presente e Futuro
 
-Before you dive into this book, you should have a solid working proficiency over JavaScript up to the most recent standard (at the time of this writing), which is commonly called *ES5* (technically ES 5.1). Here, we plan to talk squarely about the upcoming *ES6*, as well as cast our vision beyond to understand how JS will evolve moving forward.
+Antes de mergulhar neste livro, você deve ter uma sólida proficiência de trabalho sobre o JavaScript até o padrão mais recente (no momento da redação deste artigo), que é comumente chamado de *ES5* (tecnicamente `ES 5.1`). Aqui, planejamos falar diretamente sobre o próximo *ES6*, também como moldar nossa visão além de entender como o JavaScript irá evoluir.
 
-If you are still looking for confidence with JavaScript, I highly recommend you read the other titles in this series first:
+Se você está "entrando de cara" com o JavaScript, eu recomendo que você leia os outros títulos desta série primeiro:
 
-* *Up & Going*: Are you new to programming and JS? This is the roadmap you need to consult as you start your learning journey.
-* *Scope & Closures*: Did you know that JS lexical scope is based on compiler (not interpreter!) semantics? Can you explain how closures are a direct result of lexical scope and functions as values?
-* *this & Object Prototypes*: Can you recite the four simple rules for how `this` is bound? Have you been muddling through fake "classes" in JS instead of adopting the simpler "behavior delegation" design pattern? Ever heard of *objects linked to other objects* (OLOO)?
-* *Types & Grammar*: Do you know the built-in types in JS, and more importantly, do you know how to properly and safely use coercion between types? How comfortable are you with the nuances of JS grammar/syntax?
-* *Async & Performance*: Are you still using callbacks to manage your asynchrony? Can you explain what a promise is and why/how it solves "callback hell"? Do you know how to use generators to improve the legibility of async code? What exactly constitutes mature optimization of JS programs and individual operations?
+* *Iniciando*: Você é novo em programação e JavaScript? Este é o roteiro que você precisa consultar enquanto inicia sua jornada de aprendizado.
+* *Escopos & Encerramentos*: Você sabia que o escopo lexical do JS é baseado em uma semântica de compilador (não de intérprete)? Você pode explicar como os fechamentos são um resultado direto do escopo lexical e funções como valores?
+* *this & Prototipagem de Objetos*: Você pode recitar as quatro regras simples de como o `this` está ligado? Você tem ficado confuso com falsas "classes" em JavaScript em vez de adotar o padrão de design de "delegação de comportamento" mais simples? Já ouviu falar de *objetos ligados a outros objetos*(OLOO)?
+* *Tipos & Gramática*: Do you know the built-in types in JS, and more importantly, do you know how to properly and safely use coercion between types? How comfortable are you with the nuances of JS grammar/syntax?
+* *Async & Performance*: Você ainda está usando callbacks para gerenciar sua assincronia? Você pode explicar o que é uma promessa e por que/como ele resolve o "inferno de retorno de chamada"? Você sabe como usar geradores para melhorar a legibilidade do código assíncrono? O que exatamente constitui a otimização madura de programas JavaScript e operações individuais?
 
-If you've already read all those titles and you feel pretty comfortable with the topics they cover, it's time we dive into the evolution of JS to explore all the changes coming not only soon but farther over the horizon.
+Se você já leu todos esses títulos e se sente muito confortável com os tópicos que eles cobrem, é hora de mergulhar na evolução da JS para explorar todas as mudanças que vêm não só em breve, mas distante sobre o horizonte.
 
-Unlike ES5, ES6 is not just a modest set of new APIs added to the language. It incorporates a whole slew of new syntactic forms, some of which may take quite a bit of getting used to. There's also a variety of new organization forms and new API helpers for various data types.
+Ao contrário do ES5, o ES6 não é apenas um conjunto modesto de novas APIs adicionadas ao idioma. Ele incorpora um conjunto de novas formas sintáticas, algumas das quais podem levar um pouco de se acostumar. Há também uma variedade de novos formulários organizacionais e novos auxiliares de APIs para vários tipos de dados.
 
-ES6 is a radical jump forward for the language. Even if you think you know JS in ES5, ES6 is full of new stuff you *don't know yet*, so get ready! This book explores all the major themes of ES6 that you need to get up to speed on, and even gives you a glimpse of future features coming down the track that you should be aware of.
+ES6 é um salto radical para a linguagem. Mesmo se você acha que sabe JavaScript no ES5, o ES6 está cheio de coisas novas que você *ainda não sabe*, então prepare-se! Este livro explora todos os principais temas do ES6 que você precisa se acostumar, e até mesmo dá-lhe um vislumbre de futuros recursos que você deve estar ciente.
 
-**Warning:** All code in this book assumes an ES6+ environment. At the time of this writing, ES6 support varies quite a bit in browsers and JS environments (like Node.js), so your mileage may vary.
+**AVISO:** Todo o código neste livro possui um ambiente *ES6+*. No momento em que este texto foi escrito, O suporte ao ES6 varia muito nos navegadores e nos ambientes JavaScript (como o Node.js), de modo que sua "quilometragem" pode variar.
 
-## Versioning
+## Versionamento
 
-The JavaScript standard is referred to officially as "ECMAScript" (abbreviated "ES"), and up until just recently has been versioned entirely by ordinal number (i.e., "5" for "5th edition").
+O padrão JavaScript é referido oficialmente como "ECMAScript" (abreviado como "ES"), e até recentemente tem sido versionado inteiramente por um número ordinal (ou seja, "5" para "5 ª edição").
 
-The earliest versions, ES1 and ES2, were not widely known or implemented. ES3 was the first widespread baseline for JavaScript, and constitutes the JavaScript standard for browsers like IE6-8 and older Android 2.x mobile browsers. For political reasons beyond what we'll cover here, the ill-fated ES4 never came about.
+As primeiras versões, ES1 e ES2, não foram amplamente conhecidas ou implementadas. ES3 foi o primeira patamar generalizado para o JavaScript e constitui o padrão JavaScript para navegadores como IE6-8 e navegadores móveis Android 2.x mais antigos. Por razões políticas para além do que abordaremos aqui, o mal sucedido ES4 nunca surgiu.
 
 In 2009, ES5 was officially finalized (later ES5.1 in 2011), and settled as the widespread standard for JS for the modern revolution and explosion of browsers, such as Firefox, Chrome, Opera, Safari, and many others.
 
