@@ -25,9 +25,9 @@ O padrão JavaScript é referido oficialmente como "ECMAScript" (abreviado como 
 
 As primeiras versões, ES1 e ES2, não foram amplamente conhecidas ou implementadas. ES3 foi o primeira patamar generalizado para o JavaScript e constitui o padrão JavaScript para navegadores como IE6-8 e navegadores móveis Android 2.x mais antigos. Por razões políticas para além do que abordaremos aqui, o mal sucedido ES4 nunca surgiu.
 
-Em 2009, ES5 foi oficialmente finalizado (mais tarde ES5.1 em 2011), e estabeleceu o padrão para JavaScript para a revolução moderna e explosão de navegadores, como o Firefox, Chrome, Opera, Safari e muitos outros.
+Em 2009, ES5 foi oficialmente finalizado (mais tarde ES5.1 em 2011), e se estabeleceu como o padrão geral do JS para a revolução moderna e explosão de navegadores, como o Firefox, Chrome, Opera, Safari e muitos outros.
 
-Levando até a esperada *próximo* versão de JS (saltou de 2013 para 2014, e depois 2015), o rótulo óbvio e comum no discurso tem sido o ES6.
+Levando até a esperada *próxima* versão do JavaScript (saltou de 2013 para 2014, e depois 2015), o rótulo óbvio e comum no discurso tem sido o ES6.
 
 However, late into the ES6 specification timeline, suggestions have surfaced that versioning may in the future switch to a year-based schema, such as ES2016 (aka ES7) to refer to whatever version of the specification is finalized before the end of 2016. Some disagree, but ES6 will likely maintain its dominant mindshare over the late-change substitute ES2015. However, ES2016 may in fact signal the new year-based schema.
 
