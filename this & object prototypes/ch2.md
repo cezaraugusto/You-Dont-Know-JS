@@ -104,11 +104,11 @@ var a = 2;
 
 **Nota:** Misturar código `strict mode` e código não-`strict mode` juntos não é uma boa ideia. Seu programa deveria ser inteiramente ou **Strict** ou **não-Strict**. Entretanto, às vezes você inclui uma biblioteca externa que tem um modo diferente do seu código, então esteja atento com esse sutil detalhe sobre compatibilidade.
 
-### Implicit Binding
+### Binding Implícito
 
-Another rule to consider is: does the call-site have a context object, also referred to as an owning or containing object, though *these* alternate terms could be slightly misleading.
+Outra regra à se considerar é: o call-site tem um objeto como contexto, também chamado de objeto proprietário ou que contêm, apesar *destes* termos alternativos serem levemente enganosos.
 
-Consider:
+Considere:
 
 ```js
 function foo() {
@@ -123,15 +123,15 @@ var obj = {
 obj.foo(); // 2
 ```
 
-Firstly, notice the manner in which `foo()` is declared and then later added as a reference property onto `obj`. Regardless of whether `foo()` is initially declared *on* `obj`, or is added as a reference later (as this snippet shows), in neither case is the **function** really "owned" or "contained" by the `obj` object.
+Primeiramente, note a maneira como `foo()` é declarado e depois adicionado como uma propriedade de referência em `obj`. Independentemente se `foo()` é inicialmente declarado *no* `obj`, ou se é adicionado como uma referência depois (como o snippet mostra), em nenhum dos casos essa **função** realmente é "possuida" ou está "contida" pelo objeto `obj`.
 
-However, the call-site *uses* the `obj` context to **reference** the function, so you *could* say that the `obj` object "owns" or "contains" the **function reference** at the time the function is called.
+Entretanto, a call-site *usa* o contexto do `obj` para **referenciar** a função, então você *poderia* dizer que o objeto `obj` é "dono" ou "contém" a **função de referência** no momento que a função é chamada.
 
-Whatever you choose to call this pattern, at the point that `foo()` is called, it's preceded by an object reference to `obj`. When there is a context object for a function reference, the *implicit binding* rule says that it's *that* object which should be used for the function call's `this` binding.
+Qualquer que seja a forma que você chama esse padrão, no momento em que `foo()` é chamado, é precedido por uma referência de objeto à `obj`. Quando existe um objeto de contexto para uma função referenciada, a regra do *binding implítico* diz que deve ser *aquele* objeto que deve ser usado para o binding da função `this` chamada.
 
-Because `obj` is the `this` for the `foo()` call, `this.a` is synonymous with `obj.a`.
+Pelo fato de que `obj` é o `this` para a chamada de `foo()`, `this.a` é sinônimo de `obj.a`.
 
-Only the top/last level of an object property reference chain matters to the call-site. For instance:
+Apenas o topo/último nível de uma cadeia de propriedade de um objeto referênciado é o que importa para o call-site. Por exemplo;
 
 ```js
 function foo() {
