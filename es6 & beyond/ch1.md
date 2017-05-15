@@ -29,13 +29,13 @@ Em 2009, ES5 foi oficialmente finalizado (mais tarde ES5.1 em 2011), e se estabe
 
 Levando até a esperada *próxima* versão do JavaScript (saltou de 2013 para 2014, e depois 2015), o rótulo óbvio e comum no discurso tem sido o ES6.
 
-However, late into the ES6 specification timeline, suggestions have surfaced that versioning may in the future switch to a year-based schema, such as ES2016 (aka ES7) to refer to whatever version of the specification is finalized before the end of 2016. Some disagree, but ES6 will likely maintain its dominant mindshare over the late-change substitute ES2015. However, ES2016 may in fact signal the new year-based schema.
+No entanto, no final do cronograma de especificações do ES6, surgiram sugestões de que o controle de versão pode no futuro, mudar para um esquema baseado no ano, como ES2016 (também conhecido como ES7) para se referir a qualquer versão da especificação finalizada antes do final de 2016. Alguns discordam, mas o ES6 provavelmente manterá sua dominante `mindshare` sobre o substituto de mudança final, ES2015. No entanto, o ES2016 de fato pode sinalizar a esquema baseado em ano novo.
 
-It has also been observed that the pace of JS evolution is much faster even than single-year versioning. As soon as an idea begins to progress through standards discussions, browsers start prototyping the feature, and early adopters start experimenting with the code.
+Também foi observado que o ritmo de evolução do JavaScript é muito mais rápido do que o versionamento de um ano. Assim que uma idéia começa a progredir por meio de discussões sobre padrões, os navegadores começam a prototipar o recurso e os adotantes iniciais, experimentam o código.
 
-Usually well before there's an official stamp of approval, a feature is de facto standardized by virtue of this early engine/tooling prototyping. So it's also valid to consider the future of JS versioning to be per-feature rather than per-arbitrary-collection-of-major-features (as it is now) or even per-year (as it may become).
+Normalmente, bem antes de haver um selo oficial de aprovação, um recurso é de fato padronizado em virtude desta prototipagem inicial de motor/ferramentas. Por isso, também é válido considerar o futuro do versionamento de JavaScript, como sendo por recurso em vez de por coleção arbitrária de recursos principais (como é agora) ou mesmo por ano (como pode ser).
 
-The takeaway is that the version labels stop being as important, and JavaScript starts to be seen more as an evergreen, living standard. The best way to cope with this is to stop thinking about your code base as being "ES6-based," for instance, and instead consider it feature by feature for support.
+O `takeaway` é que os rótulos de versionamento deixam de ser tão importante e, o JavaScript começa a ser visto mais como um perene padrão de vida. A melhor maneira de lidar com isso é parar de pensar em sua base de código como sendo "baseado em ES6", por exemplo, em vez disso, considerar o recurso por recurso para suporte.
 
 ## Transpilando
 
@@ -59,7 +59,7 @@ var obj = {
 obj.foo;	// [1,2,3]
 ```
 
-But (roughly) here's how that transpiles:
+Mas (aproximadamente) aqui está como isso transpila:
 
 ```js
 var foo = [1,2,3];
@@ -106,11 +106,11 @@ It is assumed that JS will continue to evolve constantly, with browsers rolling 
 
 If you decide to keep the status quo and just wait around for all browsers without a feature supported to go away before you start using the feature, you're always going to be way behind. You'll sadly be missing out on all the innovations designed to make writing JavaScript more effective, efficient, and robust.
 
-## Review
+## Revisando
 
-ES6 (some may try to call it ES2015) is just landing as of the time of this writing, and it has lots of new stuff you need to learn!
+ES6 (alguns podem tentar chamá-lo de ES2015) é apenas o pouso a partir do momento em que este está sendo escrito, e tem muitas coisas novas que você precisa aprender!
 
-But it's even more important to shift your mindset to align with the new way that JavaScript is going to evolve. It's not just waiting around for years for some official document to get a vote of approval, as many have done in the past.
+Mas é ainda mais importante mudar sua mentalidade para alinhar com a nova maneira que o JavaScript vai evoluir. Não é apenas esperar por anos para algum documento oficial obter um voto de aprovação, como muitos fizeram no passado.
 
 Now, JavaScript features land in browsers as they become ready, and it's up to you whether you'll get on the train early or whether you'll be playing costly catch-up games years from now.
 
