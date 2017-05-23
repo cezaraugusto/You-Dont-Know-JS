@@ -151,11 +151,11 @@ var obj1 = {
 obj1.obj2.foo(); // 42
 ```
 
-#### Implicitly Lost
+#### Perda implícita
 
-One of the most common frustrations that `this` binding creates is when an *implicitly bound* function loses that binding, which usually means it falls back to the *default binding*, of either the global object or `undefined`, depending on `strict mode`.
+Uma das frustrações mais comuns que o binding do `this` cria é quando uma função *bindada implícitamente* perde seu binding, o que normalmente quer dizer que ela retorna ao seu *binding padrão*, que ou é do objeto global ou `undefined`, dependendo do `strict mode`.
 
-Consider:
+Considere:
 
 ```js
 function foo() {
@@ -167,16 +167,16 @@ var obj = {
   foo: foo
 };
 
-var bar = obj.foo; // function reference/alias!
+var bar = obj.foo; // referência para a função!
 
-var a = "oops, global"; // `a` also property on global object
+var a = "oops, global"; // `a` também é propriedade do objeto global
 
 bar(); // "oops, global"
 ```
 
-Even though `bar` appears to be a reference to `obj.foo`, in fact, it's really just another reference to `foo` itself. Moreover, the call-site is what matters, and the call-site is `bar()`, which is a plain, un-decorated call and thus the *default binding* applies.
+Apesar de `bar` aparentemente ser uma referência para `obj.foo`, na realidade, é apenas outra referência para o próprio `foo`. Além do mais, o call-site é o que importa, e o call-site é `bar()`, o que é uma chamada simples e não-decorada, e por isso o *binding padrão* se aplica.
 
-The more subtle, more common, and more unexpected way this occurs is when we consider passing a callback function:
+A maneira mais sútil, mais comum, e mais inesperada em que isso acontece é quando passamos uma função de callback:
 
 ```js
 function foo() {
@@ -184,7 +184,7 @@ function foo() {
 }
 
 function doFoo(fn) {
-  // `fn` is just another reference to `foo`
+  // `fn` é apenas mais uma referência para `foo`
 
   fn(); // <-- call-site!
 }
@@ -194,14 +194,14 @@ var obj = {
   foo: foo
 };
 
-var a = "oops, global"; // `a` also property on global object
+var a = "oops, global"; // `a` também é propriedade do objeto global
 
 doFoo( obj.foo ); // "oops, global"
 ```
 
-Parameter passing is just an implicit assignment, and since we're passing a function, it's an implicit reference assignment, so the end result is the same as the previous snippet.
+Passagem de parâmetros é apenas uma atribuição implicita, e já que estamos passando uma função, é uma atribuição por referência implícita, então o resultado final é o mesmo que no snippet anterior.
 
-What if the function you're passing your callback to is not your own, but built-in to the language? No difference, same outcome.
+Mas e se a função que você estiver passando como callback não for sua, mas nativa da linguagem? Sem diferenças, o resultado é o mesmo.
 
 ```js
 function foo() {
@@ -213,23 +213,23 @@ var obj = {
   foo: foo
 };
 
-var a = "oops, global"; // `a` also property on global object
+var a = "oops, global"; // `a` também é propriedade do objeto global
 
 setTimeout( obj.foo, 100 ); // "oops, global"
 ```
 
-Think about this crude theoretical pseudo-implementation of `setTimeout()` provided as a built-in from the JavaScript environment:
+Pense sobre essa pseudo-implementação teórica e cru do `setTimeout()`, fornecido nativamente pelo ambiente JavaScript:
 
 ```js
 function setTimeout(fn,delay) {
-  // wait (somehow) for `delay` milliseconds
+  // espera (de alguma forma) por `delay` milissegundos
   fn(); // <-- call-site!
 }
 ```
 
-It's quite common that our function callbacks *lose* their `this` binding, as we've just seen. But another way that `this` can surprise us is when the function we've passed our callback to intentionally changes the `this` for the call. Event handlers in popular JavaScript libraries are quite fond of forcing your callback to have a `this` which points to, for instance, the DOM element that triggered the event. While that may sometimes be useful, other times it can be downright infuriating. Unfortunately, these tools rarely let you choose.
+É bem comum que a nossa função de callback *perca* seu binding ao `this`, como nós acabamos de ver. Mas outra maneira em que o `this` pode nós surpreender é quando a função que passamos nosso callback intencionalmente muda o `this` para a chamada. Event handlers em bibliotecas JavaScript populares são bem afeiçoados de forçar seu callback a ter um `this` que aponta para, por exemplo, o elemento da DOM que disparou o evento. Enquanto isso pode ser útil algumas vezes, outras vezes podem ser completamente enfurecedor. Infelizmente, essas ferramentas raramente deixam você escolher.
 
-Either way the `this` is changed unexpectedly, you are not really in control of how your callback function reference will be executed, so you have no way (yet) of controlling the call-site to give your intended binding. We'll see shortly a way of "fixing" that problem by *fixing* the `this`.
+De qualquer forma o `this` é modificado inesperadamente, você não está realmente com o controle de como sua função de callback referenciada vai ser executada, então você não tem nenhuma forma (ainda) de controlar o call-site para dar a ele seu binding desejado. Veremos em breve, uma maneira de "consertar" essa problema *consertando* o `this`.
 
 ### Explicit Binding
 
