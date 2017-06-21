@@ -3,7 +3,7 @@
 
 O último grande tema que queremos abordar é como funciona a sintaxe da linguagem JavaScript (também conhecida como gramática). Você pode pensar que sabe escrever JS, mas há muitas sutilezas em varias partes da gramática da linguagem que levam à confusões e equivocos, então nós queremos mergulhar nessas partes e esclarecer algumas coisas.
 
-**Note:** The term "grammar" may be a little less familiar to readers than the term "syntax." In many ways, they are similar terms, describing the *rules* for how the language works. There are nuanced differences, but they mostly don't matter for our discussion here. The grammar for JavaScript is a structured way to describe how the syntax (operators, keywords, etc.) fits together into well-formed, valid programs. In other words, discussing syntax without grammar would leave out a lot of the important details. So our focus here in this chapter is most accurately described as *grammar*, even though the raw syntax of the language is what developers directly interact with.
+**Nota:** Para alguns leitores o termo "gramática" pode ser menos familiar do que o termo "sintaxe". Em muitos aspectos, são termos semelhantes, descrevendo as *regras* de como a linguagem funciona. Há diferenas sutis entre eles, mas elas não são relevantes para essa nossa discução. Em Javascript, a gramática é uma forma estruturada de descrever como a sintaxe (operadores, palavras-chaves, etc.) se encaixam para formar programas válidos. Em outras palavras, discutir sintaxe sem gramática deixaria de fora muitos detalhes importantes. Por isso, nosso foco neste capítulo pode ser melhor descrito como *gramática*, embora seja com a sintaxe, pura e simples da linguagem, que os desenvolvedores mais lidam diariamente. 
 
 ## Statements & Expressions
 
