@@ -3,9 +3,9 @@
 
 O último grande tema que queremos abordar é como funciona a sintaxe da linguagem JavaScript (também conhecida como gramática). Você pode pensar que sabe escrever JS, mas há muitas sutilezas em varias partes da gramática da linguagem que levam à confusões e equivocos, então nós queremos mergulhar nessas partes e esclarecer algumas coisas.
 
-**Nota:** Para alguns leitores o termo "gramática" pode ser menos familiar do que o termo "sintaxe". Em muitos aspectos, são termos semelhantes, descrevendo as *regras* de como a linguagem funciona. Há diferenas sutis entre eles, mas elas não são relevantes para essa nossa discução. Em Javascript, a gramática é uma forma estruturada de descrever como a sintaxe (operadores, palavras-chaves, etc.) se encaixam para formar programas válidos. Em outras palavras, discutir sintaxe sem gramática deixaria de fora muitos detalhes importantes. Por isso, nosso foco neste capítulo pode ser melhor descrito como *gramática*, embora seja com a sintaxe, pura e simples da linguagem, que os desenvolvedores mais lidam diariamente. 
+**Nota:** Para alguns leitores o termo "gramática" pode ser menos familiar do que o termo "sintaxe". Em muitos aspectos, são termos semelhantes, descrevendo as *regras* de como a linguagem funciona. Há diferenças sutis entre eles, mas elas não são relevantes para essa nossa discução. Em Javascript, a gramática é uma forma estruturada de descrever como a sintaxe (operadores, palavras-chaves, etc.) se encaixa na criação de programas válidos e coesos. Em outras palavras, discutir sintaxe sem gramática deixaria de fora muitos detalhes importantes. Por isso, nosso foco neste capítulo pode ser melhor descrito como *gramática*, embora seja com a sintaxe, pura e simples da linguagem, que os desenvolvedores mais lidam diariamente. 
 
-## Statements & Expressions
+## Instruções & Expressões
 
 It's fairly common for developers to assume that the term "statement" and "expression" are roughly equivalent. But here we need to distinguish between the two, because there are some very important differences in our JS programs.
 
