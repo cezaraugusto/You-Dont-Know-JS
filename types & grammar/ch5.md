@@ -1,11 +1,11 @@
-# You Don't Know JS: Types & Grammar
-# Chapter 5: Grammar
+# You Don't Know JS: Tipos e Gramática
+# Capítulo 5: Gramática
 
-The last major topic we want to tackle is how JavaScript's language syntax works (aka its grammar). You may think you know how to write JS, but there's an awful lot of nuance to various parts of the language grammar that lead to confusion and misconception, so we want to dive into those parts and clear some things up.
+O último grande tema que queremos abordar é como funciona a sintaxe da linguagem JavaScript (também conhecida como gramática). Você pode pensar que sabe escrever JS, mas há muitas sutilezas em varias partes da gramática da linguagem que levam à confusões e equivocos, então nós queremos mergulhar nessas partes e esclarecer algumas coisas.
 
-**Note:** The term "grammar" may be a little less familiar to readers than the term "syntax." In many ways, they are similar terms, describing the *rules* for how the language works. There are nuanced differences, but they mostly don't matter for our discussion here. The grammar for JavaScript is a structured way to describe how the syntax (operators, keywords, etc.) fits together into well-formed, valid programs. In other words, discussing syntax without grammar would leave out a lot of the important details. So our focus here in this chapter is most accurately described as *grammar*, even though the raw syntax of the language is what developers directly interact with.
+**Nota:** Para alguns leitores o termo "gramática" pode ser menos familiar do que o termo "sintaxe". Em muitos aspectos, são termos semelhantes, descrevendo as *regras* de como a linguagem funciona. Há diferenças sutis entre eles, mas elas não são relevantes para essa nossa discução. Em Javascript, a gramática é uma forma estruturada de descrever como a sintaxe (operadores, palavras-chaves, etc.) se encaixa na criação de programas válidos e coesos. Em outras palavras, discutir sintaxe sem gramática deixaria de fora muitos detalhes importantes. Por isso, nosso foco neste capítulo pode ser melhor descrito como *gramática*, embora seja com a sintaxe, pura e simples da linguagem, que os desenvolvedores mais lidam diariamente. 
 
-## Statements & Expressions
+## Instruções & Expressões
 
 It's fairly common for developers to assume that the term "statement" and "expression" are roughly equivalent. But here we need to distinguish between the two, because there are some very important differences in our JS programs.
 
