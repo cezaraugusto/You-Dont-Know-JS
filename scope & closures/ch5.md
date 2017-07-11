@@ -3,7 +3,7 @@
 
 Com esperança, até este ponto nós já alcançamos uma compreensão sólida e muito saudável de como escopo funciona.
 
-Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente ilusória, *quase mitológica*, parte da linguagem: **closure** (*closure*). Se você acompanhou nossa discussão sobre escopo léxico até agora, a recompensa é que closure será, em grande parte, quase evidente por natureza. *Há um homem escondido atrás da cortina do mágico, e estamos prestes a vê-lo*. Não, seu nome não é Crockford!
+Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente ilusória, *quase mitológica*, parte da linguagem: **closure**. Se você acompanhou nossa discussão sobre escopo léxico até agora, a recompensa é que closure será, em grande parte, anticlímax, quase evidente por natureza. *Há um homem escondido atrás da cortina do mágico, e estamos prestes a vê-lo*. Não, seu nome não é Crockford!
 
 No entanto, se você tem perguntas irritantes sobre escopo léxico, agora deve ser uma boa hora para voltar e rever o Capítulo 2, antes de prosseguir.
 
@@ -15,15 +15,15 @@ Eu me lembro de anos atrás, quando eu tinha uma forte compreensão sobre JavaSc
 
 O que eu não sabia naquela época, o que levei anos para entender, e o que eu espero transmitir para você em breve, é esse segredo: **em JavaScript, closure é tudo que estiver ao seu redor, você só precisa reconhecer e abraçar isso.** Closure não é uma ferramenta especial para a qual você deve aprender nova sintaxe e novos padrões. Não, closure não é uma arma que você aprende a manejar com destreza, como Luke treinado na Força.
 
-Closures acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar closure intencionalmente para tirar proveito delas. Elas são criadas e usadas por você por todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar closure por sua própria vontade.
+Closures acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar closure intencionalmente para tirar proveito delas. Elas são criadas e usadas por você em todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar closure por sua própria vontade.
 
-O momento de esclarecimento deve ser: **oh, closures já estão surgindo por todo o meu código, eu finalmente consigo *vê-las*.** O entendimento de closure é como quando Neo vê a Matrix pela primeira vez.
+O momento de esclarecimento deveria ser: **oh, closures já estão surgindo por todo o meu código, eu finalmente consigo *vê-las* agora.** O entendimento de closure é como quando Neo vê a Matrix pela primeira vez.
 
 ## Nitty Gritty
 
 OK, chega de exageros e referências sem-vergonhas de filmes.
 
-Aqui está uma definição suja do que você precisa saber para entender e reconhecer closure:
+Aqui está uma definição curta e grossa do que você precisa saber para entender e reconhecer closure:
 
 > Closure é quando uma função é capaz de evocar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
 
@@ -43,7 +43,7 @@ function foo() {
 foo();
 ```
 
-Esse código pode parecer familiar das nossas discussões sobre Escopo Aninhado. A função `bar()` tem *acesso* à variável `a` do escopo externo ao redor por causa das regras de consulta ao escopo léxico (neste caso, é uma referência RHS).
+Esse código pode parecer familiar das nossas discussões sobre Escopo Aninhado. A função `bar()` tem *acesso* à variável `a` do escopo ao redor por causa das regras de consulta ao escopo léxico (neste caso, é uma referência RHS).
 
 Isso é "closure"?
 
@@ -51,7 +51,7 @@ Bem, tecnicamente... *talvez*. Mas para a nossa definição o-que-você-precisa-
 
 De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a função `bar()` tem uma *closure* sobre o escopo de `foo()` (e, realmente, até sobre o resto dos escopos a que tem acesso, como o escopo global no nosso caso). Colocando de uma forma ligeiramente diferente, é dito que `bar()` envolve o escopo de `foo()`. Por quê? Porque `bar()` aparece aninhado dentro de `foo()`. Claro e simples.
 
-Mas, definida dessa forma, closure não é diretamente *observável*, nós nem vimos closure *exercida* nesse trecho. Nós vemos claramente o escopo léxico, mas closure permanece uma espécie de sombra deslocando por trás do código.
+Mas, definida dessa forma, closure não é diretamente *observável*, nós nem vimos closure *exercida* nesse trecho. Nós vemos claramente o escopo léxico, mas closure permanece uma espécie de sombra misteriosa se deslocando por trás do código.
 
 Vamos considerar, então, um código que trás closure totalmente para a luz:
 
@@ -71,25 +71,25 @@ var baz = foo();
 baz(); // 2 -- Whoa, observamos closure, man.
 ```
 
-A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas então, nós temos `bar()`, a função em si, e passamos ela *como* um valor. Nesse caso, nós damos um `return` no objeto referência da função `bar`.
+A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas, em seguida, nós temos `bar()`, a função em si, e passamos ela *como* um valor. Nesse caso, nós retornamos (`return`) o próprio objeto da função que `bar` faz referência.
 
-Depois de executar `foo()`, nós atribuímos o valor retornado (nossa função interna, `bar()`) para a variável chamada `baz`, e então nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
+Depois de executarmos `foo()`, nós atribuímos o valor retornado (nossa função interna `bar()`) para a variável chamada `baz`, e então, nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
 
-`bar()` é executada, com certeza. Mas nesse caso, é executada *fora* do seu escopo léxico que é declarada.
+`bar()` é executada, com certeza. Mas, nesse caso, é executada *fora* do seu escopo léxico declarado.
 
-Após a execução de `foo()`, normalmente nós esperamos que o conjunto do escopo interno de `foo()` vá embora, porque nós sabemos que a *Engine* usa um *Coletor de Lixo* que vem paralelamente e libera a memória, uma vez que não está mais em uso. Já que parece que o conteúdo de `foo()` não está mais em uso, parece natural que ele deve ser considerado *passado*.
+Após a execução de `foo()`, normalmente nós esperamos que todo o escopo interno de `foo()` vá embora, porque nós sabemos que a *Engine* usa um *Coletor de Lixo* que vem paralelamente e libera a memória uma vez que não está mais em uso. Já que o conteúdo de `foo()` parece não está mais em uso, é natural que ele deve ser considerado *passado*.
 
 Mas a "mágica" das closures não permite que isso aconteça. Esse escopo interno, de fato, *ainda* está "em uso" e, portanto, ele não desaparece. Quem está usando? **A função `bar()`**.
 
-Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo léxico do escopo interno de `foo()`, que mantem o escopo vivo para `bar()` fazer referência a qualquer momento posterior.
+Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo interno de `foo()`, que mantem esse escopo vivo para `bar()` fazer referência a qualquer momento posterior.
 
-**`bar()` ainda tem uma referência para esse escopo, e essa referência é chamada de closure.**
+**`bar()` ainda existe uma referência para esse escopo, e essa referência é chamada de closure.**
 
-Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (chamando a função interna que inicialmente chamamos de `bar`), ela devidamente tem acesso ao escopo léxico escrito no tempo da autoria do código, para que que ele possa acessar a variável `a` exatamente como esperávamos.
+Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (chamando a função interna que inicialmente atribuímos o nome de `bar`), ela tem o devido acesso ao escopo léxico escrito no tempo da autoria do código, para que ela possa acessar à variável `a` exatamente como esperávamos.
 
-A função está sendo invocada bem fora do seu escopo léxico de origem. **Closure** permite que a função continue a acessar o escopo léxico no qual foi definida no momento da sua concepção.
+A função está sendo invocada de forma adequada fora do seu escopo léxico de origem. **Closure** permite que a função continue a acessar o escopo léxico no qual foi definida no momento da sua concepção.
 
-Naturalmente, qualquer uma das várias maneiras que as funções podem ser *passadas* como valor, e de fato invocada em outros lugares, são todos exemplos de se observar/usar closure.
+Naturalmente, qualquer uma das várias maneiras pelas quais as funções podem ser *passadas* como valores, e, de fato, invocadas em outros lugares, são exemplos de observação/uso de closure.
 
 ```js
 function foo() {
@@ -107,9 +107,9 @@ function bar(fn) {
 }
 ```
 
-Nós passamos a função interna `baz` para `bar`, e chamamos essa função interna, (agora rotulada de `fn`), e quando fazemos isso, sua closure sobre o escopo interno de `foo()` é observada, acessando `a`.
+Nós passamos a função interna `baz` para `bar`, chamamos essa função interna (agora rotulada de `fn`) e, quando fazemos isso, sua closure sobre o escopo interno de `foo()` é observada, acessando `a`.
 
-Estas passagens de funções também podem ser indiretamente.
+Estas passagens de funções também podem ocorrer de forma indireta.
 
 ```js
 var fn;
@@ -121,11 +121,11 @@ function foo() {
 		console.log( a );
 	}
 
-	fn = baz; // atribuindo `baz` para a variável global
+	fn = baz; // atribuindo `baz` à variável global
 }
 
 function bar() {
-	fn(); // olhe mamãe, eu vejo closure!
+	fn(); // olhe, mamãe, eu vejo closure!
 }
 
 foo();
@@ -133,7 +133,7 @@ foo();
 bar(); // 2
 ```
 
-Qualquer forma que usarmos para *transportar* uma função interna para fora do seu escopo léxico, ela irá manter uma referência de escopo de onde ela for declarada originalmente, e onde for que a executarmos, essa closure será utilizada.
+Seja qual for a forma que usarmos para *transportar* uma função interna para fora do seu escopo léxico, ela irá manter uma referência de escopo de onde ela for declarada originalmente, e onde for que a executarmos, essa closure irá ocorrer.
 
 ## Now I Can See
 
