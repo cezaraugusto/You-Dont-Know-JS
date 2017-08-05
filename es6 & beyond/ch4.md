@@ -306,15 +306,15 @@ function *main() {
 }
 ```
 
-On the surface, this snippet may seem more verbose than the promise chain equivalent in the earlier snippet. However, it offers a much more attractive -- and more importantly, a more understandable and reason-able -- synchronous-looking coding style (with `=` assignment of "return" values, etc.) That's especially true in that `try..catch` error handling can be used across those hidden async boundaries.
+A primeira vista, o trexo de código pode parecer mais verboso que a cadeia de `promise` equivalente no outro trexo de código. Contudo, isso oferece um estilo de código de aparência sincrona muito mais atrativo -- e o mais importante, mais compreensível -- (com a instrução `=` para retornos de valores, etc.) É especialmente verdade que o manipulador de erros `try catch` pode ser usado através dessas fronteiras ocultas assincronas.
 
-Why are we using Promises with the generator? It's certainly possible to do async generator coding without Promises.
+Por que estamos utilizando `Promises` com `generator`? É totalmente possível escrever `generators` assíncronos sem `Promises`.
 
-Promises are a trustable system that uninverts the inversion of control of normal callbacks or thunks (see the *Async & Performance* title of this series). So, combining the trustability of Promises and the synchronicity of code in generators effectively addresses all the major deficiencies of callbacks. Also, utilities like `Promise.all([ .. ])` are a nice, clean way to express concurrency at a generator's single `yield` step.
+`Promises` são sistemas confiáveis que desfazem a inversão de controle de `callbacks` ou `thunks` (veja o título *Async & Performance* dessa série). Então, combinando a confiabilidade das `Promises` e a sincronicidade de código dos `generators` trata efetivamente todas as maiores deficiências das `callbacks`. Também, funções utilitárias como `Promise.all([..])` expressam de forma clara e agradável concorrência em um único passo `yield` dos `generatores`.
 
-So how does this magic work? We're going to need a *runner* that can run our generator, receive a `yield`ed promise, and wire it up to resume the generator with either the fulfillment success value, or throw an error into the generator with the rejection reason.
+Então, como essa mágica funciona? Nós precisaremos de um *runner* que executa nosso `generator`, recebe uma `promise` `yield`, e os liga para formar um `generator` com ambos, o valor de cumprimento, ou lança um erro no `generator` com o motivo da rejeição.
 
-Many async-capable utilities/libraries have such a "runner"; for example, `Q.spawn(..)` and my asynquence's `runner(..)` plug-in. But here's a stand-alone runner to illustrate how the process works:
+Muitos utiliários ou bibliotecas com capacidades assincronas possuiem um tipo de "runner"; por exemplo, `Q.spawn(..)` e <b style="color: red">minha asynquence's `runner(..)` plug-in</b>. Mas aqui está um runner stand-alone ilustrando como o processo funciona:
 
 ```js
 function run(gen) {
@@ -347,32 +347,33 @@ function run(gen) {
 }
 ```
 
+**Note:** Para uma versão mais melhor comentada dessa `utility`, veja o capítulo *Async & Performance* dessa série. Também, the `run` `utilities` pro
 **Note:** For a more prolifically commented version of this utility, see the *Async & Performance* title of this series. Also, the run utilities provided with various async libraries are often more powerful/capable than what we've shown here. For example, asynquence's `runner(..)` can handle `yield`ed promises, sequences, thunks, and immediate (non-promise) values, giving you ultimate flexibility.
 
-So now running `*main()` as listed in the earlier snippet is as easy as:
+Então executar `*main()` conforme listado no trexo de código anterior é simples como:
 
 ```js
 run( main )
 .then(
 	function fulfilled(){
-		// `*main()` completed successfully
+		// `*main()` excecutada com sucesso
 	},
 	function rejected(reason){
-		// Oops, something went wrong
+		// Oops, alguma coisa está errada
 	}
 );
 ```
 
-Essentially, anywhere that you have more than two asynchronous steps of flow control logic in your program, you can *and should* use a promise-yielding generator driven by a run utility to express the flow control in a synchronous fashion. This will make for much easier to understand and maintain code.
+Essencialmente, qualquer lugar que possua mais do que dois passos assincronos de controle de fluxo lógico em seu programa, você pode *e deveria* usar um gerado `promise-yielding` como uma função utilitária para expressar o controle de fluxo de forma sincrona. Isso tornará muito mais fácil de entender e manter o código.
 
-This yield-a-promise-resume-the-generator pattern is going to be so common and so powerful, the next version of JavaScript after ES6 is almost certainly going to introduce a new function type that will do it automatically without needing the run utility. We'll cover `async function`s (as they're expected to be called) in Chapter 8.
+Esse padrão yield-a-promise-resume-the-generator irá ser muito comum e poderoso, a próxima geração do JavaScript pós ES6 quase certamente introduzirá um novo tipo de função que fará isso automaticamente sem precisar do utilitário de execução. Explicaremos `funções assincronas` (como esperamos que elas sejam chamadas) no Capitulo 8.
 
 ## Review
 
-As JavaScript continues to mature and grow in its widespread adoption, asynchronous programming is more and more of a central concern. Callbacks are not fully sufficient for these tasks, and totally fall down the more sophisticated the need.
+Como JavaScript continua amadurecendo e crescendo com uma adoção bem difundida, programação assincrona está sendo cada vez mais o centro das atenções. *Callbacks* não são totalmente suficientes para essas tarefas, e são totalmente ineficientes para necessidades mais sofisticadas.
 
-Thankfully, ES6 adds Promises to address one of the major shortcomings of callbacks: lack of trust in predictable behavior. Promises represent the future completion value from a potentially async task, normalizing behavior across sync and async boundaries.
+Ainda bem, ES6 tras *Promises* para tratar uma das maiores deficiências das `callbacks`: falta de confiança em comportamentos previsíveis. `Promises` represetam o valor futuro de uma tarefa potencialmente assincrona, normalizando comportamentos sincronos e assíncronos.
 
-But it's the combination of Promises with generators that fully realizes the benefits of rearranging our async flow control code to de-emphasize and abstract away that ugly callback soup (aka "hell").
+Mas é a combinação de *Promises* com *generators* que melhor demostra os benefícios de rearanjar nosso código de controle de fluxo assíncrono para desestimular e abistrair aquela horrível sopa de `callbacks` (aka "hell").
 
-Right now, we can manage these interactions with the aide of various async libraries' runners, but JavaScript is eventually going to support this interaction pattern with dedicated syntax alone!
+Até então, podemos gerenciar essas intererações com a ajuda de varias bibliotecas assincronas, mas JavaScript eventualmente suportará esses padrões de interação em sua própria sintaxe.
