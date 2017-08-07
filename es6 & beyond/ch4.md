@@ -253,7 +253,7 @@ Promise.race( [p2,p4] )
 );
 ```
 
-**Atenção:** Enquanto `Promise.all([])` se cumprirá imediatamente (sem valores), `Promise.race([])` irá aguardar para sempre. Essa é uma estranha inconsistência, e sugere que você nunca deveria usar esses métodos com arrays vazios.
+**Atenção:** Enquanto `Promise.all([])` se cumprirá imediatamente (sem valores), `Promise.race([])` aguardará para sempre. Essa é uma estranha inconsistência, e sugere que você nunca deveria usar esses métodos com arrays vazios.
 
 ## Generators + Promises
 
@@ -348,7 +348,7 @@ function run(gen) {
 }
 ```
 
-**Note:** Para uma versão mais melhor comentada dessa `utility`, veja o capítulo *Async & Performance* dessa série. Também, the `run` `utilities` pro
+**Nota:** Para uma versão melhor comentada dessa `utility`, veja o capítulo *Async & Performance* dessa série. Também, a `utilidade de execução` provida em várias bibliotecas assincronas são frequentemente mais poderozas/capazes do que as que nós mostramos aqui. Por exemplo, `*asynquence's*` `runner(..)` pode lidar com promizes `yield`, sequences, thunks, e valores (que não são promises) imediatos, dando a você muita flexibilidade.
 **Note:** For a more prolifically commented version of this utility, see the *Async & Performance* title of this series. Also, the run utilities provided with various async libraries are often more powerful/capable than what we've shown here. For example, asynquence's `runner(..)` can handle `yield`ed promises, sequences, thunks, and immediate (non-promise) values, giving you ultimate flexibility.
 
 Então executar `*main()` conforme listado no trexo de código anterior é simples como:
