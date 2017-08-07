@@ -1,75 +1,75 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 3: Function vs. Block Scope
+# You Don't Know JS: Escopos e Clausuras
+# Capítulo 3: Escopo de função vs. Bloco de escopo
 
-As we explored in Chapter 2, scope consists of a series of "bubbles" that each act as a container or bucket, in which identifiers (variables, functions) are declared. These bubbles nest neatly inside each other, and this nesting is defined at author-time.
+Conforme exploramos no Capítulo 2, o escopo consiste em uma série de "bolhas" que atuam como recipientes nos quais identificadores (variáveis, funções) são declarados. Estas bolhas aninham-se umas às outras de forma muito organizada, e este aninhamento é definido durante a escrita do código.
 
-But what exactly makes a new bubble? Is it only the function? Can other structures in JavaScript create bubbles of scope?
+Mas o que exatamente faz estas bolhas? Seriam apenas as funções? Ou teríamos outras estruturas em JavaScript para criar bolhas de escopo?
 
-## Scope From Functions
+## Escopo a partir de funções
 
-The most common answer to those questions is that JavaScript has function-based scope. That is, each function you declare creates a bubble for itself, but no other structures create their own scope bubbles. As we'll see in just a little bit, this is not quite true.
+A resposta mais comum para estas perguntas é que JavaScript possui escopo baseado em funções. Isto é, cada função que você declara cria uma bolha para si, mas nenhuma outra estrutura cria suas próprias bolhas de escopo. Conforme veremos em breve, isso não é bem a verdade.
 
-But first, let's explore function scope and its implications.
+Mas primeiro vamos explorar o escopo de funções e suas consequências.
 
-Consider this code:
+Considere este código:
 
 ```js
 function foo(a) {
-	var b = 2;
+    var b = 2
 
-	// some code
+    // algum código
 
-	function bar() {
-		// ...
-	}
+    function bar() {
+        // ...
+    }
 
-	// more code
+    // mais código
 
-	var c = 3;
+    var c = 3;
 }
 ```
 
-In this snippet, the scope bubble for `foo(..)` includes identifiers `a`, `b`, `c` and `bar`. **It doesn't matter** *where* in the scope a declaration appears, the variable or function belongs to the containing scope bubble, regardless. We'll explore how exactly *that* works in the next chapter.
+Neste trecho, a bolha de escopo de `foo(..)` inclui os identificadores `a`, `b`, `c` e `bar`. **Não importa** *onde* a declaração aparece dentro do escopo, a variável ou função pertence à bolha de escopo onde está inserida, independente de qualquer coisa. Vamos explorar no próximo capítulo como exatamente *isso* acontece.
 
-`bar(..)` has its own scope bubble. So does the global scope, which has just one identifier attached to it: `foo`.
+`bar(..)` tem sua própria bolha de escopo. Assim como o escopo global, que possui apenas um identificador: `foo`.
 
-Because `a`, `b`, `c`, and `bar` all belong to the scope bubble of `foo(..)`, they are not accessible outside of `foo(..)`. That is, the following code would all result in `ReferenceError` errors, as the identifiers are not available to the global scope:
+Pelo fato de `a`, `b`, `c` e `bar` pertencerem à bolha de escopo de `foo(..)`, elas não estão acessíveis fora de `foo(..)`. Isto é, o código a seguir resultará em um erro `ReferenceError`, visto que os identificadores não ficam disponíveis para o escopo global:
 
 ```js
-bar(); // fails
+bar(); // vai falhar
 
-console.log( a, b, c ); // all 3 fail
+console.log( a, b, c ); // as três falham
 ```
 
-However, all these identifiers (`a`, `b`, `c`, `foo`, and `bar`) are accessible *inside* of `foo(..)`, and indeed also available inside of `bar(..)` (assuming there are no shadow identifier declarations inside `bar(..)`).
+Porém, todos estes identificadores (`a`, `b`, `c`, `foo` e `bar`) podem ser acessados *dentro* de `foo(..)`, assim como também ficam disponíveis dentro de `bar(..)` (partindo do princípio que não foram sombreados por identificadores declarados dentro de `bar(..)`).
 
-Function scope encourages the idea that all variables belong to the function, and can be used and reused throughout the entirety of the function (and indeed, accessible even to nested scopes). This design approach can be quite useful, and certainly can make full use of the "dynamic" nature of JavaScript variables to take on values of different types as needed.
+Escopo de função encoraja a ideia de que todas as variáveis pertencem à função e podem ser usadas e reutilizadas por toda sua extensão (e, de fato, acessíveis inclusive para escopos aninhados). Esta abordagem de projeto pode ser muito útil e certamente pode aproveitar por completo a natureza "dinâmica" das variáveis JavaScript ao receber valores de diferentes tipos quando necessário.
 
-On the other hand, if you don't take careful precautions, variables existing across the entirety of a scope can lead to some unexpected pitfalls.
+Por outro lado, se você não toma algumas medidas de precaução, variáveis que existem por toda a extensão de um determinado escopo podem se transformar em armadilhas inesperadas.
 
-## Hiding In Plain Scope
+## Escondendo-se em pleno escopo
 
-The traditional way of thinking about functions is that you declare a function, and then add code inside it. But the inverse thinking is equally powerful and useful: take any arbitrary section of code you've written, and wrap a function declaration around it, which in effect "hides" the code.
+A forma tradicional de pensarmos sobre funções é que você as declara e então adiciona código dentro dela. Mas o pensamento inverso é igualmente poderoso e útil: pegue um trecho qualquer de código que você escreveu e envolva uma declaração de funcão ao seu redor, isso acaba por "esconder" este código.
 
-The practical result is to create a scope bubble around the code in question, which means that any declarations (variable or function) in that code will now be tied to the scope of the new wrapping function, rather than the previously enclosing scope. In other words, you can "hide" variables and functions by enclosing them in the scope of a function.
+O resultado prático é a criação de uma bolha de escopo ao redor do código em questão, o que significa que qualquer declaração (de variáveis ou funções) neste código estará atrelada ao escopo da nova função que a envolve em vez do escopo que a envolvia anteriormente. Em outras palavras, você pode "esconder" variáveis e funções ao envolvê-las no escopo de uma função.
 
-Why would "hiding" variables and functions be a useful technique?
+Mas por que "ocultar" variáveis e funções seria uma técnica útil?
 
-There's a variety of reasons motivating this scope-based hiding. They tend to arise from the software design principle "Principle of Least Privilege" [^note-leastprivilege], also sometimes called "Least Authority" or "Least Exposure". This principle states that in the design of software, such as the API for a module/object, you should expose only what is minimally necessary, and "hide" everything else.
+Existem uma série de fatores que motivam este ocultamento baseado em escopo. Eles tendem a surgir de um princípio de projeto de software chamado "Princípio do privilégio mínimo" [^note-leastprivilege], também chamado de (Princípio da) "Menor autoridade" ou "Exposição mínima". Este princípio define que, no projeto de determinado software, como por exemplo a API de um módulo/objeto, você deve expôr somente o mínimo necessário e "esconder" todo o resto.
 
-This principle extends to the choice of which scope to contain variables and functions. If all variables and functions were in the global scope, they would of course be accessible to any nested scope. But this would violate the "Least..." principle in that you are (likely) exposing many variables or functions which you should otherwise keep private, as proper use of the code would discourage access to those variables/functions.
+Este princípio se estende à escolha de qual escopo deve conter determina variável ou função. Se todas as variáveis e funções estivessem disponíveis no escopo global, elas certamente poderiam ser acessadas por qualquer escopo aninhado. Mas isto violaria o "Princípio" pelo fato de você (provavelmente) estar expondo muitas variáveis e funções que deveriam ser mantidas ocultas, visto que um uso mais adequado para este código poderia desencorajar a utilização destas variáveis/funções.
 
-For example:
+Por exemplo:
 
 ```js
 function doSomething(a) {
-	b = a + doSomethingElse( a * 2 );
+    b = a + doSomethingElse( a * 2 );
 
-	console.log( b * 3 );
+    console.log( b * 3 );
 }
 
 function doSomethingElse(a) {
-	return a - 1;
+    return a - 1;
 }
 
 var b;
@@ -77,390 +77,390 @@ var b;
 doSomething( 2 ); // 15
 ```
 
-In this snippet, the `b` variable and the `doSomethingElse(..)` function are likely "private" details of how `doSomething(..)` does its job. Giving the enclosing scope "access" to `b` and `doSomethingElse(..)` is not only unnecessary but also possibly "dangerous", in that they may be used in unexpected ways, intentionally or not, and this may violate pre-condition assumptions of `doSomething(..)`.
+Neste trecho, a variável `b` e a função `doSomethingElse(..)` são detalhes "privados" de como `doSomething(..)` faz seu trabalho. Dar "acesso" à `b` e `doSomethingElse(..)` para o escopo superior não só é desnecessário mas também possivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `doSomething(..)`.
 
-A more "proper" design would hide these private details inside the scope of `doSomething(..)`, such as:
+Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `doSomething(..)`, como por exemplo:
 
 ```js
 function doSomething(a) {
-	function doSomethingElse(a) {
-		return a - 1;
-	}
+    function doSomethingElse(a) {
+        return a - 1;
+    }
 
-	var b;
+    var b;
 
-	b = a + doSomethingElse( a * 2 );
+    b = a + doSomethingElse( a * 2 );
 
-	console.log( (b * 3) );
+    console.log( (b * 3) );
 }
 
 doSomething( 2 ); // 15
 ```
 
-Now, `b` and `doSomethingElse(..)` are not accessible to any outside influence, instead controlled only by `doSomething(..)`. The functionality and end-result has not been affected, but the design keeps private details private, which is usually considered better software.
+Agora, `b` e `doSomethingElse(..)` não estão sujeitas a nenhuma influência externa, sendo controladas apenas por `doSomething(..)`. A funcionalidade e o resultado final não foram afetados, mas o projeto manteve oculto os detalhes privados, o que normalmente é considerado como um software de melhor qualidade.
 
-### Collision Avoidance
+### Evitando Colisões
 
-Another benefit of "hiding" variables and functions inside a scope is to avoid unintended collision between two different identifiers with the same name but different intended usages. Collision results often in unexpected overwriting of values.
+Outro benefício de "esconder" as variáveis e funções dentro de um escopo é para evitar a colisão não intencional entre dois identificadores diferentes com o mesmo nome, mas diferentes usos pretendidos. Colisão resulta muitas vezes em substituição inesperada de valores.
 
-For example:
+Por exemplo:
 
 ```js
 function foo() {
-	function bar(a) {
-		i = 3; // changing the `i` in the enclosing scope's for-loop
-		console.log( a + i );
-	}
+    function bar(a) {
+        i = 3; // alterando o `i` no for-loop do escopo envolvido
+        console.log( a + i );
+    }
 
-	for (var i=0; i<10; i++) {
-		bar( i * 2 ); // oops, infinite loop ahead!
-	}
+    for (var i=0; i<10; i++) {
+        bar( i * 2 ); // oops, loop infinito em frente!
+    }
 }
 
 foo();
 ```
 
-The `i = 3` assignment inside of `bar(..)` overwrites, unexpectedly, the `i` that was declared in `foo(..)` at the for-loop. In this case, it will result in an infinite loop, because `i` is set to a fixed value of `3` and that will forever remain `< 10`.
+A atribuição `i = 3` dentro de `bar(..)` substitui, de forma inesperada, o `i` que foi declarado em `foo(..)` no for-loop. Neste caso, ele irá resultar em um loop infinito, porque `i` é definido para um valor fixo de 3 e que permanecerá para sempre < 10.
 
-The assignment inside `bar(..)` needs to declare a local variable to use, regardless of what identifier name is chosen. `var i = 3;` would fix the problem (and would create the previously mentioned "shadowed variable" declaration for `i`). An *additional*, not alternate, option is to pick another identifier name entirely, such as `var j = 3;`. But your software design may naturally call for the same identifier name, so utilizing scope to "hide" your inner declaration is your best/only option in that case.
+A atribuição dentro de `bar(..)` precisa declarar uma variável local para usar, independentemente de qual nome de identificador é escolhido. `var i = 3;` iria resolver o problema (e criaria a declaração mencionada anteriormente "variável sombreada" para i). Uma opção adicional (e não alternativa) a opção é escolher um outro nome inteiramente diferente para o identificador, como `var j = 3`. Mas seu projeto de software pode, naturalmente, chamar para o mesmo nome de identificador, portanto, utilizando o escopo para "esconder" a sua declaração interior é a sua melhor/única opção nesse caso.
 
-#### Global "Namespaces"
+#### "Namespaces" globais
 
-A particularly strong example of (likely) variable collision occurs in the global scope. Multiple libraries loaded into your program can quite easily collide with each other if they don't properly hide their internal/private functions and variables.
+Um particularmente forte exemplo de (possível) colisão variável ocorre no escopo global. Várias bibliotecas carregadas em seu programa podem facilmente colidir umas com as outras se elas não esconderem adequadamente suas funções privadas/internas e variáveis.
 
-Such libraries typically will create a single variable declaration, often an object, with a sufficiently unique name, in the global scope. This object is then used as a "namespace" for that library, where all specific exposures of functionality are made as properties off that object (namespace), rather than as top-level lexically scoped identifiers themselves.
+Tais bibliotecas normalmente irão criar uma única declaração de variável, muitas vezes, um objeto, com um nome suficientemente original, no escopo global. Este objeto é então usado como um "namespace" para aquela biblioteca, onde todas as exposições específicas de funcionalidade são feitas como propriedades fora esse objeto (namespace), e não como identificadores lexicamente escopados em alto-nível por conta própria.
 
-For example:
+Por exemplo:
 
 ```js
 var MyReallyCoolLibrary = {
-	awesome: "stuff",
-	doSomething: function() {
-		// ...
-	},
-	doAnotherThing: function() {
-		// ...
-	}
+    awesome: "stuff",
+    doSomething: function() {
+        // ...
+    },
+    doAnotherThing: function() {
+        // ...
+    }
 };
 ```
 
-#### Module Management
+#### Gestão de módulo
 
-Another option for collision avoidance is the more modern "module" approach, using any of various dependency managers. Using these tools, no libraries ever add any identifiers to the global scope, but are instead required to have their identifier(s) be explicitly imported into another specific scope through usage of the dependency manager's various mechanisms.
+Outra opção para evitar colisões é a abordagem mais moderna de "módulo", usando qualquer dos vários gestores de dependência. Usando essas ferramentas, nenhuma biblioteca adicionará quaisquer identificadores ao escopo global, mas são obrigados a ter o(s) seu(s) identificador(es) sendo importado(s) explicitamente dentro de outro escopo específico através do uso de vários mecanismos do gerenciador de dependências.
 
-It should be observed that these tools do not possess "magic" functionality that is exempt from lexical scoping rules. They simply use the rules of scoping as explained here to enforce that no identifiers are injected into any shared scope, and are instead kept in private, non-collision-susceptible scopes, which prevents any accidental scope collisions.
+Deve ser observado que estas ferramentas não possuem funcionalidades "mágicas" que estão isentos das regras do escopo léxico. Eles simplesmente usar as regras de escopo, como explicado aqui, para impor que nenhuns identificadores sejam injetados em qualquer escopo compartilhado, e em vez disso são mantidos em privados, escopos de não colisão suscetíveis (non-collision-susceptible scopes), o que previne qualquer colisão acidental no escopo.
 
-As such, you can code defensively and achieve the same results as the dependency managers do without actually needing to use them, if you so choose. See the Chapter 5 for more information about the module pattern.
+Como tal, você pode codificar defensivamente e alcançar os mesmos resultados que os gestores de dependência fazer sem realmente precisar usá-los, se assim você desejar. Veja o Capítulo 5 para mais informações sobre module pattern.
 
-## Functions As Scopes
+## Funções como Escopo
 
-We've seen that we can take any snippet of code and wrap a function around it, and that effectively "hides" any enclosed variable or function declarations from the outside scope inside that function's inner scope.
+Vimos que podemos pegar qualquer trecho de código e envolver uma função ao seu redor, e que, efetivamente, "esconde" as declarações inclusas de funções ou variáveis de fora do escopo principal, dentro do interior do escopo daquela função.
 
-For example:
-
-```js
-var a = 2;
-
-function foo() { // <-- insert this
-
-	var a = 3;
-	console.log( a ); // 3
-
-} // <-- and this
-foo(); // <-- and this
-
-console.log( a ); // 2
-```
-
-While this technique "works", it is not necessarily very ideal. There are a few problems it introduces. The first is that we have to declare a named-function `foo()`, which means that the identifier name `foo` itself "pollutes" the enclosing scope (global, in this case). We also have to explicitly call the function by name (`foo()`) so that the wrapped code actually executes.
-
-It would be more ideal if the function didn't need a name (or, rather, the name didn't pollute the enclosing scope), and if the function could automatically be executed.
-
-Fortunately, JavaScript offers a solution to both problems.
+Por exemplo:
 
 ```js
 var a = 2;
 
-(function foo(){ // <-- insert this
+function foo() { // <-- insira isso
 
-	var a = 3;
-	console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
-})(); // <-- and this
+} // <-- e isso
+foo(); // <-- e isso
 
 console.log( a ); // 2
 ```
 
-Let's break down what's happening here.
+Embora esta técnica "funcione", ela não é necessariamente ideal. Existem alguns problemas que ela introduz. A primeira, é que nós temos que declarar um função nomeada foo(), o que significa que o nome identificado  foo  "polui" o escopo envolvido (global, neste caso). Nós também temos que chamar explicitamente a função pelo nome (foo ()) para que o código atualmente envolvido execute.
 
-First, notice that the wrapping function statement starts with `(function...` as opposed to just `function...`. While this may seem like a minor detail, it's actually a major change. Instead of treating the function as a standard declaration, the function is treated as a function-expression.
+O ideal seria se a função não precisasse de um nome (ou melhor, o nome não poluir o escopo envolvido), e se a função automaticamente pudesse ser executada.
 
-**Note:** The easiest way to distinguish declaration vs. expression is the position of the word "function" in the statement (not just a line, but a distinct statement). If "function" is the very first thing in the statement, then it's a function declaration. Otherwise, it's a function expression.
+Felizmente, JavaScript oferece uma solução para ambos os problemas.
 
-The key difference we can observe here between a function declaration and a function expression relates to where its name is bound as an identifier.
+```js
+var a = 2;
 
-Compare the previous two snippets. In the first snippet, the name `foo` is bound in the enclosing scope, and we call it directly with `foo()`. In the second snippet, the name `foo` is not bound in the enclosing scope, but instead is bound only inside of its own function.
+(function foo() { // <-- insira isso
 
-In other words, `(function foo(){ .. })` as an expression means the identifier `foo` is found *only* in the scope where the `..` indicates, not in the outer scope. Hiding the name `foo` inside itself means it does not pollute the enclosing scope unnecessarily.
+    var a = 3;
+    console.log( a ); // 3
 
-### Anonymous vs. Named
+})(); // <-- e isso
 
-You are probably most familiar with function expressions as callback parameters, such as:
+console.log( a ); // 2
+```
+
+Vamos desvendar o que está acontecendo aqui.
+
+Primeiro, note que o envolvimento da instrução da função começa com (function ... ao invés de apenas function .... Enquanto isto deve parecer como um pequeno detalhe, ele é na realidade uma grande mudança. Ao invés de tratar a função como uma declaração padrão, a função é tratada como uma função de expressão (function-expression).
+
+**Nota:** A maneira mais fácil de distinguir declaração vs. expressão é a posição da palavra "function" na declaração (não apenas uma linha, mas uma declaração distinta). Se "function" é a primeira coisa na instrução, então é uma declaração de função. Caso contrário, é uma expressão de função.
+
+A principal diferença, que podemos observar aqui, entre uma declaração de função e uma expressão de função se refere a onde seu nome está vinculado como um identificador.
+
+Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é obrigado(bound) no escopo envolvido, e nós o chamamos diretamente com foo (). No segundo trecho, o nome foo não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
+
+Em outras palavras, (função foo () {..}) como uma expressão significa que o identificador foo é encontrado somente no escopo onde o { .. }  é indicado, não no escopo externo. Escondendo o nome foo dentro dele mesmo significa que não polui o escopo envolvido desnecessariamente.
+
+### Anônimo vs. Nomeado
+
+Você provavelmente está mais familiarizado com expressões de função como parâmetros de retorno (callbacks parameters) de chamada, tais como:
 
 ```js
 setTimeout( function(){
-	console.log("I waited 1 second!");
+    console.log("Eu espero 1 segundo!");
 }, 1000 );
 ```
 
-This is called an "anonymous function expression", because `function()...` has no name identifier on it. Function expressions can be anonymous, but function declarations cannot omit the name -- that would be illegal JS grammar.
+Isso é chamada de uma “expressão função anônima”, porque a função () ... não tem um nome no identificador dele. As expressões de função podem ser anônimas, mas declarações de função não pode omitir o nome - o que seria ilegal na gramática do JS.
 
-Anonymous function expressions are quick and easy to type, and many libraries and tools tend to encourage this idiomatic style of code. However, they have several draw-backs to consider:
+Expressões de função anônimas são rápidas e fáceis de digitar, e muitas bibliotecas e ferramentas tendem a encorajar este estilo idiomático de código. Entretanto, elas têm vários inconvenientes a serem considerados:
 
-1. Anonymous functions have no useful name to display in stack traces, which can make debugging more difficult.
+1. Funções anônimas não têm nome útil para exibir em stack traces, que podem fazer a depuração (debugging) mais difícil.
 
-2. Without a name, if the function needs to refer to itself, for recursion, etc., the **deprecated** `arguments.callee` reference is unfortunately required. Another example of needing to self-reference is when an event handler function wants to unbind itself after it fires.
+2. Sem um nome, se a função precisa se referir a si mesma, por recursão, etc., o **desaconselhado** ´arguments.callee´ referenciado é infelizmente necessário. Outro exemplo da necessidade de auto referência é quando uma função de manipulador de eventos (event handler function) quer desvincular-se após a execução.
 
-3. Anonymous functions omit a name that is often helpful in providing more readable/understandable code. A descriptive name helps self-document the code in question.
+3. Funções anônimas omitem um nome que muitas vezes é útil para fornecer um código mais legível/compreensível. Um nome descritivo ajuda a auto documentação do código em questão.
 
-**Inline function expressions** are powerful and useful -- the question of anonymous vs. named doesn't detract from that. Providing a name for your function expression quite effectively addresses all these draw-backs, but has no tangible downsides. The best practice is to always name your function expressions:
+**Expressões de função em linha (Inline function expressions)** são poderosas e úteis - a questão de anônimo vs. nomeado não deprecia a partir disso. Fornecer um nome para a sua expressão de função de forma bastante eficaz aborda todos estes inconvenientes, mas não tem desvantagens tangíveis. A melhor prática é sempre nomear suas expressões de função:
 
 ```js
-setTimeout( function timeoutHandler(){ // <-- Look, I have a name!
-	console.log( "I waited 1 second!" );
+setTimeout( function timeoutHandler(){ // <-- Olha, eu tenho um nome!
+    console.log( "Eu esperei um segundo!" );
 }, 1000 );
 ```
 
-### Invoking Function Expressions Immediately
+### Invocando Expressões de função imediatamente
 
 ```js
 var a = 2;
 
 (function foo(){
 
-	var a = 3;
-	console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
 })();
 
 console.log( a ); // 2
 ```
 
-Now that we have a function as an expression by virtue of wrapping it in a `( )` pair, we can execute that function by adding another `()` on the end, like `(function foo(){ .. })()`. The first enclosing `( )` pair makes the function an expression, and the second `()` executes the function.
+Agora que temos uma função como uma expressão em virtude de envolvê-la em um par (), podemos executar aquela função adicionando outro () no fim, como (foo function () {..}) (). O primeiro par de inclusão () faz a expressão de uma função, e a segunda () executa a função.
 
-This pattern is so common, a few years ago the community agreed on a term for it: **IIFE**, which stands for **I**mmediately **I**nvoked **F**unction **E**xpression.
+Este padrão é tão comum, que há alguns anos, a comunidade aceitou um termo para isso: IIFE, que representa uma Expressão de Função Imediatamente Invocada (Immediately Invoked Function Expressions).
 
-Of course, IIFE's don't need names, necessarily -- the most common form of IIFE is to use an anonymous function expression. While certainly less common, naming an IIFE has all the aforementioned benefits over anonymous function expressions, so it's a good practice to adopt.
+Claro, IIFE’s não precisa de nomes, necessariamente - a forma mais comum de uma IIFE é usar uma expressão da função anônima. Embora certamente menos comum, nomeando um IIFE tem todas as vantagens acima mencionadas sobre as expressões de função anônima, por isso é uma boa prática para adotar.
 
 ```js
 var a = 2;
 
 (function IIFE(){
 
-	var a = 3;
-	console.log( a ); // 3
+    var a = 3;
+    console.log( a ); // 3
 
 })();
 
 console.log( a ); // 2
 ```
 
-There's a slight variation on the traditional IIFE form, which some prefer: `(function(){ .. }())`. Look closely to see the difference. In the first form, the function expression is wrapped in `( )`, and then the invoking `()` pair is on the outside right after it. In the second form, the invoking `()` pair is moved to the inside of the outer `( )` wrapping pair.
+Há uma ligeira variação na tradicional forma do IIFE, que alguns preferem: `(function () {..} ())`. Olhe atentamente para ver a diferença. Na primeira forma, a expressão da função é envolvida por `()`, e então invocada por um par de `()` que está à direita do lado de fora após ele. Na segunda forma, o invocador par de `()` é movido para o interior do exterior par de `()` envolvido.
 
-These two forms are identical in functionality. **It's purely a stylistic choice which you prefer.**
+Estas duas formas são idênticas em termos de funcionalidade. **É puramente uma escolha estilística que você preferir.**
 
-Another variation on IIFE's which is quite common is to use the fact that they are, in fact, just function calls, and pass in argument(s).
+Outra variação sobre IIFE o qual é bastante comum, é utilizar o fato de que eles são, de fato, apenas funções de chamada, e passagem para o(s) argumento(s).
 
-For instance:
+Por Exemplo:
 
 ```js
 var a = 2;
 
 (function IIFE( global ){
 
-	var a = 3;
-	console.log( a ); // 3
-	console.log( global.a ); // 2
+    var a = 3;
+    console.log( a ); // 3
+    console.log( global.a ); // 2
 
 })( window );
 
 console.log( a ); // 2
 ```
 
-We pass in the `window` object reference, but we name the parameter `global`, so that we have a clear stylistic delineation for global vs. non-global references. Of course, you can pass in anything from an enclosing scope you want, and you can name the parameter(s) anything that suits you. This is mostly just stylistic choice.
+Passamos na referência do objeto `window`, mas o nomeamos parâmetro `global`, de modo que temos um esboço estilístico claro para referências global vs. não-global. Claro, você pode passar qualquer coisa que você quiser no escopo envolvido, e você pode nomear o (s) parâmetro (s) de qualquer forma que convir. Isto é escolha apenas estilística.
 
-Another application of this pattern addresses the (minor niche) concern that the default `undefined` identifier might have its value incorrectly overwritten, causing unexpected results. By naming a parameter `undefined`, but not passing any value for that argument, we can guarantee that the `undefined` identifier is in fact the undefined value in a block of code:
+Outra aplicação desse padrão aborda (nicho menor) uma preocupação que o identificador padrão `undefined` pode ter seu valor incorretamente substituído, causando resultados inesperados. Ao nomear um parâmetro `undefined`, mas não passando qualquer valor para aquele argumento, podemos garantir que o identificador `undefined` é de fato um valor indefinido em um bloco de código:
 
 ```js
-undefined = true; // setting a land-mine for other code! avoid!
+undefined = true; // configurando minas terrestres para outro código! Evite!
 
 (function IIFE( undefined ){
 
-	var a;
-	if (a === undefined) {
-		console.log( "Undefined is safe here!" );
-	}
+    var a;
+    if (a === undefined) {
+        console.log( "Undefined está salvo aqui!" );
+    }
 
 })();
 ```
 
-Still another variation of the IIFE inverts the order of things, where the function to execute is given second, *after* the invocation and parameters to pass to it. This pattern is used in the UMD (Universal Module Definition) project. Some people find it a little cleaner to understand, though it is slightly more verbose.
+Ainda que outra variação do IIFE inverta a ordem das coisas, onde a função a ser executada é dada em segundo lugar, *após* a invocação e os parâmetros passados a ele. Este padrão é utilizado no projeto UMD (Módulo de Definição Universal). Algumas pessoas acham que é um pouco mais limpo para entender, embora seja um pouco mais detalhado.
 
 ```js
 var a = 2;
 
 (function IIFE( def ){
-	def( window );
+    def( window );
 })(function def( global ){
 
-	var a = 3;
-	console.log( a ); // 3
-	console.log( global.a ); // 2
+    var a = 3;
+    console.log( a ); // 3
+    console.log( global.a ); // 2
 
 });
 ```
 
-The `def` function expression is defined in the second-half of the snippet, and then passed as a parameter (also called `def`) to the `IIFE` function defined in the first half of the snippet. Finally, the parameter `def` (the function) is invoked, passing `window` in as the `global` parameter.
+A expressão de função `def` é definida na segunda metade do trecho (de código), e depois passado como um parâmetro (também chamado `def`) para a função `IIFE` definida na primeira metade do trecho (de código). Finalmente, o parâmetro `def` (a função) é invocado, passando `window` como o parâmetro `global`.
 
-## Blocks As Scopes
+## Blocos como Escopos
 
-While functions are the most common unit of scope, and certainly the most wide-spread of the design approaches in the majority of JS in circulation, other units of scope are possible, and the usage of these other scope units can lead to even better, cleaner to maintain code.
+Enquanto as funções são as unidades mais comum do escopo, e certamente o mais generalizado das abordagens de design na maioria dos JS em circulação, outras unidades de escopo são possíveis, e o uso dessas outras unidades de escopo podem conduzir ainda melhor, a manter um código limpo.
 
-Many languages other than JavaScript support Block Scope, and so developers from those languages are accustomed to the mindset, whereas those who've primarily only worked in JavaScript may find the concept slightly foreign.
+Muitas outras linguagens além do JavaScript suportam Blocos de escopo, para os desenvolvedores dessas linguagens que estão acostumados com essa mentalidade, enquanto que aqueles que principalmente só trabalharam em JavaScript devem achar o conceito um pouco estranho.
 
-But even if you've never written a single line of code in block-scoped fashion, you are still probably familiar with this extremely common idiom in JavaScript:
+Mas mesmo se você nunca escreveu uma única linha de código na forma de escopo do bloco, você ainda provavelmente está familiarizado com esta linguagem extremamente comum em JavaScript:
 
 ```js
 for (var i=0; i<10; i++) {
-	console.log( i );
+    console.log( i );
 }
 ```
 
-We declare the variable `i` directly inside the for-loop head, most likely because our *intent* is to use `i` only within the context of that for-loop, and essentially ignore the fact that the variable actually scopes itself to the enclosing scope (function or global).
+Nós declaramos a variável `i` diretamente dentro do cabeçalho do for-loop, muito provavelmente porque a nossa *intenção* é usar `i` somente no contexto daquele for-loop, e essencialmente, ignorar o fato daquela variável no atual escopo para o escopo envolvido (função ou global).
 
-That's what block-scoping is all about. Declaring variables as close as possible, as local as possible, to where they will be used. Another example:
+Isso é tudo sobre escopo do bloco. Declarar variáveis tão próximas quanto possível, tão local quanto possível, para onde elas serão utilizadas. Outro exemplo:
 
 ```js
 var foo = true;
 
 if (foo) {
-	var bar = foo * 2;
-	bar = something( bar );
-	console.log( bar );
+    var bar = foo * 2;
+    bar = something( bar );
+    console.log( bar );
 }
 ```
 
-We are using a `bar` variable only in the context of the if-statement, so it makes a kind of sense that we would declare it inside the if-block. However, where we declare variables is not relevant when using `var`, because they will always belong to the enclosing scope. This snippet is essentially "fake" block-scoping, for stylistic reasons, and relying on self-enforcement not to accidentally use `bar` in another place in that scope.
+Nós estamos usando uma variável `bar` apenas no contexto da declaração if, por isso, faz um pouco de sentido nós declararmos dentro do bloco if. No entanto, onde nós declaramos variáveis não é relevante quando se usa `var`, porque eles vão sempre pertencer ao escopo envolvido. Este trecho é essencialmente um escopo do bloco "falso", por razões estilísticas, e contando com a auto execução para não acidentalmente usar `bar` em outro lugar naquele escopo.
 
-Block scope is a tool to extend the earlier "Principle of Least ~~Privilege~~ Exposure" [^note-leastprivilege] from hiding information in functions to hiding information in blocks of our code.
+Escopo de bloco é uma ferramenta para estender o anterior "Princípio da menor Exposição ~~privilegiada~~" [^ note-leastprivilege] de esconder informações em funções para esconder informações em blocos de nosso código.
 
-Consider the for-loop example again:
+Considere o exemplo for-loop novamente:
 
 ```js
 for (var i=0; i<10; i++) {
-	console.log( i );
+    console.log( i );
 }
 ```
 
-Why pollute the entire scope of a function with the `i` variable that is only going to be (or only *should be*, at least) used for the for-loop?
+Por que poluir todo o escopo de uma função com a variável `i` que só vai ser (ou só *deveria ser*, pelo menos) utilizado para o for-loop?
 
-But more importantly, developers may prefer to *check* themselves against accidentally (re)using variables outside of their intended purpose, such as being issued an error about an unknown variable if you try to use it in the wrong place. Block-scoping (if it were possible) for the `i` variable would make `i` available only for the for-loop, causing an error if `i` is accessed elsewhere in the function. This helps ensure variables are not re-used in confusing or hard-to-maintain ways.
+Mas o mais importante, os desenvolvedores devem preferir *se prevenir* contra a acidental (re)utilização de variáveis fora da sua finalidade, tais como sendo emitido um erro sobre uma variável desconhecida, se você tentar usá-la no lugar errado. Escopo do bloco (se fosse possível) para a variável `i` faria `i` disponível apenas para o for-loop, causando um erro se `i` é acessado em outros lugares na função. Isso ajuda a garantir as variáveis não serem reutilizados de maneiras confusas ou difíceis de manter.
 
-But, the sad reality is that, on the surface, JavaScript has no facility for block scope.
+Mas, a triste realidade é que, na superfície, JavaScript não tem facilidades para o escopo do bloco.
 
-That is, until you dig a little further.
+Isto é, até você cavar um pouco mais.
 
 ### `with`
 
-We learned about `with` in Chapter 2. While it is a frowned upon construct, it *is* an example of (a form of) block scope, in that the scope that is created from the object only exists for the lifetime of that `with` statement, and not in the enclosing scope.
+Aprendemos sobre `with` no Capítulo 2. Embora seja uma desaprovada construção, *é* um exemplo de (uma forma de) escopo do bloco, em que o escopo que é criado a partir do objeto só existe para o tempo de vida da declaração `with`, e não no escopo envolvido.
 
 ### `try/catch`
 
-It's a *very* little known fact that JavaScript in ES3 specified the variable declaration in the `catch` clause of a `try/catch` to be block-scoped to the `catch` block.
+É um fato *muito* pouco conhecido que o JavaScript no ES3 especificou a declaração de variável na cláusula `catch` de um `try / catch` para ser escopo do bloco para o bloco `catch`.
 
-For instance:
+Por exemplo:
 
 ```js
 try {
-	undefined(); // illegal operation to force an exception!
+    undefined(); // Operação ilegal para forçar uma exceção!
 }
 catch (err) {
-	console.log( err ); // works!
+    console.log( err ); // Funciona!
 }
 
 console.log( err ); // ReferenceError: `err` not found
 ```
 
-As you can see, `err` exists only in the `catch` clause, and throws an error when you try to reference it elsewhere.
+Como você pode ver, `err` só existe na cláusula `catch`, e lança um erro quando você tenta referenciá-lo em outro lugar.
 
-**Note:** While this behavior has been specified and true of practically all standard JS environments (except perhaps old IE), many linters seem to still complain if you have two or more `catch` clauses in the same scope which each declare their error variable with the same identifier name. This is not actually a re-definition, since the variables are safely block-scoped, but the linters still seem to, annoyingly, complain about this fact.
+**Nota:** Enquanto este comportamento foi especificado e verdadeiro em praticamente todo o ambiente JS padrão (exceto, talvez no velho IE), muitos linters parecem ainda reclamar, se você tiver duas ou mais cláusulas `catch` no mesmo escopo, e cada qual declarar sua variável de erro com o mesmo nome do identificador. Esta não é realmente uma redefinição, uma vez que as variáveis estão salvas no escopo do bloco, mas os linters ainda parecem, irritantemente, queixar-se deste fato.
 
-To avoid these unnecessary warnings, some devs will name their `catch` variables `err1`, `err2`, etc. Other devs will simply turn off the linting check for duplicate variable names.
+Para evitar esses avisos desnecessários, alguns devs nomearão suas variáveis `catch` `err1`, `err2`, etc. Outros desenvolvedores simplesmente desligarão a verificação linting para nomes de variáveis duplicados.
 
-The block-scoping nature of `catch` may seem like a useless academic fact, but see Appendix B for more information on just how useful it might be.
+A natureza escopo do bloco de `catch` deve parecer como fato acadêmico inútil, mas veja o Apêndice B para mais informações sobre o quão útil pode ser.
 
 ### `let`
 
-Thus far, we've seen that JavaScript only has some strange niche behaviors which expose block scope functionality. If that were all we had, and *it was* for many, many years, then block scoping would not be terribly useful to the JavaScript developer.
+Até agora, vimos que o JavaScript só tem alguns comportamentos estranhos de nicho que expõem a funcionalidade do escopo do bloco. Se fosse tudo o que tínhamos, *e foi* por muitos e muitos anos, então escopo do bloco não seria terrivelmente útil para o desenvolvedor de JavaScript.
 
-Fortunately, ES6 changes that, and introduces a new keyword `let` which sits alongside `var` as another way to declare variables.
+Felizmente, ES6 muda isso, e introduziu uma nova palavra-chave `let` que fica ao lado de `var` como outra forma de declarar variáveis.
 
-The `let` keyword attaches the variable declaration to the scope of whatever block (commonly a `{ .. }` pair) it's contained in. In other words, `let` implicitly hijacks any block's scope for its variable declaration.
-
-```js
-var foo = true;
-
-if (foo) {
-	let bar = foo * 2;
-	bar = something( bar );
-	console.log( bar );
-}
-
-console.log( bar ); // ReferenceError
-```
-
-Using `let` to attach a variable to an existing block is somewhat implicit. It can confuse if you're not paying close attention to which blocks have variables scoped to them, and are in the habit of moving blocks around, wrapping them in other blocks, etc., as you develop and evolve code.
-
-Creating explicit blocks for block-scoping can address some of these concerns, making it more obvious where variables are attached and not. Usually, explicit code is preferable over implicit or subtle code. This explicit block-scoping style is easy to achieve, and fits more naturally with how block-scoping works in other languages:
+A palavra-chave `let` atribui uma declaração da variável ao escopo de qualquer bloco (normalmente um par `{ .. }`) em que está contido. Em outras palavras, `let` implicitamente sequestra qualquer escopo do bloco para a sua declaração de variável.
 
 ```js
 var foo = true;
 
 if (foo) {
-	{ // <-- explicit block
-		let bar = foo * 2;
-		bar = something( bar );
-		console.log( bar );
-	}
+    let bar = foo * 2;
+    bar = something( bar );
+    console.log( bar );
 }
 
 console.log( bar ); // ReferenceError
 ```
 
-We can create an arbitrary block for `let` to bind to by simply including a `{ .. }` pair anywhere a statement is valid grammar. In this case, we've made an explicit block *inside* the if-statement, which may be easier as a whole block to move around later in refactoring, without affecting the position and semantics of the enclosing if-statement.
+Usando `let` para anexar uma variável para um bloco existente é algo implícito. Ele pode confundir se você não está prestando atenção em quais blocos tem variáveis de escopo para eles, e têm o hábito de mover blocos ao redor, envolvendo-os em outros blocos, etc., da forma que você desenvolver e evoluir código.
 
-**Note:** For another way to express explicit block scopes, see Appendix B.
+Criando blocos explícitos para os blocos de escopo, podemos chamar a atenção para algumas dessas preocupações, tornando-a mais óbvias onde as variáveis estão, e não estão vinculadas. Normalmente, código explícito é mais preferível o código implícito ou sutil. Este estilo escopo do bloco explícito é fácil de efetuar, e se encaixa mais naturalmente com a forma como o escopo do bloco funciona em outras linguagens:
 
-In Chapter 4, we will address hoisting, which talks about declarations being taken as existing for the entire scope in which they occur.
+```js
+var foo = true;
 
-However, declarations made with `let` will *not* hoist to the entire scope of the block they appear in. Such declarations will not observably "exist" in the block until the declaration statement.
+if (foo) {
+    { // <-- explicit block
+        let bar = foo * 2;
+        bar = something( bar );
+        console.log( bar );
+    }
+}
+
+console.log( bar ); // ReferenceError
+```
+
+Podemos criar um bloco arbitrário para `let` vincular se simplesmente incluindo um par `{ .. }` em qualquer lugar que uma declaração é gramaticalmente válida. Neste caso, nós fizemos um bloco explícito *dentro* da instrução if, o que deve ser mais fácil como um bloco inteiro para se mover mais tarde na refatoração, sem afetar a posição e semântica da instrução if envolvida.
+
+**Nota:** Para uma outra maneira de expressar blocos de escopo explícitos, consulte o Apêndice B.
+
+No capítulo 4, trataremos de hoisting, que fala sobre as declarações sendo tomadas como existentes para todo o escopo em que ocorrem.
+
+No entanto, declarações feitas com `let` *não* irão elevar para todo o escopo do bloco que eles são apresentados. Tais declarações não observáveis "existem" no bloco até a instrução de declaração.
 
 ```js
 {
-   console.log( bar ); // ReferenceError!
-   let bar = 2;
+    console.log( bar ); // ReferenceError!
+    let bar = 2;
 }
 ```
 
-#### Garbage Collection
+#### Coleta de lixo (Garbage Collection)
 
-Another reason block-scoping is useful relates to closures and garbage collection to reclaim memory. We'll briefly illustrate here, but the closure mechanism is explained in detail in Chapter 5.
+Outra razão do escopo do bloco ser útil, relaciona se com clausuras e coletas de lixo para recuperar a memória. Vamos brevemente ilustrar aqui, mas o mecanismo de clausuras é explicado em detalhes no Capítulo 5.
 
-Consider:
+Considere:
 
 ```js
 function process(data) {
-	// do something interesting
+    // faz alguma coisa interessante
 }
 
 var someReallyBigData = { .. };
@@ -470,142 +470,142 @@ process( someReallyBigData );
 var btn = document.getElementById( "my_button" );
 
 btn.addEventListener( "click", function click(evt){
-	console.log("button clicked");
-}, /*capturingPhase=*/false );
+    console.log("button clicked");
+}, /*capturandoFrase=*/false );
 ```
 
-The `click` function click handler callback doesn't *need* the `someReallyBigData` variable at all. That means, theoretically, after `process(..)` runs, the big memory-heavy data structure could be garbage collected. However, it's quite likely (though implementation dependent) that the JS engine will still have to keep the structure around, since the `click` function has a closure over the entire scope.
+O `click`, função manipuladora de clique de retorno de chamada, não *precisa* da variável `someReallyBigData` em tudo. Isso significa que, teoricamente, após o `process(..)` executar, a grande estrutura de dados de memória pesado poderia ser lixo coletado. No entanto, é bastante provável (embora dependente de implementação) que o motor JS ainda terá de manter a estrutura em volta, uma vez que a função `click` tem uma clausura sobre todo o escopo.
 
-Block-scoping can address this concern, making it clearer to the engine that it does not need to keep `someReallyBigData` around:
+Escopo do bloco pode resolver este problema, tornando-o mais claro para o motor que ele não precisa manter `someReallyBigData` em volta:
 
 ```js
 function process(data) {
-	// do something interesting
+    // faz alguma coisa interessante
 }
 
-// anything declared inside this block can go away after!
+// Qualquer coisa declarada dentro de bloco pode ir embora depois!
 {
-	let someReallyBigData = { .. };
+    let someReallyBigData = { .. };
 
-	process( someReallyBigData );
+    process( someReallyBigData );
 }
 
 var btn = document.getElementById( "my_button" );
 
 btn.addEventListener( "click", function click(evt){
-	console.log("button clicked");
-}, /*capturingPhase=*/false );
+    console.log("button clicked");
+}, /*FaseDeCaptura=*/false );
 ```
 
-Declaring explicit blocks for variables to locally bind to is a powerful tool that you can add to your code toolbox.
+Declarando blocos explícitos para as variáveis localmente se associarem, é uma ferramenta poderosa que você pode adicionar à sua caixa de ferramentas de código.
 
 #### `let` Loops
 
-A particular case where `let` shines is in the for-loop case as we discussed previously.
+Um caso particular em que `let` brilha é no caso for-loop como discutimos anteriormente.
 
 ```js
 for (let i=0; i<10; i++) {
-	console.log( i );
+    console.log( i );
 }
 
 console.log( i ); // ReferenceError
 ```
 
-Not only does `let` in the for-loop header bind the `i` to the for-loop body, but in fact, it **re-binds it** to each *iteration* of the loop, making sure to re-assign it the value from the end of the previous loop iteration.
+Não só `let` no cabeçalho for-loop associa o `i` para o corpo for-loop, mas de fato, ele **re-associa** a cada *iteração* do loop, certificando-se de reatribuir-lhe o valor do final da iteração anterior do loop.
 
-Here's another way of illustrating the per-iteration binding behavior that occurs:
+Aqui está outra maneira de ilustrar o comportamento de ligação por-iteração que ocorre:
 
 ```js
 {
-	let j;
-	for (j=0; j<10; j++) {
-		let i = j; // re-bound for each iteration!
-		console.log( i );
-	}
+    let j;
+    for (j=0; j<10; j++) {
+        let i = j; // re-associa para cada interação!
+        console.log( i );
+    }
 }
 ```
 
-The reason why this per-iteration binding is interesting will become clear in Chapter 5 when we discuss closures.
+A razão pela qual a ligação por-interação é interessante se tornará claro no capítulo 5, quando discutirmos clausuras.
 
-Because `let` declarations attach to arbitrary blocks rather than to the enclosing function's scope (or global), there can be gotchas where existing code has a hidden reliance on function-scoped `var` declarations, and replacing the `var` with `let` may require additional care when refactoring code.
+Porque declarações `let` anexam à blocos arbitrários em vez de ao escopo da função envolvida (ou global), pode haver armadilhas em que o código existente tem uma dependência escondida na declaração do escopo da função `var`, e substituindo a `var` com `let` deve exigir cuidados adicionais quando re-fatorando código.
 
-Consider:
+Considere:
 
 ```js
 var foo = true, baz = 10;
 
 if (foo) {
-	var bar = 3;
+    var bar = 3;
 
-	if (baz > bar) {
-		console.log( baz );
-	}
+    if (baz > bar) {
+        console.log( baz );
+    }
 
-	// ...
+    // ...
 }
 ```
 
-This code is fairly easily re-factored as:
+Este código é facilmente re-fatorado como:
 
 ```js
 var foo = true, baz = 10;
 
 if (foo) {
-	var bar = 3;
+    var bar = 3;
 
-	// ...
+    // ...
 }
 
 if (baz > bar) {
-	console.log( baz );
+    console.log( baz );
 }
 ```
 
-But, be careful of such changes when using block-scoped variables:
+Mas, seja cuidadoso com tais mudanças ao usar variáveis com escopo do bloco:
 
 ```js
 var foo = true, baz = 10;
 
 if (foo) {
-	let bar = 3;
+    let bar = 3;
 
-	if (baz > bar) { // <-- don't forget `bar` when moving!
-		console.log( baz );
-	}
+    if (baz > bar) { // <-- Não esqueça `bar` quando mover!
+        console.log( baz );
+    }
 }
 ```
 
-See Appendix B for an alternate (more explicit) style of block-scoping which may provide easier to maintain/refactor code that's more robust to these scenarios.
+Veja o Apêndice B para uma alternativa de estilo (mais explícito) do escopo do bloco que pode proporcionar manter/re-fatorar, mais facilmente, o código que é mais robusto para esses cenários.
 
 ### `const`
 
-In addition to `let`, ES6 introduces `const`, which also creates a block-scoped variable, but whose value is fixed (constant). Any attempt to change that value at a later time results in an error.
+Além de `let`, ES6 introduz `const`, que também cria uma variável com escopo do bloco, mas cujo valor é fixo (constante). Qualquer tentativa de alterar esse valor em um momento posterior resultará em um erro.
 
 ```js
 var foo = true;
 
 if (foo) {
-	var a = 2;
-	const b = 3; // block-scoped to the containing `if`
+    var a = 2;
+    const b = 3; // escopo do bloco que contém `if`
 
-	a = 3; // just fine!
-	b = 4; // error!
+    a = 3; // Tudo bem!
+    b = 4; // error!
 }
 
 console.log( a ); // 3
 console.log( b ); // ReferenceError!
 ```
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Functions are the most common unit of scope in JavaScript. Variables and functions that are declared inside another function are essentially "hidden" from any of the enclosing "scopes", which is an intentional design principle of good software.
+As funções são as unidades mais comuns de escopo em JavaScript. Variáveis e funções que são declaradas dentro de outra função são essencialmente "escondidas" de qualquer um dos "escopos" envolvidos, que é um princípio de design intencional de um bom software.
 
-But functions are by no means the only unit of scope. Block-scope refers to the idea that variables and functions can belong to an arbitrary block (generally, any `{ .. }` pair) of code, rather than only to the enclosing function.
+Mas as funções são de nenhuma maneira a única unidade do escopo. Escopo do bloco refere-se à ideia de que as variáveis e funções pode pertencer a um bloco arbitrário (geralmente, qualquer par de `{ .. }`) de código, em vez de apenas para a função envolvida.
 
-Starting with ES3, the `try/catch` structure has block-scope in the `catch` clause.
+Começando com ES3, a estrutura `try/catch` tem escopo do bloco na cláusula `catch`.
 
-In ES6, the `let` keyword (a cousin to the `var` keyword) is introduced to allow declarations of variables in any arbitrary block of code. `if (..) { let a = 2; }` will declare a variable `a` that essentially hijacks the scope of the `if`'s `{ .. }` block and attaches itself there.
+Em ES6, é introduzida a palavra-chave `let` (um primo para a palavra-chave `var`) para permitir que as declarações de variáveis em qualquer bloco arbitrário de código. `if (..) {let a = 2; }` Irá declarar uma variável `a` que, essencialmente, sequestrará o escopo do bloco `if`'s `{ .. }` e auto atribuíra-se lá.
 
-Though some seem to believe so, block scope should not be taken as an outright replacement of `var` function scope. Both functionalities co-exist, and developers can and should use both function-scope and block-scope techniques where respectively appropriate to produce better, more readable/maintainable code.
+Embora alguns parecem acreditar, o escopo do bloco não deveria ser tomado como uma substituição pura e simples de escopo da função `var`. Ambas as funcionalidades co-existem, e os desenvolvedores podem e deveriam usar ambas as técnicas de escopo da função e escopo do bloco, onde respectivamente apropriados para produzir melhor, mais código legível / sustentável.
 
 [^note-leastprivilege]: [Principle of Least Privilege](http://en.wikipedia.org/wiki/Principle_of_least_privilege)
