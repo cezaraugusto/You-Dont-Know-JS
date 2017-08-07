@@ -314,7 +314,8 @@ Por que estamos utilizando `Promises` com `generator`? É totalmente possível e
 
 Então, como essa mágica funciona? Nós precisaremos de um *runner* que executa nosso `generator`, recebe uma `promise` `yield`, e os liga para formar um `generator` com ambos, o valor de cumprimento, ou lança um erro no `generator` com o motivo da rejeição.
 
-Muitos utiliários ou bibliotecas com capacidades assincronas possuiem um tipo de "runner"; por exemplo, `Q.spawn(..)` e <b style="color: red">minha asynquence's `runner(..)` plug-in</b>. Mas aqui está um runner stand-alone ilustrando como o processo funciona:
+Muitas bibliotecas/utilitarios capazes de rodar o código assincrono incluem um "runner";
+por exemplo, `Q.spawn(..)` e meu plugin the sequencia assincrona `runner(..)`. Mas aqui está um runner stand-alone ilustrando como o processo funciona:
 
 ```js
 function run(gen) {
