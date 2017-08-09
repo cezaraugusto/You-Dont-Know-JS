@@ -73,7 +73,7 @@ baz(); // 2 -- Whoa, observamos closure, man.
 
 A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas, em seguida, nós temos `bar()`, a função em si, e passamos ela *como* um valor. Nesse caso, nós retornamos (`return`) o próprio objeto da função que `bar` faz referência.
 
-Depois de executarmos `foo()`, nós atribuímos o valor retornado (nossa função interna `bar()`) para a variável chamada `baz`, e então, nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
+Depois de executarmos `foo()`, nós atribuímos o valor retornado (nossa função interna `bar()`) para a variável chamada `baz` e então, nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
 
 `bar()` é executada, com certeza. Mas, nesse caso, é executada *fora* do seu escopo léxico declarado.
 
@@ -83,7 +83,7 @@ Mas a "mágica" das closures não permite que isso aconteça. Esse escopo intern
 
 Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo interno de `foo()`, que mantem esse escopo vivo para `bar()` fazer referência a qualquer momento posterior.
 
-**`bar()` ainda existe uma referência para esse escopo, e essa referência é chamada de closure.**
+**`bar()` ainda possui uma referência para esse escopo, e essa referência é chamada de closure.**
 
 Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (chamando a função interna que inicialmente atribuímos o nome de `bar`), ela tem o devido acesso ao escopo léxico escrito no tempo da autoria do código, para que ela possa acessar à variável `a` exatamente como esperávamos.
 
