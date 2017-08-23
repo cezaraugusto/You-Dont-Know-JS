@@ -25,7 +25,7 @@ OK, chega de exageros e referências sem-vergonhas de filmes.
 
 Aqui está uma definição curta e grossa do que você precisa saber para entender e reconhecer closure:
 
-> Closure é quando uma função é capaz de evocar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
+> Closure é quando uma função é capaz de lembrar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
 
 Vamos entrar em um pedaço código para ilustrar esta definição.
 
@@ -49,7 +49,7 @@ Isso é "closure"?
 
 Bem, tecnicamente... *talvez*. Mas para a nossa definição o-que-você-precisa-saber acima... *não exatamente*. Eu acredito que a forma mais correta de explicar `bar()` fazendo referência a `a` é por meio das regras de procura do escopo léxico, e essas regras são *apenas* (uma importante!) **parte** do que closure é.
 
-De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a função `bar()` tem uma *closure* sobre o escopo de `foo()` (e, realmente, até sobre o resto dos escopos a que tem acesso, como o escopo global no nosso caso). Colocando de uma forma ligeiramente diferente, é dito que `bar()` envolve o escopo de `foo()`. Por quê? Porque `bar()` aparece aninhado dentro de `foo()`. Claro e simples.
+De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a função `bar()` tem uma *closure* sobre o escopo de `foo()` (e, realmente, até sobre o resto dos escopos a que tem acesso, como o escopo global no nosso caso). Colocando de uma forma ligeiramente diferente, é dito que `bar()` se fecha sobre o escopo de `foo()`. Por quê? Porque `bar()` aparece aninhado dentro de `foo()`. Claro e simples.
 
 Mas, definida dessa forma, closure não é diretamente *observável*, nós nem vimos closure *exercida* nesse trecho. Nós vemos claramente o escopo léxico, mas closure permanece uma espécie de sombra misteriosa se deslocando por trás do código.
 
@@ -89,7 +89,7 @@ Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (c
 
 A função está sendo invocada de forma adequada fora do seu escopo léxico de origem. **Closure** permite que a função continue a acessar o escopo léxico no qual foi definida no momento da sua concepção.
 
-Naturalmente, qualquer uma das várias maneiras pelas quais as funções podem ser *passadas* como valores, e, de fato, invocadas em outros lugares, são exemplos de observação/uso de closure.
+Naturalmente, qualquer uma das várias maneiras pelas quais as funções podem ser *passadas* como valores e, de fato, invocadas em outros lugares, são exemplos de observação/uso de *closure*.
 
 ```js
 function foo() {
@@ -103,7 +103,7 @@ function foo() {
 }
 
 function bar(fn) {
-	fn(); // olhe mamãe, eu vejo closure!
+	fn(); // olhe, mamãe, eu vejo closure!
 }
 ```
 
