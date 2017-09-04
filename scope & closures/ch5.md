@@ -1,33 +1,33 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 5: Scope Closure
+# You Don't Know JS: Escopos e Closures
+# Capítulo 5: Scope Closure
 
-We arrive at this point with hopefully a very healthy, solid understanding of how scope works.
+Com esperança, até este ponto nós já alcançamos uma compreensão sólida e muito saudável de como escopo funciona.
 
-We turn our attention to an incredibly important, but persistently elusive, *almost mythological*, part of the language: **closure**. If you have followed our discussion of lexical scope thus far, the payoff is that closure is going to be, largely, anti-climatic, almost self-obvious. *There's a man behind the wizard's curtain, and we're about to see him*. No, his name is not Crockford!
+Voltemos nossa atenção para uma incrivelmente importante, mas persistentemente ilusória, *quase mitológica*, parte da linguagem: **closure**. Se você acompanhou nossa discussão sobre escopo léxico até agora, a recompensa é que closure será, em grande parte, anticlímax, quase evidente por natureza. *Há um homem escondido atrás da cortina do mágico, e estamos prestes a vê-lo*. Não, seu nome não é Crockford!
 
-If however you have nagging questions about lexical scope, now would be a good time to go back and review Chapter 2 before proceeding.
+No entanto, se você tem perguntas irritantes sobre escopo léxico, agora deve ser uma boa hora para voltar e rever o Capítulo 2, antes de prosseguir.
 
-## Enlightenment
+## Esclarecimento
 
-For those who are somewhat experienced in JavaScript, but have perhaps never fully grasped the concept of closures, *understanding closure* can seem like a special nirvana that one must strive and sacrifice to attain.
+Para aqueles que são um pouco experientes em JavaScript, mas que porventura nunca tenham entendido completamente o conceito de closures, *entender closure* pode parecer como um nirvana especial, que para atingí-lo é necessário muita luta e sacrifício.
 
-I recall years back when I had a firm grasp on JavaScript, but had no idea what closure was. The hint that there was *this other side* to the language, one which promised even more capability than I already possessed, teased and taunted me. I remember reading through the source code of early frameworks trying to understand how it actually worked. I remember the first time something of the "module pattern" began to emerge in my mind. I remember the *a-ha!* moments quite vividly.
+Eu me lembro de anos atrás, quando eu tinha uma forte compreensão sobre JavaScript, mas não tinha ideia do que era closure. A sugestão de que havia *o outro lado* da linguagem, um que prometia ainda mais capacidade do que eu já possuia, me provocava. Me lembro de ler todo o código fonte dos primeiros frameworks tentando entender como eles realmente funcionavam. Lembro da primeira vez que algo do "módulo padrão" começou a surgir em minha mente. Eu me lembro dos momentos intensos de *a-ha!*.
 
-What I didn't know back then, what took me years to understand, and what I hope to impart to you presently, is this secret: **closure is all around you in JavaScript, you just have to recognize and embrace it.** Closures are not a special opt-in tool that you must learn new syntax and patterns for. No, closures are not even a weapon that you must learn to wield and master as Luke trained in The Force.
+O que eu não sabia naquela época, o que levei anos para entender, e o que eu espero transmitir para você em breve, é esse segredo: **em JavaScript, closure é tudo que estiver ao seu redor, você só precisa reconhecer e abraçar isso.** Closure não é uma ferramenta especial para a qual você deve aprender nova sintaxe e novos padrões. Não, closure não é uma arma que você aprende a manejar com destreza, como Luke treinado na Força.
 
-Closures happen as a result of writing code that relies on lexical scope. They just happen. You do not even really have to intentionally create closures to take advantage of them. Closures are created and used for you all over your code. What you are *missing* is the proper mental context to recognize, embrace, and leverage closures for your own will.
+Closures acontecem como um resultado da escrita de código que depende do escopo léxico. Elas apenas acontecem. Você nem sequer precisa criar closure intencionalmente para tirar proveito delas. Elas são criadas e usadas por você em todo o seu código. O que está faltando é o contexto mental apropriado para reconhecer, aceitar e alavancar closure por sua própria vontade.
 
-The enlightenment moment should be: **oh, closures are already occurring all over my code, I can finally *see* them now.** Understanding closures is like when Neo sees the Matrix for the first time.
+O momento de esclarecimento deveria ser: **oh, closures já estão surgindo por todo o meu código, eu finalmente consigo *vê-las* agora.** O entendimento de closure é como quando Neo vê a Matrix pela primeira vez.
 
 ## Nitty Gritty
 
-OK, enough hyperbole and shameless movie references.
+OK, chega de exageros e referências sem-vergonhas de filmes.
 
-Here's a down-n-dirty definition of what you need to know to understand and recognize closures:
+Aqui está uma definição curta e grossa do que você precisa saber para entender e reconhecer closure:
 
-> Closure is when a function is able to remember and access its lexical scope even when that function is executing outside its lexical scope.
+> Closure é quando uma função é capaz de lembrar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
 
-Let's jump into some code to illustrate that definition.
+Vamos entrar em um pedaço código para ilustrar esta definição.
 
 ```js
 function foo() {
@@ -43,17 +43,17 @@ function foo() {
 foo();
 ```
 
-This code should look familiar from our discussions of Nested Scope. Function `bar()` has *access* to the variable `a` in the outer enclosing scope because of lexical scope look-up rules (in this case, it's an RHS reference look-up).
+Esse código pode parecer familiar das nossas discussões sobre Escopo Aninhado. A função `bar()` tem *acesso* à variável `a` do escopo ao redor por causa das regras de consulta ao escopo léxico (neste caso, é uma referência RHS).
 
-Is this "closure"?
+Isso é "closure"?
 
-Well, technically... *perhaps*. But by our what-you-need-to-know definition above... *not exactly*. I think the most accurate way to explain `bar()` referencing `a` is via lexical scope look-up rules, and those rules are *only* (an important!) **part** of what closure is.
+Bem, tecnicamente... *talvez*. Mas para a nossa definição o-que-você-precisa-saber acima... *não exatamente*. Eu acredito que a forma mais correta de explicar `bar()` fazendo referência a `a` é por meio das regras de procura do escopo léxico, e essas regras são *apenas* (uma importante!) **parte** do que closure é.
 
-From a purely academic perspective, what is said of the above snippet is that the function `bar()` has a *closure* over the scope of `foo()` (and indeed, even over the rest of the scopes it has access to, such as the global scope in our case). Put slightly differently, it's said that `bar()` closes over the scope of `foo()`. Why? Because `bar()` appears nested inside of `foo()`. Plain and simple.
+De uma perspectiva puramente acadêmica, o que é dito do trecho acima é que a função `bar()` tem uma *closure* sobre o escopo de `foo()` (e, realmente, até sobre o resto dos escopos a que tem acesso, como o escopo global no nosso caso). Colocando de uma forma ligeiramente diferente, é dito que `bar()` se fecha sobre o escopo de `foo()`. Por quê? Porque `bar()` aparece aninhado dentro de `foo()`. Claro e simples.
 
-But, closure defined in this way is not directly *observable*, nor do we see closure *exercised* in that snippet. We clearly see lexical scope, but closure remains sort of a mysterious shifting shadow behind the code.
+Mas, definida dessa forma, closure não é diretamente *observável*, nós nem vimos closure *exercida* nesse trecho. Nós vemos claramente o escopo léxico, mas closure permanece uma espécie de sombra misteriosa se deslocando por trás do código.
 
-Let us then consider code which brings closure into full light:
+Vamos considerar, então, um código que trás closure totalmente para a luz:
 
 ```js
 function foo() {
@@ -68,28 +68,28 @@ function foo() {
 
 var baz = foo();
 
-baz(); // 2 -- Whoa, closure was just observed, man.
+baz(); // 2 -- Whoa, observamos closure, man.
 ```
 
-The function `bar()` has lexical scope access to the inner scope of `foo()`. But then, we take `bar()`, the function itself, and pass it *as* a value. In this case, we `return` the function object itself that `bar` references.
+A função `bar()` tem acesso léxico ao escopo interno de `foo()`. Mas, em seguida, nós temos `bar()`, a função em si, e passamos ela *como* um valor. Nesse caso, nós retornamos (`return`) o próprio objeto da função que `bar` faz referência.
 
-After we execute `foo()`, we assign the value it returned (our inner `bar()` function) to a variable called `baz`, and then we actually invoke `baz()`, which of course is invoking our inner function `bar()`, just by a different identifier reference.
+Depois de executarmos `foo()`, nós atribuímos o valor retornado (nossa função interna `bar()`) para a variável chamada `baz` e então, nós invocamos `baz()`, que certamente está invocando nossa função interna `bar()`, apenas com um identificador diferente.
 
-`bar()` is executed, for sure. But in this case, it's executed *outside* of its declared lexical scope.
+`bar()` é executada, com certeza. Mas, nesse caso, é executada *fora* do seu escopo léxico declarado.
 
-After `foo()` executed, normally we would expect that the entirety of the inner scope of `foo()` would go away, because we know that the *Engine* employs a *Garbage Collector* that comes along and frees up memory once it's no longer in use. Since it would appear that the contents of `foo()` are no longer in use, it would seem natural that they should be considered *gone*.
+Após a execução de `foo()`, normalmente nós esperamos que todo o escopo interno de `foo()` vá embora, porque nós sabemos que a *Engine* usa um *Coletor de Lixo* que vem paralelamente e libera a memória uma vez que não está mais em uso. Já que o conteúdo de `foo()` parece não está mais em uso, é natural que ele deve ser considerado *passado*.
 
-But the "magic" of closures does not let this happen. That inner scope is in fact *still* "in use", and thus does not go away. Who's using it? **The function `bar()` itself**.
+Mas a "mágica" das closures não permite que isso aconteça. Esse escopo interno, de fato, *ainda* está "em uso" e, portanto, ele não desaparece. Quem está usando? **A função `bar()`**.
 
-By virtue of where it was declared, `bar()` has a lexical scope closure over that inner scope of `foo()`, which keeps that scope alive for `bar()` to reference at any later time.
+Em virtude de onde foi declarada, `bar()` tem uma closure sobre o escopo interno de `foo()`, que mantem esse escopo vivo para `bar()` fazer referência a qualquer momento posterior.
 
-**`bar()` still has a reference to that scope, and that reference is called closure.**
+**`bar()` ainda possui uma referência para esse escopo, e essa referência é chamada de closure.**
 
-So, a few microseconds later, when the variable `baz` is invoked (invoking the inner function we initially labeled `bar`), it duly has *access* to author-time lexical scope, so it can access the variable `a` just as we'd expect.
+Então, uns poucos microssegundos depois, quando a variável `baz` é chamada (chamando a função interna que inicialmente atribuímos o nome de `bar`), ela tem o devido acesso ao escopo léxico escrito no tempo da autoria do código, para que ela possa acessar à variável `a` exatamente como esperávamos.
 
-The function is being invoked well outside of its author-time lexical scope. **Closure** lets the function continue to access the lexical scope it was defined in at author-time.
+A função está sendo invocada de forma adequada fora do seu escopo léxico de origem. **Closure** permite que a função continue a acessar o escopo léxico no qual foi definida no momento da sua concepção.
 
-Of course, any of the various ways that functions can be *passed around* as values, and indeed invoked in other locations, are all examples of observing/exercising closure.
+Naturalmente, qualquer uma das várias maneiras pelas quais as funções podem ser *passadas* como valores e, de fato, invocadas em outros lugares, são exemplos de observação/uso de *closure*.
 
 ```js
 function foo() {
@@ -103,13 +103,13 @@ function foo() {
 }
 
 function bar(fn) {
-	fn(); // look ma, I saw closure!
+	fn(); // olhe, mamãe, eu vejo closure!
 }
 ```
 
-We pass the inner function `baz` over to `bar`, and call that inner function (labeled `fn` now), and when we do, its closure over the inner scope of `foo()` is observed, by accessing `a`.
+Nós passamos a função interna `baz` para `bar`, chamamos essa função interna (agora rotulada de `fn`) e, quando fazemos isso, sua closure sobre o escopo interno de `foo()` é observada, acessando `a`.
 
-These passings-around of functions can be indirect, too.
+Estas passagens de funções também podem ocorrer de forma indireta.
 
 ```js
 var fn;
@@ -121,11 +121,11 @@ function foo() {
 		console.log( a );
 	}
 
-	fn = baz; // assign `baz` to global variable
+	fn = baz; // atribuindo `baz` à variável global
 }
 
 function bar() {
-	fn(); // look ma, I saw closure!
+	fn(); // olhe, mamãe, eu vejo closure!
 }
 
 foo();
@@ -133,7 +133,7 @@ foo();
 bar(); // 2
 ```
 
-Whatever facility we use to *transport* an inner function outside of its lexical scope, it will maintain a scope reference to where it was originally declared, and wherever we execute it, that closure will be exercised.
+Seja qual for a forma que usarmos para *transportar* uma função interna para fora do seu escopo léxico, ela irá manter uma referência de escopo de onde ela for declarada originalmente, e onde for que a executarmos, essa closure irá ocorrer.
 
 ## Now I Can See
 
