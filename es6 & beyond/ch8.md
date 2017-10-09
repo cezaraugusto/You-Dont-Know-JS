@@ -1,19 +1,19 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 8: Beyond ES6
+# You Don't Know JS: ES6 & Além
+# Capítulo 8: ES6 & Além
 
-At the time of this writing, the final draft of ES6 (*ECMAScript 2015*) is shortly headed toward its final official vote of approval by ECMA. But even as ES6 is being finalized, the TC39 committee is already hard at work at on features for ES7/2016 and beyond.
+No momento atual em que escrevo, o rascunho final do ES6 (*ECMAScript 2015*) está perto de ser encaminhado ao último voto oficial de aprovação pelo ECMA. Entretanto, ao mesmo tempo em que o ES6 está sendo finalizado, o comitê TC39 já está trabalhando duro nas funcionalidades para o ES7/2016 e além. 
 
-As we discussed in Chapter 1, it's expected that the cadence of progress for JS is going to accelerate from updating once every several years to having an official version update once per year (hence the year-based naming). That alone is going to radically change how JS developers learn about and keep up with the language.
+Como discutimos no Capítulo 1, espera-se que o ritmo de progresso do JS será mais acelerado, e, ao invés de ser atualizado uma vez a cada vários anos, terá uma versão oficial uma vez por ano (por isso a nomenclatura baseada no ano). Isso, por si só, já mudará radicalmente como os desenvolvedores JS aprendem e se mantêm atualizado com a linguagem.
 
-But even more importantly, the committee is actually going to work feature by feature. As soon as a feature is spec-complete and has its kinks worked out through implementation experiments in a few browsers, that feature will be considered stable enough to start using. We're all strongly encouraged to adopt features once they're ready instead of waiting for some official standards vote. If you haven't already learned ES6, the time is *past due* to get on board!
+Ainda mais importante que isso, o comitê passará em realidade a trabalhar em uma funcionalidade de cada vez. Assim que o spec de uma funcionalidade esteja completo e todos suas excentricidades tiverem sido testadas em experimentos de implementação em alguns navegadores, ela será considerada estável suficiente para uso. Somos encorajados a adotar funcionalidades uma vez estejam prontas ao invés de esperar por uma votação de padrões oficiais. Se você ainda não aprendeu ES6, já está mais que na hora de fazer isso! 
 
-As the time of this writing, a list of future proposals and their status can be seen here (https://github.com/tc39/ecma262#current-proposals).
+No momento atual em que escrevo, uma lista de propostas futuras e seus status podem ser encontrados aqui (https://github.com/tc39/ecma262#current-proposals).
 
-Transpilers and polyfills are how we'll bridge to these new features even before all browsers we support have implemented them. Babel, Traceur, and several other major transpilers already have support for some of the post-ES6 features that are most likely to stabilize.
+Transpilers e polyfills serão utilizados por nós como ponte para essas novas funcionalidade, antes mesmo que todos os navegadores que apoiamos as tenham implementado. Babel, Traceur, e vários outros grandes transpilers já tem suporte para algumas dessas funcionalidades pós-ES6 que são mais prováveis de serem estabilizadas. 
 
-With that in mind, it's already time for us to look at some of them. Let's jump in!
+Com isso em mente, é hora de dar uma olhada em algumas dessas funcionalidades. Vamos lá! 
 
-**Warning:** These features are all in various stages of development. While they're likely to land, and probably will look similar, take the contents of this chapter with more than a few grains of salt. This chapter will evolve in future editions of this title as these (and other!) features finalize.
+**Atenção:** Essas funcionalidades estão em diferentes estágios de desenvolvimento. Apesar de ser provável que elas venham a existir, e provavelmente parecerão similares, leia o conteúdo desse capítulo com bastante cautela. Esse capítulo evoluirá em edições futuras desse livro a medida que essas (e outras!) funcionalidades estejam finalizadas.
 
 ## `async function`s
 
