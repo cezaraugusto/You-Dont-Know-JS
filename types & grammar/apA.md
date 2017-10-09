@@ -1,40 +1,41 @@
-# You Don't Know JS: Types & Grammar
-# Appendix A: Mixed Environment JavaScript
+# You Don't Know JS: Tipos e Gramática
+# Apêndice A: JavaScript em Ambiente Misto
 
-Beyond the core language mechanics we've fully explored in this book, there are several ways that your JS code can behave differently when it runs in the real world. If JS was executing purely inside an engine, it'd be entirely predictable based on nothing but the black-and-white of the spec. But JS pretty much always runs in the context of a hosting environment, which exposes your code to some degree of unpredictability.
+Além da mecânica principal da linguagem que exploramos completamente neste livro, há vários comportamentos diferentes que seu código JS pode apresentar quando ele roda no mundo real. Se o JS estava sendo executando puro dentro do motor, ele pode ser totalmente previsível baseado em nada além da especificação. Mas JS quase sempre roda no contexto de um ambiente hosteado, o que expôe seu código à alguns graus de imprevisibilidade.
 
-For example, when your code runs alongside code from other sources, or when your code runs in different types of JS engines (not just browsers), there are some things that may behave differently.
+Por exemplo, quando seu código roda simultaneamente com códigos de outras fontes, ou quando seu código roda em diferentes tipos de Motores JS (não apenas navegadores), há algumas coisas que podem se comportar diferente.
 
-We'll briefly explore some of these concerns.
+Nós vamos explorar brevemente alguns destes casos.
 
-## Annex B (ECMAScript)
+## Anexo B (ECMAScript)
 
-It's a little known fact that the official name of the language is ECMAScript (referring to the ECMA standards body that manages it). What then is "JavaScript"? JavaScript is the common tradename of the language, of course, but more appropriately, JavaScript is basically the browser implementation of the spec.
+É um pouco conhecido o fato que o nome oficial da linguagem é ECMAScript (referindo-se ao conjunto de padrões ECMA que o gerencia). O que então é "JavaScript"? JavaScript é o nome comercial da linguagem, é claro, mas mais apropriadamente, JavaScript é basicamente a implementação desta especificação nos navegadores.
 
-The official ECMAScript specification includes "Annex B," which discusses specific deviations from the official spec for the purposes of JS compatibility in browsers.
+A especificação oficial ECMAScript inclui o "Anexo B", que discute derivações específicas da especificação oficial para os propósitos de compatibilidaded do JS nos navegadores.
 
-The proper way to consider these deviations is that they are only reliably present/valid if your code is running in a browser. If your code always runs in browsers, you won't see any observable difference. If not (like if it can run in node.js, Rhino, etc.), or you're not sure, tread carefully.
+O jeito apropriado de considerar essas derivações é que elas são confiavelmente válidas/presentes somente se seu código estiver rodando em um navegador. Se seu código sempre roda em navegadores, você não verá nenhuma diferença considerável. Caso contrário (como se pudesse ser executado em node.js, Rhino, etc.), ou você não tem certeza, vá com cuidado.
 
-The main compatibility differences:
+As pricipais diferenças de compatibilidade:
 
-* Octal number literals are allowed, such as `0123` (decimal `83`) in non-`strict mode`.
-* `window.escape(..)` and `window.unescape(..)` allow you to escape or unescape strings with `%`-delimited hexadecimal escape sequences. For example: `window.escape( "?foo=97%&bar=3%" )` produces `"%3Ffoo%3D97%25%26bar%3D3%25"`.
-* `String.prototype.substr` is quite similar to `String.prototype.substring`, except that instead of the second parameter being the ending index (noninclusive), the second parameter is the `length` (number of characters to include).
+* Números Octais são permitidos, como `0123` (decimal `83`) em non-`strict mode`.
+* `window.escape(..)` e `window.unescape(..)` permitem que você escape ou não strings com `%`-sequências de escape delimitadas. Por exemplo: `window.escape( "?foo=97%&bar=3%" )` se torna `"%3Ffoo%3D97%25%26bar%3D3%25"`.
+* `String.prototype.substr` é bem similiar à `String.prototype.substring`, exceto que ao invés do segundo parâmetro ser o último index (noninclusive), o segundo parâmetro é o `lenght` (números de caracteres para incluir).
 
 ### Web ECMAScript
 
-The Web ECMAScript specification (http://javascript.spec.whatwg.org/) covers the differences between the official ECMAScript specification and the current JavaScript implementations in browsers.
+A especificação do Web ECMAScript (http://javascript.spec.whatwg.org/) abrange as difereças entre a especificação oficial do ECMAScript e a implementação atual do JavaScript nos navegadores.
 
-In other words, these items are "required" of browsers (to be compatible with each other) but are not (as of the time of writing) listed in the "Annex B" section of the official spec:
+Em outras palavras, esses itens são "requisitos" dos navegadores (para serem compatíveis uns com os outros) mas não são (até o momento) listados na seção "Anexo B" das especificações oficiais:
 
-* `<!--` and `-->` are valid single-line comment delimiters.
-* `String.prototype` additions for returning HTML-formatted strings: `anchor(..)`, `big(..)`, `blink(..)`, `bold(..)`, `fixed(..)`, `fontcolor(..)`, `fontsize(..)`, `italics(..)`, `link(..)`, `small(..)`, `strike(..)`, and `sub(..)`. **Note:** These are very rarely used in practice, and are generally discouraged in favor of other built-in DOM APIs or user-defined utilities.
-* `RegExp` extensions: `RegExp.$1` .. `RegExp.$9` (match-groups) and `RegExp.lastMatch`/`RegExp["$&"]` (most recent match).
-* `Function.prototype` additions: `Function.prototype.arguments` (aliases internal `arguments` object) and `Function.caller` (aliases internal `arguments.caller`). **Note:** `arguments` and thus `arguments.caller` are deprecated, so you should avoid using them if possible. That goes doubly so for these aliases -- don't use them!
+* `<!--` and `-->` são válidos como delimitadores de cometários de única linha.
+* `String.prototype` adições para retornarem strings no formato HTML: `anchor(..)`, `big(..)`, `blink(..)`, `bold(..)`, `fixed(..)`, `fontcolor(..)`, `fontsize(..)`, `italics(..)`, `link(..)`, `small(..)`, `strike(..)`, and `sub(..)`. 
+**Observação:** Estes exemplos raramente são usados na prática, e geralmente não são recomendados por outras API de DOM integradas ou utilidades definidas pelo usuário.
+* Extensões `RegExp`: `RegExp.$1` .. `RegExp.$9` (comninações de grupos) e `RegExp.lastMatch`/`RegExp["$&"]` (combinação mais recente).
+* Adições `Function.prototype`: `Function.prototype.arguments` (apelidos internos dos `arguments` do objeto) e `Function.caller` (apelidos internos de `arguments.caller`). **Observação:** `arguments` e `arguments.caller` estão obsoletos, então você deve evitar de usa-los se porssível. Isso vale ainda mais para apelidos -- Não os use!
 
-**Note:** Some other minor and rarely used deviations are not included in our list here. See the external "Annex B" and "Web ECMAScript" documents for more detailed information as needed.
+**Observação:** Algumas outras variações que são raramente utilizadas não foram incluídas aqui em nossa lista. Veja a documentação do "Anexo B" e "Web ECMAScript" para informações mais detalhadas se necessário.
 
-Generally speaking, all these differences are rarely used, so the deviations from the specification are not significant concerns. **Just be careful** if you rely on any of them.
+Falando no geral, todas estas diferenças são raramente utilizadas, então as derivações da especificação não são preocupações significativas. **Apenas tenha cuidado** ao contar com alguns deles.
 
 ## Host Objects
 
