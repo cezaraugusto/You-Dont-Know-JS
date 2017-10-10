@@ -179,38 +179,37 @@ Ter um conjunto completo de testes de unidade/regressão do seu código que exec
 
 ### Shims/Polyfills
 
-It's usually said that the only safe place to extend a native is in an older (non-spec-compliant) environment, since that's unlikely to ever change -- new browsers with new spec features replace older browsers rather than amending them.
+É geralmente dito que o único lugar seguro para se extender uma propriedade nativa é num velho (especificação não compilada) ambiente, desde que é improvável que este mude algum dia -- novos navegadores com novas funcionalidades de especificações substituem navegadores mais antigos em vez de modificá-los.
 
-If you could see into the future, and know for sure what a future standard was going to be, like for `Array.prototype.foobar`, it'd be totally safe to make your own compatible version of it to use now, right?
+Se você pudesse ver no futuro, e saber com certeza qual padrão o futuro terá para `Array.prototype.foobar`, aí seria totalmente seguro fazer sua própria versão compatível para utilizar, certo?
 
 ```js
 if (!Array.prototype.foobar) {
-	// silly, silly
+	// sabe de nada, inocente
 	Array.prototype.foobar = function() {
 		this.push( "foo", "bar" );
 	};
 }
 ```
+Se já existe uma especificação para `Array.prototype.foobar`, e o comportamento especificado é equivalente à sua lógica, você está bem seguro ao definir este snippet, e nesse caso é geralmente chamado "polyfill" (ou "shim").
 
-If there's already a spec for `Array.prototype.foobar`, and the specified behavior is equal to this logic, you're pretty safe in defining such a snippet, and in that case it's generally called a "polyfill" (or "shim").
+Esse código é **muito** útil de se incluir em sua base de código para "corrigir" ambientes de navegadores antigos que não se atualizaram às novas especificações. Usar os polyfills é uma excelente maneira de criar códigos previsíveis em todos os seus ambientes suportados.
 
-Such code is **very** useful to include in your code base to "patch" older browser environments that aren't updated to the newest specs. Using polyfills is a great way to create predictable code across all your supported environments.
+**Dica** ES5-Shim (https://github.com/es-shims/es5-shim) é uma coleção abrangente de shims/polyfills para trazer um projeto para a base do ES5, e similarmente, ES6-Shim (https://github.com/es-shims/es6-shim) oferece shims para novas APIs adicionadas a partir do ES6. Equanto as APIs podem ter seus shims/polyfills, novas sintaxes geralmente não. Para contornar essa divisão sintática, você também deverá usar um transpilador, como o Traceur (https://github.com/google/traceur-compiler/wiki/GettingStarted).
 
-**Tip:** ES5-Shim (https://github.com/es-shims/es5-shim) is a comprehensive collection of shims/polyfills for bringing a project up to ES5 baseline, and similarly, ES6-Shim (https://github.com/es-shims/es6-shim) provides shims for new APIs added as of ES6. While APIs can be shimmed/polyfilled, new syntax generally cannot. To bridge the syntactic divide, you'll want to also use an ES6-to-ES5 transpiler like Traceur (https://github.com/google/traceur-compiler/wiki/GettingStarted).
+Se (provavelmente) surgir um novo padrão, a maioria das discussões concordará o que será chamado e como isso vai funcionar, criando um polyfill que antecipará as conformidades com padrões voltados para o futuro, isso é chamado "prollyfill"(probably-fill).
 
-If there's likely a coming standard, and most discussions agree what it's going to be called and how it will operate, creating the ahead-of-time polyfill for future-facing standards compliance is called "prollyfill" (probably-fill).
+O real problema é se algum novo padrão de comportamento não puder (totalmente) ter um polyfill/prollyfill.
 
-The real catch is if some new standard behavior can't be (fully) polyfilled/prollyfilled.
+Há um debate na comunidade com polyfills parciais para os casos comuns em que é aceitável (documentar as partes que não podem ter um polyfill), ou se o polyfill deve ser evitado se não puder ter 100% de conformidade com a especificação.
 
-There's debate in the community if a partial-polyfill for the common cases is acceptable (documenting the parts that cannot be polyfilled), or if a polyfill should be avoided if it purely can't be 100% compliant to the spec.
+Muitos desenvolvedores, pelo menos aceitam, alguns polyfills parciais mais comuns (como por exemplo `Object.create(..)`), porque as partes que não são suportadas, são partes que eles não têm a intenção de usar, de qualquer maneira.
 
-Many developers at least accept some common partial polyfills (like for instance `Object.create(..)`), because the parts that aren't covered are not parts they intend to use anyway.
+Alguns desenvolvedores acreditam que o `if` que envolve um polyfill/shim deve incluir alguma forma de teste de conformidade, substituindo o método existente se este está ausente ou se os testes falharem. Essa camada extra de teste de conformiade é algumas vezes usada para distinguir "shim" (testado a conformidade) de "pollyfill" (testado a existência).
 
-Some developers believe that the `if` guard around a polyfill/shim should include some form of conformance test, replacing the existing method either if it's absent or fails the tests. This extra layer of compliance testing is sometimes used to distinguish "shim" (compliance tested) from "polyfill" (existence checked).
+A única saída absoluta é que não há uma resposta totalmente *certa* aqui. Extender propriedades nativas, mesmo quando feito de forma *segura* em ambientes antigos, não é 100% seguro. O mesmo vale para depender de (possívelmente extendidas) propriedades nativas quando há códigos de outras pessoas.
 
-The only absolute take-away is that there is no absolute *right* answer here. Extending natives, even when done "safely" in older environments, is not 100% safe. The same goes for relying upon (possibly extended) natives in the presence of others' code.
-
-Either should always be done with caution, defensive code, and lots of obvious documentation about the risks.
+Em qualquer um dos casos, deverá sempre ser feito com cuidado, código defensivo, e obviamente, muitas documentações sobre os riscos.
 
 ## `<script>`s
 
