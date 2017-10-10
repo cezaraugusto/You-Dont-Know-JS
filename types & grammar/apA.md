@@ -94,86 +94,88 @@ Você talvez esteja acostumado a gerenciar variáveis globais (usando `typeof` o
 
 Esta é mais uma razão do porque você deve, sempre que possível, evitar o uso de variáveis globais, e se for necessário, use variáveis com nomes únicos que não causarão conflitos tão facilmente. Mas você também precisa ter certeza que não vá ter conflitos com o conteúdo HTML tanto quanto com qualquer outro código.
 
-## Native Prototypes
+## Prototypes Nativos
 
-One of the most widely known and classic pieces of JavaScript *best practice* wisdom is: **never extend native prototypes**.
+Uma das mais conhecidas e clássicas *melhores práticas* de Javascript é: **nunca extenda prototypes nativos**.
 
-Whatever method or property name you come up with to add to `Array.prototype` that doesn't (yet) exist, if it's a useful addition and well-designed, and properly named, there's a strong chance it *could* eventually end up being added to the spec -- in which case your extension is now in conflict.
+Qualquer nome de método ou propriedade que você tenha que adicionar em um `Array.prototype` que (ainda) não existe, se for uma adição útil e bem estruturada, e nomeada apropriadamente, há uma grande chance que isso *possa* eventualmente acabar sendo adicionado na especificação -- nesse caso, sua extensão está agora em conflito.
 
-Here's a real example that actually happened to me that illustrates this point well.
+Aqui está um exemplo real do que realmente aconteceu comigo que ilustra bem esse ponto.
 
-I was building an embeddable widget for other websites, and my widget relied on jQuery (though pretty much any framework would have suffered this gotcha). It worked on almost every site, but we ran across one where it was totally broken.
+Eu estava construindo um widget embedado para outros websites, e meu widget dependia do JQuery (embora praticamente qualquer estrutura sofreu com essa pegadinha). Ele funcionava em quase todos os sites, mas nós nos deparamos com um que estava totalmente quebrado.
 
-After almost a week of analysis/debugging, I found that the site in question had, buried deep in one of its legacy files, code that looked like this:
+Depois de quase uma semana de análise/debbug, eu encontrei que o que o site em questão tinha, enterrado profundamente em um dos seus arquivos legados, um código parecido com isso:
 
 ```js
-// Netscape 4 doesn't have Array.push
+// Netscape 4 não possui Array.push
 Array.prototype.push = function(item) {
 	this[this.length] = item;
 };
 ```
 
-Aside from the crazy comment (who cares about Netscape 4 anymore!?), this looks reasonable, right?
+Além desse comentário louco (quem ainda liga para o netscape 4!?), isso parecia razoável, certo?
 
-The problem is, `Array.prototype.push` was added to the spec sometime subsequent to this Netscape 4 era coding, but what was added is not compatible with this code. The standard `push(..)` allows multiple items to be pushed at once. This hacked one ignores the subsequent items.
+O problema é que, `Array.prototype.push` foi adicionado à especificação em um momento subsequente à esse código do nescape 4, mas o que foi adicionado não era compatível com esse código. O padrão `push(...)` permitia que múltiplos itens fossem inseridos de uma vez. Esse hack ignorava os itens subsequentes.
 
-Basically all JS frameworks have code that relies on `push(..)` with multiple elements. In my case, it was code around the CSS selector engine that was completely busted. But there could conceivably be dozens of other places susceptible.
+Basicamente todos os frameworks JS tem algum código que dependem de `push(...)``com múltiplos elementos. No meu caso, era um código ao redor da engine de seletores CSS que foi completamente bloqueado. Mas poderiam haver dúzias de outros lugares suscetíveis.
 
-The developer who originally wrote that `push(..)` hack had the right instinct to call it `push`, but didn't foresee pushing multiple elements. They were certainly acting in good faith, but they created a landmine that didn't go off until almost 10 years later when I unwittingly came along.
+O desenvolvedor que originalmente escreveu aquele hack de `push(...)` tinha bons instintos para chamá-lo de `push`, mas não previu dar `push` em múltiplos elementos. Eles certamente agiram com boa vontade, mas eles criaram uma bomba que não explodiu até que quase 10 anos depois eu, involuntariamente, apareci.
 
-There's multiple lessons to take away on all sides.
+Há várias lições para aprender de todos os lados.
 
-First, don't extend the natives unless you're absolutely sure your code is the only code that will ever run in that environment. If you can't say that 100%, then extending the natives is dangerous. You must weigh the risks.
+Primeiro, não extenda propriedades nativas a menos que tenha absoluta certeza que seu código será o único código que vai rodar naquele ambiente. Se você não pode ter 100% de certeza, então extender propriedades nativas é perigoso. Você deve medir os riscos.
 
-Next, don't unconditionally define extensions (because you can overwrite natives accidentally). In this particular example, had the code said this:
+Próximo, não defina incondicionalmente as extensões (porque você pode substituir propriedades nativas acidentalmente). Nesse exemplo em particular, temos um código assim:
 
 ```js
 if (!Array.prototype.push) {
-	// Netscape 4 doesn't have Array.push
+	// Netscape 4 não possui Array.push
 	Array.prototype.push = function(item) {
 		this[this.length] = item;
 	};
 }
 ```
 
-The `if` statement guard would have only defined this hacked `push()` for JS environments where it didn't exist. In my case, that probably would have been OK. But even this approach is not without risk:
+A declaração `if` garante que você somente definiu esse hack de `push()` em ambientes JS que ele não existe. No meu caso, isso provavelmente seria ok. Mas mesmo essa abordagem não é livre de riscos:
 
-1. If the site's code (for some crazy reason!) was relying on a `push(..)` that ignored multiple items, that code would have been broken years ago when the standard `push(..)` was rolled out.
-2. If any other library had come in and hacked in a `push(..)` ahead of this `if` guard, and it did so in an incompatible way, that would have broken the site at that time.
+1. Se o código do site (por alguma razão louca!) estava dependendo de um `push(...)` que ignorou múltiplos itens, aquele código terá quebrado anos antes quando o padrão `push(..)` foi lançado.
+2. Se alguma outra biblioteca apareceu e fez um hack de `push(..)` com a garantia do `if`, e o fez de forma incompatível, ela já teria quebrado o site naquele momento.
 
-What that highlights is an interesting question that, frankly, doesn't get enough attention from JS developers: **Should you EVER rely on native built-in behavior** if your code is running in any environment where it's not the only code present?
+O que se destaca é uma questão interessandte que, francamente, não recebe a atenção devida dos desenvolvedores JS:
+**Nunca deve-se depender de um comportamento legado** seu código está em execução em qualquer ambiente em que não seja o único código presente?
 
-The strict answer is **no**, but that's awfully impractical. Your code usually can't redefine its own private untouchable versions of all built-in behavior relied on. Even if you *could*, that's pretty wasteful.
+A resposta estrita é **não**, mas é terrivelmente impraticável. Seu código geralmente não pode redefinir suas próprias versões privadas ​​de todo o comportamento dependente do legado. Mesmo se *pudesse*, isso seria muito desperdício.
 
-So, should you feature-test for the built-in behavior as well as compliance-testing that it does what you expect? And what if that test fails -- should your code just refuse to run?
+Então, você deveria fazer testes para comportamentos legados assim como testes de conformidade que faz o que você espera? E se esse teste falha -- seu código seria impedido de executar?
 
 ```js
-// don't trust Array.prototype.push
+// não confie no Array.prototype.push
 (function(){
 	if (Array.prototype.push) {
 		var a = [];
 		a.push(1,2);
 		if (a[0] === 1 && a[1] === 2) {
-			// tests passed, safe to use!
+			// passou no teste, seguro para usar!
 			return;
 		}
 	}
 
 	throw Error(
-		"Array#push() is missing/broken!"
+		"Array#push() está faltanto/quebrado!"
 	);
 })();
 ```
 
-In theory, that sounds plausible, but it's also pretty impractical to design tests for every single built-in method.
+Em teoria, isso parece plausível, mas também é bem impraticável estruturar testes para cada um dos métodos legados.
 
-So, what should we do? Should we *trust but verify* (feature- and compliance-test) **everything**? Should we just assume existence is compliance and let breakage (caused by others) bubble up as it will?
+Então, o que devemos fazer? Devemos *confiar mas verificar* (testes de funcionalidade e conformidade) **em tudo**? Podemos somente assumir que a existência é conformidade e deixar a quebra (causada por outros) se disseminar livremente?
 
-There's no great answer. The only fact that can be observed is that extending native prototypes is the only way these things bite you.
+Não existe uma grande resposta. O único fato observável é que extender prototypes nativos é o único meio dessas coisas te atingirem.
 
-If you don't do it, and no one else does in the code in your application, you're safe. Otherwise, you should build in at least a little bit of skepticism, pessimism, and expectation of possible breakage.
+Se você não fizer, e nignuém mais fizer isso no código da sua aplicação, você está seguro. 
+De outra forma, você deve construir um pouco de cetitcismo, pessimismo, e expectativas de possíveis rupturas.
 
-Having a full set of unit/regression tests of your code that runs in all known environments is one way to surface some of these issues earlier, but it doesn't do anything to actually protect you from these conflicts.
+Ter um conjunto completo de testes de unidade/regressão do seu código que executa em todos os ambientes possíveis é uma maneira de enfrentar alguns desses problemas anteriores, mas isso não faz nada para realmente protege-lo desses conflitos.
 
 ### Shims/Polyfills
 
