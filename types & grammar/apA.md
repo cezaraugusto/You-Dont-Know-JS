@@ -29,70 +29,70 @@ Em outras palavras, esses itens são "requisitos" dos navegadores (para serem co
 
 * `<!--` and `-->` são válidos como delimitadores de cometários de única linha.
 * `String.prototype` adições para retornarem strings no formato HTML: `anchor(..)`, `big(..)`, `blink(..)`, `bold(..)`, `fixed(..)`, `fontcolor(..)`, `fontsize(..)`, `italics(..)`, `link(..)`, `small(..)`, `strike(..)`, and `sub(..)`. 
-**Observação:** Estes exemplos raramente são usados na prática, e geralmente não são recomendados por outras API de DOM integradas ou utilidades definidas pelo usuário.
+**Observação:** Estes exemplos raramente são usados na prática, e geralmente não são recomendados por outras API de DOM nativas ou utilitários definidos pelo usuário.
 * Extensões `RegExp`: `RegExp.$1` .. `RegExp.$9` (comninações de grupos) e `RegExp.lastMatch`/`RegExp["$&"]` (combinação mais recente).
 * Adições `Function.prototype`: `Function.prototype.arguments` (apelidos internos dos `arguments` do objeto) e `Function.caller` (apelidos internos de `arguments.caller`). **Observação:** `arguments` e `arguments.caller` estão obsoletos, então você deve evitar de usa-los se porssível. Isso vale ainda mais para apelidos -- Não os use!
 
 **Observação:** Algumas outras variações que são raramente utilizadas não foram incluídas aqui em nossa lista. Veja a documentação do "Anexo B" e "Web ECMAScript" para informações mais detalhadas se necessário.
 
-Falando no geral, todas estas diferenças são raramente utilizadas, então as derivações da especificação não são preocupações significativas. **Apenas tenha cuidado** ao contar com alguns deles.
+Falando no geral, todas estas diferenças são raramente utilizadas, então as derivações da especificação não são preocupações significativas. **Apenas tenha cuidado** ao contar com algumas delas.
 
-## Host Objects
+## Objetos Globais
 
-The well-covered rules for how variables behave in JS have exceptions to them when it comes to variables that are auto-defined, or otherwise created and provided to JS by the environment that hosts your code (browser, etc.) -- so called, "host objects" (which include both built-in `object`s and `function`s).
+As regras de boas práticas de como as variáveis se comportam em JS têm exceções quando se tratam de variáveis auto definidas, ou criadas e fornecidas de outra forma no JS pelo ambiente que hospeda o seu código (navegador, etc.) -- então chamados, "objetos globais" (no qual ambos incluem `objects` e `functions`s nativas).
 
-For example:
+Por exemplo:
 
 ```js
 var a = document.createElement( "div" );
 
-typeof a;								// "object" -- as expected
+typeof a;								// "object" -- como esperado
 Object.prototype.toString.call( a );	// "[object HTMLDivElement]"
 
 a.tagName;								// "DIV"
 ```
 
-`a` is not just an `object`, but a special host object because it's a DOM element. It has a different internal `[[Class]]` value (`"HTMLDivElement"`) and comes with predefined (and often unchangeable) properties.
+`a` não é só um `object`, mas um objeto global especial porque este é um elemento do DOM. Ele tem um `[[Class]]` valor interno (`"HTMLDivElement"`) diferente e vem com propriedades pré-definidas (e frequentemente imutáveis).
 
-Another such quirk has already been covered, in the "Falsy Objects" section in Chapter 4: some objects can exist but when coerced to `boolean` they (confoundingly) will coerce to `false` instead of the expected `true`.
+Outra peculiaridade já foi abordada, na seção "Objetos Falsos"(Falsy Objects) no capítulo 4: alguns objetos podem existir mas quando forçados em `boolean` eles (de forma confusa) serão forçados para `false` ao invés de `true` como seria o esperado.
 
-Other behavior variations with host objects to be aware of can include:
+Outra variação de comportamento com objetos globais para se ter cuidado podem incluir:
 
-* not having access to normal `object` built-ins like `toString()`
-* not being overwritable
-* having certain predefined read-only properties
-* having methods that cannot be `this`-overriden to other objects
-* and more...
+* não ter acesso a propriedades nativas do `object` como `toString()`
+* não ser editável
+* ter certas propriedades pré-definidas com "somente leitura"
+* ter métodos que não podem ter o `this` substituído por outros objetos
+* e mais...
 
-Host objects are critical to making our JS code work with its surrounding environment. But it's important to note when you're interacting with a host object and be careful assuming its behaviors, as they will quite often not conform to regular JS `object`s.
+Objetos globais são fundamentais para tornar nosso código JS funcional em todo ambiente. Mas é importante lembrar quando você está interagindo com um objeto global e ter cuidado ao assumir seu comportamento, pois eles quase sempre não estão em conformiadade com ´object´s tradicionais.
 
-One notable example of a host object that you probably interact with regularly is the `console` object and its various functions (`log(..)`, `error(..)`, etc.). The `console` object is provided by the *hosting environment* specifically so your code can interact with it for various development-related output tasks.
+Um exemplo notável de um objeto global que você provavelmente vai interagir regularmente é o objeto `console` que é fornecido pelo *ambiente global* especificamente para que seu código possa interagir com ele por várias tarefas de relacionadas ao desenvolvimento em produção.
 
-In browsers, `console` hooks up to the developer tools' console display, whereas in node.js and other server-side JS environments, `console` is generally connected to the standard-output (`stdout`) and standard-error (`stderr`) streams of the JavaScript environment system process.
+Em navegadores, o `console` está atrelado ao console de ferramentas do desenvolvedor, enquanto em node.js e outros ambientes JS do lado do servidor, `console` é geralmente à saída padrão (`stdout`) e depurador de erros (`stderr`) do fluxo de processos do sistema de desenvolvimento em JS.
 
-## Global DOM Variables
+## Variáveis Globais do DOM
 
-You're probably aware that declaring a variable in the global scope (with or without `var`) creates not only a global variable, but also its mirror: a property of the same name on the `global` object (`window` in the browser).
+Você provavelmente está ciente que declarar uma variável no escopo global (com ou sem `var`) cria não só uma variável global, mas também um espelho: uma propriedade de mesmo nome no objeto `global` (`window` no navegador).
 
-But what may be less common knowledge is that (because of legacy browser behavior) creating DOM elements with `id` attributes creates global variables of those same names. For example:
+Mas o que talvez possa ser de pouco conhecimento é que (por causa do compartamento legado do navegador) criar elementos do DOM com atributos `id` cria variáveis globais com esses mesmos nomes. Por exemplo:
 
 ```html
 <div id="foo"></div>
 ```
 
-And:
+E:
 
 ```js
 if (typeof foo == "undefined") {
-	foo = 42;		// will never run
+	foo = 42;		// nunca vai rodar
 }
 
-console.log( foo );	// HTML element
+console.log( foo );	// elemento HTML
 ```
 
-You're perhaps used to managing global variable tests (using `typeof` or `.. in window` checks) under the assumption that only JS code creates such variables, but as you can see, the contents of your hosting HTML page can also create them, which can easily throw off your existence check logic if you're not careful.
+Você talvez esteja acostumado a gerenciar variáveis globais (usando `typeof` ou checagens `.. in window`) assumindo qe somente código JS cria tais variáveis, mas como você pode ver, o conteúdo da sua página HTML Global também pode criá-los, o que pode facilmente derrubar toda sua lógica já existente se você não for cuidadoso.
 
-This is yet one more reason why you should, if at all possible, avoid using global variables, and if you have to, use variables with unique names that won't likely collide. But you also need to make sure not to collide with the HTML content as well as any other code.
+Esta é mais uma razão do porque você deve, sempre que possível, evitar o uso de variáveis globais, e se for necessário, use variáveis com nomes únicos que não causarão conflitos tão facilmente. Mas você também precisa ter certeza que não vá ter conflitos com o conteúdo HTML tanto quanto com qualquer outro código.
 
 ## Native Prototypes
 
