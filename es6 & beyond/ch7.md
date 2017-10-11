@@ -68,13 +68,13 @@ A confusão aparece porque por padrão, o nome léxico que a função tinha (se 
 
 **Dica** Se a função tem um valor de `name` atribuído, esse é tipicamente o nome usado em traços de pilha nas ferramentas dos desenvolvedores.
 
-### Inferences
+### Inferferências
 
-But what happens to the `name` property if a function has no lexical name?
+Mas o que acontece com o nome da propriedade `name` se uma função não tiver um nome léxico?
 
-As of ES6, there are now inference rules which can determine a sensible `name` property value to assign a function even if that function doesn't have a lexical name to use.
+A partir da ES6, há agora regras de interferência que podem determinar um nome sensível da propriedade `name` para atribuir à uma função, mesmo se essa função não tiver um nome léxico para usar.
 
-Consider:
+Considere:
 
 ```js
 var abc = function() {
@@ -84,47 +84,47 @@ var abc = function() {
 abc.name;	// "abc"
 ```
 
-Had we given the function a lexical name like `abc = function def() { .. }`, the `name` property would of course be `"def"`. But in the absence of the lexical name, intuitively the `"abc"` name seems appropriate.
+Nós demos à função um nome léxico como `abc = function def() { .. }`, a propriedade `name` será com certeza `"def"`. Mas, na ausência de um nome léxico, intuitivamente o nome `"abc"` parece ser apropriado.
 
-Here are other forms that will infer a name (or not) in ES6:
+Aqui estão outras formas que inferião um nome (ou não) no ES6:
 
 ```js
-(function(){ .. });					// name:
-(function*(){ .. });				// name:
-window.foo = function(){ .. };		// name:
+(function(){ .. });					// nome:
+(function*(){ .. });				// nome:
+window.foo = function(){ .. };		// nome:
 
 class Awesome {
-	constructor() { .. }			// name: Awesome
-	funny() { .. }					// name: funny
+	constructor() { .. }			// nome: Awesome
+	funny() { .. }					// nome: funny
 }
 
 var c = class Awesome { .. };		// name: Awesome
 
 var o = {
-	foo() { .. },					// name: foo
-	*bar() { .. },					// name: bar
-	baz: () => { .. },				// name: baz
-	bam: function(){ .. },			// name: bam
-	get qux() { .. },				// name: get qux
-	set fuz() { .. },				// name: set fuz
+	foo() { .. },					// nome: foo
+	*bar() { .. },					// nome: bar
+	baz: () => { .. },				// nome: baz
+	bam: function(){ .. },			// nome: bam
+	get qux() { .. },				// nome: get qux
+	set fuz() { .. },				// nome: set fuz
 	["b" + "iz"]:
-		function(){ .. },			// name: biz
+		function(){ .. },			// nome: biz
 	[Symbol( "buz" )]:
-		function(){ .. }			// name: [buz]
+		function(){ .. }			// nome: [buz]
 };
 
-var x = o.foo.bind( o );			// name: bound foo
-(function(){ .. }).bind( o );		// name: bound
+var x = o.foo.bind( o );			// nome: bound foo
+(function(){ .. }).bind( o );		// nome: bound
 
-export default function() { .. }	// name: default
+export default function() { .. }	// nome: default
 
-var y = new Function();				// name: anonymous
+var y = new Function();				// nome: anônima
 var GeneratorFunction =
 	function*(){}.__proto__.constructor;
-var z = new GeneratorFunction();	// name: anonymous
+var z = new GeneratorFunction();	// nome: anônima
 ```
 
-The `name` property is not writable by default, but it is configurable, meaning you can use `Object.defineProperty(..)` to manually change it if so desired.
+A propriedade `name` não é editável por padrão, mas é configurável, significando que você pode usar `Object.defineProperty(..)` para mudar manualmente se desejar.
 
 ## Meta Properties
 
