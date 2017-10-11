@@ -1,15 +1,16 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 7: Meta Programming
+# You Don't Know JS: ES6 & Além
+# Capítulo 7: Metaprogramação
 
-Meta programming is programming where the operation targets the behavior of the program itself. In other words, it's programming the programming of your program. Yeah, a mouthful, huh?
+Metaprogramação é programação onde a operação visa o comportamento do próprio programa. Em outras palavras, é programar a programação do seu programa. Sim, um bocado, não é?
 
-For example, if you probe the relationship between one object `a` and another `b` -- are they `[[Prototype]]` linked? -- using `a.isPrototype(b)`, this is commonly referred to as introspection, a form of meta programming. Macros (which don't exist in JS, yet) --  where the code modifies itself at compile time -- are another obvious example of meta programming. Enumerating the keys of an object with a `for..in` loop, or checking if an object is an *instance of* a "class constructor", are other common meta programming tasks.
+Por exemplo, se você investigar a relação entre um objeto `a` e outro `b` -- eles são `[[Prototype]]` conectados? -- usando `a.isPrototype(b)`, isso é comumente referido como instrospecão, uma forma de metaprogramação. Macros (que não existem em JS, ainda) -- onde o código se modifica no momento da compilação -- são outros exemplos óbvios de metaprogramação.
+Enumerar as chaves de um objeto com um loop `for..in`, ou verificar se um objeto é uma *instância de* um "construtor de uma classe", são outros tipos comuns de metaprogramação.
 
-Meta programming focuses on one or more of the following: code inspecting itself, code modifying itself, or code modifying default language behavior so other code is affected.
+Metaprogramação concentra-se em um ou mais dos seguintes itens: inspeção de código, modificação do código, ou código que modifica o comportamento padrão da linguagem, de modo que outro código seja afetado.
 
-The goal of meta programming is to leverage the language's own intrinsic capabilities to make the rest of your code more descriptive, expressive, and/or flexible. Because of the *meta* nature of meta programming, it's somewhat difficult to put a more precise definition on it than that. The best way to understand meta programming is to see it through examples.
+O objetivo da metaprogramação é aproveitar as capacidades intrísecas para tornar o resto do seu código mais descritivo, expressivo, e/ou flexível· Por conta da natureza do termo *meta* de metaprogramação, é um tanto difícil de colocar uma definição mais precisa do que essa. A melhor forma de entender metaprogramação é ve-la através de exemplos.
 
-ES6 adds several new forms/features for meta programming on top of what JS already had.
+A ES6 adiciona várias novos métodos/funcionalidades para metaprogramação em cima do que o JS já possuía.
 
 ## Function Names
 
