@@ -213,17 +213,17 @@ Em qualquer um dos casos, deverá sempre ser feito com cuidado, código defensiv
 
 ## `<script>`s
 
-Most browser-viewed websites/applications have more than one file that contains their code, and it's common to have a few or several `<script src=..></script>` elements in the page that load these files separately, and even a few inline-code `<script> .. </script>` elements as well.
+A maioria dos websites/aplicações web têm mais de um arquivo que contém seus códigos, e é comum ter poucos ou muitos elementos `<script src=..></script>` na página que carrega os arquivos separadamente, e até um pouco de código inline dentro do `<script> .. </script>` também.
 
-But do these separate files/code snippets constitute separate programs or are they collectively one JS program?
+Mas estes snippets de arquivos/códigos separados constituem programas separados ou eles são, coletivamente, um só programa em JS?
 
-The (perhaps surprising) reality is they act more like independent JS programs in most, but not all, respects.
+A (talvez surpreendente) realidade é que eles agem mais como programas JS independentes na maior parte das vezes, mas nem sempre, isso é respeitado.
 
-The one thing they *share* is the single `global` object (`window` in the browser), which means multiple files can append their code to that shared namespace and they can all interact.
+A única coisa que eles *compartilham* é um único objeto `global` (`window` no navegador), o que significa que múltiplos arquivos podem anexar seu código nesse espaço compartilhado e todos podem interagir·
 
-So, if one `script` element defines a global function `foo()`, when a second `script` later runs, it can access and call `foo()` just as if it had defined the function itself.
+Então, se um elemento de um `script` definir uma função global `foo()`, quando um segundo `script` executar depois, ele poderá acessar e chamar `foo()` como se ele próprio tivesse definido essa função.
 
-But global variable scope *hoisting* (see the *Scope & Closures* title of this series) does not occur across these boundaries, so the following code would not work (because `foo()`'s declaration isn't yet declared), regardless of if they are (as shown) inline `<script> .. </script>` elements or externally loaded `<script src=..></script>` files:
+Mas a *elevação* do escopo de variáveis globais (veja em *Escopo & Clausuras* dessa série) não ocorre através desse limite, então o código seguinte não funcionará (porque a declaração de `foo()` ainda não foi declarada), independentemente de terem (como mostrado) elementos `<script> .. </script>` inline ou arquivos carregados externamente `<script src=..></script>`:
 
 ```html
 <script>foo();</script>
@@ -233,7 +233,7 @@ But global variable scope *hoisting* (see the *Scope & Closures* title of this s
 </script>
 ```
 
-But either of these *would* work instead:
+Mas qualquer um desses *poderia* funcionar no lugar:
 
 ```html
 <script>
@@ -242,7 +242,7 @@ But either of these *would* work instead:
 </script>
 ```
 
-Or:
+Ou:
 
 ```html
 <script>
@@ -252,9 +252,9 @@ Or:
 <script>foo();</script>
 ```
 
-Also, if an error occurs in a `script` element (inline or external), as a separate standalone JS program it will fail and stop, but any subsequent `script`s will run (still with the shared `global`) unimpeded.
+Também, se acontecer um erro num elemento `script` (inline ou externo), como um programa independente e separado, ele irá falhar e parar, mas qualquer `script`s subsequente irá executar (continua com `global` compartilhado) sem obstáculos.
 
-You can create `script` elements dynamically from your code, and inject them into the DOM of the page, and the code in them will behave basically as if loaded normally in a separate file:
+Você pode criar elementos `script` dinamicamente no seu código, e injetá-los no DOM da página, e o código nele vai se comportar, basicamente, como se tivesse carregado normalmente em um arquivo separado:
 
 ```js
 var greeting = "Hello World";
@@ -267,9 +267,9 @@ el.text = "function foo(){ alert( greeting );\
 document.body.appendChild( el );
 ```
 
-**Note:** Of course, if you tried the above snippet but set `el.src` to some file URL instead of setting `el.text` to the code contents, you'd be dynamically creating an externally loaded `<script src=..></script>` element.
+**Observação** é claro, se você tentar o snippet acima mas definir `el.src` para algum arquivo em URL externa em vez de definir `el.text` para os conteúdos do código, você estará criando um elemento de carregamento de `<script src=..></script>` externo dinamicamente.
 
-One difference between code in an inline code block and that same code in an external file is that in the inline code block, the sequence of characters `</script>` cannot appear together, as (regardless of where it appears) it would be interpreted as the end of the code block. So, beware of code like:
+Uma diferença entre o código em um bloco de código inline e esse mesmo código em um arquivo externo é que aquele no bloco de código inline, a sequência dos caracteres `</script>` não podem aparecer juntos, assim (independentemente de onde aparecerá) ele vai ser interpretado como o final do bloco de código. Então, cuidado com códigos como esse:
 
 ```html
 <script>
@@ -277,17 +277,17 @@ One difference between code in an inline code block and that same code in an ext
 </script>
 ```
 
-It looks harmless, but the `</script>` appearing inside the `string` literal will terminate the script block abnormally, causing an error. The most common workaround is:
+Parece inofensivo, mas o `</script>` aparecendo dentro de uma `string` literal terminará o bloco de script anormalmente, causando um erro. A solução alternativa mais comum é:  
 
 ```js
 "</sc" + "ript>";
 ```
 
-Also, beware that code inside an external file will be interpreted in the character set (UTF-8, ISO-8859-8, etc.) the file is served with (or the default), but that same code in an inline `script` element in your HTML page will be interpreted by the character set of the page (or its default).
+Também, tenha cuidado com códigos dentro de arquivos externos que serão interpretados com conjuntos de catacteres (UTF-8, ISO-8859-8, etc.) o arquivo é servido com (ou o padrão), mas esse mesmo código em um `script` inline elemento na sua página HTML será interpretado pelo conjunto de caracteres da página (ou seu padrão).
 
-**Warning:** The `charset` attribute will not work on inline script elements.
+**Atenção** O atributo `charset` não funciona em elementos de script inline.
 
-Another deprecated practice with inline `script` elements is including HTML-style or X(HT)ML-style comments around inline code, like:
+Outra prática obsoleta com elementos de `script` inline é incluir comentários HTML-style or X(HT)ML-style no código inline, dessa forma:
 
 ```html
 <script>
@@ -303,9 +303,9 @@ alert( "World" );
 </script>
 ```
 
-Both of these are totally unnecessary now, so if you're still doing that, stop it!
+Os dois casos são totalmente desnecessários agora, então se você continua fazendo isso, pare!
 
-**Note:** Both `<!--` and `-->` (HTML-style comments) are actually specified as valid single-line comment delimiters (`var x = 2; <!-- valid comment` and `--> another valid line comment`) in JavaScript (see the "Web ECMAScript" section earlier), purely because of this old technique. But never use them.
+**Observação:** Ambos `<!--` e `-->` (comentários HTML) são atualmente especificados como delimitadores de linha única válidos (`var x = 2; <!-- comentário válido` e `--> outra linha de comentário válida`) no Javascript (veja a seção anterior "Web ECMAScript"), puramente por causa dessa técnica antiga. Mas nunca use eles.
 
 ## Reserved Words
 
