@@ -12,9 +12,9 @@ O objetivo da metaprogramação é aproveitar as capacidades intrísecas para to
 
 A ES6 adiciona várias novos métodos/funcionalidades para metaprogramação em cima do que o JS já possuía.
 
-## Function Names
+## Nome de Funções
 
-There are cases where your code may want to introspect on itself and ask what the name of some function is. If you ask what a function's name is, the answer is surprisingly somewhat ambiguous. Consider:
+Existes casos em que seu código pode querer se voltar pra si mesmo e perguntar qual o nome de alguma função. Se você perguntar qual o nome da função, a reposta será algo surpreendentemente abíguo. Considere:
 
 ```js
 function daz() {
@@ -35,25 +35,25 @@ var obj = {
 };
 ```
 
-In this previous snippet, "what is the name of `obj.foo()`" is slightly nuanced. Is it `"foo"`, `""`, or `undefined`? And what about `obj.bar()` -- is it named `"bar"` or `"baz"`? Is `obj.bam()` named `"bam"` or `"daz"`? What about `obj.zim()`?
+Nesse fragmento anterior, "qual é o nome de `obj.foo()`" é ligeiramente variado. É `"foo"`, `""`, ou `undefined`? E sobre `obj.bar()` -- ele é nomeado `"bar"` ou `"baz"`? O nome de  `obj.bam()` é `"bam"` ou `"daz"`? E sobre `obj.zim()`?
 
-Moreover, what about functions which are passed as callbacks, like:
+Além disso, e sobre as funções que são passadas como callbacks, como essas:
 
 ```js
 function foo(cb) {
-	// what is the name of `cb()` here?
+	// qual o nome de`cb()` aqui?
 }
 
 foo( function(){
-	// I'm anonymous!
+	// Eu sou anônima!
 } );
 ```
 
-There are quite a few ways that functions can be expressed in programs, and it's not always clear and unambiguous what the "name" of that function should be.
+Há várias maneiras nas quais funções podem ser expressadas em programas, e nem sempre está claro e sem abiguidade qual o "nome" que a função deveria ter.
 
-More importantly, we need to distinguish whether the "name" of a function refers to its `name` property -- yes, functions have a property called `name` -- or whether it refers to the lexical binding name, such as `bar` in `function bar() { .. }`.
+Mais importante, nós precisamos distinguir se o nome de uma função se refere ao `name` da sua propriedade -- sim, função tem uma propriedade chamada `name` -- ou o que quer que se refira ao *nome da ligação léxica*(lexical binding name), assim como `bar` em `function bar() { .. }`.
 
-The lexical binding name is what you use for things like recursion:
+O nome da ligação léxica é o que você usa para coisas como recursão: 
 
 ```js
 function foo(i) {
@@ -62,11 +62,11 @@ function foo(i) {
 }
 ```
 
-The `name` property is what you'd use for meta programming purposes, so that's what we'll focus on in this discussion.
+A propriedade `name` é o que você usaria para os propósitos da metaprogramação, então é o que vamos focar nessa discussão.
 
-The confusion comes because by default, the lexical name a function has (if any) is also set as its `name` property. Actually there was no official requirement for that behavior by the ES5 (and prior) specifications. The setting of the `name` property was nonstandard but still fairly reliable. As of ES6, it has been standardized.
+A confusão aparece porque por padrão, o nome léxico que a função tinha (se algum) também foi definido como a propriedade do seu `name`. Atualmente não há requerimentos oficiais para esse comportamento pela especificação ES5 (e anterior). A definição da propriedade `name` não era padrão, mas ainda era bastante confiável. A partir da ES6, isso foi padronizado.
 
-**Tip:** If a function has a `name` value assigned, that's typically the name used in stack traces in developer tools.
+**Dica** Se a função tem um valor de `name` atribuído, esse é tipicamente o nome usado em traços de pilha nas ferramentas dos desenvolvedores.
 
 ### Inferences
 
@@ -81,7 +81,7 @@ var abc = function() {
 	// ..
 };
 
-abc.name;				// "abc"
+abc.name;	// "abc"
 ```
 
 Had we given the function a lexical name like `abc = function def() { .. }`, the `name` property would of course be `"def"`. But in the absence of the lexical name, intuitively the `"abc"` name seems appropriate.
