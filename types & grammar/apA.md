@@ -387,10 +387,10 @@ Exemplos de outros limites conhecidos:
 * tamanho máximo permitido para o nome de uma variável
 * ...
 
-## Review
+## Revisão
 
-We know and can rely upon the fact that the JS language itself has one standard and is predictably implemented by all the modern browsers/engines. This is a very good thing!
+Sabemos que podemos confiar que a própria linguagem JS tem um padrão e é previsivelmente implementada por todos os navagadores/motores modernos. Isso é uma coisa muito boa!
 
-But JavaScript rarely runs in isolation. It runs in an environment mixed in with code from third-party libraries, and sometimes it even runs in engines/environments that differ from those found in browsers.
+Mas o javascript raramente executa isoladamente. Ele roda em um abiente misto e com códigos de bibliotecas terceiras, e algumas vezes até roda em motores/ambientes que diferem daqueles encontrados nos navagadores.
 
-Paying close attention to these issues improves the reliability and robustness of your code.
+Prestar muita atenção para essas questões melhora a confiabilidade e robustez do seu código.
