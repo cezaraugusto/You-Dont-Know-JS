@@ -307,13 +307,14 @@ Os dois casos são totalmente desnecessários agora, então se você continua fa
 
 **Observação:** Ambos `<!--` e `-->` (comentários HTML) são atualmente especificados como delimitadores de linha única válidos (`var x = 2; <!-- comentário válido` e `--> outra linha de comentário válida`) no Javascript (veja a seção anterior "Web ECMAScript"), puramente por causa dessa técnica antiga. Mas nunca use eles.
 
-## Reserved Words
+## Palavras Reservadas
 
-The ES5 spec defines a set of "reserved words" in Section 7.6.1 that cannot be used as standalone variable names. Technically, there are four categories: "keywords", "future reserved words", the `null` literal, and the `true` / `false` boolean literals.
+A especificação ES5 define um conjunto de "palavras reservadas" na seção 7.6.1 que não podem ser usadas como nomes de variáveis independentes. Tecnicamente, há quatro categorias: "palavras-chave", "palavras reservadas para o futuro", o literal `null`, e os literais booleanos `true` / `false`.
 
-Keywords are the obvious ones like `function` and `switch`. Future reserved words include things like `enum`, though many of the rest of them (`class`, `extends`, etc.) are all now actually used by ES6; there are other strict-mode only reserved words like `interface`.
+Palavras-chave são as mais óbvias, como `function` e `switch`. Palavras reservadas para o futuro incluem coisas como `enum`, embora muitas outras (`class`, `extends`, etc.) são agora utilizadas pela ES6; há outro modo estrito que apenas reservam palavras como `interface`.
 
-StackOverflow user "art4theSould" creatively worked all these reserved words into a fun little poem (http://stackoverflow.com/questions/26255/reserved-keywords-in-javascript/12114140#12114140):
+O usuário "art4theSould" do StackOverflow, criativamente, trabalhou todas essas palavras reservadas em um pequeno e engraçado poema:
+(http://stackoverflow.com/questions/26255/reserved-keywords-in-javascript/12114140#12114140)
 
 > Let this long package float,
 > Goto private class if short.
@@ -331,24 +332,24 @@ StackOverflow user "art4theSould" creatively worked all these reserved words int
 > In return for const, true, char
 > …Finally catch byte.
 
-**Note:** This poem includes words that were reserved in ES3 (`byte`, `long`, etc.) that are no longer reserved as of ES5.
+**Observação:** Esse poema inclui palavras que foram reservadas na ES3 (`byte`, `long`, etc.) que não são mais reservadas na ES5.
 
-Prior to ES5, the reserved words also could not be property names or keys in object literals, but that restriction no longer exists.
+Antes do ES5, as palavras reservadas também não podiam ser nomes de propriedades e chaves em objetos literais, mas essa restrição não existe mais.
 
-So, this is not allowed:
+Então, isso não é permitido:
 
 ```js
 var import = "42";
 ```
 
-But this is allowed:
+Mas isso é permitido:
 
 ```js
 var obj = { import: "42" };
 console.log( obj.import );
 ```
 
-You should be aware though that some older browser versions (mainly older IE) weren't completely consistent on applying these rules, so there are places where using reserved words in object property name locations can still cause issues. Carefully test all supported browser environments.
+Você deve tomar cuidado com algumas versões antigas de navegadores (principalmente IE antigos) essas regras não estão totalmente aplicadas de forma consistente, então há lugares em que usar palavras reservadas em nomes de propriedades de objetos ainda podem causar conflitos. Cuidadosamente teste todos os ambientes de navagadores suportados.
 
 ## Implementation Limits
 
