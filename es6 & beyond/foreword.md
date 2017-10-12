@@ -1,9 +1,10 @@
 # You Don't Know JS: ES6 & Beyond
 # Foreword
 
-Kyle Simpson is a thorough pragmatist.
+Kyle Simpson é um pragmático minucioso. 
 
-I can't think of higher praise than this. To me, these are two of the most important qualities that a software developer must have. That's right: *must*, not *should*. Kyle's keen ability to tease apart layers of the JavaScript programming language and present them in understandable and meaningful portions is second to none.
+Não consigo pensar em elogio maior do que esse. Para mim, estas são duas das qualidades mais importantes que um desenvolvedor de software precisa ter. Isso mesmo: precisa! A habilidade afiada de Kyle para tentar separar as camadas da linguagem de programação JavaScript e apresentá-las em porções significativas e compreensíveis é inigualável.
+
 
 *ES6 & Beyond* will be familiar to readers of the *You Don't Know JS* series:  they can expect to be deeply immersed in everything from the obvious, to the very subtle -- revealing semantics that were either taken for granted or never even considered. Until now, the *You Don't Know JS* book series has covered material that has at least some degree of familiarity to its readers. They have either seen or heard about the subject matter; they may even have experience with it. This volume covers material that only a very small portion of the JavaScript developer community has been exposed to: the  evolutionary changes to the language introduced in the ECMAScript 2015 Language Specification.
 
