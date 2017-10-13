@@ -161,23 +161,23 @@ Há uma pequena nuance aqui, qual é o `constructor()` dentro da definição da 
 
 **Atenção** Assim como todas técnicas de meta programação, tenha cuidado na criação de códigos que sejam muito espertos para a manutenabilidade e entendimento no seu próprio futuro ou de outros. Use esses macetes com cautela.
 
-## Well Known Symbols
+## Símbolos bem conhecidos
 
-In the "Symbols" section of Chapter 2, we covered the new ES6 primitive type `symbol`. In addition to symbols you can define in your own program, JS predefines a number of built-in symbols, referred to as *Well Known Symbols* (WKS).
+Na seção "Símbolos" do Capítulo 2, nós abordamos o novo tipo primitivo `symbol` do ES6. Além dos símbolos que você pode definir em seu próprio programa, o JS predefine uma série de símbolos internos, conhecidos como *Símbolos bem conhecidos* (WKS - *do original*).
 
-These symbol values are defined primarily to expose special meta properties that are being exposed to your JS programs to give you more control over JS's behavior.
+Esses valores de símbolos são definidos, primeiramente, para expor uma meta propriedade especial que está sendo exposta em seus programas JS, para te dar mais controle sobre o comportamento do JS.
 
-We'll briefly introduce each and discuss their purpose.
+Nós vamos introduzir brevemente a cada um e discutir suas propostas.
 
 ### `Symbol.iterator`
 
-In Chapters 2 and 3, we introduced and used the `@@iterator` symbol, automatically used by `...` spreads and `for..of` loops. We also saw `@@iterator` as defined on the new ES6 collections as defined in Chapter 5.
+No Capítulo 2 e 3, nós apresentamos e usamos o símbolo `@@iterator`, automaticamente usado pelos spreads `...` e loops `for..of`. Nós também vimos `@@iterator` definidos nas coleções no novo ES6, como mostrado no Capítulo 5.
 
-`Symbol.iterator` represents the special location (property) on any object where the language mechanisms automatically look to find a method that will construct an iterator instance for consuming that object's values. Many objects come with a default one defined.
+`Symbol.iterator` representa a localização especial (propriedade) de qualquer objeto em que o mecanismo da lignuagem olha e automaticamente acha um método que vai construir uma instânica de iteração para consumir os valores daquele objeto. Muitos objetos vêm com um valor definido como padrão.
 
-However, we can define our own iterator logic for any object value by setting the `Symbol.iterator` property, even if that's overriding the default iterator. The meta programming aspect is that we are defining behavior which other parts of JS (namely, operators and looping constructs) use when processing an object value we define.
+Entretanto, nós podemos definir a nossa própria lógica de iterador para qualquer valor de objeto definindo a propriedade `Symbol.iterator`, mesmo se isso esiver sibstituindo o iterador padrão. O apecta da meta programação é que nós estamos definindo comportamentos que outras partes do JS (nomeclatura, operadores e loopings construtores) usam quando peocessam o valor de um objeto que nós definimos.
 
-Consider:
+Considere:
 
 ```js
 var arr = [4,5,6,7,8,9];
@@ -187,8 +187,8 @@ for (var v of arr) {
 }
 // 4 5 6 7 8 9
 
-// define iterator that only produces values
-// from odd indexes
+// define o iterador que produz apenas valores
+// de índices estranhos
 arr[Symbol.iterator] = function*() {
 	var idx = 1;
 	do {
@@ -202,11 +202,11 @@ for (var v of arr) {
 // 5 7 9
 ```
 
-### `Symbol.toStringTag` and `Symbol.hasInstance`
+### `Symbol.toStringTag` e `Symbol.hasInstance`
 
-One of the most common meta programming tasks is to introspect on a value to find out what *kind* it is, usually to decide what operations are appropriate to perform on it. With objects, the two most common inspection techniques are `toString()` and `instanceof`.
+Umas das tarefas de metaprogramação mais comuns é inspecionar um valor para descobrir qual *tipo* ele é, geralmente para decidir quais operadores são apropriados para atuar neles. Com objetos, as duas técnicas de inspeção mais comuns são `toString()` e `instanceof`.
 
-Consider:
+Considere:
 
 ```js
 function Foo() {}
@@ -244,13 +244,17 @@ a instanceof Foo;			// true
 b instanceof Foo;			// false
 ```
 
-The `@@toStringTag` symbol on the prototype (or instance itself) specifies a string value to use in the `[object ___]` stringification.
+O símbolo `@@toString` no prototype (ou na própria instância) especifica o valor da string para uso no `[object ___]` como stringification.
 
-The `@@hasInstance` symbol is a method on the constructor function which receives the instance object value and lets you decide by returning `true` or `false` if the value should be considered an instance or not.
+O símbolo `@@hasInstance` é um método da função construtora que recebe o valor da instância de um objeto e deixa vocçê decidir se retorna `true` ou `false` se o valor poderá ser considerado uma instância ou não.
 
-**Note:** To set `@@hasInstance` on a function, you must use `Object.defineProperty(..)`, as the default one on `Function.prototype` is `writable: false`. See the *this & Object Prototypes* title of this series for more information.
+**Observação** Para definir `@@hasInstance` em uma função, você precisa usar o `Object.defineProperty(..)`, assim como o padrão em `Function.prototype` é `writable: false`. Veja o tópico *this e Object Prototypes* dessa série para mais informações.
 
 ### `Symbol.species`
+
+Em "Classes" no Capítulo 3, nós apresentamos o símbolo `@@species`, que controla qual construtor é usado em métodos legados de uma classe que precisa gerar novas instâncias.
+
+O exemplo mais comum é quando
 
 In "Classes" in Chapter 3, we introduced the `@@species` symbol, which controls which constructor is used by built-in methods of a class that needs to spawn new instances.
 
