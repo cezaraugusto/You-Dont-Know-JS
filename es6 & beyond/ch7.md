@@ -126,24 +126,24 @@ var z = new GeneratorFunction();	// nome: anônima
 
 A propriedade `name` não é editável por padrão, mas é configurável, significando que você pode usar `Object.defineProperty(..)` para mudar manualmente se desejar.
 
-## Meta Properties
+## Meta Propriedades
 
-In the "`new.target`" section of Chapter 3, we introduced a concept new to JS in ES6: the meta property. As the name suggests, meta properties are intended to provide special meta information in the form of a property access that would otherwise not have been possible.
+Na seção "`new.target`" do Capítulo 3, nós introduzimos um conceito novo para o JS no ES6: a meta propriedade. Como o nome sugeste, meta propriedades têm a intenção de fornencer meta informações especiais na forma de acesso de uma propriedade que de outra forma não teria sido possível.
 
-In the case of `new.target`, the keyword `new` serves as the context for a property access. Clearly `new` is itself not an object, which makes this capability special. However, when `new.target` is used inside a constructor call (a function/method invoked with `new`), `new` becomes a virtual context, so that `new.target` can refer to the target constructor that `new` invoked.
+No caso de `new.target`, a palavra-chave `new` serve como contexto para o acesso de uma propriedade. Claramente `new` não é um objeto propriamente, o que torna essa capacidade especial. Entretanto, quando `new.target` é usado dentro de uma chamada de um construtor (uma função/método invocado com `new`), `new` se torna um contexto virtual, tanto que `new.target` pode se referir ao construtor de destino no qual `new` foi invocado.
 
-This is a clear example of a meta programming operation, as the intent is to determine from inside a constructor call what the original `new` target was, generally for the purposes of introspection (examining typing/structure) or static property access.
+Esse é um exemplo claro de uma operação de meta programação, como a intenção é determinar a chamada a partir de dentro de um construtor no qual a origem `new` estava, geralmente para propósitos de instrospecção (examinar tipagem/estrutura) ou acesso de propriedades estáticas.
 
-For example, you may want to have different behavior in a constructor depending on if it's directly invoked or invoked via a child class:
+Por exemplo, você pode querer ter diferentes comportamentos em um construtor, dependendo se ele foi invocado diretamente ou invocado através do filho de uma classe:
 
 ```js
 class Parent {
 	constructor() {
 		if (new.target === Parent) {
-			console.log( "Parent instantiated" );
+			console.log( "Pai instanciado" );
 		}
 		else {
-			console.log( "A child instantiated" );
+			console.log( "Um filho instanciado" );
 		}
 	}
 }
@@ -151,15 +151,15 @@ class Parent {
 class Child extends Parent {}
 
 var a = new Parent();
-// Parent instantiated
+// Pai instanciado
 
 var b = new Child();
-// A child instantiated
+// Um filho instanciado
 ```
 
-There's a slight nuance here, which is that the `constructor()` inside the `Parent` class definition is actually given the lexical name of the class (`Parent`), even though the syntax implies that the class is a separate entity from the constructor.
+Há uma pequena nuance aqui, qual é o `constructor()` dentro da definição da classe `Parent`, é atualmente dado o nome léxico da classe (`Parent`), mesmo que a sintaxe signifique que a classe é uma entidade separada do construtor.
 
-**Warning:** As with all meta programming techniques, be careful of creating code that's too clever for your future self or others maintaining your code to understand. Use these tricks with caution.
+**Atenção** Assim como todas técnicas de meta programação, tenha cuidado na criação de códigos que sejam muito espertos para a manutenabilidade e entendimento no seu próprio futuro ou de outros. Use esses macetes com cautela.
 
 ## Well Known Symbols
 
