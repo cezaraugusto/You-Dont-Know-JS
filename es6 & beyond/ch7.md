@@ -254,17 +254,13 @@ O símbolo `@@hasInstance` é um método da função construtora que recebe o va
 
 Em "Classes" no Capítulo 3, nós apresentamos o símbolo `@@species`, que controla qual construtor é usado em métodos legados de uma classe que precisa gerar novas instâncias.
 
-O exemplo mais comum é quando
+O exemplo mais comum é quando se adiciona uma `Array` a subclasse e queremos definir qual métodos herdados seu construtor (`Array(..)` ou sua subclasse), como o `slice(..)` você deveria usar. Por padrão, o `slice (..)` chamado em uma instância de uma subclasse de `Array` produziria uma nova instância dessa subclasse, na qual é, francamente, o que você vai querer frequentemente.
 
-In "Classes" in Chapter 3, we introduced the `@@species` symbol, which controls which constructor is used by built-in methods of a class that needs to spawn new instances.
-
-The most common example is when subclassing `Array` and wanting to define which constructor (`Array(..)` or your subclass) inherited methods like `slice(..)` should use. By default, `slice(..)` called on an instance of a subclass of `Array` would produce a new instance of that subclass, which is frankly what you'll likely often want.
-
-However, you can meta program by overriding a class's default `@@species` definition:
+Entretanto, você pode meta programar substituindo a definição padrão `@@species`:
 
 ```js
 class Cool {
-	// defer `@@species` to derived constructor
+	// adiar `@@species` para um construtor derivado
 	static get [Symbol.species]() { return this; }
 
 	again() {
@@ -275,7 +271,7 @@ class Cool {
 class Fun extends Cool {}
 
 class Awesome extends Cool {
-	// force `@@species` to be parent constructor
+	// forçar `@@species` para ser um construtor pai
 	static get [Symbol.species]() { return Cool; }
 }
 
@@ -289,9 +285,9 @@ d instanceof Awesome;		// false
 d instanceof Cool;			// true
 ```
 
-The `Symbol.species` setting defaults on the built-in native constructors to the `return this` behavior as illustrated in the previous snippet in the `Cool` definition. It has no default on user classes, but as shown that behavior is easy to emulate.
+A configuração `Symbol.species` padrão está nos construtores nativos incorporados ao comportamento do `return this` assim como ilustrado no snippet anterior na definição `cool`. Não há padrão em classes de usuário, mas, como mostrado, esse comportamento é fácil de emular.
 
-If you need to define methods that generate new instances, use the meta programming of the `new this.constructor[Symbol.species](..)` pattern instead of the hard-wiring of `new this.constructor(..)` or `new XYZ(..)`. Derived classes will then be able to customize `Symbol.species` to control which constructor vends those instances.
+Se você precisa definir métodos que irão gerar novas instâncias, use a a metaprogramação do  padrão `new this.constructor[Symbol.species](..)` em vez da engessada `new this.constructor(..)` or `new XYZ(..)`. Classes derivadas serão então capazes de customizar `Symbol.species` para controlar qual construtor vende aquelas isntâncias.
 
 ### `Symbol.toPrimitive`
 
