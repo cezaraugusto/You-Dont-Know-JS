@@ -317,34 +317,37 @@ O método `Symbol.toPrimitive` vai ser fornecido com uma *dica* de `"string"`, `
 
 **Atenção** O operador `==` vai invocar a operação `ToPrimitive` sem uma dica -- o método `@@toPrimitive`, se algum for chamado com a dica `"default"` -- em um objeto se o outro valor comparado não for um objeto. Entretanto, se os dois valores de comparação são objetos, o comportamento de `==` é idêntico ao `===`. que se referenciam a eles mesmos e são comparáveis diretamente. Nesse caso, `@@toPrimitive` não é invocado. Veja no tópico *Tipos & Gramática* dessa série para mais informações sobre coerção e as operaçãoes abstratas.
 
-### Regular Expression Symbols
+### Símbolos de expressões regulares
 
-There are four well known symbols that can be overridden for regular expression objects, which control how those regular expressions are used by the four corresponding `String.prototype` functions of the same name:
+Há quatro símbolos bem conhecidos que podem ser subtituídos por objetos de expressão regular, que controla como essas expressões regulares são usadas pelas quatro funções `String.prototype` com os mesmos nomes correspondentes:
 
-* `@@match`: The `Symbol.match` value of a regular expression is the method used to match all or part of a string value with the given regular expression. It's used by `String.prototype.match(..)` if you pass it a regular expression for the pattern matching.
+* `@@match`: O valor `Symbol.match` de uma expressão regular é o método usado para combinar todas as partes do valor de uma string com a expressão regular fornecida. É usado por `String.prototype.match(..)` se você passar ele como uma expressão regular para o padrão de combinação.
 
-   The default algorithm for matching is laid out in section 21.2.5.6 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@match). You could override this default algorithm and provide extra regex features, such as look-behind assertions.
+	O algotítimo padrão para combinar está na seção 21.2.5.6 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@match). Você poderá substituir esse algoritimo padrão e fornacer funcionalidades extras na regex, assim como assertivas looking-behind.
 
-   `Symbol.match` is also used by the `isRegExp` abstract operation (see the note in "String Inspection Functions" in Chapter 6) to determine if an object is intended to be used as a regular expression. To force this check to fail for an object so it's not treated as a regular expression, set the `Symbol.match` value to `false` (or something falsy).
-* `@@replace`: The `Symbol.replace` value of a regular expression is the method used by `String.prototype.replace(..)` to replace within a string one or all occurrences of character sequences that match the given regular expression pattern.
+	`Symbol.match` também  é usado pela operação abstrata `isRegExp` (veja a nota em "Funções de inspeção da String" no Capítulo 6) para determinar se uma objeto tem a intenção de ser usado como uma expressão regular. Para forçar a falha dessa verificação no objeto oara que isso não seja tratado como expressão regular, defina o valor do símbolo `Symbol.match` para `false` (ou algo falseável).
 
-   The default algorithm for replacing is laid out in section 21.2.5.8 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@replace).
+*`@@replace`: O valor do símbolo `Symbol.replace` de uma expressão regular é o método usado pelo `String.prototype.replace(..)` para substituir dentro de uma string uma ou todas ocorrências de sequências de caracteres que combinarem com padrão fornecido das expressões regulares.
 
-   One cool use for overriding the default algorithm is to provide additional `replacer` argument options, such as supporting `"abaca".replace(/a/g,[1,2,3])` producing `"1b2c3"` by consuming the iterable for successive replacement values.
-* `@@search`: The `Symbol.search` value of a regular expression is the method used by `String.prototype.search(..)` to search for a sub-string within another string as matched by the given regular expression.
+	O algoritmo padrão para substituição está explícito na seção 21.2.5.8 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@replace).
 
-   The default algorithm for searching is laid out in section 21.2.5.9 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@search).
-* `@@split`: The `Symbol.split` value of a regular expression is the method used by `String.prototype.split(..)` to split a string into sub-strings at the location(s) of the delimiter as matched by the given regular expression.
+	Um uso legal para substituir o algoritmo padrão pe fornecer opções adicionais do argumento `replacer`, assim como o dado `"abaca".replace(/a/g,[1,2,3])` produz `"1b2c3"` consumindo a iteração por sucessivos valores substituídos.
 
-   The default algorithm for splitting is laid out in section 21.2.5.11 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@split).
+* `@@search`: O valor `Symbol.search` de uma expressão regular é o método usado por `String.prototype.search(..)` para buscar por uma substring dentro de outra string assim que combinado com a expressão regular fornecida.
 
-Overriding the built-in regular expression algorithms is not for the faint of heart! JS ships with a highly optimized regular expression engine, so your own user code will likely be a lot slower. This kind of meta programming is neat and powerful, but it should only be used in cases where it's really necessary or beneficial.
+	O algoritmo padrão para buscas está descrito na seção 21.2.5.9 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@search).
+
+* `@@split`: O valor do símbolo `Symbol.split` de uma expressão regular é o método usado por `String.prototype.split(..)` para repartir uma string em substrings na localização(ões) do delimitador da combinação da expressão regular fornecida.
+
+	O algoritmo padrão para repartir (splitting) está na seção 21.2.5.11 da especificação ES6(https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@split).
+
+Substituir os algoritmos de expressão regular nativos não é para os fracos de coração! O JS vem com um motor de expressões regulares altamente otimizado, então seu próprio código provavelmente será bem mais lento. Esse tipo de metaprogramação é limpo e poderoso, mas só deve ser usado em casos onde são realmente necessários ou benéficos.
 
 ### `Symbol.isConcatSpreadable`
 
-The `@@isConcatSpreadable` symbol can be defined as a boolean property (`Symbol.isConcatSpreadable`) on any object (like an array or other iterable) to indicate if it should be *spread out* if passed to an array `concat(..)`.
+O símbolo `@@isConcarSpreadable` pode ser definido como uma propriedade booleana (`Symbol.isConcatSpreadable`) de qualquer objeto (como um array ou outro iterável) para indicar se isso deve ser *espalhado* se passar para um array `concat(..)`
 
-Consider:
+Considere:
 
 ```js
 var a = [1,2,3],
@@ -357,9 +360,9 @@ b[Symbol.isConcatSpreadable] = false;
 
 ### `Symbol.unscopables`
 
-The `@@unscopables` symbol can be defined as an object property (`Symbol.unscopables`) on any object to indicate which properties can and cannot be exposed as lexical variables in a `with` statement.
+O símbolo `@@unscopables` pode ser definido com uma propriedade de objeto (`Symbol.unscopables`)em qualquer objeto para indicar qual propriedade não podem ser expostas como variáveis léxicas em uma declaração `with`.
 
-Consider:
+Considere:
 
 ```js
 var o = { a:1, b:2, c:3 },
@@ -376,9 +379,9 @@ with (o) {
 }
 ```
 
-A `true` in the `@@unscopables` object indicates the property should be *unscopable*, and thus filtered out from the lexical scope variables. `false` means it's OK to be included in the lexical scope variables.
+Um `true` em um objeto `@@unscopables` indica que a propriedade deve ser *fora de escopo (unscopable)*, e é filtrada do escopo das variáveis léxicas. `false` significa que é OK incluir em um escopo de variáveis léxicas.
 
-**Warning:** The `with` statement is disallowed entirely in `strict` mode, and as such should be considered deprecated from the language. Don't use it. See the *Scope & Closures* title of this series for more information. Because `with` should be avoided, the `@@unscopables` symbol is also moot.
+**Atenção** A declaração `with` é totalmente proibida no modo `strict`, assim como deve ser considerada obsoleta para a linguagem. Não a use. Veja o tópico *Escopo & Closures* dessa série para mais informações. Porque `with` deve ser evitado, o símbolo `@@ unscopables` também é discutível.
 
 ## Proxies
 
