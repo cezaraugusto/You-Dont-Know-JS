@@ -291,11 +291,11 @@ Se você precisa definir métodos que irão gerar novas instâncias, use a a met
 
 ### `Symbol.toPrimitive`
 
-In the *Types & Grammar* title of this series, we discussed the `ToPrimitive` abstract coercion operation, which is used when an object must be coerced to a primitive value for some operation (such as `==` comparison or `+` addition). Prior to ES6, there was no way to control this behavior.
+No tópico *Typos & Gramática* dessa série, nós discutimos a operação de coerção abstrata `ToPrimitive`, que é usada quando um objeto precisa ser coagido para um valor primitivo para algumas operações (assim como a comparação `==` ou adição `+`). Antes do ES6, não havia uma maneira de controlar esse comportamento.
 
-As of ES6, the `@@toPrimitive` symbol as a property on any object value can customize that `ToPrimitive` coercion by specifying a method.
+No ES6, o símbolo `@@toPrimitive` como uma propriedade em qualquer valor de objeto pode customizar essa coerção `toPrimitive` especificando um método.
 
-Consider:
+Considere:
 
 ```js
 var arr = [1,2,3,4,5];
@@ -304,7 +304,7 @@ arr + 10;				// 1,2,3,4,510
 
 arr[Symbol.toPrimitive] = function(hint) {
 	if (hint == "default" || hint == "number") {
-		// sum all numbers
+		// soma de todos os números
 		return this.reduce( function(acc,curr){
 			return acc + curr;
 		}, 0 );
@@ -313,10 +313,9 @@ arr[Symbol.toPrimitive] = function(hint) {
 
 arr + 10;				// 25
 ```
+O método `Symbol.toPrimitive` vai ser fornecido com uma *dica* de `"string"`, `"number"`, ou `"default"` (o que será interpretado como `"number"`), dependendo de qual tipo de operação invocada `ToPrimitive` está esperando. No snippet anterior, a operação de adição `+` não tem dica (é passado o `"default"`). Uma operação de multiplicação `*` vai ter uma dica `"number"` e uma `String(arr)` vai ter uma dica `"string"`.
 
-The `Symbol.toPrimitive` method will be provided with a *hint* of `"string"`, `"number"`, or `"default"` (which should be interpreted as `"number"`), depending on what type the operation invoking `ToPrimitive` is expecting. In the previous snippet, the additive `+` operation has no hint (`"default"` is passed). A multiplicative `*` operation would hint `"number"` and a `String(arr)` would hint `"string"`.
-
-**Warning:** The `==` operator will invoke the `ToPrimitive` operation with no hint -- the `@@toPrimitive` method, if any is called with hint `"default"` -- on an object if the other value being compared is not an object. However, if both comparison values are objects, the behavior of `==` is identical to `===`, which is that the references themselves are directly compared. In this case, `@@toPrimitive` is not invoked at all. See the *Types & Grammar* title of this series for more information about coercion and the abstract operations.
+**Atenção** O operador `==` vai invocar a operação `ToPrimitive` sem uma dica -- o método `@@toPrimitive`, se algum for chamado com a dica `"default"` -- em um objeto se o outro valor comparado não for um objeto. Entretanto, se os dois valores de comparação são objetos, o comportamento de `==` é idêntico ao `===`. que se referenciam a eles mesmos e são comparáveis diretamente. Nesse caso, `@@toPrimitive` não é invocado. Veja no tópico *Tipos & Gramática* dessa série para mais informações sobre coerção e as operaçãoes abstratas.
 
 ### Regular Expression Symbols
 
