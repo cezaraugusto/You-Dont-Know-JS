@@ -248,7 +248,7 @@ O símbolo `@@toString` no prototype (ou na própria instância) especifica o va
 
 O símbolo `@@hasInstance` é um método da função construtora que recebe o valor da instância de um objeto e deixa vocçê decidir se retorna `true` ou `false` se o valor poderá ser considerado uma instância ou não.
 
-**Observação** Para definir `@@hasInstance` em uma função, você precisa usar o `Object.defineProperty(..)`, assim como o padrão em `Function.prototype` é `writable: false`. Veja o tópico *this e Object Prototypes* dessa série para mais informações.
+**Observação** Para definir `@@hasInstance` em uma função, você precisa usar o `Object.defineProperty(..)`, assim como o padrão em `Function.prototype` é `writable: false`. Veja o título *this e Object Prototypes* dessa série para mais informações.
 
 ### `Symbol.species`
 
@@ -291,7 +291,7 @@ Se você precisa definir métodos que irão gerar novas instâncias, use a a met
 
 ### `Symbol.toPrimitive`
 
-No tópico *Typos & Gramática* dessa série, nós discutimos a operação de coerção abstrata `ToPrimitive`, que é usada quando um objeto precisa ser coagido para um valor primitivo para algumas operações (assim como a comparação `==` ou adição `+`). Antes do ES6, não havia uma maneira de controlar esse comportamento.
+No título *Typos & Gramática* dessa série, nós discutimos a operação de coerção abstrata `ToPrimitive`, que é usada quando um objeto precisa ser coagido para um valor primitivo para algumas operações (assim como a comparação `==` ou adição `+`). Antes do ES6, não havia uma maneira de controlar esse comportamento.
 
 No ES6, o símbolo `@@toPrimitive` como uma propriedade em qualquer valor de objeto pode customizar essa coerção `toPrimitive` especificando um método.
 
@@ -315,7 +315,7 @@ arr + 10;				// 25
 ```
 O método `Symbol.toPrimitive` vai ser fornecido com uma *dica* de `"string"`, `"number"`, ou `"default"` (o que será interpretado como `"number"`), dependendo de qual tipo de operação invocada `ToPrimitive` está esperando. No snippet anterior, a operação de adição `+` não tem dica (é passado o `"default"`). Uma operação de multiplicação `*` vai ter uma dica `"number"` e uma `String(arr)` vai ter uma dica `"string"`.
 
-**Atenção** O operador `==` vai invocar a operação `ToPrimitive` sem uma dica -- o método `@@toPrimitive`, se algum for chamado com a dica `"default"` -- em um objeto se o outro valor comparado não for um objeto. Entretanto, se os dois valores de comparação são objetos, o comportamento de `==` é idêntico ao `===`. que se referenciam a eles mesmos e são comparáveis diretamente. Nesse caso, `@@toPrimitive` não é invocado. Veja no tópico *Tipos & Gramática* dessa série para mais informações sobre coerção e as operaçãoes abstratas.
+**Atenção** O operador `==` vai invocar a operação `ToPrimitive` sem uma dica -- o método `@@toPrimitive`, se algum for chamado com a dica `"default"` -- em um objeto se o outro valor comparado não for um objeto. Entretanto, se os dois valores de comparação são objetos, o comportamento de `==` é idêntico ao `===`. que se referenciam a eles mesmos e são comparáveis diretamente. Nesse caso, `@@toPrimitive` não é invocado. Veja no título *Tipos & Gramática* dessa série para mais informações sobre coerção e as operaçãoes abstratas.
 
 ### Símbolos de expressões regulares
 
@@ -381,22 +381,24 @@ with (o) {
 
 Um `true` em um objeto `@@unscopables` indica que a propriedade deve ser *fora de escopo (unscopable)*, e é filtrada do escopo das variáveis léxicas. `false` significa que é OK incluir em um escopo de variáveis léxicas.
 
-**Atenção** A declaração `with` é totalmente proibida no modo `strict`, assim como deve ser considerada obsoleta para a linguagem. Não a use. Veja o tópico *Escopo & Closures* dessa série para mais informações. Porque `with` deve ser evitado, o símbolo `@@ unscopables` também é discutível.
+**Atenção** A declaração `with` é totalmente proibida no modo `strict`, assim como deve ser considerada obsoleta para a linguagem. Não a use. Veja o título *Escopo & Closures* dessa série para mais informações. Porque `with` deve ser evitado, o símbolo `@@ unscopables` também é discutível.
 
 ## Proxies
 
-One of the most obviously meta programming features added to ES6 is the `Proxy` feature.
+Uma das funcionalidades mais óbvias da metaprogramação adicionanda no ES6 é a funcionalidade `Proxy`.
 
-A proxy is a special kind of object you create that "wraps" -- or sits in front of -- another normal object. You can register special handlers (aka *traps*) on the proxy object which are called when various operations are performed against the proxy. These handlers have the opportunity to perform extra logic in addition to *forwarding* the operations on to the original target/wrapped object.
+Um proxy é um tipo especial de objeto que você cria aqueles "wraps" -- ou seta da frente de -- outro objeto normal. Você pode registrar marcadores especiais (aka *armadilhas*) no objeto de proxy que são chamados quando várias operações são performadas contra o proxy. Esses marcadores têm a oportunidade de realizar lógicas extras em adição a operações de *encaminhamento* no objeto alvo original.
 
-One example of the kind of *trap* handler you can define on a proxy is `get` that intercepts the `[[Get]]` operation -- performed when you try to access a property on an object. Consider:
+Um exemplo do tipo de marcadores de *armadilhas* que você pode definir em um proxy é `get` que intercepta a operação `[[Get]]` -- realizada quando você tenta acessar a propriedade de um objeto.
+
+Considere:
 
 ```js
 var obj = { a: 1 },
 	handlers = {
 		get(target,key,context) {
-			// note: target === obj,
-			// context === pobj
+			// nota: target === obj,
+			// contexto === pobj
 			console.log( "accessing: ", key );
 			return Reflect.get(
 				target, key, context
@@ -409,36 +411,37 @@ obj.a;
 // 1
 
 pobj.a;
-// accessing: a
+// acessando: a
 // 1
 ```
 
-We declare a `get(..)` handler as a named method on the *handler* object (second argument to `Proxy(..)`), which receives a reference to the *target* object (`obj`), the *key* property name (`"a"`), and the `self`/receiver/proxy (`pobj`).
+Nós declaramos um manipulador `get(..)` como nomeado no método no objeto *handler* (segundo argumento para `Proxy(..)`), que recebe uma referência para o objeto *target* (`obj`), o nome da propriedade *key* (`"a"`), e o `self`/recebedor/proxy (`pobj`).
 
-After the `console.log(..)` tracing statement, we "forward" the operation onto `obj` via `Reflect.get(..)`. We will cover the `Reflect` API in the next section, but note that each available proxy trap has a corresponding `Reflect` function of the same name.
+Depois do `console.log(..)` traçar a declaração, nós "encaminhamos" a operação para o `obj` via `Reflect.get(..)`. Nós vamos abordar a API `Reflect` na próxima seção, mas note que cada armadilha proxy disponível tem uma funcção `Reflect` correspondente com o mesmo nome.
 
-These mappings are symmetric on purpose. The proxy handlers each intercept when a respective meta programming task is performed, and the `Reflect` utilities each perform the respective meta programming task on an object. Each proxy handler has a default definition that automatically calls the corresponding `Reflect` utility. You will almost certainly use both `Proxy` and `Reflect` in tandem.
+Esses mapeamentos têm propósitos simétricos. cada manipulador proxy intercepta quando uma respectiva tarefa de metaprogramação é realizada, e cada uma das utilidades do `Reflect` realizam a terefa de mataprogramação respectiva em um objeto. Cada manipulador proxy tem uma definição padrão que automaticamente chama uma utilidade `Reflect` correspondente. Você vai com certeza utilizar ambas, `Reflect` e `Proxy`.
 
-Here's a list of handlers you can define on a proxy for a *target* object/function, and how/when they are triggered:
+Aqui está uma lista de manipuladores que você pode4rá definir em um proxy para uma função/objeto *alvo*, e como/quando eles serão disparados:
 
-* `get(..)`: via `[[Get]]`, a property is accessed on the proxy (`Reflect.get(..)`, `.` property operator, or `[ .. ]` property operator)
-* `set(..)`: via `[[Set]]`, a property value is set on the proxy (`Reflect.set(..)`, the `=` assignment operator, or destructuring assignment if it targets an object property)
-* `deleteProperty(..)`: via `[[Delete]]`, a property is deleted from the proxy (`Reflect.deleteProperty(..)` or `delete`)
-* `apply(..)` (if *target* is a function): via `[[Call]]`, the proxy is invoked as a normal function/method (`Reflect.apply(..)`, `call(..)`, `apply(..)`, or the `(..)` call operator)
-* `construct(..)` (if *target* is a constructor function): via `[[Construct]]`, the proxy is invoked as a constructor function (`Reflect.construct(..)` or `new`)
-* `getOwnPropertyDescriptor(..)`: via `[[GetOwnProperty]]`, a property descriptor is retrieved from the proxy (`Object.getOwnPropertyDescriptor(..)` or `Reflect.getOwnPropertyDescriptor(..)`)
-* `defineProperty(..)`: via `[[DefineOwnProperty]]`, a property descriptor is set on the proxy (`Object.defineProperty(..)` or `Reflect.defineProperty(..)`)
-* `getPrototypeOf(..)`: via `[[GetPrototypeOf]]`, the `[[Prototype]]` of the proxy is retrieved (`Object.getPrototypeOf(..)`, `Reflect.getPrototypeOf(..)`, `__proto__`, `Object#isPrototypeOf(..)`, or `instanceof`)
-* `setPrototypeOf(..)`: via `[[SetPrototypeOf]]`, the `[[Prototype]]` of the proxy is set (`Object.setPrototypeOf(..)`, `Reflect.setPrototypeOf(..)`, or `__proto__`)
-* `preventExtensions(..)`: via `[[PreventExtensions]]`, the proxy is made non-extensible (`Object.preventExtensions(..)` or `Reflect.preventExtensions(..)`)
-* `isExtensible(..)`: via `[[IsExtensible]]`, the extensibility of the proxy is probed (`Object.isExtensible(..)` or `Reflect.isExtensible(..)`)
-* `ownKeys(..)`: via `[[OwnPropertyKeys]]`, the set of owned properties and/or owned symbol properties of the proxy is retrieved (`Object.keys(..)`, `Object.getOwnPropertyNames(..)`, `Object.getOwnSymbolProperties(..)`, `Reflect.ownKeys(..)`, or `JSON.stringify(..)`)
-* `enumerate(..)`: via `[[Enumerate]]`, an iterator is requested for the proxy's enumerable owned and "inherited" properties (`Reflect.enumerate(..)` or `for..in`)
-* `has(..)`: via `[[HasProperty]]`, the proxy is probed to see if it has an owned or "inherited" property (`Reflect.has(..)`, `Object#hasOwnProperty(..)`, or `"prop" in obj`)
+* `get(..)`: via `[[Get]]`, uma propriedade é acessado no proxy (`Reflect.get(..)`, `.` operador da propriedade, ou `[ .. ]` operador da proopriedade)
+* `set(..)`: via `[[Set]]`, um valor é definido para a propriedade do proxy (`Reflect.set(..)`, o `=` operador de atribuição, ou desestruturando a atribuição se ele tiver uma propriedade de objeto como alvo)
+* `deleteProperty(..)`: via `[[Delete]]`, uma propriedade é deletada do proxy (`Reflect.deleteProperty(..)` ou `delete`)
+* `apply(..)` (se *target* é uma função): via `[[Call]]`, o proxy é invocado como uma função/método normal (`Reflect.apply(..)`, `call(..)`, `apply(..)`, ou o `(..)` operador de chamada)
+* `construct(..)` (se o *target* é uma função construtora): via `[[Construct]]`, o proxy é invocado como como uma função construtora (`Reflect.construct(..)` ou `new`)
+* `getOwnPropertyDescriptor(..)`: via `[[GetOwnProperty]]`, uma propriedade decriptada é recuperada do proxy (`Object.getOwnPropertyDescriptor(..)` ou `Reflect.getOwnPropertyDescriptor(..)`)
+* `defineProperty(..)`: via `[[DefineOwnProperty]]`, uma propriedade decripitada é definida no Proxy (`Object.defineProperty(..)` ou `Reflect.defineProperty(..)`)
+* `getPrototypeOf(..)`: via `[[GetPrototypeOf]]`, o `[[Prototype]]` do proxy é recuperado (`Object.getPrototypeOf(..)`, `Reflect.getPrototypeOf(..)`, `__proto__`, `Object#isPrototypeOf(..)`, ou `instanceof`)
+* `setPrototypeOf(..)`: via `[[SetPrototypeOf]]`, o `[[Prototype]]` do proxy é definido(`Object.setPrototypeOf(..)`, `Reflect.setPrototypeOf(..)`, or `__proto__`)
+* `preventExtensions(..)`: via `[[PreventExtensions]]`, o proxy é feito não extensível(`Object.preventExtensions(..)` ou `Reflect.preventExtensions(..)`)
+* `isExtensible(..)`: via `[[IsExtensible]]`, a extensibilidade do proxy é avaliada
+ (`Object.isExtensible(..)` or `Reflect.isExtensible(..)`)
+* `ownKeys(..)`: via `[[OwnPropertyKeys]]`, o conjunto de propriedades próprias e/ou propriedade de símbolos do proxy é recuperado (`Object.keys(..)`, `Object.getOwnPropertyNames(..)`, `Object.getOwnSymbolProperties(..)`, `Reflect.ownKeys(..)`, ou `JSON.stringify(..)`)
+* `enumerate(..)`: via `[[Enumerate]]`, um iterador é solicitado para propriedades próprias enumeradas e "herdadas" do proxy (`Reflect.enumerate(..)` ou `for..in`)
+* `has(..)`: via `[[HasProperty]]`, o proxy é avalidado para ver se ele tem uma propriedade própria ou "herdada" (`Reflect.has(..)`, `Object#hasOwnProperty(..)`, ou `"prop" in obj`)
 
-**Tip:** For more information about each of these meta programming tasks, see the "`Reflect` API" section later in this chapter.
+**Dica** Para mais informação sobre cada uma dessas tarefas de metaprogramação, veja a seção API `Reflect` depois nesse capítulo.
 
-In addition to the notations in the preceding list about actions that will trigger the various traps, some traps are triggered indirectly by the default actions of another trap. For example:
+Além das notações na lista anterior sobre ações que irão disparar várias armadilhas, algumas armadilhas são disparadas indiretamente por ações padrão de outra armadilha. Poe exemplo:
 
 ```js
 var handlers = {
@@ -464,13 +467,13 @@ proxy.a = 2;
 // defineProperty
 ```
 
-The `getOwnPropertyDescriptor(..)` and `defineProperty(..)` handlers are triggered by the default `set(..)` handler's steps when setting a property value (whether newly adding or updating). If you also define your own `set(..)` handler, you may or may not make the corresponding calls against `context` (not `target`!) which would trigger these proxy traps.
+Os manipuladores `getOwnPropertyDescriptor(..)` e `defineProperty(..)` são disparados pelo manipulador padrão `set(..)`quando definido um valor de propriedade (tanto faz adiconar ou atualizar). Se você também definir seu próprio manipulador `set(..)`, você poderá ou não fazer as chamadas correspondentes conta o `context` (não o `target`!) que vai disparar essas armadilhas de proxy.
 
-### Proxy Limitations
+### Limitações de Proxy
 
-These meta programming handlers trap a wide array of fundamental operations you can perform against an object. However, there are some operations which are not (yet, at least) available to intercept.
+Esses manipuladores de metaprogramação envolvem uma ampla gama de operações fundamentais que você pode executar contra um objeto. Entretanto, há algumas opreações que não são (ainda, pelo menos) disponíveis para interceptar.
 
-For example, none of these operations are trapped and forwarded from `pobj` proxy to `obj` target:
+Por exemplo, nenhum desses operadores são presos e encaminhados do proxy `pobj` para o target `obj`:
 
 ```js
 var obj = { a:1, b:2 },
@@ -484,20 +487,20 @@ obj == pobj;
 obj === pobj
 ```
 
-Perhaps in the future, more of these underlying fundamental operations in the language will be interceptable, giving us even more power to extend JavaScript from within itself.
+Talvez no futuro, mais dessas operações fundamentais subjacentes na linguagem serão interceptáveis, nos dando ainda mais poder para estender o JavaScript dentro de si.
 
-**Warning:** There are certain *invariants* -- behaviors which cannot be overridden -- that apply to the use of proxy handlers. For example, the result from the `isExtensible(..)` handler is always coerced to a `boolean`. These invariants restrict some of your ability to customize behaviors with proxies, but they do so only to prevent you from creating strange and unusual (or inconsistent) behavior. The conditions for these invariants are complicated so we won't fully go into them here, but this post (http://www.2ality.com/2014/12/es6-proxies.html#invariants) does a great job of covering them.
+**Atenção** Há certa *invariantes* -- comportamentos que não podem ser sobrescritos -- que se aplicam no uso dos manipuladore de proxy. Por exemplo, o resultado do manipulador `isExtensible(..)` será sempre coagido em um `boolean`. Essas invariantes restringem algumas das suas possibilidadedes de customizar comportamentos so proxies, mas eles somente previnem você de criar comportamentos estranhos e incomuns (ou inconsistentes). As condições dessas invariantes são complicadas então não vamos abordá-las a fundo aqui, mas esse post (http://www.2ality.com/2014/12/es6-proxies.html#invariants) faz um excelente trabalho abordando-as.
 
-### Revocable Proxies
+### Proxies Revogáveis
 
-A regular proxy always traps for the target object, and cannot be modified after creation -- as long as a reference is kept to the proxy, proxying remains possible. However, there may be cases where you want to create a proxy that can be disabled when you want to stop allowing it to proxy. The solution is to create a *revocable proxy*:
+Um proxy regular sempre se prende para o objeto alvo, e não poderá ser modificado após a criação -- Enquanto uma referência é mantida no proxy, a proxissão (*proxying*) continua sendo possível. No entanto, poderá haver casos onde vecê desejará criar um proxy que possa ser desabilitado quando você quiser parar de permitir que ele seja proxy. A solução é criar um *porxy revogável*:
 
 ```js
 var obj = { a: 1 },
 	handlers = {
 		get(target,key,context) {
-			// note: target === obj,
-			// context === pobj
+			// nota: target === obj,
+			// contexto === pobj
 			console.log( "accessing: ", key );
 			return target[key];
 		}
@@ -506,52 +509,52 @@ var obj = { a: 1 },
 		Proxy.revocable( obj, handlers );
 
 pobj.a;
-// accessing: a
+// acessando: a
 // 1
 
-// later:
+// depois:
 prevoke();
 
 pobj.a;
 // TypeError
 ```
 
-A revocable proxy is created with `Proxy.revocable(..)`, which is a regular function, not a constructor like `Proxy(..)`. Otherwise, it takes the same two arguments: *target* and *handlers*.
+Um proxy revogável é criado com `Proxy.revocable(..)`, que é uma função regular, não um construtor como `Proxy(..)`. Por outro lado, ele terá os mesmos dois argumentos: *target*(alvo) e *handlers*(manipuladores).
 
-The return value of `Proxy.revocable(..)` is not the proxy itself as with `new Proxy(..)`. Instead, it's an object with two properties: *proxy* and *revoke* -- we used object destructuring (see "Destructuring" in Chapter 2) to assign these properties to `pobj` and `prevoke()` variables, respectively.
+O retorno do valor de `Proxy.revocable(..)` não é o próprio proxy como com `new Proxy (..)`. Em vez disso, ele é um objeto com duas propriedades: *proxy* e *revoke* -- nós usamos a desestruturação do objeto (veja "Desestruturação" no Capítulo 2) para declarar essas propriedades para as variáveis `pobj` e `prevoke()`, respectivamente.
 
-Once a revocable proxy is revoked, any attempts to access it (trigger any of its traps) will throw a `TypeError`.
+Uma vez que o proxy revogável é revogado, qualquer tentativa de acessá-lo (acionará qualquer uma das suas armadilhas) vai retornar um `TypeError`.
 
-An example of using a revocable proxy might be handing out a proxy to another party in your application that manages data in your model, instead of giving them a reference to the real model object itself. If your model object changes or is replaced, you want to invalidate the proxy you handed out so the other party knows (via the errors!) to request an updated reference to the model.
+Um exemplo do uso de um proxy revogável pode ser distribuindo um proxy para outra parte em seu aplicativo que gerencia dados em seu modelo, em vez de dar a eles uma referência do próprio objeto real. Se o modelo do seu objeto mudar ou for substituído, você deseja invalidar o proxy que você entregou para que a outra parte saiba (através dos erros!) para requisitar uma atualização referente ao modelo.
 
-### Using Proxies
+### Utilizando Proxies
 
-The meta programming benefits of these Proxy handlers should be obvious. We can almost fully intercept (and thus override) the behavior of objects, meaning we can extend object behavior beyond core JS in some very powerful ways. We'll look at a few example patterns to explore the possibilities.
+Os benefícios da metaprogramação desses manipuladores de Proxy devem ser óbvios. Nós podemos quase que totalmente interceptar (e substituir) o comportamento de objetos, significando que podemos extender o comportamento de objetos além do core do JS de maneiras muito poderosas. Nós vamos ver alguns poucos modelos exemplos para explorar as possibilidades.
 
-#### Proxy First, Proxy Last
+#### Proxy Primeiro, Proxy por Último
 
-As we mentioned earlier, you typically think of a proxy as "wrapping" the target object. In that sense, the proxy becomes the primary object that the code interfaces with, and the actual target object remains hidden/protected.
+Como mencionamos antes, você normalmente pensa em um proxy como "embrulhar" o objeto alvo. Nesse sentido, o proxy torna-se o objeto primário com o qual o código interage, o objeto alvo atual se mantém escondido/protegido.
 
-You might do this because you want to pass the object somewhere that can't be fully "trusted," and so you need to enforce special rules around its access rather than passing the object itself.
+Você pode fazer isso porque deseja passar o objeto por algum lugar que não pode ser totalmente "confiável", e então você precisa impor regras especiais em torno de seu acesso em vez de passar o próprio objeto.
 
-Consider:
+Considere:
 
 ```js
 var messages = [],
 	handlers = {
 		get(target,key) {
-			// string value?
+			// valor da string?
 			if (typeof target[key] == "string") {
-				// filter out punctuation
+				// filtrando a pontuação
 				return target[key]
 					.replace( /[^\w]/g, "" );
 			}
 
-			// pass everything else through
+			// passar todo o resto através de
 			return target[key];
 		},
 		set(target,key,val) {
-			// only set unique strings, lowercased
+			// apenas defina strings únicas, em caixa baixa
 			if (typeof val == "string") {
 				val = val.toLowerCase();
 				if (target.indexOf( val ) == -1) {
@@ -566,7 +569,7 @@ var messages = [],
 	messages_proxy =
 		new Proxy( messages, handlers );
 
-// elsewhere:
+// em outro lugar:
 messages_proxy.push(
 	"heLLo...", 42, "wOrlD!!", "WoRld!!"
 );
@@ -582,13 +585,13 @@ messages.forEach( function(val){
 // hello... world!!
 ```
 
-I call this *proxy first* design, as we interact first (primarily, entirely) with the proxy.
+Eu chamo isso de design de *proxy primeiro*(proxy first), como nós interagimos primeiro (primeiramente, inteiramente) com o proxy.
 
-We enforce some special rules on interacting with `messages_proxy` that aren't enforced for `messages` itself. We only add elements if the value is a string and is also unique; we also lowercase the value. When retrieving values from `messages_proxy`, we filter out any punctuation in the strings.
+Nós reforçamos algumas regras especiais na interação com `messages_proxy` que não são reforçadas pelas próprias `messages`. Nós apenas adicionamos elementos se o valor é uma string e é também única; nós também deixamos o valor em caixa baixa. Quando recuperamos valores de `message_proxy`, nós filtramos qualquer pontuação nas strings.
 
-Alternatively, we can completely invert this pattern, where the target interacts with the proxy instead of the proxy interacting with the target. Thus, code really only interacts with the main object. The easiest way to accomplish this fallback is to have the proxy object in the `[[Prototype]]` chain of the main object.
+Alternativamente, nós podemos inverter esse padrão completamente, onde o alvo interage com o proxy em vez do proxy interagir com o alvo. Portanto, o código só interage realmente com o objeto principal. A maneira mais fácil de cumprir esse *fallback* é ter o objeto proxy na cadeia `[[Prototype]]` do objeto principal.
 
-Consider:
+Considere: 
 
 ```js
 var handlers = {
@@ -605,7 +608,7 @@ var handlers = {
 		}
 	};
 
-// setup `greeter` to fall back to `catchall`
+// definindo `greeter` como fall back para `catchall`
 Object.setPrototypeOf( greeter, catchall );
 
 greeter.speak();				// hello someone
@@ -614,17 +617,17 @@ greeter.speak( "world" );		// hello world
 greeter.everyone();				// hello everyone!
 ```
 
-We interact directly with `greeter` instead of `catchall`. When we call `speak(..)`, it's found on `greeter` and used directly. But when we try to access a method like `everyone()`, that function doesn't exist on `greeter`.
+Nós iteragimos diretamente com `greeter` em vez de `catchall`. Quando chamamos `speak(..)`, ele é encontrado em `greeter` e usado diretamente. Mas quando nós tentamos acessar um método como `everyone()`, essa função não existe em `greeter`.
 
-The default object property behavior is to check up the `[[Prototype]]` chain (see the *this & Object Prototypes* title of this series), so `catchall` is consulted for an `everyone` property. The proxy `get()` handler then kicks in and returns a function that calls `speak(..)` with the name of the property being accessed (`"everyone"`).
+O comportamento da propriedade padrão do objeto é verificar a cadeia `[[Prototype]]` (veja o título *this & Objects Prototypes* dessa série), então `catchall` é consultado para uma propriedade `everyone`. O manipulador proxy `get()` então bate e retorna uma função que chama `speak(..)` com o nome da propriedade sendo acessada (`"everyone"`).
 
-I call this pattern *proxy last*, as the proxy is used only as a last resort.
+Eu chamo esse padrão de *proxy por último*(proxy last), como o proxy é usado somente como último recurso.
 
-#### "No Such Property/Method"
+#### "A Propriedade/Método não existe"
 
-A common complaint about JS is that objects aren't by default very defensive in the situation where you try to access or set a property that doesn't already exist. You may wish to predefine all the properties/methods for an object, and have an error thrown if a nonexistent property name is subsequently used.
+Uma queixa comum sobre o JS é que objetos não são por padrão muito defensivos em situações onde você tenta acessar ou definir uma propriedade que ainda não existe. Você pode desejar pré definir todas as propriedades/métodos para um objeto, e ter uma erro lançado se o nome de uma propriedade não existente é usada subsequentemente.
 
-We can accomplish this with a proxy, either in *proxy first* or *proxy last* design. Let's consider both.
+Nós podemos fazer isso com um proxy, tanto no design de *proxy first* ou *proxy last*. Vamos considerar ambos:
 
 ```js
 var obj = {
@@ -660,13 +663,13 @@ var obj = {
 pobj.a = 3;
 pobj.foo();			// a: 3
 
-pobj.b = 4;			// Error: No such property/method!
-pobj.bar();			// Error: No such property/method!
+pobj.b = 4;			// Error: No such property/method (A Propriedade/Método não existe)!
+pobj.bar();			// Error: No such property/method(A Propriedade/Método não existe)!
 ```
 
-For both `get(..)` and `set(..)`, we only forward the operation if the target object's property already exists; error thrown otherwise. The proxy object (`pobj`) is the main object code should interact with, as it intercepts these actions to provide the protections.
+Para ambos `get(..)` e `set(..)`, nós somente prosseguimos a operação se a propriedade do objeto alvo já existir; do contrário o erro é lançado. O objeto proxy (`pobj`) é o objeto principal que o código deverá interagir, assim que ele intercepta essas ações para oferecer proteções.
 
-Now, let's consider inverting with *proxy last* design:
+Agora, vamos considerar inverter com o design *proxy last*:
 
 ```js
 var handlers = {
@@ -685,7 +688,7 @@ var handlers = {
 		}
 	};
 
-// setup `obj` to fall back to `pobj`
+// definido `obj` como fall back para `pobj`
 Object.setPrototypeOf( obj, pobj );
 
 obj.a = 3;
@@ -695,17 +698,18 @@ obj.b = 4;			// Error: No such property/method!
 obj.bar();			// Error: No such property/method!
 ```
 
-The *proxy last* design here is a fair bit simpler with respect to how the handlers are defined. Instead of needing to intercept the `[[Get]]` and `[[Set]]` operations and only forward them if the target property exists, we instead rely on the fact that if either `[[Get]]` or `[[Set]]` get to our `pobj` fallback, the action has already traversed the whole `[[Prototype]]` chain and not found a matching property. We are free at that point to unconditionally throw the error. Cool, huh?
+O design *proxy last* aqui é bem mais simples a respeito de como os manipuladores são definidos. Em vez da necessidade de interceptar as operações `[[Get]]` e `[[Set]]` e apenas prosseguir com elas se a propriedade do alvo existir, em vez disso nós confiamos no fato de que tanro `[[Get]]` ou `[[Set]]` chegue ao fallback do nosso `pobj`, as ações já percorreu toda a cadeia de `[[Prototype]]` e não achou uma propriedade compatível. Nós estamos livres nesse que ponto para lançar o erro incondicionalmente. Legal né?
 
-#### Proxy Hacking the `[[Prototype]]` Chain
+#### Proxy "Hackeando" a cadeia `[[Prototype]]`
 
-The `[[Get]]` operation is the primary channel by which the `[[Prototype]]` mechanism is invoked. When a property is not found on the immediate object, `[[Get]]` automatically hands off the operation to the `[[Prototype]]` object.
+A operação `[[Get]]` é o canal primário pelo qual o mecanismo `[[Prototype]]` é invocado. Quando uma propriedade não é encontrada em um objeto imediato, `[[Get]]` automaticamente desliga a operação para o objeto `[[Prototype]]`.
 
-That means you can use the `get(..)` trap of a proxy to emulate or extend the notion of this `[[Prototype]]` mechanism.
+Isso significa que você pode usar a armadilha `get(..)` de um proxy para emular ou extender a noção desse mechanismo `[[Prototype]]`.
 
-The first hack we'll consider is creating two objects which are circularly linked via `[[Prototype]]` (or, at least it appears that way!). You cannot actually create a real circular `[[Prototype]]` chain, as the engine will throw an error. But a proxy can fake it!
+O primeiro *hack* que nós vamos considerar é criar dois objetos que são ligados circularmente via `[[Prototype]]` (ou, pelo menos ele aparece dessa forma!). Na verdade você não pode criar uma cadeia `[[Prototype]]` circular reall, como o motor lançará um erro. Mas um proxy pode fingir isso!
 
-Consider:
+Considere:
+
 
 ```js
 var handlers = {
@@ -715,7 +719,7 @@ var handlers = {
 					target, key, context
 				);
 			}
-			// fake circular `[[Prototype]]`
+			//  `[[Prototype]]` circular fingido
 			else {
 				return Reflect.get(
 					target[
@@ -747,26 +751,26 @@ var handlers = {
 		}
 	);
 
-// fake circular `[[Prototype]]` link
+// ligação fingida do circular `[[Prototype]]`
 obj1[ Symbol.for( "[[Prototype]]" ) ] = obj2;
 
 obj1.bar();
-// bar: obj-1 <-- through proxy faking [[Prototype]]
-// foo: obj-1 <-- `this` context still preserved
+// bar: obj-1 <-- através de proxy fingindo [[Protótipo]]
+// foo: obj-1 <-- `this` contexto continua preservado
 
 obj2.foo();
-// foo: obj-2 <-- through [[Prototype]]
+// foo: obj-2 <-- através de [[Prototype]]
 ```
 
-**Note:** We didn't need to proxy/forward `[[Set]]` in this example, so we kept things simpler. To be fully `[[Prototype]]` emulation compliant, you'd want to implement a `set(..)` handler that searches the `[[Prototype]]` chain for a matching property and respects its descriptor behavior (e.g., set, writable). See the *this & Object Prototypes* title of this series.
+**Observação** Nós não precisamos de proxy/foward `[[Set]]` nesse exemplo, então menteremos as coisas simples. Para ser uma emulação `[[Prototype]]` completamente compatível, você vai querer implementar um manipulador `set(..)` que buscará na cadeia `[[Prototype]]` por uma propriedade correspondente e respeitará seu comportamento descritor (e.g., set, writable). Veja o título *this & Object Prototypes* dessa série.
 
-In the previous snippet, `obj2` is `[[Prototype]]` linked to `obj1` by virtue of the `Object.create(..)` statement. But to create the reverse (circular) linkage, we create property on `obj1` at the symbol location `Symbol.for("[[Prototype]]")` (see "Symbols" in Chapter 2). This symbol may look sort of special/magical, but it isn't. It just allows me a conveniently named hook that semantically appears related to the task I'm performing.
+No snipet anterior, `obj2` é `[[Prototype]]` ligado à `obj1` em virtude da declaração `Object.create(..)`. Mas para criar uma ligação reversa (circular), nós criamos a propriedade no `obj1` na localização do símbolo `Symbol.for("[[Prototype]]")`(Veja Símbolos no capítulo 2). Esse símbolo pode parecer meio especial/mágico, mas não é. Apenas me permite convenientemente comear um gancho que semanticamente aperece relacionado com a terafa que estou executando.
 
-Then, the proxy's `get(..)` handler looks first to see if a requested `key` is on the proxy. If not, the operation is manually handed off to the object reference stored in the `Symbol.for("[[Prototype]]")` location of `target`.
+Então, o manipulador proxy `get(..)` procura primeiro enxergar se uma `key` requisitada está no proxy. Se não, a operação é manualmente desligada do referente objeto armazenado no local `Symbol.for("[[Prototype]]")` do `target`.
 
-One important advantage of this pattern is that the definitions of `obj1` and `obj2` are mostly not intruded by the setting up of this circular relationship between them. Although the previous snippet has all the steps intertwined for brevity's sake, if you look closely, the proxy handler logic is entirely generic (doesn't know about `obj1` or `obj2` specifically). So, that logic could be pulled out into a simple helper that wires them up, like a `setCircularPrototypeOf(..)` for example. We'll leave that as an exercise for the reader.
+Uma vantagem importante desse padrão é que as definições de `obj1` e `obj2` na maioria das vezes não são invadidas pela configuração desta relação circular entre elas. Embora o fragmento anterior tenha todas as etapas entrelaçadas por razões de brevidade,s e você olhar mais de perto, a lógica do manipulador proxy é inteiramente genérica (não sabem sobre `ojb1` ou `obj2` especificamente) Então, essa lógica poderia ser puxada para um ajudante simples que os alinha, como um `setCircularPrototypeOf(..)` por exemplo. Nós vamos deixar isso como em exercício para o leitor.
 
-Now that we've seen how we can use `get(..)` to emulate a `[[Prototype]]` link, let's push the hackery a bit further. Instead of a circular `[[Prototype]]`, what about multiple `[[Prototype]]` linkages (aka "multiple inheritance")? This turns out to be fairly straightforward:
+Agora que vimos como podemos usar `get(..)` para emular uma ligação `[[Prototype]]`, vamos empurrar o hack um pouco mais. Em vez de um `[[Prorotype]]` circular, que tal múltiplas ligações `[[Prototype]]` (herança múltipla)? Isso acaba sendo bastante direto:
 
 ```js
 var obj1 = {
@@ -826,17 +830,15 @@ obj3.baz();
 // obj2.bar: obj-3
 ```
 
-**Note:** As mentioned in the note after the earlier circular `[[Prototype]]` example, we didn't implement the `set(..)` handler, but it would be necessary for a complete solution that emulates `[[Set]]` actions as normal `[[Prototype]]`s behave.
+**Observação** Como mencionado na nota do exemplo de `[[Prototype]]` circular anterior, nós não implementamos o manipulador `set(..)`, mas ele seria necessário para uma solução completa que emulasse cções `[[Set]]` como comportamentos do `[[Prototype]]`.
 
-`obj3` is set up to multiple-delegate to both `obj1` and `obj2`. In `obj3.baz()`, the `this.foo()` call ends up pulling `foo()` from `obj1` (first-come, first-served, even though there's also a `foo()` on `obj2`). If we reordered the linkage as `obj2, obj1`, the `obj2.foo()` would have been found and used.
+`obj3` está configurado como delegação múltipla para ambos `obj1` e `obj2`. No `obj3.baz()`, a chamada `this.foo()` termina puxando `foo()` de `obj1` (o primeiro que chegou, o primeiro a ser servido, mesmo que haja também um `foo ()` em `obj2`). Se nós reordenarmos a ligação como `obj2, obj1`, o `obj2.foo()` vai ser encontrado e utilizado. Mas, como está, a chamada `this.bar ()` não encontra uma `barra ()` em `obj1`, então cai para verificar` obj2`, onde encontra uma correspondência.
 
-But as is, the `this.bar()` call doesn't find a `bar()` on `obj1`, so it falls over to check `obj2`, where it finds a match.
+`obj1` e` obj2` representam duas cadeias paralelas `[[Protótipo]]` `obj3`. `obj1` e/ou` obj2` podiam ter uma delegação normal [[Protótipo]] "para outros objetos, ou mesmo poderia ser um proxy (como` obj3` é) que pode delegar múltiplas.
 
-`obj1` and `obj2` represent two parallel `[[Prototype]]` chains of `obj3`. `obj1` and/or `obj2` could themselves have normal `[[Prototype]]` delegation to other objects, or either could themself be a proxy (like `obj3` is) that can multiple-delegate.
+Assim como com o exemplo `[[Protótipo]]` circular anterior, as definições de `obj1`, 'obj2` e` obj3` são quase inteiramente separadas da lógica genérica de proxy que lida com a delegação múltipla. Seria trivial definir um utilitário como `setPrototypesOf (..)` (observe o "s"!) Que leva um objeto principal e uma lista de objetos para falsificar a ligação `[[Protótipo]]`. Mais uma vez, deixaremos isso como um exercício para o leitor.
 
-Just as with the circular `[[Prototype]]` example earlier, the definitions of `obj1`, `obj2`, and `obj3` are almost entirely separate from the generic proxy logic that handles the multiple-delegation. It would be trivial to define a utility like `setPrototypesOf(..)` (notice the "s"!) that takes a main object and a list of objects to fake the multiple `[[Prototype]]` linkage to. Again, we'll leave that as an exercise for the reader.
-
-Hopefully the power of proxies is now becoming clearer after these various examples. There are many other powerful meta programming tasks that proxies enable.
+Felizmente, o poder dos proxies agora está se tornando mais claro depois desses vários exemplos. Existem muitas outras tarefas poderosas de metaprogramação que os proxies habilitam.
 
 ## `Reflect` API
 
