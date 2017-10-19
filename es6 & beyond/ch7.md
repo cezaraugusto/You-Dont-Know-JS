@@ -840,13 +840,13 @@ Assim como com o exemplo `[[Protótipo]]` circular anterior, as definições de 
 
 Felizmente, o poder dos proxies agora está se tornando mais claro depois desses vários exemplos. Existem muitas outras tarefas poderosas de metaprogramação que os proxies habilitam.
 
-## `Reflect` API
+## API `Reflect`
 
-The `Reflect` object is a plain object (like `Math`), not a function/constructor like the other built-in natives.
+O objeto `Reflect` é um objeto simples (como `Math`), não uma função/construtor como outros intergrados nativos.
 
-It holds static functions which correspond to various meta programming tasks that you can control. These functions correspond one-to-one with the handler methods (*traps*) that Proxies can define.
+Ele possui funções estáticas que correspondem a várias tarefas de mataprogramação que você pode controlar. Essas funções correspondem uma a uma com métodos manipuladores (*armadilhas*) que Proxies podem definir.
 
-Some of the functions will look familiar as functions of the same names on `Object`:
+Algumas das funções vão parecer familiares como funções de mesmo nome em `Object`:
 
 * `Reflect.getOwnPropertyDescriptor(..)`
 * `Reflect.defineProperty(..)`
@@ -855,40 +855,40 @@ Some of the functions will look familiar as functions of the same names on `Obje
 * `Reflect.preventExtensions(..)`
 * `Reflect.isExtensible(..)`
 
-These utilities in general behave the same as their `Object.*` counterparts. However, one difference is that the `Object.*` counterparts attempt to coerce their first argument (the target object) to an object if it's not already one. The `Reflect.*` methods simply throw an error in that case.
+Essas utilidades em geral se comportam da mesma forma que seus `Object.*` equivalentes. Entretanto, uma diferença é que as equivalências de `Object.*` tentam coagir seu primeiro argumento (o objeto alvo) para um objeto se ele ainda não for um. Os métodos `Reflect` simplesmente lançam um erro nesse caso.
 
-An object's keys can be accessed/inspected using these utilities:
+A chave de um objeto pode ser acessada/inspecionada usando essas utilidades:
 
-* `Reflect.ownKeys(..)`: Returns the list of all owned keys (not "inherited"), as returned by both `Object.getOwnPropertyNames(..)` and `Object.getOwnPropertySymbols(..)`. See the "Property Enumeration Order" section for information about the order of keys.
-* `Reflect.enumerate(..)`: Returns an iterator that produces the set of all non-symbol keys (owned and "inherited") that are *enumerable* (see the *this & Object Prototypes* title of this series). Essentially, this set of keys is the same as those processed by a `for..in` loop. See the "Property Enumeration Order" section for information about the order of keys.
-* `Reflect.has(..)`: Essentially the same as the `in` operator for checking if a property is on an object or its `[[Prototype]]` chain. For example, `Reflect.has(o,"foo")` essentially performs `"foo" in o`.
+* `Reflect.ownKeys(..)`: Retorna a lista de todas as chaves possuídas (não "herdado"), como retornado por ambos `Object.getOwnPropertyNames(..)` e `Object.getOwnPropertySymbols(..)`. Veja a seção "Ordem de enumeração de propriedade" para informações sobre a ordenação das chaves.
+* `Reflect.enumerate(..)`: Retorna um iterador que produz a definição de todas chaves não-símbolos (próprias e "herdadas") que são *enumeráveis* (Veja o título *this & Object Prototypes* dessa série). Essencilamente, isso define se as chaves são as mesmas daquelas processadas por um loop `for..in`. Veja a seção Ordem de enumeração de propriedade" para informações sobre a ordenação das chaves.
+* `Reflect.has(..)`: Essencialmente o mesmo que o operador `in` para verificar se uma propriedade está no objeto ou está na cadeia `[[Prototype]]`. Por exemplo, `Reflect.has(o,"foo")` essencialmente executa `"foo" in o`.
 
-Function calls and constructor invocations can be performed manually, separate of the normal syntax (e.g., `(..)` and `new`) using these utilities:
+Chamadas de funções e invocação de construtores podem ser realizados manualmente, separados da sintaxe normal (e.g., `(..)` e `new`) usando essas utilidades:
 
-* `Reflect.apply(..)`: For example, `Reflect.apply(foo,thisObj,[42,"bar"])` calls the `foo(..)` function with `thisObj` as its `this`, and passes in the `42` and `"bar"` arguments.
-* `Reflect.construct(..)`: For example, `Reflect.construct(foo,[42,"bar"])` essentially calls `new foo(42,"bar")`.
+* `Reflect.apply(..)`: Por exemplo, `Reflect.apply(foo,thisObj,[42,"bar"])` chama a função `foo(..)` com `thisObj` como se fosse `this`, e passa argumentos em `42` e `"bar'`.
+* `Reflect.construct(..)`: Por exemplo, `Reflect.construct(foo,[42,"bar"])` essencialmente chama `new foo(42,"bar")`.
 
-Object property access, setting, and deletion can be performed manually using these utilities:
+Acesso de propriedade do objeto, configuração, e exclusão podem ser feitas manualmente usando essas utilidades:
 
-* `Reflect.get(..)`: For example, `Reflect.get(o,"foo")` retrieves `o.foo`.
-* `Reflect.set(..)`: For example, `Reflect.set(o,"foo",42)` essentially performs `o.foo = 42`.
-* `Reflect.deleteProperty(..)`: For example, `Reflect.deleteProperty(o,"foo")` essentially performs `delete o.foo`.
+* `Reflect.get(..)`: Por exemplo, `Reflect.get(o,"foo")` recupera `o.foo`.
+* `Reflect.set(..)`: Por exemplo, `Reflect.set(o,"foo",42)` essencilamente executa `o.foo = 42`.
+* `Reflect.deleteProperty(..)`: Por exemplo, `Reflect.deleteProperty(o,"foo")` essencialmente executa `delete o.foo`.
 
-The meta programming capabilities of `Reflect` give you programmatic equivalents to emulate various syntactic features, exposing previously hidden-only abstract operations. For example, you can use these capabilities to extend features and APIs for *domain specific languages* (DSLs).
+As capacidades de `Reflect` da metaprogramação te dá equivalentes programáticos para emular várias funcionalidades sintáticas, expondo previamente operações abstratas ocultas. Por exemplo, você pode usar essas capacidades para extender funcionalidade e APIs para *domínio de linguagem específica* (domain specific labguages - DSLs).
 
-### Property Ordering
+### Ordenação de Propriedade
 
-Prior to ES6, the order used to list an object's keys/properties was implementation dependent and undefined by the specification. Generally, most engines have enumerated them in creation order, though developers have been strongly encouraged not to ever rely on this ordering.
+Antes do ES6, a ordem usada para listas chaves/propriedades de objetos eram implementações dependentes e indefinidas pela especificação. Geralmente, a maioria dos motores as enumeravam na ordem de criação, embora os desenvolvedores fossem fortemente encorajados a nunca confiar nessa ordem.
 
-As of ES6, the order for listing owned properties is now defined (ES6 specification, section 9.1.12) by the `[[OwnPropertyKeys]]` algorithm, which produces all owned properties (strings or symbols), regardless of enumerability. This ordering is only guaranteed for `Reflect.ownKeys(..)` (and by extension, `Object.getOwnPropertyNames(..)` and `Object.getOwnPropertySymbols(..)`).
+No ES6, a ordem para a listagem de propriedades próprias é agora definida (seção 9.1.12 da especificação ES6) pelo algoritmo `[[OwnPropertyKeys]]`, que produz todas as propriedades próprias (strings ou símbolos), independentemente da enumerabilidade. Essa ordem apenas é garantida pela `Reflect.ownKeys(..)` (e por extensão, `Object.getOwnPropertyNames(..)` e `Object.getOwnPropertySymbols(..)`).
 
-The ordering is:
+A ordem é:
 
-1. First, enumerate any owned properties that are integer indexes, in ascending numeric order.
-2. Next, enumerate the rest of the owned string property names in creation order.
-3. Finally, enumerate owned symbol properties in creation order.
+1. Primeiro, enumera-se quaisquer propriedades próprias que sejam índices inteiros, em ordem numérica ascendente.
+2. Próximo, enumera-se o resto dos nomes das propriedades das strings próprias em ordem de criação.
+3. Finalmente, enumera-se propriedades de símbolos próprios em ordem de criação.
 
-Consider:
+Considere:
 
 ```js
 var o = {};
@@ -904,13 +904,13 @@ Object.getOwnPropertyNames( o );	// [1,2,"b","a"]
 Object.getOwnPropertySymbols( o );	// [Symbol(c)]
 ```
 
-On the other hand, the `[[Enumerate]]` algorithm (ES6 specification, section 9.1.11) produces only enumerable properties, from the target object as well as its `[[Prototype]]` chain. It is used by both `Reflect.enumerate(..)` and `for..in`. The observable ordering is implementation dependent and not controlled by the specification.
+Por outro lado, o algoritmo `[[Enumerate]]` (seção 9.1.11 da especificação ES6) produz apenas propriedades enumeradas, tanto do objeto alvo quanto da cadeia `[[Prototype]]`. Ela é usada por ambos `Reflect.enumerate(..)` e `for..in`. A ordem observável é de implementação dependente e não controlada pela especificação.
 
-By contrast, `Object.keys(..)` invokes the `[[OwnPropertyKeys]]` algorithm to get a list of all owned keys. However, it filters out non-enumerable properties and then reorders the list to match legacy implementation-dependent behavior, specifically with `JSON.stringify(..)` and `for..in`. So, by extension the ordering *also* matches that of `Reflect.enumerate(..)`.
+Em contraste, `Object.keys(..)` invoca o algoritmo `[[OwnPropertyKeys]]` para pegar uma lista de todas as chaves próprias. No entanto, ele filtra propriedades não enumeráveis e então reordena a lista para combinar o comportamento dependente da implementação legada, especificamente com `JSON.stringify(..)` e `for..in`. Então, por extensão a ordenação *também* corresponde ao de `Reflect.enumerate(..)`.
 
-In other words, all four mechanisms (`Reflect.enumerate(..)`, `Object.keys(..)`, `for..in`, and `JSON.stringify(..)`) will  match with the same implementation-dependent ordering, though they technically get there in different ways.
+Em outras palavras, todos os quatro mecanismos (`Reflect.enumerate(..)`, `Object.keys(..)`, `for..in`, e `JSON.stringify(..)`) vão combinar com a mesma ondernação dependente da implementação, embora eles tecnicamente cheguem lá de maneiras diferentes.
 
-Implementations are allowed to match these four to the ordering of `[[OwnPropertyKeys]]`, but are not required to. Nevertheless, you will likely observe the following ordering behavior from them:
+Implementações são permitidas para combinar esses quatro para a ordenação de `[[OwnPropertyKeys]]`, mas eles também não são obrigatórios. No entanto, você provavelmente vai observar o seguinte comportamento da ordenação a partir deles:
 
 ```js
 var o = { a: 1, b: 2 };
@@ -935,9 +935,9 @@ Object.keys( p );
 // ["c","d"]
 ```
 
-Boiling this all down: as of ES6, `Reflect.ownKeys(..)`, `Object.getOwnPropertyNames(..)`, and `Object.getOwnPropertySymbols(..)` all have predictable and reliable ordering guaranteed by the specification. So it's safe to build code that relies on this ordering.
+Resumindo tudo isso: A partir do ES6, `Reflect.ownKeys(..)`, `Object.getOwnPropertyNames(..)`, e `Object.getOwnPropertySymbols(..)` todos têm ordenação previsíveis e confiáveis garantidas pela especificação. Então é seguro contruir um código que confie nessa ordenação.
 
-`Reflect.enumerate(..)`, `Object.keys(..)`, and `for..in` (as well as `JSON.stringification(..)` by extension) continue to share an observable ordering with each other, as they always have. But that ordering will not necessarily be the same as that of `Reflect.ownKeys(..)`. Care should still be taken in relying on their implementation-dependent ordering.
+`Reflect.enumerate(..)`, `Object.keys(..)`, e `for..in` (assim como `JSON.stringification(..)` por extensão) continuam compartilhando uma ordem observável entre eles, como sempre fizeram. Mas essa ordem não vai necessariamente ser a mesma de `Reflect.ownKeys(..)`. Deve-se continuar a ter cuidado ao confiar nessa ordanação de implementação dependente.
 
 ## Feature Testing
 
