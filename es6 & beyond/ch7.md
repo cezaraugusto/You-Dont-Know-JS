@@ -939,13 +939,13 @@ Resumindo tudo isso: A partir do ES6, `Reflect.ownKeys(..)`, `Object.getOwnPrope
 
 `Reflect.enumerate(..)`, `Object.keys(..)`, e `for..in` (assim como `JSON.stringification(..)` por extensão) continuam compartilhando uma ordem observável entre eles, como sempre fizeram. Mas essa ordem não vai necessariamente ser a mesma de `Reflect.ownKeys(..)`. Deve-se continuar a ter cuidado ao confiar nessa ordanação de implementação dependente.
 
-## Feature Testing
+## Teste de funcionalidade
 
-What is a feature test? It's a test that you run to determine if a feature is available or not. Sometimes, the test is not just for existence, but for conformance to specified behavior -- features can exist but be buggy.
+O que é o teste de funcionalidade? É um teste que você pode rodar para determinar se uma funcionalidade está disponível ou não. Às vezes, o teste não é somente para existência, mas para conformidade de um comportamento especificado -- funcionalidades podem existir mas estarem bugadas.
 
-This is a meta programming technique, to test the environment your program runs in to then determine how your program should behave.
+Essa é uma técnica de metaprogramação, para testar o ambiente que seu programa roda e então determinar como seu programa deve se comportar.
 
-The most common use of feature tests in JS is checking for the existence of an API and if it's not present, defining a polyfill (see Chapter 1). For example:
+O uso mais comum de teste de funcionalidade em JS é verificar pela existência de uma API e se ela não estiver presente, definir um polyfill (veja o Capítulo 1). Por exemplo:
 
 ```js
 if (!Number.isNaN) {
@@ -955,11 +955,11 @@ if (!Number.isNaN) {
 }
 ```
 
-The `if` statement in this snippet is meta programming: we're probing our program and its runtime environment to determine if and how we should proceed.
+A declaração `if` nesse snippet é metaprogramação: nós estamos provando nosso programa e estamos em ambiente de produção para determinar, se e como, nós devemos prosseguir.
 
-But what about testing for features that involve new syntax?
+Mas e testes para funcionalidades que envolvem sintaxe nova?
 
-You might try something like:
+Você pode tentar algo como:
 
 ```js
 try {
@@ -971,15 +971,15 @@ catch (err) {
 }
 ```
 
-Unfortunately, this doesn't work, because our JS programs are compiled. Thus, the engine will choke on the `() => {}` syntax if it is not already supporting ES6 arrow functions. Having a syntax error in your program prevents it from running, which prevents your program from subsequently responding differently if the feature is supported or not.
+Infelizmente, isso não funciona, porque nossos programas JS estão compilados. Portanto, o motor vai engasgar na sintaxe `() => {}` se a ES6 ainda não estiver suportando arrow functions. Ter um erro de sintaxe no seu programa impede ele de rodar, o que subsequentemente, impede seu programa de responder de forma diferente se uma funcionalidade for suportada ou não.
 
-To meta program with feature tests around syntax-related features, we need a way to insulate the test from the initial compile step our program runs through. For instance, if we could store the code for the test in a string, then the JS engine wouldn't by default try to compile the contents of that string, until we asked it to.
+Para metaprogramar com testes de funcionalidades em torno de recursos relacionados à sintaxe, nós precisamos uma maneira de isolar o teste da etapa de compilação inicial em que nosso programa funciona. Por exemplo, se pudessemos armazenar o código para o teste em uma string, então o mecanismo JS não tentaria, por padrão, compilar o conteúdo dessa string, até que nós solicitássemos.
 
-Did your mind just jump to using `eval(..)`?
+Sua mente simplesmente pensou em usar o `eval(..)`?
 
-Not so fast. See the *Scope & Closures* title of this series for why `eval(..)` is a bad idea. But there's another option with less downsides: the `Function(..)` constructor.
+Não tão rápido. Veja o título *Escopo & Clausuras* dessa série para saber porque `eval(..)` é uma má ideia. Mas há outra opção com menos desvantagens: o construtor `Function(..)`.
 
-Consider:
+Considere:
 
 ```js
 try {
@@ -991,37 +991,37 @@ catch (err) {
 }
 ```
 
-OK, so now we're meta programming by determining if a feature like arrow functions *can* compile in the current engine or not. You might then wonder, what would we do with this information?
+Ok, então agora estamos metaprogramando pela determinação se uma funcionalidade como as arrow functions *podem* compilar no motor atual ou não. Você deve estar se perguntando, o que nós iremos fazer com essa informação?
 
-With existence checks for APIs, and defining fallback API polyfills, there's a clear path for what to do with either test success or failure. But what can we do with the information that we get from `ARROW_FUNCS_ENABLED` being `true` or `false`?
+Com a verificação por APIs existentes, e definindo polyfills como API fallbacks, há um caminho claro para o que fazer com testes tanto bem sucedidos como fracassados. Mas o que nós podemos fazer com a informação que nós pegamos de `ARROW_FUNCS_ENABLED` sendo `true` ou `false`?
 
-Because the syntax can't appear in a file if the engine doesn't support that feature, you can't just have different functions defined in the file with and without the syntax in question.
+Por conta da sintaxe não poder aparecer em um arquivo se o motor não suportar essa funcionalidade, você não pode apenas ter funções diferentes definidas no arquivo com e sem a sintaxe em questão.
 
-What you can do is use the test to determine which of a set of JS files you should load. For example, if you had a set of these feature tests in a bootstrapper for your JS application, it could then test the environment to determine if your ES6 code can be loaded and run directly, or if you need to load a transpiled version of your code (see Chapter 1).
+O que você pode fazer é usar o teste para determinar qual dos conjuntos de arquivos JS você deve carregar. Por exemplo, se você tem um conjunto desses testes de funcionalidade em um bootstraper para sua aplicação JS, ele poderá então testar o ambiente para determinar se seu código ES6 pode ser carregado e executado diretamente, ou se você precisa carregar uma versão transpilada do seu código (veja o Capítulo 1).
 
-This technique is called *split delivery*.
+Essa técnica é chamada *entrega dividida*.
 
-It recognizes the reality that your ES6 authored JS programs will sometimes be able to entirely run "natively" in ES6+ browsers, but other times need transpilation to run in pre-ES6 browsers. If you always load and use the transpiled code, even in the new ES6-compliant environments, you're running suboptimal code at least some of the time. This is not ideal.
+Ela reconhece a realidade que seu programa criado em JS ES6 vai, às vezes, ser capaz de rodar inteiramente *nativo* em navegadores ES6+, mas outras vezes precisará de transpilação para rodar em navegadores pré-ES6. Se você sempre carregar e usar o código transpilado, mesmo em ambientes no novo compilador ES6, você estará rodando um código sub otimizado, pelo menos por um tempo. Isso não é o ideal.
 
-Split delivery is more complicated and sophisticated, but it represents a more mature and robust approach to bridging the gap between the code you write and the feature support in browsers your programs must run in.
+Entrega dividida é mais complicada e sofisticada, mas ela representa uma abordagem mais robusta e madura para cobrir a falha ente o código que você escreve e a funcionalidade suportada em navagadores que seu programa precisa rodar.
 
 ### FeatureTests.io
 
-Defining feature tests for all of the ES6+ syntax, as well as the semantic behaviors, is a daunting task you probably don't want to tackle yourself. Because these tests require dynamic compilation (`new Function(..)`), there's some unfortunate performance cost.
+Definir testes de funcionalidade para todas as sintaxes do ES6+, bem como os comportamentos semânticos, é uma tarefa árdua que vocẽ provavelmente não vai querer enfrentar. Como esses teste requerem compilação dinâmica (`new Function(..)`), há alguns custos de performance infelizes.
 
-Moreover, running these tests every single time your app runs is probably wasteful, as on average a user's browser only updates once in a several week period at most, and even then, new features aren't necessarily showing up with every update.
+Além disso, a execução desses testes a cada vez que seu app rodar é desperdício, uma vez que, em média, o navegador de um usuário comum atualiza apenas uma vez, em um período de várias semanas no máximo, e mesmo assim, novas funcionalidades não estão necessariamente aparecendo com cada atualização.
 
-Finally, managing the list of feature tests that apply to your specific code base -- rarely will your programs use the entirety of ES6 -- is unruly and error-prone.
+Finalmente, gerenciando a lista de testes de recursos que se aplicam à sua base de código específica -- raramente seus programas vão fazer uso inteiramente do ES6 -- é indisciplinado e propenso à erros.
 
-The "https://featuretests.io" feature-tests-as-a-service offers solutions to these frustrations.
+O feature-tests-as-a-service "https://featuretests.io" oferece soluções para essas frustações.
 
-You can load the service's library into your page, and it loads the latest test definitions and runs all the feature tests. It does so using background processing with Web Workers, if possible, to reduce the performance overhead. It also uses LocalStorage persistence to cache the results in a way that can be shared across all sites you visit which use the service, which drastically reduces how often the tests need to run on each browser instance.
+Você pode carregar a biblioteca do serviço na sua página, e ele irá carregar as últimas definições de testes e rodar todos os testes de funcionalidades.  Ele faz isso usando processamento em segundo plano com Web Workers, se possível, para reduzir a sobrecarga de desempenho. Eele também usa o LocalStorage para cachear os resultados de uma maneira que podem ser compartilhados por todos os sites que vocẽ visitar que usam o serviço, o que reduz drasticamente quantas vezes os testes precisam ser executados em cada instância do navegador.
 
-You get runtime feature tests in each of your users' browsers, and you can use those tests results dynamically to serve users the most appropriate code (no more, no less) for their environments.
+Você obtém testes de funcionalidade em tempo de execução em cada um dos navegadores de seus usuários, e você pode usar esses resultados de testes de forma dinâmica para servir aos usuários o código mais apropriado (não mais, nem menos) para seus ambientes.
 
-Moreover, the service provides tools and APIs to scan your files to determine what features you need, so you can fully automate your split delivery build processes.
+Além disso, o serviço fornece ferramentas e APIs para escanear seus arquivos para determinar quais funcionalidades você precisa, então você consegue automatizar completamente seus processos de compilação de entrega dividida.
 
-FeatureTests.io makes it practical to use feature tests for all parts of ES6 and beyond to make sure that only the best code is ever loaded and run for any given environment.
+FeatureTests.io torna prático usar testes de funcionalidade para todas as partes do ES6 e além para ter certeza que apenas o melhor código será sempre carregado e executado para qualquer ambiente fornecido.
 
 ## Tail Call Optimization (TCO)
 
