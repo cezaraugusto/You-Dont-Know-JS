@@ -1023,25 +1023,25 @@ Além disso, o serviço fornece ferramentas e APIs para escanear seus arquivos p
 
 FeatureTests.io torna prático usar testes de funcionalidade para todas as partes do ES6 e além para ter certeza que apenas o melhor código será sempre carregado e executado para qualquer ambiente fornecido.
 
-## Tail Call Optimization (TCO)
+## Otimização da chamada de cauda (Tail Call Optimization - TCO)
 
-Normally, when a function call is made from inside another function, a second *stack frame* is allocated to separately manage the variables/state of that other function invocation. Not only does this allocation cost some processing time, but it also takes up some extra memory.
+Normalmente quando a chamada de uma função é feita de dentro de outra função, um segundo *quadro de pilha* (stack frame) é alocado para administrar separadamente as variáveis/estados daquela outra invocação da função. Essa alocação não apenas custa algum tempo de processamento, mas ela também toma uma memória extra.
 
-A call stack chain typically has at most 10-15 jumps from one function to another and another. In those scenarios, the memory usage is not likely any kind of practical problem.
+Uma cadeia de quadros de pilha tipicamente têm no máximo 10-15 saltos de uma função para outra e outra. Nesses cenários, o uso da memória provavelmente não é nenhum tipo de problema prático.
 
-However, when you consider recursive programming (a function calling itself repeatedly) -- or mutual recursion with two or more functions calling each other -- the call stack could easily be hundreds, thousands, or more levels deep. You can probably see the problems that could cause, if memory usage grows unbounded.
+Entretanto, quando você considera a programação recursiva (uma função chamando a si mesma repetidamente) -- ou recursão mútua com duas ou mais funções chamando uma a outra -- a pilha de chamadas pode facilmente ser centenas, milhares, ou mais níveis profundos. Você pode provavelmente ver os problemas que isso poderia causar, se o uso da memória cresce indiscriminadamente.
 
-JavaScript engines have to set an arbitrary limit to prevent such programming techniques from crashing by running the browser and device out of memory. That's why we get the frustrating "RangeError: Maximum call stack size exceeded" thrown if the limit is hit.
+Motores JavaScript têm que definir limites arbirtrários para prevenir certas técnicas de programação de quebrar na execução e deixar o navagador e dispositivo sem memória. Essa é a causa porque temos o erro frustante *"RangeError: Maximum call stack size exceeded"* (Erro de Alcance: Tamanho máximo de pilha de chamadas excedido) lançado se esse limite for atingido.
 
-**Warning:** The limit of call stack depth is not controlled by the specification. It's implementation dependent, and will vary between browsers and devices. You should never code with strong assumptions of exact observable limits, as they may very well change from release to release.
+**Atenção** O limite de chamadas da pilha não é controlado pela especificação. Isso é uma implementação dependente, e vai variar entre os navegadores e dispositivos. Você nunca deve codificar com fortes pressupostos de limites exatos observados, e eles podem muito bem mudar de versão para versão.
 
-Certain patterns of function calls, called *tail calls*, can be optimized in a way to avoid the extra allocation of stack frames. If the extra allocation can be avoided, there's no reason to arbitrarily limit the call stack depth, so the engines can let them run unbounded.
+Certos padrões de chamadas de função, chamadas *chamadas de cauda* (tail calls), podem ser otimizadas em uma maneira para evitar a alocação extra de quadros de pilha. Se uma alocação extra pode ser evitada, não há razão para limitar arbitrariamente a profundidade de uma pilha de chamadas, então os motores podem deixá-las rodar livremente.
 
-A tail call is a `return` statement with a function call, where nothing has to happen after the call except returning its value.
+Uma chamada de cauda é uma declaração `return` com uma chamada de função, onde nada precisa acontecer após a chamada exceto o retorno do valor.
 
-This optimization can only be applied in `strict` mode. Yet another reason to always be writing all your code as `strict`!
+Essa otimização apenas pode ser aplicada em modo `strict`. Ainda outra razão para sempre escrever todo o seu código como `strict`!
 
-Here's a function call that is *not* in tail position:
+Aqui está uma chamada de função que *não* é uma posição de cauda:
 
 ```js
 "use strict";
@@ -1051,16 +1051,16 @@ function foo(x) {
 }
 
 function bar(x) {
-	// not a tail call
+	// não é uma chamada de cauda
 	return 1 + foo( x );
 }
 
 bar( 10 );				// 21
 ```
 
-`1 + ..` has to be performed after the `foo(x)` call completes, so the state of that `bar(..)` invocation needs to be preserved.
+`1 + ..` deve ser executado depois que a chamada de `foo(x)` completar, então o estado dessa invocação `bar(..)` precisa ser preservado.
 
-But the following snippet demonstrates calls to `foo(..)` and `bar(..)` where both *are* in tail position, as they're the last thing to happen in their code path (other than the `return`):
+Mas o snippet seguinte demonstra chamadas para `foo(..)` e `bar(..)` onde ambas *são* em posição de cauda, como elas são as últimas coisas que acontecem nesse caminho de código (diferente do `return`):
 
 ```js
 "use strict";
@@ -1083,23 +1083,23 @@ bar( 5 );				// 24
 bar( 15 );				// 32
 ```
 
-In this program, `bar(..)` is clearly recursive, but `foo(..)` is just a regular function call. In both cases, the function calls are in *proper tail position*. The `x + 1` is evaluated before the `bar(..)` call, and whenever that call finishes, all that happens is the `return`.
+Nesse programa, `bar(..)` é claramente recursiva, mas `foo(..)` é aoenas uma chamada de função normal. Em ambos os casos, as chamadas das funções estão em *poisção correta da cauda (PTC)*. O `x +1` é avaliado antes da chamada de `bar(..)`, e sempre que essa chamada termina, tudo que acontece é o `return`.
 
-Proper Tail Calls (PTC) of these forms can be optimized -- called tail call optimization (TCO) -- so that the extra stack frame allocation is unnecessary. Instead of creating a new stack frame for the next function call, the engine just reuses the existing stack frame. That works because a function doesn't need to preserve any of the current state, as nothing happens with that state after the PTC.
+Posições corretas de cauda *(PTC - proper tail calls)* dessas formas podem ser otimizadas -- chamado "otimização de chamada de cauda" -- visto isso, alocação de quadros de pilha extra são desnecessários. Em vez de criar uma novo quadro de pilha para a próxima chamada de função, o motor apenas reusa o quadro de pilha já existente. Isso funciona porque uma função não precisa preservar nenhum dos estados atuais, já que nada acontece com esse estado depois da posição correta de cauda.
 
-TCO means there's practically no limit to how deep the call stack can be. That trick slightly improves regular function calls in normal programs, but more importantly opens the door to using recursion for program expression even if the call stack could be tens of thousands of calls deep.
+Otimização da chamada de cauda significa que praticamente não há limites para quão profundo a pilha de chamadas pode ser. Esse truque melhora ligeiramente as chamadas de funções regulares em programas normais. mas mais importante, abre as portas para o uso de recursão para expressões do programa mesmo se a pilha de chamadas possa ser de milhares de chamadas de profundidade.
 
-We're no longer relegated to simply theorizing about recursion for problem solving, but can actually use it in real JavaScript programs!
+Nós não somos mais relegados para simplesmente teorizar sobre a recursão para a resolução de problemas, mas podemos realmente usá-los em programas reais de JavaScript!
 
-As of ES6, all PTC should be optimizable in this way, recursion or not.
+A parir do ES6, todas as PTC devem ser otimizadas dessa forma, recursivamente ou não.
 
-### Tail Call Rewrite
+### Substituição de Chamada de Cauda
 
-The hitch, however, is that only PTC can be optimized; non-PTC will still work of course, but will cause stack frame allocation as they always did. You'll have to be careful about structuring your functions with PTC if you expect the optimizations to kick in.
+O entrave, no entanto, é que apenas o PTC pode ser otimizado; não PTC vão continuar funcionando, é claro, mas vão causar alocações de quadros de pilha como sempre fizeram. Você terá que ser cuidadoso sobre estruturar suas funções com PTC se você espera que as otimizações aconteçam.
 
-If you have a function that's not written with PTC, you may find the need to manually rearrange your code to be eligible for TCO.
+Se você tem uma função que não é escrita em PTC, você poderá encontrar a necessidade de rearranjar seu código manualmente para que ele seja elegível para TCO.
 
-Consider:
+Considere:
 
 ```js
 "use strict";
@@ -1112,9 +1112,9 @@ function foo(x) {
 foo( 123456 );			// RangeError
 ```
 
-The call to `foo(x-1)` isn't a PTC because its result has to be added to `(x / 2)` before `return`ing.
+A chamada para `foo(x-1)` não é um PTC porque seu resultado tem que ser adicionado em `(x / 2)` antes de `return`.
 
-However, to make this code eligible for TCO in an ES6 engine, we can rewrite it as follows:
+Porém, para fazer com que esse código seja elegível ao TCO em um motor ES6, nós podemos sobrescreve-lo como a seguir:
 
 ```js
 "use strict";
@@ -1133,13 +1133,15 @@ var foo = (function(){
 foo( 123456 );			// 3810376848.5
 ```
 
-If you run the previous snippet in an ES6 engine that implements TCO, you'll get the `3810376848.5` answer as shown. However, it'll still fail with a `RangeError` in non-TCO engines.
+Se você rodar o snippet anterior em uma motor ES6 que implmente o TCO, você vai ter a resposta `3810376848.5` como mostrado. Porém, ela vai continuar falhando com um `RangeError` em motores não TCO.
 
-### Non-TCO Optimizations
+### Otimizações não TCO
 
-There are other techniques to rewrite the code so that the call stack isn't growing with each call.
+Há outras técnicas para reescrever o código de forma que a pilha de chamadas não cresça a cada chamada.
 
-One such technique is called *trampolining*, which amounts to having each partial result represented as a function that either returns another partial result function or the final result. Then you can simply loop until you stop getting a function, and you'll have the result. Consider:
+Uma destas técnicas é chamada *tampolim*(trampolining), o que equivale a ter cada resultado parcial representado como uma função que retorna outra função de resultado parcial ou resultado final. Então você pode simplesmente ter um loop, até que você pare de ter uma função, e você vai ter o resultado.
+
+Considere:
 
 ```js
 "use strict";
@@ -1167,16 +1169,16 @@ var foo = (function(){
 foo( 123456 );			// 3810376848.5
 ```
 
-This reworking required minimal changes to factor out the recursion into the loop in `trampoline(..)`:
+Esse retrabalho requer mudanças mínimas para avaliar a recursão no loop em `tramponine(..)`:
 
-1. First, we wrapped the `return _foo ..` line in the `return partial() { ..` function expression.
-2. Then we wrapped the `_foo(1,x)` call in the `trampoline(..)` call.
+1. Primeiro, nós embrulhamos a linha `return _foo ..` na espressão da função `return partial() { ..`.
+2. Então embrulhamos a chamada `_foo(1,x)` na chamada `trampoline(..)`.
 
-The reason this technique doesn't suffer the call stack limitation is that each of those inner `partial(..)` functions is just returned back to the `while` loop in `trampoline(..)`, which runs it and then loop iterates again. In other words, `partial(..)` doesn't recursively call itself, it just returns another function. The stack depth remains constant, so it can run as long as it needs to.
+A razão para essa técnica não sofrer a limitação de pilha de chamada é que cada uma dessas funções `partial(..)` está apenas retornando para o loop `while` em `trampoline(..)`, que executa-os e então o loop interage novamente. Em outras palavras, `partial(..)` não chama ela mesma recursivamente, ela retorna outra função. A profundidade da pilha continua constante, então ela pode rodar o quanto ela precisar.
 
-Trampolining expressed in this way uses the closure that the inner `partial()` function has over the `x` and `acc` variables to keep the state from iteration to iteration. The advantage is that the looping logic is pulled out into a reusable `trampoline(..)` utility function, which many libraries provide versions of. You can reuse `trampoline(..)` multiple times in your program with different trampolined algorithms.
+O trampolim expresso dessa forma usa o fechamento que a função `partial()` tem sobre as variáveis `x` e `acc` para manter o estado de iteraçãi para iteração. A vantagem é que a lógica de looping é posta para uma função `tampoline(..)` de utilidade reusável, o que muitas bibliotecas oferecem versões destas. Você pode reusar `trampoline(..)` múltiplas vezes no seu programa com diferentes algoritmos de trampolim.
 
-Of course, if you really wanted to deeply optimize (and the reusability wasn't a concern), you could discard the closure state and inline the state tracking of `acc` into just one function's scope along with a loop. This technique is generally called *recursion unrolling*:
+É claro, se você realmente quiser otimizar profundamente (e a reusabilidade não for uma preocupação), você pode descartar o estado de fechamento e alinhar o rastreamento de estado de `acc` em apenas um escopo de função, além de um loop. Essa técnica é geralmete chamada de *desenrolamento de recursão (recursion unrolling)*:
 
 ```js
 "use strict";
@@ -1193,16 +1195,15 @@ function foo(x) {
 foo( 123456 );			// 3810376848.5
 ```
 
-This expression of the algorithm is simpler to read, and will likely perform the best (strictly speaking) of the various forms we've explored. That may seem like a clear winner, and you may wonder why you would ever try the other approaches.
+Essa expressão do algoritmo é mais simples de ler, e vai provavelmente performar melhor (estritamente falando)de várias formas que vamos explorar. Isso pode parecer claro como água, e te fazer pensar no porque você tentaria outras abordagens.
 
-There are some reasons why you might not want to always manually unroll your recursions:
+Há algumas razões do porque você não deveria querer sempre desenrolar suas recursões manualmente:
 
-* Instead of factoring out the trampolining (loop) logic for reusability, we've inlined it. This works great when there's only one example to consider, but as soon as you have a half dozen or more of these in your program, there's a good chance you'll want some reusability to keep things shorter and more manageable.
-* The example here is deliberately simple enough to illustrate the different forms. In practice, there are many more complications in recursion algorithms, such as mutual recursion (more than just one function calling itself).
+* Em vez de fabricar sua lógica de trampolin (loop) para reusabilidade, nós vamos alinhar isso. Isso funciona muito bem quando há apenas um exemplo a se considerar, mas assim que você tiver meia dúzia ou mais existem muito mais complicações em algoritmos de recursão, assim como recursões mútuas (mais do que apenas uma função chamando a si mesma).
 
-   The farther you go down this rabbit hole, the more manual and intricate the *unrolling* optimizations are. You'll quickly lose all the perceived value of readability. The primary advantage of recursion, even in the PTC form, is that it preserves the algorithm readability, and offloads the performance optimization to the engine.
+	Quanto mais fundo você vai nessa toca de coelho, mais manuais e instricadas o *desenrolar* das otimizações são. Você perderá rapidamente todo o valor percebido da legibilidade. A primeira vantagem da recursão mesmo na forma PTC, é que ela preserva a legibilidade do algoritmo, e descarrega a otimização de desempenho para o motor.
 
-If you write your algorithms with PTC, the ES6 engine will apply TCO to let your code run in constant stack depth (by reusing stack frames). You get the readability of recursion with most of the performance benefits and no limitations of run length.
+Se vocẽ escrever algoritmos com PTC, o motor ES6 vai aplicar o TCO para deixar seu código rodar em profundidade de pilha constante (reusando quadros de pilhas). Você ganha legibilidade da recursão com a maioria dos benefícios de performance e sem limitação de largura de execução.
 
 ### Meta?
 
