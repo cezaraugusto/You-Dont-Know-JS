@@ -1207,9 +1207,11 @@ Se vocẽ escrever algoritmos com PTC, o motor ES6 vai aplicar o TCO para deixar
 
 ### Meta?
 
-What does TCO have to do with meta programming?
+O que TCO tem a ver com metaprogramação?
 
-As we covered in the "Feature Testing" section earlier, you can determine at runtime what features an engine supports. This includes TCO, though determining it is quite brute force. Consider:
+Assim como abordamos na seção anterior "Teste de funcionalidade", você pode determinar em tempo de execução quais funcionalidade o motor suporta. Isso inclui TCO, apesar de determinar que isso é uma forã bem bruta.
+
+Considere:
 
 ```js
 "use strict";
@@ -1226,11 +1228,11 @@ catch (err) {
 }
 ```
 
-In a non-TCO engine, the recursive loop will fail out eventually, throwing an exception caught by the `try..catch`. Otherwise, the loop completes easily thanks to TCO.
+Em um motor não TCO, o loop recursivo vai falhar eventualmente, lançando uma *exception caught* através de `try..catch`. Do contrário, o loop se completa facilmente graças a TCO.
 
-Yuck, right?
+Uhuuu, certo?
 
-But how could meta programming around the TCO feature (or rather, the lack thereof) benefit our code? The simple answer is that you could use such a feature test to decide to load a version of your application's code that uses recursion, or an alternative one that's been converted/transpiled to not need recursion.
+Mas como metaprogramar sobre uma funcinalidade TCO (ou melhor, a falta dela) beneficiaria nosso código? A respostam mais simples é que vocẽ poderia usar um teste de funcionalidade para decidir carregar uma versão do código da sua aplicação que usa recursão, ou uma alternativa que foi convertida/transpilada para não precisar de recursão.
 
 #### Self-Adjusting Code
 
