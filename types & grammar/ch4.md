@@ -294,30 +294,30 @@ A seguir, vamos ter uma pequena conversa sobre como `boolean`s se comportam em J
 
 Em primeiro lugar, JS tem as palavras-chave atuais `true` e `false`, e elas se comportam exatamente como você esperaria de valores `boolean`. É um equívoco comum que os valores `1` e `0` sejam idênticos à `true/false`. Enquanto isso pode ser verdadeiro em outras linguagens, em JS os `number`s são `number`s e os `boolean`s são `boolean`s. Você pode coagir `1` para `true` (e vice-versa) ou `0` para `false` (e vice versa). Mas eles não são os mesmos.
 
-#### Falsy Values
+#### Valores Falsos
 
-But that's not the end of the story. We need to discuss how values other than the two `boolean`s behave whenever you coerce *to* their `boolean` equivalent.
+Mas esse não é o fim da história. Nós precisamos discutir como outros valores além dos dois `boolean`s se comportam independentemente de você coagir *para* seus equivalentes `boolean`.
 
-All of JavaScript's values can be divided into two categories:
+Todos os valores JavaScript podem ser divididos em duas categorias?
 
-1. values that will become `false` if coerced to `boolean`
-2. everything else (which will obviously become `true`)
+1. Valores que irão se tornar `false` se coagidos para `boolean`
+2. Todo o resto (o que vai obviamente se tornar `true`)
 
-I'm not just being facetious. The JS spec defines a specific, narrow list of values that will coerce to `false` when coerced to a `boolean` value.
+Eu não estou apenas sendo engraçado. A especificação JS define uma específica e estreita lista dos valores que poderão tornar-se `false` quando coagidos para um valor `boolean`.
 
-How do we know what the list of values is? In the ES5 spec, section 9.2 defines a `ToBoolean` abstract operation, which says exactly what happens for all the possible values when you try to coerce them "to boolean."
+Como sabemos qual é essa lista de valores? Na seção 9.2 da especificação ES5, é definido uma operação abstrata `ToBoolean`, na que diz exatamente o que aconteceria para todos os valores possíveis quando você tenta coagi-los "para boolean".
 
-From that table, we get the following as the so-called "falsy" values list:
+A partir dessa tabela, obtemos o seguinte da chamada lista de valores "falsos":
 
 * `undefined`
 * `null`
 * `false`
-* `+0`, `-0`, and `NaN`
+* `+0`, `-0`, e `NaN`
 * `""`
 
-That's it. If a value is on that list, it's a "falsy" value, and it will coerce to `false` if you force a `boolean` coercion on it.
+É isso. Se um valor não está nessa lista, é um valor "falso", e ele não vai ser coagido para `false` se você forçar uma coerção `boolean` nele.
 
-By logical conclusion, if a value is *not* on that list, it must be on *another list*, which we call the "truthy" values list. But JS doesn't really define a "truthy" list per se. It gives some examples, such as saying explicitly that all objects are truthy, but mostly the spec just implies: **anything not explicitly on the falsy list is therefore truthy.**
+Por conclusão lógica, se um valor *não* está nessa lista, ele deve estar em *outra lista*, na qual nós chamamos de lista de valores "verdadeiros". Mas o JS realmente não define uma lista de valores "verdadeiros" por si só. Ele dá alguns exemplos, assim como dizemos explicitamente que todos os objetos são verdadeiros, mas principalmente a especificação apenas implica que: **qualquer coisa que não esteja explicitamente na lista falsa, é portanto, verdadeira.**
 
 #### Falsy Objects
 
