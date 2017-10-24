@@ -1234,9 +1234,9 @@ Uhuuu, certo?
 
 Mas como metaprogramar sobre uma funcinalidade TCO (ou melhor, a falta dela) beneficiaria nosso código? A respostam mais simples é que vocẽ poderia usar um teste de funcionalidade para decidir carregar uma versão do código da sua aplicação que usa recursão, ou uma alternativa que foi convertida/transpilada para não precisar de recursão.
 
-#### Self-Adjusting Code
+#### Código auto ajustável
 
-But here's another way of looking at the problem:
+Mas aqui está outra maneira de olhar para o problema:
 
 ```js
 "use strict";
@@ -1265,30 +1265,30 @@ function foo(x) {
 foo( 123456 );			// 3810376848.5
 ```
 
-This algorithm works by attempting to do as much of the work with recursion as possible, but keeping track of the progress via scoped variables `x` and `acc`. If the entire problem can be solved with recursion without an error, great. If the engine kills the recursion at some point, we simply catch that with the `try..catch` and then try again, picking up where we left off.
+Esse algoritmo funciona tentando fazer a maior parte possível do trabalho com recursão, mas mantendo o trilho de progresso via variáveis de escopo `x` e `acc`. Se todo o problema pode ser resolvido com recursão sem nenhum erro, ótimo. Se o motor matar a recursão em algum ponto, nós simplesmente o pegaremos com `try..catch` e tentaremos de novo, continuando de onde paramos.
 
-I consider this a form of meta programming in that you are probing during runtime the ability of the engine to fully (recursively) finish the task, and working around any (non-TCO) engine limitations that may restrict you.
+Eu considero essa uma forma de metaprogramação em que você está provando durante a execução a habilidade do motor de finalizar (recursivamente) totalmente a tarefa, e trabalhando sobre qualquer limitação de motor (não TCO) que podem te restringir.
 
-At first (or even second!) glance, my bet is this code seems much uglier to you compared to some of the earlier versions. It also runs a fair bit slower (on larger runs in a non-TCO environment).
+A primeria vista (ou até na segunda!), minha aposta é que esse código paracerá muito mais feio comparado com algumas versões mais recentes. Ele também roda um pouco mais devagar (e mais ainda em ambientes não TCO).
 
-The primary advantage, other than it being able to complete any size task even in non-TCO engines, is that this "solution" to the recursion stack limitation is much more flexible than the trampolining or manual unrolling techniques shown previously.
+A primeira vantagem, além de poder completar uma tarefa de qualquer tamanho em motores não TCO, é esta uma "solução" para a limitação de pilha de recursão é muito mais flexível que o trampolim ou técnicas de desenrolamento manual mostradas anteriormente.
 
-Essentially, `_foo()` in this case is a sort of stand-in for practically any recursive task, even mutual recursion. The rest is the boilerplate that should work for just about any algorithm.
+Essencilamente, `_foo()` nesse caso é um tipo de *stand-in* para praticamente qualquer tarefa, mesmo recursão mútua. O resto é o boilerplate que deve funcionar praticamente em qualquer algoritmo.
 
-The only "catch" is that to be able to resume in the event of a recursion limit being hit, the state of the recursion must be in scoped variables that exist outside the recursive function(s). We did that by leaving `x` and `acc` outside of the `_foo()` function, instead of passing them as arguments to `_foo()` as earlier.
+A única "pegadinha" é de poder retomar do caso de um limite de recursão ser batido, o estado da recursão deve estar nas variáveis do escopo que existem fora das funções recursivas. Nós fizemos isso deixando o `x` e `acc` fora da função `_foo()`, em vez de passá-las como argumentos para `_foo()` como antes.
 
-Almost any recursive algorithm can be adapted to work this way. That means it's the most widely applicable way of leveraging TCO with recursion in your programs, with minimal rewriting.
+Quase todos algoritmos recursivos podem ser adaptados para trabalhar dessa forma. Isso significa que é a aplicação mais ampla de alavancar o TCO com recursão em seus programas, com o mínimo de reescrita.
 
-This approach still uses a PTC, meaning that this code will *progressively enhance* from running using the loop many times (recursion batches) in an older browser to fully leveraging TCO'd recursion in an ES6+ environment. I think that's pretty cool!
+Essa abordagem continua usando PTC, o que significa que esse código vai *aumentará progressivamente* de execução usando o loop muitas vezes (lotes de recursão) em um navegador mais antigo para alavancar completamente a recursão TCO em um ambiente ES6+. Eu acho que isso é bem legal!
 
-## Review
+## Revisão
 
-Meta programming is when you turn the logic of your program to focus on itself (or its runtime environment), either to inspect its own structure or to modify it. The primary value of meta programming is to extend the normal mechanisms of the language to provide additional capabilities.
+Metaprogramação é quando você vira a lógica do seu programa para focar nele mesmo (ou em seu ambiente), tanto para inspecionar sua própria estrutura quanto para modificá-la. O valor primário da metaprogramação é extender os mecanismos normais da linguagem para forcer capacidades adicionais.
 
-Prior to ES6, JavaScript already had quite a bit of meta programming capability, but ES6 significantly ramps that up with several new features.
+Antes do ES6, o Javascript já tinha um pouco de capacidade de metaprogramação, mas o ES6 aumenta significativamente com vários novos recursos.
 
-From function name inferences for anonymous functions to meta properties that give you information about things like how a constructor was invoked, you can inspect the program structure while it runs more than ever before. Well Known Symbols let you override intrinsic behaviors, such as coercion of an object to a primitive value. Proxies can intercept and customize various low-level operations on objects, and `Reflect` provides utilities to emulate them.
+Desde inferências com nomes de funções anônimas para meta propriedades que te dá informação sobre coisas, sobre como um construtor é invocado, você pode inspecionar a estrutra do programa enquando ele executa muito mais do que antes. Símbolos bem conhecidos te permite subscrever comportamentos intrísecos, como coerção de uma objeto para um valor primitivo. Proxies podem interceptar e personalizar várias operações de baixo-nível em objetos, e `Reflect` oferece recusos para emula-las.
 
-Feature testing, even for subtle semantic behaviors like Tail Call Optimization, shifts the meta programming focus from your program to the JS engine capabilities itself. By knowing more about what the environment can do, your programs can adjust themselves to the best fit as they run.
+Teste de funcionalidade, mesmo para comportamentos semânticos sutis, como Otimização da chamada de cauda, alterna o foco da metaprogramação do seu programa para as próprias capacidades do motor Javascript. Conhecendo mais do que o ambiente pode fazer, seus programas podem se auto ajustar à melhor combinação enquando eles executam.
 
-Should you meta program? My advice is: first focus on learning how the core mechanics of the language really work. But once you fully know what JS itself can do, it's time to start leveraging these powerful meta programming capabilities to push the language further!
+Você deveria metaprogramar? Meu conselho é: primeiro foque em como as macânicas fundamentais da linguagem realmente funcionam. Mas uma vez que você conhece completamente o que o próprio JS pode fazer, é hora de começar a alavancar essa poderosa capacidade de metaprogramação para aumentar a linguagem.
