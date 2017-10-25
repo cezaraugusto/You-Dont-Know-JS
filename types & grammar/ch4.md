@@ -53,7 +53,7 @@ Antes de explorarmos a coerção *explícita* e *implícita*, nós precisamos ap
 
 ### `ToString`
 
-Quando um valor não-`string` é coagido para uma representação `string`, a conversão é manipulada pela operação abstrata `ToString` na seção 9.8 da especificação.
+Quando um valor não-`string` é convertido para uma representação `string`, a conversão é manipulada pela operação abstrata `ToString` na seção 9.8 da especificação.
 
 Valores primitivos nativos têm strigficação natural: `null` torna-se `"null"`, `undefined` torna-se `"undefined"` e `true` torna-se `"true"`. `numbers` são geralmente expressos de forma natural como você esperava, mas como discutimos no Capítulo 2, `numbers` muito pequenos ou muito grandes são representados na forma expoente:
 
@@ -69,7 +69,7 @@ Para objetos regulares, a menos que você mesmo especifique, o padrão `toString
 
 Mas como mostrado anteriormente, se um objeto tem seu próprio método `toString()`, e se você usa esse objeto em um tipo `string`, o `toString()` é o que será chamado automaticamente, e o resultado da `string` dessa chamada é o que vai ser usado no lugar.
 
-**Observação** A forma que um objeto é coagido em uma `string` tecnicamente passa através da operação abstrata `toPrimitive` (seção 9.1 da especificação ES5), mas essas nuances serão abordadas com mais detalhes na seção `ToNumber`, mais tarde nesse capítulo, então vamos pulá-lo aqui.
+**Observação** A forma que um objeto é convertido em uma `string` tecnicamente passa através da operação abstrata `toPrimitive` (seção 9.1 da especificação ES5), mas essas nuances serão abordadas com mais detalhes na seção `ToNumber`, mais tarde nesse capítulo, então vamos pulá-lo aqui.
 
 Arrays têm um padrão `toString()` substitutível que stringfica a (string) concatenação de todos esses valores (cada um stringficando a si mesmo), com `","` entre cada valor:
 
@@ -237,8 +237,8 @@ JSON.stringify( a, null, "-----" );
 
 Lembre-se, `JSON.stringify(..)` não é uma forma direta de corção. Nós o abordamos aqui, porém, por duas razões que seu comportamento está relacionado com coerção `ToString`:
 
-1. Valores `string`, `number`, `boolean`, e `null` todos podem ser stringficados para JSON basicamente o mesmo como a forma que eles coagem valores `string` através das regras da operação abstrata `ToString`.
-2. Se você passou o uma valor de `object` para `JSON.stringify(..)`, e esse `object` tem um método `toJSON()` nele, `toJSON()` é chamado automaticamente para "coagir" (um tipo de) o valor para ser *seguro para JSON* antes da stringficação.
+1. Valores `string`, `number`, `boolean`, e `null` todos podem ser stringficados para JSON basicamente o mesmo como a forma que eles convertem valores `string` através das regras da operação abstrata `ToString`.
+2. Se você passou o uma valor de `object` para `JSON.stringify(..)`, e esse `object` tem um método `toJSON()` nele, `toJSON()` é chamado automaticamente para "converter" (um tipo de) o valor para ser *seguro para JSON* antes da stringficação.
 
 ### `ToNumber`
 
@@ -250,7 +250,7 @@ Por exemplo, `true` torna-se `1` e `false` torna-se `0`. `undefined` torna-se `N
 
 **Observação:** As diferençãs entre a gramática de `number` literal  e `ToNumber` em um valor de uma `string` são sutiz e altamente matizados, e por isso não serão mais abordados aqui. Consulte a seção 9.3.1 da especificação ES5 para mais informações.
 
-Objetos (e arrays) vão primeiro ser convertidos para seus valores primitivos equivalentes, e o valor resultado (se for primitivo mas ainda não um `number`) é coagido para um `number` de acordo com as regras de `ToNumber` mencionadas.
+Objetos (e arrays) vão primeiro ser convertidos para seus valores primitivos equivalentes, e o valor resultado (se for primitivo mas ainda não um `number`) é convertido para um `number` de acordo com as regras de `ToNumber` mencionadas.
 
 Para converter para seu valor primitivo equivalente, a operação abstrata`ToPrimitive` (seção 9.1 da especificação ES5) irá consultar o valor (usando a operação interna `DefaultValue` -- seção 8.12.8 da especificação ES5) em questão para ver se ele tem um método `valueOf()`. Se o `valueOf()` estiver disponível e ele retornar um valor primitivo, *aquele* valor é usado para coerção. Do contrário, mas se `toString()` está disponível, ele vai fornecer o valor para a coerção.
 
@@ -258,7 +258,7 @@ Se nenhuma das operações pode fornecer um valor primitivo, um `TypeError` é l
 
 A partir de ES5, você pode criar certos objetos não coercivos -- um sem `valueOf()` e `toString()` -- se ele tiver um valor `null` para seu `[[Prototype]]`, geralmente criado com `Object.create(null)`. Veja o título *this & Object Prototypes* desa série para mais informações de `[[Prototype]]`s.
 
-**Observação:** Nós abordamos como coagir para `number`s em detalhes mais tarde nesse capítulo, mas para esse próximo snippet, apenas suponha que a função `Number(..)` faz isso.
+**Observação:** Nós abordamos como converter para `number`s em detalhes mais tarde nesse capítulo, mas para esse próximo snippet, apenas suponha que a função `Number(..)` faz isso.
 
 Considere:
 
@@ -292,20 +292,20 @@ Number( [ "abc" ] );	// NaN
 
 A seguir, vamos ter uma pequena conversa sobre como `boolean`s se comportam em JS. Há **muita confusão e equívoco** em torno desse tópico, então preste bastante atenção!
 
-Em primeiro lugar, JS tem as palavras-chave atuais `true` e `false`, e elas se comportam exatamente como você esperaria de valores `boolean`. É um equívoco comum que os valores `1` e `0` sejam idênticos à `true/false`. Enquanto isso pode ser verdadeiro em outras linguagens, em JS os `number`s são `number`s e os `boolean`s são `boolean`s. Você pode coagir `1` para `true` (e vice-versa) ou `0` para `false` (e vice versa). Mas eles não são os mesmos.
+Em primeiro lugar, JS tem as palavras-chave atuais `true` e `false`, e elas se comportam exatamente como você esperaria de valores `boolean`. É um equívoco comum que os valores `1` e `0` sejam idênticos à `true/false`. Enquanto isso pode ser verdadeiro em outras linguagens, em JS os `number`s são `number`s e os `boolean`s são `boolean`s. Você pode converter `1` para `true` (e vice-versa) ou `0` para `false` (e vice versa). Mas eles não são os mesmos.
 
 #### Valores Falsos
 
-Mas esse não é o fim da história. Nós precisamos discutir como outros valores além dos dois `boolean`s se comportam independentemente de você coagir *para* seus equivalentes `boolean`.
+Mas esse não é o fim da história. Nós precisamos discutir como outros valores além dos dois `boolean`s se comportam independentemente de você converter *para* seus equivalentes `boolean`.
 
 Todos os valores JavaScript podem ser divididos em duas categorias?
 
-1. Valores que irão se tornar `false` se coagidos para `boolean`
+1. Valores que irão se tornar `false` se convertidos para `boolean`
 2. Todo o resto (o que vai obviamente se tornar `true`)
 
-Eu não estou apenas sendo engraçado. A especificação JS define uma específica e estreita lista dos valores que poderão tornar-se `false` quando coagidos para um valor `boolean`.
+Eu não estou apenas sendo engraçado. A especificação JS define uma específica e estreita lista dos valores que poderão tornar-se `false` quando convertidos para um valor `boolean`.
 
-Como sabemos qual é essa lista de valores? Na seção 9.2 da especificação ES5, é definido uma operação abstrata `ToBoolean`, na que diz exatamente o que aconteceria para todos os valores possíveis quando você tenta coagi-los "para boolean".
+Como sabemos qual é essa lista de valores? Na seção 9.2 da especificação ES5, é definido uma operação abstrata `ToBoolean`, na que diz exatamente o que aconteceria para todos os valores possíveis quando você tenta converte-los "para boolean".
 
 A partir dessa tabela, obtemos o seguinte da chamada lista de valores "falsos":
 
@@ -315,7 +315,7 @@ A partir dessa tabela, obtemos o seguinte da chamada lista de valores "falsos":
 * `+0`, `-0`, e `NaN`
 * `""`
 
-É isso. Se um valor não está nessa lista, é um valor "falso", e ele não vai ser coagido para `false` se você forçar uma coerção `boolean` nele.
+É isso. Se um valor não está nessa lista, é um valor "falso", e ele não vai ser convertido para `false` se você forçar uma coerção `boolean` nele.
 
 Por conclusão lógica, se um valor *não* está nessa lista, ele deve estar em *outra lista*, na qual nós chamamos de lista de valores "verdadeiros". Mas o JS realmente não define uma lista de valores "verdadeiros" por si só. Ele dá alguns exemplos, assim como dizemos explicitamente que todos os objetos são verdadeiros, mas principalmente a especificação apenas implica que: **qualquer coisa que não esteja explicitamente na lista falsa, é portanto, verdadeira.**
 
@@ -365,7 +365,7 @@ A parte complicada é que eles podem aparecer no seu programa JS, mas eles na ve
 
 Há certos casos em que navegadores criam seus próprios tipos de comportamentos *exóticos* de valores, nomeando essa ideia de "objetos falsos", no topo da semântica regular do JS.
 
-Um "objeto falso" é um valor que parece e age como um objeto normal (propriedades, etc.), mas quando você coage eles para um `boolean`, ele faz a coerção para um valor `false`.
+Um "objeto falso" é um valor que parece e age como um objeto normal (propriedades, etc.), mas quando você converte eles para um `boolean`, ele faz a coerção para um valor `false`.
 
 **Por quê?!**
 
@@ -387,11 +387,11 @@ Eca. Isso é uma merda. É um macete louco que a maioria dos desenvolvedores nã
 
 Então...é isso que temos: "objetos falsos" loucos e fora do padrão adicionados ao JS pelos navegadores. Ebaa!
 
-#### Truthy Values
+#### Valores verdadeiros
 
-Back to the truthy list. What exactly are the truthy values? Remember: **a value is truthy if it's not on the falsy list.**
+De volta para a lista verdadeira. O que exatamente são valores verdadeiros? Lembre-se: ** um valor é verdadeiro se ele não está na lista falsa **.
 
-Consider:
+Considere:
 
 ```js
 var a = "false";
@@ -403,31 +403,29 @@ var d = Boolean( a && b && c );
 d;
 ```
 
-What value do you expect `d` to have here? It's gotta be either `true` or `false`.
+Qual valor você espera que `d` tenha aqui? Deve ser ou `true` ou `false`.
 
-It's `true`. Why? Because despite the contents of those `string` values looking like falsy values, the `string` values themselves are all truthy, because `""` is the only `string` value on the falsy list.
+É `true`. Porquê? Porque apesar dos conteúdos dos valores daquelas `string` parecerem como valores falsos, os próprios valores da `string` são verdadeiros, porque `""` é o único valor de `string` na lista falsa.
 
-What about these?
+E esses?
 
 ```js
-var a = [];				// empty array -- truthy or falsy?
-var b = {};				// empty object -- truthy or falsy?
-var c = function(){};	// empty function -- truthy or falsy?
+var a = [];				// array vazio -- verdadeiro ou falso?
+var b = {};				// object vazio --  verdadeiro ou falso?
+var c = function(){};	// function vazio --  verdadeiro ou falso?
 
 var d = Boolean( a && b && c );
 
 d;
 ```
 
-Yep, you guessed it, `d` is still `true` here. Why? Same reason as before. Despite what it may seem like, `[]`, `{}`, and `function(){}` are *not* on the falsy list, and thus are truthy values.
+Sim, você acertou, `d` continua `true` aqui. Porque? Mesma razão de antes. Apesar do que possa parecer, `[]`, `{}`, e `function(){}` *não* estão na lista falsa, e, portanto, são valores verdadeiros.
 
-In other words, the truthy list is infinitely long. It's impossible to make such a list. You can only make a finite falsy list and consult *it*.
+Em outras palavras, a lista de verdadeiros é infinitamente longa. É impossível de fazer tal lista. Você apenas pode fazer uma lista falsa e *cosultá-la*.
 
-Take five minutes, write the falsy list on a post-it note for your computer monitor, or memorize it if you prefer. Either way, you'll easily be able to construct a virtual truthy list whenever you need it by simply asking if it's on the falsy list or not.
+Pegue cinco minutos, escreva a lista falsa em um post-it para o monitor do seu computador, ou memorize-a se preferir. De qualquer forma, você facilmente poderá construir uma lista falsa virtual sempre que precisar simplesmente perguntando se está na lista falsa ou não.
 
-The importance of truthy and falsy is in understanding how a value will behave if you coerce it (either explicitly or implicitly) to a `boolean` value. Now that you have those two lists in mind, we can dive into coercion examples themselves.
-
-fim parte 1
+A importância de verdadeiro e falso no entendimento de como um valor vai se comportar quando você coverte-lo (explicitamente ou implicitamente) para uma valor `boolean`. Agora que você tem essas duas listas em mente, nós podemos mergulhar nos exemplos de coerção.
 
 ## Explicit Coercion
 
