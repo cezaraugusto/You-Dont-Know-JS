@@ -4,17 +4,17 @@
 Metaprogramação é programação onde a operação visa o comportamento do próprio programa. Em outras palavras, é programar a programação do seu programa. Sim, um bocado, não é?
 
 Por exemplo, se você investigar a relação entre um objeto `a` e outro `b` -- eles são `[[Prototype]]` conectados? -- usando `a.isPrototype(b)`, isso é comumente referido como instrospecão, uma forma de metaprogramação. Macros (que não existem em JS, ainda) -- onde o código se modifica no momento da compilação -- são outros exemplos óbvios de metaprogramação.
-Enumerar as chaves de um objeto com um loop `for..in`, ou verificar se um objeto é uma *instância de* um "construtor de uma classe", são outros tipos comuns de metaprogramação.
+Enumerar as chaves de um objeto com um loop `for..in` ou verificar se um objeto é uma *instância de* um "construtor de uma classe", são outros tipos comuns de metaprogramação.
 
-Metaprogramação concentra-se em um ou mais dos seguintes itens: inspeção de código, modificação do código, ou código que modifica o comportamento padrão da linguagem, de modo que outro código seja afetado.
+Metaprogramação concentra-se em um ou mais dos seguintes itens: inspeção de código, modificação do código ou código que modifica o comportamento padrão da linguagem, de modo que outro código seja afetado.
 
-O objetivo da metaprogramação é aproveitar as capacidades intrísecas para tornar o resto do seu código mais descritivo, expressivo, e/ou flexível· Por conta da natureza do termo *meta* de metaprogramação, é um tanto difícil de colocar uma definição mais precisa do que essa. A melhor forma de entender metaprogramação é ve-la através de exemplos.
+O objetivo da metaprogramação é aproveitar as capacidades intrísecas à linguagem para tornar o resto do seu código mais descritivo, expressivo, e/ou flexível· Por conta da natureza do termo *meta* de metaprogramação, é um tanto difícil de colocar uma definição mais precisa do que essa. A melhor forma de entender metaprogramação é ve-la através de exemplos.
 
-A ES6 adiciona várias novos métodos/funcionalidades para metaprogramação em cima do que o JS já possuía.
+A ES6 adiciona vários novos métodos/funcionalidades para metaprogramação em cima do que o JS já possuía.
 
 ## Nome de Funções
 
-Existes casos em que seu código pode querer se voltar pra si mesmo e perguntar qual o nome de alguma função. Se você perguntar qual o nome da função, a reposta será algo surpreendentemente abíguo. Considere:
+Existem casos em que seu código pode querer se voltar pra si mesmo e perguntar qual o nome de alguma função. Se você perguntar qual o nome da função, a reposta será algo surpreendentemente abíguo. Considere:
 
 ```js
 function daz() {
@@ -49,9 +49,9 @@ foo( function(){
 } );
 ```
 
-Há várias maneiras nas quais funções podem ser expressadas em programas, e nem sempre está claro e sem abiguidade qual o "nome" que a função deveria ter.
+Há várias maneiras com as quais funções podem ser expressadas em programas, e nem sempre está claro e sem abiguidade qual o "nome" que a função deveria ter.
 
-Mais importante, nós precisamos distinguir se o nome de uma função se refere ao `name` da sua propriedade -- sim, função tem uma propriedade chamada `name` -- ou o que quer que se refira ao *nome da ligação léxica*(lexical binding name), assim como `bar` em `function bar() { .. }`.
+Mais importante, nós precisamos distinguir se o nome de uma função se refere à propriedade `name` da sua propriedade -- sim, funções têm uma propriedade chamada `name` -- ou o que quer que se refira ao *nome da ligação léxica*(lexical binding name), assim como `bar` em `function bar() { .. }`.
 
 O nome da ligação léxica é o que você usa para coisas como recursão: 
 
@@ -64,15 +64,15 @@ function foo(i) {
 
 A propriedade `name` é o que você usaria para os propósitos da metaprogramação, então é o que vamos focar nessa discussão.
 
-A confusão aparece porque por padrão, o nome léxico que a função tinha (se algum) também foi definido como a propriedade do seu `name`. Atualmente não há requerimentos oficiais para esse comportamento pela especificação ES5 (e anterior). A definição da propriedade `name` não era padrão, mas ainda era bastante confiável. A partir da ES6, isso foi padronizado.
+A confusão aparece porque por padrão, o nome léxico que a função tinha (se algum) também foi definido como a sua propriedade `name`. Atualmente não há requerimentos oficiais para esse comportamento pela especificação ES5 (e anterior). A definição da propriedade `name` não era padrão, mas ainda era bastante confiável. A partir da ES6, isso foi padronizado.
 
-**Dica** Se a função tem um valor de `name` atribuído, esse é tipicamente o nome usado em traços de pilha nas ferramentas dos desenvolvedores.
+**Dica** Se a função tem um valor de `name` atribuído, esse é tipicamente o nome usado em traços de pilha(*stack traces*) nas ferramentas dos desenvolvedores.
 
 ### Inferferências
 
-Mas o que acontece com o nome da propriedade `name` se uma função não tiver um nome léxico?
+Mas o que acontece com a propriedade `name` se uma função não tiver um nome léxico?
 
-A partir da ES6, há agora regras de interferência que podem determinar um nome sensível da propriedade `name` para atribuir à uma função, mesmo se essa função não tiver um nome léxico para usar.
+A partir da ES6, existem regras de inferência que podem determinar um valor adequado para ser atrubído à propriedade `name` de uma função, mesmo se essa função não tiver um nome léxico para usar.
 
 Considere:
 
@@ -86,53 +86,53 @@ abc.name;	// "abc"
 
 Nós demos à função um nome léxico como `abc = function def() { .. }`, a propriedade `name` será com certeza `"def"`. Mas, na ausência de um nome léxico, intuitivamente o nome `"abc"` parece ser apropriado.
 
-Aqui estão outras formas que inferião um nome (ou não) no ES6:
+Aqui estão outras formas de inferir um nome (ou não) no ES6:
 
 ```js
-(function(){ .. });					// nome:
-(function*(){ .. });				// nome:
-window.foo = function(){ .. };		// nome:
+(function(){ .. });					// name:
+(function*(){ .. });				// name:
+window.foo = function(){ .. };		// name:
 
 class Awesome {
-	constructor() { .. }			// nome: Awesome
-	funny() { .. }					// nome: funny
+	constructor() { .. }			// name: Awesome
+	funny() { .. }					// name: funny
 }
 
 var c = class Awesome { .. };		// name: Awesome
 
 var o = {
-	foo() { .. },					// nome: foo
-	*bar() { .. },					// nome: bar
-	baz: () => { .. },				// nome: baz
-	bam: function(){ .. },			// nome: bam
-	get qux() { .. },				// nome: get qux
-	set fuz() { .. },				// nome: set fuz
+	foo() { .. },					// name: foo
+	*bar() { .. },					// name: bar
+	baz: () => { .. },				// name: baz
+	bam: function(){ .. },			// name: bam
+	get qux() { .. },				// name: get qux
+	set fuz() { .. },				// name: set fuz
 	["b" + "iz"]:
-		function(){ .. },			// nome: biz
+		function(){ .. },			// name: biz
 	[Symbol( "buz" )]:
-		function(){ .. }			// nome: [buz]
+		function(){ .. }			// name: [buz]
 };
 
-var x = o.foo.bind( o );			// nome: bound foo
-(function(){ .. }).bind( o );		// nome: bound
+var x = o.foo.bind( o );			// name: bound foo
+(function(){ .. }).bind( o );		// name: bound
 
-export default function() { .. }	// nome: default
+export default function() { .. }	// name: default
 
-var y = new Function();				// nome: anônima
+var y = new Function();				// name: anonymous
 var GeneratorFunction =
 	function*(){}.__proto__.constructor;
-var z = new GeneratorFunction();	// nome: anônima
+var z = new GeneratorFunction();	// name: anonymous
 ```
 
 A propriedade `name` não é editável por padrão, mas é configurável, significando que você pode usar `Object.defineProperty(..)` para mudar manualmente se desejar.
 
 ## Meta Propriedades
 
-Na seção "`new.target`" do Capítulo 3, nós introduzimos um conceito novo para o JS no ES6: a meta propriedade. Como o nome sugeste, meta propriedades têm a intenção de fornencer meta informações especiais na forma de acesso de uma propriedade que de outra forma não teria sido possível.
+Na seção "`new.target`" do Capítulo 3, nós introduzimos um conceito novo para o JS no ES6: a meta propriedade. Como o nome sugere, meta propriedades têm a intenção de fornecer meta informações especiais na forma de acesso de uma propriedade que de outra forma não teria sido possível.
 
 No caso de `new.target`, a palavra-chave `new` serve como contexto para o acesso de uma propriedade. Claramente `new` não é um objeto propriamente, o que torna essa capacidade especial. Entretanto, quando `new.target` é usado dentro de uma chamada de um construtor (uma função/método invocado com `new`), `new` se torna um contexto virtual, tanto que `new.target` pode se referir ao construtor de destino no qual `new` foi invocado.
 
-Esse é um exemplo claro de uma operação de meta programação, como a intenção é determinar a chamada a partir de dentro de um construtor no qual a origem `new` estava, geralmente para propósitos de instrospecção (examinar tipagem/estrutura) ou acesso de propriedades estáticas.
+Este é um exemplo claro de uma operação de meta programação, visto que sua intenção é determinar, dentro da chamada do construtor, qual era o alvo original de `new`, geralmente para propósitos de instrospecção (examinar tipagem/estrutura) ou acesso de propriedades estáticas.
 
 Por exemplo, você pode querer ter diferentes comportamentos em um construtor, dependendo se ele foi invocado diretamente ou invocado através do filho de uma classe:
 
@@ -140,10 +140,10 @@ Por exemplo, você pode querer ter diferentes comportamentos em um construtor, d
 class Parent {
 	constructor() {
 		if (new.target === Parent) {
-			console.log( "Pai instanciado" );
+			console.log( "Parent instanciada" );
 		}
 		else {
-			console.log( "Um filho instanciado" );
+			console.log( "Descendente instanciada" );
 		}
 	}
 }
@@ -154,28 +154,28 @@ var a = new Parent();
 // Pai instanciado
 
 var b = new Child();
-// Um filho instanciado
+// Descendente instanciada
 ```
 
-Há uma pequena nuance aqui, qual é o `constructor()` dentro da definição da classe `Parent`, é atualmente dado o nome léxico da classe (`Parent`), mesmo que a sintaxe signifique que a classe é uma entidade separada do construtor.
+Há uma pequena nuance aqui, que é o fato do `constructor()` dentro da definição da classe `Parent` receber o nome léxico da própria classe (`Parent`),embora a sintaxe sugira que a classe é uma entidade separada do construtor.
 
-**Atenção** Assim como todas técnicas de meta programação, tenha cuidado na criação de códigos que sejam muito espertos para a manutenabilidade e entendimento no seu próprio futuro ou de outros. Use esses macetes com cautela.
+**Atenção** Assim como todas técnicas de meta programação, tenha cuidado na criação de códigos que sejam muito "malandros"  ou que dificultem a compreensão para outros. Use esses macetes com cautela.
 
 ## Símbolos bem conhecidos
 
 Na seção "Símbolos" do Capítulo 2, nós abordamos o novo tipo primitivo `symbol` do ES6. Além dos símbolos que você pode definir em seu próprio programa, o JS predefine uma série de símbolos internos, conhecidos como *Símbolos bem conhecidos* (WKS - *do original*).
 
-Esses valores de símbolos são definidos, primeiramente, para expor uma meta propriedade especial que está sendo exposta em seus programas JS, para te dar mais controle sobre o comportamento do JS.
+Esses valores de símbolos são definidos, primeiramente, para expôr meta propriedades especiais, que ficam disponíveis para seus programas JS e proporcionam maior controle sobre o comportamento do JS.
 
-Nós vamos introduzir brevemente a cada um e discutir suas propostas.
+Nós vamos introduzir brevemente cada um e discutir suas propostas.
 
 ### `Symbol.iterator`
 
-No Capítulo 2 e 3, nós apresentamos e usamos o símbolo `@@iterator`, automaticamente usado pelos spreads `...` e loops `for..of`. Nós também vimos `@@iterator` definidos nas coleções no novo ES6, como mostrado no Capítulo 5.
+Nos Capítulos 2 e 3, nós apresentamos e usamos o símbolo `@@iterator`, automaticamente usado pelos spreads `...` e loops `for..of`. Nós também vimos `@@iterator` definidos nas coleções no novo ES6, como mostrado no Capítulo 5.
 
-`Symbol.iterator` representa a localização especial (propriedade) de qualquer objeto em que o mecanismo da lignuagem olha e automaticamente acha um método que vai construir uma instânica de iteração para consumir os valores daquele objeto. Muitos objetos vêm com um valor definido como padrão.
+`Symbol.iterator` representa uma localização especial (propriedade) em qualquer objeto onde os mecanismos da lignuagem bucam por um método que irá construir uma instânica de iteração para consumo dos valores deste objeto. Muitos objetos vêm com um valor definido como padrão.
 
-Entretanto, nós podemos definir a nossa própria lógica de iterador para qualquer valor de objeto definindo a propriedade `Symbol.iterator`, mesmo se isso esiver sibstituindo o iterador padrão. O apecta da meta programação é que nós estamos definindo comportamentos que outras partes do JS (nomeclatura, operadores e loopings construtores) usam quando peocessam o valor de um objeto que nós definimos.
+Entretanto, nós podemos definir a nossa própria lógica de iterador para qualquer valor de objeto definindo a propriedade `Symbol.iterator`, mesmo se isso estiver substituindo o iterador padrão. O apecto de meta programação é que nós estamos definindo comportamentos que outras partes do JS (como operadores e construtores de loops) usam quando peocessam o valor de um objeto que nós definimos.
 
 Considere:
 
@@ -188,7 +188,7 @@ for (var v of arr) {
 // 4 5 6 7 8 9
 
 // define o iterador que produz apenas valores
-// de índices estranhos
+// de índices ímpares
 arr[Symbol.iterator] = function*() {
 	var idx = 1;
 	do {
@@ -204,7 +204,7 @@ for (var v of arr) {
 
 ### `Symbol.toStringTag` e `Symbol.hasInstance`
 
-Umas das tarefas de metaprogramação mais comuns é inspecionar um valor para descobrir qual *tipo* ele é, geralmente para decidir quais operadores são apropriados para atuar neles. Com objetos, as duas técnicas de inspeção mais comuns são `toString()` e `instanceof`.
+Umas das tarefas de meta programação mais comuns é inspecionar um valor para descobrir de qual *tipo* ele é, geralmente para decidir quais operações são apropriadas para atuar neles. Com objetos, as duas técnicas de inspeção mais comuns são `toString()` e `instanceof`.
 
 Considere:
 
@@ -244,9 +244,9 @@ a instanceof Foo;			// true
 b instanceof Foo;			// false
 ```
 
-O símbolo `@@toString` no prototype (ou na própria instância) especifica o valor da string para uso no `[object ___]` como stringification.
+O símbolo `@@toStringTag` no prototype (ou na própria instância) especifica o valor da string para uso na conversão para string `[object ___]`.
 
-O símbolo `@@hasInstance` é um método da função construtora que recebe o valor da instância de um objeto e deixa vocçê decidir se retorna `true` ou `false` se o valor poderá ser considerado uma instância ou não.
+O símbolo `@@hasInstance` é um método da função construtora que recebe o valor da instância de um objeto e deixa voçê decidir se retorna `true` ou `false` se o valor deverá ser considerado uma instância ou não.
 
 **Observação** Para definir `@@hasInstance` em uma função, você precisa usar o `Object.defineProperty(..)`, assim como o padrão em `Function.prototype` é `writable: false`. Veja o título *this e Object Prototypes* dessa série para mais informações.
 
