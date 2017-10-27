@@ -68,7 +68,7 @@ A confusão aparece porque por padrão, o nome léxico que a função tinha (se 
 
 **Dica** Se a função tem um valor de `name` atribuído, esse é tipicamente o nome usado em traços de pilha(*stack traces*) nas ferramentas dos desenvolvedores.
 
-### Inferferências
+### Inferências
 
 Mas o que acontece com a propriedade `name` se uma função não tiver um nome léxico?
 
@@ -84,7 +84,7 @@ var abc = function() {
 abc.name;	// "abc"
 ```
 
-Nós demos à função um nome léxico como `abc = function def() { .. }`, a propriedade `name` será com certeza `"def"`. Mas, na ausência de um nome léxico, intuitivamente o nome `"abc"` parece ser apropriado.
+Se tivéssemos dado um nome léxico como `abc = function def() { .. }`, a propriedade `name` certamente seria `"def"`. Mas, na ausência de um nome léxico, intuitivamente o nome `"abc"` parece ser apropriado.
 
 Aqui estão outras formas de inferir um nome (ou não) no ES6:
 
@@ -140,7 +140,7 @@ Por exemplo, você pode querer ter diferentes comportamentos em um construtor, d
 class Parent {
 	constructor() {
 		if (new.target === Parent) {
-			console.log( "Parent instanciada" );
+			console.log( "Pai instanciado" );
 		}
 		else {
 			console.log( "Descendente instanciada" );
