@@ -498,25 +498,25 @@ Você deve considerar fortemente evitar corção unária com `+` (ou `-`) quando
 
 Lembre-se, nós estamos tentando ser explícitos e **reduzir** a confusão, não torná-la muito pior!
 
-#### `Date` To `number`
+#### `Date` para `number`
 
-Another common usage of the unary `+` operator is to coerce a `Date` object into a `number`, because the result is the unix timestamp (milliseconds elapsed since 1 January 1970 00:00:00 UTC) representation of the date/time value:
+Outro uso comum do operador unário `+` é a coerção de um objeto `Date` em um `number`, porque o resultado é a representação timestamp unix (milisegundos decorridos desde 1 de Janeiro 1970 00:00:00 UTC) do valor data/tempo:
 
 ```js
-var d = new Date( "Mon, 18 Aug 2014 08:53:06 CDT" );
+var d = new Date( "Seg, 18 Ago 2014 08:53:06 CDT" );
 
 +d; // 1408369986000
 ```
 
-The most common usage of this idiom is to get the current *now* moment as a timestamp, such as:
+O uso mais comum deste idioma é obter o momento * agora * atual como um timestamp, como:
 
 ```js
 var timestamp = +new Date();
 ```
 
-**Note:** Some developers are aware of a peculiar syntactic "trick" in JavaScript, which is that the `()` set on a constructor call (a function called with `new`) is *optional* if there are no arguments to pass. So you may run across the `var timestamp = +new Date;` form. However, not all developers agree that omitting the `()` improves readability, as it's an uncommon syntax exception that only applies to the `new fn()` call form and not the regular `fn()` call form.
+**Observação** Alguns desenvolvedores estão cientes de um "truque" da sintaxe JavaScript, que é o `()` definido em uma chamada do construtor (uma função chamada com `new`) é *opcional* se não houver argumentos para passar. Então você pode executar a forma `var timestamp = +new Date;`. Porém, nem todos os desenvolvedores concordam que omitir o `()` melhora a legibilidade, uma vez que é uma exceção de sintaxe incomum que se aplica apenas à forma de chamada `new fn()` e não na forma de chamada `fn()` normal.
 
-But coercion is not the only way to get the timestamp out of a `Date` object. A noncoercion approach is perhaps even preferable, as it's even more explicit:
+Mas coerção não é a única forma de que pegar extrair o timestamp de um objeto `Date`. Uma abordagem de não-coerção talvez seja preferível, pois é ainda mais explícita:
 
 ```js
 var timestamp = new Date().getTime();
@@ -524,13 +524,13 @@ var timestamp = new Date().getTime();
 // var timestamp = (new Date).getTime();
 ```
 
-But an *even more* preferable noncoercion option is to use the ES5 added `Date.now()` static function:
+Mas uma opção de não-coerção *ainda mais* preferível é usar a função estática 'Date.now () `do adicionada no ES5:
 
 ```js
 var timestamp = Date.now();
 ```
 
-And if you want to polyfill `Date.now()` into older browsers, it's pretty simple:
+E se você deseja fazer o polyfill de `Date.now()` para navagadores antigos, é bem simples:
 
 ```js
 if (!Date.now) {
@@ -540,7 +540,7 @@ if (!Date.now) {
 }
 ```
 
-I'd recommend skipping the coercion forms related to dates. Use `Date.now()` for current *now* timestamps, and `new Date( .. ).getTime()` for getting a timestamp of a specific *non-now* date/time that you need to specify.
+Eu recomendo pular as formas de coerção relacionada à datas. Use `Date.now()` para timestamps *atuais*, e  `new Date( .. ).getTime()` para pegar uma timestamp de uma data/tempo específica *não atual* que você precisa especificar.
 
 #### The Curious Case of the `~`
 
