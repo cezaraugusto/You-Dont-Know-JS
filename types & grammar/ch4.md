@@ -666,8 +666,6 @@ So, why might you choose `~~x` over `x | 0`, then? Operator precedence (see Chap
 
 Just as with all other advice here, use `~` and `~~` as explicit mechanisms for "coercion" and value transformation only if everyone who reads/writes such code is properly aware of how these operators work!
 
-parte 2
-
 ### Explicitly: Parsing Numeric Strings
 
 A similar outcome to coercing a `string` to a `number` can be achieved by parsing a `number` out of a `string`'s character contents. There are, however, distinct differences between this parsing and the type conversion we examined above.
@@ -871,8 +869,6 @@ On its surface, this idiom looks like a form of *explicit* `ToBoolean`-type coer
 However, there's a hidden *implicit* coercion, in that the `a` expression has to first be coerced to `boolean` to perform the truthiness test. I'd call this idiom "explicitly implicit." Furthermore, I'd suggest **you should avoid this idiom completely** in JavaScript. It offers no real benefit, and worse, masquerades as something it's not.
 
 `Boolean(a)` and `!!a` are far better as *explicit* coercion options.
-
-parte 3
 
 ## Implicit Coercion
 
