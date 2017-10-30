@@ -17,7 +17,8 @@ Com isso em mente, é hora de dar uma olhada em algumas dessas funcionalidades. 
 
 ## `funções async`
 
-Na seção “Generators + Promises” do Capítulo 4, mencionamos que existe uma proposta para suporte sintático direto para o padrão de *generators* que `YIELD` (entregam) promessas (*promises*) à uma utilidade do tipo RUNNER que irá retomá-lo uma vez a promessa seja completada. Vamos dar uma olhada rápida nessa funcionalidade proposta, chamada de `função async`. 
+Na seção “Generators + Promises” do Capítulo 4, mencionamos que existe uma proposta para suporte sintático direto para o padrão de *generators* que entregam (`YIELD`) *promises* à uma utilidade do tipo *runner* que irá retomá-lo uma vez a *promise* seja completada. Vamos dar uma olhada rápida nessa funcionalidade proposta, chamada de `função async`. 
+
 
 Lembre-se desse exemplo de *generator* do Capítulo 4: 
 
@@ -49,7 +50,7 @@ run( function *main() {
 	}
 );
 ```
-A sintaxe proposta para `função async` pode expressar essa mesma lógica de controle de fluxo sem precisar da utilidade `run(..)`, porque o JS saberá automaticamente como buscar promessas para esperar e retomar. Considere:
+A sintaxe proposta para `função async` pode expressar essa mesma lógica de controle de fluxo sem precisar da utilidade `run(..)`, porque o JS saberá automaticamente como buscar *promises* para esperar e retomar. Considere:
 
 ```js
 async function main() {
@@ -81,19 +82,19 @@ main()
 	}
 );
 ```
-Ao invés da declaração `function *main() { ..`, declaramos com o formato `async function main() { ..`. E ao invés de `yield` (entregar) uma promessa, nós a esperamos (`await`). A chamada para executar a função `main()` em realidade retorna a promessa que podemos observar diretamente. É o equivalente à promessa que recebemos de volta da execução `run(main)`.
+Ao invés da declaração `function *main() { ..`, declaramos com o formato `async function main() { ..`. E ao invés de entregar (`yield`) uma *promise*, nós a esperamos (`await`). A chamada para executar a função `main()` em realidade retorna uma *promise* que podemos observar diretamente. É o equivalente à *promise* que recebemos de volta da chamada de `run(main)`.
 
-Você consegue ver a simeteria? A `função async` é basicamente açúcar sintático para padrões como os de generators + promises + `run(..)`; por detrás dos panos, funciona da mesma maneira!
+Você consegue ver a simeteria? A `função async` é basicamente açúcar sintático para padrões como os de *generators* + *promises* + `run(..)`; por detrás dos panos, funciona da mesma maneira!
 
 Se você é um desenvolvedor C# e `async`/`await` parece familiar, é porque essa funcionalidade foi diretamente inspirada por uma de C#. É bom ver precedência de linguagem formando convergência. 
 
 Babel, Traceur e outros transpilers já tem um suporte antecipado para o status atual das `funções async`, então você já poderia começar a usá-las. Entretanto, na próxima seção "Ressalvas" veremos porque talvez você não deveria pular nesse barco por agora.
 
-**Observação:** Há também uma proposta para `função* async`, que seria chamada de "async generator." Você poderia usar `yield` e `await` no mesmo código e até mesmo combinar essas operações em uma mesma instrução: `x = await yield y`. Essa proposta de "async generator" parece estar ainda em curso – ou seja, o valor de retorno não está completamente definido ainda. Algumas pessoas pensam que deveria ser *observável*, o que seria como a combinação de um iterador e uma promise. Por agora, não iremos entrar em mais detalhes sobre esse tópico, mas fique atento à medida que evolua. 
+**Nota:** Há também uma proposta para `função* async`, que seria chamada de "generator async." Você poderia usar `yield` e `await` no mesmo código e até mesmo combinar essas operações em uma mesma instrução: `x = await yield y`. Essa proposta de "generator async" parece estar ainda em curso – ou seja, o valor de retorno não está completamente definido ainda. Algumas pessoas pensam que deveria ser *observável*, o que seria como a combinação de um iterador e uma promise. Por agora, não iremos entrar em mais detalhes sobre esse tópico, mas fique atento à medida que evolua. 
 
 ### Ressalvas
 
-Um ponto de discórdia não resolvido com a `função async` se deve ao fato de que ela só retorna uma promessa, e não é possível cancelar uma `função async` desde fora dela. Isso pode ser um problema se a operação async é RESOURCE INTENSIVE e você quisesse liberar os RESOURCES assim que você tivesse certeza que o resultado não fosse mais necessário. 
+Um ponto de discórdia não resolvido com a `função async` se deve ao fato de que ela só retorna uma *promise*, e não é possível cancelar uma `função async` desde fora dela. Isso pode ser um problema se a operação *async* utiliza recursos de maneira intensiva e você quisesse liberar os recursos assim que você tivesse certeza que o resultado não fosse mais necessário. 
 
 Por exemplo: 
 
@@ -132,18 +133,18 @@ pr.then(
 );
 ```
 
-Essa função `request(..)` que é de certa forma parecida com a utilidade `fetch(..)` que recentemente se propôs incluir na plataforma web. A preocupação então é: o que acontece se você quer usar o valor `pr` para de alguma maneira indicar que você quer cancelar um pedido de Ajax de longa-duração, por exemplo?
+Essa função `request(..)` que concebi é de certa forma parecida com a utilidade `fetch(..)` que foi recentemente proposta de ser incluída na plataforma web. A preocupação então é: o que acontece se você quer usar o valor `pr` para, de alguma maneira, indicar que você quer cancelar um pedido de Ajax de longa-duração, por exemplo?
 
-Promessas não são canceláveis (pelo menos não no momento em que escrevo). Na minha opinião, assim como de muitas outras pessoas, elas nunca deveriam ser (veja o título *Async e Performance*). E mesmo se uma promessa tivesse um método de cancelar como `cancel()`, isso deveria mesmo significar que chamar  `pr.cancel()` propagaria o sinal de cancelamento de volta por todo o camino da sequência até a função `async`?
+*Promises* não são canceláveis (pelo menos não no momento em que escrevo). Na minha opinião, assim como de muitas outras pessoas, elas nunca deveriam ser (veja o título *Async e Performance* dessa série). E mesmo se uma *promise* tivesse um método de cancelar como `cancel()`, isso deveria mesmo significar que chamar  `pr.cancel()` propagaria o sinal de cancelamento de volta por todo o camino da sequência até a função `async`?
 
-Várias possíveis resoluções a esse debate surgiram: 
+Várias resoluções possíveis a esse debate surgiram: 
 
 * `funções async` não seriam canceláveis de maneira alguma (status quo)
 * Um "token de cancelamento" poderia ser passado como argumento a uma função async na hora da função ser chamada
-* O valor retornado se torna um tipo de promessa-cancelável que é adicionado 
-* O valor retornado se torna algo que não uma promessa (por exemplo: observável, ou um token de controle com capacidades de promessa e cancelamento) 
+* O valor retornado se tornaria um tipo de *promise* cancelável que é adicionado 
+* O valor retornado se tornaria algo que não uma *promise* (por exemplo: observável, ou um token de controle com capacidades de *promise* e cancelamento) 
 
-No momento em que escrevo, `funções async` devolvem promessas normais, então é menos provável que o valor retornado irá mudar completamente. Entretanto, é muito cedo para saber onde as coisas vão terminar. Fique de olho nessa discussão. 
+No momento em que escrevo, `funções async` devolvem *promises* normais, então é menos provável que o valor retornado irá mudar completamente. Entretanto, é muito cedo para saber como as coisas vão terminar. Fique de olho nessa discussão.
 
 ## `Object.observe(..)`
 
