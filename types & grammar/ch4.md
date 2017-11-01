@@ -777,11 +777,11 @@ parseInt( "103", 2 );		// 2
 
 Na verdade `parseInt(..)` é bem previsível e consistente em seu comportamento. Se voce usa-lo corretamente, você terá resultados sensatos. Se você usa-lo incorretamente, o resultado maluco que você terá não é culpa do JavaScript.
 
-### Explicitly: * --> Boolean
+### Explicitamente: * --> Boolean
 
-Now, let's examine coercing from any non-`boolean` value to a `boolean`.
+Agora, vamos examinar a coerção de qualquer outro valor não `boolean` para um `boolean`.
 
-Just like with `String(..)` and `Number(..)` above, `Boolean(..)` (without the `new`, of course!) is an explicit way of forcing the `ToBoolean` coercion:
+Assim como com `String(..)` e `Number(..)` acima, `Boolean(..)` (sem o `new`, claro!) é uma forma explícita de forçar a coerção `ToBoolean`:
 
 ```js
 var a = "0";
@@ -803,9 +803,9 @@ Boolean( f ); // false
 Boolean( g ); // false
 ```
 
-While `Boolean(..)` is clearly explicit, it's not at all common or idiomatic.
+Enquanto `Boolean(..)` é claramente explícita, ela não é tão comum ou idiomática.
 
-Just like the unary `+` operator coerces a value to a `number` (see above), the unary `!` negate operator explicitly coerces a value to a `boolean`. The *problem* is that it also flips the value from truthy to falsy or vice versa. So, the most common way JS developers explicitly coerce to `boolean` is to use the `!!` double-negate operator, because the second `!` will flip the parity back to the original:
+Assim como o operador unário `+` faz a coerção de um valor para um `number` (veja acima), o operador unário de negação `!` faz a coerção explicitamente de um valor para um `boolean`. O *problema* é que ele também inverte o valor de verdadeiro para falso ou vice versa. Então a forma mais comum em que desenvolvedores JS fazem a coerção explícita para `boolean` é usando o operador de negação duplo `!!`, porque o segundo `!` vai inverter a paridade de volta à original:
 
 ```js
 var a = "0";
@@ -827,9 +827,9 @@ var g;
 !!g;	// false
 ```
 
-Any of these `ToBoolean` coercions would happen *implicitly* without the `Boolean(..)` or `!!`, if used in a `boolean` context such as an `if (..) ..` statement. But the goal here is to explicitly force the value to a `boolean` to make it clearer that the `ToBoolean` coercion is intended.
+Qualquer uma dessas coerções `ToBoolean` podem acontecer *implicitamente* sem o `Boolean(..)` ou `!!`, se usado em um contexto `boolean` assim como uma declaração `if(..) ..`. Mas o objeto é forçar explicitamente o valor para um `boolean` para deixar claro que a coerção `ToBoolean` é intencional.
 
-Another example use-case for explicit `ToBoolean` coercion is if you want to force a `true`/`false` value coercion in the JSON serialization of a data structure:
+Outro caso de uso para coerção explícita `ToBoolean` é se você quer forçar uma coerção de valor `true`/`false` em uma serialização JSON de uma estrutura de dados:
 
 ```js
 var a = [
@@ -843,7 +843,7 @@ JSON.stringify( a ); // "[1,null,2,null]"
 
 JSON.stringify( a, function(key,val){
 	if (typeof val == "function") {
-		// force `ToBoolean` coercion of the function
+		// força a coerção `ToBoolean` da função
 		return !!val;
 	}
 	else {
@@ -853,7 +853,7 @@ JSON.stringify( a, function(key,val){
 // "[1,true,2,true]"
 ```
 
-If you come to JavaScript from Java, you may recognize this idiom:
+Se você veio para o JavaScript do Java, você deve reconhecer essa linguagem:
 
 ```js
 var a = 42;
@@ -861,13 +861,13 @@ var a = 42;
 var b = a ? true : false;
 ```
 
-The `? :` ternary operator will test `a` for truthiness, and based on that test will either assign `true` or `false` to `b`, accordingly.
+O operador ternário `? :` vai testar `a` para verdadeiro, e baseado nesse teste atribuirá `true` ou `false` para `b`, em conformidade.
 
-On its surface, this idiom looks like a form of *explicit* `ToBoolean`-type coercion, since it's obvious that only either `true` or `false` come out of the operation.
+Nessa superfície, essa linguagem é uma forma *explícita* de coerção do tipo `ToBoolean`, uma vez que é óbvio que apenas `true` ou `false` saem da operação.
 
-However, there's a hidden *implicit* coercion, in that the `a` expression has to first be coerced to `boolean` to perform the truthiness test. I'd call this idiom "explicitly implicit." Furthermore, I'd suggest **you should avoid this idiom completely** in JavaScript. It offers no real benefit, and worse, masquerades as something it's not.
+Porém, há uma coerção *implícita* oculta, aquela expressão `a` deve primeiro sofrer a coerção para `boolean` para executar o teste de verdade. Eu chamaria essa linguagem de "explicitamente implícita". Além disso, eu sugiro que **você evite essa linguagem completamente** no JavaScript. Ela não oferece benefícios reais, e pior, mascara algo que não é.
 
-`Boolean(a)` and `!!a` are far better as *explicit* coercion options.
+`Boolean(a)` e `!!a` são de longe melhores as opções para coerção *explícita*.
 
 ## Implicit Coercion
 
