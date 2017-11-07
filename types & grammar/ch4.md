@@ -1102,21 +1102,21 @@ Mas assim como tudo o que discutimos aqui, é uma escolha.
 
 ### Implicitly: * --> Boolean
 
-Now, let's turn our attention to *implicit* coercion to `boolean` values, as it's by far the most common and also by far the most potentially troublesome.
+Agora, vamos voltar nossa atenção para coerção *implícita* de valores `boolean`, como isso é de longe o mais comum e também de longe o mais potencialmente problemático.
 
-Remember, *implicit* coercion is what kicks in when you use a value in such a way that it forces the value to be converted. For numeric and `string` operations, it's fairly easy to see how the coercions can occur.
+Lembre-se, coerção *implícita* é o que entra quando você usa um valor de tal forma que ele força o valor a ser convertido. Para operações numéricas e de `string`, é bem fácil de ver como as coerções podem acontecer.
 
-But, what sort of expression operations require/force (*implicitly*) a `boolean` coercion?
+Mas, que tipo de expressões de operação requerem/forçam (*implicitamente*) uma coerção `boolean`?
 
-1. The test expression in an `if (..)` statement.
-2. The test expression (second clause) in a `for ( .. ; .. ; .. )` header.
-3. The test expression in `while (..)` and `do..while(..)` loops.
-4. The test expression (first clause) in `? :` ternary expressions.
-5. The left-hand operand (which serves as a test expression -- see below!) to the `||` ("logical or") and `&&` ("logical and") operators.
+1. A expressão test em uma declaração `if(..)`.
+2. A expressão test (segunda cláusula) em um header `for ( .. ; .. ; .. )`.
+3. A expressão test em loops `while (..)` e `do..while(..)`.
+4. A expressão test (primeira cláusula) em expressões ternárias `? :`.
+5. O operando *left-hand* (que serve uma expressão test -- veja abaixo!) para os operadores `||` ("lógico OU") e `&&` ("lógico E").
 
-Any value used in these contexts that is not already a `boolean` will be *implicitly* coerced to a `boolean` using the rules of the `ToBoolean` abstract operation covered earlier in this chapter.
+Qualquer valor usado nesse contexto que já não seja um `boolean` vai sofrer coerção *implícita* para um `boolean` usando as regras da operação abstrata `ToBoolean` abordada anteriormente nesse capítulo.
 
-Let's look at some examples:
+Vamos ver alguns exemplos:
 
 ```js
 var a = 42;
@@ -1140,7 +1140,7 @@ if ((a && d) || c) {
 }
 ```
 
-In all these contexts, the non-`boolean` values are *implicitly coerced* to their `boolean` equivalents to make the test decisions.
+Em todos estes contextos, os valores não `boolean`s sofrem coerção *implícita* para seus equivalentes `boolean` para fazer decisões de teste.
 
 ### Operators `||` and `&&`
 
