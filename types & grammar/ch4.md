@@ -1306,13 +1306,13 @@ Consistências são sempre fáceis de aprender, e exceções nunca são divertid
 
 A boa notícia: provavelmente será extremamente raro você precisar fazer coerção de uma valor `symbol`. A maneira como eles são normalmente usados (veja o capítulo 3), provavelmente não exigirá coerção em uma base normal.
 
-## Loose Equals vs. Strict Equals
+## Igualdade Ampla vs. Igualdade Estrita
 
-Loose equals is the `==` operator, and strict equals is the `===` operator. Both operators are used for comparing two values for "equality," but the "loose" vs. "strict" indicates a **very important** difference in behavior between the two, specifically in how they decide "equality."
+Igualdade ampla é o operador `==`, e igualdade estrita é o operador `===`. Ambos operadores são usados para comparar dois valores para "igualdade", mas o "amplo" vs. "estrito" indica uma diferença de comportamento **muito importante** entre os dois, especificamente em como eles decidem a "igualdade".
 
-A very common misconception about these two operators is: "`==` checks values for equality and `===` checks both values and types for equality." While that sounds nice and reasonable, it's inaccurate. Countless well-respected JavaScript books and blogs have said exactly that, but unfortunately they're all *wrong*.
+Um equívico muito comum sobre esses dois operadores é: `==` verifica igualdade de valores e `===` verifica igualdade de ambos, valores e tipos. Enquanto isso parece sensato, é impreciso. Incontáveis livros, bem respeitados, de JavaScript e blogs disseram exatamente isso, mas infelizmente eles estão todos *errados*.
 
-The correct description is: "`==` allows coercion in the equality comparison and `===` disallows coercion."
+A descrição correta é: "`==` permite coerção na comparação da igualdade e `===` não permite."
 
 ### Equality Performance
 
