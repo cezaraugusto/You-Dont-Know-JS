@@ -1,7 +1,7 @@
 # You Don't Know JS: Tipos e Gramática
 # Apêndice A: JavaScript em Ambiente Misto
 
-Além da mecânica principal da linguagem que exploramos completamente neste livro, há vários comportamentos diferentes que seu código JS pode apresentar quando ele roda no mundo real. Se o JS estava sendo executando puro dentro do motor, ele pode ser totalmente previsível baseado em nada além da especificação. Mas JS quase sempre roda no contexto de um ambiente hosteado, o que expôe seu código à alguns graus de imprevisibilidade.
+Além da mecânica principal da linguagem que exploramos completamente neste livro, há vários comportamentos diferentes que seu código JS pode apresentar quando ele roda no mundo real. Se o JS estava sendo executando puramente dentro do motor, ele pode ser totalmente previsível baseado em nada além da especificação. Mas JS quase sempre roda no contexto de um ambiente hosteado, o que expôe seu código à alguns graus de imprevisibilidade.
 
 Por exemplo, quando seu código roda simultaneamente com códigos de outras fontes, ou quando seu código roda em diferentes tipos de Motores JS (não apenas navegadores), há algumas coisas que podem se comportar diferente.
 
@@ -9,17 +9,17 @@ Nós vamos explorar brevemente alguns destes casos.
 
 ## Anexo B (ECMAScript)
 
-É um pouco conhecido o fato que o nome oficial da linguagem é ECMAScript (referindo-se ao conjunto de padrões ECMA que o gerencia). O que então é "JavaScript"? JavaScript é o nome comercial da linguagem, é claro, mas mais apropriadamente, JavaScript é basicamente a implementação desta especificação nos navegadores.
+É um fato pouco conhecido que o nome oficial da linguagem é ECMAScript (referindo-se ao conjunto de padrões ECMA que o gerencia). O que então é "JavaScript"? JavaScript é o nome comercial da linguagem, é claro, mas mais apropriadamente, JavaScript é basicamente a implementação desta especificação nos navegadores.
 
-A especificação oficial ECMAScript inclui o "Anexo B", que discute derivações específicas da especificação oficial para os propósitos de compatibilidaded do JS nos navegadores.
+A especificação oficial ECMAScript inclui o "Anexo B", que discute derivações específicas da especificação oficial para os propósitos de compatibilidade do JS nos navegadores.
 
 O jeito apropriado de considerar essas derivações é que elas são confiavelmente válidas/presentes somente se seu código estiver rodando em um navegador. Se seu código sempre roda em navegadores, você não verá nenhuma diferença considerável. Caso contrário (como se pudesse ser executado em node.js, Rhino, etc.), ou você não tem certeza, vá com cuidado.
 
 As pricipais diferenças de compatibilidade:
 
-* Números Octais são permitidos, como `0123` (decimal `83`) em non-`strict mode`.
+* Números Octais são permitidos, como `0123` (decimal `83`) em modo não estrito(*non-`strict-mode`*).
 * `window.escape(..)` e `window.unescape(..)` permitem que você escape ou não strings com `%`-sequências de escape delimitadas. Por exemplo: `window.escape( "?foo=97%&bar=3%" )` se torna `"%3Ffoo%3D97%25%26bar%3D3%25"`.
-* `String.prototype.substr` é bem similiar à `String.prototype.substring`, exceto que ao invés do segundo parâmetro ser o último index (noninclusive), o segundo parâmetro é o `lenght` (números de caracteres para incluir).
+* `String.prototype.substr` é bem similiar à `String.prototype.substring`, exceto que ao invés do segundo parâmetro ser o último index (não-inclusivo), o segundo parâmetro é o `lenght` (números de caracteres para incluir).
 
 ### Web ECMAScript
 
@@ -31,7 +31,7 @@ Em outras palavras, esses itens são "requisitos" dos navegadores (para serem co
 * `String.prototype` adições para retornarem strings no formato HTML: `anchor(..)`, `big(..)`, `blink(..)`, `bold(..)`, `fixed(..)`, `fontcolor(..)`, `fontsize(..)`, `italics(..)`, `link(..)`, `small(..)`, `strike(..)`, and `sub(..)`. 
 **Observação:** Estes exemplos raramente são usados na prática, e geralmente não são recomendados por outras API de DOM nativas ou utilitários definidos pelo usuário.
 * Extensões `RegExp`: `RegExp.$1` .. `RegExp.$9` (comninações de grupos) e `RegExp.lastMatch`/`RegExp["$&"]` (combinação mais recente).
-* Adições `Function.prototype`: `Function.prototype.arguments` (apelidos internos dos `arguments` do objeto) e `Function.caller` (apelidos internos de `arguments.caller`). **Observação:** `arguments` e `arguments.caller` estão obsoletos, então você deve evitar de usa-los se porssível. Isso vale ainda mais para apelidos -- Não os use!
+* Adições `Function.prototype`: `Function.prototype.arguments` (apelidos internos dos `arguments` do objeto) e `Function.caller` (apelidos internos de `arguments.caller`). **Observação:** `arguments` e `arguments.caller` estão obsoletos, então você deve evitar de usa-los se possível. Isso vale ainda mais para apelidos -- Não os use!
 
 **Observação:** Algumas outras variações que são raramente utilizadas não foram incluídas aqui em nossa lista. Veja a documentação do "Anexo B" e "Web ECMAScript" para informações mais detalhadas se necessário.
 
@@ -52,9 +52,9 @@ Object.prototype.toString.call( a );	// "[object HTMLDivElement]"
 a.tagName;								// "DIV"
 ```
 
-`a` não é só um `object`, mas um objeto global especial porque este é um elemento do DOM. Ele tem um `[[Class]]` valor interno (`"HTMLDivElement"`) diferente e vem com propriedades pré-definidas (e frequentemente imutáveis).
+`a` não é só um `object`, mas um objeto global especial porque este é um elemento do DOM. Ele tem um valor interno diferente para `[[Class]]` (seu valor é `"HTMLDivElement"`) e vem com propriedades pré-definidas (e frequentemente imutáveis).
 
-Outra peculiaridade já foi abordada, na seção "Objetos Falsos"(Falsy Objects) no capítulo 4: alguns objetos podem existir mas quando forçados em `boolean` eles (de forma confusa) serão forçados para `false` ao invés de `true` como seria o esperado.
+Outra peculiaridade já foi abordada, na seção "Objetos Falsos"(Falsy Objects) no capítulo 4: alguns objetos podem existir mas quando convertidos em `boolean` eles (de forma confusa) serão convertidos para `false` ao invés de `true` como seria o esperado.
 
 Outra variação de comportamento com objetos globais para se ter cuidado podem incluir:
 
@@ -64,9 +64,9 @@ Outra variação de comportamento com objetos globais para se ter cuidado podem 
 * ter métodos que não podem ter o `this` substituído por outros objetos
 * e mais...
 
-Objetos globais são fundamentais para tornar nosso código JS funcional em todo ambiente. Mas é importante lembrar quando você está interagindo com um objeto global e ter cuidado ao assumir seu comportamento, pois eles quase sempre não estão em conformiadade com ´object´s tradicionais.
+Objetos globais são fundamentais para tornar nosso código JS funcional em todo ambiente. Mas é importante lembrar quando você está interagindo com um objeto global e ter cuidado ao assumir seu comportamento, pois eles quase sempre não estão em conformidade com ´object´s tradicionais.
 
-Um exemplo notável de um objeto global que você provavelmente vai interagir regularmente é o objeto `console` que é fornecido pelo *ambiente global* especificamente para que seu código possa interagir com ele por várias tarefas de relacionadas ao desenvolvimento em produção.
+Um exemplo notável de um objeto global que você provavelmente vai interagir regularmente é o objeto `console` functions (`log(..)`, `error(..)`, etc.). O objeto `console` é fornecido pelo *ambiente global* especificamente para que seu código possa interagir com ele para várias tarefas relacionadas ao output do desenvolvimento.
 
 Em navegadores, o `console` está atrelado ao console de ferramentas do desenvolvedor, enquanto em node.js e outros ambientes JS do lado do servidor, `console` é geralmente à saída padrão (`stdout`) e depurador de erros (`stderr`) do fluxo de processos do sistema de desenvolvimento em JS.
 
@@ -104,7 +104,7 @@ Aqui está um exemplo real do que realmente aconteceu comigo que ilustra bem ess
 
 Eu estava construindo um widget embedado para outros websites, e meu widget dependia do JQuery (embora praticamente qualquer estrutura sofreu com essa pegadinha). Ele funcionava em quase todos os sites, mas nós nos deparamos com um que estava totalmente quebrado.
 
-Depois de quase uma semana de análise/debbug, eu encontrei que o que o site em questão tinha, enterrado profundamente em um dos seus arquivos legados, um código parecido com isso:
+Depois de quase uma semana de análise/debbug, eu encontrei que o site em questão tinha, enterrado profundamente em um dos seus arquivos legados, um código parecido com isso:
 
 ```js
 // Netscape 4 não possui Array.push
@@ -141,7 +141,7 @@ A declaração `if` garante que você somente definiu esse hack de `push()` em a
 1. Se o código do site (por alguma razão louca!) estava dependendo de um `push(...)` que ignorou múltiplos itens, aquele código terá quebrado anos antes quando o padrão `push(..)` foi lançado.
 2. Se alguma outra biblioteca apareceu e fez um hack de `push(..)` com a garantia do `if`, e o fez de forma incompatível, ela já teria quebrado o site naquele momento.
 
-O que se destaca é uma questão interessandte que, francamente, não recebe a atenção devida dos desenvolvedores JS:
+O que se destaca é uma questão interessante que, francamente, não recebe a atenção devida dos desenvolvedores JS:
 **Nunca deve-se depender de um comportamento legado** seu código está em execução em qualquer ambiente em que não seja o único código presente?
 
 A resposta estrita é **não**, mas é terrivelmente impraticável. Seu código geralmente não pode redefinir suas próprias versões privadas ​​de todo o comportamento dependente do legado. Mesmo se *pudesse*, isso seria muito desperdício.
