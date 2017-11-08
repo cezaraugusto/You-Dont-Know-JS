@@ -25,7 +25,7 @@ Para instanciar uma *promise*, use seu construtor `Promise(..)`:
 
 ```js
 var p = new Promise( function pr(resolve,reject){
-	// ..
+  // ..
 } );
 ```
 
@@ -39,18 +39,18 @@ Aqui está como você normalmente utiliza uma *promise* para refatorar uma chama
 
 ```js
 function ajax(url,cb) {
-	// faz uma requisição, ao final invoca `cb(..)`
+  // faz uma requisição, ao final invoca `cb(..)`
 }
 
 // ..
 
 ajax( "http://some.url.1", function handler(err,contents){
-	if (err) {
-		// manipula o erro no retorno do ajax
-	}
-	else {
-		// manipula o `conteúdo` no sucesso
-	}
+  if (err) {
+    // manipula o erro no retorno do ajax
+  }
+  else {
+    // manipula o `conteúdo` no sucesso
+  }
 } );
 ```
 
@@ -58,22 +58,22 @@ Você pode converter para:
 
 ```js
 function ajax(url) {
-	return new Promise( function pr(resolve,reject){
-		// faz a requisição, no final invoca
-		// `resolve(..)` ou `reject(..)`
-	} );
+  return new Promise( function pr(resolve,reject){
+    // faz a requisição, no final invoca
+    // `resolve(..)` ou `reject(..)`
+  } );
 }
 
 // ..
 
 ajax( "http://some.url.1" )
 .then(
-	function fulfilled(contents){
-		// manipula o `conteúdo` no sucesso
-	},
-	function rejected(reason){
-		// manipula a razão do erro da requisição
-	}
+  function fulfilled(contents){
+    // manipula o `conteúdo` no sucesso
+  },
+  function rejected(reason){
+    // manipula a razão do erro da requisição
+  }
 );
 ```
 
@@ -88,15 +88,15 @@ Ambos `then(..)` e `catch(..)` automaticamente constroem e retornam uma instanci
 ```js
 ajax( "http://some.url.1" )
 .then(
-	function fulfilled(contents){
-		return contents.toUpperCase();
-	},
-	function rejected(reason){
-		return "DEFAULT VALUE";
-	}
+  function fulfilled(contents){
+    return contents.toUpperCase();
+  },
+  function rejected(reason){
+    return "DEFAULT VALUE";
+  }
 )
 .then( function fulfilled(data){
-	// manipula data da promise original
+  // manipula data da promise original
 } );
 ```
 
@@ -105,19 +105,19 @@ Nesse trexo de código, estamos retornando um valor apartir de qualquer um dos m
 ```js
 ajax( "http://some.url.1" )
 .then(
-	function fulfilled(contents){
-		return ajax(
-			"http://some.url.2?v=" + contents
-		);
-	},
-	function rejected(reason){
-		return ajax(
-			"http://backup.url.3?err=" + reason
-		);
-	}
+  function fulfilled(contents){
+    return ajax(
+      "http://some.url.2?v=" + contents
+    );
+  },
+  function rejected(reason){
+    return ajax(
+      "http://backup.url.3?err=" + reason
+    );
+  }
 )
 .then( function fulfilled(contents){
-	// `contents` vem de uma das chamadas subsequentes de `ajax(..)`
+  // `contents` vem de uma das chamadas subsequentes de `ajax(..)`
 } );
 ```
 
@@ -137,10 +137,10 @@ Qualquer objeto (ou função) com um método `then(..)` é tido como um *thenabl
 
 ```js
 var th = {
-	then: function thener( fulfilled ) {
-		// chama `fulfilled(..)` uma vez a cada 100ms eternamete.
-		setInterval( fulfilled, 100 );
-	}
+  then: function thener( fulfilled ) {
+    // chama `fulfilled(..)` uma vez a cada 100ms eternamete.
+    setInterval( fulfilled, 100 );
+  }
 };
 ```
 
@@ -164,7 +164,7 @@ A API *promise* também provê alguns métodos estáticos para trabalhar com *Pr
 var p1 = Promise.resolve( 42 );
 
 var p2 = new Promise( function pr(resolve){
-	resolve( 42 );
+  resolve( 42 );
 } );
 ```
 
@@ -176,7 +176,7 @@ var theP = ajax( .. );
 var p1 = Promise.resolve( theP );
 
 var p2 = new Promise( function pr(resolve){
-	resolve( theP );
+  resolve( theP );
 } );
 ```
 
@@ -188,7 +188,7 @@ var p2 = new Promise( function pr(resolve){
 var p1 = Promise.reject( "Oops" );
 
 var p2 = new Promise( function pr(resolve,reject){
-	reject( "Oops" );
+  reject( "Oops" );
 } );
 ```
 
@@ -201,15 +201,15 @@ Iniciando com esses valores/`promises`:
 ```js
 var p1 = Promise.resolve( 42 );
 var p2 = new Promise( function pr(resolve){
-	setTimeout( function(){
-		resolve( 43 );
-	}, 100 );
+  setTimeout( function(){
+    resolve( 43 );
+  }, 100 );
 } );
 var v3 = 44;
 var p4 = new Promise( function pr(resolve,reject){
-	setTimeout( function(){
-		reject( "Oops" );
-	}, 10 );
+  setTimeout( function(){
+    reject( "Oops" );
+  }, 10 );
 } );
 ```
 
@@ -218,17 +218,17 @@ Vamos entender como `Promise.all([ .. ])` funciona com a combinação desses val
 ```js
 Promise.all( [p1,p2,v3] )
 .then( function fulfilled(vals){
-	console.log( vals );			// [42,43,44]
+  console.log( vals );      // [42,43,44]
 } );
 
 Promise.all( [p1,p2,v3,p4] )
 .then(
-	function fulfilled(vals){
-		// never gets here
-	},
-	function rejected(reason){
-		console.log( reason );		// Oops
-	}
+  function fulfilled(vals){
+    // never gets here
+  },
+  function rejected(reason){
+    console.log( reason );    // Oops
+  }
 );
 ```
 Enquanto `Promise.all([ .. ])` espera por todos os cumprimentos (ou a primeira rejeição), `Promise.race([ .. ])` aguarda apenas pelo primeiro cumprimento ou rejeijção. Considere: 
@@ -239,17 +239,17 @@ Enquanto `Promise.all([ .. ])` espera por todos os cumprimentos (ou a primeira r
 
 Promise.race( [p2,p1,v3] )
 .then( function fulfilled(val){
-	console.log( val );				// 42
+  console.log( val );        // 42
 } );
 
 Promise.race( [p2,p4] )
 .then(
-	function fulfilled(val){
-		// never gets here
-	},
-	function rejected(reason){
-		console.log( reason );		// Oops
-	}
+  function fulfilled(val){
+    // never gets here
+  },
+  function rejected(reason){
+    console.log( reason );    // Oops
+  }
 );
 ```
 
@@ -262,22 +262,22 @@ Promise.race( [p2,p4] )
 ```js
 step1()
 .then(
-	step2,
-	step1Failed
+  step2,
+  step1Failed
 )
 .then(
-	function step3(msg) {
-		return Promise.all( [
-			step3a( msg ),
-			step3b( msg ),
-			step3c( msg )
-		] )
-	}
+  function step3(msg) {
+    return Promise.all( [
+      step3a( msg ),
+      step3b( msg ),
+      step3c( msg )
+    ] )
+  }
 )
 .then(step4);
 ```
 
-Contudo, há uma opção muito melhor para expressar controle de fluxo assíncrono, e provavelmente será muito mais preferível em termos de estilo de códificação do que longas cadeias de `promise`. Nós podemos usar o que aprendemos no *Capitulo 3* sobre `generators` para expressar nosso controle de fluxo assíncrono.
+Contudo, há uma opção muito melhor para expressar controle de fluxo assíncrono, e provavelmente será muito mais preferível em termos de estilo de codificação do que longas cadeias de `promise`. Nós podemos usar o que aprendemos no *Capitulo 3* sobre `generators` para expressar nosso controle de fluxo assíncrono.
 
 Um importante padrão a se reconhecer: um `generator` pode produzir uma `promise`, e essa promise pode então ser ligada para retomar o `generator` com seu valor de cumprimento.
 
@@ -286,23 +286,23 @@ Considere o controle de fluxo assíncrono no texo de código anterior escrito co
 ```js
 function *main() {
 
-	try {
-		var ret = yield step1();
-	}
-	catch (err) {
-		ret = yield step1Failed( err );
-	}
+  try {
+    var ret = yield step1();
+  }
+  catch (err) {
+    ret = yield step1Failed( err );
+  }
 
-	ret = yield step2( ret );
+  ret = yield step2( ret );
 
-	// step 3
-	ret = yield Promise.all( [
-		step3a( ret ),
-		step3b( ret ),
-		step3c( ret )
-	] );
+  // step 3
+  ret = yield Promise.all( [
+    step3a( ret ),
+    step3b( ret ),
+    step3c( ret )
+  ] );
 
-	yield step4( ret );
+  yield step4( ret );
 }
 ```
 
@@ -315,57 +315,56 @@ Por que estamos utilizando `Promises` com `generator`? É totalmente possível e
 Então, como essa mágica funciona? Nós precisaremos de um *runner* que executa nosso `generator`, recebe uma `promise` `yield`, e os liga para formar um `generator` com ambos, o valor de cumprimento, ou lança um erro no `generator` com o motivo da rejeição.
 
 Muitas bibliotecas/utilitarios capazes de rodar o código assincrono incluem um "runner";
-por exemplo, `Q.spawn(..)` e meu plugin the sequencia assincrona `runner(..)`. Mas aqui está um runner stand-alone ilustrando como o processo funciona:
+por exemplo, `Q.spawn(..)` e meu plugin de sequência assincrona `runner(..)`. Mas aqui está um runner stand-alone ilustrando como o processo funciona:
 
 ```js
 function run(gen) {
-	var args = [].slice.call( arguments, 1), it;
+  var args = [].slice.call( arguments, 1), it;
 
-	it = gen.apply( this, args );
+  it = gen.apply( this, args );
 
-	return Promise.resolve()
-		.then( function handleNext(value){
-			var next = it.next( value );
+  return Promise.resolve()
+    .then( function handleNext(value){
+      var next = it.next( value );
 
-			return (function handleResult(next){
-				if (next.done) {
-					return next.value;
-				}
-				else {
-					return Promise.resolve( next.value )
-						.then(
-							handleNext,
-							function handleErr(err) {
-								return Promise.resolve(
-									it.throw( err )
-								)
-								.then( handleResult );
-							}
-						);
-				}
-			})( next );
-		} );
+      return (function handleResult(next){
+        if (next.done) {
+          return next.value;
+        }
+        else {
+          return Promise.resolve( next.value )
+            .then(
+              handleNext,
+              function handleErr(err) {
+                return Promise.resolve(
+                  it.throw( err )
+                )
+                .then( handleResult );
+              }
+            );
+        }
+      })( next );
+    } );
 }
 ```
 
 **Nota:** Para uma versão melhor comentada dessa `utility`, veja o capítulo *Async & Performance* dessa série. Também, a `utilidade de execução` provida em várias bibliotecas assincronas são frequentemente mais poderozas/capazes do que as que nós mostramos aqui. Por exemplo, `*asynquence's*` `runner(..)` pode lidar com promizes `yield`, sequences, thunks, e valores (que não são promises) imediatos, dando a você muita flexibilidade.
-**Note:** For a more prolifically commented version of this utility, see the *Async & Performance* title of this series. Also, the run utilities provided with various async libraries are often more powerful/capable than what we've shown here. For example, asynquence's `runner(..)` can handle `yield`ed promises, sequences, thunks, and immediate (non-promise) values, giving you ultimate flexibility.
 
 Então executar `*main()` conforme listado no trexo de código anterior é simples como:
 
 ```js
 run( main )
 .then(
-	function fulfilled(){
-		// `*main()` excecutada com sucesso
-	},
-	function rejected(reason){
-		// Oops, alguma coisa está errada
-	}
+  function fulfilled(){
+    // `*main()` excecutada com sucesso
+  },
+  function rejected(reason){
+    // Oops, alguma coisa está errada
+  }
 );
 ```
 
-Essencialmente, qualquer lugar que possua mais do que dois passos assincronos de controle de fluxo lógico em seu programa, você pode *e deveria* usar um gerado `promise-yielding` como uma função utilitária para expressar o controle de fluxo de forma sincrona. Isso tornará muito mais fácil de entender e manter o código.
+Essencialmente, qualquer lugar que possua mais do que dois passos assincronos de controle de fluxo lógico em seu programa, você pode *e deveria* usar um gerador `promise-yielding` como uma função utilitária para expressar o controle de fluxo de forma sincrona. Isso tornará muito mais fácil de entender e manter o código.
 
 Esse padrão yield-a-promise-resume-the-generator irá ser muito comum e poderoso, a próxima geração do JavaScript pós ES6 quase certamente introduzirá um novo tipo de função que fará isso automaticamente sem precisar do utilitário de execução. Explicaremos `funções assincronas` (como esperamos que elas sejam chamadas) no Capitulo 8.
 
