@@ -1144,23 +1144,23 @@ if ((a && d) || c) {
 
 In all these contexts, the non-`boolean` values are *implicitly coerced* to their `boolean` equivalents to make the test decisions.
 
-### Operators `||` and `&&`
+### Operadores `||` e `&&`
 
-It's quite likely that you have seen the `||` ("logical or") and `&&` ("logical and") operators in most or all other languages you've used. So it'd be natural to assume that they work basically the same in JavaScript as in other similar languages.
+É bem provável que você já tenha visto os operadores `||` ("lógico OU") e `&&` ("lógico E") na maioria ou em todas outras linguagens que você já usou. Então seria natural presumir que eles trabalham basicamente da mesma forma no JavaScript como nas outras linguagens similares.
 
-There's some very little known, but very important, nuance here.
+Há aqui uma nuance pouco conhecida, mas muito importante.
 
-In fact, I would argue these operators shouldn't even be called "logical ___ operators", as that name is incomplete in describing what they do. If I were to give them a more accurate (if more clumsy) name, I'd call them "selector operators," or more completely, "operand selector operators."
+Na verdade, eu argumentaria que esses operadores nem sequer deveriam ser chamados de "operadores___lógicos", pois esse nome é incompleto ao descrever o que eles fazem. Se eu fosse dar à eles um nome mais preciso (se mais desajeitado), eu os chamaria de "operadores de seletores", ou mais completo, "operadores de seletor de operandos".
 
-Why? Because they don't actually result in a *logic* value (aka `boolean`) in JavaScript, as they do in some other languages.
+Por quê? Porque eles, na verdade, não resultam em um valor *lógico* (também conhecido como `boolean`) no JavaScript, como eles fazem em algumas outras linguagens.
 
-So what *do* they result in? They result in the value of one (and only one) of their two operands. In other words, **they select one of the two operand's values**.
+Então qual o *resultado* deles? Eles retornam o valor de um (e apenas um) de seus dois operandos. Em outras palavras, **eles selecionam um dos dois valores de operandos**.
 
-Quoting the ES5 spec from section 11.11:
+Citação da seção 11.11 da especificação ES5:
 
-> The value produced by a && or || operator is not necessarily of type Boolean. The value produced will always be the value of one of the two operand expressions.
+> O valor produzido pelo operador && ou || não pe necessariamente do tipo Boolean. O valor prodizido sempre será o valor de uma das duas empressões de operandos.
 
-Let's illustrate:
+Vamos ilustrar:
 
 ```js
 var a = 42;
@@ -1174,33 +1174,33 @@ c || b;		// "abc"
 c && b;		// null
 ```
 
-**Wait, what!?** Think about that. In languages like C and PHP, those expressions result in `true` or `false`, but in JS (and Python and Ruby, for that matter!), the result comes from the values themselves.
+**Espera, o quê?** Pense nisso. Em liunguagens como C e PHP, essas expressões resultam em `true` ou `false`, mas em JS (e Python e Ruby, aliás!), o resultado vem dos próprios valores.
 
-Both `||` and `&&` operators perform a `boolean` test on the **first operand** (`a` or `c`). If the operand is not already `boolean` (as it's not, here), a normal `ToBoolean` coercion occurs, so that the test can be performed.
+Ambos operadores, `||` e `&&` fazem um teste `boolean` no **primeiro operando** (`a` ou `c`). Se o operando já não for um `boolean` (que no caso, não é), uma coerção `ToBoolean` normal acontece, então o teste pode ser feito.
 
-For the `||` operator, if the test is `true`, the `||` expression results in the value of the *first operand* (`a` or `c`). If the test is `false`, the `||` expression results in the value of the *second operand* (`b`).
+Para o operador `||`, se o teste é `true`, a expressão `||` resulta no valor do *primeiro operando* (`a` ou `c`). Se o teste é `false`, a expressão `||` resulta no valor do *segundo operando* (`b`).
 
-Inversely, for the `&&` operator, if the test is `true`, the `&&` expression results in the value of the *second operand* (`b`). If the test is `false`, the `&&` expression results in the value of the *first operand* (`a` or `c`).
+Iversamente, para o operador `&&`, se o teste é `true`, a expressão `&&` resulta no valor do *segundo operando* (`b`) . Se o teste é `false`, a expressão `&&` resulta no valor do *primeiro operando* (`a` ou `c`).
 
-The result of a `||` or `&&` expression is always the underlying value of one of the operands, **not** the (possibly coerced) result of the test. In `c && b`, `c` is `null`, and thus falsy. But the `&&` expression itself results in `null` (the value in `c`), not in the coerced `false` used in the test.
+O resultado das expressões `||` ou `&&` é sempre o valor de um dos operandos, **não** o resultado (possivelmente convertido) do teste. Em `c && b`, `c` é `null`, e portanto falso. Mas a própria expressão `&&` resulta em `null` (o valor em `c`), não no `false` convertido usado no teste.
 
-Do you see how these operators act as "operand selectors", now?
+Viu como esses operaodres agem como "seletores de operandos" agora?
 
-Another way of thinking about these operators:
+Outra forma de pensar sobre esses operadores:
 
 ```js
 a || b;
-// roughly equivalent to:
+// aproximadamente equivalente à:
 a ? a : b;
 
 a && b;
-// roughly equivalent to:
+// aproximadamente equivalente à:
 a ? b : a;
 ```
 
-**Note:** I call `a || b` "roughly equivalent" to `a ? a : b` because the outcome is identical, but there's a nuanced difference. In `a ? a : b`, if `a` was a more complex expression (like for instance one that might have side effects like calling a `function`, etc.), then the `a` expression would possibly be evaluated twice (if the first evaluation was truthy). By contrast, for `a || b`, the `a` expression is evaluated only once, and that value is used both for the coercive test as well as the result value (if appropriate). The same nuance applies to the `a && b` and `a ? b : a` expressions.
+**Observação** Eu chamo `a || b` de "aproximadamente equivalente" à `a ? a : b` porque a saída é idêntica, mas há uma diferença de nuance. Em `a ? a : b`, se `a` era uma expressão mais complexa (como por exemplo uma que pode ter efeitos colaterais como chamar uma `function`, etc..), então a expressão `a` vai possivelmente ser avaliada duas vezes (se a primeira avaliação for verdadeira). Por contraste, para `a || b`, a expressão `a` é avalidada apenas uma vez, e esse valor é usado tanto para o teste coercivo como para o valor do resultado (se apropriado). A mesma nuance se aplica para as expressões `a && b` and `a ? b : a`.
 
-An extremely common and helpful usage of this behavior, which there's a good chance you may have used before and not fully understood, is:
+Um uso extremamente comum e útil desse comportamento, em que há uma grande chance de você já ter usado isso antes e não entendido completamente é:
 
 ```js
 function foo(a,b) {
@@ -1214,23 +1214,27 @@ foo();					// "hello world"
 foo( "yeah", "yeah!" );	// "yeah yeah!"
 ```
 
+O idioma `a = a || "hello"` () testa `a` e se ele não tem valor (ou apenas um valor falso indesejável), provê um valor padrão de backup (`"hello"`).
+
+No entanto, **tenha cuidado!**
+
 The `a = a || "hello"` idiom (sometimes said to be JavaScript's version of the C# "null coalescing operator") acts to test `a` and if it has no value (or only an undesired falsy value), provides a backup default value (`"hello"`).
 
 **Be careful**, though!
 
 ```js
-foo( "That's it!", "" ); // "That's it! world" <-- Oops!
+foo( "That's it!", "" ); // "That's it! world" <-- Opa!
 ```
 
-See the problem? `""` as the second argument is a falsy value (see `ToBoolean` earlier in this chapter), so the `b = b || "world"` test fails, and the `"world"` default value is substituted, even though the intent probably was to have the explicitly passed `""` be the value assigned to `b`.
+Viu o problema? `""` como segundo argumento é uma valor falso (veja `ToBoolean` anteriormente nesse capítulo), então o teste `b = b || "world"` falha, e o valor padrão `"world"` é substituído, mesmo quando a intenção era, provavelmente, passar explicitamente que `""` seja o valor atribuído para `b`.
 
-This `||` idiom is extremely common, and quite helpful, but you have to use it only in cases where *all falsy values* should be skipped. Otherwise, you'll need to be more explicit in your test, and probably use a `? :` ternary instead.
+Essa linguagem `||` é extremamente comum, e bem útil, mas você tem que usá-la somente em casos onde *todos os valores falsos* devem ser ignorados. Do contrário, você precisará ser mais explícito no seu teste, e provalmente usar um ternário `? :` no lugar.
 
-This *default value assignment* idiom is so common (and useful!) that even those who publicly and vehemently decry JavaScript coercion often use it in their own code!
+Essa *atribuição de valor padrão* é tão comum (e útil!) que até mesmo aqueles que veementemente e publicamente condenam a coerção JavaScript, freuqnetemente a utilizam em seu pŕoprio código!
 
-What about `&&`?
+E o `&&`?
 
-There's another idiom that is quite a bit less commonly authored manually, but which is used by JS minifiers frequently. The `&&` operator "selects" the second operand if and only if the first operand tests as truthy, and this usage is sometimes called the "guard operator" (also see "Short Circuited" in Chapter 5) -- the first expression test "guards" the second expression:
+Esse é outra linguagem que é bem menso comum, mas que é usanda por minificadores JS frequentemente. O operador `&&` "seleciona" o segundo operando se, e apenas se, o primeiro teste  do operando for verdadeiro, e esse uso é chamado algumas vezes de "operador guarda" (veja também "Circuito curto" no capítulo 5) -- o primeiro teste de expressão "guarda" a segunda expressão:
 
 ```js
 function foo() {
@@ -1242,19 +1246,19 @@ var a = 42;
 a && foo(); // 42
 ```
 
-`foo()` gets called only because `a` tests as truthy. If that test failed, this `a && foo()` expression statement would just silently stop -- this is known as "short circuiting" -- and never call `foo()`.
+`foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa declaração de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "circuito curto" -- e nunca chamar `foo()`.
 
-Again, it's not nearly as common for people to author such things. Usually, they'd do `if (a) { foo(); }` instead. But JS minifiers choose `a && foo()` because it's much shorter. So, now, if you ever have to decipher such code, you'll know what it's doing and why.
+De novo, não é muito comum que as pessoas criem essas coisas. Normalmente, elas fazem `if (a) { foo(); }` no lugar. Mas os minificadores JS escolhem `a && foo()` porque é muito mais curto. Então, agora, se você alguma vez tiver que decifrar tal código, você saberá o que ele está fazendo e porque.
 
-OK, so `||` and `&&` have some neat tricks up their sleeve, as long as you're willing to allow the *implicit* coercion into the mix.
+Ok, então `||` e `&&` têm alguns truques na manga, com tanto que você queira permitir a coerção *implícita* nessa mistura.
 
-**Note:** Both the `a = b || "something"` and `a && b()` idioms rely on short circuiting behavior, which we cover in more detail in Chapter 5.
+**Observação** Ambos, `a = b || "something"` e `a && b()` referen-se ao comportamento de circuitos curtos, que nos abordamos com mais detalhes no capítulo 5.
 
-The fact that these operators don't actually result in `true` and `false` is possibly messing with your head a little bit by now. You're probably wondering how all your `if` statements and `for` loops have been working, if they've included compound logical expressions like `a && (b || c)`.
+O fato desses operadores. na verdade, não resultarem em `true` e `false` possivelmente mexerá um pouco com a sua cabeça agora. Você provavelmente está se perguntando como todos suas declarações `if` e seus loops `for` funcionavam, se eles inclíram expressões lógicas compostas como `a && (b || c)`.
 
-Don't worry! The sky is not falling. Your code is (probably) just fine. It's just that you probably never realized before that there was an *implicit* coercion to `boolean` going on **after** the compound expression was evaluated.
+Não se preocupe! o céu não está desabando. Seu código está (provavelmente) bem. É que você provavelmente nunca percebeu antes que havia uma coerção *implícita* para `boolean` acontecendo **depois** que a expresão composta era analisada.
 
-Consider:
+Considere:
 
 ```js
 var a = 42;
@@ -1266,11 +1270,11 @@ if (a && (b || c)) {
 }
 ```
 
-This code still works the way you always thought it did, except for one subtle extra detail. The `a && (b || c)` expression *actually* results in `"foo"`, not `true`. So, the `if` statement *then* forces the `"foo"` value to coerce to a `boolean`, which of course will be `true`.
+Esse código continua funcionando da forma que você sempre achou que funcionava, exceto por um detalhe sutil. A expressão `a && (b || c)` *na verdade* resulta em `"foo"`, não `true`. Portanto, a declaração `if` *então* força o valor `"foo"` a sofrer coerção para `boolean`, o que é claro será `true`.
 
-See? No reason to panic. Your code is probably still safe. But now you know more about how it does what it does.
+Viu? não há razão para entrar em pânico. Seu código, provavelmente, está à salvo. Mas agora você sabe mais sobre como isso faz o que faz.
 
-And now you also realize that such code is using *implicit* coercion. If you're in the "avoid (implicit) coercion camp" still, you're going to need to go back and make all of those tests *explicit*:
+E agora você também percebeu que tal código usa coerção *implícita*. Se você ainda está no time "evite coerção (implícita)", você terá que voltar e fazer todos aqueles testes *explicitamente*:
 
 ```js
 if (!!a && (!!b || !!c)) {
@@ -1278,7 +1282,7 @@ if (!!a && (!!b || !!c)) {
 }
 ```
 
-Good luck with that! ... Sorry, just teasing.
+Boa sorte com isso! ... Desculpe, apenas provocando.
 
 ### Symbol Coercion
 
