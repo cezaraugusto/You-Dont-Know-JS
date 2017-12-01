@@ -55,7 +55,7 @@ Antes de explorarmos a coerção *explícita* e *implícita*, nós precisamos ap
 
 Quando um valor não-`string` é convertido para uma representação `string`, a conversão é manipulada pela operação abstrata `ToString` na seção 9.8 da especificação.
 
-Valores primitivos nativos têm strigficação natural: `null` torna-se `"null"`, `undefined` torna-se `"undefined"` e `true` torna-se `"true"`. `numbers` são geralmente expressos de forma natural como você esperava, mas como discutimos no Capítulo 2, `numbers` muito pequenos ou muito grandes são representados na forma expoente:
+Valores primitivos nativos têm stringficação natural: `null` torna-se `"null"`, `undefined` torna-se `"undefined"` e `true` torna-se `"true"`. `numbers` são geralmente expressos de forma natural como você esperava, mas como discutimos no Capítulo 2, `numbers` muito pequenos ou muito grandes são representados na forma expoente:
 
 ```js
 // multiplicando `1.07` por `1000`, sete vezes mais
@@ -112,11 +112,11 @@ JSON.stringify( [1,undefined,function(){},4] );	// "[1,null,null,4]"
 JSON.stringify( { a:2, b:function(){} } );		// "{"a":2}"
 ```
 
-Mas se você tentar para `JSON.stringify(..)` um `object` com referência(s) circular nele, um erro vai ser lançado.
+Mas se você tentar fazer um `JSON.stringify(..)` em um `object` com referência(s) circular nele, um erro vai ser lançado.
 
-Stringficação JSON tem um comportamente especial, que se o valor de um `object` tem um método `toJASON()` definido, esse método vai ser chamado primeiro para pegar um valor a ser usado para serialização.
+Stringficação JSON tem um comportamente especial, que se o valor de um `object` tem um método `toJSON()` definido, esse método vai ser chamado primeiro para pegar um valor a ser usado para serialização.
 
-Você tem a intenção de stringficar um objeto JSON que pode conter valores JSON ilegais, ou se você apenas tê, valores no `object` que não sçao apropriados para a serialização, vpcẽ deveria definir um método `toJSON()`para que ele retorne à uma versão *segura para JSON* do `object`.
+Você tem a intenção de stringficar um objeto JSON que pode conter valores JSON ilegais, ou se você apenas têm, valores no `object` que não são apropriados para a serialização, você deveria definir um método `toJSON()`para que ele retorne à uma versão *segura para JSON* do `object`.
 
 Por exemplo:
 
@@ -235,10 +235,10 @@ JSON.stringify( a, null, "-----" );
 // }"
 ```
 
-Lembre-se, `JSON.stringify(..)` não é uma forma direta de corção. Nós o abordamos aqui, porém, por duas razões que seu comportamento está relacionado com coerção `ToString`:
+Lembre-se, `JSON.stringify(..)` não é uma forma direta de coerção. Nós o abordamos aqui, porém, por duas razões que seu comportamento está relacionado com coerção `ToString`:
 
 1. Valores `string`, `number`, `boolean`, e `null` todos podem ser stringficados para JSON basicamente o mesmo como a forma que eles convertem valores `string` através das regras da operação abstrata `ToString`.
-2. Se você passou o uma valor de `object` para `JSON.stringify(..)`, e esse `object` tem um método `toJSON()` nele, `toJSON()` é chamado automaticamente para "converter" (um tipo de) o valor para ser *seguro para JSON* antes da stringficação.
+2. Se você passou o uma valor de `object` para `JSON.stringify(..)`, e esse `object` tem um método `toJSON()` nele, `toJSON()` é chamado automaticamente para (tipo que) "converter" o valor para ser *seguro para JSON* antes da stringficação.
 
 ### `ToNumber`
 
@@ -246,9 +246,9 @@ Se qualquer valor não-`number` é usado de uma forma que que exige que seja um 
 
 Por exemplo, `true` torna-se `1` e `false` torna-se `0`. `undefined` torna-se `NaN`, mas (curiosamente) `null` torna-se `0`.
 
-`ToNumber` para valor `string` essencilamente funciona para a maioria das partes como regras/sintaxe para numéricos literais (Veja o Capítulo 3). Se isso falhar, o resultado é `NaN` (ao invés de um erro de sintaxe com `numbers` literais). Um exemplo da diferençã é que `0`-números octais pré fixados não são manipulados como octais (apenas como decimais normais) nessa operação, portanto esses octais são válidos como `numbers` literais (veja o Capítulo 2).
+`ToNumber` para valor `string` essencialmente funciona para a maioria das partes como regras/sintaxe para numéricos literais (Veja o Capítulo 3). Se isso falhar, o resultado é `NaN` (ao invés de um erro de sintaxe com `numbers` literais). Um exemplo da diferençã é que `0`-números octais pré fixados não são manipulados como octais (apenas como decimais normais) nessa operação, portanto esses octais são válidos como `numbers` literais (veja o Capítulo 2).
 
-**Observação:** As diferençãs entre a gramática de `number` literal  e `ToNumber` em um valor de uma `string` são sutiz e altamente matizados, e por isso não serão mais abordados aqui. Consulte a seção 9.3.1 da especificação ES5 para mais informações.
+**Observação:** As diferenças entre a gramática de `number` literal  e `ToNumber` em um valor de uma `string` são sutis e altamente matizados, e por isso não serão mais abordados aqui. Consulte a seção 9.3.1 da especificação ES5 para mais informações.
 
 Objetos (e arrays) vão primeiro ser convertidos para seus valores primitivos equivalentes, e o valor resultado (se for primitivo mas ainda não um `number`) é convertido para um `number` de acordo com as regras de `ToNumber` mencionadas.
 
@@ -258,7 +258,7 @@ Se nenhuma das operações pode fornecer um valor primitivo, um `TypeError` é l
 
 A partir de ES5, você pode criar certos objetos não coercivos -- um sem `valueOf()` e `toString()` -- se ele tiver um valor `null` para seu `[[Prototype]]`, geralmente criado com `Object.create(null)`. Veja o título *this & Object Prototypes* desa série para mais informações de `[[Prototype]]`s.
 
-**Observação:** Nós abordamos como converter para `number`s em detalhes mais tarde nesse capítulo, mas para esse próximo snippet, apenas suponha que a função `Number(..)` faz isso.
+**Observação:** Nós abordamos como converter para `number`s em detalhes mais tarde nesse capítulo, mas para esse próximo trecho de código, apenas suponha que a função `Number(..)` faz isso.
 
 Considere:
 
@@ -294,11 +294,11 @@ A seguir, vamos ter uma pequena conversa sobre como `boolean`s se comportam em J
 
 Em primeiro lugar, JS tem as palavras-chave atuais `true` e `false`, e elas se comportam exatamente como você esperaria de valores `boolean`. É um equívoco comum que os valores `1` e `0` sejam idênticos à `true/false`. Enquanto isso pode ser verdadeiro em outras linguagens, em JS os `number`s são `number`s e os `boolean`s são `boolean`s. Você pode converter `1` para `true` (e vice-versa) ou `0` para `false` (e vice versa). Mas eles não são os mesmos.
 
-#### Valores Falsos
+#### Valores Falsos (Falsy)
 
 Mas esse não é o fim da história. Nós precisamos discutir como outros valores além dos dois `boolean`s se comportam independentemente de você converter *para* seus equivalentes `boolean`.
 
-Todos os valores JavaScript podem ser divididos em duas categorias?
+Todos os valores JavaScript podem ser divididos em duas categorias:
 
 1. Valores que irão se tornar `false` se convertidos para `boolean`
 2. Todo o resto (o que vai obviamente se tornar `true`)
@@ -315,11 +315,11 @@ A partir dessa tabela, obtemos o seguinte da chamada lista de valores "falsos":
 * `+0`, `-0`, e `NaN`
 * `""`
 
-É isso. Se um valor não está nessa lista, é um valor "falso", e ele não vai ser convertido para `false` se você forçar uma coerção `boolean` nele.
+É isso. Se um valor não está nessa lista, é um valor "falso" (falsy), e ele não vai ser convertido para `false` se você forçar uma coerção `boolean` nele.
 
 Por conclusão lógica, se um valor *não* está nessa lista, ele deve estar em *outra lista*, na qual nós chamamos de lista de valores "verdadeiros". Mas o JS realmente não define uma lista de valores "verdadeiros" por si só. Ele dá alguns exemplos, assim como dizemos explicitamente que todos os objetos são verdadeiros, mas principalmente a especificação apenas implica que: **qualquer coisa que não esteja explicitamente na lista falsa, é portanto, verdadeira.**
 
-#### Objetos Falsos
+#### Objetos Falsos (Falsy Objects)
 
 Espere um minuto, aquele títulos de seção soa até contraditório. Eu *apenas disse* literalmente que a especificação chama todos os objetos de verdadeiro, certo? Não deveria existir tal coisa como um "objeto falso".
 
@@ -387,7 +387,7 @@ Eca. Isso é uma merda. É um macete louco que a maioria dos desenvolvedores nã
 
 Então...é isso que temos: "objetos falsos" loucos e fora do padrão adicionados ao JS pelos navegadores. Ebaa!
 
-#### Valores verdadeiros
+#### Valores verdadeiros (truthy)
 
 De volta para a lista verdadeira. O que exatamente são valores verdadeiros? Lembre-se: ** um valor é verdadeiro se ele não está na lista falsa **.
 
