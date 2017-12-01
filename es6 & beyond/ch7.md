@@ -140,7 +140,7 @@ Por exemplo, você pode querer ter diferentes comportamentos em um construtor, d
 class Parent {
 	constructor() {
 		if (new.target === Parent) {
-			console.log( "Pai instanciado" );
+			console.log( "Parent instanciada" );
 		}
 		else {
 			console.log( "Descendente instanciada" );
@@ -151,7 +151,7 @@ class Parent {
 class Child extends Parent {}
 
 var a = new Parent();
-// Pai instanciado
+// Parent instanciada
 
 var b = new Child();
 // Descendente instanciada
