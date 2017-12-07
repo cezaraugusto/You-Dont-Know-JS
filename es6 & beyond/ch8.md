@@ -428,12 +428,12 @@ Mas com o tempo, e enquanto WASM aprende novos truques que não são do JS, não
 
 O que é certo é que quanto mais WASM se torna real, mais significante fica para a trajetória e desenho do JavaScript. Esse é provavelmente um dos tópicos mais importantes do "além do ES6" que as pessoas desenvolvedoras deveriam ficar de olho.
 
-## Review
+## Revisão
 
-If all the other books in this series essentially propose this challenge, "you (may) not know JS (as much as you thought)," this book has instead suggested, "you don't know JS anymore." The book has covered a ton of new stuff added to the language in ES6. It's an exciting collection of new language features and paradigms that will forever improve our JS programs.
+Se todos os outros livros nessa série essencialmente propõem esse desafio, "você (provavelmente) não sabe JS (tanto quanto você achava)", esse livro na verdade sugere que "você não sabe mais JS". O livro cobriu uma série de novas coisas adicionadas à linguagem em ES6. Essa é uma coleção emocionante de novas funcionalidades da linguagem e paradigmas que vão melhorar seus programas JS para sempre.
 
-But JS is not done with ES6! Not even close. There's already quite a few features in various stages of development for the "beyond ES6" timeframe. In this chapter, we briefly looked at some of the most likely candidates to land in JS very soon.
+Mas JS não é só ES6! Nem perto disso. Já existem algumas novas funcionalidades em vários estágios do desenvolvimento para os temos "além do ES6". Nrsse capítulo, nós brevemente vimos alguns dos mais prováveis candidatos a se juntar ao JS em breve.
 
-`async function`s are powerful syntactic sugar on top of the generators + promises pattern (see Chapter 4). `Object.observe(..)` adds direct native support for observing object change events, which is critical for implementing data binding. The `**` exponentiation operator, `...` for object properties, and `Array#includes(..)` are all simple but helpful improvements to existing mechanisms. Finally, SIMD ushers in a new era in the evolution of high performance JS.
+`async function`s são açucar sintáticos poderosos além dos padrões de generators + promises (veja o Capítulo 4). `Object.observe(..)` adiciona suporte diretamente nativo para observar mudanças de eventos em objetos, o que é crítico para implementação de data binding. O operador de exponenciação `**`, o `...` para propriedades de objetos, e `Array#includes(..)` são todas melhoras simples mas úteis para os mecanismos existentes. Finalmente, SIMD segue em uma nova era de evolução de JS com alta performance.
 
-Cliché as it sounds, the future of JS is really bright! The challenge of this series, and indeed of this book, is incumbent on every reader now. What are you waiting for? It's time to get learning and exploring!
+Por mais que soe cliche, o futuro do JS é realmente brilhante! O desafio dessa série, e de fato desse livro, está estabelecida em todas as pessoas leitoras agora. O que você está esperando? É hora de aprender e explorar!
