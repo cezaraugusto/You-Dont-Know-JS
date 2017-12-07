@@ -291,9 +291,9 @@ Object.observe( obj, function observer(changes) {
 
 Nesse exemplo simples, escutamos por eventos de mudança até ver o evento `"setPrototype"` aparecer, e aí paramos de observar qualquer mudança de eventos.
 
-## Exponentiation Operator
+## Operador de Exponenciação
 
-An operator has been proposed for JavaScript to perform exponentiation in the same way that `Math.pow(..)` does. Consider:
+Um operador foi proposto ao JavaScript para aumentar a performance de exponenciação da mesma maneira que o `Math.pow(..)` faz. Considere:
 
 ```js
 var a = 2;
@@ -304,7 +304,7 @@ a **= 3;		// a = Math.pow( a, 3 )
 a;				// 8
 ```
 
-**Note:** `**` is essentially the same as it appears in Python, Ruby, Perl, and others.
+**Nota:** `**` é essencialmente o mesmo que aparece em Python, Ruby, Perl, e outras linguagens.
 
 ## Objects Properties and `...`
 
