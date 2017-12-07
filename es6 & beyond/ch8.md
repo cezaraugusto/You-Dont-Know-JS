@@ -198,9 +198,12 @@ Dado que `Object.seal(..)` e `Object.freeze(..)` também implicam em `Object.pre
 
 Note que esses eventos de mudança são notificados imediatamente depois da mudança. Não confunda com proxies (veja o Capítulo 7) onde você pode interceptar as ações antes delas acontecerem. Object observation te deixa responder depois que uma ação (ou uma série de ações) ocorre.
 
-In addition to the six built-in change event types, you can also listen for and fire custom change events.
 
-Consider:
+### Eventos de Mudança Customizados
+
+Além dos seis tipos de evento nativos, você também pode ouvir e disparar eventos customizados.
+
+Considere:
 
 ```js
 function observer(changes){
@@ -243,15 +246,15 @@ obj.b;			// 30
 obj.c;			// 3
 ```
 
-The change set (`"recalc"` custom event) has been queued for delivery to the observer, but not delivered yet, which is why `obj.c` is still `3`.
+A série de mudanças (evento customizado `"recalc"`) foi colocado na fila para ser entregue ao observer, mas ainda não foi entregue, por isso `obj.c` ainda é `3`.
 
-The changes are by default delivered at the end of the current event loop (see the *Async & Performance* title of this series). If you want to deliver them immediately, use `Object.deliverChangeRecords(observer)`. Once the change events are delivered, you can observe `obj.c` updated as expected:
+As mudanças são por padrão entregues no final do laço de evento atual (veja o título *Async & Performance* dessa série). Se você quer entregá-las imediatamente, use `Object.deliverChangeRecords(observer)`. Uma vez que os eventos de mudança são entregues, você pode observar `obj.c` atualizado como esperado:
 
 ```js
 obj.c;			// 42
 ```
 
-In the previous example, we called `notifier.notify(..)` with the complete change event record. An alternative form for queuing change records is to use `performChange(..)`, which separates specifying the type of the event from the rest of event record's properties (via a function callback). Consider:
+No exemplo anterior, nós chamamos `notifier.notify(..)` com registro completo do evento de mudanças. Uma forma alternativa de colocar os registros de mudança na fila é usar o `performChange(..)`, que separa o tipo de evento do resto das propriedades (via uma função callback). Considere:
 
 ```js
 notifier.performChange( "recalc", function(){
@@ -263,7 +266,7 @@ notifier.performChange( "recalc", function(){
 } );
 ```
 
-In certain circumstances, this separation of concerns may map more cleanly to your usage pattern.
+Em algumas circunstâncias, a separação de responsabilidades pode resultar em mais clareza para seu padrão de uso.
 
 ### Ending Observation
 
