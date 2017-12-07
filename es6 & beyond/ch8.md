@@ -268,11 +268,11 @@ notifier.performChange( "recalc", function(){
 
 Em algumas circunstâncias, a separação de responsabilidades pode resultar em mais clareza para seu padrão de uso.
 
-### Ending Observation
+### Parando Observações
 
-Just like with normal event listeners, you may wish to stop observing an object's change events. For that, you use `Object.unobserve(..)`.
+Assim como eventos de escuta normais, você também pode querer parar de observar a mudança de evento de um objeto. Para isso, use `Object.unobserve(..)`.
 
-For example:
+Por exemplo:
 
 ```js
 var obj = { a: 1, b: 2 };
@@ -289,7 +289,7 @@ Object.observe( obj, function observer(changes) {
 } );
 ```
 
-In this trivial example, we listen for change events until we see the `"setPrototype"` event come through, at which time we stop observing any more change events.
+Nesse exemplo simples, escutamos por eventos de mudança até ver o evento `"setPrototype"` aparecer, e aí paramos de observar qualquer mudança de eventos.
 
 ## Exponentiation Operator
 
