@@ -5,7 +5,7 @@ No momento atual em que escrevo, o rascunho final do ES6 (*ECMAScript 2015*) est
 
 Como discutimos no Capítulo 1, espera-se que o ritmo de progresso do JS será mais acelerado, e, ao invés de ser atualizado uma vez a cada vários anos, terá uma versão oficial uma vez por ano (por isso a nomenclatura baseada no ano). Isso, por si só, já mudará radicalmente como os desenvolvedores JS aprendem e se mantêm atualizado com a linguagem.
 
-Ainda mais importante que isso, o comitê passará em realidade a trabalhar em uma funcionalidade de cada vez. Assim que a especificação de uma funcionalidade esteja completa e todos suas excentricidades tiverem sido testadas em experimentos de implementação em alguns navegadores, ela será considerada estável suficiente para uso. Somos encorajados a adotar funcionalidades uma vez que estejam prontas ao invés de esperar por uma votação de padrões oficiais. Se você ainda não aprendeu ES6, já está mais que na hora de fazer isso! 
+Ainda mais importante que isso, o comitê passará em realidade a trabalhar em uma funcionalidade de cada vez. Assim que a especificação de uma funcionalidade esteja completa e todas suas excentricidades tiverem sido testadas em experimentos de implementação em alguns navegadores, ela será considerada estável suficiente para uso. Somos encorajados a adotar funcionalidades uma vez que estejam prontas ao invés de esperar por uma votação de padrões oficiais. Se você ainda não aprendeu ES6, já está mais que na hora de fazer isso! 
 
 No momento atual em que escrevo, uma lista de propostas futuras e seus status podem ser encontrados aqui (https://github.com/tc39/ecma262#current-proposals).
 
@@ -18,7 +18,6 @@ Com isso em mente, é hora de dar uma olhada em algumas dessas funcionalidades. 
 ## `funções async`
 
 Na seção “Generators + Promises” do Capítulo 4, mencionamos que existe uma proposta para suporte sintático direto para o padrão de *generators* que entregam (`YIELD`) *promises* à uma utilidade do tipo *runner* que irá retomá-lo uma vez a *promise* seja completada. Vamos dar uma olhada rápida nessa funcionalidade proposta, chamada de `função async`. 
-
 
 Lembre-se desse exemplo de *generator* do Capítulo 4: 
 
@@ -135,7 +134,7 @@ pr.then(
 
 Essa função `request(..)` que concebi é de certa forma parecida com a utilidade `fetch(..)` que foi recentemente proposta de ser incluída na plataforma web. A preocupação então é: o que acontece se você quer usar o valor `pr` para, de alguma maneira, indicar que você quer cancelar um pedido de Ajax de longa-duração, por exemplo?
 
-*Promises* não são canceláveis (pelo menos não no momento em que escrevo). Na minha opinião, assim como de muitas outras pessoas, elas nunca deveriam ser (veja o título *Async e Performance* dessa série). E mesmo se uma *promise* tivesse um método de cancelar como `cancel()`, isso deveria mesmo significar que chamar  `pr.cancel()` propagaria o sinal de cancelamento de volta por todo o camino da sequência até a função `async`?
+*Promises* não são canceláveis (pelo menos não no momento em que escrevo). Na minha opinião, assim como de muitas outras pessoas, elas nunca deveriam ser (veja o título *Async e Performance* dessa série). E mesmo se uma *promise* tivesse um método de cancelar como `cancel()`, isso deveria mesmo significar que chamar  `pr.cancel()` propagaria o sinal de cancelamento de volta por todo o caminho da sequência até a função `async`?
 
 Várias resoluções possíveis a esse debate surgiram: 
 
