@@ -147,11 +147,11 @@ No momento em que escrevo, `funções async` devolvem *promises* normais, então
 
 ## `Object.observe(..)`
 
-One of the holy grails of front-end web development is data binding -- listening for updates to a data object and syncing the DOM representation of that data. Most JS frameworks provide some mechanism for these sorts of operations.
+Um dos cálices sagrados do desenvolvimento front-end é data binding -- escutar por atualizações de um objeto e sincronizar a representação do DOM de acordo com aquele dado. A maioria dos frameworks JS disponibilizam algum mecanismo para esse tipo de operação.
 
-It appears likely that post ES6, we'll see support added directly to the language, via a utility called `Object.observe(..)`. Essentially, the idea is that you can set up a listener to observe an object's changes, and have a callback called any time a change occurs. You can then update the DOM accordingly, for instance.
+Provavelmente depois do ES6, nós vamos ver esse suporte diretamente na linguagem, via um utilitário chamado `Object.observe(..)`. Em essência, a ideia é que você pode configurar um listener para observar uma mudança de objeto, e chamar um callback toda vez que isso acontecer. Você pode então atualizar o DOM, por exemplo.
 
-There are six types of changes that you can observe:
+Há seis tipos de mudanças que você pode observar:
 
 * add
 * update
@@ -160,9 +160,9 @@ There are six types of changes that you can observe:
 * setPrototype
 * preventExtensions
 
-By default, you'll be notified of all these change types, but you can filter down to only the ones you care about.
+Por padrão, você será notificada de todos os tipos de mudanças, mas você pode filtrar apenas aqueles que te interessa.
 
-Consider:
+Considere:
 
 ```js
 var obj = { a: 1, b: 2 };
@@ -187,17 +187,16 @@ delete obj.b;
 // { name: "b", object: obj, type: "delete", oldValue: 2 }
 ```
 
-In addition to the main `"add"`, `"update"`, and `"delete"` change types:
+Além dos principais tipos de mudança `"add"`, `"update"`, e `"delete"`:
 
-* The `"reconfigure"` change event is fired if one of the object's properties is reconfigured with `Object.defineProperty(..)`, such as changing its `writable` attribute. See the *this & Object Prototypes* title of this series for more information.
-* The `"preventExtensions"` change event is fired if the object is made non-extensible via `Object.preventExtensions(..)`.
+* O evento de mudança `"reconfigure"` é disparado se uma das propriedades do objecto é refonfigurada com `Object.defineProperty(..)`, como por exemplo mudar o atributo `writable`. Veja o título *this e Prototipagem de Objetos* dessa série para mais informações.
 
-   Because both `Object.seal(..)` and `Object.freeze(..)` also imply `Object.preventExtensions(..)`, they'll also fire its corresponding change event. In addition, `"reconfigure"` change events will also be fired for each property on the object.
-* The `"setPrototype"` change event is fired if the `[[Prototype]]` of an object is changed, either by setting it with the `__proto__` setter, or using `Object.setPrototypeOf(..)`.
+* O evento de mudança `"preventExtensions"` é disparado se tornamos o objeto não extensível via `Object.preventExtensions(..)`.
+Dado que `Object.seal(..)` e `Object.freeze(..)` também implicam em `Object.preventExtensions(..)`, eles também vão disparar o evento de mudança correspondente. Além disso, os eventos de mudança `"reconfigure"` também vão ser disparados para cada propriedade no objeto.
 
-Notice that these change events are notified immediately after said change. Don't confuse this with proxies (see Chapter 7) where you can intercept the actions before they occur. Object observation lets you respond after a change (or set of changes) occurs.
+* O evento de mudança `"setPrototype"` é disparado se o `[[Prototype]]` de um objeto é modificado, tanto configurando com o setter `__proto__`, ou usando `Object.setPrototypeOf(.)`.
 
-### Custom Change Events
+Note que esses eventos de mudança são notificados imediatamente depois da mudança. Não confunda com proxies (veja o Capítulo 7) onde você pode interceptar as ações antes delas acontecerem. Object observation te deixa responder depois que uma ação (ou uma série de ações) ocorre.
 
 In addition to the six built-in change event types, you can also listen for and fire custom change events.
 
