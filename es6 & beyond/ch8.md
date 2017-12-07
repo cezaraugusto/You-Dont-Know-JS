@@ -306,11 +306,11 @@ a;				// 8
 
 **Nota:** `**` é essencialmente o mesmo que aparece em Python, Ruby, Perl, e outras linguagens.
 
-## Objects Properties and `...`
+## Propriedades de Objetos e `...`
 
-As we saw in the "Too Many, Too Few, Just Enough" section of Chapter 2, the `...` operator is pretty obvious in how it relates to spreading or gathering arrays. But what about objects?
+Como vimos na seção "Muito, Pouco, Suficiente" do capítulo 2, o operador `...` é bem óbvio em como ele se relaciona com o spreading ou gathering arrays. Mas e os objetos?
 
-Such a feature was considered for ES6, but was deferred to be considered after ES6 (aka "ES7" or "ES2016" or ...). Here's how it might work in that "beyond ES6" timeframe:
+Essa funcionalidade foi considerada para ES6, mas foi postergada para ser considerada depois do ES6 (conhecido como "ES7" ou "ES2016" ou ...). Aqui está como provavelmente irá funcionar nos tempos "além do ES6":
 
 ```js
 var o1 = { a: 1, b: 2 },
@@ -321,7 +321,7 @@ console.log( o3.a, o3.b, o3.c, o3.d );
 // 1 2 3 4
 ```
 
-The `...` operator might also be used to gather an object's destructured properties back into an object:
+O operador `...` provavelmente também será usado para juntar as propriedades de um objeto desestruturado em um objeto:
 
 ```js
 var o1 = { b: 2, c: 3, d: 4 };
@@ -330,13 +330,13 @@ var { b, ...o2 } = o1;
 console.log( b, o2.c, o2.d );		// 2 3 4
 ```
 
-Here, the `...o2` re-gathers the destructured `c` and `d` properties back into an `o2` object (`o2` does not have a `b` property like `o1` does).
+Aqui, o `...o2` recolhe as propriedades desestruturadas `c` e `d` para um objeto `o2` (`o2` não tem uma propriedade `b` como `o1` tem).
 
-Again, these are just proposals under consideration beyond ES6. But it'll be cool if they do land.
+De novo, essas são apenas propostas sendo consideradas no pós-ES6. Mas será bem legal se elas realmente existirem.
 
 ## `Array#includes(..)`
 
-One extremely common task JS developers need to perform is searching for a value inside an array of values. The way this has always been done is:
+Uma tarefa extremamente comum que pessoas desenvolvedoras JS precisam fazer é procurar por um valor dentro de um array de valores. A maneira que elas tem feito é:
 
 ```js
 var vals = [ "foo", "bar", 42, "baz" ];
@@ -346,9 +346,9 @@ if (vals.indexOf( 42 ) >= 0) {
 }
 ```
 
-The reason for the `>= 0` check is because `indexOf(..)` returns a numeric value of `0` or greater if found, or `-1` if not found. In other words, we're using an index-returning function in a boolean context. But because `-1` is truthy instead of falsy, we have to be more manual with our checks.
+A razão para a checagem `>= 0` é porque `indexOf(..)` retorna um valor numérico de `0` ou maior se encontrado, ou `-1` se não encontrado. Em outras palavras, estamos usando um índex do retorno da função em um contexto booleano. Mas já que `-1` é verdadeiro ao invés de falso, temos que ser mais manuais nas nossas checagens.
 
-In the *Types & Grammar* title of this series, I explored another pattern that I slightly prefer:
+No título *Tipos e Gramática* dessa série, eu explorei outro padrão que eu prefiro:
 
 ```js
 var vals = [ "foo", "bar", 42, "baz" ];
@@ -358,11 +358,11 @@ if (~vals.indexOf( 42 )) {
 }
 ```
 
-The `~` operator here conforms the return value of `indexOf(..)` to a value range that is suitably boolean coercible. That is, `-1` produces `0` (falsy), and anything else produces a non-zero (truthy) value, which is what we for deciding if we found the value or not.
+O operador `~` aqui adapta o valor de retorno do `indexOf(..)` para um intervalo de valor que é facilmente convertível para booleano. Isso é, `01` produz 0 (falso), e qualquer outra coisa produz um valor não-zero (verdadeiro), que é o que usamos para decidir se encontramos o valor ou não.
 
-While I think that's an improvement, others strongly disagree. However, no one can argue that `indexOf(..)`'s searching logic is perfect. It fails to find `NaN` values in the array, for example.
+Enquanto eu acho que isso é um avanço, outras pessoas discordam fortemente. Porém, ninguém pode dizer que a lógica de busca do `indexOf(..)` é perfeita. Ela falha em encontrar valores `NaN` no array, por exemplo.
 
-So a proposal has surfaced and gained a lot of support for adding a real boolean-returning array search method, called `includes(..)`:
+Então apareceu uma proposta e ganhou muito suporte porque adiciona um retorno booleano real no método de busca, chamado `includes(..)`:
 
 ```js
 var vals = [ "foo", "bar", 42, "baz" ];
@@ -372,15 +372,15 @@ if (vals.includes( 42 )) {
 }
 ```
 
-**Note:** `Array#includes(..)` uses matching logic that will find `NaN` values, but will not distinguish between `-0` and `0` (see the *Types & Grammar* title of this series). If you don't care about `-0` values in your programs, this will likely be exactly what you're hoping for. If you *do* care about `-0`, you'll need to do your own searching logic, likely using the `Object.is(..)` utility (see Chapter 6).
+**Nota:** `Array#includes(..)` usa logica de combinação que vai encontrar valores `NaN`, mas não vai distinguir entre `-0` e `0` (veja o título *Tipos e Gramática* dessa série). Se você não se importa com os valores `-0` nos seus programas, isso provavelmente vai ser exatamente o que você está esperando. Se você *sim* se importa com o `-0`, você vai precisar fazer a sua própria lógica de busca, provavelmente usando o utilitário `Object.is(..)` (veja o Capítulo 6). 
 
 ## SIMD
 
-We cover Single Instruction, Multiple Data (SIMD) in more detail in the *Async & Performance* title of this series, but it bears a brief mention here, as it's one of the next likely features to land in a future JS.
+Nós cobrimos Instrução Única, Múltiplos Dados (SIMD - Single Instruction, Multiple Data) em mais detalhes no título *Async e Performance* dessa série, mas essa é uma rápida menção, já que é uma das funcionalidades que provavelmente serão lançadas em um futuro JS.
 
-The SIMD API exposes various low-level (CPU) instructions that can operate on more than a single number value at a time. For example, you'll be able to specify two *vectors* of 4 or 8 numbers each, and multiply the respective elements all at once (data parallelism!).
+A SIMD API expõe várias instruções de baixo nível (CPU) que podem operar em mais de um único valor ao mesmo tempo. Por exemplo, você poderá especificar dois *vetores* de 4 ou 8 números cada, e multiplicar os respectivos elementos de uma vez só (paralelismo de dados!).
 
-Consider:
+Considere:
 
 ```js
 var v1 = SIMD.float32x4( 3.14159, 21.0, 32.3, 55.55 );
@@ -390,43 +390,43 @@ SIMD.float32x4.mul( v1, v2 );
 // [ 6.597339, 67.2, 138.89, 299.97 ]
 ```
 
-SIMD will include several other operations besides `mul(..)` (multiplication), such as `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, and many more.
+SIMD irá incluir várias outras operações além de `mul(..)` (multiplicação), como `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, e muito mais. 
 
-Parallel math operations are critical for the next generations of high performance JS applications.
+Operações matemáticas paralelas são critícas para a próxima geração de aplicações JS de alta performance.
 
 ## WebAssembly (WASM)
 
-Brendan Eich made a late breaking announcement near the completion of the first edition of this title that has the potential to significantly impact the future path of JavaScript: WebAssembly (WASM). We will not be able to cover WASM in detail here, as it's extremely early at the time of this writing. But this title would be incomplete without at least a brief mention of it.
+Brendan Eich fez um anúncio quente tardio próximo da finalização da primeira edição desse título que tem potencial para impactar significantemente o futuro do JavaScript: WebAssembly (WASM). Nós não vamos conseguir cobrir WASM em detalhes aqui, já que está muito recente no momento atual que escrevo. Mas esse título estaria incompleto sem ao menos uma menção do assunto.
 
-One of the strongest pressures on the recent (and near future) design changes of the JS language has been the desire that it become a more suitable target for transpilation/cross-compilation from other languages (like C/C++, ClojureScript, etc.). Obviously, performance of code running as JavaScript has been a primary concern.
+Uma das pressões mais fortes nas mudanças de desenho recentes (e futuro próximo) da linguagem tem sido o desejo de que ela se torne um alvo mais apropriado para a transpilação/cross-compilação vindo de outras linguagens (como C/C++, ClojureScript, etc.). Óbvio, a performance do código rodando em JavaScript tem sido uma preocupação primária.
 
-As discussed in the *Async & Performance* title of this series, a few years ago a group of developers at Mozilla introduced an idea to JavaScript called ASM.js. ASM.js is a subset of valid JS that most significantly restricts certain actions that make code hard for the JS engine to optimize. The result is that ASM.js compatible code running in an ASM-aware engine can run remarkably faster, nearly on par with native optimized C equivalents. Many viewed ASM.js as the most likely backbone on which performance-hungry applications would ride in JavaScript.
+Como discutido no título *Async e Performance* dessa série, há alguns anos um grupo de desenvolvedores na Mozilla introduziu uma ideia ao JavaScript chamada ASM.js. ASM.js é um subconjunto de JS válido que basicamente restringe algumas ações que deixam o código dificíl para a engine JS otimizar. O resultado é que o código compatível ASM.js rodando em uma engine ASM-consciente pode rodar notavelmente mais rápido, junto com código nativo e otimizado em C e equivalentes. Muitas pessoas viram ASM.js como muito provavelmente backbone em que aplicações necessitadas por performance iriam alavancar em JavaScript.
 
-In other words, all roads to running code in the browser *lead through JavaScript*.
+Em outras palavras, todos os caminhos para rodar código no navegador *liderado pelo JavaScript*.
 
-That is, until the WASM announcement. WASM provides an alternate path for other languages to target the browser's runtime environment without having to first pass through JavaScript. Essentially, if WASM takes off, JS engines will grow an extra capability to execute a binary format of code that can be seen as somewhat similar to a bytecode (like that which runs on the JVM).
+Isso é, antes do anúncio do WASM. WASM provê um caminho alternativo para outras linguagens mirarem no ambiente runtime do navegador sem ter que passar pelo JavaScript. Em essência, se o WASM pegar, os motores JS vão ter uma capacidade extra de executar um formato binário de código que pode ser visto como algo similar ao bytecode (parecido com o que roda na JVM).
 
-WASM proposes a format for a binary representation of a highly compressed AST (syntax tree) of code, which can then give instructions directly to the JS engine and its underpinnings, without having to be parsed by JS, or even behave by the rules of JS. Languages like C or C++ can be compiled directly to the WASM format instead of ASM.js, and gain an extra speed advantage by skipping the JS parsing.
+WASM propõe um formato para uma representação binária de uma AST (sintaxe de árvore) altamente compactada de código, que pode então dar instruções diretamente para o motor de JS e sua base, sem ter que ser parseado para JS, ou até mesmo se comportar como as regras de JS. Linguagens como C ou C++ podem ser compiladas diretamente para o formato WASM ao invés de ASM.js e ganhar velocidade extra e a vantagem de pular o parseamento para JS.
 
-The near term for WASM is to have parity with ASM.js and indeed JS. But eventually, it's expected that WASM would grow new capabilities that surpass anything JS could do. For example, the pressure for JS to evolve radical features like threads -- a change that would certainly send major shockwaves through the JS ecosystem -- has a more hopeful future as a future WASM extension, relieving the pressure to change JS.
+O curto prazo para WASM é estar similar ao ASM.js e o JS real. Mas eventualmente, é esperado que WASM possa ter novas capacidades que passam qualquer coisa que o JS pode fazer. Por exemplo, a pressão para o JS desenvolver funcionalidades radicais como threads -- uma mudança que certamente enviam uma onda de choque para o ecossistema JavaScript -- tem um futuro mais provável como uma extensão futura do WASM, aliviando a pressão de mudança do JS.
 
-In fact, this new roadmap opens up many new roads for many languages to target the web runtime. That's an exciting new future path for the web platform!
+Na verdade, esse novo roteiro abre muitos novos caminhos para várias linguagens atingirem a web runtime. Esse é um caminho empolgante para a plataforma web! 
 
-What does it mean for JS? Will JS become irrelevant or "die"? Absolutely not. ASM.js will likely not see much of a future beyond the next couple of years, but the majority of JS is quite safely anchored in the web platform story.
+E o que isso significa para o JS? JS vai se tornar irrelevante ou "morrer"? Claro que não. ASM.js provavelmente não vai ter muito futuro nos próximos anos, mas a maior parte do JS está segura e ancorada na história da plataforma web.
 
-Proponents of WASM suggest its success will mean that the design of JS will be protected from pressures that would have eventually stretched it beyond assumed breaking points of reasonability. It is projected that WASM will become the preferred target for high-performance parts of applications, as authored in any of a myriad of different languages.
+Defensores do WASM sugerirem o seu sucesso vai significar que o desenho do JS vai ser protegido de pressões que eventualmente teriam gerado um stress além de presumir uma ruptura de razoabilidade. De acordo com as previsões WASM vai se tornar o alvo preferido para partes de aplicações que precisam de alta performance, como acontece em várias outras linguagens.
 
-Interestingly, JavaScript is one of the lesser likely languages to target WASM in the future. There may be future changes that carve out subsets of JS that might be tenable for such targeting, but that path doesn't seem high on the priority list.
+Curiosamente, JavaScript é uma das linguagens que menos visam atingir WASM no futuro. Haverão outras mudanças futuras que constroem possibilidades do JS ser sustentável para esse fim, mas esse caminho não parece estar no topo da lista de prioridades.
 
-While JS likely won't be much of a WASM funnel, JS code and WASM code will be able to interoperate in the most significant ways, just as naturally as current module interactions. You can imagine calling a JS function like `foo()` and having that actually invoke a WASM function of that name with the power to run well outside the constraints of the rest of your JS.
+Já que JavaScript não vai ser um funil de WASM, os códigos JS e WASM serão capazes de interoperar de várias formas, assim como interações entre módulos. Você pode imaginar chamar uma função JS como `foo()` e na verdade invocar uma função WASM com esse nome com o poder de rodar bem tirando as preocupações do restante do seu código JS.
 
-Things which are currently written in JS will probably continue to always be written in JS, at least for the foreseeable future. Things which are transpiled to JS will probably eventually at least consider targeting WASM instead. For things which need the utmost in performance with minimal tolerance for layers of abstraction, the likely choice will be to find a suitable non-JS language to author in, then targeting WASM.
+As coisas que atualmente são escritas em JS provavelmente continuarão sendo escritas em JS, pelo menos pelo futuro próximo. As que são transpiladas para JS vão provavelmente eventualmente ao menos considerar usar WASM. Paras as coisas que precisam de muita performance com uma tolerância mínica para camadas de abstração, a escolha mais comum vai ser achar uma línguagem não-JS adequada para trabalhar, e então usar WASM.
 
-There's a good chance this shift will be slow, and will be years in the making. WASM landing in all the major browser platforms is probably a few years out at best. In the meantime, the WASM project (https://github.com/WebAssembly) has an early polyfill to demonstrate proof-of-concept for its basic tenets.
+Tem chances de que a mudança será devagar, e vai levar anos em contrução. WASM ser lançada na maioria das plataformas de navegadores provavelmente vai levar alguns anos, sendo otimista. Enquanto isso, o projeto WASM (https://github.com/WebAssembly) tem um polyfill prévio para demonstrar a prova de conceito para os princípios básicos.
 
-But as time goes on, and as WASM learns new non-JS tricks, it's not too much a stretch of imagination to see some currently-JS things being refactored to a WASM-targetable language. For example, the performance sensitive parts of frameworks, game engines, and other heavily used tools might very well benefit from such a shift. Developers using these tools in their web applications likely won't notice much difference in usage or integration, but will just automatically take advantage of the performance and capabilities.
+Mas com o tempo, e enquanto WASM aprende novos truques que não são do JS, não é muito difíficl imaginar algumas aplicações que estão em JS atualmente sendo refatoradas para uma linguagem que é compatível com WASM. Por exemplo, as partes sensíveis de performance de frameworks, motores de jogos e outras ferramentas pesadas provavelmente terão benefícios com essas mudanças. Pessoas desenvolvedoras usando essas ferramentas em suas aplicações provavelmente não verão muita diferença no uso ou na integração, mas automaticamente terão as vantagens de performance e capacidades.
 
-What's certain is that the more real WASM becomes over time, the more it means to the trajectory and design of JavaScript. It's perhaps one of the most important "beyond ES6" topics developers should keep an eye on.
+O que é certo é que quanto mais WASM se torna real, mais significante fica para a trajetória e desenho do JavaScript. Esse é provavelmente um dos tópicos mais importantes do "além do ES6" que as pessoas desenvolvedoras deveriam ficar de olho.
 
 ## Review
 
