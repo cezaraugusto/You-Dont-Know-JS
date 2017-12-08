@@ -201,7 +201,7 @@ Note que esses eventos de mudança são notificados imediatamente depois da muda
 
 ### Eventos de Mudança Customizados
 
-Além dos seis tipos de evento nativos, você também pode ouvir e disparar eventos customizados.
+Além dos seis tipos de eventos nativos, você também pode ouvir e disparar eventos customizados.
 
 Considere:
 
@@ -254,7 +254,7 @@ As mudanças são por padrão entregues no final do laço de evento atual (veja 
 obj.c;			// 42
 ```
 
-No exemplo anterior, nós chamamos `notifier.notify(..)` com registro completo do evento de mudanças. Uma forma alternativa de colocar os registros de mudança na fila é usar o `performChange(..)`, que separa o tipo de evento do resto das propriedades (via uma função callback). Considere:
+No exemplo anterior, nós chamamos `notifier.notify(..)` com registro completo do evento de mudanças. Uma forma alternativa de colocar os registros de mudança na fila é usar o `performChange(..)`, que separa o tipo de evento do resto das propriedades de registro (via uma função callback). Considere:
 
 ```js
 notifier.performChange( "recalc", function(){
