@@ -376,7 +376,7 @@ if (vals.includes( 42 )) {
 
 ## SIMD
 
-Nós cobrimos Instrução Única, Múltiplos Dados (SIMD - Single Instruction, Multiple Data) em mais detalhes no título *Async e Performance* dessa série, mas essa é uma rápida menção, já que é uma das funcionalidades que provavelmente serão lançadas em um futuro JS.
+Nós abordamos a Instrução Única, Múltiplos Dados (SIMD - Single Instruction, Multiple Data) em mais detalhes no título *Async e Performance* dessa série, mas essa é uma rápida menção, já que é uma das funcionalidades que provavelmente serão lançadas em um futuro JS.
 
 A SIMD API expõe várias instruções de baixo nível (CPU) que podem operar em mais de um único valor ao mesmo tempo. Por exemplo, você poderá especificar dois *vetores* de 4 ou 8 números cada, e multiplicar os respectivos elementos de uma vez só (paralelismo de dados!).
 
@@ -432,7 +432,7 @@ O que é certo é que quanto mais WASM se torna real, mais significante fica par
 
 Se todos os outros livros nessa série essencialmente propõem esse desafio, "você (provavelmente) não sabe JS (tanto quanto você achava)", esse livro na verdade sugere que "você não sabe mais JS". O livro cobriu uma série de novas coisas adicionadas à linguagem em ES6. Essa é uma coleção emocionante de novas funcionalidades da linguagem e paradigmas que vão melhorar seus programas JS para sempre.
 
-Mas JS não é só ES6! Nem perto disso. Já existem algumas novas funcionalidades em vários estágios do desenvolvimento para os temos "além do ES6". Nrsse capítulo, nós brevemente vimos alguns dos mais prováveis candidatos a se juntar ao JS em breve.
+Mas JS não é só ES6! Nem perto disso. Já existem algumas novas funcionalidades em vários estágios do desenvolvimento para os tempos de "além do ES6". Nesse capítulo, nós brevemente vimos alguns dos mais prováveis candidatos a se juntar ao JS em breve.
 
 `async function`s são açucar sintáticos poderosos além dos padrões de generators + promises (veja o Capítulo 4). `Object.observe(..)` adiciona suporte diretamente nativo para observar mudanças de eventos em objetos, o que é crítico para implementação de data binding. O operador de exponenciação `**`, o `...` para propriedades de objetos, e `Array#includes(..)` são todas melhoras simples mas úteis para os mecanismos existentes. Finalmente, SIMD segue em uma nova era de evolução de JS com alta performance.
 
