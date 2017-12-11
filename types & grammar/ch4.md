@@ -1367,40 +1367,40 @@ Mas qual, exatamente, é o tipo de coerção que acontece aqui? O valor `a` de `
 
 Na cláusula 11.9.3.4-5 da especificação ES5 diz:
 
-> 4. Se o Tipo(x) é um Number e o Tipo(y) é uma String,
+> 4. Se o Type(x) é um Number e o Type(y) é uma String,
 >    retorna o resultado da comparação x == ToNumber(y).
-> 5. Se o Tipo(x) é uma String e Tipo(y) ié um Number,
+> 5. Se o Type(x) é uma String e Type(y) ié um Number,
 >    retorna o resultado da comparação ToNumber(x) == y.
 
 **Atenção** A especificação usa `Number` e `String` como nomes formais para os tipos, enquanto esse livro prefere `number` e `string` para tipos primitivos. Não deixe a capitalização de `Number` na especificação te confundir com o a função nativa `Number()`. Para nossos propósitos, a capitalização do nome do tipo é irrelevante -- eles têm, basicamente, o mesmo significado.
 
 Claramente, a especificação diz que o valor `"42"` sofre coerção para um `number` na comparação. O *como* dessa coerção já foi abordada anteriormente, especificamente com a operação abstrata `ToNumber`. Nesse caso, é bem óbvio que os dois valores `42` resultantes são iguais.
 
-#### Comparing: anything to `boolean`
+#### Comparando: qualquer coisa com `boolean`
 
-One of the biggest gotchas with the *implicit* coercion of `==` loose equality pops up when you try to compare a value directly to `true` or `false`.
+Uma das maiores pegadinhas com a coerção *implícita* da igualdade ampla `==` aparecem quando você tenta compara um valor diretamente com `true` ou `false`.
 
-Consider:
+Considere:
 
 ```js
 var a = "42";
 var b = true;
 
-a == b;	// false
+a == b;	// falso
 ```
 
-Wait, what happened here!? We know that `"42"` is a truthy value (see earlier in this chapter). So, how come it's not `==` loose equal to `true`?
+Espera, o que aconteceu aqui? Nós sabemos que `"42"` é um valor verdadeiro/*thruthy* (veja anteriormente neste capítulo). Então, como ele não é `==`, igualdade ampla à `true`?
 
-The reason is both simple and deceptively tricky. It's so easy to misunderstand, many JS developers never pay close enough attention to fully grasp it.
+A razão é simples e enganosamente complicada. É tão fácil de cometer um equívico, muitos desenvolvedores JS nunca prestam atenção suficiente para compreende-la.
 
-Let's again quote the spec, clauses 11.9.3.6-7:
+Vamos citar novemente a especificação, cláusula 11.9.3.6-7:
 
-> 6. If Type(x) is Boolean,
->    return the result of the comparison ToNumber(x) == y.
-> 7. If Type(y) is Boolean,
->    return the result of the comparison x == ToNumber(y).
+> 6. Se Type(x) é Boolean,
+>    retorna o valor da comparação ToNumber(x) == y.
+> 7. Se Type(y) é Boolean,
+>    retorna o valor da comparação x == ToNumber(y).
 
-Let's break that down. First:
+Vamos acabar com isso. Primeiro:
 
 ```js
 var x = true;
@@ -1409,9 +1409,9 @@ var y = "42";
 x == y; // false
 ```
 
-The `Type(x)` is indeed `Boolean`, so it performs `ToNumber(x)`, which coerces `true` to `1`. Now, `1 == "42"` is evaluated. The types are still different, so (essentially recursively) we reconsult the algorithm, which just as above will coerce `"42"` to `42`, and `1 == 42` is clearly `false`.
+O `Type(x)` é de fato `Boolean`, então ele executa `ToNumber(x)`, que faz a coerção de `true` para `1`. Agora `1 == "42"` é avaliado. Os tipos continuam diferentes, então (essencialmente recursivamente) nós reconsultamos o algoritmo, que assim como acima, irá fazer a coerção de `"42"` para `42`, e `1 == 42` é claramente `false`.
 
-Reverse it, and we still get the same outcome:
+Reverta isso, e nós teremos a mesma saída:
 
 ```js
 var x = "42";
@@ -1420,54 +1420,54 @@ var y = false;
 x == y; // false
 ```
 
-The `Type(y)` is `Boolean` this time, so `ToNumber(y)` yields `0`. `"42" == 0` recursively becomes `42 == 0`, which is of course `false`.
+O `Type(y) é `Boolean` dessa vez, então `ToNumber(y)` custa `0`. `"42" == 0` recursivamente torna-se `42 == 0`, que claro, é `false`.
 
-In other words, **the value `"42"` is neither `== true` nor `== false`.** At first, that statement might seem crazy. How can a value be neither truthy nor falsy?
+Em outras palavras, **o valor`"42"` não é nem `== true` nem `== false`.** Primeiramente, essa declaração pode parecer loucura. Como pode um valor não ser nem verdadeiro nem falso?
 
-But that's the problem! You're asking the wrong question, entirely. It's not your fault, really. Your brain is tricking you.
+Mas esse é o problema! Você está fazendo a pergunta, totalmente errada. Não é sua culpa, de verdade. Seu cérebro está te enganando.
 
-`"42"` is indeed truthy, but `"42" == true` **is not performing a boolean test/coercion** at all, no matter what your brain says. `"42"` *is not* being coerced to a `boolean` (`true`), but instead `true` is being coerced to a `1`, and then `"42"` is being coerced to `42`.
+`"42"` é de fato verdadeiro/*truthy*, mas `"42" == true` **não está executando um teste/coerção de boolean** de maneira nenhuma, não importa o que seu cérebro diga. `"42"` não está sofrendo coerção para um `boolean` (`true`), mas, em vez disso, `true` é que está sofrendo coerção para `1`, e então `"42"` estão sofrendo coerção para `42`.
 
-Whether we like it or not, `ToBoolean` is not even involved here, so the truthiness or falsiness of `"42"` is irrelevant to the `==` operation!
+Quer nos agrade ou não, `ToBoolean` nem está envolvido aqui, então a verdade ou falsidade de `"42"` é irrelevante para a operação `==`!
 
-What *is* relevant is to understand how the `==` comparison algorithm behaves with all the different type combinations. As it regards a `boolean` value on either side of the `==`, a `boolean` always coerces to a `number` *first*.
+O que *é* relevante, é entender como o algoritmo de comparação `==` se comporta com todas as diferentes combinações. No que se refere à um valor `boolean` de qualquer lado do `==`, um `boolean` sempre sofre coerção para um `number` *primeiro*.
 
-If that seems strange to you, you're not alone. I personally would recommend to never, ever, under any circumstances, use `== true` or `== false`. Ever.
+Se isso parece estranho para você, você não está sozinho. Eu pessoalmente reconmendaria à nunca, nunca mesmo, em nenhuma circunstância, usar `== true` ou `== false`. Nunca.
 
-But remember, I'm only talking about `==` here. `=== true` and `=== false` wouldn't allow the coercion, so they're safe from this hidden `ToNumber` coercion.
+Mas lembre-se, eu estou falando somente do `==` aqui. `=== true` e `=== false` não permitirá a coerção, então você está seguro dessa coerção `ToNumber` oculta.
 
-Consider:
+Considere:
 
 ```js
 var a = "42";
 
-// bad (will fail!):
+// péssimo (vai falhar!):
 if (a == true) {
 	// ..
 }
 
-// also bad (will fail!):
+// ruim também (vai falhar!):
 if (a === true) {
 	// ..
 }
 
-// good enough (works implicitly):
+// bom o bastante (funciona implicitamente):
 if (a) {
 	// ..
 }
 
-// better (works explicitly):
+// melhor (funciona explicitamente):
 if (!!a) {
 	// ..
 }
 
-// also great (works explicitly):
+// ótimo também (funciona explicitamente):
 if (Boolean( a )) {
 	// ..
 }
 ```
 
-If you avoid ever using `== true` or `== false` (aka loose equality with `boolean`s) in your code, you'll never have to worry about this truthiness/falsiness mental gotcha.
+Se você sempre evita usar `== true` ou `== false` (também conhecido como igualdade ampla com `boolean`s) no seu código, você nunca terá que se preocupar sobre essa pegadinha mental de verdadeiro/falso.
 
 #### Comparing: `null`s to `undefined`s
 
