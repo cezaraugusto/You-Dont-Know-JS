@@ -1347,9 +1347,9 @@ The rest of the algorithm in 11.9.3 specifies that if you use `==` loose equalit
 
 **Note:** The `!=` loose not-equality operation is defined exactly as you'd expect, in that it's literally the `==` operation comparison performed in its entirety, then the negation of the result. The same goes for the `!==` strict not-equality operation.
 
-#### Comparing: `string`s to `number`s
+#### Comparando: `string`s com `number`s
 
-To illustrate `==` coercion, let's first build off the `string` and `number` examples earlier in this chapter:
+Para ilustrar a coerção `==`, vamos primeiro desconstruir os exemplos anteriores `string` e `number` desse capítulo:
 
 ```js
 var a = 42;
@@ -1359,22 +1359,22 @@ a === b;	// false
 a == b;		// true
 ```
 
-As we'd expect, `a === b` fails, because no coercion is allowed, and indeed the `42` and `"42"` values are different.
+Como esperávamos, `a===b` falha, porque nenhuma coerção é permitida, e de fato, os valores `42` e `"42"` são diferentes.
 
-However, the second comparison `a == b` uses loose equality, which means that if the types happen to be different, the comparison algorithm will perform *implicit* coercion on one or both values.
+No entanto, a segunda comparação `a == b` usa igualdade ampla, que significa que se acontecer dos tipos serem diferentes, a comparação do algoritmo vai fazer uma coerção *implícita* em um ou ambos valores.
 
-But exactly what kind of coercion happens here? Does the `a` value of `42` become a `string`, or does the `b` value of `"42"` become a `number`?
+Mas qual, exatamente, é o tipo de coerção que acontece aqui? O valor `a` de `42` torna-se uma `string`, ou o valor `b` de `"42"` torna-se um `number`?
 
-In the ES5 spec, clauses 11.9.3.4-5 say:
+Na cláusula 11.9.3.4-5 da especificação ES5 diz:
 
-> 4. If Type(x) is Number and Type(y) is String,
->    return the result of the comparison x == ToNumber(y).
-> 5. If Type(x) is String and Type(y) is Number,
->    return the result of the comparison ToNumber(x) == y.
+> 4. Se o Tipo(x) é um Number e o Tipo(y) é uma String,
+>    retorna o resultado da comparação x == ToNumber(y).
+> 5. Se o Tipo(x) é uma String e Tipo(y) ié um Number,
+>    retorna o resultado da comparação ToNumber(x) == y.
 
-**Warning:** The spec uses `Number` and `String` as the formal names for the types, while this book prefers `number` and `string` for the primitive types. Do not let the capitalization of `Number` in the spec confuse you for the `Number()` native function. For our purposes, the capitalization of the type name is irrelevant -- they have basically the same meaning.
+**Atenção** A especificação usa `Number` e `String` como nomes formais para os tipos, enquanto esse livro prefere `number` e `string` para tipos primitivos. Não deixe a capitalização de `Number` na especificação te confundir com o a função nativa `Number()`. Para nossos propósitos, a capitalização do nome do tipo é irrelevante -- eles têm, basicamente, o mesmo significado.
 
-Clearly, the spec says the `"42"` value is coerced to a `number` for the comparison. The *how* of that coercion has already been covered earlier, specifically with the `ToNumber` abstract operation. In this case, it's quite obvious then that the resulting two `42` values are equal.
+Claramente, a especificação diz que o valor `"42"` sofre coerção para um `number` na comparação. O *como* dessa coerção já foi abordada anteriormente, especificamente com a operação abstrata `ToNumber`. Nesse caso, é bem óbvio que os dois valores `42` resultantes são iguais.
 
 #### Comparing: anything to `boolean`
 
