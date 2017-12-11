@@ -1469,16 +1469,16 @@ if (Boolean( a )) {
 
 Se você sempre evita usar `== true` ou `== false` (também conhecido como igualdade ampla com `boolean`s) no seu código, você nunca terá que se preocupar sobre essa pegadinha mental de verdadeiro/falso.
 
-#### Comparing: `null`s to `undefined`s
+#### Comparando: `null`s com `undefined`s
 
-Another example of *implicit* coercion can be seen with `==` loose equality between `null` and `undefined` values. Yet again quoting the ES5 spec, clauses 11.9.3.2-3:
+Outro exemplo de coerção *implícita* pode ser visto com `==` igualdade ampla entre valores `null` e `undefined`. Citando de novo a especificação ES5, cláusula 11.9.3.2-3:
 
-> 2. If x is null and y is undefined, return true.
-> 3. If x is undefined and y is null, return true.
+> 2. Se x é null e y é undefined, retorna true.
+> 3. Se x é undefined e y é null, retorna true.
 
-`null` and `undefined`, when compared with `==` loose equality, equate to (aka coerce to) each other (as well as themselves, obviously), and no other values in the entire language.
+`null` e `undefined` quando comparados com `==` igualdade ampla, equipararm-se (fazem coerção) uns nos outros (assim como neles próprios, obviamente), e nenhum outro valor em toda a linguagem.
 
-What this means is that `null` and `undefined` can be treated as indistinguishable for comparison purposes, if you use the `==` loose equality operator to allow their mutual *implicit* coercion.
+Isso significa que `null` e `undefined` podem ser tratados sem distinção para propósitos de comparação, se você usar o operador `==` igualdade ampla para permitir coerção *implícita* mútua.
 
 ```js
 var a = null;
@@ -1496,9 +1496,9 @@ a == 0;		// false
 b == 0;		// false
 ```
 
-The coercion between `null` and `undefined` is safe and predictable, and no other values can give false positives in such a check. I recommend using this coercion to allow `null` and `undefined` to be indistinguishable and thus treated as the same value.
+A coerção entre `null` e `undefined` é segura e previsível e nenhum outro valor pode dar falsos positivos em tal teste. Eu recomendo usar essa coerção para permitir que `null` e `undefined` sejam indistinguíveis e assim tratadis como o mesmo valor.
 
-For example:
+Por exemplo:
 
 ```js
 var a = doSomething();
@@ -1508,9 +1508,9 @@ if (a == null) {
 }
 ```
 
-The `a == null` check will pass only if `doSomething()` returns either `null` or `undefined`, and will fail with any other value, even other falsy values like `0`, `false`, and `""`.
+A verificação `a == null` vai passar somente se `doSomething()` retornar ambos, `null` ou `undefined`, e vai falhar com qualquer outro valor, mesmo outro valor falso como `0`, `false` e `""`.
 
-The *explicit* form of the check, which disallows any such coercion, is (I think) unnecessarily much uglier (and perhaps a tiny bit less performant!):
+A forma de verificação *explícita*, que não permite nenhum tipo de coerção, é (eu acho) desnecessáriamente muito mais feia (e talvez um pouco menos performática!):
 
 ```js
 var a = doSomething();
@@ -1520,7 +1520,7 @@ if (a === undefined || a === null) {
 }
 ```
 
-In my opinion, the form `a == null` is yet another example where *implicit* coercion improves code readability, but does so in a reliably safe way.
+na minha opinião, a forma `a == null` é ainda outro exemplo de onde a coerção *implícita* melhora a legibilidade do código, mas faz isso de uma maneira confiável e segura.
 
 #### Comparing: `object`s to non-`object`s
 
