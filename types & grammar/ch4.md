@@ -1522,18 +1522,18 @@ if (a === undefined || a === null) {
 
 na minha opinião, a forma `a == null` é ainda outro exemplo de onde a coerção *implícita* melhora a legibilidade do código, mas faz isso de uma maneira confiável e segura.
 
-#### Comparing: `object`s to non-`object`s
+#### Comparando: `object`s com não-`object`s
 
-If an `object`/`function`/`array` is compared to a simple scalar primitive (`string`, `number`, or `boolean`), the ES5 spec says in clauses 11.9.3.8-9:
+Se um `object`/`function`/`array` é comparado com um escalar primitivo simples (`string`, `number` ou `boolean`), a especificação ES5 diz na cláusula 11.9.3.8-9:
 
-> 8. If Type(x) is either String or Number and Type(y) is Object,
->    return the result of the comparison x == ToPrimitive(y).
-> 9. If Type(x) is Object and Type(y) is either String or Number,
->    return the result of the comparison ToPrimitive(x) == y.
+> 8. Se Type(x) é tanto uma String ou um Number e Type(y) é um Object,
+>    retorna o resultado da comparação x == ToPrimitive(y).
+> 9. Se Type(x) é um Object e Type(y) tanto uma String ou um Number,
+>    retorna o resultado da comparação ToPrimitive(x) == y.
 
-**Note:** You may notice that these clauses only mention `String` and `Number`, but not `Boolean`. That's because, as quoted earlier, clauses 11.9.3.6-7 take care of coercing any `Boolean` operand presented to a `Number` first.
+**Observação** Você pode notar que essas cláusulas apenas mencionam `String` e `Number`, mas não `Boolean`. Isso porque, como dito antes, a clásula 11.9.3.6-7 trata da coerção de qualquer operando `Boolean` apresentado para um `Number` primeiro.
 
-Consider:
+Considere:
 
 ```js
 var a = 42;
@@ -1542,41 +1542,40 @@ var b = [ 42 ];
 a == b;	// true
 ```
 
-The `[ 42 ]` value has its `ToPrimitive` abstract operation called (see the "Abstract Value Operations" section earlier), which results in the `"42"` value. From there, it's just `42 == "42"`, which as we've already covered becomes `42 == 42`, so `a` and `b` are found to be coercively equal.
+O valor `[42]` tem sua operação abstrata `ToPrimitive` chamada (veja a seção anterior "Valores de operações abstratas"), que resulta no valor `"42"`. Daqui em diante, é apenas `42 == "42"`, que como já abordamos, torna-se `42 == 42`, então `a` e `b` são coercitivamente iguais.
 
-**Tip:** All the quirks of the `ToPrimitive` abstract operation that we discussed earlier in this chapter (`toString()`, `valueOf()`) apply here as you'd expect. This can be quite useful if you have a complex data structure that you want to define a custom `valueOf()` method on, to provide a simple value for equality comparison purposes.
+**Dica** Todos os quirks da operação abstrata `ToPimitive` que nós discutimos anteriormente nesse capítulo (`toString()`, `valueOf()`) aplicados aqui como nós esperávamos. Isso pode ser bem útil se você tiver uma estrutura de dados complexa que você quer definir um método personalizado em `valueOf()`, para fornecer uma valor simples para propósitos de comparação de igualdade.
 
-In Chapter 3, we covered "unboxing," where an `object` wrapper around a primitive value (like from `new String("abc")`, for instance) is unwrapped, and the underlying primitive value (`"abc"`) is returned. This behavior is related to the `ToPrimitive` coercion in the `==` algorithm:
+No capítulo 3, nós abordamos "unboxing", onde um `object` wrapper em trono de uma vlor primitivo (como de `new String("abc"), por exemplo) é desencapsulado, e o valor primitivo adjacente ("abc") é retornado. Esse comportamento é relacionado para a coerção `ToPrimitive` no algoritmo `==` :
 
 ```js
 var a = "abc";
-var b = Object( a );	// same as `new String( a )`
+var b = Object( a );	// Mesmo que `new String( a )`
 
 a === b;				// false
 a == b;					// true
 ```
+`a == b` é `true` porque `b` sofre coerção (ou "unboxed", desncapsulada) via `ToPrimitive` para seu "abc" seu valor escalar primitivo adjacente, que é o mesmo que o valor em `a`.
 
-`a == b` is `true` because `b` is coerced (aka "unboxed," unwrapped) via `ToPrimitive` to its underlying `"abc"` simple scalar primitive value, which is the same as the value in `a`.
-
-There are some values where this is not the case, though, because of other overriding rules in the `==` algorithm. Consider:
+Há alguns valores onde isso não é o caso, por conta de outras regras primárias do algoritmo de `==`. Considere:
 
 ```js
 var a = null;
-var b = Object( a );	// same as `Object()`
+var b = Object( a );	// Mesmo que `Object()`
 a == b;					// false
 
 var c = undefined;
-var d = Object( c );	// same as `Object()`
+var d = Object( c );	// Mesmo que `Object()`
 c == d;					// false
 
 var e = NaN;
-var f = Object( e );	// same as `new Number( e )`
+var f = Object( e );	// Mesmo que `new Number( e )`
 e == f;					// false
 ```
 
-The `null` and `undefined` values cannot be boxed -- they have no object wrapper equivalent -- so `Object(null)` is just like `Object()` in that both just produce a normal object.
+Os valores `null` e `undefined` não podem ser encapsulados(*boxed*) -- eles não tem um object wrapper equivalente -- Então o `Object(null)` é como o `Object()` em que ambos apenas produzem um objeto normal.
 
-`NaN` can be boxed to its `Number` object wrapper equivalent, but when `==` causes an unboxing, the `NaN == NaN` comparison fails because `NaN` is never equal to itself (see Chapter 2).
+`NaN` pode ser ancapsulado no seu object wrapper `Number` equivalente, mas quando `==` causa uma desencapsulameto, a comparação `NaN == NaN` falha porque `NaN` nunca é igual a si mesmo (veja o capítulo 2).
 
 ### Edge Cases
 
