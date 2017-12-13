@@ -1578,13 +1578,13 @@ The `null` and `undefined` values cannot be boxed -- they have no object wrapper
 
 `NaN` can be boxed to its `Number` object wrapper equivalent, but when `==` causes an unboxing, the `NaN == NaN` comparison fails because `NaN` is never equal to itself (see Chapter 2).
 
-### Edge Cases
+### Casos à parte
 
-Now that we've thoroughly examined how the *implicit* coercion of `==` loose equality works (in both sensible and surprising ways), let's try to call out the worst, craziest corner cases so we can see what we need to avoid to not get bitten with coercion bugs.
+Agora que nós examinamos completamente como a coerção *implícita* de `==` igualdade ampla funciona (tanto na maneira sensível como na surpreendente), vamos tentar chamar os piores e mais loucos casos para que possamos ver o que precisamos evitar para não ser pego com bugs de coerção.
 
-First, let's examine how modifying the built-in native prototypes can produce crazy results:
+Primeiro, vamos examinar como modificar prototypes nativos podem produzir resultados loucos:
 
-#### A Number By Any Other Value Would...
+#### Um número por outro valor seria...
 
 ```js
 Number.prototype.valueOf = function() {
@@ -1594,11 +1594,11 @@ Number.prototype.valueOf = function() {
 new Number( 2 ) == 3;	// true
 ```
 
-**Warning:** `2 == 3` would not have fallen into this trap, because neither `2` nor `3` would have invoked the built-in `Number.prototype.valueOf()` method because both are already primitive `number` values and can be compared directly. However, `new Number(2)` must go through the `ToPrimitive` coercion, and thus invoke `valueOf()`.
+**Atenção** `2 == 3` não teria caído nessa armadilha, porque nem `2` nem `3` teria invocado o método nativo `Number.prototype.valueOf()` porque ambos já são valores primitivos `number` e podem ser comparados diretamente. No entanto, `new Number(2)` deve passar pela coerção `ToPrimitive`, e por isso ivocar `valueOf()`.
 
-Evil, huh? Of course it is. No one should ever do such a thing. The fact that you *can* do this is sometimes used as a criticism of coercion and `==`. But that's misdirected frustration. JavaScript is not *bad* because you can do such things, a developer is *bad* **if they do such things**. Don't fall into the "my programming language should protect me from myself" fallacy.
+Maldade né? É claro que é. Ninguém nunca deveria fazer algo assim. O fato de que você *pode* fazer isso é usado como crítica da coerção e `==`. Mas isso é uma frustação mal direcionada. JavaScript não é *ruim* por que você pode fazer tais coisas, um desenvolvedor é *ruim* **se eles fizerem tais coisas**. Não caia na falácia "minha linguagem de programação deveria me proteger de mim mesmo".
 
-Next, let's consider another tricky example, which takes the evil from the previous example to another level:
+Próximo vamos considerar outro exemplo complicado, o que leva a maldade do exemplo anterior para outro nível:
 
 ```js
 if (a == 2 && a == 3) {
@@ -1606,9 +1606,9 @@ if (a == 2 && a == 3) {
 }
 ```
 
-You might think this would be impossible, because `a` could never be equal to both `2` and `3` *at the same time*. But "at the same time" is inaccurate, since the first expression `a == 2` happens strictly *before* `a == 3`.
+Você pode pensar que isso seria impossível, porque `a` nunca deveria ser igual a ambos `2` e `3` *ao mesmo tempo*. Mas "ao mesmo tempo" é impreciso, já que a primeira expressão `a == 2`, acontece estritamente *antes* de `a == 3`.
 
-So, what if we make `a.valueOf()` have side effects each time it's called, such that the first time it returns `2` and the second time it's called it returns `3`? Pretty easy:
+Então, e se nós fizermos com que `a.valueOf()` tivesse efeitos colaterais toda vez que fosse chamado, de modo que na primeira vez retorna `2` e na segunda vez que for chamada retorne `3`? Muito fácil:
 
 ```js
 var i = 2;
@@ -1624,7 +1624,7 @@ if (a == 2 && a == 3) {
 }
 ```
 
-Again, these are evil tricks. Don't do them. But also don't use them as complaints against coercion. Potential abuses of a mechanism are not sufficient evidence to condemn the mechanism. Just avoid these crazy tricks, and stick only with valid and proper usage of coercion.
+De novo, esses são truques maldosos. Não faça-os. Mas também não os use como queixas contra a coerção. Abusos potenciais dos mecaniscmos não são evidências suficientes para condenar o mecanismo. Apenas evite esses truques malucos, e mantenha-se com o uso válido e apropriado da coerção.
 
 #### False-y Comparisons
 
