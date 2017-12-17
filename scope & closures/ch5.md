@@ -135,9 +135,9 @@ bar(); // 2
 
 Seja qual for a forma que usarmos para *transportar* uma função interna para fora do seu escopo léxico, ela irá manter uma referência de escopo de onde ela for declarada originalmente, e onde for que a executarmos, essa closure irá ocorrer.
 
-## Now I Can See
+## Agora eu posso ver
 
-The previous code snippets are somewhat academic and artificially constructed to illustrate *using closure*. But I promised you something more than just a cool new toy. I promised that closure was something all around you in your existing code. Let us now *see* that truth.
+Os fragmentos de código anteriores são um tanto acadêmicos artificialmente contruídos para ilustrar o *uso de closures*. Mas eu prometi para você uma coisa mais que apenas um novo brinquedinho. Eu prometi que closure seria uma coisa ao seu redor, em sou código existente. Vamos agora *ver* essa verdade.
 
 ```js
 function wait(message) {
