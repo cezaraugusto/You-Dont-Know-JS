@@ -1726,19 +1726,19 @@ Para contrastar contra estes 24 suspeitos prováveis para pegadinhas de coerçã
 
 Nesses casos não falsos, não à parte (e há literalmente um número infinito de comparações que podemos colocar nesta lista), os resultados da coerção são totalmente seguros, razoáveis ​​e explicáveis.
 
-#### Sanity Check
+#### Teste de Sanidade
 
-OK, we've definitely found some crazy stuff when we've looked deeply into *implicit* coercion. No wonder that most developers claim coercion is evil and should be avoided, right!?
+OK, nós definitivamente achamos algumas coisas loucas quando nós olhamos a fundo na coerção *implícita*. Não é à toa que a maioria dos desenvolvedores afirmam que coerção é ruim e deve ser evitada, certo!?
 
-But let's take a step back and do a sanity check.
+Mas vamos voltar um passo e fazer um teste de sanidade.
 
-By way of magnitude comparison, we have *a list* of seven troublesome gotcha coercions, but we have *another list* of (at least 17, but actually infinite) coercions that are totally sane and explainable.
+Para fins de comparações de magnitude, nós temos *uma lista* de sete pegadinhas de coerção problemáticas, mas nós temos *outra lista* de (ao menos 17, mas atualmente infinita) coerções que são totalmente sensatas e explicáveis.
 
-If you're looking for a textbook example of "throwing the baby out with the bathwater," this is it: discarding the entirety of coercion (the infinitely large list of safe and useful behaviors) because of a list of literally just seven gotchas.
+Se você está buscando por um exemplo de texto para "matar uma mosca com um canhão", é isto: discartando a totalidade da coerção (a infinitamente larga lista de comportamentos seguros e úteis) por causa de uma lista de, literalmente, sete pegadinhas.
 
-The more prudent reaction would be to ask, "how can I use the countless *good parts* of coercion, but avoid the few *bad parts*?"
+A reação mais prudente seria perguntar, "como eu posso usar incontáveis *partes boas* da coerção, mas evitar as poucas *partes ruins*?
 
-Let's look again at the *bad* list:
+Vamos dar uma olhada novamente na lista *ruim*:
 
 ```js
 "0" == false;			// true -- UH OH!
@@ -1750,9 +1750,9 @@ false == [];			// true -- UH OH!
 0 == [];				// true -- UH OH!
 ```
 
-Four of the seven items on this list involve `== false` comparison, which we said earlier you should **always, always** avoid. That's a pretty easy rule to remember.
+Quatro dos sete itens dessa lista envolvem a comparação `== false`, que nós dissemos anteriormente que você deve **sempre, sempre** evitar. Essa é uma regra bem fácil de lembrar.
 
-Now the list is down to three.
+Agora a lista caiu para três.
 
 ```js
 "" == 0;				// true -- UH OH!
@@ -1760,9 +1760,9 @@ Now the list is down to three.
 0 == [];				// true -- UH OH!
 ```
 
-Are these reasonable coercions you'd do in a normal JavaScript program? Under what conditions would they really happen?
+São essas coerções razoáveis que você faria em um programa normal de JavaScript? Em quais condições elas realmente aconteceriam?
 
-I don't think it's terribly likely that you'd literally use `== []` in a `boolean` test in your program, at least not if you know what you're doing. You'd probably instead be doing `== ""` or `== 0`, like:
+Eu não acho que é absurdamente provável que você use `== []` em um teste `boolean` no seu programa, ao menos não se você sabe o que está fazendo. Você propavelmente faria `== ""` ou `== 0` no lugar, como:
 
 ```js
 function doSomething(a) {
@@ -1772,7 +1772,8 @@ function doSomething(a) {
 }
 ```
 
-You'd have an oops if you accidentally called `doSomething(0)` or `doSomething([])`. Another scenario:
+Você teria um Oops se você acidentalmente chamasse `doSomething(0)` ou `doSomething([])`. 
+Outro cenário:
 
 ```js
 function doSomething(a,b) {
@@ -1782,9 +1783,10 @@ function doSomething(a,b) {
 }
 ```
 
-Again, this could break if you did something like `doSomething("",0)` or `doSomething([],"")`.
+Novamente, isso pode quebrar se você fizesse algo como `doSomething("",0)` ou `doSomething([],"")`.
 
-So, while the situations *can* exist where these coercions will bite you, and you'll want to be careful around them, they're probably not super common on the whole of your code base.
+
+Então, enquanto as situações *podem* existir onde essas coerções vão te pegar, você provavelmente vai querer ter cuidado com elas, elas provavelmente não são super comuns em toda sua base de código.
 
 #### Safely Using Implicit Coercion
 
