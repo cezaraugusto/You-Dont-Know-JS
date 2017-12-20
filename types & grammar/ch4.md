@@ -1788,30 +1788,31 @@ Novamente, isso pode quebrar se você fizesse algo como `doSomething("",0)` ou `
 
 Então, enquanto as situações *podem* existir onde essas coerções vão te pegar, você provavelmente vai querer ter cuidado com elas, elas provavelmente não são super comuns em toda sua base de código.
 
-#### Safely Using Implicit Coercion
+#### Usando coerção implícita com segurança
 
-The most important advice I can give you: examine your program and reason about what values can show up on either side of an `==` comparison. To effectively avoid issues with such comparisons, here's some heuristic rules to follow:
+O conselho mais importante que posso te dar: examine seu programa e razões sobre quais valores podem aparecer em ambos lados de uma comparação `==`. Para efetivamente evitar problemas com tais comparações, aqui estão algumas heurísticas para seguir:
 
-1. If either side of the comparison can have `true` or `false` values, don't ever, EVER use `==`.
-2. If either side of the comparison can have `[]`, `""`, or `0` values, seriously consider not using `==`.
+1. Se ambos lados de uma comparação pode ter valores `true` ou `false`, nunca, NUNCA use `==`.
 
-In these scenarios, it's almost certainly better to use `===` instead of `==`, to avoid unwanted coercion. Follow those two simple rules and pretty much all the coercion gotchas that could reasonably hurt you will effectively be avoided.
+2. Se ambos lados da comparação pode ter valores `[]`, `""`, ou `0`, considere seriamente em não usar `==`.
 
-**Being more explicit/verbose in these cases will save you from a lot of headaches.**
+Nesses cenários é quase sempre melhor usar `===` em vez de `==`, para evitar coerções indesejadas. Siga essas duas regras simples e basicamente todas as pegadinhas de coerção que poderiam te afetar serão efetivamente evitadas.
 
-The question of `==` vs. `===` is really appropriately framed as: should you allow coercion for a comparison or not?
+**Ser mais explícito/verboso nesses casos irá te salvar de muitas dores de cabeça.**
 
-There's lots of cases where such coercion can be helpful, allowing you to more tersely express some comparison logic (like with `null` and `undefined`, for example).
+A questão de `==` vs. `===` é apropriadamente enquadrada como: você deve permitir coerção para uma comparação ou não?
 
-In the overall scheme of things, there's relatively few cases where *implicit* coercion is truly dangerous. But in those places, for safety sake, definitely use `===`.
+Há muitos casos que tal coerção pode ser útil, permitindo que você expresse mais tersamente alguma lógica de comparação (como com `null` e `undefined`, por exemplo).
 
-**Tip:** Another place where coercion is guaranteed *not* to bite you is with the `typeof` operator. `typeof` is always going to return you one of seven strings (see Chapter 1), and none of them are the empty `""` string. As such, there's no case where checking the type of some value is going to run afoul of *implicit* coercion. `typeof x == "function"` is 100% as safe and reliable as `typeof x === "function"`. Literally, the spec says the algorithm will be identical in this situation. So, don't just blindly use `===` everywhere simply because that's what your code tools tell you to do, or (worst of all) because you've been told in some book to **not think about it**. You own the quality of your code.
+No geral, há relativamente poucos casos onde coerção *implícita* é verdadeiramente perigosa. Mas nesses lugares, por segurança, deifnitivamente use `===`
 
-Is *implicit* coercion evil and dangerous? In a few cases, yes, but overwhelmingly, no.
+**Dica** Outro lugar onde é garatido que a coerção não te prejudique é com o operador `typeof`. `typeof` sempre irá te retornar uma de sete strings (veja o Capítulo 1), e nenhuma delas serão strings vazias `""`. Sendo assim, não há nenhum caso onde checar o tipo de algum valor irá executar uma coerção *implícita*. `typeof x == "function"` é 100% tão seguro quanto `typeof x === "function"`. Literalmente, a especificação diz que o algoritmo será idêntico nesse caso. Então, não use `===` cegamente em todo lugar porque aquilo é o que as ferramentas do seu código dizem para fazer, ou (pior ainda) porque você viu em algum livro para **não pensar nisso**. A qualidade do seu código é sua.
 
-Be a responsible and mature developer. Learn how to use the power of coercion (both *explicit* and *implicit*) effectively and safely. And teach those around you to do the same.
+A coerção *implícita* é maligna e perigosa? Em alguns casos, sim, mas geralmente, não.
 
-Here's a handy table made by Alex Dorey (@dorey on GitHub) to visualize a variety of comparisons:
+Seja um desenvolvedor maduro e responsável. Aprenda como usar o poder da coerção (tanto *explícita* como *implícita*) efetivamente e com segurança. E ensine aqueles à sua volta a fazer o mesmo.
+
+Aqui está uma tabela útil feita pelo Alex Dorey (@dorey no GitHub) para visualizar uma variedade de conversões:
 
 <img src="fig1.png" width="600">
 
