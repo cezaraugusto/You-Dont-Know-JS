@@ -155,7 +155,7 @@ Tomamos uma função interna (chamada `timer`) e passamos ela para o `setTimeout
 
 Mil milésimos de segundo depois de executarmos `wait(..)`, e seu escopo interno deveria ter sido extinto há muito tempo, a tal função interna `timer` ainda tem uma closure sobre esse escopo.
 
-Deep down in the guts of the *Engine*, the built-in utility `setTimeout(..)` has reference to some parameter, probably called `fn` or `func` or something like that. *Engine* goes to invoke that function, which is invoking our inner `timer` function, and the lexical scope reference is still intact.
+Lá no fundo, nas entranhas da *Engine*, o utilitário embutido `setTimeout(..)` faz uma referência por algum parâmetro, provavelmente chamado `fn`, ou `func`, ou alguma coisa do tipo. A *Engine* vai invocar essa função, que está invocando nossa função interna `timer`, e a referência do escopo léxico ainda está intacta.
 
 **Closure.**
 
