@@ -427,21 +427,21 @@ Pegue cinco minutos, escreva a lista falsa em um post-it para o monitor do seu c
 
 A importância de verdadeiro e falso no entendimento de como um valor vai se comportar quando você coverte-lo (explicitamente ou implicitamente) para uma valor `boolean`. Agora que você tem essas duas listas em mente, nós podemos mergulhar nos exemplos de coerção.
 
-## Coerção explícita
+## Explicit Coercion
 
-Coerção *explícita* refere-se a conversões de tipo que são óbvias e explícitas. Há uma ampla gama de uso de conversão de tipo que claramente se enquadram na categoria de *coerção* explícita para a maioria dos desenvolvedores.
+*Explicit* coercion refers to type conversions that are obvious and explicit. There's a wide range of type conversion usage that clearly falls under the *explicit* coercion category for most developers.
 
-O objetivo aqui é identificar padrões em nosso código onde podemos deixar claro e óbvio que nós estamos convertendo um valor de um tipo para outro, de modo que não deixemos buracos para os futuros desenvolvedores caírem. Quanto mais explícitos nós formos, o mais provável é que alguém mais tarde poderá ler nosso código e entender, sem muito esforço, quais foram nossas intenções.
+The goal here is to identify patterns in our code where we can make it clear and obvious that we're converting a value from one type to another, so as to not leave potholes for future developers to trip into. The more explicit we are, the more likely someone later will be able to read our code and understand without undue effort what our intent was.
 
-Seria difícil encontrar desentendimentos perceptíveis com coerção *explícita*, pois ela se alinha muito perto com a prática mais comunmente aceita de conversões de tipos funciona em linguagens de tipagem estática. Assim sendo, daremos por certo (por enquanto) que coerção *explícita* pode ser acordada para não ser má ou controversa. No entanto, nós iremos rever isso mais tarde.
+It would be hard to find any salient disagreements with *explicit* coercion, as it most closely aligns with how the commonly accepted practice of type conversion works in statically typed languages. As such, we'll take for granted (for now) that *explicit* coercion can be agreed upon to not be evil or controversial. We'll revisit this later, though.
 
-### Explicitamente: Strings <--> Numbers
+### Explicitly: Strings <--> Numbers
 
-Nós vamos começar com a operação de coerção mais simples, e talvez, mais comum: converter valores entre uma representação `string` e `number`.
+We'll start with the simplest and perhaps most common coercion operation: coercing values between `string` and `number` representation.
 
-Para converter `string`s em `number`s,  nós usamos as funções nativas String(..)` e `Number(..)` (nas quais nos referimos no Capítulo 3 como "construtores nativos"), mas **muito importante**, nós não usamos a palavra-chave `new` na frente delas. Assim sendo, não estamos criando object wrappers.
+To coerce between `string`s and `number`s, we use the built-in `String(..)` and `Number(..)` functions (which we referred to as "native constructors" in Chapter 3), but **very importantly**, we do not use the `new` keyword in front of them. As such, we're not creating object wrappers.
 
-Em vez disso, nós na verdade criamos uma *coerção explícita* entre os dois tipos:
+Instead, we're actually *explicitly coercing* between the two types:
 
 ```js
 var a = 42;
@@ -454,15 +454,15 @@ b; // "42"
 d; // 3.14
 ```
 
-`String(..)` converte qualquer outro valor para um valor primitivo `string`, usando as regras da operação `ToString` discutida anteriormente. `Number(..)` coverte qualquer outro valor para um valor primitivo `number`, usando as regras da operação `ToNumber` discutida anteriormente.
+`String(..)` coerces from any other value to a primitive `string` value, using the rules of the `ToString` operation discussed earlier. `Number(..)` coerces from any other value to a primitive `number` value, using the rules of the `ToNumber` operation discussed earlier.
 
-Eu chamo isso de coerção *explícita* porque em geral, é bastante óbvio para a maioria dos desenvolvedores que o resultado final dessas operações é a aplicação da conversão de tipo.
+I call this *explicit* coercion because in general, it's pretty obvious to most developers that the end result of these operations is the applicable type conversion.
 
-Na verdade, a forma como isso é usado, realmente parece muito em como isso é feito em algumas outras linguagem de tipagem estática.
+In fact, this usage actually looks a lot like it does in some other statically typed languages.
 
-Por exemplo, em C/C++, você pode dizer tanto `(int)x` ou `int(x)`, que ambas irão converter o valor em `x` para um número inteiro. Ambas formas são válidas, mas muitos preferem a última, que meio que parece a chamda de uma função. No JavaScript, quando você diz `Number(x)`, isso parece terrivelmente igual. Importa se isso é *de verdade* uma chamada de função no JS? Na verdade, não.
+For example, in C/C++, you can say either `(int)x` or `int(x)`, and both will convert the value in `x` to an integer. Both forms are valid, but many prefer the latter, which kinda looks like a function call. In JavaScript, when you say `Number(x)`, it looks awfully similar. Does it matter that it's *actually* a function call in JS? Not really.
 
-Além de `String(..)` e `Number(..)`, há outras formas de converter "explicitamente" esses valores entre `string` e `number`:
+Besides `String(..)` and `Number(..)`, there are other ways to "explicitly" convert these values between `string` and `number`:
 
 ```js
 var a = 42;
@@ -475,15 +475,15 @@ b; // "42"
 d; // 3.14
 ```
 
-Chamar `a.toString()` é ostensivamente explícito (está bem claro que "toString" significa "para uma string"), mas existe alguma implicidade. `toString()` não pode ser chamado em um valor *primitivo* como `42`. Então o JS automaticamente "encaixota" (veja o Capítulo 3) `42` em um object wrapper, então `toString()` pode ser chamada contra o objeto. Em outras palavras, você pode chamar isso de "explicitamente implícito".
+Calling `a.toString()` is ostensibly explicit (pretty clear that "toString" means "to a string"), but there's some hidden implicitness here. `toString()` cannot be called on a *primitive* value like `42`. So JS automatically "boxes" (see Chapter 3) `42` in an object wrapper, so that `toString()` can be called against the object. In other words, you might call it "explicitly implicit."
 
-Aqui o `+c` esta mostrando o *operador unário* (operador com somente um operando) do operador `+`. Em vez de realizar uma adição matemática (ou concatenação de string -- veja abaixo), o unário `+` converte explicitamente seu operando (`c`) em um valor `number`.
+`+c` here is showing the *unary operator* form (operator with only one operand) of the `+` operator. Instead of performing mathematic addition (or string concatenation -- see below), the unary `+` explicitly coerces its operand (`c`) to a `number` value.
 
-`c+` é uma coerção explícita? Depende da sua experiêcnia e perspectiva. Se você sabe (e voce, agora, sabe!) que o unário `+` é explicitamente destinado para uma coerção `number`, então é bem explícito e óbvio. Porém, se você nunca viu isso antes, isso pode ser terrivelmente confuso, implícito, com efeitos colaterais ocultos, etc.
+Is `+c` *explicit* coercion? Depends on your experience and perspective. If you know (which you do, now!) that unary `+` is explicitly intended for `number` coercion, then it's pretty explicit and obvious. However, if you've never seen it before, it can seem awfully confusing, implicit, with hidden side effects, etc.
 
-**Observação** A perspectiva geralmente aceita na comunidade open source JS pe que o unário `+` é uma forma aceita de coerção *explícita*.
+**Note:** The generally accepted perspective in the open-source JS community is that unary `+` is an accepted form of *explicit* coercion.
 
-Mesmo se você realmente goste da forma `+c`, há, definitivamente, alguns lugares onde isso pode parecer terrivelmente confuso, Considere:
+Even if you really like the `+c` form, there are definitely places where it can look awfully confusing. Consider:
 
 ```js
 var c = "3.14";
@@ -492,39 +492,39 @@ var d = 5+ +c;
 d; // 8.14
 ```
 
-O operador unário `-` também converte da mesma forma que o `+` faz, mas ele também inverte o sinal do número. No entanto, você não pode colocar dois `--` próximo um do outro para desvirar o sinal, como isso é feito com o operador de decremnto. Em vez disso, você vai precisar fazer: `- -"3.14"` com espaço no meio, e isso vai resultar na coerção para `3.14`.
+The unary `-` operator also coerces like `+` does, but it also flips the sign of the number. However, you cannot put two `--` next to each other to unflip the sign, as that's parsed as the decrement operator. Instead, you would need to do: `- -"3.14"` with a space in between, and that would result in coercion to `3.14`.
 
-Você provavelmente pode inventar todo o tipo de combinações horríveis de operadores binários (como `+` para adição) ao lado da forma  unária de um operador. Aqui está outro exemplo maluco:
+You can probably dream up all sorts of hideous combinations of binary operators (like `+` for addition) next to the unary form of an operator. Here's another crazy example:
 
 ```js
 1 + - + + + - + 1;	// 2
 ```
 
-Você deve considerar fortemente evitar corção unária com `+` (ou `-`) quando ela é imediatamentamenta adjacente de outro operador. Enquando o de cima funciona, é quase que universalmente considerado uma má ideia. Mesmo `d = +c` (ou `d =+ c` também!) pode muito facilmente ser confudido com `d += c`, o que é inteiramente diferente!
+You should strongly consider avoiding unary `+` (or `-`) coercion when it's immediately adjacent to other operators. While the above works, it would almost universally be considered a bad idea. Even `d = +c` (or `d =+ c` for that matter!) can far too easily be confused for `d += c`, which is entirely different!
 
-**Observação** Outro lugar extremamente confuso para usar o unário `+` é adjacente à outro operador que pode ser, `++` operador de incremento e `--` operador de decremento. Por exemplo: `a +++b`, `a + ++b`, and `a + + +b`. Veja "Efeitos colaterais de expressões" no Capítulo 5 para mais sobre `++`.
+**Note:** Another extremely confusing place for unary `+` to be used adjacent to another operator would be the `++` increment operator and `--` decrement operator. For example: `a +++b`, `a + ++b`, and `a + + +b`. See "Expression Side-Effects" in Chapter 5 for more about `++`.
 
-Lembre-se, nós estamos tentando ser explícitos e **reduzir** a confusão, não torná-la muito pior!
+Remember, we're trying to be explicit and **reduce** confusion, not make it much worse!
 
-#### `Date` para `number`
+#### `Date` To `number`
 
-Outro uso comum do operador unário `+` é a coerção de um objeto `Date` em um `number`, porque o resultado é a representação timestamp unix (milisegundos decorridos desde 1 de Janeiro 1970 00:00:00 UTC) do valor data/tempo:
+Another common usage of the unary `+` operator is to coerce a `Date` object into a `number`, because the result is the unix timestamp (milliseconds elapsed since 1 January 1970 00:00:00 UTC) representation of the date/time value:
 
 ```js
-var d = new Date( "Seg, 18 Ago 2014 08:53:06 CDT" );
+var d = new Date( "Mon, 18 Aug 2014 08:53:06 CDT" );
 
 +d; // 1408369986000
 ```
 
-O uso mais comum deste idioma é obter o momento * agora * atual como um timestamp, como:
+The most common usage of this idiom is to get the current *now* moment as a timestamp, such as:
 
 ```js
 var timestamp = +new Date();
 ```
 
-**Observação** Alguns desenvolvedores estão cientes de um "truque" da sintaxe JavaScript, que é o `()` definido em uma chamada do construtor (uma função chamada com `new`) é *opcional* se não houver argumentos para passar. Então você pode executar a forma `var timestamp = +new Date;`. Porém, nem todos os desenvolvedores concordam que omitir o `()` melhora a legibilidade, uma vez que é uma exceção de sintaxe incomum que se aplica apenas à forma de chamada `new fn()` e não na forma de chamada `fn()` normal.
+**Note:** Some developers are aware of a peculiar syntactic "trick" in JavaScript, which is that the `()` set on a constructor call (a function called with `new`) is *optional* if there are no arguments to pass. So you may run across the `var timestamp = +new Date;` form. However, not all developers agree that omitting the `()` improves readability, as it's an uncommon syntax exception that only applies to the `new fn()` call form and not the regular `fn()` call form.
 
-Mas coerção não é a única forma de que pegar extrair o timestamp de um objeto `Date`. Uma abordagem de não-coerção talvez seja preferível, pois é ainda mais explícita:
+But coercion is not the only way to get the timestamp out of a `Date` object. A noncoercion approach is perhaps even preferable, as it's even more explicit:
 
 ```js
 var timestamp = new Date().getTime();
@@ -532,13 +532,13 @@ var timestamp = new Date().getTime();
 // var timestamp = (new Date).getTime();
 ```
 
-Mas uma opção de não-coerção *ainda mais* preferível é usar a função estática 'Date.now () `do adicionada no ES5:
+But an *even more* preferable noncoercion option is to use the ES5 added `Date.now()` static function:
 
 ```js
 var timestamp = Date.now();
 ```
 
-E se você deseja fazer o polyfill de `Date.now()` para navagadores antigos, é bem simples:
+And if you want to polyfill `Date.now()` into older browsers, it's pretty simple:
 
 ```js
 if (!Date.now) {
@@ -548,7 +548,7 @@ if (!Date.now) {
 }
 ```
 
-Eu recomendo pular as formas de coerção relacionada à datas. Use `Date.now()` para timestamps *atuais*, e  `new Date( .. ).getTime()` para pegar uma timestamp de uma data/tempo específica *não atual* que você precisa especificar.
+I'd recommend skipping the coercion forms related to dates. Use `Date.now()` for current *now* timestamps, and `new Date( .. ).getTime()` for getting a timestamp of a specific *non-now* date/time that you need to specify.
 
 #### The Curious Case of the `~`
 
