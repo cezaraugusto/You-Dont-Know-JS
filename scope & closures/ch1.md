@@ -1,123 +1,146 @@
-# You Don't Know JS: Scope & Closures
-# Chapter 1: What is Scope?
+# You Don't Know JS: Escopos e Clausuras
+# Capítulo 1: O que é Escopo?
 
-One of the most fundamental paradigms of nearly all programming languages is the ability to store values in variables, and later retrieve or modify those values. In fact, the ability to store values and pull values out of variables is what gives a program *state*.
+Um dos paradigmas mais fundamentais de quase todas as linguagens de programação é a capacidade de armazenar valores em variáveis e, posteriormente, obter ou modificar esses valores. Na verdade, a habilidade de armazenar e pegar valores de variáveis é o que fornece *estado* a um programa.
 
-Without such a concept, a program could perform some tasks, but they would be extremely limited and not terribly interesting.
+Sem esse conceito, um programa pode realizar algumas tarefas, mas elas seriam extremamente limitadas e extremamente desinteressantes.
 
-But the inclusion of variables into our program begets the most interesting questions we will now address: where do those variables *live*? In other words, where are they stored? And, most importantly, how does our program find them when it needs them?
+Mas a inclusão de variáveis em nossos programas gera perguntas mais interessantes como: onde essas variáveis *vivem*? Em outras palavras, onde elas são armazenadas? E, mais importante, como nossos programas as encontram quando eles precisam delas?
 
-These questions speak to the need for a well-defined set of rules for storing variables in some location, and for finding those variables at a later time. We'll call that set of rules: *Scope*.
+Estas perguntas mostram a necessidade de um conjunto bem definido de regras para armazenar variáveis em algum lugar, e para encontrar essas variáveis posteriormente. Nós iremos chamar esse conjunto de regras: *Escopo*.
 
-But, where and how do these *Scope* rules get set?
+Mas, onde e como essas regras de *Escopo* são definidas?
 
-## Compiler Theory
+## Teoria de Compiladores
 
-It may be self-evident, or it may be surprising, depending on your level of interaction with various languages, but despite the fact that JavaScript falls under the general category of "dynamic" or "interpreted" languages, it is in fact a compiled language. It is *not* compiled well in advance, as are many traditionally-compiled languages, nor are the results of compilation portable among various distributed systems.
+Talvez seja evidente, ou pode ser que seja uma novidade, dependendo do seu nível de interação com linguagens diversas, mas apesar do fato de Javascript ser geralmente colocada na categoria de linguagens "dinâmicas" ou "interpretadas", ela é de fato uma linguagem compilada. Ela *não* é compilada com muita antecedência, como são muitas outras linguagens tradicionalmente compiladas, e nem os resultados da compilação são portáveis entre vários sistemas distribuídos.
 
-But, nevertheless, the JavaScript engine performs many of the same steps, albeit in more sophisticated ways than we may commonly be aware, of any traditional language-compiler.
+Mas, no entanto, o motor do Javascript realiza muitos dos passos efetuados por qualquer compilador tradicional, embora de forma mais sofisticada do que estamos acostumados a ver.
 
-In traditional compiled-language process, a chunk of source code, your program, will undergo typically three steps *before* it is executed, roughly called "compilation":
+Em um processo tradicional de uma linguagem compilada, um pedaço de código fonte, seu programa, vai tipicamente passar por três passos *antes* de ser executado, grosseiramente chamado "compilação":
 
-1. **Tokenizing/Lexing:** breaking up a string of characters into meaningful (to the language) chunks, called tokens. For instance, consider the program: `var a = 2;`. This program would likely be broken up into the following tokens: `var`, `a`, `=`, `2`, and `;`. Whitespace may or may not be persisted as a token, depending on whether it's meaningful or not.
+1. **Tokenização/Análise Léxica:** quebrar uma string de caracteres em pedaços com algum significado (para a linguagem), chamados tokens. Por exemplo, considere o programa: `var a = 2;`. Esse programa provavelmente seria quebrado nos seguintes tokens: `var`, `a`, `=`, `2`, e `;`. Espaço em branco pode ou não ser mantido como um token, dependendo se tem ou não algum significado.
 
-    **Note:** The difference between tokenizing and lexing is subtle and academic, but it centers on whether or not these tokens are identified in a *stateless* or *stateful* way. Put simply, if the tokenizer were to invoke stateful parsing rules to figure out whether `a` should be considered a distinct token or just part of another token, *that* would be **lexing**.
+    **Nota:** A diferença entre Tokenização e Análise Léxica é sutil e teórica, mas centraliza-se no fato desses tokens serem ou não identificados de uma maneira *stateless* ou *stateful*. Colocando de maneira simples, se o Tokenizador fosse invocar regras de análise stateful para saber se `a` deve ser considerado um token distinto ou apenas parte de outro token, *isso* seria **Análise Léxica**.
 
-2. **Parsing:** taking a stream (array) of tokens and turning it into a tree of nested elements, which collectively represent the grammatical structure of the program. This tree is called an "AST" (<b>A</b>bstract <b>S</b>yntax <b>T</b>ree).
+2. **Análise:** pegar um conjunto (array) de tokens e transformar isso numa árvore de elementos aninhados, que juntos representam a estrutura gramática do programa. Essa árvore é conhecida como "AST" (<b>A</b>bstract <b>S</b>yntax <b>T</b>ree, que, em tradução livre, significa: Árvore Sintática Abstrata).
 
-    The tree for `var a = 2;` might start with a top-level node called `VariableDeclaration`, with a child node called `Identifier` (whose value is `a`), and another child called `AssignmentExpression` which itself has a child called `NumericLiteral` (whose value is `2`).
+    A árvore para `var a = 2;` pode começar com um nó de nível superior chamado `VariableDeclaration`, que tem um nó filho chamado `Identifier` (cujo valor é `a`), e outro nó filho chamado `AssignmentExpression` que por sua vez tem um filho chamado `NumericLiteral` (cujo valor é `2`).
 
-3. **Code-Generation:** the process of taking an AST and turning it into executable code. This part varies greatly depending on the language, the platform it's targeting, etc.
+3. **Geração de código:** o processo de obter uma AST e transformar isso em código executável. Esta parte varia muito dependendo da linguagem, da plataforma-alvo, etc.
 
-    So, rather than get mired in details, we'll just handwave and say that there's a way to take our above described AST for `var a = 2;` and turn it into a set of machine instructions to actually *create* a variable called `a` (including reserving memory, etc.), and then store a value into `a`.
+    Então, em vez de focar em detalhes, nós vamos apenas olhar superficialmente e dizer que existe uma forma de obter nossa AST descrita acima para `var a = 2;` e transformá-la em instruções de máquina para de fato *criar* uma variável chamada `a` (incluindo a reserva de memória, etc), e então armazenar um valor em `a`.
 
-    **Note:** The details of how the engine manages system resources are deeper than we will dig, so we'll just take it for granted that the engine is able to create and store variables as needed.
+    **Nota:** Os detalhes de como o motor administra recursos do sistema estão além do que iremos cobrir, então nós vamos apenas considerar que esse motor é capaz de criar e armazenar variáveis conforme necessário.
 
-The JavaScript engine is vastly more complex than *just* those three steps, as are most other language compilers. For instance, in the process of parsing and code-generation, there are certainly steps to optimize the performance of the execution, including collapsing redundant elements, etc.
+O motor do Javascript é muito mais complexo do que *apenas* aqueles três passos, assim como são os compiladores de outras linguagens. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
 
-So, I'm painting only with broad strokes here. But I think you'll see shortly why *these* details we *do* cover, even at a high level, are relevant.
+Sendo assim, eu estou mostrando de forma bem grosseira aqui. Mas eu acho que vocês verão em breve porque *esses* detalhes que nós *cobrimos*, mesmo que superficialmente, são relevantes.
 
-For one thing, JavaScript engines don't get the luxury (like other language compilers) of having plenty of time to optimize, because JavaScript compilation doesn't happen in a build step ahead of time, as with other languages.
+Por um lado, o motor do Javascript não tem o luxo (como compiladores de outras linguagens) de ter uma grande disponibilidade de tempo para otimização, porque a compilação de Javascript não acontece numa etapa de preparação anterior, como em outras linguagens.
 
-For JavaScript, the compilation that occurs happens, in many cases, mere microseconds (or less!) before the code is executed. To ensure the fastest performance, JS engines use all kinds of tricks (like JITs, which lazy compile and even hot re-compile, etc.) which are well beyond the "scope" of our discussion here.
+Para Javascript, a compilação executada acontece, em muitos casos, somente alguns microsegundos (ou menos!) antes do código ser executado. Para garantir o mais alto desempenho, diferentes motores JS utilizam todos os tipos de truques (como JITs, que compilam de maneira preguiçosa e até mesmo recompilam rapidamente, etc.) que vão além do escopo da nossa discussão aqui.
 
-Let's just say, for simplicity's sake, that any snippet of JavaScript has to be compiled before (usually *right* before!) it's executed. So, the JS compiler will take the program `var a = 2;` and compile it *first*, and then be ready to execute it, usually right away.
+Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de Javascript tem que ser compilado antes (geralmente *logo antes* como dito anteriormente!) de ser executado. Sendo assim, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, geralmente de imediato.
 
-## Understanding Scope
+## Entendendo Escopo
 
-The way we will approach learning about scope is to think of the process in terms of a conversation. But, *who* is having the conversation?
+A forma como nós vamos abordar o aprendizado sobre escopo é imaginar o processo como uma conversa. Mas, *quem* está tendo essa conversa?
 
-### The Cast
+### O Elenco
 
-Let's meet the cast of characters that interact to process the program `var a = 2;`, so we understand their conversations that we'll listen in on shortly:
+Vamos conhecer o elenco dos personagens que interagem para processar o programa `var a = 2;`, assim entenderemos a conversa que vamos ouvir em breve:
 
-1. *Engine*: responsible for start-to-finish compilation and execution of our JavaScript program.
+1. *Motor*: responsável pela compilação do começo ao fim e pela execução do nosso programa Javascript.
 
-2. *Compiler*: one of *Engine*'s friends; handles all the dirty work of parsing and code-generation (see previous section).
+2. *Compilador*: um dos amigos do *Motor*; gerencia todo o trabalho sujo da análise e da geração de código (veja a seção anterior).
 
-3. *Scope*: another friend of *Engine*; collects and maintains a look-up list of all the declared identifiers (variables), and enforces a strict set of rules as to how these are accessible to currently executing code.
+3. *Escopo*: outro amigo do *Motor*; coleta e mantém uma lista de consultas a todos os identificadores declarados (variáveis), e impõe um rigoroso conjunto de regras sobre a maneira como estes identificadores ficam acessíveis para o código que está em execução.
 
-For you to *fully understand* how JavaScript works, you need to begin to *think* like *Engine* (and friends) think, ask the questions they ask, and answer those questions the same.
+Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Motor* (e seus amigos) pensa, fazer as perguntas que eles fazem, e responder essas perguntas.
 
-### Back & Forth
+### Para a frente e para trás
 
-When you see the program `var a = 2;`, you most likely think of that as one statement. But that's not how our new friend *Engine* sees it. In fact, *Engine* sees two distinct statements, one which *Compiler* will handle during compilation, and one which *Engine* will handle during execution.
+Quando você vê o programa `var a = 2;`, você provavelmente pensa nele como uma única instrução. Mas não é como nosso novo amigo *Motor* o vê. Na verdade, o *Motor* vê duas instruções distintas, uma que o *Compilador* vai gerenciar durante a compilação, e uma que o *Motor* vai gerenciar durante a execução.
 
-So, let's break down how *Engine* and friends will approach the program `var a = 2;`.
+Então, vamos expandir a forma como o *Motor* e seus amigos vão abordar o programa `var a = 2;`
 
-The first thing *Compiler* will do with this program is perform lexing to break it down into tokens, which it will then parse into a tree. But when *Compiler* gets to code-generation, it will treat this program somewhat differently than perhaps assumed.
+A primeira coisa que o *Compilador* vai fazer com este programa é realizar uma análise léxica para quebrá-lo em tokens, que posteriormente serão transformados em uma árvore (AST). Mas quando o *Compilador* chega à fase de geração de código, ele vai tratar este programa um pouco diferente do que você talvez tenha suposto.
 
-A reasonable assumption would be that *Compiler* will produce code that could be summed up by this pseudo-code: "Allocate memory for a variable, label it `a`, then stick the value `2` into that variable." Unfortunately, that's not quite accurate.
+Uma suposição provável seria o *Compilador* produzir códigos que poderiam ser resumidos pelo pseudo-código: "Reserve memória para uma variável, rotule-a como `a`, então ponha o valor `2` nessa variável". Mas infelizmente, isso não é tão preciso.
 
-*Compiler* will instead proceed as:
+Em vez disso, o *Compilador* vai proceder da seguinte forma:
 
-1. Encountering `var a`, *Compiler* asks *Scope* to see if a variable `a` already exists for that particular scope collection. If so, *Compiler* ignores this declaration and moves on. Otherwise, *Compiler* asks *Scope* to declare a new variable called `a` for that scope collection.
+1. Encontrando `var a`, o *Compilador* pede ao *Escopo* para ver se alguma variável `a` já existe para o conjunto particular deste escopo. Se já existe, o *Compilador* ignora essa declaração e segue em frente. Caso contrário, o *Compilador* pede ao *Escopo* para declarar uma nova variável chamada `a` para o conjunto deste escopo.
 
-2. *Compiler* then produces code for *Engine* to later execute, to handle the `a = 2` assignment. The code *Engine* runs will first ask *Scope* if there is a variable called `a` accessible in the current scope collection. If so, *Engine* uses that variable. If not, *Engine* looks *elsewhere* (see nested *Scope* section below).
+2. o *Compilador* então produz código para que o *Motor* execute mais tarde, para gerenciar a atribuição `a = 2`. O código que o *Motor* executa vai primeiro perguntar ao *Escopo* se existe uma variável chamada `a` acessível no conjunto do escopo atual. Se já existe, o *Motor* usa esta variável. Se não existe, o *Motor* procura *em outro lugar* (veja abaixo a seção *Escopos* aninhados).
 
-If *Engine* eventually finds a variable, it assigns the value `2` to it. If not, *Engine* will raise its hand and yell out an error!
+Se o *Motor* eventualmente encontra uma variável, ele atribui o valor `2` a ela. Se não, o *Motor* vai levantar a mão e gritar que há um erro!
 
-To summarize: two distinct actions are taken for a variable assignment: First, *Compiler* declares a variable (if not previously declared in the current scope), and second, when executing, *Engine* looks up the variable in *Scope* and assigns to it, if found.
+Para resumir: duas ações distintas são tomadas para uma atribuição a uma variável: Primeiro, o *Compilador* declara uma variável (se não foi anteriormente declarada no escopo atual), e segundo, quando executa, o *Motor* busca a variável no *Escopo* e atribui a ela, se encontrada.
 
-### Compiler Speak
+### Papo de compilador
 
-We need a little bit more compiler terminology to proceed further with understanding.
+Nós precisamos de um pouco mais de terminologias do compilador para seguir com a compreensão.
 
-When *Engine* executes the code that *Compiler* produced for step (2), it has to look-up the variable `a` to see if it has been declared, and this look-up is consulting *Scope*. But the type of look-up *Engine* performs affects the outcome of the look-up.
+Quando o *Motor* executa o código que o *Compilador* produziu no passo (2), ele tem que buscar pela variável `a` para saber se ela foi declarada, e essa busca ocorre consultando o *Escopo*. Mas o tipo de busca que o *Motor* efetua afeta o resultado da mesma.
 
-In our case, it is said that *Engine* would be performing an "LHS" look-up for the variable `a`. The other type of look-up is called "RHS".
+No nosso caso, é dito que o *Motor* faria uma busca "LHS" para a variável `a`. O outro tipo de busca é chamado de "RHS".
 
-I bet you can guess what the "L" and "R" mean. These terms stand for "Left-hand Side" and "Right-hand Side".
+Eu aposto que você pode adivinhar o que o "L" e o "R" significam. Esses termos significam "Left-hand Side" (que em tradução livre, significa: "Lado esquerdo") e "Right-hand Side" (que em tradução livre, significa: "Lado direito").
 
-Side... of what? **Of an assignment operation.**
+Lado... de quê? **Da operação de atribuição.**
 
-In other words, an LHS look-up is done when a variable appears on the left-hand side of an assignment operation, and an RHS look-up is done when a variable appears on the right-hand side of an assignment operation.
+Em outras palavras, uma busca LHS é feita quando uma variável aparece do lado esquerdo da operação de atribuição, e uma busca RHS é feita quando uma variável aparece do lado direito de uma operação de atribuição.
 
-Actually, let's be a little more precise. An RHS look-up is indistinguishable, for our purposes, from simply a look-up of the value of some variable, whereas the LHS look-up is trying to find the variable container itself, so that it can assign. In this way, RHS doesn't *really* mean "right-hand side of an assignment" per se, it just, more accurately, means "not left-hand side".
+Na verdade, vamos ser um pouco mais precisos. Para nossos propósitos, uma busca RHS é indistinguível de uma busca simples pelo valor de uma variável, enquanto a busca LHS está tentando encontrar o local onde a variável foi declarada para assim poder fazer a atribuição. Sendo assim, RHS não significa *exatamente* "lado direito de uma atribuição", mas sim "não estar do lado esquerdo".
 
-Being slightly glib for a moment, you could also think "RHS" instead means "retrieve his/her source (value)", implying that RHS means "go get the value of...".
+Sendo ligeiramente simplista por um momento, você poderia também pensar que "RHS", em vez de "obtenha sua fonte (valor)", significa "vá buscar o valor de...".
 
-Let's dig into that deeper.
+Vamos um pouco mais fundo nisso.
 
-When I say:
+Quando eu digo:
 
 ```js
 console.log( a );
 ```
 
-The reference to `a` is an RHS reference, because nothing is being assigned to `a` here. Instead, we're looking-up to retrieve the value of `a`, so that the value can be passed to `console.log(..)`.
+A referência para `a` é uma referência RHS porque nada está sendo atribuído a `a` aqui. Em vez disso, nós estamos buscando pelo valor de `a` para que possa ser passado para `console.log(..)`.
 
-By contrast:
+Em compensação:
 
 ```js
 a = 2;
 ```
 
-The reference to `a` here is an LHS reference, because we don't actually care what the current value is, we simply want to find the variable as a target for the `= 2` assignment operation.
+A referência para `a` aqui é uma referência LHS, porque na verdade não nos importamos com o valor atual, nós apenas queremos encontrar a variável para que seja o alvo da atribuição `= 2`.
 
-**Note:** LHS and RHS meaning "left/right-hand side of an assignment" doesn't necessarily literally mean "left/right side of the `=` assignment operator". There are several other ways that assignments happen, and so it's better to conceptually think about it as: "who's the target of the assignment (LHS)" and "who's the source of the assignment (RHS)".
+**Nota:** o significado "lado esquerdo/direito de uma atribuição" em LHS e RHS não necessariamente quer dizer "lado esquerdo/direito do operador de atribuição `=`". Existem muitas outras maneiras dessas atribuições acontecerem, então é melhor pensar sobre isso como: "quem é o alvo da atribuição (LHS)" e "quem é a fonte da atribuição (RHS)".
 
-Consider this program, which has both LHS and RHS references:
+Considere este programa, que tem ambas as referências LHS e RHS:
+
+```js
+function foo(a) {
+	console.log( a ); // 2
+}
+
+foo( 2 );
+```
+A última linha que invoca `foo(..)` como uma chamada de função requer uma referências RHS para `foo`, significando, "vá buscar o valor de `foo` e entregue para mim". Além disso, `(..)` significa que o valor de `foo` deve ser executado, então é melhor que seja realmente uma função!
+
+Existe uma sútil, porém importante, atribuição aqui. **Conseguiu encontrar?**
+
+Talvez você não tenha notado a operação implícita `a = 2` neste trecho de código. Ela ocorre quando o valor `2` é passado como um argumento para a função `foo(..)`, e, assim sendo, é **atribuído** ao parâmetro `a`. Para efetuar a atribuição (implícita) no parâmetro `a`, uma busca LHS é efetuada.
+
+Há também uma referência RHS para o valor de `a`, e o valor resultante desta busca é passado para `console.log(..)`. `console.log(..)` também precisa de uma referência para ser executada. É feita uma busca RHS para localizar o objeto `console` e então ocorre a chamada resolução de propriedades para ver se este objeto possui um método chamado `log`.
+
+Finalmente, podemos conceituar que existe uma troca de dados entre as buscas LHS/RHS para passagem do valor `2` (obtido pela busca RHS efetuada na variável `a`) para a função `log(..)`. Dentro da implementação nativa de `log(..)`, podemos supor que esta possui parâmetros, cujo primeiro (talvez chamado `arg1`) realiza uma busca LHS antes de receber a atribuição do valor `2`.
+
+**Nota:** Talvez você esteja inclinado(a) a conceituar a declaração de uma função `function foo(a) {...` da mesma forma que uma declaração e atribuição comum de variáveis, como `var foo` e `foo = function(a){...`. Desta forma, seria natural pensar que esta declaração envolve uma busca LHS.
+
+Porém, a diferença sutil, mas importante, é que o *Compilador* trata tanto a declaração quanto a definição do valor durante a etapa de geração de código, de modo que, quando o *Motor* estiver executando o código, não é preciso processamento para "atribuir" um valor de função para `foo`. Portanto, não é correto pensar na declaração de uma função da mesma forma que pensamos em uma atribuição realizada através de uma busca LHS.
+
+### Diálogo entre Motor e Escopo
 
 ```js
 function foo(a) {
@@ -127,61 +150,37 @@ function foo(a) {
 foo( 2 );
 ```
 
-The last line that invokes `foo(..)` as a function call requires an RHS reference to `foo`, meaning, "go look-up the value of `foo`, and give it to me." Moreover, `(..)` means the value of `foo` should be executed, so it'd better actually be a function!
+Vamos imaginar que a troca de dados acima (que processa este trecho de código) seja um diálogo. Este diálogo seria mais ou menos assim:
 
-There's a subtle but important assignment here. **Did you spot it?**
+> ***Motor***: Ei *Escopo*, tenho uma referência RHS para `foo`. Já ouviu falar dela?
 
-You may have missed the implied `a = 2` in this code snippet. It happens when the value `2` is passed as an argument to the `foo(..)` function, in which case the `2` value is **assigned** to the parameter `a`. To (implicitly) assign to parameter `a`, an LHS look-up is performed.
+> ***Escopo***: Ouvi sim. O *Compilador* a declarou há um segundo. É uma função, aqui está.
 
-There's also an RHS reference for the value of `a`, and that resulting value is passed to `console.log(..)`. `console.log(..)` needs a reference to execute. It's an RHS look-up for the `console` object, then a property-resolution occurs to see if it has a method called `log`.
+> ***Motor***: Legal, obrigado! Certo, estou executando `foo`.
 
-Finally, we can conceptualize that there's an LHS/RHS exchange of passing the value `2` (by way of variable `a`'s RHS look-up) into `log(..)`. Inside of the native implementation of `log(..)`, we can assume it has parameters, the first of which (perhaps called `arg1`) has an LHS reference look-up, before assigning `2` to it.
+> ***Motor***: Ei, *Escopo*, tenho uma referência LHS para `a`, já ouviu falar dela?
 
-**Note:** You might be tempted to conceptualize the function declaration `function foo(a) {...` as a normal variable declaration and assignment, such as `var foo` and `foo = function(a){...`. In so doing, it would be tempting to think of this function declaration as involving an LHS look-up.
+> ***Escopo***: Ouvi sim. O *Compilador* a declarou como um parâmetro formal para `foo` há pouco. Aqui está.
 
-However, the subtle but important difference is that *Compiler* handles both the declaration and the value definition during code-generation, such that when *Engine* is executing code, there's no processing necessary to "assign" a function value to `foo`. Thus, it's not really appropriate to think of a function declaration as an LHS look-up assignment in the way we're discussing them here.
+> ***Motor***: Prestativo como sempre, *Escopo*. Muito obrigado. Agora, é hora de atribuir o valor `2` para `a`.
 
-### Engine/Scope Conversation
+> ***Motor***: Ei, *Escopo*, desculpe novamente pelo incômodo. Preciso de uma busca RHS para `console`. Já ouviu falar?
 
-```js
-function foo(a) {
-	console.log( a ); // 2
-}
+> ***Escopo***: Sem problemas, *Motor*, estou aqui para isso. Sim, eu achei `console`. É um código nativo, aqui está.
 
-foo( 2 );
-```
+> ***Motor***: Perfeito. Buscando por `log(..)`. Certo, ótimo, é uma função.
 
-Let's imagine the above exchange (which processes this code snippet) as a conversation. The conversation would go a little something like this:
+> ***Motor***: Fala, *Escopo*. Pode me ajudar com uma referência RHS para `a`. Eu acho que lembro dela, mas quero ter certeza.
 
-> ***Engine***: Hey *Scope*, I have an RHS reference for `foo`. Ever heard of it?
+> ***Escopo***: Você está certo, *Motor*. Tudo igual, sem mudanças. Aqui está.
 
-> ***Scope***: Why yes, I have. *Compiler* declared it just a second ago. He's a function. Here you go.
-
-> ***Engine***: Great, thanks! OK, I'm executing `foo`.
-
-> ***Engine***: Hey, *Scope*, I've got an LHS reference for `a`, ever heard of it?
-
-> ***Scope***: Why yes, I have. *Compiler* declared it as a formal parameter to `foo` just recently. Here you go.
-
-> ***Engine***: Helpful as always, *Scope*. Thanks again. Now, time to assign `2` to `a`.
-
-> ***Engine***: Hey, *Scope*, sorry to bother you again. I need an RHS look-up for `console`. Ever heard of it?
-
-> ***Scope***: No problem, *Engine*, this is what I do all day. Yes, I've got `console`. He's built-in. Here ya go.
-
-> ***Engine***: Perfect. Looking up `log(..)`. OK, great, it's a function.
-
-> ***Engine***: Yo, *Scope*. Can you help me out with an RHS reference to `a`. I think I remember it, but just want to double-check.
-
-> ***Scope***: You're right, *Engine*. Same guy, hasn't changed. Here ya go.
-
-> ***Engine***: Cool. Passing the value of `a`, which is `2`, into `log(..)`.
+> ***Motor***: Legal. Passando o valor de `a`, que é `2`, para `log(..)`.
 
 > ...
 
-### Quiz
+### Desafio
 
-Check your understanding so far. Make sure to play the part of *Engine* and have a "conversation" with the *Scope*:
+Teste sua compreensão até agora. Assuma o papel do *Motor* e tenha um "diálogo" com o *Escopo*.
 
 ```js
 function foo(a) {
@@ -192,19 +191,19 @@ function foo(a) {
 var c = foo( 2 );
 ```
 
-1. Identify all the LHS look-ups (there are 3!).
+1. Identifique todas as buscas LHS (existem 3!).
 
-2. Identify all the RHS look-ups (there are 4!).
+2. Identifique todas as buscas RHS (existem 4!).
 
-**Note:** See the chapter review for the quiz answers!
+**Nota:** As respostas estão na revisão do capítulo!
 
-## Nested Scope
+## Escopos aninhados
 
-We said that *Scope* is a set of rules for looking up variables by their identifier name. There's usually more than one *Scope* to consider, however.
+Dissemos que *Escopo* é um conjunto de regras para a busca de variáveis pelo seu identificador. Entretanto, normalmente há mais de um *Escopo* para considerarmos.
 
-Just as a block or function is nested inside another block or function, scopes are nested inside other scopes. So, if a variable cannot be found in the immediate scope, *Engine* consults the next outer containing scope, continuing until found or until the outermost (aka, global) scope has been reached.
+Assim como um bloco ou função pode estar aninhado dentro de outro bloco ou função, escopos são aninhados dentro de outros escopos. Sendo assim, se uma variável não é localizada no escopo mais próximo, o *Motor* consulta o próximo escopo acima do atual, seguindo assim até que a variável seja localizada ou que o último escopo (também chamado de escopo global) seja acessado.
 
-Consider:
+Considere:
 
 ```js
 function foo(a) {
@@ -216,37 +215,37 @@ var b = 2;
 foo( 2 ); // 4
 ```
 
-The RHS reference for `b` cannot be resolved inside the function `foo`, but it can be resolved in the *Scope* surrounding it (in this case, the global).
+A referência RHS para `b` não pode ser resolvida dentro da função `foo`, mas pode ser resolvida no *Escopo* ao redor desta (neste caso, o escopo global).
 
-So, revisiting the conversations between *Engine* and *Scope*, we'd overhear:
+Assim, retomando o díalogo entre *Motor* e *Escopo*, nós escutaríamos:
 
-> ***Engine***: "Hey, *Scope* of `foo`, ever heard of `b`? Got an RHS reference for it."
+> ***Motor***: "Ei, *Escopo* de `foo`, já ouviu falar de `b`? Tenho uma referência RHS para ela."
 
-> ***Scope***: "Nope, never heard of it. Go fish."
+> ***Escopo***: "Não, nunca ouvi falar. Cai fora."
 
-> ***Engine***: "Hey, *Scope* outside of `foo`, oh you're the global *Scope*, ok cool. Ever heard of `b`? Got an RHS reference for it."
+> ***Motor***: "Ei, *Escopo* acima de `foo`, ah você é o *Escopo* global, legal. Já ouviu falar de `b`? Tenho uma referência RHS para ela."
 
-> ***Scope***: "Yep, sure have. Here ya go."
+> ***Escopo***: "Sim, ouvi falar sim. Aqui está."
 
-The simple rules for traversing nested *Scope*: *Engine* starts at the currently executing *Scope*, looks for the variable there, then if not found, keeps going up one level, and so on. If the outermost global scope is reached, the search stops, whether it finds the variable or not.
+A regra simples do percurso dos *Escopos* aninhados: o *Motor* inicia no *Escopo* que está em execução e busca pela variável, se ela não for localizada segue a busca subindo um nível e assim por diante. Se o escopo global for acessado, a busca é encerrada independente da variável ser localizada ou não.
 
-### Building on Metaphors
+### Fixando com metáforas
 
-To visualize the process of nested *Scope* resolution, I want you to think of this tall building.
+Para visualizarmos o processo de resolução de *Escopos* aninhados, quero que você observe este prédio alto.
 
 <img src="fig1.png" width="250">
 
-The building represents our program's nested *Scope* rule set. The first floor of the building represents your currently executing *Scope*, wherever you are. The top level of the building is the global *Scope*.
+Este prédio representa o conjunto de *Escopos* aninhados do nosso programa. O andar térreo representa o *Escopo* que está em execução, independente de onde estiver. O último andar do prédio é o *Escopo* global.
 
-You resolve LHS and RHS references by looking on your current floor, and if you don't find it, taking the elevator to the next floor, looking there, then the next, and so on. Once you get to the top floor (the global *Scope*), you either find what you're looking for, or you don't. But you have to stop regardless.
+Você resolve as referências LHS e RHS através da busca no andar atual, e, se não encontrar nada, vai de elevador procurar no próximo andar, e no seguinte, e assim por diante. Assim que você chega no último andar (o *Escopo* global), você pode encontrar ou não o que procurava, mas a busca é encerrada de qualquer maneira.
 
-## Errors
+## Erros
 
-Why does it matter whether we call it LHS or RHS?
+Por que é relevante se temos uma LHS ou RHS?
 
-Because these two types of look-ups behave differently in the circumstance where the variable has not yet been declared (is not found in any consulted *Scope*).
+Porque estes dois tipos de busca comportam-se de maneiras diferentes quando uma variável ainda não foi declarada (não foi localizada em nenhum dos *Escopos* consultados).
 
-Consider:
+Considere:
 
 ```js
 function foo(a) {
@@ -257,37 +256,37 @@ function foo(a) {
 foo( 2 );
 ```
 
-When the RHS look-up occurs for `b` the first time, it will not be found. This is said to be an "undeclared" variable, because it is not found in the scope.
+Quando a busca RHS ocorre para `b` pela primeira vez, a variável não será localizada. É tomada por uma variável "não-declarada" porque não é encontrada no escopo.
 
-If an RHS look-up fails to ever find a variable, anywhere in the nested *Scope*s, this results in a `ReferenceError` being thrown by the *Engine*. It's important to note that the error is of the type `ReferenceError`.
+Se uma busca RHS falha ao encontrar uma variável em qualquer lugar dos *Escopos* aninhados, esta operação resulta em um `ReferenceError` lançado pelo *Motor*. É importante salientar que o erro é do tipo `ReferenceError`.
 
-By contrast, if the *Engine* is performing an LHS look-up and arrives at the top floor (global *Scope*) without finding it, and if the program is not running in "Strict Mode" [^note-strictmode], then the global *Scope* will create a new variable of that name **in the global scope**, and hand it back to *Engine*.
+Por outro lado, se o *Motor* executa uma busca LHS e chega no último andar (*Escopo* global) sem localizar a variável, e se o programa não está sendo executado em "Modo estrito" (strict mode) [^note-strictmode], então o *Escopo* global irá criar uma nova variável com este nome **no escopo global** e repassá-la para o *Motor*
 
-*"No, there wasn't one before, but I was helpful and created one for you."*
+*"Não, não tinha nada com esse nome, mas fui prestativo e criei pra você."*
 
-"Strict Mode" [^note-strictmode], which was added in ES5, has a number of different behaviors from normal/relaxed/lazy mode. One such behavior is that it disallows the automatic/implicit global variable creation. In that case, there would be no global *Scope*'d variable to hand back from an LHS look-up, and *Engine* would throw a `ReferenceError` similarly to the RHS case.
+"Modo estrito" (strict mode) [^note-strictmode], adicionado na versão ES5, possui uma série de diferenças comportamentais em relação ao modo normal/relaxado/preguiçoso. Uma destas diferenças é a proibição da criação automática/implícita de variáveis globais. Neste caso, em uma busca LHS, não haveria uma variável de *Escopo* global para ser repassada, e o *Motor* lançaria um `ReferenceError` como no caso da busca RHS.
 
-Now, if a variable is found for an RHS look-up, but you try to do something with its value that is impossible, such as trying to execute-as-function a non-function value, or reference a property on a `null` or `undefined` value, then *Engine* throws a different kind of error, called a `TypeError`.
+Agora, se uma variável é encontrada em uma busca RHS, mas você tenta realizar uma ação impossível, como executar como função um valor que não é uma função ou tentar ler uma propriedade a partir de valores como `null` ou `undefined`, então o *Motor* irá lançar um tipo diferente de erro, chamado de `TypeError`.
 
-`ReferenceError` is *Scope* resolution-failure related, whereas `TypeError` implies that *Scope* resolution was successful, but that there was an illegal/impossible action attempted against the result.
+`ReferenceError` está relacionado à falha na resolução de *Escopo*, enquanto `TypeError` sugere que a resolução de *Escopo* foi bem sucedida, mas houve uma tentativa de operação ilegal/impossível no resultado que foi obtido.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Scope is the set of rules that determines where and how a variable (identifier) can be looked-up. This look-up may be for the purposes of assigning to the variable, which is an LHS (left-hand-side) reference, or it may be for the purposes of retrieving its value, which is an RHS (right-hand-side) reference.
+Escopo é o conjunto de regras que determina onde e como uma variável (identificador) pode ser buscada. Esta busca pode ter como objetivo a atribuição de um valor para a variável, que chamamos de referência LHS (left-hand-side, ou, em tradução livre, lado esquerdo), ou então pode ter como objetivo a leitura do seu valor, que chamamos de referência RHS (right-hand-side, ou, em tradução livre, lado direito).
 
-LHS references result from assignment operations. *Scope*-related assignments can occur either with the `=` operator or by passing arguments to (assign to) function parameters.
+Referências LHS resultam das operações de atribuição. Atribuições relacionadas a *Escopo* podem ocorrer tanto com o uso do operador `=` quanto com a passagem de argumentos para uma função, quando os valores são atribuídos aos parâmetros definidos na sua declaração.
 
-The JavaScript *Engine* first compiles code before it executes, and in so doing, it splits up statements like `var a = 2;` into two separate steps:
+O *Motor* JavaScript primeiro compila o código para depois executá-lo, e, para isso, divide instruções como `var a = 2;` em dois passos distintos:
 
-1. First, `var a` to declare it in that *Scope*. This is performed at the beginning, before code execution.
+1. Primeiro, `var a` para declaração no *Escopo* atual. Isto é realizado bem no início, antes da execução do código.
 
-2. Later, `a = 2` to look up the variable (LHS reference) and assign to it if found.
+2. Em seguida, `a = 2` para buscar pela variável (referência LHS) para então atribuir-lhe um valor, se encontrada.
 
-Both LHS and RHS reference look-ups start at the currently executing *Scope*, and if need be (that is, they don't find what they're looking for there), they work their way up the nested *Scope*, one scope (floor) at a time, looking for the identifier, until they get to the global (top floor) and stop, and either find it, or don't.
+Ambas buscas por referências LHS e RHS iniciam no *Escopo* atual de execução, e em caso de necessidade (ou seja, na ocasião de não serem encontradas por lá), seguem em frente pelos *Escopos* aninhados, um escopo (andar) de cada vez, buscando pelo identificador, até que atinjam o escopo global (último andar) e encerrem a busca, encontrando ou não a variável.
 
-Unfulfilled RHS references result in `ReferenceError`s being thrown. Unfulfilled LHS references result in an automatic, implicitly-created global of that name (if not in "Strict Mode" [^note-strictmode]), or a `ReferenceError` (if in "Strict Mode" [^note-strictmode]).
+Referências RHS não satisfeitas resultam no lançamento de um `ReferenceError`. Referências LHS não satisfeitas resultam na criação automática e implícita de uma variável global de mesmo nome (caso não esteja em "Modo estrito" (strict mode) [^note-strictmode]) ou em um `ReferenceError` (caso esteja em "Modo estrito" (strict mode) [^note-strictmode]).
 
-### Quiz Answers
+### Resposta do Desafio
 
 ```js
 function foo(a) {
@@ -298,13 +297,13 @@ function foo(a) {
 var c = foo( 2 );
 ```
 
-1. Identify all the LHS look-ups (there are 3!).
+1. Identifique todas as buscas LHS (existem 3!).
 
-	**`c = ..`, `a = 2` (implicit param assignment) and `b = ..`**
+	**`c = ..`, `a = 2` (atribuição implícita para o parâmetro) e `b = ..`**
 
-2. Identify all the RHS look-ups (there are 4!).
+2. Identifique todas as buscas RHS (existem 4!).
 
-    **`foo(2..`, `= a;`, `a + ..` and `.. + b`**
+    **`foo(2..`, `= a;`, `a + ..` e `.. + b`**
 
 
 [^note-strictmode]: MDN: [Strict Mode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions_and_function_scope/Strict_mode)

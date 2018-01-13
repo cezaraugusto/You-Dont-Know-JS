@@ -1,31 +1,31 @@
 # You Don't Know JS: Async & Performance
 
-## Table of Contents
+## Índice
 
-* Foreword
-* Preface
-* Chapter 1: Asynchrony: Now & Later
+* Introdução
+* Prefácio
+* Capítulo 1: Assíncronia: Agora & Depois
 	* A Program In Chunks
-	* Event Loop
+	* Evento Loop
 	* Parallel Threading
-	* Concurrency
-	* Jobs
-	* Statement Ordering
-* Chapter 2: Callbacks
-	* Continuations
+	* Concorrência
+	* Trabalhos
+	* Ordenação de Instruções
+* Capítulo 2: Callbacks
+	* Continuações
 	* Sequential Brain
 	* Trust Issues
-	* Trying To Save Callbacks
-* Chapter 3: Promises
-	* What is a Promise?
+	* Tentando Salvar os Callbacks
+* Capítulo 3: Promessas
+	* O que É Uma Promessa?
 	* Thenable Duck-Typing
 	* Promise Trust
 	* Chain Flow
 	* Error Handling
-	* Promise Patterns
-	* Promise API Recap
-	* Promise Limitations
-* Chapter 4: Generators
+	* Padrões de Promessas
+	* Recaptuando a API das Promessas
+	* Limitações de Promessas
+* Capítulo 4: Generators
 	* Breaking Run-to-completion
 	* Generator'ing Values
 	* Iterating Generators Asynchronously
@@ -34,18 +34,18 @@
 	* Generator Concurrency
 	* Thunks
 	* Pre-ES6 Generators
-* Chapter 5: Program Performance
+* Capítulo 5: Performance do Programa
 	* Web Workers
 	* SIMD
 	* asm.js
-* Chapter 6: Benchmarking & Tuning
+* Capítulo 6: Benchmarking & Tuning
 	* Benchmarking
-	* Context Is King
+	* Contexto É Tudo
 	* jsPerf.com
-	* Writing Good Tests
+	* Escrevendo Testes com Qualidade
 	* Microperformance
 	* Tail Call Optimization (TCO)
-* Appendix A: *asynquence* Library
-* Appendix B: Advanced Async Patterns
-* Appendix C: Acknowledgments
+* Apêndice A: Biblioteca de *assinquência*
+* Apêndice B: Padrões Avançados de Async
+* Apêndice C: Agradecimentos
 
