@@ -159,7 +159,7 @@ Lá no fundo, nas entranhas da *Engine*, o utilitário embutido `setTimeout(..)`
 
 **Closure.**
 
-Or, if you're of the jQuery persuasion (or any JS framework, for that matter):
+Ou, se você é da religião do jQuery (ou algum framework JS, para este caso):
 
 ```js
 function setupBot(name,selector) {
