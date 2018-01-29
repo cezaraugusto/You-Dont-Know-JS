@@ -174,7 +174,7 @@ setupBot( "Closure Bot 2", "#bot_2" );
 
 Não tenho certeza do tipo de código você escreve, mas eu normalmente escrevo código que é responsável por controlar todo um exército mundial de drones de closure bots, então é totalmente realista!
 
-(Some) joking aside, essentially *whenever* and *wherever* you treat functions (which access their own respective lexical scopes) as first-class values and pass them around, you are likely to see those functions exercising closure. Be that timers, event handlers, Ajax requests, cross-window messaging, web workers, or any of the other asynchronous (or synchronous!) tasks, when you pass in a *callback function*, get ready to sling some closure around!
+(Algumas) brincadeiras à parte, essencialmente *sempre que* and *onder quer que* você tratar funções (que acessam seu respectivo escopo léxico) como valores de primeira classe e as passe por aí, provavelmente você vê aquelas funções que exercem closure. Sejam elas timers, manipuladores de eventos, requisições Ajax, mensagens de janelas cruzadas, web workers, ou alguma outra tarefa assíncrona (ou síncrona!), quando você passa em uma *função de callback*, prepare-se para lançar algumas closures por aí!
 
 **Note:** Chapter 3 introduced the IIFE pattern. While it is often said that IIFE (alone) is an example of observed closure, I would somewhat disagree, by our definition above.
 
