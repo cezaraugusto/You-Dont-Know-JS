@@ -176,7 +176,7 @@ Não tenho certeza do tipo de código você escreve, mas eu normalmente escrevo 
 
 (Algumas) brincadeiras à parte, essencialmente *sempre que* and *onder quer que* você tratar funções (que acessam seu respectivo escopo léxico) como valores de primeira classe e as passe por aí, provavelmente você vê aquelas funções que exercem closure. Sejam elas timers, manipuladores de eventos, requisições Ajax, mensagens de janelas cruzadas, web workers, ou alguma outra tarefa assíncrona (ou síncrona!), quando você passa em uma *função de callback*, prepare-se para lançar algumas closures por aí!
 
-**Note:** Chapter 3 introduced the IIFE pattern. While it is often said that IIFE (alone) is an example of observed closure, I would somewhat disagree, by our definition above.
+**Nota:** O capítulo 3 introduz o padrão IIFE. Embora seja frequentemente dito que IIFE (sozinho) é um exemplo de closure, Eu devo discordar um pouco, pela nossa definição acima.
 
 ```js
 var a = 2;
