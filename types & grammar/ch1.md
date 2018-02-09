@@ -230,38 +230,38 @@ if (!window.atob) {
 }
 ```
 
-Unlike referencing undeclared variables, there is no `ReferenceError` thrown if you try to access an object property (even on the global `window` object) that doesn't exist.
+Ao contrário de referenciar variáveis não declaradas, não ocorrerá um `ReferenceError` (Erro de referência) se você tentar acessar uma propriedade que não existe em um objeto (mesmo no objeto global `window`).
 
-On the other hand, manually referencing the global variable with a `window` reference is something some developers prefer to avoid, especially if your code needs to run in multiple JS environments (not just browsers, but server-side node.js, for instance), where the global variable may not always be called `window`.
+Por outro lado, referenciar manualmente variáveis globais utilizando a referência de `window` é algo que alguns desenvolvedores preferem evitar, especialmente se o seu código precisa ser executado em múltiplos ambientes JS (não apenas navegadores, mas do lado do servidor, como node.js, por exemplo), onde o objeto global pode nem sempre ser chamado `window`.
 
-Technically, this safety guard on `typeof` is useful even if you're not using global variables, though these circumstances are less common, and some developers may find this design approach less desirable. Imagine a utility function that you want others to copy-and-paste into their programs or modules, in which you want to check to see if the including program has defined a certain variable (so that you can use it) or not:
+Tecnicamente, a característica de segurança por meio do `typeof` é útil mesmo se você não estiver utilizando variáveis globais, embora essas circunstâncias sejam menos comuns, e alguns desenvolvedores podem achar essa abordagem menos aplicável. Imagine uma função de utilidade a qual você deseja que outros copiem e colem em seus programas ou módulos, onde você deseja verificar se o programa em questão contém a definição para uma certa variável (para que você possa usá-la) ou não:
 
 ```js
 function doSomethingCool() {
 	var helper =
 		(typeof FeatureXYZ !== "undefined") ?
 		FeatureXYZ :
-		function() { /*.. default feature ..*/ };
+		function() { /*.. característica padrão ..*/ };
 
 	var val = helper();
 	// ..
 }
 ```
 
-`doSomethingCool()` tests for a variable called `FeatureXYZ`, and if found, uses it, but if not, uses its own. Now, if someone includes this utility in their module/program, it safely checks if they've defined `FeatureXYZ` or not:
+`doSomethingCool()` testa uma variável chamada `FeatureXYZ` e, se econtrar, utiliza ela, mas se não, utiliza sua própria definição. Agora, se alguém incluir em seu programa/módulo esta função, ele verificará com segurança se `FeatureXYZ` foi definida ou não:
 
 ```js
-// an IIFE (see "Immediately Invoked Function Expressions"
-// discussion in the *Scope & Closures* title of this series)
+// uma IIFE (veja a discussão "Expressão de Função Imediatamente Invocada"
+// no livro *Escopo & Clausuras* desta série)
 (function(){
-	function FeatureXYZ() { /*.. my XYZ feature ..*/ }
+	function FeatureXYZ() { /*.. minha função XYZ ..*/ }
 
-	// include `doSomethingCool(..)`
+	// incluir `doSomethingCool(..)`
 	function doSomethingCool() {
 		var helper =
 			(typeof FeatureXYZ !== "undefined") ?
 			FeatureXYZ :
-			function() { /*.. default feature ..*/ };
+			function() { /*.. característica padrão ..*/ };
 
 		var val = helper();
 		// ..
