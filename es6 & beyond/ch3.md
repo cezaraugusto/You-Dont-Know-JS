@@ -19,40 +19,41 @@ Embora eles não sejam geralmente usados em JS de tal forma, iteradores também 
 
 ### Interfaces
 
-At the time of this writing, ES6 section 25.1.1.2 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-iterator-interface) details the `Iterator` interface as having the following requirement:
+Na época em que isto está sendo escrito, a seção ES6 25.1.1.2(https://people.mozilla.org/~jorendorff/es6-draft.html#sec-iterator-interface) detalha a interface `Iterator` como tendo os seguintes requerimentos:
 
 ```
-Iterator [required]
-	next() {method}: retrieves next IteratorResult
+Iterator [necessário]
+	next() {método}: recupera o seguinte Resultado do Iterador
 ```
 
-There are two optional members that some iterators are extended with:
+Tem dois membros opcionais com alguns iterators que são estendidos juntos:
 
 ```
-Iterator [optional]
-	return() {method}: stops iterator and returns IteratorResult
-	throw() {method}: signals error and returns IteratorResult
+Iterator [opcional]
+	return() {método}: para o iterator e retorna o Resultado do Iterator
+	throw() {método}: sinaliza o erro e retorna o Resultado do Iterator
 ```
 
-The `IteratorResult` interface is specified as:
+A interface do `Resultado do Iterator` é especifica como:
 
 ```
-IteratorResult
-	value {property}: current iteration value or final return value
-		(optional if `undefined`)
-	done {property}: boolean, indicates completion status
+Resultado do Iterador
+	value {propriedade}: valor atual da iteração ou retorno final
+		(opcional se estiver `undefined`)
+	done {propriedade}: booleano, indica que o status está completo
 ```
 
-**Note:** I call these interfaces implicit not because they're not explicitly called out in the specification -- they are! -- but because they're not exposed as direct objects accessible to code. JavaScript does not, in ES6, support any notion of "interfaces," so adherence for your own code is purely conventional. However, wherever JS expects an iterator -- a `for..of` loop, for instance -- what you provide must adhere to these interfaces or the code will fail.
+**Nota:** Chamo esta interface implícita não porque não esteja explicitamente chamada na especificação -- está! -- mas porque não está exposta como objeto de acceso direto no código. JavaScript na versão ES6 não suporta qualquer noção de “interfaces”, então aderir ao seu código e puramente convencional. Porém, onde quer que o JS espere um iterador -- um loop `for..of`, por exemplo -- o que você proveer deve se aderir nesta interface ou falhara.
 
-There's also an `Iterable` interface, which describes objects that must be able to produce iterators:
+Também tem uma interface `Iterable`, que descreve objetos que podem ser capaces de producir iteradores:
 
 ```
 Iterable
-	@@iterator() {method}: produces an Iterator
+	@@iterador() {método}: produz um iterador produces an Iterator
 ```
 
-If you recall from "Built-In Symbols" in Chapter 2, `@@iterator` is the special built-in symbol representing the method that can produce iterator(s) for the object.
+Se o chamar desde “Símbolo incorporado” no Capítulo 2, `@@iterator` é o símbolo incorporado especial do método que pode produzir iterador(es) para o objeto.
+
 
 #### IteratorResult
 
