@@ -23,7 +23,7 @@ Na época em que isto está sendo escrito, a seção ES6 25.1.1.2(https://people
 
 ```
 Iterator [necessário]
-	next() {método}: recupera o seguinte Resultado do Iterador
+	next() {método}: recupera o próximo Resultado do Iterador
 ```
 
 Tem dois membros opcionais com alguns iterators que são estendidos juntos:
@@ -34,26 +34,25 @@ Iterator [opcional]
 	throw() {método}: sinaliza o erro e retorna o Resultado do Iterator
 ```
 
-A interface do `Resultado do Iterator` é especifica como:
+A interface do `Resultado do Iterator` é especificada como:
 
 ```
-Resultado do Iterador
+IteratorResult
 	value {propriedade}: valor atual da iteração ou retorno final
 		(opcional se estiver `undefined`)
 	done {propriedade}: booleano, indica que o status está completo
 ```
 
-**Nota:** Chamo esta interface implícita não porque não esteja explicitamente chamada na especificação -- está! -- mas porque não está exposta como objeto de acceso direto no código. JavaScript na versão ES6 não suporta qualquer noção de “interfaces”, então aderir ao seu código e puramente convencional. Porém, onde quer que o JS espere um iterador -- um loop `for..of`, por exemplo -- o que você proveer deve se aderir nesta interface ou falhara.
+**Nota:** Chamo estas interfaces implícitas não porque não estejam explicitamente chamadas na especificação -- estão! -- mas porque não estão expostas como objeto de acceso direto no código. JavaScript na versão ES6 não suporta qualquer noção de “interfaces”, então aderir ao seu código e puramente convencional. Porém, onde quer que o JS espere um iterador -- um loop `for..of`, por exemplo -- o que você prover deve se aderir nesta interface ou falhará.
 
-Também tem uma interface `Iterable`, que descreve objetos que podem ser capaces de producir iteradores:
+Existe também uma interface `Iterable`, que descreve objetos que são capazes de produzir iteradores:
 
 ```
 Iterable
-	@@iterador() {método}: produz um iterador produces an Iterator
+	@@iterador() {método}: produz um iterador
 ```
 
-Se o chamar desde “Símbolo incorporado” no Capítulo 2, `@@iterator` é o símbolo incorporado especial do método que pode produzir iterador(es) para o objeto.
-
+Se você se lembra do Capítulo 2 "Built-In Symbols", `@@iterator` é o símbolo incorporado especial do método que pode produzir iterador(es) para o objeto.
 
 #### IteratorResult
 
