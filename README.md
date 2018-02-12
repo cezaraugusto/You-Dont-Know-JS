@@ -42,12 +42,12 @@ Fique à vontade para contribuir e melhorar a qualidade deste conteúdo, enviand
 
 ## Títulos
 
-* Leia online (grátis!): ["Iniciando"](up & going/README.md#you-dont-know-js-up--going), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920039303.do), ebook format is grátis!
-* Leia online (grátis!): ["Escopos & Clausuras"](scope & closures/README.md#you-dont-know-js-scope--closures), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
-* Leia online (grátis!): ["this & Prototipagem de Objetos"](this & object prototypes/README.md#you-dont-know-js-this--object-prototypes), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
-* Leia online (grátis!): ["Tipos & Gramática"](types & grammar/README.md#you-dont-know-js-types--grammar), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
-* Leia online (grátis!): ["Async & Performance"](async & performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
-* Leia online (grátis!): ["ES6 & Além"](es6 & beyond/README.md#you-dont-know-js-es6--beyond), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033769.do)
+* Leia online (grátis!): ["Iniciando"](up\%20&\%20going/README.md#you-dont-know-js-iniciando), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920039303.do), ebook format is grátis!
+* Leia online (grátis!): ["Escopos & Clausuras"](scope\%20&\%20closures/README.md#you-dont-know-js-escopos--clausuras), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920026327.do)
+* Leia online (grátis!): ["this & Prototipagem de Objetos"](this\%20&\%20object\%20prototypes/README.md#you-dont-know-js-this--prototipagem-de-objetos), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033738.do)
+* Leia online (grátis!): ["Tipos & Gramática"](types\%20&\%20grammar/README.md#you-dont-know-js-tipos--gramática), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033745.do)
+* Leia online (grátis!): ["Async & Performance"](async\%20&\%20performance/README.md#you-dont-know-js-async--performance), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033752.do)
+* Leia online (grátis!): ["ES6 & Além"](es6\%20&\%20beyond/README.md#you-dont-know-js-es6--além), Publicado: [Compre agora (inglês)](http://shop.oreilly.com/product/0636920033769.do)
 
 ## Publicação
 
