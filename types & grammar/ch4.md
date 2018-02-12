@@ -13,9 +13,9 @@ Nosso objetivo é entender plenamente os prós e contras (sim, *existem* prós!)
 
 Converter um valor de um tipo para outro é geralmente chamado de "type casting", quando explicitamente, e "coerção" quando feito implicitamente (forçado pelas regras de como um valor é utilizado).
 
-**Nota:** Pode não ser óbvio, mas as coerções do JavaScript sempre resultam em um dos primitivos escalares (veja Capítulo 2), como `string`, `number`, ou `boolean`. Não existe coerção que resulte em um valor complexo como `object` ou `function`. O Capítulo 3 aborda "boxing", que envolve os valores primitivos em seus `object` homólogos, mas isso não é realmente coerção em seu sentido correto.
+**Nota:** Pode não ser óbvio, mas as coerções do JavaScript sempre resultam em algum valor dos primitivos escalares (veja Capítulo 2), como `string`, `number`, ou `boolean`. Não existe coerção que resulte em um valor complexo como `object` ou `function`. O Capítulo 3 aborda "boxing", que envolve os valores primitivos em seus `object` homólogos, mas isso não é realmente coerção em seu sentido correto.
 
-Pode-se distinguir esses de ainda outra maneira: "type casting" (ou coversão de tipos) ocorrem em tempo de compilação em linguagem staticamente tipadas, enquanto "coerção" é uma conversão que ocorre em tempo de execução em linguagens dinamicamente tipadas.
+Pode-se distinguir esses ainda de outra maneira: "type casting" (ou coversão de tipos) ocorre em linguagem staticamente tipadas em tempo de compilação, enquanto "coerção" é uma conversão que ocorre em tempo de execução em linguagens dinamicamente tipadas.
 
 Entretanto, em JavaScript, a maioria das pessoas chamam todos esse tipos de *coerção*, por isso a maneira que prefiro chamar de "coerção implícita" vs. "coerção explícita".
 
@@ -37,7 +37,7 @@ Em contrapartida, a função `String(..)` torna bastante óbvio que o valor de `
 
 As duas abordagens têm o mesmo efeito: `42` vira `"42"`. Mas é o *como* que é o coração dos debates mais acalorados sobre coerção no JavaScript.
 
-**Note:** Tecnicamente, há pequenas nuances no comportamento que vão além da estética. Nós abordaremos isso em mais detalhes mais tarde neste capítulo, na seção "Implicitamente: Strings <--> Number".
+**Nota:** Tecnicamente, há pequenas nuances no comportamento que vão além da estética. Nós abordaremos isso em mais detalhes mais tarde neste capítulo, na seção "Implicitamente: Strings <--> Number".
 
 Os termos "explícito" e "implícito", ou "óbvio" e "efeito colateral oculto", são *relativos*.
 
@@ -45,7 +45,7 @@ Se você sabe exatamente o que `a + ""` está fazendo e você está intencionalm
 
 Mas nós estamos discutindo "explícito" vs. "implícito" baseados nas prováveis opiniões de um desenvolvedor *mediano, razoavelmente informado, mas não especialista ou devoto pela especificação do JS*. Se você se encaixa de alguma forma nesse grupo, você terá de ajustar a sua perspectiva para estar de acordo com as nossas observações.
 
-Relembrando: é pouco provável que após escrevermos o nosso código, nós sejamos os únicos que vão lê-lo. Mesmo que você saiba todos os prós e contras no JS, considere como um colega de trabalho com menos experiência vai ser se sentir quando ler o seu código. Vai ser "explícito" ou "implícito" para eles da mesma maneira que é para você?
+Relembrando: é pouco provável que após escrevermos o nosso código, nós sejamos os únicos que vão lê-lo. Mesmo que você seja um expert em todos os prós e contras no JS, considere como um colega de trabalho com menos experiência vai ser se sentir quando ler o seu código. Vai ser "explícito" ou "implícito" para eles da mesma maneira que é para você?
 
 ## Abstract Value Operations
 
@@ -1819,7 +1819,7 @@ Source: https://github.com/dorey/JavaScript-Equality-Table
 
 ## Comparação Relacional Abstrata
 
-Enquanto essa parte da coerção *implícita* recebe bem menos atenção, é importante pensar no que acontece com comparações `a < b` (similar à `a == b` que já examinamos em profundidade).
+Enquanto essa parte da coerção implícita geralmente recebe bem menos atenção, é importante pensar no que acontece com comparações `a < b` (similar à `a == b` que já examinamos em profundidade).
 
 O algoritmo da "Comparação relacional abstrata" na seção 11.8.5 do ES5 essencialmente se divide em duas partes: o que fazer se a comparação involve ambos valores `string` (segunda metade), ou qualquer outra coisa (primeira metade).
 
@@ -1837,7 +1837,7 @@ a < b;	// true
 b < a;	// false
 ```
 
-**Observação** As ressalvas semelhantes para `-0` e `NaN` aplicam-se aqui foi feito no algoritmo `==` discutido anteriormente.
+**Observação** As ressalvas semelhantes para `-0` e `NaN` aplicam-se aqui como feitas no algoritmo `==` discutido anteriormente.
 
 Entretanto, se ambos os valores são `string` para a comparação `<`, a comparação lexográfica simples (alfabético natural) é performada nos caracteres:
 
@@ -1850,7 +1850,7 @@ a < b;	// false
 
 `a` e `b` não são convertidos para `number`, porque ambos terminam como `string` depois da conversão `ToPrimitive` nos dois `array`s. Então, `"42"` é comparado caractere por caractere com `"043"`, começando com os primeiros caracteres `"4"` e `"0"`, respectivamente. Desde que `"0"` seja lexicograficamente *menor que* `"4"`, a comparação retorna `false`.
 
-Exatamente o mesmo comportamentp e objetivo acontece para:
+Exatamente o mesmo comportamento e objetivo acontece para:
 
 ```js
 var a = [ 4, 2 ];
@@ -1886,12 +1886,11 @@ a <= b;	// true
 a >= b;	// true
 ```
 
-Porque `a == b` não é `true`? Eles são o mesmo valor de `string` (`"[object Object]"`), 
-então parece que eles deveriam ser iguais, certo? Não. Relembre a discussão anterior sobre como `==` funciona com referêcias de `object`.
+Porque `a == b` não é `true`? Eles são o mesmo valor de `string` (`"[object Object]"`), então parece que eles deveriam ser iguais, certo? Não. Relembre a discussão anterior sobre como `==` funciona com referêcias de `object`.
 
 Mas então como `a <= b` e `a >= b` resultam em `true`, se `a < b` **e** `a == b` **e** `a > b` são todos `false`?
 
-Porque a especificação diz que para `a <= b`, ele vai na verdade avaliar `b < a` primeiro, e então negar esse resultado. Desde que `b < a` seja *também* `false`, o resultado de `a <= b` é `true`.
+Porque a especificação diz que para `a <= b`, ele vai na verdade avaliar primeiro `b < a`, e então negar esse resultado. Desde que `b < a` seja *também* `false`, o resultado de `a <= b` é `true`.
 
 Isso provavelmente é muito contrário de como você teria explicado o que o `<=` faz até agora, o que provavelmente teria sido o literal: "menor que *ou* igual a." O JS mais precisamente considera `<=` como "não é maior que" (`!(a > b)`, que o JS trata como `!(b < a)`). Além disso, `a >= b` é explicado primeiro considerando-o como `b <= a`, e então aplicando o mesmo reciocícnio.
 
@@ -1913,7 +1912,7 @@ Nesse capítulo, nós voltamos nossa atenção para como as conversões de tipos
 
 Coerção tem uma má reputação, mas ela é na verdade bastante útil em muitos casos. Uma tarefa importante para um desenvolvedor JavaScript responsável é tirar um tempo para aprender todas as entradas e saídas da coerção para decidir quais partes irão ajudar a melhorar seu código, e quais partes ele realmente devem ser evitadas.
 
-Coerção *explícita* é o código que é óbvio que a intenção é converter um valor de um tipo para outro. O benefício é melhora na legibilidade e manutenabilidade do código reduzindo a confusão.
+Coerção *explícita* é o código que a intenção é converter um valor de um tipo para outro é obvia. O benefício é melhora na legibilidade e manutenabilidade do código reduzindo a confusão.
 
 Coerção *implícita* é a coerção que está "escondida" como um efeito colateral de alguma outra operação, onde não é tão óbvio o tipo de conversão que vai acontecer. Enquanto parece que a coerção *implícita* é o oposto da *explícita*, e portanto, é ruim (e de fato, muitos pensam que sim!), na verdade, coerção *implícita* é também sobre melhorar a legibilidade do código.
 
