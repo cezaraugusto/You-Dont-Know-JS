@@ -271,30 +271,30 @@ function doSomethingCool() {
 })();
 ```
 
-Here, `FeatureXYZ` is not at all a global variable, but we're still using the safety guard of `typeof` to make it safe to check for. And importantly, here there is *no* object we can use (like we did for global variables with `window.___`) to make the check, so `typeof` is quite helpful.
+Neste caso, `FeatureXYZ` não é uma variável global, mas assim mesmo estamos utilizando a característica de segurança por meio do `typeof` para garantir a verificação. E o mais importante, aqui não existe objeto que possamos usar (como fizemos para variáveis globais com `window.___`) para fazer a verificação, então o `typeof` é muito útil.
 
-Other developers would prefer a design pattern called "dependency injection," where instead of `doSomethingCool()` inspecting implicitly for `FeatureXYZ` to be defined outside/around it, it would need to have the dependency explicitly passed in, like:
+Outros desenvolvedores preferem um padrão de projetos chamado "injeção de dependência", em que, ao invés de `doSomethingCool()` verificar implicitamente se `FeatureXYZ` está definida fora dela, ela precisaria ter a dependência passada explicitamente, como:
 
 ```js
 function doSomethingCool(FeatureXYZ) {
 	var helper = FeatureXYZ ||
-		function() { /*.. default feature ..*/ };
+		function() { /*.. característica padrão ..*/ };
 
 	var val = helper();
 	// ..
 }
 ```
 
-There are lots of options when designing such functionality. No one pattern here is "correct" or "wrong" -- there are various tradeoffs to each approach. But overall, it's nice that the `typeof` undeclared safety guard gives us more options.
+Há muitas opções para projetar essa funcionalidade. Nenhum padrão apresentado aqui é "certo" ou "errado" -- Existem vários prós e contras para cada abordagem. Mas, em geral, é bom que a característica de segurança do `typeof` para tipos não declarados (undeclared) nos dê mais opções.
 
-## Review
+## Revisão
 
-JavaScript has seven built-in *types*: `null`, `undefined`,  `boolean`, `number`, `string`, `object`, `symbol`. They can be identified by the `typeof` operator.
+JavaScript tem sete *tipos* nativos: `null`, `undefined`,  `boolean`, `number`, `string`, `object`, `symbol`. Eles podem ser identificados pelo operador `typeof`.
 
-Variables don't have types, but the values in them do. These types define intrinsic behavior of the values.
+Variáveis não possuem tipos, mas os valores sim. Estes tipos definem o comportamento intrínseco dos valores.
 
-Many developers will assume "undefined" and "undeclared" are roughly the same thing, but in JavaScript, they're quite different. `undefined` is a value that a declared variable can hold. "Undeclared" means a variable has never been declared.
+Muitos desenvolvedores assumirão que "undefined" e "undeclared" são, grosseiramente, a mesma coisa, mas em JavaScript, elas são bem diferentes. `undefined` é um valor que uma variável declarada pode conter. "Undeclared" significa que uma variável nunca foi declarada.
 
-JavaScript unfortunately kind of conflates these two terms, not only in its error messages ("ReferenceError: a is not defined") but also in the return values of `typeof`, which is `"undefined"` for both cases.
+O JavaScript, infelizmente, combina esses dois termos não só nas suas mensagens de erro ("ReferenceError: a is not defined (a não está definido)"), mas também no valor retornado pelo `typeof`, que é `"undefined"` para os dois casos.
 
-However, the safety guard (preventing an error) on `typeof` when used against an undeclared variable can be helpful in certain cases.
+No entando, a característica de segurança (evitando um erro) do `typeof` quando utilizada em uma variável não declarada, em alguns casos pode ser útil.
