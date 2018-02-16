@@ -188,7 +188,7 @@ var a = 2;
 
 Esse código "funciona", mas isso não é rigorosamente um exemplo de closure. Por quê? Porque a função (que aqui nós nomeamos de "IIFE") não é executada fora do seu escopo léxico. Ela ainda é chamada bem ali, no mesmo escopo que foi declarada (o escopo ao redor/global que também contém `a`). `a` é encontrado pelo look-up normal do escopo léxico, não exatamente por closure.
 
-While closure might technically be happening at declaration time, it is *not* strictly observable, and so, as they say, *it's a tree falling in the forest with no one around to hear it.*
+Enquanto a closure poderia técnicamente estar acontecendo na hora da declaração, _não_ é estritamente observável, e então, como eles dizem, _é uma árvore caindo na floresta sem ninguém por perto para ouvir._
 
 Though an IIFE is not *itself* an example of closure, it absolutely creates scope, and it's one of the most common tools we use to create scope which can be closed over. So IIFEs are indeed heavily related to closure, even if not exercising closure themselves.
 
