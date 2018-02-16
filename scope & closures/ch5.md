@@ -192,11 +192,11 @@ Enquanto a closure poderia técnicamente estar acontecendo na hora da declaraç�
 
 Embora uma IIFE não seja *em si* um exemplo de closure, ela realmente cria escopo e é uma das ferramentas mais comuns que usamos para criar um escopo que pode ser fechado. Portanto, as IIFEs estão, de fato, profundamente relacionadas a closures, mesmo que não exerçam closure por sí mesmas.
 
-Put this book down right now, dear reader. I have a task for you. Go open up some of your recent JavaScript code. Look for your functions-as-values and identify where you are already using closure and maybe didn't even know it before.
+Abaixe esse livro agora, querido leitor. Tenho uma tarefa para você. Abra algum código JavaScript recente. Procure por suas funções-como-valores e identifique onde você já está usando closures e talvez ainda nem sabia disso.
 
-I'll wait.
+Eu espero.
 
-Now... you see!
+Agora... você vê!
 
 ## Loops + Closure
 
