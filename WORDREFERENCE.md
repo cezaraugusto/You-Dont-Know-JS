@@ -60,6 +60,7 @@
 
 * Assignment: Atribuição
 * Author-time: (no momento da / durante a) escrita do código (vide [#96](https://github.com/cezaraugusto/You-Dont-Know-JS/pull/96#issuecomment-223985831))
+* AKA (Also Known As): Também conhecido(a) como
 
 
 #### B
@@ -68,6 +69,7 @@
 * Build (no sentido de processo de unificação): Build
 * Bound: Limitadas
 * Built-in: Nativo
+* Bitwise: Bit a bit (bitwise operators = operadores bit a bit)
 
 
 #### C
@@ -169,7 +171,7 @@
 
 #### R
 
-* Run: Rodar
+* Run: Rodar/Executar
 
 
 #### S
