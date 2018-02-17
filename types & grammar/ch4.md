@@ -877,61 +877,59 @@ Porém, há uma coerção *implícita* oculta, aquela expressão `a` deve primei
 
 `Boolean(a)` e `!!a` são de longe melhores as opções para coerção *explícita*.
 
-## Implicit Coercion
+## Coerção Implícita
 
-*Implicit* coercion refers to type conversions that are hidden, with non-obvious side-effects that implicitly occur from other actions. In other words, *implicit coercions* are any type conversions that aren't obvious (to you).
+Coerção *implícita* se refere à tipos de conversões que são ocultas, com efeitos colaterais não óbvios que implicitamente ocorrem por outras ações. Em outras palavras, *coerções implicitas* são qualquer tipo de conversões que não são óbvias (para você).
 
-While it's clear what the goal of *explicit* coercion is (making code explicit and more understandable), it might be *too* obvious that *implicit* coercion has the opposite goal: making code harder to understand.
+Enquanto está claro qual é o objetivo de coerção *explícita* (tornar o código explícito e compreensível), pode ser *muito* óbvio que coerção *implícita* tenha o objetivo oposto: tornar o código mais difícil de se entender.
 
-Taken at face value, I believe that's where much of the ire towards coercion comes from. The majority of complaints about "JavaScript coercion" are actually aimed (whether they realize it or not) at *implicit* coercion.
+Confiar de olhos fechados, acredito que é aí que grande parte da raiva de coerções vêm. A maioria das reclamações sobre "coerções JavaScript" têm, na verdade, como alvo (eles percebendo ou não) coerções *implícitas*.
 
-**Note:** Douglas Crockford, author of *"JavaScript: The Good Parts"*, has claimed in many conference talks and writings that JavaScript coercion should be avoided. But what he seems to mean is that *implicit* coercion is bad (in his opinion). However, if you read his own code, you'll find plenty of examples of coercion, both *implicit* and *explicit*! In truth, his angst seems to primarily be directed at the `==` operation, but as you'll see in this chapter, that's only part of the coercion mechanism.
+**Observação** Douglas Crockford, autor de *"JavaScript: The Good Parts"*, afirmou em muitas palestras de conferências e artigos que coerção JavaScript deve ser evitada. Mas o que ele pareceu falar é que coerção *implícita* é ruim (na opnião dele). Porém, se você ler seu próprio código, você irá achar muitos exemplos de coerção, ambas *implícita* e *explícita*! Na verdade, a raiva dele parece ser primeiramente destinada para a operação `==`, mas você você verá nesse capítulo, essa é apenas uma parte do mecanismo de coerção.
 
-So, **is implicit coercion** evil? Is it dangerous? Is it a flaw in JavaScript's design? Should we avoid it at all costs?
+Então, a **coerção implícita é** maligna? Ela é perigosa? É uma falha no design do JavaScript? Nós devemos evitá-la a todo custo?
 
-I bet most of you readers are inclined to enthusiastically cheer, "Yes!"
+**Não tão rápido**. Me dê ouvidos.
 
-**Not so fast.** Hear me out.
+Vamos assumir uma perspectiva diferente do que é coerção *implícita*, e pode ser, do que apenas que é "o oposto do bom tipo explícito de coerção". Isso é muito estreiro e perde uma nuance importante.
 
-Let's take a different perspective on what *implicit* coercion is, and can be, than just that it's "the opposite of the good explicit kind of coercion." That's far too narrow and misses an important nuance.
+Vamos definir o objetivo de coerção *implícita* como: reduzir a verbosidade, boilerplate, e/ou detalhes de implentação desnecessários que encobre nosso código com ruído que nos distrai da intenção mais importante.
 
-Let's define the goal of *implicit* coercion as: to reduce verbosity, boilerplate, and/or unnecessary implementation detail that clutters up our code with noise that distracts from the more important intent.
+### Simplificando a Implicidade
 
-### Simplifying Implicitly
-
-Before we even get to JavaScript, let me suggest something pseudo-code'ish from some theoretical strongly typed language to illustrate:
+Antes até de nós chegarmos ao JavaScript, deixe-me sugerir algum pseudo-código de uma linguagem teórica fortemente tipada para ilustrar:
 
 ```js
 SomeType x = SomeType( AnotherType( y ) )
 ```
 
-In this example, I have some arbitrary type of value in `y` that I want to convert to the `SomeType` type. The problem is, this language can't go directly from whatever `y` currently is to `SomeType`. It needs an intermediate step, where it first converts to `AnotherType`, and then from `AnotherType` to `SomeType`.
+Nesse exemplo, eu tenho tenho um tipo de valor arbitrário em `y` que eu quero converter para o tipo `SomeType`. O problema é, essa linguagem não pode ir diretamente de qualquer coisa que `y` é pra `SomeType`. Ele precisa de um passo intermediário, onde ele primeiro converte para `AnotherType`, e então de `AnotherType` para `SomeType`.
 
-Now, what if that language (or definition you could create yourself with the language) *did* just let you say:
+Agora, e se a linguagem (ou definição que você mesmo pode criar com a linguagem) *fez*, digamos:
 
 ```js
 SomeType x = SomeType( y )
 ```
 
-Wouldn't you generally agree that we simplified the type conversion here to reduce the unnecessary "noise" of the intermediate conversion step? I mean, is it *really* all that important, right here at this point in the code, to see and deal with the fact that `y` goes to `AnotherType` first before then going to `SomeType`?
+Você não concorda que nós simplificamos o tipo de conversão aqui para reduzir o "ruído" desnecessário do passo de conversão intermediária? Quero dizer, isso é *realmente* tão importante, aqui mesmo nesse ponto do código, para ver e lidar com o fato que `y` vai primeiro para `AnotherType` antes e então vai para `SomeType`?
 
-Some would argue, at least in some circumstances, yes. But I think an equal argument can be made of many other circumstances that here, the simplification **actually aids in the readability of the code** by abstracting or hiding away such details, either in the language itself or in our own abstractions.
+Alguns argumentariam, pelo menos em algumas circunstâncias, sim. Mas eu acho que um argumento equivalente pode ser feito de várias outras cinscunstâncias que aqui, a simplificação **na verdade ajuda na legibilidade do código** absorvendo ou escondendo tais detalhes, tanto na própria linguagem ou nas suas próprias abstrações.
 
-Undoubtedly, behind the scenes, somewhere, the intermediate conversion step is still happening. But if that detail is hidden from view here, we can just reason about getting `y` to type `SomeType` as an generic operation and hide the messy details.
+Sem dúvidas, nos bastidores, em algum lugar, a conversão intermediária continua acontecendo. Mas se esse detalhe é oculto da view, nós apenas podemos raciocinar sobre pegar `y` para o tipo `SomeType` como uma operação genérica e enconder os detalhes bangunçados.
 
-While not a perfect analogy, what I'm going to argue throughout the rest of this chapter is that JS *implicit* coercion can be thought of as providing a similar aid to your code.
+Embora não seja uma analogia perfeita, o que eu vou argumentar em todo o resto desse capítulo é que coerção *implícita* JS pode ser considerada como forncecedora de uma ajuda similar para seu código.
 
-But, **and this is very important**, that is not an unbounded, absolute statement. There are definitely plenty of *evils* lurking around *implicit* coercion, that will harm your code much more than any potential readability improvements. Clearly, we have to learn how to avoid such constructs so we don't poison our code with all manner of bugs.
+Mas, **e isso é muito importante**, essa não é uma declaração absoluta e ilimitada. Há definitivamente uma abundância de *males* que espreitam a coerção *implícita*, que prejidicará seu código muito mais do que qualquer potencial melhoria de legigibilidade. Claramente, nós teremos que aprender como evitar certos construtos para que não envenenemos nosso código com todas as formas de bugs.
 
-Many developers believe that if a mechanism can do some useful thing **A** but can also be abused or misused to do some awful thing **Z**, then we should throw out that mechanism altogether, just to be safe.
+Muitos desenvolvedores acreditam que se um mecanismo pode fazer algo últil **A** mas também pode ser abusado ou mal usado para fazer algo terrível **Z**, então nós devemos descartar completamente esse mecanismo, apenas por segurança.
 
-My encouragement to you is: don't settle for that. Don't "throw the baby out with the bathwater." Don't assume *implicit* coercion is all bad because all you think you've ever seen is its "bad parts." I think there are "good parts" here, and I want to help and inspire more of you to find and embrace them!
+Meu conselho para você é: não se conforme com isso. Não "mate uma mosca com uma bala de canhão". Não assuma coerção *implícita* é de toda ruim porque tudo que você acha que já viu são "partes ruins". Eu penso que há "partes boas" aqui, e eu quero ajudar e inspirar você para acha-las e absorve-las.
 
-### Implicitly: Strings <--> Numbers
+### Implicitamente: Strings <--> Numbers
 
-Earlier in this chapter, we explored *explicitly* coercing between `string` and `number` values. Now, let's explore the same task but with *implicit* coercion approaches. But before we do, we have to examine some nuances of operations that will *implicitly* force coercion.
+Mais cedo nesse capítulo, nós exploramos a coerção *implícita* entre valores `string` e `number`. Agora, vamos explorar a mesma tarefa mas com abordagem de coerção *implícita*. Mas antes, nós temos que examinar algumas nuances de operações que vão forçar a coerção *implícita*.
 
-The `+` operator is overloaded to serve the purposes of both `number` addition and `string` concatenation. So how does JS know which type of operation you want to use? Consider:
+O operador `+` é encarregado de servir propósitos tanto de adição de `number` como concatenação de `string`. Então como o JS sabe qual tipo de operação você quer usar? Considere:
 
 ```js
 var a = "42";
@@ -944,9 +942,9 @@ a + b; // "420"
 c + d; // 42
 ```
 
-What's different that causes `"420"` vs `42`? It's a common misconception that the difference is whether one or both of the operands is a `string`, as that means `+` will assume `string` concatenation. While that's partially true, it's more complicated than that.
+Qual a diferença que causa `"420"` vs `42`? É um equívoco comum que a diferença é se um ou ambos os operadores são uma `string`, pois isso significa que `+` assumirá a concatenação `string`. Enquando isso é parcialmente verdade, é mais complicado que isso.
 
-Consider:
+Considere:
 
 ```js
 var a = [1,2];
@@ -955,25 +953,25 @@ var b = [3,4];
 a + b; // "1,23,4"
 ```
 
-Neither of these operands is a `string`, but clearly they were both coerced to `string`s and then the `string` concatenation kicked in. So what's really going on?
+Nenhum desses operandos é uma `string`, mas claramente ambos sofrem coerção para `string`s e então a concatenação `string` pula dentro. Então o que realmente stá acontecendo?
 
-(**Warning:** deeply nitty gritty spec-speak coming, so skip the next two paragraphs if that intimidates you!)
-
------
-
-According to ES5 spec section 11.6.1, the `+` algorithm (when an `object` value is an operand) will concatenate if either operand is either already a `string`, or if the following steps produce a `string` representation. So, when `+` receives an `object` (including `array`) for either operand, it first calls the `ToPrimitive` abstract operation (section 9.1) on the value, which then calls the `[[DefaultValue]]` algorithm (section 8.12.8) with a context hint of `number`.
-
-If you're paying close attention, you'll notice that this operation is now identical to how the `ToNumber` abstract operation handles `object`s (see the "`ToNumber`"" section earlier). The `valueOf()` operation on the `array` will fail to produce a simple primitive, so it then falls to a `toString()` representation. The two `array`s thus become `"1,2"` and `"3,4"`, respectively. Now, `+` concatenates the two `string`s as you'd normally expect: `"1,23,4"`.
+(**Atenção** terrível e profunda linguagem de especificação abaixo, então pule os próximos dois parágrafos se isso intimida você!)
 
 -----
 
-Let's set aside those messy details and go back to an earlier, simplified explanation: if either operand to `+` is a `string` (or becomes one with the above steps!), the operation will be `string` concatenation. Otherwise, it's always numeric addition.
+De acordo com  a seção 11.6.1 da especificação ES5, o algoritmo `+` (quando um valor `object` é um operando) vai concatenar se um dos operandos já for uma `string`, ou se os passos seguintes produzirem uma representação `string`. Então quando o `+` recebe um `object` (incluindo `array`) para ambos operandos, ele primeiro chama a operação abstrata `ToPrimitive` (seção 9.1) no valor, o que então chama o algoritmo `[[DefaultValue]]` (section 8.12.8) com um contexto `number`.
 
-**Note:** A commonly cited coercion gotcha is `[] + {}` vs. `{} + []`, as those two expressions result, respectively, in `"[object Object]"` and `0`. There's more to it, though, and we cover those details in "Blocks" in Chapter 5.
+Se você está prestando bastante atenção, você irá notar que essa operação é agora indêntica a como a operação abstrata `ToNumber` maneja `object` (veja a selção anterior "`ToNumber`"). A operação `valueOf()` no `array` vai falhar em produzir um primitivo simples, então ela cai na representação `toString()`. Os dois `array`s irão então se tornar `"1,2"` and `"3,4"`, respectivamente. Agora, `+` concatena as duas `string` como você espera: `"1,23,4"`.
 
-What's that mean for *implicit* coercion?
+-----
 
-You can coerce a `number` to a `string` simply by "adding" the `number` and the `""` empty `string`:
+Vamos olhar além desses detalhes confusos e voltar para uma explicação simplificada: se o operando para `+` é uma `string` (ou torna-se uma com os passos acima!), a operação será concatenação de `string`. Do contrário, ela sempre será adição numérica.
+
+**Observação** uma pegadinha de coerção comumente citada é `[] + {}` vs. `{} + []`, como essas duas expressões resultam, repectivamente, `"[object Object]"` e `0`. Há ainda mais, e cobrimos esses detalhes em "Blocos" no capítulo 5.
+
+O que isso significa para coerção *implícita*?
+
+Voce pode fazer a coerção de um `number` para uma `string` simplismente "adicionando" o `number` e a `string` vazia `""`:
 
 ```js
 var a = 42;
@@ -982,17 +980,17 @@ var b = a + "";
 b; // "42"
 ```
 
-**Tip:** Numeric addition with the `+` operator is commutative, which means `2 + 3` is the same as `3 + 2`. String concatenation with `+` is obviously not generally commutative, **but** with the specific case of `""`, it's effectively commutative, as `a + ""` and `"" + a` will produce the same result.
+**Dica** Adições numéricas com o operador `+` é comutativa, o que significa que `2 + 3` é o mesmo que `3 + 2`. Concatenação de String com `+` obviamente não é comutativa geralmente, **mas** com o caso específico do `""`, ela é efetivamente comutativa, assim como `a + ""` e `"" + a` irão produzir o mesmo resultado.
 
-It's extremely common/idiomatic to (*implicitly*) coerce `number` to `string` with a `+ ""` operation. In fact, interestingly, even some of the most vocal critics of *implicit* coercion still use that approach in their own code, instead of one of its *explicit* alternatives.
+É extremamente comum/idiomático fazer a coerção (*implicitamente*) de `number` para `string` com uma operação `+""`. De fato, é interessante que, mesmo alguns dos maiores críticos da coerção *implícita* ainda usam essa abordagem em seu próprio código, em vez de uma das suas alternativas *explícitas*.
 
-**I think this is a great example** of a useful form in *implicit* coercion, despite how frequently the mechanism gets criticized!
+**Eu acho que esse é um grande exemplo** de formas úteis na coerção *implícita*, apesar do quão frequentemente o mecanismo recebe críticas.
 
-Comparing this *implicit* coercion of `a + ""` to our earlier example of `String(a)` *explicit* coercion, there's one additional quirk to be aware of. Because of how the `ToPrimitive` abstract operation works, `a + ""` invokes `valueOf()` on the `a` value, whose return value is then finally converted to a `string` via the internal `ToString` abstract operation. But `String(a)` just invokes `toString()` directly.
+Comparando essa coerção *implícita* de `a + ""` com nosso exemplo anterior de coerção *explícita* `String(a)`, há uma peculiaridade adicional para ter cuidado. Por causa de como a operação abstrata `ToPrimitive` funciona, `a + ""` invoca `valueOf()` no valor de `a`, no qual o valor de retorno é então finalmente convertido para uma `string` via operação abstrata interna `ToString`. Mas `String(a)` apenas invoca `toString()` diretamente.
 
-Both approaches ultimately result in a `string`, but if you're using an `object` instead of a regular primitive `number` value, you may not necessarily get the *same* `string` value!
+Ambas abordagens vão resultar em uma `string` no final, mas se você está usando um `object` em vez de um valor primitivo `number` normal, você pode, não necessariamente, ter o *mesmo* valor de `string`!
 
-Consider:
+Considere:
 
 ```js
 var a = {
@@ -1005,20 +1003,20 @@ a + "";			// "42"
 String( a );	// "4"
 ```
 
-Generally, this sort of gotcha won't bite you unless you're really trying to create confusing data structures and operations, but you should be careful if you're defining both your own `valueOf()` and `toString()` methods for some `object`, as how you coerce the value could affect the outcome.
+Geralmente, esse tipo de pegadina não vai te pegar a mesmo que você realmente esteja tentando criar estruturas de dados e operações confusas, mas você deve ter cuidado se você está definindo métodos próprios `valueOf()` e `toString()` para algum `object`, como a forma de fazer a coerção pode afetar o resultado.
 
-What about the other direction? How can we *implicitly coerce* from `string` to `number`?
+E a outra direção? Como podemos fazer a *coerção implícita* de `string` para `number`?
 
-```
+```js
 var a = "3.14";
 var b = a - 0;
 
 b; // 3.14
 ```
 
-The `-` operator is defined only for numeric subtraction, so `a - 0` forces `a`'s value to be coerced to a `number`. While far less common, `a * 1` or `a / 1` would accomplish the same result, as those operators are also only defined for numeric operations.
+O operador `-` é definido apenas para subtrações numéricas, então `a - 0` força o valor `a` a sofrer coerção para `number`. Embora muito menos comum, `a * 1` or `a / 1` realizarão o mesmo resultado, já que esses operadores também são definidos apenas para operações numéricas.
 
-What about `object` values with the `-` operator? Similar story as for `+` above:
+E os valores `object` com o operador `-`? Mesma história que para o `+` acima:
 
 ```js
 var a = [3];
@@ -1027,17 +1025,17 @@ var b = [1];
 a - b; // 2
 ```
 
-Both `array` values have to become `number`s, but they end up first being coerced to `strings` (using the expected `toString()` serialization), and then are coerced to `number`s, for the `-` subtraction to perform on.
+Ambos valores `array` precisam se tornar `number`s, mas eles terminam primeiro sofrendo a coerção para `string` (usando a serialização esperada `toString()`), e então sofrem a coerção para `number`s, para a substração `-` seja aplicada.
 
-So, is *implicit* coercion of `string` and `number` values the ugly evil you've always heard horror stories about? I don't personally think so.
+Então, a coerção *implícita* de valores `string` e `number` são tão maléficas sobre a qual você sempre ouviu histórias de terror? Pessoalmente, eu não acho.
 
-Compare `b = String(a)` (*explicit*) to `b = a + ""` (*implicit*). I think cases can be made for both approaches being useful in your code. Certainly `b = a + ""` is quite a bit more common in JS programs, proving its own utility regardless of *feelings* about the merits or hazards of *implicit* coercion in general.
+Compare `b = String(a)` (*explícita*) com `b = a + ""` (*implícita*). Eu acho que casos podem ser feitos para que ambas abordagens sejam úteis para seu código. Certamente `b = a + ""` é um pouco mais comum em programs JS, provendo sua própria utilidade independentemente de *sentimentos* sobre os méritos e perigos da coerção *implícita* em geral.
 
-### Implicitly: Booleans --> Numbers
+### Implicitamente: Booleans --> Numbers
 
-I think a case where *implicit* coercion can really shine is in simplifying certain types of complicated `boolean` logic into simple numeric addition. Of course, this is not a general-purpose technique, but a specific solution for specific cases.
+Eu acho que um caso onde coerção *implícita* pode realmente brilhar é em simplificar certos tipos de lógicas `boolean` complicadas em simples adições numéricas. Claro, essa não é uma técnica com propósito geral, mas uma solução específica para casos específicos.
 
-Consider:
+Considere:
 
 ```js
 function onlyOne(a,b,c) {
@@ -1054,18 +1052,18 @@ onlyOne( b, a, b );	// true
 onlyOne( a, b, a );	// false
 ```
 
-This `onlyOne(..)` utility should only return `true` if exactly one of the arguments is `true` / truthy. It's using *implicit* coercion on the truthy checks and *explicit* coercion on the others, including the final return value.
+Essa utilidade `onlyOne(..)` apenas deve retornar `true` se exatamente um dos argumentos for `true` / verdadeiro. Ela está usando coerção *implícita* nas validações verdadeiras e coerção *explícita* nas outras, incluindo o valor final retornado.
 
-But what if we needed that utility to be able to handle four, five, or twenty flags in the same way? It's pretty difficult to imagine implementing code that would handle all those permutations of comparisons.
+Mas e se precisamos que essa utilidade seja capaz de gerenciar quatro, cinco ou vinte flags da mesma forma? è bem difícil imaginar implementar um código que seja capaz de gerenciar todas essas permutações de cimparações.
 
-But here's where coercing the `boolean` values to `number`s (`0` or `1`, obviously) can greatly help:
+Mas aqui está onde fazer a coerção de valores `boolean` para `number`s (`0` ou `1`, obviamente) pode ajudar muito:
 
 ```js
 function onlyOne() {
 	var sum = 0;
 	for (var i=0; i < arguments.length; i++) {
-		// skip falsy values. same as treating
-		// them as 0's, but avoids NaN's.
+		// pula os valores falsos. mesmo que tratar
+		// eles como 0's, mas evita os NaN's.
 		if (arguments[i]) {
 			sum += arguments[i];
 		}
@@ -1083,11 +1081,11 @@ onlyOne( b, b );				// false
 onlyOne( b, a, b, b, b, a );	// false
 ```
 
-**Note:** Of course, instead of the `for` loop in `onlyOne(..)`, you could more tersely use the ES5 `reduce(..)` utility, but I didn't want to obscure the concepts.
+**Obeservação** Claro, em vez do loop `for` em `onlyOne(..)`, você pode usar a tarefa do ES5 `reduce(..)`, mas eu não queria obscurecer os conceitos.
 
-What we're doing here is relying on the `1` for `true`/truthy coercions, and numerically adding them all up. `sum += arguments[i]` uses *implicit* coercion to make that happen. If one and only one value in the `arguments` list is `true`, then the numeric sum will be `1`, otherwise the sum will not be `1` and thus the desired condition is not met.
+O que estamos fazendo aqui é relacionado com coerção de `1` para `true`/verdadeiro, e adionando todos numericamente. `sum += arguments[i]` usa coerção *implícita* para fazer isso acontecer. Se um e apenas um valor na lista de `arguments` é `true`, então a soma numérica vai ser `1`, do contrário a soma não será `1` e portanto a condição desejada não será atendida.
 
-We could of course do this with *explicit* coercion instead:
+Nós podemos claro fazer isso com coerção *implícita* no lugar:
 
 ```js
 function onlyOne() {
@@ -1099,33 +1097,33 @@ function onlyOne() {
 }
 ```
 
-We first use `!!arguments[i]` to force the coercion of the value to `true` or `false`. That's so you could pass non-`boolean` values in, like `onlyOne( "42", 0 )`, and it would still work as expected (otherwise you'd end up with `string` concatenation and the logic would be incorrect).
+Nós primeiro usamos `!!arguments[i]` para forçar a coerção dos valores para `true` ou `false`. Só assim você poderia passar os valores `boolean`, como `onlyOne( "42", 0 )`, e isso ainda continuará funcionando como esperado (do contrário você vai terminar com uma concatenação `string` e a lógica será incorreta).
 
-Once we're sure it's a `boolean`, we do another *explicit* coercion with `Number(..)` to make sure the value is `0` or `1`.
+Uma vez que temos certeza que é um `boolean`, nós fazemos outra coerção *explícita* com `Number(..)` para ter certeza que os valores são `0` ou `1`.
 
-Is the *explicit* coercion form of this utility "better"? It does avoid the `NaN` trap as explained in the code comments. But, ultimately, it depends on your needs. I personally think the former version, relying on *implicit* coercion is more elegant (if you won't be passing `undefined` or `NaN`), and the *explicit* version is needlessly more verbose.
+As formas de coerção *explícita* dessa utilidade são "melhores"? Ela evita o `NaN` como explicado nos comentários do código. Mas, utimamente, isso depende da sua necessidade. Eu pessoalmente acho que a forma anterior, confiando em coerção *implícita* é mais elegante (se você não tiver passando `undefined` ou `NaN`), e a versão *explícita* é desnecessariamente mais verbosa.
 
-But as with almost everything we're discussing here, it's a judgment call.
+Mas assim como tudo o que discutimos aqui, é uma escolha.
 
-**Note:** Regardless of *implicit* or *explicit* approaches, you could easily make `onlyTwo(..)` or `onlyFive(..)` variations by simply changing the final comparison from `1`, to `2` or `5`, respectively. That's drastically easier than adding a bunch of `&&` and `||` expressions. So, generally, coercion is very helpful in this case.
+**Observação** Independentemente de abordagem *implícita* ou *explícita*, você pode facilmente fazer variações `onlyTwo(..)` ou `onlyFive(..)` simplismente mudando a comparação final de `1`, para `2` ou `5`, respectivamente. Isso é drasticamente mais fácil do que adicionar um monte de expressões `&&` e `||`. Então, geralmente, coerção é muito útil nesse caso.
 
-### Implicitly: * --> Boolean
+### Implicitamente: * --> Boolean
 
-Now, let's turn our attention to *implicit* coercion to `boolean` values, as it's by far the most common and also by far the most potentially troublesome.
+Agora, vamos voltar nossa atenção para coerção *implícita* de valores `boolean`, como isso é de longe o mais comum e também de longe o mais potencialmente problemático.
 
-Remember, *implicit* coercion is what kicks in when you use a value in such a way that it forces the value to be converted. For numeric and `string` operations, it's fairly easy to see how the coercions can occur.
+Lembre-se, coerção *implícita* é o que entra quando você usa um valor de tal forma que ele força o valor a ser convertido. Para operações numéricas e de `string`, é bem fácil de ver como as coerções podem acontecer.
 
-But, what sort of expression operations require/force (*implicitly*) a `boolean` coercion?
+Mas, que tipo de expressões de operação requerem/forçam (*implicitamente*) uma coerção `boolean`?
 
-1. The test expression in an `if (..)` statement.
-2. The test expression (second clause) in a `for ( .. ; .. ; .. )` header.
-3. The test expression in `while (..)` and `do..while(..)` loops.
-4. The test expression (first clause) in `? :` ternary expressions.
-5. The left-hand operand (which serves as a test expression -- see below!) to the `||` ("logical or") and `&&` ("logical and") operators.
+1. A expressão test em uma declaração `if(..)`.
+2. A expressão test (segunda cláusula) em um header `for ( .. ; .. ; .. )`.
+3. A expressão test em loops `while (..)` e `do..while(..)`.
+4. A expressão test (primeira cláusula) em expressões ternárias `? :`.
+5. O operando *left-hand* (que serve uma expressão test -- veja abaixo!) para os operadores `||` ("lógico OU") e `&&` ("lógico E").
 
-Any value used in these contexts that is not already a `boolean` will be *implicitly* coerced to a `boolean` using the rules of the `ToBoolean` abstract operation covered earlier in this chapter.
+Qualquer valor usado nesse contexto que já não seja um `boolean` vai sofrer coerção *implícita* para um `boolean` usando as regras da operação abstrata `ToBoolean` abordada anteriormente nesse capítulo.
 
-Let's look at some examples:
+Vamos ver alguns exemplos:
 
 ```js
 var a = 42;
@@ -1149,7 +1147,7 @@ if ((a && d) || c) {
 }
 ```
 
-In all these contexts, the non-`boolean` values are *implicitly coerced* to their `boolean` equivalents to make the test decisions.
+Em todos estes contextos, os valores não `boolean`s sofrem coerção *implícita* para seus equivalentes `boolean` para fazer decisões de teste.
 
 ### Operators `||` and `&&`
 
