@@ -148,9 +148,9 @@ var MyReallyCoolLibrary = {
 
 Outra opção para evitar colisões é a abordagem mais moderna de "módulo", usando qualquer dos vários gestores de dependência. Usando essas ferramentas, nenhuma biblioteca adicionará quaisquer identificadores ao escopo global, mas são obrigados a ter o(s) seu(s) identificador(es) sendo importado(s) explicitamente dentro de outro escopo específico através do uso de vários mecanismos do gerenciador de dependências.
 
-Deve ser observado que estas ferramentas não possuem funcionalidades "mágicas" que estão isentos das regras do escopo léxico. Eles simplesmente usar as regras de escopo, como explicado aqui, para impor que nenhuns identificadores sejam injetados em qualquer escopo compartilhado, e em vez disso são mantidos em privados, escopos de não colisão suscetíveis (non-collision-susceptible scopes), o que previne qualquer colisão acidental no escopo.
+Deve ser observado que estas ferramentas não possuem funcionalidades "mágicas" que estão isentas das regras do escopo léxico. Elas simplesmente usam as regras de escopo, como explicado aqui, para impor que nenhum identificador seja injetado em qualquer escopo compartilhado, e em vez disso são mantidos privados, escopos de não colisão suscetíveis (non-collision-susceptible scopes), o que previne qualquer colisão acidental no escopo.
 
-Como tal, você pode codificar defensivamente e alcançar os mesmos resultados que os gestores de dependência fazer sem realmente precisar usá-los, se assim você desejar. Veja o Capítulo 5 para mais informações sobre module pattern.
+Como tal, você pode codificar defensivamente e alcançar os mesmos resultados que os gestores de dependência fazem sem realmente precisar usá-los, se assim você desejar. Veja o Capítulo 5 para mais informações sobre module pattern.
 
 ## Funções como Escopo
 
@@ -172,7 +172,7 @@ foo(); // <-- e isso
 console.log( a ); // 2
 ```
 
-Embora esta técnica "funcione", ela não é necessariamente ideal. Existem alguns problemas que ela introduz. A primeira, é que nós temos que declarar um função nomeada foo(), o que significa que o nome identificado  foo  "polui" o escopo envolvido (global, neste caso). Nós também temos que chamar explicitamente a função pelo nome (foo ()) para que o código atualmente envolvido execute.
+Embora esta técnica "funcione", ela não é necessariamente ideal. Existem alguns problemas que ela introduz. A primeira, é que nós temos que declarar um função nomeada `foo()`, o que significa que o nome identificado  `foo`  "polui" o escopo envolvido (global, neste caso). Nós também temos que chamar explicitamente a função pelo nome (`foo ()`) para que o código atualmente envolvido execute.
 
 O ideal seria se a função não precisasse de um nome (ou melhor, o nome não poluir o escopo envolvido), e se a função automaticamente pudesse ser executada.
 
@@ -193,15 +193,15 @@ console.log( a ); // 2
 
 Vamos desvendar o que está acontecendo aqui.
 
-Primeiro, note que o envolvimento da instrução da função começa com (function ... ao invés de apenas function .... Enquanto isto deve parecer como um pequeno detalhe, ele é na realidade uma grande mudança. Ao invés de tratar a função como uma declaração padrão, a função é tratada como uma função de expressão (function-expression).
+Primeiro, note que o envolvimento da instrução da função começa com `(function...` ao invés de apenas `function...`. Enquanto isto deve parecer como um pequeno detalhe, ele é na realidade uma grande mudança. Ao invés de tratar a função como uma declaração padrão, a função é tratada como uma função de expressão (function-expression).
 
 **Nota:** A maneira mais fácil de distinguir declaração vs. expressão é a posição da palavra "function" na declaração (não apenas uma linha, mas uma declaração distinta). Se "function" é a primeira coisa na instrução, então é uma declaração de função. Caso contrário, é uma expressão de função.
 
 A principal diferença, que podemos observar aqui, entre uma declaração de função e uma expressão de função se refere a onde seu nome está vinculado como um identificador.
 
-Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é obrigado(bound) no escopo envolvido, e nós o chamamos diretamente com foo (). No segundo trecho, o nome foo não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
+Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é obrigado(bound) no escopo envolvido, e nós o chamamos diretamente com `foo()`. No segundo trecho, o nome foo não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
 
-Em outras palavras, (função foo () {..}) como uma expressão significa que o identificador foo é encontrado somente no escopo onde o { .. }  é indicado, não no escopo externo. Escondendo o nome foo dentro dele mesmo significa que não polui o escopo envolvido desnecessariamente.
+Em outras palavras, `(function foo(){..})` como uma expressão significa que o identificador `foo` é encontrado somente no escopo onde o `{ .. }`  é indicado, não no escopo externo. Escondendo o nome `foo` dentro dele mesmo significa que não polui o escopo envolvido desnecessariamente.
 
 ### Anônimo vs. Nomeado
 
@@ -213,13 +213,13 @@ setTimeout( function(){
 }, 1000 );
 ```
 
-Isso é chamada de uma “expressão função anônima”, porque a função () ... não tem um nome no identificador dele. As expressões de função podem ser anônimas, mas declarações de função não pode omitir o nome - o que seria ilegal na gramática do JS.
+Isso é chamado de “expressão de função anônima”, porque `function()...` não tem um nome no identificador dele. As expressões de função podem ser anônimas, mas declarações de função não podem omitir o nome - o que seria ilegal na gramática do JS.
 
 Expressões de função anônimas são rápidas e fáceis de digitar, e muitas bibliotecas e ferramentas tendem a encorajar este estilo idiomático de código. Entretanto, elas têm vários inconvenientes a serem considerados:
 
 1. Funções anônimas não têm nome útil para exibir em stack traces, que podem fazer a depuração (debugging) mais difícil.
 
-2. Sem um nome, se a função precisa se referir a si mesma, por recursão, etc., o **desaconselhado** ´arguments.callee´ referenciado é infelizmente necessário. Outro exemplo da necessidade de auto referência é quando uma função de manipulador de eventos (event handler function) quer desvincular-se após a execução.
+2. Sem um nome, se a função precisa se referir a si mesma, por recursão, etc., o **desaconselhado** `arguments.callee` referenciado é infelizmente necessário. Outro exemplo da necessidade de auto referência é quando uma função de manipulador de eventos (event handler function) quer desvincular-se após a execução.
 
 3. Funções anônimas omitem um nome que muitas vezes é útil para fornecer um código mais legível/compreensível. Um nome descritivo ajuda a auto documentação do código em questão.
 
@@ -246,11 +246,11 @@ var a = 2;
 console.log( a ); // 2
 ```
 
-Agora que temos uma função como uma expressão em virtude de envolvê-la em um par (), podemos executar aquela função adicionando outro () no fim, como (foo function () {..}) (). O primeiro par de inclusão () faz a expressão de uma função, e a segunda () executa a função.
+Agora que temos uma função como uma expressão em virtude de envolvê-la em um par de `()`, podemos executar aquela função adicionando outro `()` no fim, como `(foo function(){..})()`. O primeiro par de inclusão `()` faz a expressão de uma função, e a segunda `()` executa a função.
 
 Este padrão é tão comum, que há alguns anos, a comunidade aceitou um termo para isso: IIFE, que representa uma Expressão de Função Imediatamente Invocada (Immediately Invoked Function Expressions).
 
-Claro, IIFE’s não precisa de nomes, necessariamente - a forma mais comum de uma IIFE é usar uma expressão da função anônima. Embora certamente menos comum, nomeando um IIFE tem todas as vantagens acima mencionadas sobre as expressões de função anônima, por isso é uma boa prática para adotar.
+Claro, IIFE’s não precisam de nomes, necessariamente - a forma mais comum de uma IIFE é usar uma expressão da função anônima. Embora certamente menos comum, nomeando um IIFE tem todas as vantagens acima mencionadas sobre as expressões de função anônima, por isso é uma boa prática para adotar.
 
 ```js
 var a = 2;
@@ -265,11 +265,11 @@ var a = 2;
 console.log( a ); // 2
 ```
 
-Há uma ligeira variação na tradicional forma do IIFE, que alguns preferem: `(function () {..} ())`. Olhe atentamente para ver a diferença. Na primeira forma, a expressão da função é envolvida por `()`, e então invocada por um par de `()` que está à direita do lado de fora após ele. Na segunda forma, o invocador par de `()` é movido para o interior do exterior par de `()` envolvido.
+Há uma ligeira variação na tradicional forma do IIFE, que alguns preferem: `(function(){..}())`. Olhe atentamente para ver a diferença. Na primeira forma, a expressão da função é envolvida por `()`, e então invocada por um par de `()` que está à direita do lado de fora após ele. Na segunda forma, o invocador par de `()` é movido para o interior do exterior par de `()` envolvido.
 
 Estas duas formas são idênticas em termos de funcionalidade. **É puramente uma escolha estilística que você preferir.**
 
-Outra variação sobre IIFE o qual é bastante comum, é utilizar o fato de que eles são, de fato, apenas funções de chamada, e passagem para o(s) argumento(s).
+Outra variação sobre IIFE o qual é bastante comum, é utilizar o fato de que eles são, de fato, apenas funções de chamada e passagem para o(s) argumento(s).
 
 Por Exemplo:
 
@@ -287,7 +287,7 @@ var a = 2;
 console.log( a ); // 2
 ```
 
-Passamos na referência do objeto `window`, mas o nomeamos parâmetro `global`, de modo que temos um esboço estilístico claro para referências global vs. não-global. Claro, você pode passar qualquer coisa que você quiser no escopo envolvido, e você pode nomear o (s) parâmetro (s) de qualquer forma que convir. Isto é escolha apenas estilística.
+Passamos na referência do objeto `window`, mas o nomeamos parâmetro `global`, de modo que temos um esboço estilístico claro para referências global vs. não-global. Claro, você pode passar qualquer coisa que você quiser no escopo envolvido, e você pode nomear o(s) parâmetro(s) de qualquer forma que convir. Isto é escolha apenas estilística.
 
 Outra aplicação desse padrão aborda (nicho menor) uma preocupação que o identificador padrão `undefined` pode ter seu valor incorretamente substituído, causando resultados inesperados. Ao nomear um parâmetro `undefined`, mas não passando qualquer valor para aquele argumento, podemos garantir que o identificador `undefined` é de fato um valor indefinido em um bloco de código:
 
@@ -326,7 +326,7 @@ A expressão de função `def` é definida na segunda metade do trecho (de códi
 
 Enquanto as funções são as unidades mais comum do escopo, e certamente o mais generalizado das abordagens de design na maioria dos JS em circulação, outras unidades de escopo são possíveis, e o uso dessas outras unidades de escopo podem conduzir ainda melhor, a manter um código limpo.
 
-Muitas outras linguagens além do JavaScript suportam Blocos de escopo, para os desenvolvedores dessas linguagens que estão acostumados com essa mentalidade, enquanto que aqueles que principalmente só trabalharam em JavaScript devem achar o conceito um pouco estranho.
+Muitas outras linguagens além do JavaScript suportam Blocos de escopo, e os desenvolvedores dessas linguagens estão acostumados com essa mentalidade, enquanto que aqueles que principalmente só trabalharam com JavaScript devem achar o conceito um pouco estranho.
 
 Mas mesmo se você nunca escreveu uma única linha de código na forma de escopo do bloco, você ainda provavelmente está familiarizado com esta linguagem extremamente comum em JavaScript:
 
@@ -350,7 +350,7 @@ if (foo) {
 }
 ```
 
-Nós estamos usando uma variável `bar` apenas no contexto da declaração if, por isso, faz um pouco de sentido nós declararmos dentro do bloco if. No entanto, onde nós declaramos variáveis não é relevante quando se usa `var`, porque eles vão sempre pertencer ao escopo envolvido. Este trecho é essencialmente um escopo do bloco "falso", por razões estilísticas, e contando com a auto execução para não acidentalmente usar `bar` em outro lugar naquele escopo.
+Nós estamos usando uma variável `bar` apenas no contexto da declaração if, por isso, faz sentido nós declararmos dentro do bloco if. No entanto, onde nós declaramos variáveis não é relevante quando se usa `var`, porque elas vão sempre pertencer ao escopo envolvido. Este trecho é essencialmente um escopo do bloco "falso", por razões estilísticas, e contando com a auto execução para não acidentalmente usar `bar` em outro lugar naquele escopo.
 
 Escopo de bloco é uma ferramenta para estender o anterior "Princípio da menor Exposição ~~privilegiada~~" [^ note-leastprivilege] de esconder informações em funções para esconder informações em blocos de nosso código.
 
@@ -421,7 +421,7 @@ console.log( bar ); // ReferenceError
 
 Usando `let` para anexar uma variável para um bloco existente é algo implícito. Ele pode confundir se você não está prestando atenção em quais blocos tem variáveis de escopo para eles, e têm o hábito de mover blocos ao redor, envolvendo-os em outros blocos, etc., da forma que você desenvolver e evoluir código.
 
-Criando blocos explícitos para os blocos de escopo, podemos chamar a atenção para algumas dessas preocupações, tornando-a mais óbvias onde as variáveis estão, e não estão vinculadas. Normalmente, código explícito é mais preferível o código implícito ou sutil. Este estilo escopo do bloco explícito é fácil de efetuar, e se encaixa mais naturalmente com a forma como o escopo do bloco funciona em outras linguagens:
+Criando blocos explícitos para os blocos de escopo, podemos chamar a atenção para algumas dessas preocupações, tornando-a mais óbvias onde as variáveis estão, e não estão vinculadas. Normalmente, código explícito é preferível ao código implícito ou sutil. Este estilo escopo do bloco explícito é fácil de efetuar, e se encaixa mais naturalmente com a forma como o escopo do bloco funciona em outras linguagens:
 
 ```js
 var foo = true;
@@ -437,7 +437,7 @@ if (foo) {
 console.log( bar ); // ReferenceError
 ```
 
-Podemos criar um bloco arbitrário para `let` vincular se simplesmente incluindo um par `{ .. }` em qualquer lugar que uma declaração é gramaticalmente válida. Neste caso, nós fizemos um bloco explícito *dentro* da instrução if, o que deve ser mais fácil como um bloco inteiro para se mover mais tarde na refatoração, sem afetar a posição e semântica da instrução if envolvida.
+Podemos criar um bloco arbitrário para `let` vincular-se simplesmente incluindo um par de `{ .. }` em qualquer lugar que uma declaração é gramaticalmente válida. Neste caso, nós fizemos um bloco explícito *dentro* da instrução if, o que deve ser mais fácil como um bloco inteiro para se mover mais tarde na refatoração, sem afetar a posição e semântica da instrução if envolvida.
 
 **Nota:** Para uma outra maneira de expressar blocos de escopo explícitos, consulte o Apêndice B.
 
@@ -454,7 +454,7 @@ No entanto, declarações feitas com `let` *não* irão elevar para todo o escop
 
 #### Coleta de lixo (Garbage Collection)
 
-Outra razão do escopo do bloco ser útil, relaciona se com clausuras e coletas de lixo para recuperar a memória. Vamos brevemente ilustrar aqui, mas o mecanismo de clausuras é explicado em detalhes no Capítulo 5.
+Outra razão do escopo do bloco ser útil, relaciona se com closures e coletas de lixo para recuperar a memória. Vamos brevemente ilustrar aqui, mas o mecanismo de closures é explicado em detalhes no Capítulo 5.
 
 Considere:
 
@@ -525,7 +525,7 @@ Aqui está outra maneira de ilustrar o comportamento de ligação por-iteração
 }
 ```
 
-A razão pela qual a ligação por-interação é interessante se tornará claro no capítulo 5, quando discutirmos clausuras.
+A razão pela qual a ligação por-interação é interessante se tornará claro no capítulo 5, quando discutirmos closures.
 
 Porque declarações `let` anexam à blocos arbitrários em vez de ao escopo da função envolvida (ou global), pode haver armadilhas em que o código existente tem uma dependência escondida na declaração do escopo da função `var`, e substituindo a `var` com `let` deve exigir cuidados adicionais quando re-fatorando código.
 
@@ -606,6 +606,6 @@ Começando com ES3, a estrutura `try/catch` tem escopo do bloco na cláusula `ca
 
 Em ES6, é introduzida a palavra-chave `let` (um primo para a palavra-chave `var`) para permitir que as declarações de variáveis em qualquer bloco arbitrário de código. `if (..) {let a = 2; }` Irá declarar uma variável `a` que, essencialmente, sequestrará o escopo do bloco `if`'s `{ .. }` e auto atribuíra-se lá.
 
-Embora alguns parecem acreditar, o escopo do bloco não deveria ser tomado como uma substituição pura e simples de escopo da função `var`. Ambas as funcionalidades co-existem, e os desenvolvedores podem e deveriam usar ambas as técnicas de escopo da função e escopo do bloco, onde respectivamente apropriados para produzir melhor, mais código legível / sustentável.
+Embora alguns parecem acreditar, o escopo do bloco não deveria ser tomado como uma substituição pura e simples de escopo da função `var`. Ambas as funcionalidades co-existem, e os desenvolvedores podem e deveriam usar ambas as técnicas de escopo da função e escopo do bloco, onde respectivamente apropriados para produzir melhor, mais código legível/sustentável.
 
 [^note-leastprivilege]: [Principle of Least Privilege](http://en.wikipedia.org/wiki/Principle_of_least_privilege)
