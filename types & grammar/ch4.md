@@ -1149,23 +1149,23 @@ if ((a && d) || c) {
 
 Em todos estes contextos, os valores não `boolean`s sofrem coerção *implícita* para seus equivalentes `boolean` para fazer decisões de teste.
 
-### Operators `||` and `&&`
+### Operadores `||` e `&&`
 
-It's quite likely that you have seen the `||` ("logical or") and `&&` ("logical and") operators in most or all other languages you've used. So it'd be natural to assume that they work basically the same in JavaScript as in other similar languages.
+É bem provável que você já tenha visto os operadores `||` ("lógico OU") e `&&` ("lógico E") na maioria ou em todas outras linguagens que você já usou. Então seria natural presumir que eles trabalham basicamente da mesma forma no JavaScript como nas outras linguagens similares.
 
-There's some very little known, but very important, nuance here.
+Há aqui uma nuance pouco conhecida, mas muito importante.
 
-In fact, I would argue these operators shouldn't even be called "logical ___ operators", as that name is incomplete in describing what they do. If I were to give them a more accurate (if more clumsy) name, I'd call them "selector operators," or more completely, "operand selector operators."
+Na verdade, eu argumentaria que esses operadores nem sequer deveriam ser chamados de "operadores___lógicos", pois esse nome é incompleto ao descrever o que eles fazem. Se eu fosse dar à eles um nome mais preciso (se mais desajeitado), eu os chamaria de "operadores de seletores", ou mais completo, "operadores de seletor de operandos".
 
-Why? Because they don't actually result in a *logic* value (aka `boolean`) in JavaScript, as they do in some other languages.
+Por quê? Porque eles, na verdade, não resultam em um valor *lógico* (também conhecido como `boolean`) no JavaScript, como eles fazem em algumas outras linguagens.
 
-So what *do* they result in? They result in the value of one (and only one) of their two operands. In other words, **they select one of the two operand's values**.
+Então qual o *resultado* deles? Eles retornam o valor de um (e apenas um) de seus dois operandos. Em outras palavras, **eles selecionam um dos dois valores de operandos**.
 
-Quoting the ES5 spec from section 11.11:
+Citação da seção 11.11 da especificação ES5:
 
-> The value produced by a && or || operator is not necessarily of type Boolean. The value produced will always be the value of one of the two operand expressions.
+> O valor produzido pelo operador && ou || não pe necessariamente do tipo Boolean. O valor prodizido sempre será o valor de uma das duas empressões de operandos.
 
-Let's illustrate:
+Vamos ilustrar:
 
 ```js
 var a = 42;
@@ -1179,33 +1179,33 @@ c || b;		// "abc"
 c && b;		// null
 ```
 
-**Wait, what!?** Think about that. In languages like C and PHP, those expressions result in `true` or `false`, but in JS (and Python and Ruby, for that matter!), the result comes from the values themselves.
+**Espera, o quê?** Pense nisso. Em liunguagens como C e PHP, essas expressões resultam em `true` ou `false`, mas em JS (e Python e Ruby, aliás!), o resultado vem dos próprios valores.
 
-Both `||` and `&&` operators perform a `boolean` test on the **first operand** (`a` or `c`). If the operand is not already `boolean` (as it's not, here), a normal `ToBoolean` coercion occurs, so that the test can be performed.
+Ambos operadores, `||` e `&&` fazem um teste `boolean` no **primeiro operando** (`a` ou `c`). Se o operando já não for um `boolean` (que no caso, não é), uma coerção `ToBoolean` normal acontece, então o teste pode ser feito.
 
-For the `||` operator, if the test is `true`, the `||` expression results in the value of the *first operand* (`a` or `c`). If the test is `false`, the `||` expression results in the value of the *second operand* (`b`).
+Para o operador `||`, se o teste é `true`, a expressão `||` resulta no valor do *primeiro operando* (`a` ou `c`). Se o teste é `false`, a expressão `||` resulta no valor do *segundo operando* (`b`).
 
-Inversely, for the `&&` operator, if the test is `true`, the `&&` expression results in the value of the *second operand* (`b`). If the test is `false`, the `&&` expression results in the value of the *first operand* (`a` or `c`).
+Iversamente, para o operador `&&`, se o teste é `true`, a expressão `&&` resulta no valor do *segundo operando* (`b`) . Se o teste é `false`, a expressão `&&` resulta no valor do *primeiro operando* (`a` ou `c`).
 
-The result of a `||` or `&&` expression is always the underlying value of one of the operands, **not** the (possibly coerced) result of the test. In `c && b`, `c` is `null`, and thus falsy. But the `&&` expression itself results in `null` (the value in `c`), not in the coerced `false` used in the test.
+O resultado das expressões `||` ou `&&` é sempre o valor de um dos operandos, **não** o resultado (possivelmente convertido) do teste. Em `c && b`, `c` é `null`, e portanto falso. Mas a própria expressão `&&` resulta em `null` (o valor em `c`), não no `false` convertido usado no teste.
 
-Do you see how these operators act as "operand selectors", now?
+Viu como esses operaodres agem como "seletores de operandos" agora?
 
-Another way of thinking about these operators:
+Outra forma de pensar sobre esses operadores:
 
 ```js
 a || b;
-// roughly equivalent to:
+// aproximadamente equivalente à:
 a ? a : b;
 
 a && b;
-// roughly equivalent to:
+// aproximadamente equivalente à:
 a ? b : a;
 ```
 
-**Note:** I call `a || b` "roughly equivalent" to `a ? a : b` because the outcome is identical, but there's a nuanced difference. In `a ? a : b`, if `a` was a more complex expression (like for instance one that might have side effects like calling a `function`, etc.), then the `a` expression would possibly be evaluated twice (if the first evaluation was truthy). By contrast, for `a || b`, the `a` expression is evaluated only once, and that value is used both for the coercive test as well as the result value (if appropriate). The same nuance applies to the `a && b` and `a ? b : a` expressions.
+**Observação** Eu chamo `a || b` de "aproximadamente equivalente" à `a ? a : b` porque a saída é idêntica, mas há uma diferença de nuance. Em `a ? a : b`, se `a` era uma expressão mais complexa (como por exemplo uma que pode ter efeitos colaterais como chamar uma `function`, etc..), então a expressão `a` vai possivelmente ser avaliada duas vezes (se a primeira avaliação for verdadeira). Por contraste, para `a || b`, a expressão `a` é avalidada apenas uma vez, e esse valor é usado tanto para o teste coercivo como para o valor do resultado (se apropriado). A mesma nuance se aplica para as expressões `a && b` and `a ? b : a`.
 
-An extremely common and helpful usage of this behavior, which there's a good chance you may have used before and not fully understood, is:
+Um uso extremamente comum e útil desse comportamento, em que há uma grande chance de você já ter usado isso antes e não entendido completamente é:
 
 ```js
 function foo(a,b) {
@@ -1219,23 +1219,27 @@ foo();					// "hello world"
 foo( "yeah", "yeah!" );	// "yeah yeah!"
 ```
 
+O idioma `a = a || "hello"` () testa `a` e se ele não tem valor (ou apenas um valor falso indesejável), provê um valor padrão de backup (`"hello"`).
+
+No entanto, **tenha cuidado!**
+
 The `a = a || "hello"` idiom (sometimes said to be JavaScript's version of the C# "null coalescing operator") acts to test `a` and if it has no value (or only an undesired falsy value), provides a backup default value (`"hello"`).
 
 **Be careful**, though!
 
 ```js
-foo( "That's it!", "" ); // "That's it! world" <-- Oops!
+foo( "That's it!", "" ); // "That's it! world" <-- Opa!
 ```
 
-See the problem? `""` as the second argument is a falsy value (see `ToBoolean` earlier in this chapter), so the `b = b || "world"` test fails, and the `"world"` default value is substituted, even though the intent probably was to have the explicitly passed `""` be the value assigned to `b`.
+Viu o problema? `""` como segundo argumento é uma valor falso (veja `ToBoolean` anteriormente nesse capítulo), então o teste `b = b || "world"` falha, e o valor padrão `"world"` é substituído, mesmo quando a intenção era, provavelmente, passar explicitamente que `""` seja o valor atribuído para `b`.
 
-This `||` idiom is extremely common, and quite helpful, but you have to use it only in cases where *all falsy values* should be skipped. Otherwise, you'll need to be more explicit in your test, and probably use a `? :` ternary instead.
+Essa linguagem `||` é extremamente comum, e bem útil, mas você tem que usá-la somente em casos onde *todos os valores falsos* devem ser ignorados. Do contrário, você precisará ser mais explícito no seu teste, e provalmente usar um ternário `? :` no lugar.
 
-This *default value assignment* idiom is so common (and useful!) that even those who publicly and vehemently decry JavaScript coercion often use it in their own code!
+Essa *atribuição de valor padrão* é tão comum (e útil!) que até mesmo aqueles que veementemente e publicamente condenam a coerção JavaScript, freuqnetemente a utilizam em seu pŕoprio código!
 
-What about `&&`?
+E o `&&`?
 
-There's another idiom that is quite a bit less commonly authored manually, but which is used by JS minifiers frequently. The `&&` operator "selects" the second operand if and only if the first operand tests as truthy, and this usage is sometimes called the "guard operator" (also see "Short Circuited" in Chapter 5) -- the first expression test "guards" the second expression:
+Esse é outra linguagem que é bem menso comum, mas que é usanda por minificadores JS frequentemente. O operador `&&` "seleciona" o segundo operando se, e apenas se, o primeiro teste  do operando for verdadeiro, e esse uso é chamado algumas vezes de "operador guarda" (veja também "Circuito curto" no capítulo 5) -- o primeiro teste de expressão "guarda" a segunda expressão:
 
 ```js
 function foo() {
@@ -1247,19 +1251,19 @@ var a = 42;
 a && foo(); // 42
 ```
 
-`foo()` gets called only because `a` tests as truthy. If that test failed, this `a && foo()` expression statement would just silently stop -- this is known as "short circuiting" -- and never call `foo()`.
+`foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa declaração de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "circuito curto" -- e nunca chamar `foo()`.
 
-Again, it's not nearly as common for people to author such things. Usually, they'd do `if (a) { foo(); }` instead. But JS minifiers choose `a && foo()` because it's much shorter. So, now, if you ever have to decipher such code, you'll know what it's doing and why.
+De novo, não é muito comum que as pessoas criem essas coisas. Normalmente, elas fazem `if (a) { foo(); }` no lugar. Mas os minificadores JS escolhem `a && foo()` porque é muito mais curto. Então, agora, se você alguma vez tiver que decifrar tal código, você saberá o que ele está fazendo e porque.
 
-OK, so `||` and `&&` have some neat tricks up their sleeve, as long as you're willing to allow the *implicit* coercion into the mix.
+Ok, então `||` e `&&` têm alguns truques na manga, com tanto que você queira permitir a coerção *implícita* nessa mistura.
 
-**Note:** Both the `a = b || "something"` and `a && b()` idioms rely on short circuiting behavior, which we cover in more detail in Chapter 5.
+**Observação** Ambos, `a = b || "something"` e `a && b()` referen-se ao comportamento de circuitos curtos, que nos abordamos com mais detalhes no capítulo 5.
 
-The fact that these operators don't actually result in `true` and `false` is possibly messing with your head a little bit by now. You're probably wondering how all your `if` statements and `for` loops have been working, if they've included compound logical expressions like `a && (b || c)`.
+O fato desses operadores. na verdade, não resultarem em `true` e `false` possivelmente mexerá um pouco com a sua cabeça agora. Você provavelmente está se perguntando como todos suas declarações `if` e seus loops `for` funcionavam, se eles inclíram expressões lógicas compostas como `a && (b || c)`.
 
-Don't worry! The sky is not falling. Your code is (probably) just fine. It's just that you probably never realized before that there was an *implicit* coercion to `boolean` going on **after** the compound expression was evaluated.
+Não se preocupe! o céu não está desabando. Seu código está (provavelmente) bem. É que você provavelmente nunca percebeu antes que havia uma coerção *implícita* para `boolean` acontecendo **depois** que a expresão composta era analisada.
 
-Consider:
+Considere:
 
 ```js
 var a = 42;
@@ -1271,11 +1275,11 @@ if (a && (b || c)) {
 }
 ```
 
-This code still works the way you always thought it did, except for one subtle extra detail. The `a && (b || c)` expression *actually* results in `"foo"`, not `true`. So, the `if` statement *then* forces the `"foo"` value to coerce to a `boolean`, which of course will be `true`.
+Esse código continua funcionando da forma que você sempre achou que funcionava, exceto por um detalhe sutil. A expressão `a && (b || c)` *na verdade* resulta em `"foo"`, não `true`. Portanto, a declaração `if` *então* força o valor `"foo"` a sofrer coerção para `boolean`, o que é claro será `true`.
 
-See? No reason to panic. Your code is probably still safe. But now you know more about how it does what it does.
+Viu? não há razão para entrar em pânico. Seu código, provavelmente, está à salvo. Mas agora você sabe mais sobre como isso faz o que faz.
 
-And now you also realize that such code is using *implicit* coercion. If you're in the "avoid (implicit) coercion camp" still, you're going to need to go back and make all of those tests *explicit*:
+E agora você também percebeu que tal código usa coerção *implícita*. Se você ainda está no time "evite coerção (implícita)", você terá que voltar e fazer todos aqueles testes *explicitamente*:
 
 ```js
 if (!!a && (!!b || !!c)) {
@@ -1283,15 +1287,15 @@ if (!!a && (!!b || !!c)) {
 }
 ```
 
-Good luck with that! ... Sorry, just teasing.
+Boa sorte com isso! ... Desculpe, apenas provocando.
 
-### Symbol Coercion
+### Coerção de symbols
 
-Up to this point, there's been almost no observable outcome difference between *explicit* and *implicit* coercion -- only the readability of code has been at stake.
+Até esse ponto, não houve quase nenhuma diferença de resultado observável entre coerção *explícita* e *implícita* -- apenas a legibilidade do código está em jogo.
 
-But ES6 Symbols introduce a gotcha into the coercion system that we need to discuss briefly. For reasons that go well beyond the scope of what we'll discuss in this book, *explicit* coercion of a `symbol` to a `string` is allowed, but *implicit* coercion of the same is disallowed and throws an error.
+Mas símbolos do ES6 introduzem uma pegadinha no sistema de coerção que nśo precisamos discutir brevemente. Por razões que vão bem além do escopo do que nós vamos discutir nesse livro, coerção *explícita* de um `symbol` para uma `string` é permitida, mas coerção *implícita* do mesmo não é permitida e lançará um erro.
 
-Consider:
+Considere:
 
 ```js
 var s1 = Symbol( "cool" );
@@ -1301,56 +1305,56 @@ var s2 = Symbol( "not cool" );
 s2 + "";						// TypeError
 ```
 
-`symbol` values cannot coerce to `number` at all (throws an error either way), but strangely they can both *explicitly* and *implicitly* coerce to `boolean` (always `true`).
+Valores `symbol` não fazem coerção para `number` de nenhuma forma (lança um erro de qualquer jeito), mas estranhamente ambas podem fazer coerção *explícita* e *implícita* para `boolean` (sempre `true`).
 
-Consistency is always easier to learn, and exceptions are never fun to deal with, but we just need to be careful around the new ES6 `symbol` values and how we coerce them.
+Consistências são sempre fáceis de aprender, e exceções nunca são divertidas de lidar, mas nós apenas precisamos ter cuidado com os novos valores `symbol` do ES6 e como nós fazemos coerção nelas.
 
-The good news: it's probably going to be exceedingly rare for you to need to coerce a `symbol` value. The way they're typically used (see Chapter 3) will probably not call for coercion on a normal basis.
+A boa notícia: provavelmente será extremamente raro você precisar fazer coerção de uma valor `symbol`. A maneira como eles são normalmente usados (veja o capítulo 3), provavelmente não exigirá coerção em uma base normal.
 
-## Loose Equals vs. Strict Equals
+## Igualdade Ampla vs. Igualdade Estrita
 
-Loose equals is the `==` operator, and strict equals is the `===` operator. Both operators are used for comparing two values for "equality," but the "loose" vs. "strict" indicates a **very important** difference in behavior between the two, specifically in how they decide "equality."
+Igualdade ampla é o operador `==`, e igualdade estrita é o operador `===`. Ambos operadores são usados para comparar dois valores para "igualdade", mas o "amplo" vs. "estrito" indica uma diferença de comportamento **muito importante** entre os dois, especificamente em como eles decidem a "igualdade".
 
-A very common misconception about these two operators is: "`==` checks values for equality and `===` checks both values and types for equality." While that sounds nice and reasonable, it's inaccurate. Countless well-respected JavaScript books and blogs have said exactly that, but unfortunately they're all *wrong*.
+Um equívico muito comum sobre esses dois operadores é: `==` verifica igualdade de valores e `===` verifica igualdade de ambos, valores e tipos. Enquanto isso parece sensato, é impreciso. Incontáveis livros, bem respeitados, de JavaScript e blogs disseram exatamente isso, mas infelizmente eles estão todos *errados*.
 
-The correct description is: "`==` allows coercion in the equality comparison and `===` disallows coercion."
+A descrição correta é: "`==` permite coerção na comparação da igualdade e `===` não permite."
 
-### Equality Performance
+### Desempenho da Igualdade
 
-Stop and think about the difference between the first (inaccurate) explanation and this second (accurate) one.
+Pare e pense sobre a diferença entre a primeira explicação (imprecisa) e esta segunda (precisa).
 
-In the first explanation, it seems obvious that `===` is *doing more work* than `==`, because it has to *also* check the type. In the second explanation, `==` is the one *doing more work* because it has to follow through the steps of coercion if the types are different.
+Na primeira explicação, parece óbvio que `===` está *fazendo mais trabalho* que `==`, porque ele precisa *também* verificar o tipo. Na segunda explicação, `==` é a que está *fazendo mais trabalho* porque ele precisa seguir através dos passos da coerção se os tipos são diferentes.
 
-Don't fall into the trap, as many have, of thinking this has anything to do with performance, though, as if `==` is going to be slower than `===` in any relevant way. While it's measurable that coercion does take *a little bit* of processing time, it's mere microseconds (yes, that's millionths of a second!).
+Não caia na armadilha, como muitos fazem, de pensar que isso tem alguma coisa a ver com performance, como se `==` fosse ser mais lento que `===` de qualquer maneira relevante. Embora seja mensurável que a coerção tome *um pouco mais* de tempo de processamento, são meros microsegundos (sim, isso é um milionésimo de segundo!).
 
-If you're comparing two values of the same types, `==` and `===` use the identical algorithm, and so other than minor differences in engine implementation, they should do the same work.
+Se você está comprando dois valores do mesmo tipo, `==` e `===` usam o algoritmo idêntico, e algumas outras diferenças mínimas na implementação do motor, eles devem fazer o mesmo trabalho.
 
-If you're comparing two values of different types, the performance isn't the important factor. What you should be asking yourself is: when comparing these two values, do I want coercion or not?
+Se você está comparando dois valores de tipos diferentes, a performance não é o fator importante. O que você deveria se perguntar é: ao comparar esses dois valores, eu quero a coerção ou não?
 
-If you want coercion, use `==` loose equality, but if you don't want coercion, use `===` strict equality.
+Se você quer a coerção, use `==` igualdade ampla, mas se você não quer coerção, use `===` igualdade estrita.
 
-**Note:** The implication here then is that both `==` and `===` check the types of their operands. The difference is in how they respond if the types don't match.
+**Observação** a implicação aqui é que ambos `==` e `===` verifiquem os tipos dos seus operandos. A diferença é em como eles irão responder se os tipos não coincidem.
 
-### Abstract Equality
+### Igualdade abstrata
 
-The `==` operator's behavior is defined as "The Abstract Equality Comparison Algorithm" in section 11.9.3 of the ES5 spec. What's listed there is a comprehensive but simple algorithm that explicitly states every possible combination of types, and how the coercions (if necessary) should happen for each combination.
+O comportamento do operador `==` é definido como "O algoritmo de comparação de igualdade abstrata" na seção 11.9.3 da especificação ES5. O que está listado lá é um algoritmo abrangente, mas simples, que declara explicitamente todas as combinações possíveis de tipos, e como as coerções (se necessárias) devem acontecer para cada combinação.
 
-**Warning:** When (*implicit*) coercion is maligned as being too complicated and too flawed to be a *useful good part*, it is these rules of "abstract equality" that are being condemned. Generally, they are said to be too complex and too unintuitive for developers to practically learn and use, and that they are prone more to causing bugs in JS programs than to enabling greater code readability. I believe this is a flawed premise -- that you readers are competent developers who write (and read and understand!) algorithms (aka code) all day long. So, what follows is a plain exposition of the "abstract equality" in simple terms. But I implore you to also read the ES5 spec section 11.9.3. I think you'll be surprised at just how reasonable it is.
+**Atenção** Quando (*implicitamente*) a coerção é vista como sendo muito complicada e também defeituosa para ser uma *boa parte útil*, são essas regras de "igualdade abstrata" que estão sendo condenadas. Geralmente, elas são ditas como muito complexas e não intuitivas para desenvolvedores aprenderem e usá-las na prática, e que elas mais causam bugs nos programas JS do que provêm grande legibilidade do código. Eu acredito que essa é uma premissa defeituosa -- que vocês leitores são desenvolvedores competentes que escrevem (e leêm e entendem!) algoritmos (códigos) durante todo o dia. Então o que se segue é uma plano de exposição das "igualdades abstratas" em termos simples. Mas eu imploro para que você também leia a seção 11.9.3 da especificação ES5. Eu acho qe você ficará surpreso do quão sensata ela é.
 
-Basically, the first clause (11.9.3.1) says, if the two values being compared are of the same type, they are simply and naturally compared via Identity as you'd expect. For example, `42` is only equal to `42`, and `"abc"` is only equal to `"abc"`.
+Basicamente, a primeira cláusula (11.9.3.1) diz, se os dois valores que estão sendo comparados são do mesmo tipo, eles são simplesmente e naturalmente comparados via identidade como você esperava. Por exemplo, `42` só é igual a `42`, e `"abc"` é apenas igual à `"abc"`.
 
-Some minor exceptions to normal expectation to be aware of:
+Algumas pequenas exceções à expectativa normal para estar ciente são:
 
-* `NaN` is never equal to itself (see Chapter 2)
-* `+0` and `-0` are equal to each other (see Chapter 2)
+* `NaN` nunca é igual a ela mesma (veja Capítulo 2)
+* `+0` e `-0` são iguais entre si (veja Capítulo 2)
 
-The final provision in clause 11.9.3.1 is for `==` loose equality comparison with `object`s (including `function`s and `array`s). Two such values are only *equal* if they are both references to *the exact same value*. No coercion occurs here.
+A última provisão na cláusula 11.9.3.1 é para comparação de igualdade ampla `==` com `object`s (incluindo `function`s e `array`s). Tais valores são apenas *iguais* se ambos referências para *exatamente o mesmo valor*. Não ocorre coerção aqui.
 
-**Note:** The `===` strict equality comparison is defined identically to 11.9.3.1, including the provision about two `object` values. It's a very little known fact that **`==` and `===` behave identically** in the case where two `object`s are being compared!
+**Observação** A comparação de igualdade estrita `===` é definida identicamente para 11.9.3.1, incluindo a provisão sobre dois valores de `objects`. É um fato pouco conhecido que **`==` e `===` se comportam de forma idêntica** no caso inde dois `objects`s estão sendo comparados.
 
-The rest of the algorithm in 11.9.3 specifies that if you use `==` loose equality to compare two values of different types, one or both of the values will need to be *implicitly* coerced. This coercion happens so that both values eventually end up as the same type, which can then directly be compared for equality using simple value Identity.
+O resto do algoritmo em 11.9.3. especifica qur se você usar igualdade ampla `==` para comparar dois valores de tipos diferentes, um ou ambos os valores precisarão sofrer coerção *implícita*. Essa coerção acontece para que ambos valores eventualmente terminem com o mesmo tipo, no qual possam ser comparados pela igualdade usando valores de identidade simples.
 
-**Note:** The `!=` loose not-equality operation is defined exactly as you'd expect, in that it's literally the `==` operation comparison performed in its entirety, then the negation of the result. The same goes for the `!==` strict not-equality operation.
+**Observação** A operação de não-igualdade ampla `!=` é definida exatamente como você esprava, na medida em que é literalmente a comparação da operação `==` realizada na sua totalidade, e então a negação do resultado. O mesmo vale para a operação de não-igualdade estrita `!==`.
 
 #### Comparing: `string`s to `number`s
 
