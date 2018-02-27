@@ -1587,13 +1587,13 @@ The `null` and `undefined` values cannot be boxed -- they have no object wrapper
 
 `NaN` can be boxed to its `Number` object wrapper equivalent, but when `==` causes an unboxing, the `NaN == NaN` comparison fails because `NaN` is never equal to itself (see Chapter 2).
 
-### Edge Cases
+### Casos à parte
 
-Now that we've thoroughly examined how the *implicit* coercion of `==` loose equality works (in both sensible and surprising ways), let's try to call out the worst, craziest corner cases so we can see what we need to avoid to not get bitten with coercion bugs.
+Agora que nós examinamos completamente como a coerção *implícita* de `==` igualdade ampla funciona (tanto na maneira sensível como na surpreendente), vamos tentar chamar os piores e mais loucos casos para que possamos ver o que precisamos evitar para não ser pego com bugs de coerção.
 
-First, let's examine how modifying the built-in native prototypes can produce crazy results:
+Primeiro, vamos examinar como modificar prototypes nativos podem produzir resultados loucos:
 
-#### A Number By Any Other Value Would...
+#### Um número por outro valor seria...
 
 ```js
 Number.prototype.valueOf = function() {
@@ -1603,11 +1603,11 @@ Number.prototype.valueOf = function() {
 new Number( 2 ) == 3;	// true
 ```
 
-**Warning:** `2 == 3` would not have fallen into this trap, because neither `2` nor `3` would have invoked the built-in `Number.prototype.valueOf()` method because both are already primitive `number` values and can be compared directly. However, `new Number(2)` must go through the `ToPrimitive` coercion, and thus invoke `valueOf()`.
+**Atenção** `2 == 3` não teria caído nessa armadilha, porque nem `2` nem `3` teria invocado o método nativo `Number.prototype.valueOf()` porque ambos já são valores primitivos `number` e podem ser comparados diretamente. No entanto, `new Number(2)` deve passar pela coerção `ToPrimitive`, e por isso ivocar `valueOf()`.
 
-Evil, huh? Of course it is. No one should ever do such a thing. The fact that you *can* do this is sometimes used as a criticism of coercion and `==`. But that's misdirected frustration. JavaScript is not *bad* because you can do such things, a developer is *bad* **if they do such things**. Don't fall into the "my programming language should protect me from myself" fallacy.
+Maldade né? É claro que é. Ninguém nunca deveria fazer algo assim. O fato de que você *pode* fazer isso é usado como crítica da coerção e `==`. Mas isso é uma frustação mal direcionada. JavaScript não é *ruim* por que você pode fazer tais coisas, um desenvolvedor é *ruim* **se eles fizerem tais coisas**. Não caia na falácia "minha linguagem de programação deveria me proteger de mim mesmo".
 
-Next, let's consider another tricky example, which takes the evil from the previous example to another level:
+Próximo vamos considerar outro exemplo complicado, o que leva a maldade do exemplo anterior para outro nível:
 
 ```js
 if (a == 2 && a == 3) {
@@ -1615,9 +1615,9 @@ if (a == 2 && a == 3) {
 }
 ```
 
-You might think this would be impossible, because `a` could never be equal to both `2` and `3` *at the same time*. But "at the same time" is inaccurate, since the first expression `a == 2` happens strictly *before* `a == 3`.
+Você pode pensar que isso seria impossível, porque `a` nunca deveria ser igual a ambos `2` e `3` *ao mesmo tempo*. Mas "ao mesmo tempo" é impreciso, já que a primeira expressão `a == 2`, acontece estritamente *antes* de `a == 3`.
 
-So, what if we make `a.valueOf()` have side effects each time it's called, such that the first time it returns `2` and the second time it's called it returns `3`? Pretty easy:
+Então, e se nós fizermos com que `a.valueOf()` tivesse efeitos colaterais toda vez que fosse chamado, de modo que na primeira vez retorna `2` e na segunda vez que for chamada retorne `3`? Muito fácil:
 
 ```js
 var i = 2;
@@ -1633,13 +1633,13 @@ if (a == 2 && a == 3) {
 }
 ```
 
-Again, these are evil tricks. Don't do them. But also don't use them as complaints against coercion. Potential abuses of a mechanism are not sufficient evidence to condemn the mechanism. Just avoid these crazy tricks, and stick only with valid and proper usage of coercion.
+De novo, esses são truques maldosos. Não faça-os. Mas também não os use como queixas contra a coerção. Abusos potenciais dos mecaniscmos não são evidências suficientes para condenar o mecanismo. Apenas evite esses truques malucos, e mantenha-se com o uso válido e apropriado da coerção.
 
-#### False-y Comparisons
+#### Comparações False-y
 
-The most common complaint against *implicit* coercion in `==` comparisons comes from how falsy values behave surprisingly when compared to each other.
+A queixa mais comum contra coerção *implícita* na comparação `==` ver de quão surpreendentes os valores *falsy* se comportam quando comparados entre si.
 
-To illustrate, let's look at a list of the corner-cases around falsy value comparisons, to see which ones are reasonable and which are troublesome:
+Para ilustrar, vamos olha para a lista de casos à parte sobre comparação de valores *falsy*, para ver quais são os razoáveis e os problemáticos:
 
 ```js
 "0" == null;			// false
@@ -1671,60 +1671,58 @@ false == {};			// false
 0 == {};				// false
 ```
 
-In this list of 24 comparisons, 17 of them are quite reasonable and predictable. For example, we know that `""` and `NaN` are not at all equatable values, and indeed they don't coerce to be loose equals, whereas `"0"` and `0` are reasonably equatable and *do* coerce as loose equals.
+Nessa lista de 24 comparações, 17 delas são bem razoáveis e previsíveis. Por exemplo, nós sabemos que `""` e `NaN` não são valores iguais, e mesmo eles não sofrem coerção para serem igualdades amplas, considerando que `"0"` e `0` são razoavelmente igualáveis e *vão* sofrer coerção como igualdade ampla.
 
-However, seven of the comparisons are marked with "UH OH!" because as false positives, they are much more likely gotchas that could trip you up. `""` and `0` are definitely distinctly different values, and it's rare you'd want to treat them as equatable, so their mutual coercion is troublesome. Note that there aren't any false negatives here.
+No entanto, sete destas comparaçãoes estão marcadas com "UH OH!" porque como falsos positivos, eles mais provavelmente são pegadinhas que podem te enganar. `""` e `0` são definitivamente distitilvelmente valores diferentes, e é raro que você queira tratá-los como iguais, então a coerção mútua é problemática. Note que não há nenhum falso negativo aqui.
 
-#### The Crazy Ones
+#### Os Loucos 
 
-We don't have to stop there, though. We can keep looking for even more troublesome coercions:
+No entanto, nós não temos que parar aqui. Nós podemos continuar procurando por mais coerções problemáticas:
 
 ```js
 [] == ![];		// true
 ```
 
-Oooo, that seems at a higher level of crazy, right!? Your brain may likely trick you that you're comparing a truthy to a falsy value, so the `true` result is surprising, as we *know* a value can never be truthy and falsy at the same time!
+Oooo, isso parece estar em um nível mais alto de loucura, certo!? Seu cérebro pode estar te enganando que você está comparando um valor verdadeiro com falso, então o resultado `true` é surpreendente, como nós *sabemos*, um valor nunca pode ser verdadeiro e falso ao mesmo tempo!
 
-But that's not what's actually happening. Let's break it down. What do we know about the `!` unary operator? It explicitly coerces to a `boolean` using the `ToBoolean` rules (and it also flips the parity). So before `[] == ![]` is even processed, it's actually already translated to `[] == false`. We already saw that form in our above list (`false == []`), so its surprise result is *not new* to us.
+Mas, na verdade, não é isso que está acontecendo. Vamos destrinchar isso. O que sabemos sobre o opeardor unário `!`? Ele aplica a coerção explícita para um `boolean` usando as regras de `ToBoolean` (e também troca a paridade). Então antes de `[] == ![]` sequer ser processado, ele já traduziu para `[] == false`. Nós já vimos essa forma em nossa lista acima (`false == []`), então seu resultado surpreendente *não é novo* para nós.
 
-How about other corner cases?
+E sobre esses outros casos?
 
 ```js
 2 == [2];		// true
 "" == [null];	// true
 ```
 
-As we said earlier in our `ToNumber` discussion, the right-hand side `[2]` and `[null]` values will go through a `ToPrimitive` coercion so they can be more readily compared to the simple primitives (`2` and `""`, respectively) on the left-hand side. Since the `valueOf()` for `array` values just returns the `array` itself, coercion falls to stringifying the `array`.
+Como nós dissemos anteriormente em nossa discussão `ToNumber`, o lado direito dos valores `[2]` e `[null]` vão passar pela coerção `ToPrimitive` e então eles podem ser comparados mais prontamente aos primitivos simples (`2` e `""`, respectivamente) no lado esquerdo. Desde que `valueOf()` para o próprio valor `array`, a coerção falha na stringficação do `array`.
 
-`[2]` will become `"2"`, which then is `ToNumber` coerced to `2` for the right-hand side value in the first comparison. `[null]` just straight becomes `""`.
+`[2]` torna-se `"2"`, o que então sofre coerção `ToNumber` para `2` para o valor do lado direito na primeira comparação. `[null]` apenas continua sendo `""`.
 
-So, `2 == 2` and `"" == ""` are completely understandable.
+Então, `2 == 2` e `"" ==""` são completamente compreensíveis.
 
-If your instinct is to still dislike these results, your frustration is not actually with coercion like you probably think it is. It's actually a complaint against the default `array` values' `ToPrimitive` behavior of coercing to a `string` value. More likely, you'd just wish that `[2].toString()` didn't return `"2"`, or that `[null].toString()` didn't return `""`.
+Se seu instinto é continuar desgostando destes resultados, sua frustação, na verdade, não é com a coerção, como provavelmente você pensa que é. É na verdade uma queixa contra o comportamento padrão de valores `array` `ToPrimitive` de uma coerção de `[2]` e então `"2"`, exceto talvez `"[2]"` -- mais isso pode ser muito estranho em outros contextos!
 
-But what exactly *should* these `string` coercions result in? I can't really think of any other appropriate `string` coercion of `[2]` than `"2"`, except perhaps `"[2]"` -- but that could be very strange in other contexts!
+Você poderia certamente azer o caso em que `String(null)` torna-se `"null"`, então `String([null])` deverá também tornar-se `"null"`. Issa é uma aformação razoável. Então, esse é o verdadeiro culpado.
 
-You could rightly make the case that since `String(null)` becomes `"null"`, then `String([null])` should also become `"null"`. That's a reasonable assertion. So, that's the real culprit.
+Coerção *implícita* por si só não é a vilã aqui. Até mesmo uma coerção *explícita* de `[null]` para uma `string` resulta em `""`. O que está em contradição é se é sensato para um valor `array` stringficar para um equivalente de seu conteúdo, e exatamente como isso acontece. Então, direcione sua frustação para as regras de `String( [..] )`, porque é de onde a loucura vem. Talvez não deva mesmo acontecer a stringficação de um `array`? Mas isso teria muitas outras desvantagens em outras partes da linguagem.
 
-*Implicit* coercion itself isn't the evil here. Even an *explicit* coercion of `[null]` to a `string` results in `""`. What's at odds is whether it's sensible at all for `array` values to stringify to the equivalent of their contents, and exactly how that happens. So, direct your frustration at the rules for `String( [..] )`, because that's where the craziness stems from. Perhaps there should be no stringification coercion of `array`s at all? But that would have lots of other downsides in other parts of the language.
-
-Another famously cited gotcha:
+Outra pegadinha famosa citada:
 
 ```js
 0 == "\n";		// true
 ```
 
-As we discussed earlier with empty `""`, `"\n"` (or `" "` or any other whitespace combination) is coerced via `ToNumber`, and the result is `0`. What other `number` value would you expect whitespace to coerce to? Does it bother you that *explicit* `Number(" ")` yields `0`?
+Como discutimos antes com `""`, `"\n"` (ou `" "` ou qualquer outra combinação de espaços vazios) sofre coerção via `ToNumber`, e o resultado é `0`. Que outro valor de `number` você espera que um espaço vazio seja convertido? Te encomoda que `Number(" ")` retorne `0`?
 
-Really the only other reasonable `number` value that empty strings or whitespace strings could coerce to is the `NaN`. But would that *really* be better? The comparison `" " == NaN` would of course fail, but it's unclear that we'd have really *fixed* any of the underlying concerns.
+Realmente o único outro `number` razoável no qual strings vazias ou espaços em brancos possam sofrer coerção é o `NaN`. Mas isso seria *realmente* melhor? A comparação `" " == NaN` vai certamente falhar, mas não está claro que teríamos realmente *corrigido* qualquer uma das preocupações subjacentes.
 
-The chances that a real-world JS program fails because `0 == "\n"` are awfully rare, and such corner cases are easy to avoid.
+As chances de que um programa JS real falhe porque `0 == "\n"` são terrivelmente raras, e tais casos podem facilmente ser evitados.
 
-Type conversions **always** have corner cases, in any language -- nothing specific to coercion. The issues here are about second-guessing a certain set of corner cases (and perhaps rightly so!?), but that's not a salient argument against the overall coercion mechanism.
+Conversões de tipo **sempre** tem casos à parte, em qualquer linguagem -- nada especificamente para coerção. Os problemas aqui são sobre adivinhar um certo conjunto de casos à parte (e , talvez, corretamente!), mas esse não pe um argumento saliente contra o mecanismo geral de coerção.
 
-Bottom line: almost any crazy coercion between *normal values* that you're likely to run into (aside from intentionally tricky `valueOf()` or `toString()` hacks as earlier) will boil down to the short seven-item list of gotcha coercions we've identified above.
+Quase qualquer coerção louca entre *valores normais* que você provavelmente irá encontrar (além de hacks intencionalmente complicados `valueOf()` or `toString()` como anteriores) se resumirão a esta lista curta de sete coerções que nós identificamos acima.
 
-To contrast against these 24 likely suspects for coercion gotchas, consider another list like this:
+Para contrastar contra estes 24 suspeitos prováveis para pegadinhas de coerção, considere outra lista como esta:
 
 ```js
 42 == "43";							// false
@@ -1735,21 +1733,21 @@ To contrast against these 24 likely suspects for coercion gotchas, consider anot
 "foo" == [ "foo" ];					// true
 ```
 
-In these nonfalsy, noncorner cases (and there are literally an infinite number of comparisons we could put on this list), the coercion results are totally safe, reasonable, and explainable.
+Nesses casos não falsos, não à parte (e há literalmente um número infinito de comparações que podemos colocar nesta lista), os resultados da coerção são totalmente seguros, razoáveis ​​e explicáveis.
 
-#### Sanity Check
+#### Teste de Sanidade
 
-OK, we've definitely found some crazy stuff when we've looked deeply into *implicit* coercion. No wonder that most developers claim coercion is evil and should be avoided, right!?
+OK, nós definitivamente achamos algumas coisas loucas quando nós olhamos a fundo na coerção *implícita*. Não é à toa que a maioria dos desenvolvedores afirmam que coerção é ruim e deve ser evitada, certo!?
 
-But let's take a step back and do a sanity check.
+Mas vamos voltar um passo e fazer um teste de sanidade.
 
-By way of magnitude comparison, we have *a list* of seven troublesome gotcha coercions, but we have *another list* of (at least 17, but actually infinite) coercions that are totally sane and explainable.
+Para fins de comparações de magnitude, nós temos *uma lista* de sete pegadinhas de coerção problemáticas, mas nós temos *outra lista* de (ao menos 17, mas atualmente infinita) coerções que são totalmente sensatas e explicáveis.
 
-If you're looking for a textbook example of "throwing the baby out with the bathwater," this is it: discarding the entirety of coercion (the infinitely large list of safe and useful behaviors) because of a list of literally just seven gotchas.
+Se você está buscando por um exemplo de texto para "matar uma mosca com um canhão", é isto: discartando a totalidade da coerção (a infinitamente larga lista de comportamentos seguros e úteis) por causa de uma lista de, literalmente, sete pegadinhas.
 
-The more prudent reaction would be to ask, "how can I use the countless *good parts* of coercion, but avoid the few *bad parts*?"
+A reação mais prudente seria perguntar, "como eu posso usar incontáveis *partes boas* da coerção, mas evitar as poucas *partes ruins*?
 
-Let's look again at the *bad* list:
+Vamos dar uma olhada novamente na lista *ruim*:
 
 ```js
 "0" == false;			// true -- UH OH!
@@ -1761,9 +1759,9 @@ false == [];			// true -- UH OH!
 0 == [];				// true -- UH OH!
 ```
 
-Four of the seven items on this list involve `== false` comparison, which we said earlier you should **always, always** avoid. That's a pretty easy rule to remember.
+Quatro dos sete itens dessa lista envolvem a comparação `== false`, que nós dissemos anteriormente que você deve **sempre, sempre** evitar. Essa é uma regra bem fácil de lembrar.
 
-Now the list is down to three.
+Agora a lista caiu para três.
 
 ```js
 "" == 0;				// true -- UH OH!
@@ -1771,9 +1769,9 @@ Now the list is down to three.
 0 == [];				// true -- UH OH!
 ```
 
-Are these reasonable coercions you'd do in a normal JavaScript program? Under what conditions would they really happen?
+São essas coerções razoáveis que você faria em um programa normal de JavaScript? Em quais condições elas realmente aconteceriam?
 
-I don't think it's terribly likely that you'd literally use `== []` in a `boolean` test in your program, at least not if you know what you're doing. You'd probably instead be doing `== ""` or `== 0`, like:
+Eu não acho que é absurdamente provável que você use `== []` em um teste `boolean` no seu programa, ao menos não se você sabe o que está fazendo. Você propavelmente faria `== ""` ou `== 0` no lugar, como:
 
 ```js
 function doSomething(a) {
@@ -1783,7 +1781,8 @@ function doSomething(a) {
 }
 ```
 
-You'd have an oops if you accidentally called `doSomething(0)` or `doSomething([])`. Another scenario:
+Você teria um Oops se você acidentalmente chamasse `doSomething(0)` ou `doSomething([])`. 
+Outro cenário:
 
 ```js
 function doSomething(a,b) {
@@ -1793,34 +1792,36 @@ function doSomething(a,b) {
 }
 ```
 
-Again, this could break if you did something like `doSomething("",0)` or `doSomething([],"")`.
+Novamente, isso pode quebrar se você fizesse algo como `doSomething("",0)` ou `doSomething([],"")`.
 
-So, while the situations *can* exist where these coercions will bite you, and you'll want to be careful around them, they're probably not super common on the whole of your code base.
 
-#### Safely Using Implicit Coercion
+Então, enquanto as situações *podem* existir onde essas coerções vão te pegar, você provavelmente vai querer ter cuidado com elas, elas provavelmente não são super comuns em toda sua base de código.
 
-The most important advice I can give you: examine your program and reason about what values can show up on either side of an `==` comparison. To effectively avoid issues with such comparisons, here's some heuristic rules to follow:
+#### Usando coerção implícita com segurança
 
-1. If either side of the comparison can have `true` or `false` values, don't ever, EVER use `==`.
-2. If either side of the comparison can have `[]`, `""`, or `0` values, seriously consider not using `==`.
+O conselho mais importante que posso te dar: examine seu programa e razões sobre quais valores podem aparecer em ambos lados de uma comparação `==`. Para efetivamente evitar problemas com tais comparações, aqui estão algumas heurísticas para seguir:
 
-In these scenarios, it's almost certainly better to use `===` instead of `==`, to avoid unwanted coercion. Follow those two simple rules and pretty much all the coercion gotchas that could reasonably hurt you will effectively be avoided.
+1. Se ambos lados de uma comparação pode ter valores `true` ou `false`, nunca, NUNCA use `==`.
 
-**Being more explicit/verbose in these cases will save you from a lot of headaches.**
+2. Se ambos lados da comparação pode ter valores `[]`, `""`, ou `0`, considere seriamente em não usar `==`.
 
-The question of `==` vs. `===` is really appropriately framed as: should you allow coercion for a comparison or not?
+Nesses cenários é quase sempre melhor usar `===` em vez de `==`, para evitar coerções indesejadas. Siga essas duas regras simples e basicamente todas as pegadinhas de coerção que poderiam te afetar serão efetivamente evitadas.
 
-There's lots of cases where such coercion can be helpful, allowing you to more tersely express some comparison logic (like with `null` and `undefined`, for example).
+**Ser mais explícito/verboso nesses casos irá te salvar de muitas dores de cabeça.**
 
-In the overall scheme of things, there's relatively few cases where *implicit* coercion is truly dangerous. But in those places, for safety sake, definitely use `===`.
+A questão de `==` vs. `===` é apropriadamente enquadrada como: você deve permitir coerção para uma comparação ou não?
 
-**Tip:** Another place where coercion is guaranteed *not* to bite you is with the `typeof` operator. `typeof` is always going to return you one of seven strings (see Chapter 1), and none of them are the empty `""` string. As such, there's no case where checking the type of some value is going to run afoul of *implicit* coercion. `typeof x == "function"` is 100% as safe and reliable as `typeof x === "function"`. Literally, the spec says the algorithm will be identical in this situation. So, don't just blindly use `===` everywhere simply because that's what your code tools tell you to do, or (worst of all) because you've been told in some book to **not think about it**. You own the quality of your code.
+Há muitos casos que tal coerção pode ser útil, permitindo que você expresse mais tersamente alguma lógica de comparação (como com `null` e `undefined`, por exemplo).
 
-Is *implicit* coercion evil and dangerous? In a few cases, yes, but overwhelmingly, no.
+No geral, há relativamente poucos casos onde coerção *implícita* é verdadeiramente perigosa. Mas nesses lugares, por segurança, deifnitivamente use `===`
 
-Be a responsible and mature developer. Learn how to use the power of coercion (both *explicit* and *implicit*) effectively and safely. And teach those around you to do the same.
+**Dica** Outro lugar onde é garatido que a coerção não te prejudique é com o operador `typeof`. `typeof` sempre irá te retornar uma de sete strings (veja o Capítulo 1), e nenhuma delas serão strings vazias `""`. Sendo assim, não há nenhum caso onde checar o tipo de algum valor irá executar uma coerção *implícita*. `typeof x == "function"` é 100% tão seguro quanto `typeof x === "function"`. Literalmente, a especificação diz que o algoritmo será idêntico nesse caso. Então, não use `===` cegamente em todo lugar porque aquilo é o que as ferramentas do seu código dizem para fazer, ou (pior ainda) porque você viu em algum livro para **não pensar nisso**. A qualidade do seu código é sua.
 
-Here's a handy table made by Alex Dorey (@dorey on GitHub) to visualize a variety of comparisons:
+A coerção *implícita* é maligna e perigosa? Em alguns casos, sim, mas geralmente, não.
+
+Seja um desenvolvedor maduro e responsável. Aprenda como usar o poder da coerção (tanto *explícita* como *implícita*) efetivamente e com segurança. E ensine aqueles à sua volta a fazer o mesmo.
+
+Aqui está uma tabela útil feita pelo Alex Dorey (@dorey no GitHub) para visualizar uma variedade de conversões:
 
 <img src="fig1.png" width="600">
 
