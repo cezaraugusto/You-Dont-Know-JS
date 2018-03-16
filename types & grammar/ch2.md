@@ -359,29 +359,29 @@ A partir do ES6, as novas formas seguintes são também válidas:
 
 Faça um favor aos seus companheiros no desenvolvimento: nunca use a forma `0O363`. Usar o `0` ao lado do `O` maiúsculo é pedir confusão. Sempre use predicados minúsculos `0x`, `0b`, e `0o`.
 
-### Small Decimal Values
+### Valores Decimais Pequenos
 
-The most (in)famous side effect of using binary floating-point numbers (which, remember, is true of **all** languages that use IEEE 754 -- not *just* JavaScript as many assume/pretend) is:
+O efeito colateral mais (vergonhoso)famoso de usar números de ponto flutuante binários (lembrando que, é verdade para **todas** as linguagens que usam IEEE 754 -- não *apenas* JavaScript como muitos assumem/acreditam) é:
 
 ```js
 0.1 + 0.2 === 0.3; // false
 ```
 
-Mathematically, we know that statement should be `true`. Why is it `false`?
+Matematicamente, sabemos que essa afirmação deveria ser `true`. Por que é `false`?
 
-Simply put, the representations for `0.1` and `0.2` in binary floating-point are not exact, so when they are added, the result is not exactly `0.3`. It's **really** close: `0.30000000000000004`, but if your comparison fails, "close" is irrelevant.
+Simplificando, as representações para `0.1` e `0.2` em ponto flutuante binário não são exatas, então, quando elas são somadas, o resultado não é exatamnte `0.3`. Ele é **realmente** próximo: `0.30000000000000004`, mas se sua comparação falhar, "próximo" é irrelevante.
 
-**Note:** Should JavaScript switch to a different `number` implementation that has exact representations for all values? Some think so. There have been many alternatives presented over the years. None of them have been accepted yet, and perhaps never will. As easy as it may seem to just wave a hand and say, "fix that bug already!", it's not nearly that easy. If it were, it most definitely would have been changed a long time ago.
+**Nota:** O JavaScript deveria alterar para uma implementação diferente de `number` que tenha representações exatas de todos os valores? Alguns pensam que sim. Houveram muitas alternativas apresentadas ao longo dos anos. Nenhuma delas foi aceita, e talvez nunca seja. Por mais fácil que pareça apenas acenar e dizer, "corrija esse erro já!", Não é tão fácil. Se fosse, definitivamente teria sido alterado há muito tempo.
 
-Now, the question is, if some `number`s can't be *trusted* to be exact, does that mean we can't use `number`s at all? **Of course not.**
+Agora a questão é, se alguns `number`s (números) não podem ser *confiáveis* para serem exatos, isso significa que não podemos usar `number`s (números)? **Claro que não.**
 
-There are some applications where you need to be more careful, especially when dealing with fractional decimal values. There are also plenty of (maybe most?) applications that only deal with whole numbers ("integers"), and moreover, only deal with numbers in the millions or trillions at maximum. These applications have been, and always will be, **perfectly safe** to use numeric operations in JS.
+Existem algumas aplicações nas quais você precisa ter mais cuidado, especialmente quando se trata de valores decimais fracionários. Há também muitas aplicações (talvez a maioria?) que lidam apenas com números ("inteiros") e, além disso, lidam apenas com números na casa dos milhões ou trilhões no máximo. Estas utilizações foram, e sempre serão, **perfeitamente seguras** para utilizar operações numéricas em JS.
 
-What if we *did* need to compare two `number`s, like `0.1 + 0.2` to `0.3`, knowing that the simple equality test fails?
+E se nós *precisássemos* comparar dois `number`s (números) como, `0.1 + 0.2` a `0.3`, sabendo que o teste de igualdade simples falha?
 
-The most commonly accepted practice is to use a tiny "rounding error" value as the *tolerance* for comparison. This tiny value is often called "machine epsilon," which is commonly `2^-52` (`2.220446049250313e-16`) for the kind of `number`s in JavaScript.
+A prática mais comumente aceita é usar um pequeno valor de "arredondamento" como uma *tolerância* para a comparação. Este valor é normalmente chamado de "machine epsilon", que é geralmente `2^-52` (`2.220446049250313e-16`) para os tipos de `number`s (números) em JavaScript.
 
-As of ES6, `Number.EPSILON` is predefined with this tolerance value, so you'd want to use it, but you can safely polyfill the definition for pre-ES6:
+A partir do ES6, `Number.EPSILON` está predefinido com este valor de tolerância, você gostaria de utilizá-lo, mas você pode seguramente definir um polyfill para pre-ES6:
 
 ```js
 if (!Number.EPSILON) {
@@ -389,7 +389,7 @@ if (!Number.EPSILON) {
 }
 ```
 
-We can use this `Number.EPSILON` to compare two `number`s for "equality" (within the rounding error tolerance):
+Podemos utilizar este `Number.EPSILON` para comparar a "igualdade" de dois `number`s (números) (dentro da tolerância de arredondamento):
 
 ```js
 function numbersCloseEnoughToEqual(n1,n2) {
@@ -403,7 +403,7 @@ numbersCloseEnoughToEqual( a, b );					// true
 numbersCloseEnoughToEqual( 0.0000001, 0.0000002 );	// false
 ```
 
-The maximum floating-point value that can be represented is roughly `1.798e+308` (which is really, really, really huge!), predefined for you as `Number.MAX_VALUE`. On the small end, `Number.MIN_VALUE` is roughly `5e-324`, which isn't negative but is really close to zero!
+O valor máximo de ponto flutuante que pode ser representado é, aproximadamente, `1.798e+308` (que é realmente, realmente, realmente enorme!), predefinido para você como `Number.MAX_VALUE`. Na ponta menor, `Number.MIN_VALUE` é, aproximadamente, `5e-324`, que não é negativo, mas é muito próximo a zero!
 
 ### Safe Integer Ranges
 
