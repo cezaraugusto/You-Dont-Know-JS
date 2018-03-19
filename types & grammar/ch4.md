@@ -13,9 +13,9 @@ Nosso objetivo é entender plenamente os prós e contras (sim, *existem* prós!)
 
 Converter um valor de um tipo para outro é geralmente chamado de "type casting", quando explicitamente, e "coerção" quando feito implicitamente (forçado pelas regras de como um valor é utilizado).
 
-**Nota:** Pode não ser óbvio, mas as coerções do JavaScript sempre resultam em algum valor dos primitivos escalares (veja Capítulo 2), como `string`, `number`, ou `boolean`. Não existe coerção que resulte em um valor complexo como `object` ou `function`. O Capítulo 3 aborda "boxing", que envolve os valores primitivos em seus `object` homólogos, mas isso não é realmente coerção em seu sentido correto.
+**Nota:** Pode não ser óbvio, mas as coerções do JavaScript sempre resultam em um dos primitivos escalares (veja Capítulo 2), como `string`, `number`, ou `boolean`. Não existe coerção que resulte em um valor complexo como `object` ou `function`. O Capítulo 3 aborda "boxing", que envolve os valores primitivos em seus `object` homólogos, mas isso não é realmente coerção em seu sentido correto.
 
-Pode-se distinguir esses ainda de outra maneira: "type casting" (ou coversão de tipos) ocorre em linguagem staticamente tipadas em tempo de compilação, enquanto "coerção" é uma conversão que ocorre em tempo de execução em linguagens dinamicamente tipadas.
+Pode-se distinguir esses de ainda outra maneira: "type casting" (ou coversão de tipos) ocorrem em tempo de compilação em linguagem staticamente tipadas, enquanto "coerção" é uma conversão que ocorre em tempo de execução em linguagens dinamicamente tipadas.
 
 Entretanto, em JavaScript, a maioria das pessoas chamam todos esse tipos de *coerção*, por isso a maneira que prefiro chamar de "coerção implícita" vs. "coerção explícita".
 
@@ -37,7 +37,7 @@ Em contrapartida, a função `String(..)` torna bastante óbvio que o valor de `
 
 As duas abordagens têm o mesmo efeito: `42` vira `"42"`. Mas é o *como* que é o coração dos debates mais acalorados sobre coerção no JavaScript.
 
-**Nota:** Tecnicamente, há pequenas nuances no comportamento que vão além da estética. Nós abordaremos isso em mais detalhes mais tarde neste capítulo, na seção "Implicitamente: Strings <--> Number".
+**Note:** Tecnicamente, há pequenas nuances no comportamento que vão além da estética. Nós abordaremos isso em mais detalhes mais tarde neste capítulo, na seção "Implicitamente: Strings <--> Number".
 
 Os termos "explícito" e "implícito", ou "óbvio" e "efeito colateral oculto", são *relativos*.
 
@@ -45,7 +45,7 @@ Se você sabe exatamente o que `a + ""` está fazendo e você está intencionalm
 
 Mas nós estamos discutindo "explícito" vs. "implícito" baseados nas prováveis opiniões de um desenvolvedor *mediano, razoavelmente informado, mas não especialista ou devoto pela especificação do JS*. Se você se encaixa de alguma forma nesse grupo, você terá de ajustar a sua perspectiva para estar de acordo com as nossas observações.
 
-Relembrando: é pouco provável que após escrevermos o nosso código, nós sejamos os únicos que vão lê-lo. Mesmo que você seja um expert em todos os prós e contras no JS, considere como um colega de trabalho com menos experiência vai ser se sentir quando ler o seu código. Vai ser "explícito" ou "implícito" para eles da mesma maneira que é para você?
+Relembrando: é pouco provável que após escrevermos o nosso código, nós sejamos os únicos que vão lê-lo. Mesmo que você saiba todos os prós e contras no JS, considere como um colega de trabalho com menos experiência vai ser se sentir quando ler o seu código. Vai ser "explícito" ou "implícito" para eles da mesma maneira que é para você?
 
 ## Operações de valor abstrato
 
@@ -1356,9 +1356,9 @@ O resto do algoritmo em 11.9.3. especifica qur se você usar igualdade ampla `==
 
 **Observação** A operação de não-igualdade ampla `!=` é definida exatamente como você esprava, na medida em que é literalmente a comparação da operação `==` realizada na sua totalidade, e então a negação do resultado. O mesmo vale para a operação de não-igualdade estrita `!==`.
 
-#### Comparing: `string`s to `number`s
+#### Comparando: `string`s com `number`s
 
-To illustrate `==` coercion, let's first build off the `string` and `number` examples earlier in this chapter:
+Para ilustrar a coerção `==`, vamos primeiro desconstruir os exemplos anteriores `string` e `number` desse capítulo:
 
 ```js
 var a = 42;
@@ -1368,48 +1368,48 @@ a === b;	// false
 a == b;		// true
 ```
 
-As we'd expect, `a === b` fails, because no coercion is allowed, and indeed the `42` and `"42"` values are different.
+Como esperávamos, `a===b` falha, porque nenhuma coerção é permitida, e de fato, os valores `42` e `"42"` são diferentes.
 
-However, the second comparison `a == b` uses loose equality, which means that if the types happen to be different, the comparison algorithm will perform *implicit* coercion on one or both values.
+No entanto, a segunda comparação `a == b` usa igualdade ampla, que significa que se acontecer dos tipos serem diferentes, a comparação do algoritmo vai fazer uma coerção *implícita* em um ou ambos valores.
 
-But exactly what kind of coercion happens here? Does the `a` value of `42` become a `string`, or does the `b` value of `"42"` become a `number`?
+Mas qual, exatamente, é o tipo de coerção que acontece aqui? O valor `a` de `42` torna-se uma `string`, ou o valor `b` de `"42"` torna-se um `number`?
 
-In the ES5 spec, clauses 11.9.3.4-5 say:
+Na cláusula 11.9.3.4-5 da especificação ES5 diz:
 
-> 4. If Type(x) is Number and Type(y) is String,
->    return the result of the comparison x == ToNumber(y).
-> 5. If Type(x) is String and Type(y) is Number,
->    return the result of the comparison ToNumber(x) == y.
+> 4. Se o Type(x) é um Number e o Type(y) é uma String,
+>    retorna o resultado da comparação x == ToNumber(y).
+> 5. Se o Type(x) é uma String e Type(y) ié um Number,
+>    retorna o resultado da comparação ToNumber(x) == y.
 
-**Warning:** The spec uses `Number` and `String` as the formal names for the types, while this book prefers `number` and `string` for the primitive types. Do not let the capitalization of `Number` in the spec confuse you for the `Number()` native function. For our purposes, the capitalization of the type name is irrelevant -- they have basically the same meaning.
+**Atenção** A especificação usa `Number` e `String` como nomes formais para os tipos, enquanto esse livro prefere `number` e `string` para tipos primitivos. Não deixe a capitalização de `Number` na especificação te confundir com o a função nativa `Number()`. Para nossos propósitos, a capitalização do nome do tipo é irrelevante -- eles têm, basicamente, o mesmo significado.
 
-Clearly, the spec says the `"42"` value is coerced to a `number` for the comparison. The *how* of that coercion has already been covered earlier, specifically with the `ToNumber` abstract operation. In this case, it's quite obvious then that the resulting two `42` values are equal.
+Claramente, a especificação diz que o valor `"42"` sofre coerção para um `number` na comparação. O *como* dessa coerção já foi abordada anteriormente, especificamente com a operação abstrata `ToNumber`. Nesse caso, é bem óbvio que os dois valores `42` resultantes são iguais.
 
-#### Comparing: anything to `boolean`
+#### Comparando: qualquer coisa com `boolean`
 
-One of the biggest gotchas with the *implicit* coercion of `==` loose equality pops up when you try to compare a value directly to `true` or `false`.
+Uma das maiores pegadinhas com a coerção *implícita* da igualdade ampla `==` aparecem quando você tenta compara um valor diretamente com `true` ou `false`.
 
-Consider:
+Considere:
 
 ```js
 var a = "42";
 var b = true;
 
-a == b;	// false
+a == b;	// falso
 ```
 
-Wait, what happened here!? We know that `"42"` is a truthy value (see earlier in this chapter). So, how come it's not `==` loose equal to `true`?
+Espera, o que aconteceu aqui? Nós sabemos que `"42"` é um valor verdadeiro/*thruthy* (veja anteriormente neste capítulo). Então, como ele não é `==`, igualdade ampla à `true`?
 
-The reason is both simple and deceptively tricky. It's so easy to misunderstand, many JS developers never pay close enough attention to fully grasp it.
+A razão é simples e enganosamente complicada. É tão fácil de cometer um equívico, muitos desenvolvedores JS nunca prestam atenção suficiente para compreende-la.
 
-Let's again quote the spec, clauses 11.9.3.6-7:
+Vamos citar novemente a especificação, cláusula 11.9.3.6-7:
 
-> 6. If Type(x) is Boolean,
->    return the result of the comparison ToNumber(x) == y.
-> 7. If Type(y) is Boolean,
->    return the result of the comparison x == ToNumber(y).
+> 6. Se Type(x) é Boolean,
+>    retorna o valor da comparação ToNumber(x) == y.
+> 7. Se Type(y) é Boolean,
+>    retorna o valor da comparação x == ToNumber(y).
 
-Let's break that down. First:
+Vamos acabar com isso. Primeiro:
 
 ```js
 var x = true;
@@ -1418,9 +1418,9 @@ var y = "42";
 x == y; // false
 ```
 
-The `Type(x)` is indeed `Boolean`, so it performs `ToNumber(x)`, which coerces `true` to `1`. Now, `1 == "42"` is evaluated. The types are still different, so (essentially recursively) we reconsult the algorithm, which just as above will coerce `"42"` to `42`, and `1 == 42` is clearly `false`.
+O `Type(x)` é de fato `Boolean`, então ele executa `ToNumber(x)`, que faz a coerção de `true` para `1`. Agora `1 == "42"` é avaliado. Os tipos continuam diferentes, então (essencialmente recursivamente) nós reconsultamos o algoritmo, que assim como acima, irá fazer a coerção de `"42"` para `42`, e `1 == 42` é claramente `false`.
 
-Reverse it, and we still get the same outcome:
+Reverta isso, e nós teremos a mesma saída:
 
 ```js
 var x = "42";
@@ -1429,65 +1429,65 @@ var y = false;
 x == y; // false
 ```
 
-The `Type(y)` is `Boolean` this time, so `ToNumber(y)` yields `0`. `"42" == 0` recursively becomes `42 == 0`, which is of course `false`.
+O `Type(y) é `Boolean` dessa vez, então `ToNumber(y)` custa `0`. `"42" == 0` recursivamente torna-se `42 == 0`, que claro, é `false`.
 
-In other words, **the value `"42"` is neither `== true` nor `== false`.** At first, that statement might seem crazy. How can a value be neither truthy nor falsy?
+Em outras palavras, **o valor`"42"` não é nem `== true` nem `== false`.** Primeiramente, essa declaração pode parecer loucura. Como pode um valor não ser nem verdadeiro nem falso?
 
-But that's the problem! You're asking the wrong question, entirely. It's not your fault, really. Your brain is tricking you.
+Mas esse é o problema! Você está fazendo a pergunta, totalmente errada. Não é sua culpa, de verdade. Seu cérebro está te enganando.
 
-`"42"` is indeed truthy, but `"42" == true` **is not performing a boolean test/coercion** at all, no matter what your brain says. `"42"` *is not* being coerced to a `boolean` (`true`), but instead `true` is being coerced to a `1`, and then `"42"` is being coerced to `42`.
+`"42"` é de fato verdadeiro/*truthy*, mas `"42" == true` **não está executando um teste/coerção de boolean** de maneira nenhuma, não importa o que seu cérebro diga. `"42"` não está sofrendo coerção para um `boolean` (`true`), mas, em vez disso, `true` é que está sofrendo coerção para `1`, e então `"42"` estão sofrendo coerção para `42`.
 
-Whether we like it or not, `ToBoolean` is not even involved here, so the truthiness or falsiness of `"42"` is irrelevant to the `==` operation!
+Quer nos agrade ou não, `ToBoolean` nem está envolvido aqui, então a verdade ou falsidade de `"42"` é irrelevante para a operação `==`!
 
-What *is* relevant is to understand how the `==` comparison algorithm behaves with all the different type combinations. As it regards a `boolean` value on either side of the `==`, a `boolean` always coerces to a `number` *first*.
+O que *é* relevante, é entender como o algoritmo de comparação `==` se comporta com todas as diferentes combinações. No que se refere à um valor `boolean` de qualquer lado do `==`, um `boolean` sempre sofre coerção para um `number` *primeiro*.
 
-If that seems strange to you, you're not alone. I personally would recommend to never, ever, under any circumstances, use `== true` or `== false`. Ever.
+Se isso parece estranho para você, você não está sozinho. Eu pessoalmente reconmendaria à nunca, nunca mesmo, em nenhuma circunstância, usar `== true` ou `== false`. Nunca.
 
-But remember, I'm only talking about `==` here. `=== true` and `=== false` wouldn't allow the coercion, so they're safe from this hidden `ToNumber` coercion.
+Mas lembre-se, eu estou falando somente do `==` aqui. `=== true` e `=== false` não permitirá a coerção, então você está seguro dessa coerção `ToNumber` oculta.
 
-Consider:
+Considere:
 
 ```js
 var a = "42";
 
-// bad (will fail!):
+// péssimo (vai falhar!):
 if (a == true) {
 	// ..
 }
 
-// also bad (will fail!):
+// ruim também (vai falhar!):
 if (a === true) {
 	// ..
 }
 
-// good enough (works implicitly):
+// bom o bastante (funciona implicitamente):
 if (a) {
 	// ..
 }
 
-// better (works explicitly):
+// melhor (funciona explicitamente):
 if (!!a) {
 	// ..
 }
 
-// also great (works explicitly):
+// ótimo também (funciona explicitamente):
 if (Boolean( a )) {
 	// ..
 }
 ```
 
-If you avoid ever using `== true` or `== false` (aka loose equality with `boolean`s) in your code, you'll never have to worry about this truthiness/falsiness mental gotcha.
+Se você sempre evita usar `== true` ou `== false` (também conhecido como igualdade ampla com `boolean`s) no seu código, você nunca terá que se preocupar sobre essa pegadinha mental de verdadeiro/falso.
 
-#### Comparing: `null`s to `undefined`s
+#### Comparando: `null`s com `undefined`s
 
-Another example of *implicit* coercion can be seen with `==` loose equality between `null` and `undefined` values. Yet again quoting the ES5 spec, clauses 11.9.3.2-3:
+Outro exemplo de coerção *implícita* pode ser visto com `==` igualdade ampla entre valores `null` e `undefined`. Citando de novo a especificação ES5, cláusula 11.9.3.2-3:
 
-> 2. If x is null and y is undefined, return true.
-> 3. If x is undefined and y is null, return true.
+> 2. Se x é null e y é undefined, retorna true.
+> 3. Se x é undefined e y é null, retorna true.
 
-`null` and `undefined`, when compared with `==` loose equality, equate to (aka coerce to) each other (as well as themselves, obviously), and no other values in the entire language.
+`null` e `undefined` quando comparados com `==` igualdade ampla, equipararm-se (fazem coerção) uns nos outros (assim como neles próprios, obviamente), e nenhum outro valor em toda a linguagem.
 
-What this means is that `null` and `undefined` can be treated as indistinguishable for comparison purposes, if you use the `==` loose equality operator to allow their mutual *implicit* coercion.
+Isso significa que `null` e `undefined` podem ser tratados sem distinção para propósitos de comparação, se você usar o operador `==` igualdade ampla para permitir coerção *implícita* mútua.
 
 ```js
 var a = null;
@@ -1505,9 +1505,9 @@ a == 0;		// false
 b == 0;		// false
 ```
 
-The coercion between `null` and `undefined` is safe and predictable, and no other values can give false positives in such a check. I recommend using this coercion to allow `null` and `undefined` to be indistinguishable and thus treated as the same value.
+A coerção entre `null` e `undefined` é segura e previsível e nenhum outro valor pode dar falsos positivos em tal teste. Eu recomendo usar essa coerção para permitir que `null` e `undefined` sejam indistinguíveis e assim tratadis como o mesmo valor.
 
-For example:
+Por exemplo:
 
 ```js
 var a = doSomething();
@@ -1517,9 +1517,9 @@ if (a == null) {
 }
 ```
 
-The `a == null` check will pass only if `doSomething()` returns either `null` or `undefined`, and will fail with any other value, even other falsy values like `0`, `false`, and `""`.
+A verificação `a == null` vai passar somente se `doSomething()` retornar ambos, `null` ou `undefined`, e vai falhar com qualquer outro valor, mesmo outro valor falso como `0`, `false` e `""`.
 
-The *explicit* form of the check, which disallows any such coercion, is (I think) unnecessarily much uglier (and perhaps a tiny bit less performant!):
+A forma de verificação *explícita*, que não permite nenhum tipo de coerção, é (eu acho) desnecessáriamente muito mais feia (e talvez um pouco menos performática!):
 
 ```js
 var a = doSomething();
@@ -1529,20 +1529,20 @@ if (a === undefined || a === null) {
 }
 ```
 
-In my opinion, the form `a == null` is yet another example where *implicit* coercion improves code readability, but does so in a reliably safe way.
+na minha opinião, a forma `a == null` é ainda outro exemplo de onde a coerção *implícita* melhora a legibilidade do código, mas faz isso de uma maneira confiável e segura.
 
-#### Comparing: `object`s to non-`object`s
+#### Comparando: `object`s com não-`object`s
 
-If an `object`/`function`/`array` is compared to a simple scalar primitive (`string`, `number`, or `boolean`), the ES5 spec says in clauses 11.9.3.8-9:
+Se um `object`/`function`/`array` é comparado com um escalar primitivo simples (`string`, `number` ou `boolean`), a especificação ES5 diz na cláusula 11.9.3.8-9:
 
-> 8. If Type(x) is either String or Number and Type(y) is Object,
->    return the result of the comparison x == ToPrimitive(y).
-> 9. If Type(x) is Object and Type(y) is either String or Number,
->    return the result of the comparison ToPrimitive(x) == y.
+> 8. Se Type(x) é tanto uma String ou um Number e Type(y) é um Object,
+>    retorna o resultado da comparação x == ToPrimitive(y).
+> 9. Se Type(x) é um Object e Type(y) tanto uma String ou um Number,
+>    retorna o resultado da comparação ToPrimitive(x) == y.
 
-**Note:** You may notice that these clauses only mention `String` and `Number`, but not `Boolean`. That's because, as quoted earlier, clauses 11.9.3.6-7 take care of coercing any `Boolean` operand presented to a `Number` first.
+**Observação** Você pode notar que essas cláusulas apenas mencionam `String` e `Number`, mas não `Boolean`. Isso porque, como dito antes, a clásula 11.9.3.6-7 trata da coerção de qualquer operando `Boolean` apresentado para um `Number` primeiro.
 
-Consider:
+Considere:
 
 ```js
 var a = 42;
@@ -1551,41 +1551,40 @@ var b = [ 42 ];
 a == b;	// true
 ```
 
-The `[ 42 ]` value has its `ToPrimitive` abstract operation called (see the "Abstract Value Operations" section earlier), which results in the `"42"` value. From there, it's just `42 == "42"`, which as we've already covered becomes `42 == 42`, so `a` and `b` are found to be coercively equal.
+O valor `[42]` tem sua operação abstrata `ToPrimitive` chamada (veja a seção anterior "Valores de operações abstratas"), que resulta no valor `"42"`. Daqui em diante, é apenas `42 == "42"`, que como já abordamos, torna-se `42 == 42`, então `a` e `b` são coercitivamente iguais.
 
-**Tip:** All the quirks of the `ToPrimitive` abstract operation that we discussed earlier in this chapter (`toString()`, `valueOf()`) apply here as you'd expect. This can be quite useful if you have a complex data structure that you want to define a custom `valueOf()` method on, to provide a simple value for equality comparison purposes.
+**Dica** Todos os quirks da operação abstrata `ToPimitive` que nós discutimos anteriormente nesse capítulo (`toString()`, `valueOf()`) aplicados aqui como nós esperávamos. Isso pode ser bem útil se você tiver uma estrutura de dados complexa que você quer definir um método personalizado em `valueOf()`, para fornecer uma valor simples para propósitos de comparação de igualdade.
 
-In Chapter 3, we covered "unboxing," where an `object` wrapper around a primitive value (like from `new String("abc")`, for instance) is unwrapped, and the underlying primitive value (`"abc"`) is returned. This behavior is related to the `ToPrimitive` coercion in the `==` algorithm:
+No capítulo 3, nós abordamos "unboxing", onde um `object` wrapper em trono de uma vlor primitivo (como de `new String("abc"), por exemplo) é desencapsulado, e o valor primitivo adjacente ("abc") é retornado. Esse comportamento é relacionado para a coerção `ToPrimitive` no algoritmo `==` :
 
 ```js
 var a = "abc";
-var b = Object( a );	// same as `new String( a )`
+var b = Object( a );	// Mesmo que `new String( a )`
 
 a === b;				// false
 a == b;					// true
 ```
+`a == b` é `true` porque `b` sofre coerção (ou "unboxed", desncapsulada) via `ToPrimitive` para seu "abc" seu valor escalar primitivo adjacente, que é o mesmo que o valor em `a`.
 
-`a == b` is `true` because `b` is coerced (aka "unboxed," unwrapped) via `ToPrimitive` to its underlying `"abc"` simple scalar primitive value, which is the same as the value in `a`.
-
-There are some values where this is not the case, though, because of other overriding rules in the `==` algorithm. Consider:
+Há alguns valores onde isso não é o caso, por conta de outras regras primárias do algoritmo de `==`. Considere:
 
 ```js
 var a = null;
-var b = Object( a );	// same as `Object()`
+var b = Object( a );	// Mesmo que `Object()`
 a == b;					// false
 
 var c = undefined;
-var d = Object( c );	// same as `Object()`
+var d = Object( c );	// Mesmo que `Object()`
 c == d;					// false
 
 var e = NaN;
-var f = Object( e );	// same as `new Number( e )`
+var f = Object( e );	// Mesmo que `new Number( e )`
 e == f;					// false
 ```
 
-The `null` and `undefined` values cannot be boxed -- they have no object wrapper equivalent -- so `Object(null)` is just like `Object()` in that both just produce a normal object.
+Os valores `null` e `undefined` não podem ser encapsulados(*boxed*) -- eles não tem um object wrapper equivalente -- Então o `Object(null)` é como o `Object()` em que ambos apenas produzem um objeto normal.
 
-`NaN` can be boxed to its `Number` object wrapper equivalent, but when `==` causes an unboxing, the `NaN == NaN` comparison fails because `NaN` is never equal to itself (see Chapter 2).
+`NaN` pode ser ancapsulado no seu object wrapper `Number` equivalente, mas quando `==` causa uma desencapsulameto, a comparação `NaN == NaN` falha porque `NaN` nunca é igual a si mesmo (veja o capítulo 2).
 
 ### Casos à parte
 
