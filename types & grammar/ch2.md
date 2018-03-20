@@ -405,17 +405,17 @@ numbersCloseEnoughToEqual( 0.0000001, 0.0000002 );	// false
 
 O valor máximo de ponto flutuante que pode ser representado é, aproximadamente, `1.798e+308` (que é realmente, realmente, realmente enorme!), predefinido para você como `Number.MAX_VALUE`. Na ponta menor, `Number.MIN_VALUE` é, aproximadamente, `5e-324`, que não é negativo, mas é muito próximo a zero!
 
-### Safe Integer Ranges
+### Variação Segura de Inteiros
 
-Because of how `number`s are represented, there is a range of "safe" values for the whole `number` "integers", and it's significantly less than `Number.MAX_VALUE`.
+Por causa da forma como os `number`s (números) são representados, existem uma série de valores "seguros" para todo `number` "inteiro", e é significativamente menor que `Number.MAX_VALUE`.
 
-The maximum integer that can "safely" be represented (that is, there's a guarantee that the requested value is actually representable unambiguously) is `2^53 - 1`, which is `9007199254740991`. If you insert your commas, you'll see that this is just over 9 quadrillion. So that's pretty darn big for `number`s to range up to.
+O número inteiro máximo que pode ser representado com "segurança" (isto é, há garantia de que o valor solicitado é realmente representável de forma inequívoca) é `2^53 - 1`, que é `9007199254740991`. Se você inserir a pontuação, verá que é um pouco mais de 9 quadrilhões. Então, esta é uma variação bem grande para `number`s (números).
 
-This value is actually automatically predefined in ES6, as `Number.MAX_SAFE_INTEGER`. Unsurprisingly, there's a minimum value, `-9007199254740991`, and it's defined in ES6 as `Number.MIN_SAFE_INTEGER`.
+Este valor está automaticamente predefinido no ES6, como `Number.MAX_SAFE_INTEGER`. Não é surpreendente que haja um valor mínimo, `-9007199254740991`, que é definido como `Number.MIN_SAFE_INTEGER` no ES6.
 
-The main way that JS programs are confronted with dealing with such large numbers is when dealing with 64-bit IDs from databases, etc. 64-bit numbers cannot be represented accurately with the `number` type, so must be stored in (and transmitted to/from) JavaScript using `string` representation.
+A principal maneira na qual as aplicaçoes JS se deparam com números tão grandes é quando lidam com IDs de 64-bits de banco de dados, etc. Os números de 64-bit não podem ser representados com precisão com o tipo `number`, e então devem ser armazenados (e transmitidos de/para) em JavaScript usando `string`.
 
-Numeric operations on such large ID `number` values (besides comparison, which will be fine with `string`s) aren't all that common, thankfully. But if you *do* need to perform math on these very large values, for now you'll need to use a *big number* utility. Big numbers may get official support in a future version of JavaScript.
+As operações numéricas de valores tão grandes de ID com `number` (além da comparação, que será passível com `string`s) não são tão comuns, felizmente. Mas se você *precisar* executar cálculos matemáticos nesses valores muito grandes, por enquanto você precisará utilizar um utilitário para *big number (números grandes)*. Big numbers (números grandes) pode obter suporte oficial em uma futura versão do JavaScript.
 
 ### Testing for Integers
 
