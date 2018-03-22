@@ -135,9 +135,9 @@ bar(); // 2
 
 Seja qual for a forma que usarmos para *transportar* uma função interna para fora do seu escopo léxico, ela irá manter uma referência de escopo de onde ela for declarada originalmente, e onde for que a executarmos, essa closure irá ocorrer.
 
-## Now I Can See
+## Agora eu posso ver
 
-The previous code snippets are somewhat academic and artificially constructed to illustrate *using closure*. But I promised you something more than just a cool new toy. I promised that closure was something all around you in your existing code. Let us now *see* that truth.
+Os fragmentos de código anteriores são um tanto acadêmicos artificialmente contruídos para ilustrar o *uso de closures*. Mas eu prometi para você uma coisa mais que apenas um novo brinquedinho. Eu prometi que closure seria uma coisa ao seu redor, em sou código existente. Vamos agora *ver* essa verdade.
 
 ```js
 function wait(message) {
@@ -151,15 +151,15 @@ function wait(message) {
 wait( "Hello, closure!" );
 ```
 
-We take an inner function (named `timer`) and pass it to `setTimeout(..)`. But `timer` has a scope closure over the scope of `wait(..)`, indeed keeping and using a reference to the variable `message`.
+Tomamos uma função interna (chamada `timer`) e passamos ela para o `setTimeout(..)`. Mas `timer` tem um escopo fechado sobre o escopo de `wait(..)`, mantendo e usando uma referência para a variável `message`.
 
-A thousand milliseconds after we have executed `wait(..)`, and its inner scope should otherwise be long gone, that inner function `timer` still has closure over that scope.
+Mil milésimos de segundo depois de executarmos `wait(..)`, e seu escopo interno deveria ter sido extinto há muito tempo, a tal função interna `timer` ainda tem uma closure sobre esse escopo.
 
-Deep down in the guts of the *Engine*, the built-in utility `setTimeout(..)` has reference to some parameter, probably called `fn` or `func` or something like that. *Engine* goes to invoke that function, which is invoking our inner `timer` function, and the lexical scope reference is still intact.
+Lá no fundo, nas entranhas da *Engine*, o utilitário embutido `setTimeout(..)` faz uma referência por algum parâmetro, provavelmente chamado `fn`, ou `func`, ou alguma coisa do tipo. A *Engine* vai invocar essa função, que está invocando nossa função interna `timer`, e a referência do escopo léxico ainda está intacta.
 
 **Closure.**
 
-Or, if you're of the jQuery persuasion (or any JS framework, for that matter):
+Ou, se você é da religião do jQuery (ou algum framework JS, para este caso):
 
 ```js
 function setupBot(name,selector) {
@@ -172,11 +172,11 @@ setupBot( "Closure Bot 1", "#bot_1" );
 setupBot( "Closure Bot 2", "#bot_2" );
 ```
 
-I am not sure what kind of code you write, but I regularly write code which is responsible for controlling an entire global drone army of closure bots, so this is totally realistic!
+Não tenho certeza do tipo de código você escreve, mas eu normalmente escrevo código que é responsável por controlar todo um exército mundial de drones de closure bots, então é totalmente realista!
 
-(Some) joking aside, essentially *whenever* and *wherever* you treat functions (which access their own respective lexical scopes) as first-class values and pass them around, you are likely to see those functions exercising closure. Be that timers, event handlers, Ajax requests, cross-window messaging, web workers, or any of the other asynchronous (or synchronous!) tasks, when you pass in a *callback function*, get ready to sling some closure around!
+(Algumas) brincadeiras à parte, essencialmente *sempre que* and *onder quer que* você tratar funções (que acessam seu respectivo escopo léxico) como valores de primeira classe e as passe por aí, provavelmente você vê aquelas funções que exercem closure. Sejam elas timers, manipuladores de eventos, requisições Ajax, mensagens de janelas cruzadas, web workers, ou alguma outra tarefa assíncrona (ou síncrona!), quando você passa em uma *função de callback*, prepare-se para lançar algumas closures por aí!
 
-**Note:** Chapter 3 introduced the IIFE pattern. While it is often said that IIFE (alone) is an example of observed closure, I would somewhat disagree, by our definition above.
+**Nota:** O capítulo 3 introduz o padrão IIFE. Embora seja frequentemente dito que IIFE (sozinho) é um exemplo de closure, Eu devo discordar um pouco, pela nossa definição acima.
 
 ```js
 var a = 2;
@@ -186,17 +186,17 @@ var a = 2;
 })();
 ```
 
-This code "works", but it's not strictly an observation of closure. Why? Because the function (which we named "IIFE" here) is not executed outside its lexical scope. It's still invoked right there in the same scope as it was declared (the enclosing/global scope that also holds `a`). `a` is found via normal lexical scope look-up, not really via closure.
+Esse código "funciona", mas isso não é rigorosamente um exemplo de closure. Por quê? Porque a função (que aqui nós nomeamos de "IIFE") não é executada fora do seu escopo léxico. Ela ainda é chamada bem ali, no mesmo escopo que foi declarada (o escopo ao redor/global que também contém `a`). `a` é encontrado pelo look-up normal do escopo léxico, não exatamente por closure.
 
-While closure might technically be happening at declaration time, it is *not* strictly observable, and so, as they say, *it's a tree falling in the forest with no one around to hear it.*
+Enquanto a closure poderia técnicamente estar acontecendo na hora da declaração, _não_ é estritamente observável, e então, como eles dizem, _é uma árvore caindo na floresta sem ninguém por perto para ouvir._
 
-Though an IIFE is not *itself* an example of closure, it absolutely creates scope, and it's one of the most common tools we use to create scope which can be closed over. So IIFEs are indeed heavily related to closure, even if not exercising closure themselves.
+Embora uma IIFE não seja *em si* um exemplo de closure, ela realmente cria escopo e é uma das ferramentas mais comuns que usamos para criar um escopo que pode ser fechado. Portanto, as IIFEs estão, de fato, profundamente relacionadas a closures, mesmo que não exerçam closure por sí mesmas.
 
-Put this book down right now, dear reader. I have a task for you. Go open up some of your recent JavaScript code. Look for your functions-as-values and identify where you are already using closure and maybe didn't even know it before.
+Abaixe esse livro agora, querido leitor. Tenho uma tarefa para você. Abra algum código JavaScript recente. Procure por suas funções-como-valores e identifique onde você já está usando closures e talvez ainda nem sabia disso.
 
-I'll wait.
+Eu espero.
 
-Now... you see!
+Agora... você vê!
 
 ## Loops + Closure
 
