@@ -188,27 +188,27 @@ Similarmente, teria sido ótimo se `typeof` usado com uma variável não declara
 
 ### `typeof` Undeclared
 
-Nevertheless, this safety guard is a useful feature when dealing with JavaScript in the browser, where multiple script files can load variables into the shared global namespace.
+De qualquer forma, esta proteção de segurança é útil quando lidamos com JavaScript no navegador, onde vários arquivos de script podem carregar variáveis no namespace global compartilhado.
 
-**Note:** Many developers believe there should never be any variables in the global namespace, and that everything should be contained in modules and private/separate namespaces. This is great in theory but nearly impossible in practicality; still it's a good goal to strive toward! Fortunately, ES6 added first-class support for modules, which will eventually make that much more practical.
+**Nota:** Muitos desenvolvedores acreditam que jamais deverá haver variáveis no namespace global, e que tudo deve estar contido em módulos e namespaces privados/separados. Isto é ótimo em teoria, mas quase impossível na prática; Mesmo assim, é um bom objetivo para se tentar alcançar! Felizmente, o ES6 adicionou suporte de primeira classe para módulos, que eventualmente tornará isso muito mais prático.
 
-As a simple example, imagine having a "debug mode" in your program that is controlled by a global variable (flag) called `DEBUG`. You'd want to check if that variable was declared before performing a debug task like logging a message to the console. A top-level global `var DEBUG = true` declaration would only be included in a "debug.js" file, which you only load into the browser when you're in development/testing, but not in production.
+Como um exemplo simples, imagine ter um "modo debug (depuração)" em seu programa que é controlado por uma variável global (flag) chamada `DEBUG`. Você gostaria de verificar se essa variável foi declarada antes de executar uma tarefa de depuração, como por exemplo, exibir uma mensagem de log no console. A declaração global de nível superior `var DEBUG = true` só seria incluída no arquivo "debug.js", o qual você carrega no navegador somente quando estiver em desenvolvimento/teste, mas não em produção.
 
-However, you have to take care in how you check for the global `DEBUG` variable in the rest of your application code, so that you don't throw a `ReferenceError`. The safety guard on `typeof` is our friend in this case.
+Entretanto, você deve tomar cuidado com a forma na qual você verifica a variável global `DEBUG` no restante do código da sua aplicação, para que você não cause um `ReferenceError` (Erro de referência). A proteção de segurança por meio do `typeof` é nossa amiga nesse caso.
 
 ```js
-// oops, this would throw an error!
+// oops, isto causaria um erro!
 if (DEBUG) {
-	console.log( "Debugging is starting" );
+	console.log( "A depuração está começando" );
 }
 
-// this is a safe existence check
+// Esta é uma verificação de existência segura
 if (typeof DEBUG !== "undefined") {
-	console.log( "Debugging is starting" );
+	console.log( "A depuração está começando" );
 }
 ```
 
-This sort of check is useful even if you're not dealing with user-defined variables (like `DEBUG`). If you are doing a feature check for a built-in API, you may also find it helpful to check without throwing an error:
+Este tipo de verificação é útil mesmo se você não estiver lidando com váriaveis definidas pelo usuário (como a `DEBUG`). Se você estiver fazendo uma verificação de recursos para integração com uma API, você também pode achar útil verificar sem lançar um erro:
 
 ```js
 if (typeof atob === "undefined") {
@@ -216,9 +216,9 @@ if (typeof atob === "undefined") {
 }
 ```
 
-**Note:** If you're defining a "polyfill" for a feature if it doesn't already exist, you probably want to avoid using `var` to make the `atob` declaration. If you declare `var atob` inside the `if` statement, this declaration is hoisted (see the *Scope & Closures* title of this series) to the top of the scope, even if the `if` condition doesn't pass (because the global `atob` already exists!). In some browsers and for some special types of global built-in variables (often called "host objects"), this duplicate declaration may throw an error. Omitting the `var` prevents this hoisted declaration.
+**Nota:** Se você estiver definindo um "polyfill" para um recurso que ainda não existe, você provavelmente deseja evitar o uso de `var` para fazer a declaração de `atob`. Se você declarar `var atob` dentro da instrução `if`, esta declaração será elevada (veja o livro *Escopos & Clausuras* desta série) para o topo do escopo, mesmo se a condição `if` não passar (porque a váriavel global `atob` já existe!). Em alguns navegadores e para alguns tipos especiais de variáveis construidas globalmente (geralmente chamadas de "host objects (objetos hospedeiros)"), esta declaração duplicada pode gerar erros. Omitindo o `var` impede que essa declaração seja elevada.
 
-Another way of doing these checks against global variables but without the safety guard feature of `typeof` is to observe that all global variables are also properties of the global object, which in the browser is basically the `window` object. So, the above checks could have been done (quite safely) as:
+Outra maneira de fazer essas verificações de variáveis globais sem utilizar a proteção de segurança do `typeof` é observar que todas essas variáveis globais são propriedades do objeto global, que no navegador é basicamente o objeto `window`. Então, as verificações acima poderiam ter sido feitas (seguramente) com:
 
 ```js
 if (window.DEBUG) {
@@ -230,38 +230,38 @@ if (!window.atob) {
 }
 ```
 
-Unlike referencing undeclared variables, there is no `ReferenceError` thrown if you try to access an object property (even on the global `window` object) that doesn't exist.
+Ao contrário de referenciar variáveis não declaradas, não ocorrerá um `ReferenceError` (Erro de referência) se você tentar acessar uma propriedade que não existe em um objeto (mesmo no objeto global `window`).
 
-On the other hand, manually referencing the global variable with a `window` reference is something some developers prefer to avoid, especially if your code needs to run in multiple JS environments (not just browsers, but server-side node.js, for instance), where the global variable may not always be called `window`.
+Por outro lado, referenciar manualmente variáveis globais utilizando a referência de `window` é algo que alguns desenvolvedores preferem evitar, especialmente se o seu código precisa ser executado em múltiplos ambientes JS (não apenas navegadores, mas do lado do servidor, como node.js, por exemplo), onde o objeto global pode nem sempre ser chamado `window`.
 
-Technically, this safety guard on `typeof` is useful even if you're not using global variables, though these circumstances are less common, and some developers may find this design approach less desirable. Imagine a utility function that you want others to copy-and-paste into their programs or modules, in which you want to check to see if the including program has defined a certain variable (so that you can use it) or not:
+Tecnicamente, a proteção de segurança por meio do `typeof` é útil mesmo se você não estiver utilizando variáveis globais, embora essas circunstâncias sejam menos comuns, e alguns desenvolvedores podem achar essa abordagem menos aplicável. Imagine uma função de utilidade a qual você deseja que outros copiem e colem em seus programas ou módulos, onde você deseja verificar se o programa em questão contém a definição para uma certa variável (para que você possa usá-la) ou não:
 
 ```js
 function doSomethingCool() {
 	var helper =
 		(typeof FeatureXYZ !== "undefined") ?
 		FeatureXYZ :
-		function() { /*.. default feature ..*/ };
+		function() { /*.. característica padrão ..*/ };
 
 	var val = helper();
 	// ..
 }
 ```
 
-`doSomethingCool()` tests for a variable called `FeatureXYZ`, and if found, uses it, but if not, uses its own. Now, if someone includes this utility in their module/program, it safely checks if they've defined `FeatureXYZ` or not:
+`doSomethingCool()` testa uma variável chamada `FeatureXYZ` e, se econtrar, utiliza ela, mas se não, utiliza sua própria definição. Agora, se alguém incluir em seu programa/módulo esta função, ele verificará com segurança se `FeatureXYZ` foi definida ou não:
 
 ```js
-// an IIFE (see "Immediately Invoked Function Expressions"
-// discussion in the *Scope & Closures* title of this series)
+// uma IIFE (veja a discussão "Expressão de Função Imediatamente Invocada"
+// no livro *Escopo & Clausuras* desta série)
 (function(){
-	function FeatureXYZ() { /*.. my XYZ feature ..*/ }
+	function FeatureXYZ() { /*.. minha função XYZ ..*/ }
 
-	// include `doSomethingCool(..)`
+	// incluir `doSomethingCool(..)`
 	function doSomethingCool() {
 		var helper =
 			(typeof FeatureXYZ !== "undefined") ?
 			FeatureXYZ :
-			function() { /*.. default feature ..*/ };
+			function() { /*.. característica padrão ..*/ };
 
 		var val = helper();
 		// ..
@@ -271,30 +271,30 @@ function doSomethingCool() {
 })();
 ```
 
-Here, `FeatureXYZ` is not at all a global variable, but we're still using the safety guard of `typeof` to make it safe to check for. And importantly, here there is *no* object we can use (like we did for global variables with `window.___`) to make the check, so `typeof` is quite helpful.
+Neste caso, `FeatureXYZ` não é uma variável global, mas assim mesmo estamos utilizando a proteção de segurança por meio do `typeof` para garantir a verificação. E o mais importante, aqui não existe objeto que possamos usar (como fizemos para variáveis globais com `window.___`) para fazer a verificação, então o `typeof` é muito útil.
 
-Other developers would prefer a design pattern called "dependency injection," where instead of `doSomethingCool()` inspecting implicitly for `FeatureXYZ` to be defined outside/around it, it would need to have the dependency explicitly passed in, like:
+Outros desenvolvedores preferem um padrão de projetos chamado "injeção de dependência", em que, ao invés de `doSomethingCool()` verificar implicitamente se `FeatureXYZ` está definida fora dela, ela precisaria ter a dependência passada explicitamente, como:
 
 ```js
 function doSomethingCool(FeatureXYZ) {
 	var helper = FeatureXYZ ||
-		function() { /*.. default feature ..*/ };
+		function() { /*.. característica padrão ..*/ };
 
 	var val = helper();
 	// ..
 }
 ```
 
-There are lots of options when designing such functionality. No one pattern here is "correct" or "wrong" -- there are various tradeoffs to each approach. But overall, it's nice that the `typeof` undeclared safety guard gives us more options.
+Há muitas opções para projetar essa funcionalidade. Nenhum padrão apresentado aqui é "certo" ou "errado" -- Existem vários prós e contras para cada abordagem. Mas, em geral, é bom que a proteção de segurança do `typeof` para tipos não declarados (undeclared) nos dê mais opções.
 
-## Review
+## Revisão
 
-JavaScript has seven built-in *types*: `null`, `undefined`,  `boolean`, `number`, `string`, `object`, `symbol`. They can be identified by the `typeof` operator.
+JavaScript tem sete *tipos* nativos: `null`, `undefined`,  `boolean`, `number`, `string`, `object`, `symbol`. Eles podem ser identificados pelo operador `typeof`.
 
-Variables don't have types, but the values in them do. These types define intrinsic behavior of the values.
+Variáveis não possuem tipos, mas os valores sim. Estes tipos definem o comportamento intrínseco dos valores.
 
-Many developers will assume "undefined" and "undeclared" are roughly the same thing, but in JavaScript, they're quite different. `undefined` is a value that a declared variable can hold. "Undeclared" means a variable has never been declared.
+Muitos desenvolvedores assumirão que "undefined" e "undeclared" são, grosseiramente, a mesma coisa, mas em JavaScript, elas são bem diferentes. `undefined` é um valor que uma variável declarada pode conter. "Undeclared" significa que uma variável nunca foi declarada.
 
-JavaScript unfortunately kind of conflates these two terms, not only in its error messages ("ReferenceError: a is not defined") but also in the return values of `typeof`, which is `"undefined"` for both cases.
+O JavaScript, infelizmente, combina esses dois termos não só nas suas mensagens de erro ("ReferenceError: a is not defined (Erro de referência: a não está definido)"), mas também no valor retornado pelo `typeof`, que é `"undefined"` para os dois casos.
 
-However, the safety guard (preventing an error) on `typeof` when used against an undeclared variable can be helpful in certain cases.
+No entando, a proteção de segurança (evitando um erro) do `typeof` quando utilizada em uma variável não declarada, em alguns casos pode ser útil.
