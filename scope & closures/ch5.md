@@ -137,7 +137,7 @@ Seja qual for a forma que usarmos para *transportar* uma função interna para f
 
 ## Agora eu posso ver
 
-Os fragmentos de código anteriores são um tanto acadêmicos artificialmente contruídos para ilustrar o *uso de closures*. Mas eu prometi para você uma coisa mais que apenas um novo brinquedinho. Eu prometi que closure seria uma coisa ao seu redor, em sou código existente. Vamos agora *ver* essa verdade.
+Os fragmentos de código anteriores são um tanto acadêmicos e artificialmente construídos para ilustrar o *uso de closures*. Mas eu prometi para você uma coisa mais que apenas um novo brinquedinho. Eu prometi que closure seria uma coisa ao seu redor, em sou código existente. Vamos agora *ver* essa verdade.
 
 ```js
 function wait(message) {
