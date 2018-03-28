@@ -71,5 +71,5 @@ Contributors END -->
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 
 | [![Camila Rondinini](https://avatars.githubusercontent.com/crondinini?s=100)<br /><sub>Camila Rondinini</sub>](https://github.com/crondinini)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=crondinini) | [![Aline Dias](https://avatars.githubusercontent.com/alinedmelo?s=100)<br /><sub>Aline Dias</sub>](https://github.com/alinedmelo)<br />[ 🌍  👀 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=alinedmelo) | [![Guilherme B. Ferreira](https://avatars.githubusercontent.com/guilhermebferreira?s=100)<br /><sub>Guilherme B. Ferreira</sub>](https://github.com/guilhermebferreira)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=guilhermebferreira) |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| :---: | :---: | :---: |
 <!-- Contributors table END -->
