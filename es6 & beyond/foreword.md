@@ -1,17 +1,19 @@
-# You Don't Know JS: ES6 & Beyond
-# Foreword
+# You Don't Know JS: ES6 & Além
+# Introdução
 
-Kyle Simpson is a thorough pragmatist.
+Kyle Simpson é um pragmático minucioso. 
 
-I can't think of higher praise than this. To me, these are two of the most important qualities that a software developer must have. That's right: *must*, not *should*. Kyle's keen ability to tease apart layers of the JavaScript programming language and present them in understandable and meaningful portions is second to none.
+Não consigo pensar em elogio maior do que esse. Para mim, estas são duas das qualidades mais importantes que um desenvolvedor de software precisa ter. Isso mesmo: precisa! A habilidade afiada de Kyle para tentar separar as camadas da linguagem de programação JavaScript e apresentá-las em porções significativas e compreensíveis é inigualável.
 
-*ES6 & Beyond* will be familiar to readers of the *You Don't Know JS* series:  they can expect to be deeply immersed in everything from the obvious, to the very subtle -- revealing semantics that were either taken for granted or never even considered. Until now, the *You Don't Know JS* book series has covered material that has at least some degree of familiarity to its readers. They have either seen or heard about the subject matter; they may even have experience with it. This volume covers material that only a very small portion of the JavaScript developer community has been exposed to: the  evolutionary changes to the language introduced in the ECMAScript 2015 Language Specification.
 
-Over the last couple years, I've witnessed Kyle's tireless efforts to familiarize himself with this material to a level of expertise that is rivaled by only a handful of his professional peers. That's quite a feat, considering that at the time of this writing, the language specification document hasn't been formally published! But what I've said is true, and I've read every word that Kyle's written for this book. I've followed every change, and each time, the content only gets better and provides yet a deeper level of understanding.
+*ES6 & Além* será familiar aos leitores da série *You Don't Know JS*: eles podem esperar ser imersos em tudo, desde o óbvio ao mais sutil -- revelando semânticas que ou foram tomadas como certas ou nunca sequer consideradas. Até agora, a série de livros *You Don't Know JS* tem abordado assuntos que tenham ao menos algum grau de familiaridade com seus leitores. Eles já viram ou ouviram sobre o assunto; eles podem até possuir alguma experiência com ele. Este volume cobre um material ao qual apenas uma pequena parcela da comunidade de desenvolvedores JavaScript foi exposta: as mudanças evolutivas da linguagem, introduzidas pelo ECMAScript 2015.
 
-This book is about shaking up your sense of understanding by exposing you to the new and unknown. The intention is to evolve your knowledge in step with your tools by bestowing you with new capabilities. It exists to give you the confidence to fully embrace the next major era of JavaScript programming.
+Ao longo dos últimos anos, eu testemunhei os incansáveis esforços de Kyle para familiarizar-se com este material em um nível de conhecimento que pode ser rivalizado apenas por alguns de seus colegas de profissão. Isso é uma façanha, considerando que, no momento da redação deste texto, o documento de especificação da linguagem ainda não havia sido formalmente publicado! Mas o que eu disse é verdade, e eu li cada palavra que Kyle escreveu para este livro. Eu tenho acompanhado cada mudança, e toda vez, o conteúdo só fica melhor e proporciona um nível de entendimento ainda mais profundo. 
+
+
+Este livro é sobre chacoalhar o seu sendo de entendimento, expondo você ao novo e desconhecido. A intenção é evoluir o seu conhecimento em conjunto com suas ferramentas, conferindo-lhe novos recursos. Isto existe para dar-lhe a confiança necessária para abraçar plenamente a próxima grande era de programação JavaScript.
 
 Rick Waldron<br>
 [@rwaldron](http://twitter.com/rwaldron)<br>
-Open Web Engineer at Bocoup<br>
-Ecma/TC39 Representative for jQuery
+Open Web Engineer na Bocoup<br>
+Ecma/TC39 Representante do jQuery
