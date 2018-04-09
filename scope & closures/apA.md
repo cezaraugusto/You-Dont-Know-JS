@@ -53,6 +53,6 @@ Mas isso apenas porque você provavelmentes só trabalhou (ou pelo menos conside
 
 Para ser claro, o JavaScript **não tem, de fato, um escopo dinâmico**. Ele tem escopo léxico. Pleno e simples. Mas o mecanismo de `this` é meio que parecido com o escopo dinâmico.
 
-O contraste chaveÇ **escopo léxico rodam no tempo de escrita (write-time), e o escopo dinâmico (e `this`!) ocorrem no tempo de execução (runtime)**. Escopo léxico se importa com a questão *de onde a função foi declarada*, mas o escopo dinâmico se importa com a questão *de onde ela foi chamada*.
+O contraste chave **escopo léxico rodam no tempo de escrita (write-time), e o escopo dinâmico (e `this`!) ocorrem no tempo de execução (runtime)**. Escopo léxico se importa com a questão *de onde a função foi declarada*, mas o escopo dinâmico se importa com a questão *de onde ela foi chamada*.
 
-FinalmenteÇ `this` se importa com *como a função foi chamada*, o que mostra o quão próxima é a relação do mecanismo `this` com a ideia do escopo dinâmico. Para saber mais sobre `this`, leia o título *this & Prototipagem de Objetos*.
+Finalmente, `this` se importa com *como a função foi chamada*, o que mostra o quão próxima é a relação do mecanismo `this` com a ideia do escopo dinâmico. Para saber mais sobre `this`, leia o título *this & Prototipagem de Objetos*.
