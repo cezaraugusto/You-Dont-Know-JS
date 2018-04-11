@@ -52,7 +52,7 @@ Iterable
 	@@iterador() {método}: produz um iterador
 ```
 
-Se você se lembra do Capítulo 2 "Built-In Symbols", `@@iterator` é o símbolo incorporado especial do método que pode produzir iterador(es) para o objeto.
+Se você se lembra do Capítulo 2 "Built-In Symbols", `@@iterator` é o símbolo nativo especial do método que pode produzir iterador(es) para o objeto.
 
 #### IteratorResult
 
