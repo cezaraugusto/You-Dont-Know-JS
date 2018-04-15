@@ -417,9 +417,9 @@ A principal maneira na qual as aplicaçoes JS se deparam com números tão grand
 
 As operações numéricas de valores tão grandes de ID com `number` (além da comparação, que será passível com `string`s) não são tão comuns, felizmente. Mas se você *precisar* executar cálculos matemáticos nesses valores muito grandes, por enquanto você precisará utilizar um utilitário para *big number (números grandes)*. Big numbers (números grandes) pode obter suporte oficial em uma futura versão do JavaScript.
 
-### Testing for Integers
+### Testando números inteiros
 
-To test if a value is an integer, you can use the ES6-specified `Number.isInteger(..)`:
+Para testar se um valor é um número inteiro, você pode usar a especificação ES6 `Number.isInteger(..)`:
 
 ```js
 Number.isInteger( 42 );		// true
@@ -427,7 +427,7 @@ Number.isInteger( 42.000 );	// true
 Number.isInteger( 42.3 );	// false
 ```
 
-To polyfill `Number.isInteger(..)` for pre-ES6:
+Para um polyfill de `Number.isInteger(..)` pre-ES6:
 
 ```js
 if (!Number.isInteger) {
@@ -437,7 +437,7 @@ if (!Number.isInteger) {
 }
 ```
 
-To test if a value is a *safe integer*, use the ES6-specified `Number.isSafeInteger(..)`:
+Para testar se um valor é um *número inteiro seguro*, use a especificação ES6 `Number.isSafeInteger(..)`:
 
 ```js
 Number.isSafeInteger( Number.MAX_SAFE_INTEGER );	// true
@@ -445,7 +445,7 @@ Number.isSafeInteger( Math.pow( 2, 53 ) );			// false
 Number.isSafeInteger( Math.pow( 2, 53 ) - 1 );		// true
 ```
 
-To polyfill `Number.isSafeInteger(..)` in pre-ES6 browsers:
+Para um polyfill de `Number.isSafeInteger(..)` em navegadores pre-ES6:
 
 ```js
 if (!Number.isSafeInteger) {
@@ -456,11 +456,11 @@ if (!Number.isSafeInteger) {
 }
 ```
 
-### 32-bit (Signed) Integers
+### Números Inteiros de 32-bit (Sinalizado)
 
-While integers can range up to roughly 9 quadrillion safely (53 bits), there are some numeric operations (like the bitwise operators) that are only defined for 32-bit `number`s, so the "safe range" for `number`s used in that way must be much smaller.
+Enquanto números inteiros podem variar até 9 quatrilhões de forma segura (53 bits), exitem algumas operações numéricas (como os operadores bit a bit) que são definidas apenas para `number`s de 32 bits, portanto, o "intervalo seguro" para `number`s usados dessa maneira deve ser muito menor.
 
-The range then is `Math.pow(-2,31)` (`-2147483648`, about -2.1 billion) up to `Math.pow(2,31)-1` (`2147483647`, about +2.1 billion).
+O intervalo é então `Math.pow(-2,31)` (`-2147483648`, cerca de -2.1 bilhões) até `Math.pow(2,31)-1` (`2147483647`, cerca de +2.1 bilhões).
 
 To force a `number` value in `a` to a 32-bit signed integer value, use `a | 0`. This works because the `|` bitwise operator only works for 32-bit integer values (meaning it can only pay attention to 32 bits and any other bits will be lost). Then, "or'ing" with zero is essentially a no-op bitwise speaking.
 
