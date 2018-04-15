@@ -462,9 +462,9 @@ Enquanto números inteiros podem variar até 9 quatrilhões de forma segura (53 
 
 O intervalo é então `Math.pow(-2,31)` (`-2147483648`, cerca de -2.1 bilhões) até `Math.pow(2,31)-1` (`2147483647`, cerca de +2.1 bilhões).
 
-To force a `number` value in `a` to a 32-bit signed integer value, use `a | 0`. This works because the `|` bitwise operator only works for 32-bit integer values (meaning it can only pay attention to 32 bits and any other bits will be lost). Then, "or'ing" with zero is essentially a no-op bitwise speaking.
+Para forçar um valor de `number` em `a` para um valor inteiro sinalizado de 32-bit, use `a | 0`. Isto funciona porque o operador `|` bit a bit só funciona para números inteiros de 32-bit (o que significa que ele só pode prestar atenção a 32 bits e todos os outros bits serão perdidos). Então, "or (|) em seguida" com zero é essenciamente uma não-op bit a bit falando.
 
-**Note:** Certain special values (which we will cover in the next section) such as `NaN` and `Infinity` are not "32-bit safe," in that those values when passed to a bitwise operator will pass through the abstract operation `ToInt32` (see Chapter 4) and become simply the `+0` value for the purpose of that bitwise operation.
+**Nota:** Certos valores especiais (que serão abordados na próxima seção) como `NaN` e `Infinity` não são "seguros em 32-bit," pois esses valores, quando passados para um operador bit a bit, passarão pela operação abstrata `ToInt32` (veja o Capítulo 4) e se tornarão simplesmente o valor `+0` para a finalizadade dessa operação bit a bit.
 
 ## Special Values
 
