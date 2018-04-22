@@ -466,33 +466,33 @@ Para forçar um valor de `number` em `a` para um valor inteiro sinalizado de 32-
 
 **Nota:** Certos valores especiais (que serão abordados na próxima seção) como `NaN` e `Infinity` não são "seguros em 32-bit," pois esses valores, quando passados para um operador bit a bit, passarão pela operação abstrata `ToInt32` (veja o Capítulo 4) e se tornarão simplesmente o valor `+0` para a finalizadade dessa operação bit a bit.
 
-## Special Values
+## Valores Especiais
 
-There are several special values spread across the various types that the *alert* JS developer needs to be aware of, and use properly.
+Existem vários valores especiais espalhados pelos vários tipos que o desenvolvedor JS *atento* precisa conhecer e usar corretamente.
 
-### The Non-value Values
+### Os Valores Sem-valor (Non-value)
 
-For the `undefined` type, there is one and only one value: `undefined`. For the `null` type, there is one and only one value: `null`. So for both of them, the label is both its type and its value.
+Para o tipo `undefined`, existe um e somente um valor: `undefined`. Para o tipo `null`, exite um e somente um valor: `null`. Então, para ambos, a label (rótulo) é tanto seu tipo quanto seu valor.
 
-Both `undefined` and `null` are often taken to be interchangeable as either "empty" values or "non" values. Other developers prefer to distinguish between them with nuance. For example:
+Ambos `undefined` e `null` são frequentemente considerados como intercambiáveis como valores "vazios" ou "sem valores". Outros desenvolvedores preferem distinguir entre eles com nuances. Por exemplo:
 
-* `null` is an empty value
-* `undefined` is a missing value
+* `null` é um valor vazio
+* `undefined` é um valor inexistente
 
 Or:
 
-* `undefined` hasn't had a value yet
-* `null` had a value and doesn't anymore
+* `undefined` ainda não teve um valor
+* `null` tinha um valor e não tem mais
 
-Regardless of how you choose to "define" and use these two values, `null` is a special keyword, not an identifier, and thus you cannot treat it as a variable to assign to (why would you!?). However, `undefined` *is* (unfortunately) an identifier. Uh oh.
+Independentemente de como você escolhe "definir" e usar esses dois valores, `null` é uma palavra-chave especial, não um identificador, e assim você pode tratá-la como uma variável a ser atribuída (Por que você faria isso!?). No entando, `undefined` *é* (infelizmente) um identificador. Uh oh.
 
 ### Undefined
 
-In non-`strict` mode, it's actually possible (though incredibly ill-advised!) to assign a value to the globally provided `undefined` identifier:
+No modo não-`strict`, é realmente possível (embora incrivelmente imprudente!) atribuir um valor ao identificador `undefined` fornecido globalmente:
 
 ```js
 function foo() {
-	undefined = 2; // really bad idea!
+	undefined = 2; // péssima idéia!
 }
 
 foo();
@@ -501,13 +501,13 @@ foo();
 ```js
 function foo() {
 	"use strict";
-	undefined = 2; // TypeError!
+	undefined = 2; // Erro de tipo (TypeError)!
 }
 
 foo();
 ```
 
-In both non-`strict` mode and `strict` mode, however, you can create a local variable of the name `undefined`. But again, this is a terrible idea!
+No modo não-`strict` e no modo `strict`, no entanto, você pode criar uma variável local com o nome `undefined`. Mas, novamente, esta é uma idéia terrível!
 
 ```js
 function foo() {
@@ -519,7 +519,7 @@ function foo() {
 foo();
 ```
 
-**Friends don't let friends override `undefined`.** Ever.
+**Amigos não deixam amigos sobrescrever `undefined`.** Nunca.
 
 #### `void` Operator
 
