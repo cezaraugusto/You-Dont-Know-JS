@@ -9,11 +9,11 @@ O mecanismo `this` do JavaScript na verdade não é *tão* avançado, mas os des
 
 **Nota:** A palavra "this" (isto) é um pronome terrivelmente comum em diálogos de forma geral (em inglês). Então, pode ser muito difícil, especialmente oralmente, determinar se estamos usando "isto" como um pronome, ou usando para realmente referir à palavra-chave de identificação. Para deixar claro, sempre vou utilizar `this` para referi à palavra-chave, e "isto" ou *isto* ou isto caso contrário.
 
-## Why `this`?
+## Por que `this`?
 
-If the `this` mechanism is so confusing, even to seasoned JavaScript developers, one may wonder why it's even useful? Is it more trouble than it's worth? Before we jump into the *how*, we should examine the *why*.
+Se o mecanismo `this` é tão confuso, até mesmo para desenvolvedores JavaScript experientes, pode-se perguntar: por que ainda é útil? É um problema ou vale a pena? Antes de entrarmos no *como*, devemos examinar o *porquê*.
 
-Let's try to illustrate the motivation and utility of `this`:
+Vamos tentar ilustrar a motivação e utilidade do `this`:
 
 ```js
 function identify() {
@@ -40,11 +40,11 @@ speak.call( me ); // Hello, I'm KYLE
 speak.call( you ); // Hello, I'm READER
 ```
 
-If the *how* of this snippet confuses you, don't worry! We'll get to that shortly. Just set those questions aside briefly so we can look into the *why* more clearly.
+Se o *como* desse snippet confunde você, não se preocupe! Já vamos chegar lá. Apenas coloque isso de lado por um momento para que possamos olhar mais claramente o *porquê*.
 
-This code snippet allows the `identify()` and `speak()` functions to be re-used against multiple *context* (`me` and `you`) objects, rather than needing a separate version of the function for each object.
+Esse pedaço de código permite que as funções `identify()` e `speak()` sejam reutilizadas em diversos objetos (`me` and `you`) de *contexto*, em vez de precisar de uma versão separada da função para cada objeto.
 
-Instead of relying on `this`, you could have explicitly passed in a context object to both `identify()` and `speak()`.
+Ao invés de confiar no `this`, você poderia passar explicitamente um objeto de contexto, tanto para `identify()`, quanto para `speak()`.
 
 ```js
 function identify(context) {
@@ -60,9 +60,9 @@ identify( you ); // READER
 speak( me ); // Hello, I'm KYLE
 ```
 
-However, the `this` mechanism provides a more elegant way of implicitly "passing along" an object reference, leading to cleaner API design and easier re-use.
+No entanto, o mecanismo `this` provê um modo mais elegante de "passar" um objeto como referência implicitamente, levando a um design de API mais limpo e fácil de ser reutilizado.
 
-The more complex your usage pattern is, the more clearly you'll see that passing context around as an explicit parameter is often messier than passing around a `this` context. When we explore objects and prototypes, you will see the helpfulness of a collection of functions being able to automatically reference the proper context object.
+Quanto mais complexo for o padrão de utilização, você verá mais claramente que passar o contexto como um parâmetro explícito é frequentemente mais confuso do que passar o contexto com o `this`. Quando exploramos objetos e protótipos, você verá a utilidade de ter uma coleção de funções capazes de referir automaticamente a um objeto no contexto apropriado.
 
 ## Confusions
 
