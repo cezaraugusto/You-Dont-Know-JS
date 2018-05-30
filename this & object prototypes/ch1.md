@@ -64,11 +64,11 @@ No entanto, o mecanismo `this` provê um modo mais elegante de "passar" um objet
 
 Quanto mais complexo for o padrão de utilização, você verá mais claramente que passar o contexto como um parâmetro explícito é frequentemente mais confuso do que passar o contexto com o `this`. Quando exploramos objetos e protótipos, você verá a utilidade de ter uma coleção de funções capazes de referir automaticamente a um objeto no contexto apropriado.
 
-## Confusions
+## Confusões
 
-We'll soon begin to explain how `this` *actually* works, but first we must  dispel some misconceptions about how it *doesn't* actually work.
+Vamos começar a explicar como `this` *realmente* funciona em breve, mas primeiro nós devemos dissipar alguns equívocos sobre como ele *não* funciona.
 
-The name "this" creates confusion when developers try to think about it too literally. There are two meanings often assumed, but both are incorrect.
+O nome "this" gera confusão quando os desenvolvedores tentam pensar nele de forma literal. Existem dois significados muitas vezes adotados, mas ambos estão incorretos.
 
 ### Itself
 
