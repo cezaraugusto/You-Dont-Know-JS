@@ -494,7 +494,7 @@ switch (a) {
 }
 ```
 
-Aqui, se `a` for ou `2` ou `10`, iremos  executar a instrução de código "some cool stuff".
+Aqui, se `a` for ou `2` ou `10`, iremos  executar a instrução de código "alguma coisa legal".
 
 Uma outra forma de condicional em JavaScript é o "operador condicional," chamado também de "operador ternário." Ele é uma forma concisa/simplificada de uma instrução `if..else`, como em:
 
