@@ -70,17 +70,17 @@ Vamos começar a explicar como `this` *realmente* funciona em breve, mas primeir
 
 O nome "this" gera confusão quando os desenvolvedores tentam pensar nele de forma literal. Existem dois significados muitas vezes adotados, mas ambos estão incorretos.
 
-### Itself
+### Ele mesmo
 
-The first common temptation is to assume `this` refers to the function itself. That's a reasonable grammatical inference, at least.
+A tentação mais comum é assumir que `this` se refere a própria função. Essa é uma conclusão gramatical aceitável, pelo menos.
 
-Why would you want to refer to a function from inside itself? The most common reasons would be things like recursion (calling a function from inside itself) or having an event handler that can unbind itself when it's first called.
+Por que você gostaria de referir a uma função de dentro dela mesma? As razões mais comuns poderiam ser coisas como recursão (chamar uma função de dentro dela mesma) ou tendo um manipulador de evento que pode se desvincular quando for chamado pela primeira vez.
 
-Developers new to JS's mechanisms often think that referencing the function as an object (all functions in JavaScript are objects!) lets you store *state* (values in properties) between function calls. While this is certainly possible and has some limited uses, the rest of the book will expound on many other patterns for *better* places to store state besides the function object.
+Desenvolvedores novatos nos mecanismos do JS muitas vezes pensam que referenciar uma função como um objeto (todas as funções em JavaScript são objetos!) permite armazenar *estado* (valores em propriedades) entre as chamadas da função. Embora isso certamente seja possível e com algumas limitações de uso, o restante do livro irá expor muitos outros padrões com *melhores* lugares para se armazenar estado fora do objeto da função.
 
-But for just a moment, we'll explore that pattern, to illustrate how `this` doesn't let a function get a reference to itself like we might have assumed.
+Mas por um momento, nós vamos explorar esse padrão, para ilustrar como `this` não deixa uma função pegar uma referência a ela mesma como podemos ter assumido.
 
-Consider the following code, where we attempt to track how many times a function (`foo`) was called:
+Considere o seguinte código, onde nós tentaremos contar quantas vezes a função (`foo`) foi chamada:
 
 ```js
 function foo(num) {
@@ -108,13 +108,13 @@ for (i=0; i<10; i++) {
 console.log( foo.count ); // 0 -- WTF?
 ```
 
-`foo.count` is *still* `0`, even though the four `console.log` statements clearly indicate `foo(..)` was in fact called four times. The frustration stems from a *too literal* interpretation of what `this` (in `this.count++`) means.
+`foo.count` *ainda* é `0`, mesmo que as quatro declarações `console.log` claramente indicam que `foo(..)` foi, de fato, chamada quatro vezes. A frustração se origina de uma interpretação *muito literal* do que o `this` (em `this.count++`) significa.
 
-When the code executes `foo.count = 0`, indeed it's adding a property `count` to the function object `foo`. But for the `this.count` reference inside of the function, `this` is not in fact pointing *at all* to that function object, and so even though the property names are the same, the root objects are different, and confusion ensues.
+Quando o código executa `foo.count = 0`, realmente está adicionando a propriedade `count` ao objeto da função `foo`. Mas para a referência `this.count` de dentro da função, `this` não está de fato apontando *de todo* para aquele objeto da função, e então, mesmo que os nomes das propriedades sejam os mesmos, os objetos-raiz são diferentes, e resultam em confusão.
 
-**Note:** A responsible developer *should* ask at this point, "If I was incrementing a `count` property but it wasn't the one I expected, which `count` *was* I incrementing?" In fact, were she to dig deeper, she would find that she had accidentally created a global variable `count` (see Chapter 2 for *how* that happened!), and it currently has the value `NaN`. Of course, once she identifies this peculiar outcome, she then has a whole other set of questions: "How was it global, and why did it end up `NaN` instead of some proper count value?" (see Chapter 2).
+**Nota:** Uma desenvolvedora responsável *deve* perguntar nesse momento, "Se eu estava incrementando uma propriedade `count` mas não era a que eu esperava, que `count` eu *estava* incrementando?" De fato, ela está se aprofundando, ela descobrirá que acidentalmente criou uma variável global `count` (veja o Capítulo 2 para *como* isso aconteceu!), e atualmente ela tem o valor `NaN`. Naturalmente, uma vez que ela descobre esse resultado peculiar, ela então tem um novo conjunto de perguntas: "Como essa variável é global e por que ela acabou como `NaN` ao invés de algum valor adequado?" (veja o Capítulo 2).
 
-Instead of stopping at this point and digging into why the `this` reference doesn't seem to be behaving as *expected*, and answering those tough but important questions, many developers simply avoid the issue altogether, and hack toward some other solution, such as creating another object to hold the `count` property:
+Ao invés de parar e analisar com profundidade o porquê da referência `this` parecer não se comportar da maneira *esperada*, e responder essas questões difíceis mas importantes, muitos desenvolvedores simplesmentes evitam esse problema completamente, e escrevem alguma outra solução, como criar um outro objeto para armazenar a propriedade `count`:
 
 ```js
 function foo(num) {
@@ -144,13 +144,13 @@ for (i=0; i<10; i++) {
 console.log( data.count ); // 4
 ```
 
-While it is true that this approach "solves" the problem, unfortunately it simply ignores the real problem -- lack of understanding what `this` means and how it works -- and instead falls back to the comfort zone of a more familiar mechanism: lexical scope.
+Embora seja verdade que essa abordagem "resolve" o problema, infelizmente ela simplesmente ignora o problema real -- a falta de entendimento do que o `this` significa e como ele funciona -- e, ao invés disso, retrocede para a zona de conforto de um mecanismo mais familiar: o escopo léxico.
 
-**Note:** Lexical scope is a perfectly fine and useful mechanism; I am not belittling the use of it, by any means (see *"Scope & Closures"* title of this book series). But constantly *guessing* at how to use `this`, and usually being *wrong*, is not a good reason to retreat back to lexical scope and never learn *why* `this` eludes you.
+**Nota:** Escopo léxico é um mecanismo muito bom e útil; Eu não estou menosprezando o uso dele, de forma alguma (veja o título *"Escopo & Closures"* desta série de livros). Mas constantemente *adivinhar* como usar o `this`, e geralmente estar *errado*, não é uma boa razão para se voltar para o escopo léxico e nunca aprender *porquê* o `this` ilude você.
 
-To reference a function object from inside itself, `this` by itself will typically be insufficient. You generally need a reference to the function object via a lexical identifier (variable) that points at it.
+Para referenciar o objeto da função de dentro dela mesma, `this` por si só será em geral insuficiente. Normalmente você precisa de uma referência para o objeto da função por um identificador léxico (variável) que aponta para ela.
 
-Consider these two functions:
+Considere essas duas funções:
 
 ```js
 function foo() {
@@ -163,13 +163,13 @@ setTimeout( function(){
 }, 10 );
 ```
 
-In the first function, called a "named function", `foo` is a reference that can be used to refer to the function from inside itself.
+Na primeira função, chamada de "função nomeada", `foo` é uma referência que pode ser usada para se referir a função de dentro dela mesma.
 
-But in the second example, the function callback passed to `setTimeout(..)` has no name identifier (so called an "anonymous function"), so there's no proper way to refer to the function object itself.
+Mas no segundo exemplo, a função de callback passada para o `setTimeout(..)` não tem identificador (então chamada de "função anônima"), então não há uma maneira adequada de se referenciar o próprio objeto da função.
 
-**Note:** The old-school but now deprecated and frowned-upon `arguments.callee` reference inside a function *also* points to the function object of the currently executing function. This reference is typically the only way to access an anonymous function's object from inside itself. The best approach, however, is to avoid the use of anonymous functions altogether, at least for those which require a self-reference, and instead use a named function (expression). `arguments.callee` is deprecated and should not be used.
+**Nota:** A referência old-school, mas agora deprecada e de torcer o nariz, `arguments.callee` dentro uma função *também* aponta para o objeto da função que está sendo executado. Essa referência é normalmente a única forma de acessa um objeto de função anônima de dentro dela mesma. A melhor abordagem no entanto, é evitar o uso de funções anônimas completamente, pelo menos para as que necessitam de auto-referência, e em vez disso utilizar funções nomeadas (expressões). `arguments.callee` é obsoleta e não deve ser usada.
 
-So another solution to our running example would have been to use the `foo` identifier as a function object reference in each place, and not use `this` at all, which *works*:
+Outra solução para nosso atual exemplo seria usar o identificador `foo` como referência ao objeto da função em cada lugar, e não utilizar o `this` absolutamente, o que *funciona*:
 
 ```js
 function foo(num) {
@@ -197,9 +197,9 @@ for (i=0; i<10; i++) {
 console.log( foo.count ); // 4
 ```
 
-However, that approach similarly side-steps *actual* understanding of `this` and relies entirely on the lexical scoping of variable `foo`.
+No entanto, essa abordagem igualmente o *real* entendimento do `this` e depende inteiramente do escopo léxico da variável `foo`.
 
-Yet another way of approaching the issue is to force `this` to actually point at the `foo` function object:
+Ainda outro modo de abordar esse problema é forçar o `this` para realmente apontar para o objeto da função `foo`:
 
 ```js
 function foo(num) {
@@ -231,7 +231,7 @@ for (i=0; i<10; i++) {
 console.log( foo.count ); // 4
 ```
 
-**Instead of avoiding `this`, we embrace it.** We'll explain in a little bit *how* such techniques work much more completely, so don't worry if you're still a bit confused!
+**Ao invés de evitar o `this`, nós abraçamos ele.** Vamos explicar daqui a pouco o *como* essas técnicas funcionam muito mais completamente, então não se preocupe se você ainda estiver um pouco confuso!
 
 ### Its Scope
 
