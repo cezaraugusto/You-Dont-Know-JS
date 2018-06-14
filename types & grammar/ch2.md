@@ -417,9 +417,9 @@ A principal maneira na qual as aplicaçoes JS se deparam com números tão grand
 
 As operações numéricas de valores tão grandes de ID com `number` (além da comparação, que será passível com `string`s) não são tão comuns, felizmente. Mas se você *precisar* executar cálculos matemáticos nesses valores muito grandes, por enquanto você precisará utilizar um utilitário para *big number (números grandes)*. Big numbers (números grandes) pode obter suporte oficial em uma futura versão do JavaScript.
 
-### Testing for Integers
+### Testando números inteiros
 
-To test if a value is an integer, you can use the ES6-specified `Number.isInteger(..)`:
+Para testar se um valor é um número inteiro, você pode usar a especificação ES6 `Number.isInteger(..)`:
 
 ```js
 Number.isInteger( 42 );		// true
@@ -427,7 +427,7 @@ Number.isInteger( 42.000 );	// true
 Number.isInteger( 42.3 );	// false
 ```
 
-To polyfill `Number.isInteger(..)` for pre-ES6:
+Para um polyfill de `Number.isInteger(..)` pre-ES6:
 
 ```js
 if (!Number.isInteger) {
@@ -437,7 +437,7 @@ if (!Number.isInteger) {
 }
 ```
 
-To test if a value is a *safe integer*, use the ES6-specified `Number.isSafeInteger(..)`:
+Para testar se um valor é um *número inteiro seguro*, use a especificação ES6 `Number.isSafeInteger(..)`:
 
 ```js
 Number.isSafeInteger( Number.MAX_SAFE_INTEGER );	// true
@@ -445,7 +445,7 @@ Number.isSafeInteger( Math.pow( 2, 53 ) );			// false
 Number.isSafeInteger( Math.pow( 2, 53 ) - 1 );		// true
 ```
 
-To polyfill `Number.isSafeInteger(..)` in pre-ES6 browsers:
+Para um polyfill de `Number.isSafeInteger(..)` em navegadores pre-ES6:
 
 ```js
 if (!Number.isSafeInteger) {
@@ -456,43 +456,43 @@ if (!Number.isSafeInteger) {
 }
 ```
 
-### 32-bit (Signed) Integers
+### Números Inteiros de 32-bit (Sinalizado)
 
-While integers can range up to roughly 9 quadrillion safely (53 bits), there are some numeric operations (like the bitwise operators) that are only defined for 32-bit `number`s, so the "safe range" for `number`s used in that way must be much smaller.
+Enquanto números inteiros podem variar até 9 quatrilhões de forma segura (53 bits), exitem algumas operações numéricas (como os operadores bit a bit) que são definidas apenas para `number`s de 32 bits, portanto, o "intervalo seguro" para `number`s usados dessa maneira deve ser muito menor.
 
-The range then is `Math.pow(-2,31)` (`-2147483648`, about -2.1 billion) up to `Math.pow(2,31)-1` (`2147483647`, about +2.1 billion).
+O intervalo é então `Math.pow(-2,31)` (`-2147483648`, cerca de -2.1 bilhões) até `Math.pow(2,31)-1` (`2147483647`, cerca de +2.1 bilhões).
 
-To force a `number` value in `a` to a 32-bit signed integer value, use `a | 0`. This works because the `|` bitwise operator only works for 32-bit integer values (meaning it can only pay attention to 32 bits and any other bits will be lost). Then, "or'ing" with zero is essentially a no-op bitwise speaking.
+Para forçar um valor de `number` em `a` para um valor inteiro sinalizado de 32-bit, use `a | 0`. Isto funciona porque o operador `|` bit a bit só funciona para números inteiros de 32-bit (o que significa que ele só pode prestar atenção a 32 bits e todos os outros bits serão perdidos). Então, "or (|) em seguida" com zero é essenciamente uma não-op bit a bit falando.
 
-**Note:** Certain special values (which we will cover in the next section) such as `NaN` and `Infinity` are not "32-bit safe," in that those values when passed to a bitwise operator will pass through the abstract operation `ToInt32` (see Chapter 4) and become simply the `+0` value for the purpose of that bitwise operation.
+**Nota:** Certos valores especiais (que serão abordados na próxima seção) como `NaN` e `Infinity` não são "seguros em 32-bit," pois esses valores, quando passados para um operador bit a bit, passarão pela operação abstrata `ToInt32` (veja o Capítulo 4) e se tornarão simplesmente o valor `+0` para a finalizadade dessa operação bit a bit.
 
-## Special Values
+## Valores Especiais
 
-There are several special values spread across the various types that the *alert* JS developer needs to be aware of, and use properly.
+Existem vários valores especiais espalhados pelos vários tipos que o desenvolvedor JS *atento* precisa conhecer e usar corretamente.
 
-### The Non-value Values
+### Os Valores Sem-valor (Non-value)
 
-For the `undefined` type, there is one and only one value: `undefined`. For the `null` type, there is one and only one value: `null`. So for both of them, the label is both its type and its value.
+Para o tipo `undefined`, existe um e somente um valor: `undefined`. Para o tipo `null`, exite um e somente um valor: `null`. Então, para ambos, a label (rótulo) é tanto seu tipo quanto seu valor.
 
-Both `undefined` and `null` are often taken to be interchangeable as either "empty" values or "non" values. Other developers prefer to distinguish between them with nuance. For example:
+Ambos `undefined` e `null` são frequentemente considerados como intercambiáveis como valores "vazios" ou "sem valores". Outros desenvolvedores preferem distinguir entre eles com nuances. Por exemplo:
 
-* `null` is an empty value
-* `undefined` is a missing value
+* `null` é um valor vazio
+* `undefined` é um valor inexistente
 
 Or:
 
-* `undefined` hasn't had a value yet
-* `null` had a value and doesn't anymore
+* `undefined` ainda não teve um valor
+* `null` tinha um valor e não tem mais
 
-Regardless of how you choose to "define" and use these two values, `null` is a special keyword, not an identifier, and thus you cannot treat it as a variable to assign to (why would you!?). However, `undefined` *is* (unfortunately) an identifier. Uh oh.
+Independentemente de como você escolhe "definir" e usar esses dois valores, `null` é uma palavra-chave especial, não um identificador, e assim você pode tratá-la como uma variável a ser atribuída (Por que você faria isso!?). No entando, `undefined` *é* (infelizmente) um identificador. Uh oh.
 
 ### Undefined
 
-In non-`strict` mode, it's actually possible (though incredibly ill-advised!) to assign a value to the globally provided `undefined` identifier:
+No modo não-`strict`, é realmente possível (embora incrivelmente imprudente!) atribuir um valor ao identificador `undefined` fornecido globalmente:
 
 ```js
 function foo() {
-	undefined = 2; // really bad idea!
+	undefined = 2; // péssima idéia!
 }
 
 foo();
@@ -501,13 +501,13 @@ foo();
 ```js
 function foo() {
 	"use strict";
-	undefined = 2; // TypeError!
+	undefined = 2; // Erro de tipo (TypeError)!
 }
 
 foo();
 ```
 
-In both non-`strict` mode and `strict` mode, however, you can create a local variable of the name `undefined`. But again, this is a terrible idea!
+No modo não-`strict` e no modo `strict`, no entanto, você pode criar uma variável local com o nome `undefined`. Mas, novamente, esta é uma idéia terrível!
 
 ```js
 function foo() {
@@ -519,7 +519,7 @@ function foo() {
 foo();
 ```
 
-**Friends don't let friends override `undefined`.** Ever.
+**Amigos não deixam amigos sobrescrever `undefined`.** Nunca.
 
 #### `void` Operator
 
