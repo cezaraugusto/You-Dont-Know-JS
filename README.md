@@ -1,8 +1,3 @@
-Quer falar sobre o projeto? Estamos no Telegram. [Aqui](https://telegram.me/joinchat/BwXy1AhgwF-pbk0OvIdaxA).
-<hr>
-
-> Esta é uma tradução em Português da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
-
 ## Fique por dentro
 
 A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezaraugusto). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
