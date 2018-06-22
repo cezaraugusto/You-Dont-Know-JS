@@ -13,7 +13,6 @@ A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com
 Se você sabe inglês ou leu alguma parte já traduzida e achou algum erro, nós queremos nos juntar a você!
 
 * [Aqui um guia incrível de como você pode nos ajudar](CONTRIBUTING.md)
-* [Dúvidas com o projeto? Estamos no Telegram](https://telegram.me/joinchat/BwXy1AhgwF-pbk0OvIdaxA)
 
 > "Comece de onde você está. Use o que você tiver. Faça o que você puder" – Arthur Ashe
 
