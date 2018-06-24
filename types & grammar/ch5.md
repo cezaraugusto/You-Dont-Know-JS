@@ -1,5 +1,5 @@
 # You Don't Know JS: Types & Grammar
-# Capítulo 5: Grmática
+# Capítulo 5: Gramática
 
 O último tópico a ser abordado é a sintaxe do JavaScript (também conhecida como sendo sua gramática). Você pode pensar que sabe escrever JS, mas há muitas nuances em sua gramática que levam ao equívoco, então queremos nos aprofundar nessas partes e esclarecê-las.
 
