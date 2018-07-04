@@ -1,10 +1,12 @@
 # You Don't Know JS: Types & Grammar
-# Chapter 5: Grammar
+# Capítulo 5: Gramática
 
-The last major topic we want to tackle is how JavaScript's language syntax works (aka its grammar). You may think you know how to write JS, but there's an awful lot of nuance to various parts of the language grammar that lead to confusion and misconception, so we want to dive into those parts and clear some things up.
+O último tópico a ser abordado é a sintaxe do JavaScript (também conhecida como sendo sua gramática). Você pode pensar que sabe escrever JS, mas há muitas nuances em sua gramática que levam ao equívoco, então queremos nos aprofundar nessas partes e esclarecê-las.
 
-**Note:** The term "grammar" may be a little less familiar to readers than the term "syntax." In many ways, they are similar terms, describing the *rules* for how the language works. There are nuanced differences, but they mostly don't matter for our discussion here. The grammar for JavaScript is a structured way to describe how the syntax (operators, keywords, etc.) fits together into well-formed, valid programs. In other words, discussing syntax without grammar would leave out a lot of the important details. So our focus here in this chapter is most accurately described as *grammar*, even though the raw syntax of the language is what developers directly interact with.
+**Nota:** O termo "gramática" pode ser um pouco menos familiar do que o termo "sintaxe". De muitas formas, eles são termos semelhantes, e descrevem as *regras* de como a linguagem funciona.
+Exitem diferenças sutis entre os dois termos, porém, na maioria das vezes, não há contribuição para a discussão. A gramática do JS é uma maneira estruturada de descrever como a sintaxe (operadores, keywords, etc.) se encaixam para formar programas estruturados. Em outras palavras, discutir a sintaxe sem gramática deixaria de fora muitos detalhes importantes. Portanto, o foco da nossa discussão é a *gramática*, mesmo sendo a sintaxe da linguagem o que os desenvolvedores interagem diretamente.
 
+<hr>
 ## Statements & Expressions
 
 It's fairly common for developers to assume that the term "statement" and "expression" are roughly equivalent. But here we need to distinguish between the two, because there are some very important differences in our JS programs.
