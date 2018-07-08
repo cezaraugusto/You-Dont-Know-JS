@@ -233,13 +233,13 @@ console.log( foo.count ); // 4
 
 **Ao invés de evitar o `this`, nós abraçamos ele.** Vamos explicar daqui a pouco o *como* essas técnicas funcionam muito mais completamente, então não se preocupe se você ainda estiver um pouco confuso!
 
-### Its Scope
+### Seu Escopo
 
-The next most common misconception about the meaning of `this` is that it somehow refers to the function's scope. It's a tricky question, because in one sense there is some truth, but in the other sense, it's quite misguided.
+O próximo equívoco mais comum sobre o significado do `this` é que ele, de alguma forma, se refere ao escopo léxico da função. É uma questão complicada, porque por um lado isso é verdade, mas pelo outro é bastante errado.
 
-To be clear, `this` does not, in any way, refer to a function's **lexical scope**. It is true that internally, scope is kind of like an object with properties for each of the available identifiers. But the scope "object" is not accessible to JavaScript code. It's an inner part of the *Engine*'s implementation.
+Para ser claro, `this` não é, de forma alguma, uma referência para o **escopo léxico** da função. É verdade que internamente, o escopo é como um objeto com propriedades para cada um dos identificadores disponíveis. Mas o "objeto" do escopo não é acessível para o código JavaScript. É uma parte interna da implementação da *Engine*.
 
-Consider code which attempts (and fails!) to cross over the boundary and use `this` to implicitly refer to a function's lexical scope:
+Considere o código que tenta (e falha!) cruzar o limite e usar o `this` para, implicitamente, se referir ao escopo léxico da função:
 
 ```js
 function foo() {
@@ -254,13 +254,13 @@ function bar() {
 foo(); //undefined
 ```
 
-There's more than one mistake in this snippet. While it may seem contrived, the code you see is a distillation of actual real-world code that has been exchanged in public community help forums. It's a wonderful (if not sad) illustration of just how misguided `this` assumptions can be.
+Existe mais de um erro neste snippet. Embora ele pode parecer artificial, o código que você vê é uma essência do verdadeiro código do mundo real, que foi postado em fóruns públicos de ajuda da comunidade. É uma maravilhosa (se não triste) ilustração de quão errada pode ser a suposição do `this`.
 
-Firstly, an attempt is made to reference the `bar()` function via `this.bar()`. It is almost certainly an *accident* that it works, but we'll explain the *how* of that shortly. The most natural way to have invoked `bar()` would have been to omit the leading `this.` and just make a lexical reference to the identifier.
+Primeiramente, é feita uma tentativa de referenciar a função `bar()` pelo `this.bar()`. É certamente quase um *acidente* que isso funcione, mas vamos explicar *como* em breve. A forma mais natural de chamar `bar()` seria omitindo o sedutor `this.` e apenas fazer uma referência léxica ao identificador.
 
-However, the developer who writes such code is attempting to use `this` to create a bridge between the lexical scopes of `foo()` and `bar()`, so that `bar()` has access to the variable `a` in the inner scope of `foo()`. **No such bridge is possible.** You cannot use a `this` reference to look something up in a lexical scope. It is not possible.
+No entanto, o desenvolvedor que escreve esse tipo de código está tentando utilizar `this` para criar uma ponte entre o escopo léxico de `foo()` e `bar()`, então `bar()` teria acesso a variável `a` de dentro do escopo de `foo()`. **Tais pontes não são possíveis.** Você não pode usar uma referência `this` para procurar algo em um escopo léxico. Isso não é possível.
 
-Every time you feel yourself trying to mix lexical scope look-ups with `this`, remind yourself: *there is no bridge*.
+Toda vez que você sentir que está tentando mixar escopo léxico procurando algo com `this`, lembre-se: *não existem pontes*.
 
 ## What's `this`?
 
