@@ -82,6 +82,7 @@
 * Callback Function: função de callback (retorno) (vide [#41](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/41#issuecomment-222241545))
 * Code snippet: trecho de código
 * Call-site: call-site
+* Call-stack: pilha de chamadas. Identifica qual função está sendo executada atualmente, quais funções são chamadas de dentro dessa função e devem ser chamadas de próximo.
 
 #### D
 

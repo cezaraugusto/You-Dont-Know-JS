@@ -262,15 +262,15 @@ No entanto, o desenvolvedor que escreve esse tipo de código está tentando util
 
 Toda vez que você sentir que está tentando mixar escopo léxico procurando algo com `this`, lembre-se: *não existem pontes*.
 
-## What's `this`?
+## O que é `this`?
 
-Having set aside various incorrect assumptions, let us now turn our attention to how the `this` mechanism really works.
+Deixando de lado as várias premissas incorretas, vamos focar nossa atenção para como o mecanismo `this` realmente funciona.
 
-We said earlier that `this` is not an author-time binding but a runtime binding. It is contextual based on the conditions of the function's invocation. `this` binding has nothing to do with where a function is declared, but has instead everything to do with the manner in which the function is called.
+Mais cedo falamos que o `this` não é um vínculo do momento de escrita mas um vínculo do momento de execução. Ele é baseado nas condições do contexto da função que o chama. O vínculo `this` não tem nada a ver com onde a função foi declarada, mas em vez disso, tem tudo a ver com com a forma que a função é chamada.
 
-When a function is invoked, an activation record, otherwise known as an execution context, is created. This record contains information about where the function was called from (the call-stack), *how* the function was invoked, what parameters were passed, etc. One of the properties of this record is the `this` reference which will be used for the duration of that function's execution.
+Quando uma função é chamada, um registro de ativação, também conhecido como contexto de execução, é criado. Esse registro contém informações sobre de onde a função foi chamada (a call-stack), *como* a função foi chamada, quais parâmetros foram passados, etc. Uma das propriedades desse registro é a referência `this`, que será usada pela duração da execução dessa função.
 
-In the next chapter, we will learn to find a function's **call-site** to determine how its execution will bind `this`.
+No próximo capítulo, nós vamos aprender a encontrar o **call-site** da função para determinar como sua execução será vinculada ao `this`.
 
 ## Review (TL;DR)
 
