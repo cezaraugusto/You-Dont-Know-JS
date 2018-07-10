@@ -40,7 +40,7 @@ speak.call( me ); // Hello, I'm KYLE
 speak.call( you ); // Hello, I'm READER
 ```
 
-Se o *como* desse snippet confunde você, não se preocupe! Já vamos chegar lá. Apenas coloque isso de lado por um momento para que possamos olhar mais claramente o *porquê*.
+Se o *como* desse trecho de código confunde você, não se preocupe! Já vamos chegar lá. Apenas coloque isso de lado por um momento para que possamos olhar mais claramente o *porquê*.
 
 Esse pedaço de código permite que as funções `identify()` e `speak()` sejam reutilizadas em diversos objetos (`me` and `you`) de *contexto*, em vez de precisar de uma versão separada da função para cada objeto.
 
@@ -62,7 +62,7 @@ speak( me ); // Hello, I'm KYLE
 
 No entanto, o mecanismo `this` provê um modo mais elegante de "passar" um objeto como referência implicitamente, levando a um design de API mais limpo e fácil de ser reutilizado.
 
-Quanto mais complexo for o padrão de utilização, você verá mais claramente que passar o contexto como um parâmetro explícito é frequentemente mais confuso do que passar o contexto com o `this`. Quando exploramos objetos e protótipos, você verá a utilidade de ter uma coleção de funções capazes de referir automaticamente a um objeto no contexto apropriado.
+Quanto mais complexo for o padrão de utilização, você verá mais claramente que passar o contexto como um parâmetro explícito é frequentemente mais confuso do que passar o contexto com o `this`. Quando exploramos objetos e protótipos, você verá a utilidade de uma coleção de funções sendo capaz de referenciar automaticamente o objeto no contexto apropriado.
 
 ## Confusões
 
@@ -167,7 +167,7 @@ Na primeira função, chamada de "função nomeada", `foo` é uma referência qu
 
 Mas no segundo exemplo, a função de callback passada para o `setTimeout(..)` não tem identificador (então chamada de "função anônima"), então não há uma maneira adequada de se referenciar o próprio objeto da função.
 
-**Nota:** A referência old-school, mas agora deprecada e de torcer o nariz, `arguments.callee` dentro uma função *também* aponta para o objeto da função que está sendo executado. Essa referência é normalmente a única forma de acessa um objeto de função anônima de dentro dela mesma. A melhor abordagem no entanto, é evitar o uso de funções anônimas completamente, pelo menos para as que necessitam de auto-referência, e em vez disso utilizar funções nomeadas (expressões). `arguments.callee` é obsoleta e não deve ser usada.
+**Nota:** A referência old-school, mas agora deprecada e de torcer o nariz, `arguments.callee` dentro uma função *também* aponta para o objeto da função que está sendo executado. Essa referência é normalmente a única forma de acessar um objeto de função anônima de dentro dela mesma. A melhor abordagem no entanto, é evitar o uso de funções anônimas completamente, pelo menos para as que necessitam de auto-referência, e em vez disso utilizar funções nomeadas (expressões). `arguments.callee` é obsoleta e não deve ser usada.
 
 Outra solução para nosso atual exemplo seria usar o identificador `foo` como referência ao objeto da função em cada lugar, e não utilizar o `this` absolutamente, o que *funciona*:
 
@@ -254,7 +254,7 @@ function bar() {
 foo(); //undefined
 ```
 
-Existe mais de um erro neste snippet. Embora ele pode parecer artificial, o código que você vê é uma essência do verdadeiro código do mundo real, que foi postado em fóruns públicos de ajuda da comunidade. É uma maravilhosa (se não triste) ilustração de quão errada pode ser a suposição do `this`.
+Existe mais de um erro neste trecho de código. Embora ele pode parecer artificial, o código que você vê é uma essência do verdadeiro código do mundo real, que foi postado em fóruns públicos de ajuda da comunidade. É uma maravilhosa (se não triste) ilustração de quão errada pode ser a suposição do `this`.
 
 Primeiramente, é feita uma tentativa de referenciar a função `bar()` pelo `this.bar()`. É certamente quase um *acidente* que isso funcione, mas vamos explicar *como* em breve. A forma mais natural de chamar `bar()` seria omitindo o sedutor `this.` e apenas fazer uma referência léxica ao identificador.
 
@@ -274,8 +274,8 @@ No próximo capítulo, nós vamos aprender a encontrar o **call-site** da funç�
 
 ## Review (TL;DR)
 
-`this` binding is a constant source of confusion for the JavaScript developer who does not take the time to learn how the mechanism actually works. Guesses, trial-and-error, and blind copy-n-paste from Stack Overflow answers is not an effective or proper way to leverage *this* important `this` mechanism.
+O vínculo `this` é uma constante fonte de confusão para os desenvolvedores JavaScript que não param para aprender como o mecanismo realmente funciona. Suposições, tentativa e falha, e copiar-e-colar cegamente das respostas do Stack Overflow não são maneiras eficazes ou adequadas de alavancar esse importante mecanismo `this`.
 
-To learn `this`, you first have to learn what `this` is *not*, despite any assumptions or misconceptions that may lead you down those paths. `this` is neither a reference to the function itself, nor is it a reference to the function's *lexical* scope.
+Para entender o `this`, você primeiro precisa aprender o que o `this` *não* é, apesar de quaisquer suposições ou equívocos que podem levá-lo por esses caminhos. `this` não é uma referência para a própria função, nem é uma referência para o escopo *léxico* da função.
 
-`this` is actually a binding that is made when a function is invoked, and *what* it references is determined entirely by the call-site where the function is called.
+`this` na verdade é um vínculo que é feito quando a função é chamada, e *o que* é referenciado é determinado inteiramente pelo call-site de onde a função é chamada.
