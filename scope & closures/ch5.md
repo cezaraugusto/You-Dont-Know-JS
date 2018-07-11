@@ -583,14 +583,12 @@ foo.awesome(); // LET ME INTRODUCE: HIPPO
 
 The contents inside the *module file* are treated as if enclosed in a scope closure, just like with the function-closure modules seen earlier.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Closure seems to the un-enlightened like a mystical world set apart inside of JavaScript which only the few bravest souls can reach. But it's actually just a standard and almost obvious fact of how we write code in a lexically scoped environment, where functions are values and can be passed around at will.
+Closure parece para os não-iluminados como um mundo místico à parte dentro do Javascript que apenas as poucas almas corajosas podem alcançar. Mas é na verdade apenas um padrão e quase um fato óbvio de como nós escrevemos código em um ambiente de escopo léxico, onde funções são valores e podem ser passados adiante à vontade.
 
-**Closure is when a function can remember and access its lexical scope even when it's invoked outside its lexical scope.**
+**Closure é quando uma função consegue lembrar e acessar seu escopo léxico mesmo quando invocada fora do seu escopo léxico.**
 
-Closures can trip us up, for instance with loops, if we're not careful to recognize them and how they work. But they are also an immensely powerful tool, enabling patterns like *modules* in their various forms.
+Módulos requerem duas características chave: 1) uma função de encapsulamento externa ser invocada, para criar o escopo fechado 2) o valor de retorno da função de encapsulamento deve incluir referência para ao menos uma função interna que então tenha closure sobre o escopo privado interno do encapsulamento.
 
-Modules require two key characteristics: 1) an outer wrapping function being invoked, to create the enclosing scope 2) the return value of the wrapping function must include reference to at least one inner function that then has closure over the private inner scope of the wrapper.
-
-Now we can see closures all around our existing code, and we have the ability to recognize and leverage them to our own benefit!
+Agora nós podemos ver closures em todo nosso código existente, e temos a habilidade para reconhece-los e aproveitá-los para nosso próprio benefício!
