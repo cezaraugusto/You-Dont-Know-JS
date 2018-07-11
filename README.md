@@ -1,8 +1,3 @@
-Quer falar sobre o projeto? Estamos no Telegram. [Aqui](https://telegram.me/joinchat/BwXy1AhgwF-pbk0OvIdaxA).
-<hr>
-
-> Esta é uma tradução em Português da série [You Don't Know JS](https://github.com/getify/You-Dont-Know-JS). 
-
 ## Fique por dentro
 
 A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezaraugusto). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
@@ -18,7 +13,6 @@ A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com
 Se você sabe inglês ou leu alguma parte já traduzida e achou algum erro, nós queremos nos juntar a você!
 
 * [Aqui um guia incrível de como você pode nos ajudar](CONTRIBUTING.md)
-* [Dúvidas com o projeto? Estamos no Telegram](https://telegram.me/joinchat/BwXy1AhgwF-pbk0OvIdaxA)
 
 > "Comece de onde você está. Use o que você tiver. Faça o que você puder" – Arthur Ashe
 
