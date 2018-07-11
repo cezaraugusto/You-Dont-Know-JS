@@ -528,17 +528,17 @@ Spend some time examining these code snippets to fully understand the power of c
 
 In other words, modules are just modules, even if you put a friendly wrapper tool on top of them.
 
-### Future Modules
+### Módulos do Futuro
 
-ES6 adds first-class syntax support for the concept of modules. When loaded via the module system, ES6 treats a file as a separate module. Each module can both import other modules or specific API members, as well export their own public API members.
+O ES6 adicionou suporte à sintaxe do conceito de primeira classe dos módulos. Quando carregado via sistema do módulo, o ES6 trata um arquivo como um módulo separado. Cada módulo pode tanto importar outros módulos ou especificar membros de API, assim como exportar seus pŕoprios membros de API pública.
 
-**Note:** Function-based modules aren't a statically recognized pattern (something the compiler knows about), so their API semantics aren't considered until run-time. That is, you can actually modify a module's API during the run-time (see earlier `publicAPI` discussion).
+**Nota:** Módulos baseados em funções não são, estatisticamente, padrões reconhecidos (alguma coisa o compilador reconhece), então sua semântica da API não os consideram até o tempo de execução. Isso é, você pode de fato modificar a API de um módulo durante o tempo de execução (veja a discussão anterior de `publicAPI`).
 
-By contrast, ES6 Module APIs are static (the APIs don't change at run-time). Since the compiler knows *that*, it can (and does!) check during (file loading and) compilation that a reference to a member of an imported module's API *actually exists*. If the API reference doesn't exist, the compiler throws an "early" error at compile-time, rather than waiting for traditional dynamic run-time resolution (and errors, if any).
+Em contraste, APIs de módulos ES6 são estáticos (a API não muda em tempo de execução). Desde que o compilador saiba *disso*, ele pode (e vai!) verificar durante (o carregamento de arquivo) a compilação que uma referência a um membro da API de um módulo importado *existe de fato*. Se a referência a API não exsitir, o compilador lança um erro "antecipado" na compilação, em vez de esperar pela dinâmica de resolução em tempo de execução tradicional (e erros, se existirem).
 
-ES6 modules **do not** have an "inline" format, they must be defined in separate files (one per module). The browsers/engines have a default "module loader" (which is overridable, but that's well-beyond our discussion here) which synchronously loads a module file when it's imported.
+Módulos ES6 **não** possuem um formato "inline", eles devem ser definidos em arquivos separados (um por módulo). O browser/motor tem um "carregador de módulo" padrão (que é substituível, mas isso está mutio além da nossa discussão aqui) que de forma síncrona carrega um arquivo de módulo quando ele é importado.
 
-Consider:
+Considere:
 
 **bar.js**
 ```js
@@ -551,7 +551,7 @@ export hello;
 
 **foo.js**
 ```js
-// import only `hello()` from the "bar" module
+// importa apenas `hello()` so módulo "bar"
 import hello from "bar";
 
 var hungry = "hippo";
@@ -566,7 +566,7 @@ export awesome;
 ```
 
 ```js
-// import the entire "foo" and "bar" modules
+// importa todo o módulo "foo" e "bar"
 module foo from "foo";
 module bar from "bar";
 
@@ -577,11 +577,11 @@ console.log(
 foo.awesome(); // LET ME INTRODUCE: HIPPO
 ```
 
-**Note:** Separate files **"foo.js"** and **"bar.js"** would need to be created, with the contents as shown in the first two snippets, respectively. Then, your program would load/import those modules to use them, as shown in the third snippet.
+**Nota:** Arquivos separados **"foo.js"** e **"bar.js"** precisarão ser criados com os conteúdos como mostrados no primeiro trecho de código, respectivamente. Então, seu programa vai carregar/importar esses módulos para usá-los, como mostrado no terceiro trecho de código.
 
-`import` imports one or more members from a module's API into the current scope, each to a bound variable (`hello` in our case). `module` imports an entire module API to a bound variable (`foo`, `bar` in our case). `export` exports an identifier (variable, function) to the public API for the current module. These operators can be used as many times in a module's definition as is necessary.
+`import` importa um ou mais membros de uma API de módulo dentro do escopo atual, cada um ligado à uma variável (no nosso caso, `hello`). `module` importa todo uma API do módulo ligado à uma variável (em nosso caso, `foo` e `bar`). `export` exporta um identificador (variável, função) para a API pública para o módulo atual. Esses operadores podem ser usados quantas vezes forem necessários em uma definição de módulo.
 
-The contents inside the *module file* are treated as if enclosed in a scope closure, just like with the function-closure modules seen earlier.
+O conteúdo dentro do *arquivo de módulo* é tratado como se fosse encapsulado em um escopo de closure, assim como com os módulos de funções closure vistos anteriormente.
 
 ## Review (TL;DR)
 
