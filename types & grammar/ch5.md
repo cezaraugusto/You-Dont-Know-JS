@@ -6,18 +6,17 @@ O último tópico a ser abordado é a sintaxe do JavaScript (também conhecida c
 **Nota:** O termo "gramática" pode ser um pouco menos familiar do que o termo "sintaxe". De muitas formas, eles são termos semelhantes, e descrevem as *regras* de como a linguagem funciona.
 Exitem diferenças sutis entre os dois termos, porém, na maioria das vezes, não há contribuição para a discussão. A gramática do JS é uma maneira estruturada de descrever como a sintaxe (operadores, keywords, etc.) se encaixam para formar programas estruturados. Em outras palavras, discutir a sintaxe sem gramática deixaria de fora muitos detalhes importantes. Portanto, o foco da nossa discussão é a *gramática*, mesmo sendo a sintaxe da linguagem o que os desenvolvedores interagem diretamente.
 
-<hr>
-## Statements & Expressions
+## Instruções & Expressões
 
-It's fairly common for developers to assume that the term "statement" and "expression" are roughly equivalent. But here we need to distinguish between the two, because there are some very important differences in our JS programs.
+É comum desenvolvedores assumirem que os termos "instruções" e "expressões" são equivalentes. Pém precisamso distinguí-los, pois existem algumas diferenças muito importantes em nossos programas JS.
 
-To draw the distinction, let's borrow from terminology you may be more familiar with: the English language.
+Para exemplificar essa distinção, usaremos a terminologia com a qual você pode estar mais familiarizado: O idioma inglês.
 
-A "sentence" is one complete formation of words that expresses a thought. It's comprised of one or more "phrases," each of which can be connected with punctuation marks or conjunction words ("and," "or," etc). A phrase can itself be made up of smaller phrases. Some phrases are incomplete and don't accomplish much by themselves, while other phrases can stand on their own. These rules are collectively called the *grammar* of the English language.
+Uma "sentença" é uma junção de palavras que expressa um pensamento. É composta por uma ou mais "frases", cada uma das quais pode ser conectada com sinais de pontuação ou por palavras de conjunção ("e", "ou", etc). Uma frase pode ser composta por frases menores. Algumas delas são incompletas e não tem muito sentido por si só, enquanto outras podem se sustentar sozinhas. Esse conjunto de regras é chamado de *gramática* da lingua inglesa.
 
-And so it goes with JavaScript grammar. Statements are sentences, expressions are phrases, and operators are conjunctions/punctuation.
+E assim acontece com a gramática de JavaScript. Instruções são sentenças, expressões são frases e operadores são conjuções e pontuações.
 
-Every expression in JS can be evaluated down to a single, specific value result. For example:
+Todas expressões em JS podem ser avaliadas em um único resultado. Por exemplo:
 
 ```js
 var a = 3 * 6;
@@ -25,12 +24,13 @@ var b = a;
 b;
 ```
 
-In this snippet, `3 * 6` is an expression (evaluates to the value `18`). But `a` on the second line is also an expression, as is `b` on the third line. The `a` and `b` expressions both evaluate to the values stored in those variables at that moment, which also happens to be `18`.
+Nesse trecho, `3 * 6` é uma expressão (avaliada no valor `18`). Mas `a` na segunda linha é também uma expressão, assim como `b` na terceira linha. As expressões `a` e `b` avaliam os valores armazenados nessas variáveis naquele momnento, que também passa a ser `18`.
 
-Moreover, each of the three lines is a statement containing expressions. `var a = 3 * 6` and `var b = a` are called "declaration statements" because they each declare a variable (and optionally assign a value to it). The `a = 3 * 6` and `b = a` assignments (minus the `var`s) are called assignment expressions.
+Além disso, cada uma das três linhas é uma instrução contendo expressões. `var a = 3 * 6` e `var b = a` são chamados de 'instruções de declaração', pois cada uma declara uma variável ( e opcionalmente atribui um valor a elas). As atribuições `a = 3 * 6` e `b = a` são chamadas de expressões de atribuições.
 
-The third line contains just the expression `b`, but it's also a statement all by itself (though not a terribly interesting one!). This is generally referred to as an "expression statement."
+A terceira linha contém apenas a expressão `b`, que também é uma declaração por si só (embora não seja uma muito interessante!). Esse tipo, geralmente, é chamado de "declaração de expressão".
 
+<hr>
 ### Statement Completion Values
 
 It's a fairly little known fact that statements all have completion values (even if that value is just `undefined`).
