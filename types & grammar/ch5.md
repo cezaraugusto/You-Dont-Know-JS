@@ -8,7 +8,7 @@ Exitem diferenças sutis entre os dois termos, porém, na maioria das vezes, nã
 
 ## Instruções & Expressões
 
-É comum desenvolvedores assumirem que os termos "instruções" e "expressões" são equivalentes. Pém precisamso distinguí-los, pois existem algumas diferenças muito importantes em nossos programas JS.
+É comum desenvolvedores assumirem que os termos "instruções" e "expressões" são equivalentes. Porém precisamos distinguí-los, pois existem algumas diferenças muito importantes em nossos programas JS.
 
 Para exemplificar essa distinção, usaremos a terminologia com a qual você pode estar mais familiarizado: O idioma inglês.
 
@@ -30,7 +30,6 @@ Além disso, cada uma das três linhas é uma instrução contendo expressões. 
 
 A terceira linha contém apenas a expressão `b`, que também é uma declaração por si só (embora não seja uma muito interessante!). Esse tipo, geralmente, é chamado de "declaração de expressão".
 
-<hr>
 ### Statement Completion Values
 
 It's a fairly little known fact that statements all have completion values (even if that value is just `undefined`).
