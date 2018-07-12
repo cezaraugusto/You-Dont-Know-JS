@@ -200,7 +200,7 @@ Agora... você vê!
 
 ## Loops + Closure
 
-The most common canonical example used to illustrate closure involves the humble for-loop.
+O exemplo canônico mais comum usado para ilustrar closures envolve o humilde loop for.
 
 ```js
 for (var i=1; i<=5; i++) {
@@ -210,29 +210,29 @@ for (var i=1; i<=5; i++) {
 }
 ```
 
-**Note:** Linters often complain when you put functions inside of loops, because the mistakes of not understanding closure are **so common among developers**. We explain how to do so properly here, leveraging the full power of closure. But that subtlety is often lost on linters and they will complain regardless, assuming you don't *actually* know what you're doing.
+**Nota:** Linters frequentemente reclamam quando você coloca funções dentro de loops, porque os erros do não entendimento de closures são **muito comuns entre desenvolvedores**. Nós explicaremos com fazer apropriadamente aqui, liberando o total poder do closure. Mas essa sutileza é frequentemente perdida em linters e eles vão reclamar, assumindo que, *na verdade*, você não sabe o que está fazendo. 
 
-The spirit of this code snippet is that we would normally *expect* for the behavior to be that the numbers "1", "2", .. "5" would be printed out, one at a time, one per second, respectively.
+A essência desse trecho de código é que nós normalmente *esperaríamos* que o comportamento fosse que os os números "1", "2", .. "5" fossem impressos, um de cada vez, um por segundo, respectivamente.
 
-In fact, if you run this code, you get "6" printed out 5 times, at the one-second intervals.
+De fato, se você rodar esse código, você terá o "6" impresso 5 vezes, no intervalo de 1 segundo.
 
-**Huh?**
+**Que?**
 
-Firstly, let's explain where `6` comes from. The terminating condition of the loop is when `i` is *not* `<=5`. The first time that's the case is when `i` is 6. So, the output is reflecting the final value of the `i` after the loop terminates.
+Primeiramente, vamos explicar de onde vem o `6`. A condição de encerramento do loop é quando `i` *não* é `<=5`. A primeira vez que isso será o caso é quando `i` é 6. Então, a saída está refletindo no valor final do `i` depois que o loop termina.
 
-This actually seems obvious on second glance. The timeout function callbacks are all running well after the completion of the loop. In fact, as timers go, even if it was `setTimeout(.., 0)` on each iteration, all those function callbacks would still run strictly after the completion of the loop, and thus print `6` each time.
+Na verdade, isso parece óbvio à segunda vista. Os callbacks da função timeout estão todos funcionando bem após a conclusão do loop. Na verdade, assim que o timer avança, mesmo que esteja `setTimeout(.., 0)` em cada iteração, todos esses callbacks da função ainda seriam executados estritamente após a conclusão do loop, e, assim, imprimir `6` a cada vez.
 
-But there's a deeper question at play here. What's *missing* from our code to actually have it behave as we semantically have implied?
+Mas há uma questão mais profunda em jogo aqui. O que *está faltando* em nosso código para realmente fazê-lo se comportar como nós semanticamente subentendemos?
 
-What's missing is that we are trying to *imply* that each iteration of the loop "captures" its own copy of `i`, at the time of the iteration. But, the way scope works, all 5 of those functions, though they are defined separately in each loop iteration, all **are closed over the same shared global scope**, which has, in fact, only one `i` in it.
+O que está faltando é que estamos tentando *implicar* que cada iteração do loop "capture" sua própria cópia de `i`, no momento da iteração. Mas, a forma como o escopo funciona, todas essas 5 funções, embora sejam definidas separadamente em cada iteração do loop, todas **são encapsuladas pelo mesmo escopo global compartilhado**, que tem, de fato, apenas um `i` nele.
 
-Put that way, *of course* all functions share a reference to the same `i`. Something about the loop structure tends to confuse us into thinking there's something else more sophisticated at work. There is not. There's no difference than if each of the 5 timeout callbacks were just declared one right after the other, with no loop at all.
+Colocando assim, *é claro* todas as funções compartilham uma referência ao mesmo `i`. Algo na estrutura do loop tende a nos confundir e a pensar que há algo mais sofisticado em funcionamento. Não há. Não há diferença se cada um dos 5 callbacks de timeout fossem declarados um logo após o outro, sem nenhum loop.
 
-OK, so, back to our burning question. What's missing? We need more ~~cowbell~~ closured scope. Specifically, we need a new closured scope for each iteration of the loop.
+Ok, então, de volta à nossa questão crucial. O que está faltando? Nós precisamos de mais ~~rufando os tambores~~ closures. Especificamente, nós precisamos de um novo closure para cada iteração do loop.
 
-We learned in Chapter 3 that the IIFE creates scope by declaring a function and immediately executing it.
+Nós aprendemos no Capítulo 3 que a IIFE cria escopos declarando uma função e imediatamente executando-a.
 
-Let's try:
+Vamos tentar:
 
 ```js
 for (var i=1; i<=5; i++) {
@@ -244,13 +244,13 @@ for (var i=1; i<=5; i++) {
 }
 ```
 
-Does that work? Try it. Again, I'll wait.
+Isso funciona? Tente. De novo, eu vou esperar.
 
-I'll end the suspense for you. **Nope.** But why? We now obviously have more lexical scope. Each timeout function callback is indeed closing over its own per-iteration scope created respectively by each IIFE.
+Eu vou acabar com o suspense para você. **Não.** Mas, por quê? Nós agora obviamente temos mais escopo léxico. Cada callback da função timeout está, de fato, fechado no seu próprio escopo de iteração criado respectivamente por cada IIFE.
 
-It's not enough to have a scope to close over **if that scope is empty**. Look closely. Our IIFE is just an empty do-nothing scope. It needs *something* in it to be useful to us.
+Não é suficiente ter um escopo para encapsular **se o escopo está vazio**. Olhe mais perto. Nosso IIFE é apenas um escopo vazio que faz nada. Ele precisa de *algo* nele para ser útil para nós.
 
-It needs its own variable, with a copy of the `i` value at each iteration.
+Ele precisa da sua própria variável, com uma cópia do valor do `i` em cada iteração.
 
 ```js
 for (var i=1; i<=5; i++) {
@@ -263,9 +263,9 @@ for (var i=1; i<=5; i++) {
 }
 ```
 
-**Eureka! It works!**
+**Eureka! Funciona!**
 
-A slight variation some prefer is:
+Uma ligeira variação que alguns preferem é:
 
 ```js
 for (var i=1; i<=5; i++) {
@@ -277,11 +277,11 @@ for (var i=1; i<=5; i++) {
 }
 ```
 
-Of course, since these IIFEs are just functions, we can pass in `i`, and we can call it `j` if we prefer, or we can even call it `i` again. Either way, the code works now.
+É claro, desde que esse IIFEs sejam apenas funções, nós podemos passá-las no `i`, e podemos chamar de `j` se preferirmos, ou podemos mesmo chamar de `i` de novo. De qualquer forma, o código funciona agora.
 
-The use of an IIFE inside each iteration created a new scope for each iteration, which gave our timeout function callbacks the opportunity to close over a new scope for each iteration, one which had a variable with the right per-iteration value in it for us to access.
+Problema resolvido!
 
-Problem solved!
+O uso de um IIFE dentro de cada iteração cria um novo escopo para cada uma, o que dá aos callbacks da função timeout a oportunidade de fechar um novo escopo para cada iteração, cada uma terá uma variável com o valor certo do iterador para acessarmos.
 
 ### Block Scoping Revisited
 
