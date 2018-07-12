@@ -265,7 +265,7 @@ Unfortunately, *explicit binding* alone still doesn't offer any solution to the 
 
 #### Hard Binding
 
-But a variation pattern around *explicit binding* actually does the trick. Consider:
+Mas um padrão diferente sobre *binding explícito* realmente faz o truque. Considere:
 
 ```js
 function foo() {
@@ -283,14 +283,14 @@ var bar = function() {
 bar(); // 2
 setTimeout( bar, 100 ); // 2
 
-// `bar` hard binds `foo`'s `this` to `obj`
-// so that it cannot be overriden
+// `bar` aplica hard bind no `this` de `foo` para `obj`
+// então isso não pode ser substituído
 bar.call( window ); // 2
 ```
 
-Let's examine how this variation works. We create a function `bar()` which, internally, manually calls `foo.call(obj)`, thereby forcibly invoking `foo` with `obj` binding for `this`. No matter how you later invoke the function `bar`, it will always manually invoke `foo` with `obj`. This binding is both explicit and strong, so we call it *hard binding*.
+Vamos agora examinar como essa variação funciona. Nós criamos uma função `bar()` que, internamente, chama manualmente `foo.call(obj)`, invocando de forma forçada `foo` com o binding `obj` para `this`. Não importa quão tarde você invoque a função `bar`, ela vai manualmente invocar `foo` com `obj`. Esse binding é explícito e forte, então o chamamos de *hard binding*.
 
-The most typical way to wrap a function with a *hard binding* creates a pass-thru of any arguments passed and any return value received:
+O modo mais comum de encapsular uma função com um *hard binding* é criar uma via de quaisquer argumentos passados ​​e qualquer valor de retorno recebido:
 
 ```js
 function foo(something) {
@@ -310,7 +310,7 @@ var b = bar( 3 ); // 2 3
 console.log( b ); // 5
 ```
 
-Another way to express this pattern is to create a re-usable helper:
+Outra forma de representar esse padrão é criar um helper reutilizável:
 
 ```js
 function foo(something) {
@@ -318,7 +318,7 @@ function foo(something) {
   return this.a + something;
 }
 
-// simple `bind` helper
+// `bind` helper simples
 function bind(fn, obj) {
   return function() {
     return fn.apply( obj, arguments );
@@ -335,7 +335,7 @@ var b = bar( 3 ); // 2 3
 console.log( b ); // 5
 ```
 
-Since *hard binding* is such a common pattern, it's provided with a built-in utility as of ES5: `Function.prototype.bind`, and it's used like this:
+Já que *hard binding* é um padrão bem comum, é fornecido como uma utilidade nativa do ES5: `Function.prototype.bind`, e é usada assim:
 
 ```js
 function foo(something) {
@@ -353,9 +353,9 @@ var b = bar( 3 ); // 2 3
 console.log( b ); // 5
 ```
 
-`bind(..)` returns a new function that is hard-coded to call the original function with the `this` context set as you specified.
+`bind(..)` retorna uma nova função que é escrita para chamar a função original com o contexto do `this` definido como você especificou.
 
-**Note:** As of ES6, the hard-bound function produced by `bind(..)` has a `.name` property that derives from the original *target function*. For example: `bar = foo.bind(..)` should have a `bar.name` value of `"bound foo"`, which is the function call name that should show up in a stack trace.
+**Nota:** No ES6, a função que faz o hard binding produzida por `bind(..)` tem uma propriedade `.name` que deriva da *função alvo* original. Por exemplo: `bar = foo.bind(..)` deveria ter um valor `bar.name` de `"bound foo"` , que é o nome da chamada da função que deve aparecer em um rastreamento de pilha.
 
 #### API Call "Contexts"
 
