@@ -218,19 +218,19 @@ De fato, se você rodar esse código, você terá o "6" impresso 5 vezes, no int
 
 **Que?**
 
-Primeiramente, vamos explicar de onde vem o `6`. A condição determinante do loop é quando `i` *não* é `<=5`. A primeira vez que isso será o caso é quando `i` é 6. Então, a saída está refletindo no valor final do `i` depois que o loop termina.
+Primeiramente, vamos explicar de onde vem o `6`. A condição de encerramento do loop é quando `i` *não* é `<=5`. A primeira vez que isso será o caso é quando `i` é 6. Então, a saída está refletindo no valor final do `i` depois que o loop termina.
 
-Na verdade, isso parece óbvio à segunda vista. Os callbacks da função timeout estão todos funcionando bem após a conclusão do loop. Na verdade, assim que o timer avança, mesmo que esteja `setTimeout(.., 0)` em cada iteração, todos esses callbacks de funções ainda seriam executados estritamente após a conclusão do loop, e, assim, imprimir `6` a cada vez.
+Na verdade, isso parece óbvio à segunda vista. Os callbacks da função timeout estão todos funcionando bem após a conclusão do loop. Na verdade, assim que o timer avança, mesmo que esteja `setTimeout(.., 0)` em cada iteração, todos esses callbacks da função ainda seriam executados estritamente após a conclusão do loop, e, assim, imprimir `6` a cada vez.
 
-Mas há uma questão mais profunda em jogo aqui. O que *está faltando* em nosso código para realmente fazê-lo se comportar como nós semanticamente implicamos?
+Mas há uma questão mais profunda em jogo aqui. O que *está faltando* em nosso código para realmente fazê-lo se comportar como nós semanticamente subentendemos?
 
-O que está faltando é que estamos tentando *implicar* que cada iteração do loop "capture" sua própria cópia de `i`, no momento da iteração. Mas, a forma como o escopo funciona, todas as 5 dessas funções, embora sejam definidas separadamente em cada iteração do loop, todas **são encapsuladas pelo mesmo escopo global compartilhado**, que tem, de fato, apenas um `i` nele.
+O que está faltando é que estamos tentando *implicar* que cada iteração do loop "capture" sua própria cópia de `i`, no momento da iteração. Mas, a forma como o escopo funciona, todas essas 5 funções, embora sejam definidas separadamente em cada iteração do loop, todas **são encapsuladas pelo mesmo escopo global compartilhado**, que tem, de fato, apenas um `i` nele.
 
 Colocando assim, *é claro* todas as funções compartilham uma referência ao mesmo `i`. Algo na estrutura do loop tende a nos confundir e a pensar que há algo mais sofisticado em funcionamento. Não há. Não há diferença se cada um dos 5 callbacks de timeout fossem declarados um logo após o outro, sem nenhum loop.
 
 Ok, então, de volta à nossa questão crucial. O que está faltando? Nós precisamos de mais ~~rufando os tambores~~ closures. Especificamente, nós precisamos de um novo closure para cada iteração do loop.
 
-Nós aprendemos no Capítulo 3 que a IIFE criou escopos declarando uma função e imediatamente executando-a.
+Nós aprendemos no Capítulo 3 que a IIFE cria escopos declarando uma função e imediatamente executando-a.
 
 Vamos tentar:
 
@@ -278,6 +278,8 @@ for (var i=1; i<=5; i++) {
 ```
 
 É claro, desde que esse IIFEs sejam apenas funções, nós podemos passá-las no `i`, e podemos chamar de `j` se preferirmos, ou podemos mesmo chamar de `i` de novo. De qualquer forma, o código funciona agora.
+
+Problema resolvido!
 
 O uso de um IIFE dentro de cada iteração cria um novo escopo para cada uma, o que dá aos callbacks da função timeout a oportunidade de fechar um novo escopo para cada iteração, cada uma terá uma variável com o valor certo do iterador para acessarmos.
 
