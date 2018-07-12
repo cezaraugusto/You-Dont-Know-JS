@@ -279,9 +279,9 @@ for (var i=1; i<=5; i++) {
 
 É claro, desde que esse IIFEs sejam apenas funções, nós podemos passá-las no `i`, e podemos chamar de `j` se preferirmos, ou podemos mesmo chamar de `i` de novo. De qualquer forma, o código funciona agora.
 
-Problema resolvido!
-
 O uso de um IIFE dentro de cada iteração cria um novo escopo para cada uma, o que dá aos callbacks da função timeout a oportunidade de fechar um novo escopo para cada iteração, cada uma terá uma variável com o valor certo do iterador para acessarmos.
+
+Problema resolvido!
 
 ### Block Scoping Revisited
 
