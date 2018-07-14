@@ -39,11 +39,11 @@ O `takeaway` é que os rótulos de versionamento deixam de ser tão importante e
 
 ## Transpilando
 
-Agravado pela rápida evolução de recursos, surge um problema para os desenvolvedores JS que desejam muito utilizar as usar novas funcionalidades, ao mesmo tempo que precisam enfrentar a realidade de que seus sites/aplicativos precisam ser suportados por navegadores mais antigos que não possuem suporte.
+Agravado pela rápida evolução de funcionalidades, surge um problema para os desenvolvedores JS que desejam muito utilizar as usar novas funcionalidades, ao mesmo tempo que precisam enfrentar a realidade de que seus sites/aplicativos precisam ser suportados por navegadores mais antigos que não possuem suporte.
 
-A maneira que o ES5 parece ter ficado fora de moda por grande parte da indústria, o mindset típico era que a codebase esperasse adotarem o ES5 até que a maioria, se não todos, os ambientes pré-ES5 deixassem de ser suportados. Como resultado disso, muitos só recentemente (até o no momento que estou escrevendo) começaram a adota coisas como modo ‘strict’, que chegou ao ES5 há cinco anos.
+A maneira que o ES5 parece ter ficado fora de moda por grande parte da indústria, o mindset típico era que a codebase esperasse adotarem o ES5 até que a maioria, se não todos, os ambientes pré-ES5 deixassem de ser suportados. Como resultado disso, muitos só recentemente (até o no momento que estou escrevendo) começaram a adota coisas como o modo estrito (strict mode), que chegou ao ES5 há cinco anos.
 
-Em geral, é considerado uma abordagem prejudicial para o futuro do ecossistema JS esperar e seguir a especificação por muitos anos. Todos os responsáveis pela evolução da linguagem desejam que os desenvolvedores comecem a basear seus códigos nos novos recursos e padrões assim que se estabilizarem em forma de especificação e os navegadores tiverem a chance de implementá-los.
+Em geral, é considerado uma abordagem prejudicial para o futuro do ecossistema JS esperar e seguir a especificação por muitos anos. Todos os responsáveis pela evolução da linguagem desejam que os desenvolvedores comecem a basear seus códigos nos novas funcionalidades e padrões assim que se estabilizarem em forma de especificação e os navegadores tiverem a chance de implementá-los.
 
 Então, como resolvemos essa aparente contradição? A resposta é tooling, especificamente uma técnica chamada *transpiling* (transformação + compilação). A grosso modo, a ideia é usar uma ferramenta especial para transformar seu código ES6 em equivalente (ou parecido!) que funcionem em ambientes ES5.
 
@@ -73,11 +73,11 @@ obj.foo;	// [1,2,3]
 
 Está é uma pequena, mas agradável, transformação que nos permite encurtar o ‘foo: foo’ em uma declaração literal do objeto para apenas ‘foo’, se os nomes forem os mesmos.
 
-Transpiladores realizam essas transformações para você, geralmente em uma etapa do workflow semelhante à forma como você roda o lint, minifica e outras operações similares.
+Transpiladores realizam essas transformações para você, geralmente em uma etapa do workflow semelhante à forma como você roda o Linter, Minifier e outras operações similares.
 
 ### Shims/Polyfills
 
-Nem todas as novas funcionalidades do ES6 precisam de um transpilador. Polyfills (também conhecido como Shims) são um padrão para definir o comportamento equivalente de um ambiente mais novo em um ambiente antigo, quando possível. A sintaxe não pode ser polyfizada ("preenchidas"), mas as APIs geralmente podem ser.
+Nem todas as novas funcionalidades do ES6 precisam de um transpilador. Polyfills (também conhecido como Shims) são um padrão para definir o comportamento equivalente de um ambiente mais novo em um ambiente antigo, quando possível. A sintaxe não pode ser *polyfizada*, mas as APIs geralmente podem ser.
 
 Por exemplo, `Object.is (..)` é uma nova maneira para verificar a igualdade estrita de dois valores, mas sem as exceções com diferenças que `===` tem para os valores `NaN` e` -0`. O polyfill para `Object.is (..)` é bastante simples:
 
@@ -102,9 +102,9 @@ if (!Object.is) {
 
 Há uma grande coleção de ES6 shims chamada "ES6 Shim" (https://github.com/paulmillr/es6-shim/) que você deve definitivamente adotar como parte padrão de qualquer novo projeto JavaScript!
 
-Presume-se que o javaScript continuará evoluindo constantemente, com os navegadores implementando suporte para recursos continuamente, em vez de em grandes blocos. Portanto, a melhor estratégia para se manter atualizado à medida que evolui é simplesmente inserir polyfill shims no seu codebase, e um passo para o transpilador em seu workflow de desenvolvimento, agora mesmo, e se acostume a essa nova realidade.
+Presume-se que o javaScript continuará evoluindo constantemente, com os navegadores implementando suporte para funcionalidades continuamente, em vez de em grandes blocos. Portanto, a melhor estratégia para se manter atualizado à medida que evolui é simplesmente inserir polyfill shims no seu codebase, e um passo para o transpilador em seu workflow de desenvolvimento, agora mesmo, e se acostume a essa nova realidade.
 
-Se você decidir deixar como está e esperar que todos os navegadores sem o recurso sejam suportados antes de você começar a usar o recurso, você sempre estará muito atrasado. Infelizmente, você perderá todas as inovações projetadas para tornar a escrita do JavaScript mais eficaz, eficiente e robusta.
+Se você decidir deixar como está e esperar que todos os navegadores sem as funcionalidades sejam suportados antes de você começar a usar a funcionalidade, você sempre estará muito atrasado. Infelizmente, você perderá todas as inovações projetadas para tornar a escrita do JavaScript mais eficaz, eficiente e robusta.
 
 ## Revisando
 
@@ -112,7 +112,7 @@ ES6 (alguns podem tentar chamá-lo de ES2015) é apenas o pouso a partir do mome
 
 Mas é ainda mais importante mudar sua mentalidade para alinhar com a nova maneira que o JavaScript vai evoluir. Não é apenas esperar por anos para algum documento oficial obter um voto de aprovação, como muitos fizeram no passado.
 
-Agora, os recursos do JavaScript aparecem nos navegadores à medida que se tornam prontos, e cabe a você decidir se embarcará cedo no trem ou se irá vai ficar correndo atrás do prejuízo daqui em diante.
+Agora, as funcionalidades do JavaScript aparecem nos navegadores à medida que se tornam prontos, e cabe a você decidir se embarcará cedo no trem ou se irá vai ficar correndo atrás do prejuízo daqui em diante.
 
 Independente dos rótulos que o futuro adote, ele vai se mover muito mais rápido do que nunca. Transpiladores e shims/polyfills são ferramentas importantíssimas para manter você à frente de onde a linguagem é direcionada.
 
