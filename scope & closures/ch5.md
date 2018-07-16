@@ -283,22 +283,22 @@ O uso de um IIFE dentro de cada iteração cria um novo escopo para cada uma, o 
 
 Problema resolvido!
 
-### Block Scoping Revisited
+### Escopo do Bloco Revisitado
 
-Look carefully at our analysis of the previous solution. We used an IIFE to create new scope per-iteration. In other words, we actually *needed* a per-iteration **block scope**. Chapter 3 showed us the `let` declaration, which hijacks a block and declares a variable right there in the block.
+Olhe atentamente para nossa análise da solução anterior. Nós usamos um IIFE para criar um novo escopo por iteração. Em outras palavras, nós na verdade *precisamos* de um **bloco de escopo** por iteração. O Capítulo 3 nos mostrou a declaração `let`, que sequestra um bloco e declara uma variável bem ali.
 
-**It essentially turns a block into a scope that we can close over.** So, the following awesome code "just works":
+**Ele essencialmente transforma o bloco em um escopo que podemos fechar.** Então, o impressionante código a seguir "simplesmente funciona":
 
 ```js
 for (var i=1; i<=5; i++) {
-	let j = i; // yay, block-scope for closure!
+	let j = i; // Isso, escopo de bloco para closure!
 	setTimeout( function timer(){
 		console.log( j );
 	}, j*1000 );
 }
 ```
 
-*But, that's not all!* (in my best Bob Barker voice). There's a special behavior defined for `let` declarations used in the head of a for-loop. This behavior says that the variable will be declared not just once for the loop, **but each iteration**. And, it will, helpfully, be initialized at each subsequent iteration with the value from the end of the previous iteration.
+*Mas isso não é tudo!* (na minha melhor voz de Bob Barker). Há um comportamento especial definido para declarações `let` usadas no topo de um loop for. Esse comportamento diz que a variável vai ser declarada não apenas uma vez no loop, **mas a cada iteração**. E será, proveitosamente, inicializada em cada iteração subsequente com o valor final da iteração anterior.
 
 ```js
 for (let i=1; i<=5; i++) {
@@ -308,7 +308,7 @@ for (let i=1; i<=5; i++) {
 }
 ```
 
-How cool is that? Block scoping and closure working hand-in-hand, solving all the world's problems. I don't know about you, but that makes me a happy JavaScripter.
+Quão legal é isso? Escopo de bloco e closure funcionam lado a lado, resolvendo todos os problemas do mundo. Eu não sei quanto a você, mas isso me faz um desenvolvedor Javascript feliz.
 
 ## Modules
 
