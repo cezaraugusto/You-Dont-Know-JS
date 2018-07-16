@@ -283,9 +283,9 @@ The use of an IIFE inside each iteration created a new scope for each iteration,
 
 Problem solved!
 
-### Escopo do bloco revisitado
+### Escopo do Bloco Revisitado
 
-Olhe atentamente para nossa análise da solução anterior. Nós usamos um IIFE para criar um novo iterador de escopo. Em outras palavras, nós na verdade *precisamos* de um iterador de **bloco de escopo**. O Capítulo 3 nos mostrou a declaração `let`, que sequestra um bloco e declara uma variável bem ali.
+Olhe atentamente para nossa análise da solução anterior. Nós usamos um IIFE para criar um novo escopo por iteração. Em outras palavras, nós na verdade *precisamos* de um **bloco de escopo** por iteração. O Capítulo 3 nos mostrou a declaração `let`, que sequestra um bloco e declara uma variável bem ali.
 
 **Ele essencialmente transforma o bloco em um escopo que podemos fechar.** Então, o impressionante código a seguir "simplesmente funciona":
 
@@ -298,7 +298,7 @@ for (var i=1; i<=5; i++) {
 }
 ```
 
-*Mas isso não é tudo!* (na minha melhor voz de Bob Barker). Há um comportamento especial definido para declarações `let` usadas no topo de um loop for. Esse comportamento diz que a variável vai ser declarada não apenas uma vez no loop, **mas a cada iteração**. E será, prestativamente, inicializada em cada iteração subsequente com o valor final da iteração anterior.
+*Mas isso não é tudo!* (na minha melhor voz de Bob Barker). Há um comportamento especial definido para declarações `let` usadas no topo de um loop for. Esse comportamento diz que a variável vai ser declarada não apenas uma vez no loop, **mas a cada iteração**. E será, proveitosamente, inicializada em cada iteração subsequente com o valor final da iteração anterior.
 
 ```js
 for (let i=1; i<=5; i++) {
