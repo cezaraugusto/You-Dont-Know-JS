@@ -589,6 +589,8 @@ Closure parece para os não-iluminados como um mundo místico à parte dentro do
 
 **Closure é quando uma função consegue lembrar e acessar seu escopo léxico mesmo quando invocada fora do seu escopo léxico.**
 
+ Closures podem nos enganar, por exemplo, com loops, se não tivermos cuidado para vê-los e saber como eles funcionam. Mas eles também são uma ferramenta imensamente poderosa, permitindo padrões como os *módulos* em suas variadas formas.
+
 Módulos requerem duas características chave: 1) uma função de encapsulamento externa ser invocada, para criar o escopo fechado 2) o valor de retorno da função de encapsulamento deve incluir referência para ao menos uma função interna que então tenha closure sobre o escopo privado interno do encapsulamento.
 
 Agora nós podemos ver closures em todo nosso código existente, e temos a habilidade para reconhece-los e aproveitá-los para nosso próprio benefício!
