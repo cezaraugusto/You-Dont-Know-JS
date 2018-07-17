@@ -532,9 +532,9 @@ In other words, modules are just modules, even if you put a friendly wrapper too
 
 O ES6 adicionou suporte à sintaxe do conceito de primeira classe dos módulos. Quando carregado via sistema do módulo, o ES6 trata um arquivo como um módulo separado. Cada módulo pode tanto importar outros módulos ou especificar membros de API, assim como exportar seus pŕoprios membros de API pública.
 
-**Nota:** Módulos baseados em funções não são, estatisticamente, padrões reconhecidos (alguma coisa o compilador reconhece), então sua semântica da API não os consideram até o tempo de execução. Isso é, você pode de fato modificar a API de um módulo durante o tempo de execução (veja a discussão anterior de `publicAPI`).
+**Nota:** Módulos baseados em funções não são, estatisticamente, padrões reconhecidos (alguma coisa o compilador reconhece), então sua semântica da API não os consideram até o tempo de execução(*runtime*). Isso é, você pode de fato modificar a API de um módulo durante o tempo de execução ((*runtime*) - Veja a discussão anterior de `publicAPI`).
 
-Em contraste, APIs de módulos ES6 são estáticos (a API não muda em tempo de execução). Desde que o compilador saiba *disso*, ele pode (e vai!) verificar durante (o carregamento de arquivo) a compilação que uma referência a um membro da API de um módulo importado *existe de fato*. Se a referência a API não exsitir, o compilador lança um erro "antecipado" na compilação, em vez de esperar pela dinâmica de resolução em tempo de execução tradicional (e erros, se existirem).
+Em contraste, APIs de módulos ES6 são estáticos (a API não muda em tempo de execução(*runtime*)). Desde que o compilador saiba *disso*, ele pode (e vai!) verificar durante (o carregamento de arquivo) a compilação que uma referência a um membro da API de um módulo importado *existe de fato*. Se a referência a API não exsitir, o compilador lança um erro "antecipado" na compilação, em vez de esperar pela dinâmica de resolução em tempo de execução(*runtime*) tradicional (e erros, se existirem).
 
 Módulos ES6 **não** possuem um formato "inline", eles devem ser definidos em arquivos separados (um por módulo). O browser/motor tem um "carregador de módulo" padrão (que é substituível, mas isso está mutio além da nossa discussão aqui) que de forma síncrona carrega um arquivo de módulo quando ele é importado.
 
