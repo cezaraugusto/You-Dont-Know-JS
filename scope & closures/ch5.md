@@ -312,7 +312,7 @@ How cool is that? Block scoping and closure working hand-in-hand, solving all th
 
 ## Módulos
 
-Há outros padrões de código que elevam o poder do cloruse mas que não aparentam superficialmente ser sobre callbacks. Vamos examinar o mais poderoso deles: *o módulo*
+Há outros padrões de código que elevam o poder do closure mas que não aparentam superficialmente ser sobre callbacks. Vamos examinar o mais poderoso deles: *o módulo*
 
 ```js
 function foo() {
@@ -380,7 +380,7 @@ Para colocar de forma mais simples, existem dois "requisitos" para que o padrão
 
 Um objeto com uma propriedade de função sozinha não é *realmente* um módulo. Um objeto que é retornado de uma invocação de função que só possui propriedades de dados e nenhuma função fechada não é * realmente * um módulo, no sentido observável.
 
-O trecho de código acima mostra um criador de módulo autônomo chamado `CoolModule()` que pode ser invocado inúmeras vezes, cada vez criando uma nova instância do módulo. Uma leve variação nesse padrão é quando você apenas se importa em ter uma instância, um "juntado" dos tipos:
+O trecho de código acima mostra um criador de módulo autônomo chamado `CoolModule()` que pode ser invocado inúmeras vezes, cada vez criando uma nova instância do módulo. Uma leve variação nesse padrão é quando você apenas se importa em ter uma instância, um "juntado"(singleton) dos tipos:
 
 ```js
 var foo = (function CoolModule() {
