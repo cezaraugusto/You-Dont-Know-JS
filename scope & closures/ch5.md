@@ -310,9 +310,9 @@ for (let i=1; i<=5; i++) {
 
 Quão legal é isso? Escopo de bloco e closure funcionam lado a lado, resolvendo todos os problemas do mundo. Eu não sei quanto a você, mas isso me faz um desenvolvedor Javascript feliz.
 
-## Modules
+## Módulos
 
-There are other code patterns which leverage the power of closure but which do not on the surface appear to be about callbacks. Let's examine the most powerful of them: *the module*.
+Há outros padrões de código que elevam o poder do closure mas que não aparentam superficialmente ser sobre callbacks. Vamos examinar o mais poderoso deles: *o módulo*
 
 ```js
 function foo() {
@@ -329,9 +329,9 @@ function foo() {
 }
 ```
 
-As this code stands right now, there's no observable closure going on. We simply have some private data variables `something` and `another`, and a couple of inner functions `doSomething()` and `doAnother()`, which both have lexical scope (and thus closure!) over the inner scope of `foo()`.
+Como esse código está agora, não há um closure visível acontecendo. Nós simplesmente temos alguns dados de variáveis privadas `something` e `another`, e um par de funções internas `doSomething()` e `doAnother()`, ambas têm escopo léxico (e assim, closure!) sobre a o escopo interno de `foo()`.
 
-But now consider:
+Mas considere:
 
 ```js
 function CoolModule() {
@@ -358,29 +358,29 @@ foo.doSomething(); // cool
 foo.doAnother(); // 1 ! 2 ! 3
 ```
 
-This is the pattern in JavaScript we call *module*. The most common way of implementing the module pattern is often called "Revealing Module", and it's the variation we present here.
+Esse é o padrão que chamamos em Javascript de *módulo*. A forma mais comum de implementar o padrão de módulo é frequentemente chamado "Módulo Revelado", e é uma variação do que apresentamos aqui.
 
-Let's examine some things about this code.
+Vamos examinar algumas coisas sobre esse código.
 
-Firstly, `CoolModule()` is just a function, but it *has to be invoked* for there to be a module instance created. Without the execution of the outer function, the creation of the inner scope and the closures would not occur.
+Primeiramente, `CoolModule()` é apenas uma função, mas ela *tem que ser invocada* para que seja criada uma instância do módulo. Sem a execução de uma função externa, a criação do escopo interno e closures não vai acontecer.
 
-Secondly, the `CoolModule()` function returns an object, denoted by the object-literal syntax `{ key: value, ... }`. The object we return has references on it to our inner functions, but *not* to our inner data variables. We keep those hidden and private. It's appropriate to think of this object return value as essentially a **public API for our module**.
+Em segundo, a função `CoolModule()` retorna uma objeto, denotado pela sintaxe literal de objeto `{ chave: valor, ... }`. O objeto que retornamos tem como referência nossa funções internas, mas *não* com os dados das nossas variáveis internas. Nós as mantemos privadas e escondidas. É apropriado pensar nesse valor do objeto retornado essencialmente como uma **API pública para nosso módulo**.
 
-This object return value is ultimately assigned to the outer variable `foo`, and then we can access those property methods on the API, like `foo.doSomething()`.
+Esse valor de objeto retornado é associado à variável externa `foo`, e então nós podemos acessar os métodos apropriados na API, como `foo.doSomething()`.
 
-**Note:** It is not required that we return an actual object (literal) from our module. We could just return back an inner function directly. jQuery is actually a good example of this. The `jQuery` and `$` identifiers are the public API for the jQuery "module", but they are, themselves, just a function (which can itself have properties, since all functions are objects).
+**Nota:** Não é obrigatório que nós retornemos um objeto de fato(literal) para nosso módulo. Nós podemos apenas retornar uma função interna diretamente. JQuery é na verdade um bom exemplo disso. Os identificadores `jQuery` e `$` são as API públicas para o "módulo" JQuery, mas elas são, propriamente, apenas uma função (que podem ter propriedades, já que todas as funções são objetos).
 
-The `doSomething()` and `doAnother()` functions have closure over the inner scope of the module "instance" (arrived at by actually invoking `CoolModule()`). When we transport those functions outside of the lexical scope, by way of property references on the object we return, we have now set up a condition by which closure can be observed and exercised.
+As funções `doSomething()` e `doAnother()` têm closure no escopo interno da "instância" do módulo (que chegou quando invocamos `CoolModule()`). Quando nós transportamos essas funções para fora do escopo léxico, através de propriedades referenciadas no objeto que retornamos, nós agora definimos uma condição para que cada closure possa ser observado e exercido.
 
-To state it more simply, there are two "requirements" for the module pattern to be exercised:
+Para colocar de forma mais simples, existem dois "requisitos" para que o padrão de mósulo seja exercido:
 
-1. There must be an outer enclosing function, and it must be invoked at least once (each time creates a new module instance).
+1. É preciso existir uma função de inclusão externa, e ela precisa ser invocada pelo menos uma vez (cada vez cria uma nova instância do módulo).
 
-2. The enclosing function must return back at least one inner function, so that this inner function has closure over the private scope, and can access and/or modify that private state.
+2. A função de inclusão precisa retornar pelo menos uma função interna, então essa função interna tem um closure sobre o escopo privado, e pode acessar e/ou modificar esse estado privado.
 
-An object with a function property on it alone is not *really* a module. An object which is returned from a function invocation which only has data properties on it and no closured functions is not *really* a module, in the observable sense.
+Um objeto com uma propriedade de função sozinha não é *realmente* um módulo. Um objeto que é retornado de uma invocação de função que só possui propriedades de dados e nenhuma função fechada não é * realmente * um módulo, no sentido observável.
 
-The code snippet above shows a standalone module creator called `CoolModule()` which can be invoked any number of times, each time creating a new module instance. A slight variation on this pattern is when you only care to have one instance, a "singleton" of sorts:
+O trecho de código acima mostra um criador de módulo autônomo chamado `CoolModule()` que pode ser invocado inúmeras vezes, cada vez criando uma nova instância do módulo. Uma leve variação nesse padrão é quando você apenas se importa em ter uma instância, um "juntado"(singleton) dos tipos:
 
 ```js
 var foo = (function CoolModule() {
@@ -405,9 +405,9 @@ foo.doSomething(); // cool
 foo.doAnother(); // 1 ! 2 ! 3
 ```
 
-Here, we turned our module function into an IIFE (see Chapter 3), and we *immediately* invoked it and assigned its return value directly to our single module instance identifier `foo`.
+Aqui, nós tornarmos nossa função de módulo em uma IIFE (veja o Capítulo 3), e nós *imediatamente* invocamos e associamos seu valor de retorno diretamente ao nosso identificador de instância de módulo único `foo`.
 
-Modules are just functions, so they can receive parameters:
+Módulos são apenas funções, então eles podem receber parâmetros:
 
 ```js
 function CoolModule(id) {
@@ -427,12 +427,12 @@ foo1.identify(); // "foo 1"
 foo2.identify(); // "foo 2"
 ```
 
-Another slight but powerful variation on the module pattern is to name the object you are returning as your public API:
+Outra pequena, mas poderosa, variação no padrão de módulo é nomear o objeto que você está retornando como sua API pública:
 
 ```js
 var foo = (function CoolModule(id) {
 	function change() {
-		// modifying the public API
+		// modificando a API pública
 		publicAPI.identify = identify2;
 	}
 
@@ -457,7 +457,7 @@ foo.change();
 foo.identify(); // FOO MODULE
 ```
 
-By retaining an inner reference to the public API object inside your module instance, you can modify that module instance **from the inside**, including adding and removing methods, properties, *and* changing their values.
+Mantendo uma referência interna ao objeto da API pública dentro da sua intância de módulo, você pode modificar aquela instância de módulo  **de dentro**, incluindo adição e remoção de métodos, propriedades, *e* alterar seus valores.
 
 ### Módulos Modernos
 
