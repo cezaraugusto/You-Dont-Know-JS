@@ -459,9 +459,9 @@ foo.identify(); // FOO MODULE
 
 By retaining an inner reference to the public API object inside your module instance, you can modify that module instance **from the inside**, including adding and removing methods, properties, *and* changing their values.
 
-### Modern Modules
+### Módulos Modernos
 
-Various module dependency loaders/managers essentially wrap up this pattern of module definition into a friendly API. Rather than examine any one particular library, let me present a *very simple* proof of concept **for illustration purposes (only)**:
+Vários carregadores/gerenciadores de dependências de módulos essencialmente encapsulam essa definição de padrão de módulo em uma API amigável. Em vez  de examinar cada uma das bibliotecas particularmente, deixe-me apresentar uma *muito simples* prova de conceito **para propósitos ilustrativos (apenas)**:
 
 ```js
 var MyModules = (function Manager() {
@@ -485,9 +485,9 @@ var MyModules = (function Manager() {
 })();
 ```
 
-The key part of this code is `modules[name] = impl.apply(impl, deps)`. This is invoking the definition wrapper function for a module (passing in any dependencies), and storing the return value, the module's API, into an internal list of modules tracked by name.
+A parte chave desse código é `modules[name] = impl.apply(impl, deps)`. Isso está invocando a função de definição de encapsulamento para um módulo (passando em qualquer dependência), e guardando o valor retornado, a API do módulo, em uma lista interna de módulos rastreado pelo nome.
 
-And here's how I might use it to define some modules:
+E aqui está como eu posso usá-lo para definir alguns módulos:
 
 ```js
 MyModules.define( "bar", [], function(){
@@ -522,11 +522,11 @@ console.log(
 foo.awesome(); // LET ME INTRODUCE: HIPPO
 ```
 
-Both the "foo" and "bar" modules are defined with a function that returns a public API. "foo" even receives the instance of "bar" as a dependency parameter, and can use it accordingly.
+Ambos os módulos, "foo" e "bar", são definidos com a função que retorna uma API pública. "foo" até recebe a instância de "bar" como um parâmetro de  dependência e pode usa-lo de acordo.
 
-Spend some time examining these code snippets to fully understand the power of closures put to use for our own good purposes. The key take-away is that there's not really any particular "magic" to module managers. They fulfill both characteristics of the module pattern I listed above: invoking a function definition wrapper, and keeping its return value as the API for that module.
+Gaste algum tempo examinando esses trechos de código para entender completamente o poder dos closures colocados em uso para nossos propósitos. O ponto crucial é que na verdade não existe nenhuma "mágica" em gerenciadores de módulo. Eles complementam ambas características do padrão de módulo que listei acima: invocando um encapsulador de definição de função, e mantendo seu valor de retorno como a API para aquele módulo.
 
-In other words, modules are just modules, even if you put a friendly wrapper tool on top of them.
+Em outras palavras, módulos são apenas módulos, mesmo se você coloque uma ferramenta de encapsulamento amigável no topo dele.
 
 ### Future Modules
 
