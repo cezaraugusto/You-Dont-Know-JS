@@ -39,9 +39,9 @@ O `takeaway` é que os rótulos de versionamento deixam de ser tão importante e
 
 ## Transpilando
 
-Agravado pela rápida evolução de funcionalidades, surge um problema para os desenvolvedores JS que desejam muito utilizar as usar novas funcionalidades, ao mesmo tempo que precisam enfrentar a realidade de que seus sites/aplicativos precisam ser suportados por navegadores mais antigos que não possuem suporte.
+Agravado pela rápida evolução de funcionalidades, surge um problema para os desenvolvedores JS que desejam muito utilizar as novas funcionalidades, ao mesmo tempo que precisam enfrentar a realidade de que seus sites/aplicativos precisam ser suportados por navegadores mais antigos que não possuem suporte.
 
-A maneira que o ES5 parece ter ficado fora de moda por grande parte da indústria, o mindset típico era que a codebase esperasse adotarem o ES5 até que a maioria, se não todos, os ambientes pré-ES5 deixassem de ser suportados. Como resultado disso, muitos só recentemente (até o no momento que estou escrevendo) começaram a adota coisas como o modo estrito (strict mode), que chegou ao ES5 há cinco anos.
+A maneira que o ES5 parece ter ficado fora de moda por grande parte da indústria, o mindset típico era que a codebase esperasse adotarem o ES5 até que a maioria, se não todos, os ambientes pré-ES5 deixassem de ser suportados. Como resultado disso, muitos só recentemente (até o no momento que estou escrevendo) começaram a adotar coisas como o modo estrito (strict mode), que chegou ao ES5 há cinco anos.
 
 Em geral, é considerado uma abordagem prejudicial para o futuro do ecossistema JS esperar e seguir a especificação por muitos anos. Todos os responsáveis pela evolução da linguagem desejam que os desenvolvedores comecem a basear seus códigos nos novas funcionalidades e padrões assim que se estabilizarem em forma de especificação e os navegadores tiverem a chance de implementá-los.
 
@@ -73,7 +73,7 @@ obj.foo;	// [1,2,3]
 
 Está é uma pequena, mas agradável, transformação que nos permite encurtar o ‘foo: foo’ em uma declaração literal do objeto para apenas ‘foo’, se os nomes forem os mesmos.
 
-Transpiladores realizam essas transformações para você, geralmente em uma etapa do workflow semelhante à forma como você roda o Linter, Minifier e outras operações similares.
+Transpiladores realizam essas transformações para você, geralmente em uma etapa do workflow semelhante à forma como você realiza o lint, minificação e outras operações similares.
 
 ### Shims/Polyfills
 
@@ -98,7 +98,7 @@ if (!Object.is) {
 }
 ```
 
-**Dica:** Preste atenção no lado de fora da declaração do `if` em volta do polyfill. Esse é um detalhe importante, que significa que o trecho define apenas o comportamento de fallback para ambientes mais antigos em que a API em questão ainda não está definida; seria tão raro que você iria ter que sobrescrever uma API existente.
+**Dica:** Preste atenção no lado de fora da declaração do `if` em volta do polyfill. Esse é um detalhe importante, que significa que o trecho define apenas o comportamento de fallback para ambientes mais antigos em que a API em questão ainda não está definida; seria muito raro você querer sobrescrever uma API existente.
 
 Há uma grande coleção de ES6 shims chamada "ES6 Shim" (https://github.com/paulmillr/es6-shim/) que você deve definitivamente adotar como parte padrão de qualquer novo projeto JavaScript!
 
