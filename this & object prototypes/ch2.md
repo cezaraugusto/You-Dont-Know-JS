@@ -231,17 +231,17 @@ function setTimeout(fn,delay) {
 
 De qualquer forma o `this` é modificado inesperadamente, você não está realmente com o controle de como sua função de callback referenciada vai ser executada, então você não tem nenhuma forma (ainda) de controlar o call-site para dar a ele seu binding desejado. Veremos em breve, uma maneira de "consertar" essa problema *consertando* o `this`.
 
-### Explicit Binding
+### Binding Explícito
 
-With *implicit binding* as we just saw, we had to mutate the object in question to include a reference on itself to the function, and use this property function reference to indirectly (implicitly) bind `this` to the object.
+Com o *binding implícito* como acabamos de ver, nós tivemos que alterar o objeto em questão para incluir a referência dele mesmo para a função, e usar essa referência da propriedade da função para indiretamente (implicitamente) fazer o bind do `this` para o objeto.
 
-But, what if you want to force a function call to use a particular object for the `this` binding, without putting a property function reference on the object?
+Mas, e se você quiser forçar uma chamada de função para usar um objeto específico para o binding `this`, sem colocar uma referência de propriedade de função no objeto?
 
-"All" functions in the language have some utilities available to them (via their `[[Prototype]]` -- more on that later) which can be useful for this task. Specifically, functions have `call(..)` and `apply(..)` methods. Technically, JavaScript host environments sometimes provide functions which are special enough (a kind way of putting it!) that they do not have such functionality. But those are few. The vast majority of functions provided, and certainly all functions you will create, do have access to `call(..)` and `apply(..)`.
+"Todas" as funções da linguagem têm algumas utilidades disponíveis nelas (via `[[Prototype]]` -- mais disso adiante) que podem ser úteis para essa tarefa. Especificamente, funções têm os métodos `call(..)` e `apply(..)`. Tecnicamente, ambientes de host Javascript, por vezes, fornecem funções que são especiais o suficiente (uma maneira gentil de coloca-lo!) que elas não tem tal funcionalidade. Mas essas são poucas. A vasta maioria das funções fornecidas, e certamente todas as funções que você irá criar, têm acesso ao `call(..)` e `apply(..)`.
 
-How do these utilities work? They both take, as their first parameter, an object to use for the `this`, and then invoke the function with that `this` specified. Since you are directly stating what you want the `this` to be, we call it *explicit binding*.
+Como essas funcionalidade funcionam? Ambas tomam, como primeiro parâmetro, um objeto para usar o `this`, e então invocam a função com o `this` específicado. Já que você está clarando diretamente o que você quer que seja `this`, chamamos de *binding explícito*.
 
-Consider:
+Considere:
 
 ```js
 function foo() {
@@ -255,13 +255,13 @@ var obj = {
 foo.call( obj ); // 2
 ```
 
-Invoking `foo` with *explicit binding* by `foo.call(..)` allows us to force its `this` to be `obj`.
+Invocando `foo` com *binding explícito* no `foo.call(..)` nos permite forçar o `this` para ser o `obj`.
 
-If you pass a simple primitive value (of type `string`, `boolean`, or `number`) as the `this` binding, the primitive value is wrapped in its object-form (`new String(..)`, `new Boolean(..)`, or `new Number(..)`, respectively). This is often referred to as "boxing".
+Se você simplesmente passar uma valor primitivo (do tipo `string`, `boolean` ou `number`) como o binding `this`, o valor primitivo é encapsulado na sua forma de objeto (`new String(..)`, `new Boolean(..)`, ou `new Number(..)`, respectivamente). Isso é frequentemente referido como "boxing".
 
-**Note:** With respect to `this` binding, `call(..)` and `apply(..)` are identical. They *do* behave differently with their additional parameters, but that's not something we care about presently.
+**Nota:** Com relação ao binding `this`, `call(..)` e `apply(..)` são idênticos. Eles *comportam-se* de maneira diferente com seus parâmetros adicionais, mas isso não é algo com que nos importamos atualmente.
 
-Unfortunately, *explicit binding* alone still doesn't offer any solution to the issue mentioned previously, of a function "losing" its intended `this` binding, or just having it paved over by a framework, etc.
+Infelizmente, *binding explicito* sozinho continua não oferecendo nenhuma solução para o problema mencionado anteriormente, de uma função "perdendo" seu binding `this` pretendido, ou apenas ter ele passado por um framework, etc.
 
 #### Hard Binding
 
