@@ -612,15 +612,15 @@ Now, we can summarize the rules for determining `this` from a function call's ca
 
 That's it. That's *all it takes* to understand the rules of `this` binding for normal function calls. Well... almost.
 
-## Binding Exceptions
+## Exceções do Binding
 
-As usual, there are some *exceptions* to the "rules".
+Como de costume, há algumas *exceções* nas "regras".
 
-The `this`-binding behavior can in some scenarios be surprising, where you intended a different binding but you end up with binding behavior from the *default binding* rule (see previous).
+O comportamento do binding de `this` pode, em alguns cenários, ser surpreendente, onde você pretendia um binding diferente, mas acaba tendo um comportamento de binding da regra de *default binding* (veja anteriormente).
 
-### Ignored `this`
+### Ignorando o `this`
 
-If you pass `null` or `undefined` as a `this` binding parameter to `call`, `apply`, or `bind`, those values are effectively ignored, and instead the *default binding* rule applies to the invocation.
+Se você passar `null` ou` undefined` como um parâmetro de binding do `this` para` call`, `apply` ou` bind`, esses valores serão efetivamente ignorados e, em vez disso, a regra *default binding* será aplicada à invocação.
 
 ```js
 function foo() {
@@ -632,9 +632,9 @@ var a = 2;
 foo.call( null ); // 2
 ```
 
-Why would you intentionally pass something like `null` for a `this` binding?
+Por que você iria intencionalmente passar algo como `null` para um binding `this`?
 
-It's quite common to use `apply(..)` for spreading out arrays of values as parameters to a function call. Similarly, `bind(..)` can curry parameters (pre-set values), which can be very helpful.
+É muito comum usar `apply (..)` para espalhar matrizes de valores como parâmetros para uma chamada de função. Da mesma forma, `bind (..)` pode arranjar parâmetros (valores pré-definidos), o que pode ser muito útil.
 
 ```js
 function foo(a,b) {
@@ -649,13 +649,13 @@ var bar = foo.bind( null, 2 );
 bar( 3 ); // a:2, b:3
 ```
 
-Both these utilities require a `this` binding for the first parameter. If the functions in question don't care about `this`, you need a placeholder value, and `null` might seem like a reasonable choice as shown in this snippet.
+Ambas das utilidades requerem um binding `this` para o primeiro parâmetro. Se as funções em questão não se preocuparem com `this`, você precisará de um valor de espaço reservado, e `null` pode parecer uma escolha razoável, conforme mostrado neste trecho.
 
-**Note:** We don't cover it in this book, but ES6 has the `...` spread operator which will let you syntactically "spread out" an array as parameters without needing `apply(..)`, such as `foo(...[1,2])`, which amounts to `foo(1,2)` -- syntactically avoiding a `this` binding if it's unnecessary. Unfortunately, there's no ES6 syntactic substitute for currying, so the `this` parameter of the `bind(..)` call still needs attention.
+**Nota:** Não abordamos neste livro, mas o ES6 tem o operador `...` spread que permite sintaticamente "espalhar" um array como parâmetros sem precisar de `apply (..)`, tal como `foo (... [1,2])`, que equivale a `foo (1,2)` - sintaticamente evitando um binding 'this' se for desnecessário. Infelizmente, não há nenhum substituto sintático do ES6 para curry, então o parâmetro `this` da chamada` bind (..) `ainda precisa de atenção.
 
-However, there's a slight hidden "danger" in always using `null` when you don't care about the `this` binding. If you ever use that against a function call (for instance, a third-party library function that you don't control), and that function *does* make a `this` reference, the *default binding* rule means it might inadvertently reference (or worse, mutate!) the `global` object (`window` in the browser).
+Entretanto, existe um pequeno "perigo" oculto sempre usar `null` quando você não se importa com o binding de `this`. Se você alguma vez usa isso em uma chamada de função (por exemplo, uma função de biblioteca de terceiros que você não controla), e essa função *não* faz uma referência a this, a regra *default binding* significa que pode inadvertidamente fazer referência (ou pior, mudar!) o objeto `global` (`window` no navegador).
 
-Obviously, such a pitfall can lead to a variety of *very difficult* to diagnose/track-down bugs.
+Obviamente, essa armadilha pode levar a uma variedade de bugs *muito difícil* de diagnosticar/rastrear .
 
 #### Safer `this`
 
