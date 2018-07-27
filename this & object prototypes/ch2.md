@@ -590,27 +590,27 @@ var baz = new bar( "p2" );
 baz.val; // p1p2
 ```
 
-### Determining `this`
+### Determinando o `this`
 
-Now, we can summarize the rules for determining `this` from a function call's call-site, in their order of precedence. Ask these questions in this order, and stop when the first rule applies.
+Agora, podemos resumir as regras para determinar o `this` a partir do local de chamada de uma chamada de função, na sua ordem de precedência. Faça estas perguntas nesta ordem e pare quando a primeira regra se aplicar.
 
-1. Is the function called with `new` (**new binding**)? If so, `this` is the newly constructed object.
+1. A função está sendo chamada com `new` (**new binding**)? Se sim, `this` é o objeto recém construído.
 
     `var bar = new foo()`
 
-2. Is the function called with `call` or `apply` (**explicit binding**), even hidden inside a `bind` *hard binding*? If so, `this` is the explicitly specified object.
+2. A função pe chamada com `call` ou `apply` (**explicit binding**), mesmo oculta dentro de um `bind` *hard binding*? Se sim, `this` é o objeto especificado explicitamente.
 
     `var bar = foo.call( obj2 )`
 
-3. Is the function called with a context (**implicit binding**), otherwise known as an owning or containing object? If so, `this` is *that* context object.
+3. A função é chamada com um contexto (**implicit binding**), também conhecido como objeto proprietário ou contido? Se for assim, `this` é *aquele* objeto de contexto.
 
     `var bar = obj1.foo()`
 
-4. Otherwise, default the `this` (**default binding**). If in `strict mode`, pick `undefined`, otherwise pick the `global` object.
+4. Caso contrário, o padrão é `this` (**default binding**). Se em `strict mode`, escolha` undefined`, caso contrário escolha o objeto `global`.
 
     `var bar = foo()`
 
-That's it. That's *all it takes* to understand the rules of `this` binding for normal function calls. Well... almost.
+É isso aí. Isso é *tudo o que é preciso* para entender as regras de binding do `this` para chamadas normais de função. Bem... quase.
 
 ## Binding Exceptions
 
