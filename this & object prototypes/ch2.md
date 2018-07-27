@@ -571,9 +571,6 @@ Porque a aptidão do `new` de substituir o hard binding é útil?
 
 A principal razão para este comportamento é criar uma função (que pode ser usada com `new` para construir objetos) que essencialmente ignora o `this` com *hard binding*, mas que pré configura alguns ou todos os argumentos da função. Uma das capacidades do `bind (..)` é que quaisquer argumentos passados ​​após o primeiro argumento de binding do `this` são padronizados como argumentos padrão para a função subjacente (tecnicamente chamado de "aplicação parcial", que é um subconjunto de "currying ").
 
-
-The primary reason for this behavior is to create a function (that can be used with `new` for constructing objects) that essentially ignores the `this` *hard binding* but which presets some or all of the function's arguments. One of the capabilities of `bind(..)` is that any arguments passed after the first `this` binding argument are defaulted as standard arguments to the underlying function (technically called "partial application", which is a subset of "currying").
-
 Por exemplo:
 
 ```js
