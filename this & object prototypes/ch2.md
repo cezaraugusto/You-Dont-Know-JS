@@ -357,7 +357,7 @@ console.log( b ); // 5
 
 **Nota:** No ES6, a função que faz o hard binding produzida por `bind(..)` tem uma propriedade `.name` que deriva da *função alvo* original. Por exemplo: `bar = foo.bind(..)` deveria ter um valor `bar.name` de `"bound foo"` , que é o nome da chamada da função que deve aparecer em um rastreamento de pilha.
 
-#### Chamada da API "Contextos"
+#### "Contextos" de chamadas de API
 
 Muitas funções de bibliotecas, e de fato muitas funções nativas na linguagem JavaScript e em seus ambientes, fornecem um parâmetro opcional, geralmente chamado "contexto", que é projetado como uma solução para você não ter que usar o `bind(..)` para garantir que seu callback use um `this` em particular.
 
@@ -376,7 +376,7 @@ var obj = {
 [1, 2, 3].forEach( foo, obj ); // 1 awesome  2 awesome  3 awesome
 ```
 
-Internamente, várias dessas funções certamente usam *ligação explícita* via `call (..)` ou `apply (..)`, poupando você do problema.
+Internamente, essas funções certamente usam *ligação explícita* via `call (..)` ou `apply (..)`, poupando você do problema.
 
 ### `new` Binding
 
