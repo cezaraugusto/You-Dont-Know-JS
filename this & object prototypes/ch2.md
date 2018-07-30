@@ -708,13 +708,13 @@ The *result value* of the assignment expression `p.foo = o.foo` is a reference t
 
 Reminder: regardless of how you get to a function invocation using the *default binding* rule, the `strict mode` status of the **contents** of the invoked function making the `this` reference -- not the function call-site -- determines the *default binding* value: either the `global` object if in non-`strict mode` or `undefined` if in `strict mode`.
 
-### Softening Binding
+### Soft Binding
 
-We saw earlier that *hard binding* was one strategy for preventing a function call falling back to the *default binding* rule inadvertently, by forcing it to be bound to a specific `this` (unless you use `new` to override it!). The problem is, *hard-binding* greatly reduces the flexibility of a function, preventing manual `this` override with either the *implicit binding* or even subsequent *explicit binding* attempts.
+Nós vimos anteriormente que *hard binding* era uma das estratégias para prevenir que uma chamada de função caia na regra de *default binding* inadivertidamente, forçando-a a ter o binding em um `this` específico (a menos que você use o `new` para substituí-lo!). O problema é, o *hard binding* diminui muito a flexibilidade de uma função, prevenindo a substituição manual do `this` tanto com tentativas de *binding implícito* ou até subsequentemente com o *binding explícito*.
 
-It would be nice if there was a way to provide a different default for *default binding* (not `global` or `undefined`), while still leaving the function able to be manually `this` bound via *implicit binding* or *explicit binding* techniques.
+Seria legal se houvesse uma forma de fornecer um padrão diferente para *default binding* (não `global` ou `undefined`). enquanto continuamos deixando a função capaz de fazer o binding do `this` manualmente pelas técnicas de *binding implícito* ou *binding explícito*.
 
-We can construct a so-called *soft binding* utility which emulates our desired behavior.
+Nós podemos construir a utilidade denominada *soft binding* que emula nosso comportamento desejado.
 
 ```js
 if (!Function.prototype.softBind) {
@@ -738,9 +738,9 @@ if (!Function.prototype.softBind) {
 }
 ```
 
-The `softBind(..)` utility provided here works similarly to the built-in ES5 `bind(..)` utility, except with our *soft binding* behavior. It wraps the specified function in logic that checks the `this` at call-time and if it's `global` or `undefined`, uses a pre-specified alternate *default* (`obj`). Otherwise the `this` is left untouched. It also provides optional currying (see the `bind(..)` discussion earlier).
+A utilidade `softBind(..)` fornecida aqui funciona de forma parecida com a utilidade `bind(..)` nativa do ES5, exceto com nosso comportamento de *soft binding*. Ela encapsula a função especificada na lógica que verifica se o `this` no momento da cahamada é `global` ou `undefined`, usa uma alternativa *default* de (`obj`)  pré-especificada. Caso contrário o `this` fica intocado. Ele também fornece currying opcional(veja a discussão `bind (..)` antes).
 
-Let's demonstrate its usage:
+Vamos demonstrar seu uso:
 
 ```js
 function foo() {
@@ -756,14 +756,14 @@ var fooOBJ = foo.softBind( obj );
 fooOBJ(); // name: obj
 
 obj2.foo = foo.softBind(obj);
-obj2.foo(); // name: obj2   <---- look!!!
+obj2.foo(); // name: obj2   <---- olha!!!
 
-fooOBJ.call( obj3 ); // name: obj3   <---- look!
+fooOBJ.call( obj3 ); // name: obj3   <---- olha!
 
-setTimeout( obj2.foo, 10 ); // name: obj   <---- falls back to soft-binding
+setTimeout( obj2.foo, 10 ); // name: obj   <---- volta para o soft binding
 ```
 
-The soft-bound version of the `foo()` function can be manually `this`-bound to `obj2` or `obj3` as shown, but it falls back to `obj` if the *default binding* would otherwise apply.
+A versão da função `foo()` que sofreu o soft binding pode fazer o bind em `this` manualmente para `obj2` ou `obj3`, como demonstrado, mas cai de volta para `obj` se o *default binding* se aplicar.
 
 ## Lexical `this`
 
