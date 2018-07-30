@@ -228,15 +228,15 @@ Isso não é realmente uma *proteção*, como muitos acreditam, porque o próxim
 
 Meu conselho: para evitar códigos potencialmente confusos, use apenas `const` para variáveis que você está intencionalmente e obviamente não irão mudar. Em outras palavras, não *dependa* do `const` para o comportamento do código, mas use-o como uma ferramenta para sinalizar a intenção, quando a intenção puder ser claramente sinalizada.
 
-### Block-scoped Functions
+### Funções de Escopo em Bloco
 
-Starting with ES6, function declarations that occur inside of blocks are now specified to be scoped to that block. Prior to ES6, the specification did not call for this, but many implementations did it anyway. So now the specification meets reality.
+A partir do ES6, as declarações de função que ocorrem dentro dos blocos são agora definidas para serem escopo nesse bloco. Antes do ES6, as especificações não exigiam isso, mas muitas implementações faziam de qualquer forma. Então agora as especificações atendem a realidade.
 
-Consider:
+Considere:
 
 ```js
 {
-	foo();					// works!
+	foo();					// funciona!
 
 	function foo() {
 		// ..
@@ -246,12 +246,12 @@ Consider:
 foo();						// ReferenceError
 ```
 
-The `foo()` function is declared inside the `{ .. }` block, and as of ES6 is block-scoped there. So it's not available outside that block. But also note that it is "hoisted" within the block, as opposed to `let` declarations, which suffer the TDZ error trap mentioned earlier.
+A função `foo()` é declarada dentro do bloco `{...}`, e a partir do ES6 tem um escopo de bloco. Portanto, não está disponível fora desse bloco. Mas também note que ele é “içado” dentro do bloco, ao contrário das declarações do `let`, que sofrem da armadilha de erro TDZ mencionada anteriormente.
 
-Block-scoping of function declarations could be a problem if you've ever written code like this before, and relied on the old legacy non-block-scoped behavior:
+O escopo em bloco de uma declaração de função pode ser um problema se você sempre codificou desse jeito, e se baseou no que foi herdado do comportamento de escopo fora do bloco:
 
 ```js
-if (something) {
+if (algumaCoisa) {
 	function foo() {
 		console.log( "1" );
 	}
@@ -265,9 +265,9 @@ else {
 foo();		// ??
 ```
 
-In pre-ES6 environments, `foo()` would print `"2"` regardless of the value of `something`, because both function declarations were hoisted out of the blocks, and the second one always wins.
+Em ambientes pré-ES6, `foo()` imprimiria `”2”`, independentemente do valor de `algumaCoisa`, porque ambas declarações da função foram içadas pelos blocos, e a segunda sempre vence.
 
-In ES6, that last line throws a `ReferenceError`.
+No ES6, essa última linha retorna um `ReferenceError`.
 
 ## Spread/Rest
 
