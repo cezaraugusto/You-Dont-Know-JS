@@ -765,19 +765,19 @@ setTimeout( obj2.foo, 10 ); // name: obj   <---- falls back to soft-binding
 
 The soft-bound version of the `foo()` function can be manually `this`-bound to `obj2` or `obj3` as shown, but it falls back to `obj` if the *default binding* would otherwise apply.
 
-## Lexical `this`
+## `this` Léxico
 
-Normal functions abide by the 4 rules we just covered. But ES6 introduces a special kind of function that does not use these rules: arrow-function.
+Funções normais seguem as 4 regras que acabamos de abordar. Mas o ES6 introduz um tipo especial de função que não usa nenhuma dessas regras: arrow-function.
 
-Arrow-functions are signified not by the `function` keyword, but by the `=>` so called "fat arrow" operator. Instead of using the four standard `this` rules, arrow-functions adopt the `this` binding from the enclosing (function or global) scope.
+Arrow functions são identificadas não pela palavra-chave `function`, mas pelo operador `=>` então chamado de "fat arrow". Em vez de usar as quatro regras padrão para o `this`, as arrow functions adotam o binding do `this` do escopo de inclusão (da função ou global).
 
-Let's illustrate arrow-function lexical scope:
+Vamos ilustrar o escopo léxico da arrow function:
 
 ```js
 function foo() {
-	// return an arrow function
+	// retorna uma arrow function
 	return (a) => {
-		// `this` here is lexically adopted from `foo()`
+		// `this` aqui é adotado léxicamente de `foo()`
 		console.log( this.a );
 	};
 }
@@ -791,17 +791,17 @@ var obj2 = {
 };
 
 var bar = foo.call( obj1 );
-bar.call( obj2 ); // 2, not 3!
+bar.call( obj2 ); // 2, não 3!
 ```
 
-The arrow-function created in `foo()` lexically captures whatever `foo()`s `this` is at its call-time. Since `foo()` was `this`-bound to `obj1`, `bar` (a reference to the returned arrow-function) will also be `this`-bound to `obj1`. The lexical binding of an arrow-function cannot be overridden (even with `new`!).
+A arrow function criada em `foo()` lexicamente captura tudo o que `this` de `foo()` tem em seu tempo de chamada. Já que `foo ()` foi teve binding de `this` para` obj1`, `bar` (uma referência à arrow function retornada) também terá o binding `this` para `obj1`. O binding léxico de uma arrow function não pode ser sobrescrito (mesmo com `new`!).
 
-The most common use-case will likely be in the use of callbacks, such as event handlers or timers:
+O caso de uso mais comum provavelmente é o uso de callbacks, como os handlers de evento ou timers:
 
 ```js
 function foo() {
 	setTimeout(() => {
-		// `this` here is lexically adopted from `foo()`
+		// `this` aqui é adotado léxicamente de `foo()`
 		console.log( this.a );
 	},100);
 }
@@ -817,7 +817,7 @@ While arrow-functions provide an alternative to using `bind(..)` on a function t
 
 ```js
 function foo() {
-	var self = this; // lexical capture of `this`
+	var self = this; // captura léxica de `this`
 	setTimeout( function(){
 		console.log( self.a );
 	}, 100 );
@@ -830,15 +830,15 @@ var obj = {
 foo.call( obj ); // 2
 ```
 
-While `self = this` and arrow-functions both seem like good "solutions" to not wanting to use `bind(..)`, they are essentially fleeing from `this` instead of understanding and embracing it.
+Embora as funções `self = this` e arrow functions pareçam ser boas "soluções" para não querer usar `bind(...)`, elas estão essencialmente fugindo de `this` ao invés de entendê-lo e abraçá-lo.
 
-If you find yourself writing `this`-style code, but most or all the time, you defeat the `this` mechanism with lexical `self = this` or arrow-function "tricks", perhaps you should either:
+Se você se encontrar escrevendo o código com `this`, mas na maior parte ou em todo o tempo, você derrota o mecanismo `this` com o léxico `self = this` ou truques com arrow functions, talvez você deveria:
 
-1. Use only lexical scope and forget the false pretense of `this`-style code.
+1. Usar somente o escopo léxico e esqueçer a falsa pretensão do código com `this`.
 
-2. Embrace `this`-style mechanisms completely, including using `bind(..)` where necessary, and try to avoid `self = this` and arrow-function "lexical this" tricks.
+2. Adotar os mecanismos de `this` completamente, incluindo o uso de `bind (..)` onde for necessário, e tentar evitar `self = this` e truques  de arrow-functions com "this léxico".
 
-A program can effectively use both styles of code (lexical and `this`), but inside of the same function, and indeed for the same sorts of look-ups, mixing the two mechanisms is usually asking for harder-to-maintain code, and probably working too hard to be clever.
+Um programa pode efetivamente usar ambos os estilos de código (léxico e `this`), mas dentro da mesma função, e na verdade para os mesmos tipos de abordagens, misturar os dois mecanismos geralmente é ter um código mais difícil de manter, e provavelmente trabalhando muito para ser inteligente.
 
 ## Review (TL;DR)
 
