@@ -840,18 +840,18 @@ If you find yourself writing `this`-style code, but most or all the time, you de
 
 A program can effectively use both styles of code (lexical and `this`), but inside of the same function, and indeed for the same sorts of look-ups, mixing the two mechanisms is usually asking for harder-to-maintain code, and probably working too hard to be clever.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Determining the `this` binding for an executing function requires finding the direct call-site of that function. Once examined, four rules can be applied to the call-site, in *this* order of precedence:
+Determinar a ligação `this` para uma função de execução requer encontrar o local de chamada direta dessa função. Uma vez examinada, quatro regras podem ser aplicadas ao local de chamada, *nesta* ordem de precedência:
 
-1. Called with `new`? Use the newly constructed object.
+1. Chamada com `new`? Use o objeto recém construído.
 
-2. Called with `call` or `apply` (or `bind`)? Use the specified object.
+2. Chamada com `call` ou` apply` (ou `bind`)? Use o objeto especificado.
 
-3. Called with a context object owning the call? Use that context object.
+3. Chamada com um objeto do contexto que possui a chamada? Use esse objeto de contexto.
 
-4. Default: `undefined` in `strict mode`, global object otherwise.
+4. Padrão: `undefined` em `strict mode`, do contrário, objeto global.
 
-Be careful of accidental/unintentional invoking of the *default binding* rule. In cases where you want to "safely" ignore a `this` binding, a "DMZ" object like `ø = Object.create(null)` is a good placeholder value that protects the `global` object from unintended side-effects.
+Cuidado com a invocação acidental/involuntária da regra *default binding*. Nos casos em que você deseja "com segurança" ignorar o binding de `this`, um objeto "DMZ" como `ø = Object.create (null)` é um bom placeholder que protege o objeto `global` de efeitos colaterais indesejados.
 
-Instead of the four standard binding rules, ES6 arrow-functions use lexical scoping for `this` binding, which means they adopt the `this` binding (whatever it is) from its enclosing function call. They are essentially a syntactic replacement of `self = this` in pre-ES6 coding.
+Em vez das quatro regras de binding padrão, as arrow functions do ES6 usam o escopo léxico para o binding de `this`, o que significa que adotam binding `this` (o que quer que seja) de sua chamada de função delimitadora. Eles são essencialmente uma substituição sintática de `self = this` na codificação pré-ES6.
