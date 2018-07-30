@@ -427,13 +427,13 @@ Pegue cinco minutos, escreva a lista falsa em um post-it para o monitor do seu c
 
 A importância de verdadeiro e falso no entendimento de como um valor vai se comportar quando você coverte-lo (explicitamente ou implicitamente) para uma valor `boolean`. Agora que você tem essas duas listas em mente, nós podemos mergulhar nos exemplos de coerção.
 
-## Explicit Coercion
+## Coerção Explícita
 
-*Explicit* coercion refers to type conversions that are obvious and explicit. There's a wide range of type conversion usage that clearly falls under the *explicit* coercion category for most developers.
+Coerção *explícita* refere-se à conversões de tipos que são óbvias e explícitas. Há uma ampla variedade de uso de conversões de tipo que caeem na categoria de coerção *explícita* para a maioria dos desenvolvedores.
 
-The goal here is to identify patterns in our code where we can make it clear and obvious that we're converting a value from one type to another, so as to not leave potholes for future developers to trip into. The more explicit we are, the more likely someone later will be able to read our code and understand without undue effort what our intent was.
+O objetivo aqui é indetificar padrões em seu código que nós podemos deixar claro e óbvio que nós estamos convertendo um valor de um tipo para o outro, para não deixar buracos para os futuros desenvolvedores tropeçarem. Quanto mais explícitos somos, mais provável que alguém mais tarde consiga ler nosso código e entender sem esforço excessivo qual era a nossa intenção.
 
-It would be hard to find any salient disagreements with *explicit* coercion, as it most closely aligns with how the commonly accepted practice of type conversion works in statically typed languages. As such, we'll take for granted (for now) that *explicit* coercion can be agreed upon to not be evil or controversial. We'll revisit this later, though.
+Seria difícil encontrar quaisquer discordâncias salientes com coerção *explícita*, uma vez que se alinha mais de perto com o modo como a prática comumente aceita de conversão de tipos funciona em linguagens com tipagem estática. Como tal, vamos tomar como certo (por enquanto) que a coerção *explícita* pode ser aceita como não maligna ou controversa. No entando, nós vamos revisitar isso mais tarde.
 
 ### Explicitly: Strings <--> Numbers
 
