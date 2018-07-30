@@ -178,11 +178,12 @@ Aqui, nós forçadamente criamos um novo `j` para cada iteração, e então a cl
 
 `let` também funciona do mesmo jeito com os loops `for..in` e `for..of` (veja em "for..of Loops").
 
-### `const` Declarations
+### Declarações `const`
 
-There's one other form of block-scoped declaration to consider: the `const`, which creates *constants*.
+Há uma outra forma de declaração com escopo de bloco a ser considerada: o `const`, que cria *constantes*.
 
 What exactly is a constant? It's a variable that's read-only after its initial value is set. Consider:
+O que exatamente é uma constante? É uma variável que se baseia na leitura do valor inicial e definido. Considere:
 
 ```js
 {
@@ -193,9 +194,9 @@ What exactly is a constant? It's a variable that's read-only after its initial v
 }
 ```
 
-You are not allowed to change the value the variable holds once it's been set, at declaration time. A `const` declaration must have an explicit initialization. If you wanted a *constant* with the `undefined` value, you'd have to declare `const a = undefined` to get it.
+Você não tem permissão para alterar o valor que a variável tem uma vez tenha sido definido, no momento da declaração. A declaração da `const` deve ter uma inicialização explícita. Se você quisesse uma *constante* com o valor `undefined`, você deveria ter declarado `const a = undefined` tara obtê-la.
 
-Constants are not a restriction on the value itself, but on the variable's assignment of that value. In other words, the value is not frozen or immutable because of `const`, just the assignment of it. If the value is complex, such as an object or array, the contents of the value can still be modified:
+Constantes não são a restrição no valor em si, mas na atribuição da variável desse valor. Em outras palavras, o valor não é congelado ou imutável por causa da `const`, apenas a atribuição dele. Se o valor é complexo, como um objeto ou array, o conteúdo do valor ainda poderá ser modificado:
 
 ```js
 {
@@ -207,13 +208,13 @@ Constants are not a restriction on the value itself, but on the variable's assig
 }
 ```
 
-The `a` variable doesn't actually hold a constant array; rather, it holds a constant reference to the array. The array itself is freely mutable.
+A variável `a` na verdade não contém um array constante; em vez disso, ele contém uma referência constante ao array. O array em si é livremente mutável.
 
-**Warning:** Assigning an object or array as a constant means that value will not be able to be garbage collected until that constant's lexical scope goes away, as the reference to the value can never be unset. That may be desirable, but be careful if it's not your intent!
+**Atenção:** Atribuir um objeto ou array como uma constante, significa que o valor não estará disponível para o coletor de lixo até que o escopo léxico dessa constate desapareça pois a referência ao valor nunca pode ser desconfigurada. Isso pode ser desejável, mas tenha cuidado se não for sua intenção!
 
-Essentially, `const` declarations enforce what we've stylistically signaled with our code for years, where we declared a variable name of all uppercase letters and assigned it some literal value that we took care never to change. There's no enforcement on a `var` assignment, but there is now with a `const` assignment, which can help you catch unintended changes.
+Essencialmente, declarações `const` reforçam o que estilisticamente sinalizamos com nosso código por anos, onde declaramos o nome da variável de todas as letras em maiúsculo e atribuímos isso algum valor literal que nós tomamos cuidado em nunca mudar. Não existe uma aplicação em uma atribuição `var`, mas agora há com a atribuição `const`, que pode te ajudar a capturar alterações não intencionais.
 
-`const` *can* be used with variable declarations of `for`, `for..in`, and `for..of` loops (see "`for..of` Loops"). However, an error will be thrown if there's any attempt to reassign, such as the typical `i++` clause of a `for` loop.
+`const` *pode* ser usada com declarações de variaveis de `for`, `for..in` e `for..of` loops (veja em "for..of Loops"). No entanto, um erro será retornado se houver qualquer tentativa de reatribuição, como a típica cláusula de `i ++` de um `for` loop.
 
 #### `const` Or Not
 
