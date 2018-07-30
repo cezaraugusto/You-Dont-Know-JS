@@ -388,7 +388,7 @@ Em linguagens tradicionais orientadas por classes, "construtores" (constructors)
 something = new MyClass(..);
 ```
 
-JavaScript tem um operador `new`, e o padrão de código a usar parece, basicamente, idêntico no que vemos naquelas linguagens clássicas orientadas à classe; a maioria dos desenvolvedores assumem que o mecanismo JavaScript está fazendo algo similar. Porém, realmente não há *nenhuma relação* com funcionalidades orientadas à classes no uso do `new` em JS.
+JavaScript tem um operador `new`, e o padrão de código para utilizá-lo é basicamente o mesmo que vemos naquelas linguagens orientadas à classes; a maioria dos desenvolvedores assumem que o mecanismo JavaScript está fazendo algo similar. Porém, realmente não há *nenhuma relação* com funcionalidades orientadas à classes no uso do `new` em JS.
 
 Primeiro, vamos redefinir o que é um "construtor" em JavaScript. Em JS, construtores são **apenas funções** que são chamadas quando o operador `new` está na frente delas. Elas não são vinculadas à classes, nem estão instanciando-as. Elas não são nem tipos especiais de funções. Elas são apenas funções normais que são, em essência, sequestradas pelo uso de `new` quando invocadas.
 
@@ -398,11 +398,11 @@ Por exemplo, a função `Number(..)` atua como um construtor, citação da espec
 >
 > Quando Number é chamado como parte de uma expressão ele é um construtor: ele inicializa o novos objetos criados.
 
-Então, praticamente qualquer função antiga, incluindo as funções internas do objeto, como `Number(..)` (Veja o Capítulo 3) podem ser chamadas com `new` à frente, e isso faz dessa chamada uma *chamada de construtor*. Essa é uma importante mas sútil diferença: não há realmente nenhuma coisa como "funções construtoras", mas sim chamadas de *de funções* construtoras.
+Então, praticamente qualquer função antiga, incluindo funções de objetos nativos, como `Number(..)` (Veja o Capítulo 3) podem ser chamadas com `new` à frente, e isso faz dessa chamada uma *chamada de construtor*. Essa é uma importante mas sútil diferença: não existem "funções construtoras" mas sim *chamadas construtoras* de funções.
 
 Quando uma função é invocada com `new` à sua frente, também conhecida como chamada de construtor, as seguintes coisas são feitas automaticamente:
 
-1. um objeto novo em folha é criado (construído) fora do ar
+1. um objeto novo em folha é criado (construído)
 2. *o objeto recém construído é linkado ao `[[Prototype]]`*
 3. o objeto recém construído é definido como bind do `this` para aquela chamada de função
 4. a menos que a função retorne seu próprio **objeto** alternado, a chamada da função invocada `new` vai retornar o objeto recém construído *automaticamente*.
