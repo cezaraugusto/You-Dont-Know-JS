@@ -380,36 +380,36 @@ Internamente, essas funções certamente usam *ligação explícita* via `call (
 
 ### `new` Binding
 
-The fourth and final rule for `this` binding requires us to re-think a very common misconception about functions and objects in JavaScript.
+A quarta e última regra para binding do `this` requer que nós repensemos um equívoco muito comum sobre funções e objetos no JavaScript.
 
-In traditional class-oriented languages, "constructors" are special methods attached to classes, that when the class is instantiated with a `new` operator, the constructor of that class is called. This usually looks something like:
+Em linguagens tradicionais orientadas por classes, "construtores" (constructors) são métodos especiais anexados nas classes, que quando a classe é instanciada com um operador `new`, o construtor dessa classe é chamado. Isso geralmente se parece com algo assim:
 
 ```js
 something = new MyClass(..);
 ```
 
-JavaScript has a `new` operator, and the code pattern to use it looks basically identical to what we see in those class-oriented languages; most developers assume that JavaScript's mechanism is doing something similar. However, there really is *no connection* to class-oriented functionality implied by `new` usage in JS.
+JavaScript tem um operador `new` e o padrão de código para utilizá-lo é basicamente o mesmo que vemos naquelas linguagens orientadas à classes; a maioria dos desenvolvedores assumem que o mecanismo JavaScript está fazendo algo similar. Porém, realmente não há *nenhuma relação* com funcionalidades orientadas à classes no uso do `new` em JS.
 
-First, let's re-define what a "constructor" in JavaScript is. In JS, constructors are **just functions** that happen to be called with the `new` operator in front of them. They are not attached to classes, nor are they instantiating a class. They are not even special types of functions. They're just regular functions that are, in essence, hijacked by the use of `new` in their invocation.
+Primeiro, vamos redefinir o que é um "construtor" em JavaScript. Em JS, construtores são **apenas funções** que são chamadas quando o operador `new` está na frente delas. Elas não são vinculadas à classes, nem estão instanciando-as. Elas não são nem tipos especiais de funções. Elas são apenas funções normais que são, em essência, sequestradas pelo uso de `new` quando invocadas.
 
-For example, the `Number(..)` function acting as a constructor, quoting from the ES5.1 spec:
+Por exemplo, a função `Number(..)` atua como um construtor, citação da especificação ES5.1:
 
-> 15.7.2 The Number Constructor
+> 15.7.2 O Construtor Number
 >
-> When Number is called as part of a new expression it is a constructor: it initialises the newly created object.
+> Quando Number é chamado como parte de uma expressão ele é um construtor: ele inicializa o novos objetos criados.
 
-So, pretty much any ol' function, including the built-in object functions like `Number(..)` (see Chapter 3) can be called with `new` in front of it, and that makes that function call a *constructor call*. This is an important but subtle distinction: there's really no such thing as "constructor functions", but rather construction calls *of* functions.
+Então, praticamente qualquer função, incluindo funções de objetos nativos como `Number(..)` (Veja o Capítulo 3) podem ser chamadas com `new` à frente, e isso faz dessa chamada uma *chamada de construtor*. Essa é uma importante mas sútil diferença: não existem "funções construtoras" mas sim *chamadas construtoras* de funções.
 
-When a function is invoked with `new` in front of it, otherwise known as a constructor call, the following things are done automatically:
+Quando uma função é invocada com `new` à sua frente, também conhecida como chamada de construtor, as seguintes coisas são feitas automaticamente:
 
-1. a brand new object is created (aka, constructed) out of thin air
-2. *the newly constructed object is `[[Prototype]]`-linked*
-3. the newly constructed object is set as the `this` binding for that function call
-4. unless the function returns its own alternate **object**, the `new`-invoked function call will *automatically* return the newly constructed object.
+1. um objeto novo em folha é criado (construído)
+2. *o objeto recém construído é linkado ao `[[Prototype]]`*
+3. o objeto recém construído é definido como bind do `this` para aquela chamada de função
+4. a menos que a função retorne seu próprio **objeto** alternado, a chamada da função invocada `new` vai retornar o objeto recém construído *automaticamente*.
 
-Steps 1, 3, and 4 apply to our current discussion. We'll skip over step 2 for now and come back to it in Chapter 5.
+Os passos 1, 3 e 4 aplicam-se à nossa discussão atual. Nós vamos pular o passo 2 por agora e voltar nele no Capítulo 5.
 
-Consider this code:
+Considere esse código:
 
 ```js
 function foo(a) {
@@ -420,7 +420,7 @@ var bar = new foo( 2 );
 console.log( bar.a ); // 2
 ```
 
-By calling `foo(..)` with `new` in front of it, we've constructed a new object and set that new object as the `this` for the call of `foo(..)`. **So `new` is the final way that a function call's `this` can be bound.** We'll call this *new binding*.
+Ao chamar `foo(..)` com `new` a sua frente, nós construímos um novo objeto e definimos esse novo objeto como `this` para a chamada de `foo(..)`. **Então `new` é a última maneira que uma chamada de função `this` pode sofrer o bind.** Vamos chamar isso de *new binding* .
 
 ## Everything In Order
 
