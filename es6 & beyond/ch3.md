@@ -1,58 +1,58 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 3: Organization
+# You Don't Know JS: ES6 & Além
+# Capítulo 3: Organização
 
-It's one thing to write JS code, but it's another to properly organize it. Utilizing common patterns for organization and reuse goes a long way to improving the readability and understandability of your code. Remember: code is at least as much about communicating to other developers as it is about feeding the computer instructions.
+Uma coisa é escrever código JS, outra coisa é organizá-lo propriamente. Utilizar padrões comuns para organização e reuso é muito bom para melhorar a legibilidade e entendimento do seu código. Lembre-se: código é tanto comunicação com outros desenvolvedores quanto fornecer instruções de computador.
 
-ES6 has several important features that help significantly improve these patterns, including: iterators, generators, modules, and classes.
+ES6 tem várias funcionalidades importantes que ajudam significantemente a melhorar esses padrões, incluindo: iteradores, geradores, módulos e classes.
 
-## Iterators
+## Iteradores
 
-An *iterator* is a structured pattern for pulling information from a source in one-at-a-time fashion. This pattern has been around programming for a long time. And to be sure, JS developers have been ad hoc designing and implementing iterators in JS programs since before anyone can remember, so it's not at all a new topic.
+Um *iterador* é um padrão estruturado para obter informações de uma fonte, de uma a uma. Esse padrão tem estado pela programação há muito tempo. E para ser exato, desenvolvedores JS têm pensado e implementado iteradores em programas JS desde antes que alguém possa se lembrar, então isso não é uma novidade.
 
-What ES6 has done is introduce an implicit standardized interface for iterators. Many of the built-in data structures in JavaScript will now expose an iterator implementing this standard. And you can also construct your own iterators adhering to the same standard, for maximal interoperability.
+O que ES6 tem feito é introduzir uma interface padronizada implícita para iteradores. Muitas das estruturas de dados embutidas em JavaScript vão agora expor um iterador implementando esse padrão. E você também pode construir seus próprios iteradores aderindo ao mesmo padrão, para máxima interoperalibilidade.
 
-Iterators are a way of organizing ordered, sequential, pull-based consumption of data.
+Iteradores são uma maneira de organizar o consumo ordenado, sequencial e baseado em obtenção de dados.
 
-For example, you may implement a utility that produces a new unique identifier each time it's requested. Or you may produce an infinite series of values that rotate through a fixed list, in round-robin fashion. Or you could attach an iterator to a database query result to pull out new rows one at a time.
+Por exemplo, você pode implementar um utilitário que produz um novo identificador único a cada vez que é requisitado. Ou você pode produzir uma série infinita de valores que alternam através de uma lista fixa, pelo método de round-robin. Ou você pode anexar um iterador a uma consulta de banco de dados para obter novas linhas, uma por vez.
 
-Although they have not commonly been used in JS in such a manner, iterators can also be thought of as controlling behavior one step at a time. This can be illustrated quite clearly when considering generators (see "Generators" later in this chapter), though you can certainly do the same without generators.
+Embora eles não sejam geralmente usados em JS de tal forma, iteradores também podem ser considerados como comportamentos de controle de etapas, uma de cada vez. Isso pode ser ilustrado de forma mais clara quando pensamos em geradores (veja "Geradores" mais à frente nesse capítulo), certamente você possa fazer a mesma coisa sem geradores.
 
 ### Interfaces
 
-At the time of this writing, ES6 section 25.1.1.2 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-iterator-interface) details the `Iterator` interface as having the following requirement:
+Na época em que isto está sendo escrito, a seção ES6 25.1.1.2(https://people.mozilla.org/~jorendorff/es6-draft.html#sec-iterator-interface) detalha a interface `Iterator` como tendo os seguintes requerimentos:
 
 ```
-Iterator [required]
-	next() {method}: retrieves next IteratorResult
+Iterator [necessário]
+	next() {método}: recupera o próximo Resultado do Iterador
 ```
 
-There are two optional members that some iterators are extended with:
+Tem dois membros opcionais com alguns iterators que são estendidos juntos:
 
 ```
-Iterator [optional]
-	return() {method}: stops iterator and returns IteratorResult
-	throw() {method}: signals error and returns IteratorResult
+Iterator [opcional]
+	return() {método}: para o iterator e retorna o Resultado do Iterator
+	throw() {método}: sinaliza o erro e retorna o Resultado do Iterator
 ```
 
-The `IteratorResult` interface is specified as:
+A interface do `Resultado do Iterator` é especificada como:
 
 ```
 IteratorResult
-	value {property}: current iteration value or final return value
-		(optional if `undefined`)
-	done {property}: boolean, indicates completion status
+	value {propriedade}: valor atual da iteração ou retorno final
+		(opcional se estiver `undefined`)
+	done {propriedade}: booleano, indica que o status está completo
 ```
 
-**Note:** I call these interfaces implicit not because they're not explicitly called out in the specification -- they are! -- but because they're not exposed as direct objects accessible to code. JavaScript does not, in ES6, support any notion of "interfaces," so adherence for your own code is purely conventional. However, wherever JS expects an iterator -- a `for..of` loop, for instance -- what you provide must adhere to these interfaces or the code will fail.
+**Nota:** Chamo estas interfaces implícitas não porque não estejam explicitamente chamadas na especificação -- estão! -- mas porque não estão expostas como objeto de acceso direto no código. JavaScript na versão ES6 não suporta qualquer noção de “interfaces”, então aderir ao seu código e puramente convencional. Porém, onde quer que o JS espere um iterador -- um loop `for..of`, por exemplo -- o que você prover deve se aderir nesta interface ou falhará.
 
-There's also an `Iterable` interface, which describes objects that must be able to produce iterators:
+Existe também uma interface `Iterable`, que descreve objetos que são capazes de produzir iteradores:
 
 ```
 Iterable
-	@@iterator() {method}: produces an Iterator
+	@@iterador() {método}: produz um iterador
 ```
 
-If you recall from "Built-In Symbols" in Chapter 2, `@@iterator` is the special built-in symbol representing the method that can produce iterator(s) for the object.
+Se você se lembra do Capítulo 2 "Built-In Symbols", `@@iterator` é o símbolo nativo especial do método que pode produzir iterador(es) para o objeto.
 
 #### IteratorResult
 

@@ -1,19 +1,19 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 6: API Additions
+# You Don't Know JS: ES6 e além
+# Chapter 6: Adições no API
 
-From conversions of values to mathematic calculations, ES6 adds many static properties and methods to various built-in natives and objects to help with common tasks. In addition, instances of some of the natives have new capabilities via various new prototype methods.
+De conversão de valores a cálculos matemáticos, ES6 agrega muitas propriedades estáticas e métodos a vários nativos e objetos globais para ajudar com tarefas comuns. Além disso, instâncias de alguns dos nativos têm novas capacidades através de vários métodos de prototipagem.
 
-**Note:** Most of these features can be faithfully polyfilled. We will not dive into such details here, but check out "ES6 Shim" (https://github.com/paulmillr/es6-shim/) for standards-compliant shims/polyfills.
+**Nota:** A maioria dessas funcionalidades podem ser fielmente polyfilled. Nós não vamos entrar em detalhes aqui, mas cheque o "ES6 Shim" (https://github.com/paulmillr/es6-shim/) para padrões compátiveis de shims/polyfills.
 
 ## `Array`
 
-One of the most commonly extended features in JS by various user libraries is the Array type. It should be no surprise that ES6 adds a number of helpers to Array, both static and prototype (instance).
+Uma das funcionalidades em JS mais comumente estendidas por várias bibliotecas é o Array type. Não deveria ser surpresa que o ES6 adiciona uma grande quantidade de helpers para Array, tanto estático quanto prototipagem (instancia).
 
-### `Array.of(..)` Static Function
+### Função Estática `Array.of(..)`
 
-There's a well known gotcha with the `Array(..)` constructor, which is that if there's only one argument passed, and that argument is a number, instead of making an array of one element with that number value in it, it constructs an empty array with a `length` property equal to the number. This action produces the unfortunate and quirky "empty slots" behavior that's reviled about JS arrays.
+Há uma pegadinha bem conhecida com o construtor `Array(..)`, que é se só um argumento é passado e esse argumento é um número, ao invés de criar um array de um elemento contendo esse valor, ele constrói um array vazio com uma propriedade `length` igual ao número. Essa ação produz o infeliz e peculiar comportamento do "slot vazio" que os arrays Javascript tanto são criticados.
 
-`Array.of(..)` replaces `Array(..)` as the preferred function-form constructor for arrays, because `Array.of(..)` does not have that special single-number-argument case. Consider:
+`Array.of(..)` substitui `Array(..)` como o formato preferido de construtor para arrays, porque `Array.of(..)` não tem aquele caso especial de argumento-numérico-único. Considere:
 
 ```js
 var a = Array( 3 );
@@ -29,11 +29,11 @@ c.length;						// 3
 c;								// [1,2,3]
 ```
 
-Under what circumstances would you want to use `Array.of(..)` instead of just creating an array with literal syntax, like `c = [1,2,3]`? There's two possible cases.
+Sob essas circunstâncias, você iria querer usar `Array.of(..)` ao invés de apenas criar um array com sintaxe literal, como `c = [1,2,3]`? Há dois casos possíveis.
 
-If you have a callback that's supposed to wrap argument(s) passed to it in an array, `Array.of(..)` fits the bill perfectly. That's probably not terribly common, but it may scratch an itch for you.
+Se você tem um callback que deve agrupar o(s) argumento(s) passados a ele em um array, `Array.of(..)` encaixa perfeitamente. Isso não é muito comum, mas pode quebrar seu galho.
 
-The other scenario is if you subclass `Array` (see "Classes" in Chapter 3) and want to be able to create and initialize elements in an instance of your subclass, such as:
+O outro cenário é se você criar uma subclasse de `Array` (veja "Classes" no Capítulo 3) e quiser criar e inicializar elementos na instância do seu objeto, como por exemplo:
 
 ```js
 class MyCoolArray extends Array {
@@ -57,13 +57,13 @@ z.length;						// 1
 z.sum();						// 3
 ```
 
-You can't just (easily) create a constructor for `MyCoolArray` that overrides the behavior of the `Array` parent constructor, because that constructor is necessary to actually create a well-behaving array value (initializing the `this`). The "inherited" static `of(..)` method on the `MyCoolArray` subclass provides a nice solution.
+Você não pode criar (facilmente) um construtor para `MyCoolArray` que sobrescreve o comportamento do construtor pai `Array`, porque esse construtor é necessário para criar um valor de array que se comporte bem (inicializando o `this`). O método "herdado" estático `of(..)` na subclasse `MyCoolArray` provê uma boa solução.
 
-### `Array.from(..)` Static Function
+### Função Estática `Array.from(..)`
 
-An "array-like object" in JavaScript is an object that has a `length` property on it, specifically with an integer value of zero or higher.
+Um objeto array-like em JavaScript é um objeto que tem uma propriedade `length` especificamente com um valor inteiro, igual ou maior que zero.
 
-These values have been notoriously frustrating to work with in JS; it's been quite common to need to transform them into an actual array, so that the various `Array.prototype` methods (`map(..)`, `indexOf(..)` etc.) are available to use with it. That process usually looks like:
+Esses valores têm sido notóriamente frustrantes de se trabalhar em JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
 
 ```js
 // array-like object
@@ -73,16 +73,17 @@ var arrLike = {
 	1: "bar"
 };
 
-var arr = Array.prototype.slice.call( arrLike );
+var arr = Array.prototype.
+.call( arrLike );
 ```
 
-Another common task where `slice(..)` is often used is in duplicating a real array:
+Outra tarefa comum onde geralmente se utiliza o `slice(..)` é para duplicar um array real:
 
 ```js
 var arr2 = arr.slice();
 ```
 
-In both cases, the new ES6 `Array.from(..)` method can be a more understandable and graceful -- if also less verbose -- approach:
+Em ambos os casos, o novo método do ES6 `Array.from(..)` pode ter uma abordagem mais compreensivel e elegante -- e também menos verbosa:
 
 ```js
 var arr = Array.from( arrLike );
@@ -90,11 +91,11 @@ var arr = Array.from( arrLike );
 var arrCopy = Array.from( arr );
 ```
 
-`Array.from(..)` looks to see if the first argument is an iterable (see "Iterators" in Chapter 3), and if so, it uses the iterator to produce values to "copy" into the returned array. Because real arrays have an iterator for those values, that iterator is automatically used.
+`Array.from(..)` verifica se o primeiro argumento é um iterável (veja "Iteradores" no capítulo 3), e então, usa o iterador para produzir valores para "copiar" para o array retornado. Por conta dos arrays reais terem um iterador para esses valores, o iterador é automaticamente usado.
 
-But if you pass an array-like object as the first argument to `Array.from(..)`, it behaves basically the same as `slice()` (no arguments!) or `apply(..)` does, which is that it simply loops over the value, accessing numerically named properties from `0` up to whatever the value of `length` is.
+Mas se você passar um objeto array-like como primeiro argumento ao `Array.from(..)`, ele se comporta basicamente da mesma forma que o `slice()` (sem argumentos!) ou `apply(..)` fazem, que é simplesmente percorrer o valor, acessando propriedades nomeadas numericamente de `0` até o valor de `length`.
 
-Consider:
+Considere:
 
 ```js
 var arrLike = {
@@ -106,9 +107,9 @@ Array.from( arrLike );
 // [ undefined, undefined, "foo", undefined ]
 ```
 
-Because positions `0`, `1`, and `3` didn't exist on `arrLike`, the result was the `undefined` value for each of those slots.
+Por conta das posições `0`, `1`, e `3` não existirem no `arrLike`, o resultado foi um valor `undefined` para cada um desses espaços.
 
-You could produce a similar outcome like this:
+Você pode produzir uma saída similar assim:
 
 ```js
 var emptySlotsArr = [];
@@ -119,11 +120,11 @@ Array.from( emptySlotsArr );
 // [ undefined, undefined, "foo", undefined ]
 ```
 
-#### Avoiding Empty Slots
+#### Evitando Espaços Vazios
 
-There's a subtle but important difference in the previous snippet between the `emptySlotsArr` and the result of the `Array.from(..)` call. `Array.from(..)` never produces empty slots.
+Há uma diferença sutil mas importante no fragmento anterior entre o `emptySlotsArr` e o resultado da chamada do `Array.from(..)`. `Array.from(..)` nunca produz espaços vazios.
 
-Prior to ES6, if you wanted to produce an array initialized to a certain length with actual `undefined` values in each slot (no empty slots!), you had to do extra work:
+Antes do ES6, se você quisesse criar um array inicializado com um certo tamanho e valores `undefined` em cada espaço (e não espaços vazios!), você tinha que fazer um trabalho extra:
 
 ```js
 var a = Array( 4 );								// four empty slots!
@@ -131,17 +132,17 @@ var a = Array( 4 );								// four empty slots!
 var b = Array.apply( null, { length: 4 } );		// four `undefined` values
 ```
 
-But `Array.from(..)` now makes this easier:
+Mas `Array.from(..)` agora torna isso mais fácil:
 
 ```js
 var c = Array.from( { length: 4 } );			// four `undefined` values
 ```
 
-**Warning:** Using an empty slot array like `a` in the previous snippets would work with some array functions, but others ignore empty slots (like `map(..)`, etc.). You should never intentionally work with empty slots, as it will almost certainly lead to strange/unpredictable behavior in your programs.
+**Atenção:** Usar um espaço vazio como `a` no fragmento anterior pode funcionar com algumas funções de array, mas outras ignoram espaços vazios (como `map(..)`, etc). Você não deve nunca trabalhar intencionalmente com espaços vazios, já que é quase certo que vai resultar em comportamentos estranhos/imprevisíveis nos seus programas.
 
-#### Mapping
+#### Mapeamento
 
-The `Array.from(..)` utility has another helpful trick up its sleeve. The second argument, if provided, is a mapping callback (almost the same as the regular `Array#map(..)` expects) which is called to map/transform each value from the source to the returned target. Consider:
+O utilitário `Array.from(..)` tem outra carta na manga. O segundo argumento, se passado, é um mapping callback (quase igual ao que o `Array#map(..)` regular espera) que é chamado para mapear/transformar cada valor do original ao alvo retornado. Considere:
 
 ```js
 var arrLike = {
@@ -160,13 +161,13 @@ Array.from( arrLike, function mapper(val,idx){
 // [ 0, 1, "FOO", 3 ]
 ```
 
-**Note:** As with other array methods that take callbacks, `Array.from(..)` takes an optional third argument that if set will specify the `this` binding for the callback passed as the second argument. Otherwise, `this` will be `undefined`.
+**Nota:** Assim como outros métodos de array que aceitam callbacks, `Array.from(..)` aceita um terceiro argumento opicional que se for definido, vai especificar o `this` para o callback passado no segundo argumento. Caso contrário, `this` vai ser `undefined`.
 
-See "TypedArrays" in Chapter 5 for an example of using `Array.from(..)` in translating values from an array of 8-bit values to an array of 16-bit values.
+Veja "Arrays tipados" no Capítulo 5 para um exemplo de uso do `Array.from(..)` traduzindo valores de um array de valores 8-bit para um array de valores 16-bit.
 
-### Creating Arrays and Subtypes
+### Criando Arrays e Subtipos
 
-In the last couple of sections, we've discussed `Array.of(..)` and `Array.from(..)`, both of which create a new array in a similar way to a constructor. But what do they do in subclasses? Do they create instances of the base `Array` or the derived subclass?
+Nas duas últimas seções, nós discutimos `Array.of(..)` e `Array.from(..)`, ambos para criar um novo array de forma similar a um construtor. Mas o que eles fazem nas subclasses? Eles criam instâncias do `Array` base ou de subclasses derivadas?
 
 ```js
 class MyCoolArray extends Array {
@@ -180,9 +181,9 @@ Array.from(
 ) instanceof MyCoolArray;							// false
 ```
 
-Both `of(..)` and `from(..)` use the constructor that they're accessed from to construct the array. So if you use the base `Array.of(..)` you'll get an `Array` instance, but if you use `MyCoolArray.of(..)`, you'll get a `MyCoolArray` instance.
+Ambos `of(..)` e `from(..)` usam o construtor que eles são acessados para construir o array. Então se você usa a base `Array.of(..)` você vai ter uma instância de `Array`, mas se você usa `MyCollArray.of(..)`, você vai ter uma instância de `MyCoolArray`.
 
-In "Classes" in Chapter 3, we covered the `@@species` setting which all the built-in classes (like `Array`) have defined, which is used by any prototype methods if they create a new instance. `slice(..)` is a great example:
+Em "Classes" no Capítulo 3, nós cobrimos a configuração `@@species` que todas as classes nativas (como `Array`) têm definidas, que são usadas por qualquer método prototipado se eles criam uma nova instância. `slice(..)` é um ótimo exemplo:
 
 ```js
 var x = new MyCoolArray( 1, 2, 3 );
@@ -190,7 +191,7 @@ var x = new MyCoolArray( 1, 2, 3 );
 x.slice( 1 ) instanceof MyCoolArray;				// true
 ```
 
-Generally, that default behavior will probably be desired, but as we discussed in Chapter 3, you *can* override if you want:
+Geralmente, o comportamento padrão provavelmente vai ser o desejado, mas como discutimos no Capítulo 3, você *pode* sobrescrevê-lo se quiser:
 
 ```js
 class MyCoolArray extends Array {
@@ -204,7 +205,7 @@ x.slice( 1 ) instanceof MyCoolArray;				// false
 x.slice( 1 ) instanceof Array;						// true
 ```
 
-It's important to note that the `@@species` setting is only used for the prototype methods, like `slice(..)`. It's not used by `of(..)` and `from(..)`; they both just use the `this` binding (whatever constructor is used to make the reference). Consider:
+É importante notar que a configuração de `@@species` só é usada para métodos prototipados, como `slice(..)`. Não é usado por `of(..)` e `from(..)`; ambos somente usam o this (qualquer que seja o construtor usado para fazer referência). Considere:
 
 ```js
 class MyCoolArray extends Array {
@@ -218,13 +219,13 @@ MyCoolArray.from( x ) instanceof MyCoolArray;		// true
 MyCoolArray.of( [2, 3] ) instanceof MyCoolArray;	// true
 ```
 
-### `copyWithin(..)` Prototype Method
+### Método Prototipado `copyWithin(..)`
 
-`Array#copyWithin(..)` is a new mutator method available to all arrays (including Typed Arrays; see Chapter 5). `copyWithin(..)` copies a portion of an array to another location in the same array, overwriting whatever was there before.
+`Array#copyWithin(..)` é um novo método mutador disponível para todos os arrays (incluindo Arrays Tipados; veja o capítulo 5). `copyWithin(..)` copia uma porção de um array a outro local no mesmo array, sobrescrevendo o que quer que estivesse lá antes.
 
-The arguments are *target* (the index to copy to), *start* (the inclusive index to start the copying from), and optionally *end* (the exclusive index to stop copying). If any of the arguments are negative, they're taken to be relative from the end of the array.
+Os argumentos são *target* (o índice a ser copiado), *start* (o índice inclusivo que vamos partir a cópia), e opcionalmente *end* (o índice exclusivo que vamos parar de copiar). Se algum dos argumentos for negativo, eles passam a ser relativos ao final do array.
 
-Consider:
+Considere:
 
 ```js
 [1,2,3,4,5].copyWithin( 3, 0 );			// [1,2,3,1,2]
@@ -236,23 +237,23 @@ Consider:
 [1,2,3,4,5].copyWithin( 0, -2, -1 );	// [4,2,3,4,5]
 ```
 
-The `copyWithin(..)` method does not extend the array's length, as the first example in the previous snippet shows. Copying simply stops when the end of the array is reached.
+O método `copyWithin(..)` não estende o tamanho do array, como o primeiro trecho do exemplo mostra. A cópia simplesmente para quando chega no final do array.
 
-Contrary to what you might think, the copying doesn't always go in left-to-right (ascending index) order. It's possible this would result in repeatedly copying an already copied value if the from and target ranges overlap, which is presumably not desired behavior.
+Ao contrário do que você provavelmente pensa, a cópia nem sempre vai da ordem direita-para-esquerda (índice ascendente). É possível que isso possa resultar em repetidamente copiar algum valor já copiado se o intervalo do alvo e do início sobrepor, o que se presume ser um comportamento não esperado.
 
-So internally, the algorithm avoids this case by copying in reverse order to avoid that gotcha. Consider:
+Então internamente, o algoritmo evita esse caso copiando na ordem inversa para evitar essa pegadinha. Considere:
 
 ```js
 [1,2,3,4,5].copyWithin( 2, 1 );		// ???
 ```
 
-If the algorithm was strictly moving left to right, then the `2` should be copied to overwrite the `3`, then *that* copied `2` should be copied to overwrite `4`, then *that* copied `2` should be copied to overwrite `5`, and you'd end up with `[1,2,2,2,2]`.
+Se o algoritmo foi movido estritamente da direita pra esquerda, então o `2` deve ser copiado para sobrescrever o `3`, então *esse* `2` copiado deve ser copiado para sobrescrever o `4`, então *esse* `2` copiado deve ser copiado para sobrescrever o `5`, e você terminaria com `[1,2,2,2,2]`.
 
-Instead, the copying algorithm reverses direction and copies `4` to overwrite `5`, then copies `3` to overwrite `4`, then copies `2` to overwrite `3`, and the final result is `[1,2,2,3,4]`. That's probably more "correct" in terms of expectation, but it can be confusing if you're only thinking about the copying algorithm in a naive left-to-right fashion.
+Ao invés disso, o algorítmo de cópia inverte a direção e copia o `4` para sobrescrever o `5`, então copia o `3` para sobrescrever o `4`, então copia o `2` para sobrescrever o `3`, e o resultado final é `[1,2,2,3,4]`. Esse é provavelmente o mais "correto" em termos de expectativa, mas pode ser confuso se você está apenas pensando no algorítimo de cópia na moda indênua direita-para-esquerda.
 
-### `fill(..)` Prototype Method
+### Método Prototipado `fill(..)`
 
-Filling an existing array entirely (or partially) with a specified value is natively supported as of ES6 with the `Array#fill(..)` method:
+Preencher um array existente por completo (ou parcialmente) com um valor específico é nativamente suportado em ES6 com o método `Array#fill(..)`:
 
 ```js
 var a = Array( 4 ).fill( undefined );
@@ -260,7 +261,7 @@ a;
 // [undefined,undefined,undefined,undefined]
 ```
 
-`fill(..)` optionally takes *start* and *end* parameters, which indicate a subset portion of the array to fill, such as:
+`fill(..)` opcionalmente aceita os parâmetros *início* e *fim*, que indicam o subconjunto do array para preencher, tal como:
 
 ```js
 var a = [ null, null, null, null ].fill( 42, 1, 3 );
@@ -268,9 +269,9 @@ var a = [ null, null, null, null ].fill( 42, 1, 3 );
 a;									// [null,42,42,null]
 ```
 
-### `find(..)` Prototype Method
+### Método Prototipado `find(..)`
 
-The most common way to search for a value in an array has generally been the `indexOf(..)` method, which returns the index the value is found at or `-1` if not found:
+A forma mais comum de procurar por um valor em um array, geralmente tem sio o método `indexOf(..)`, que retorna o índice se o valor for encontrado, ou `-1` se não for encontrado:
 
 ```js
 var a = [1,2,3,4,5];
@@ -281,11 +282,11 @@ var a = [1,2,3,4,5];
 (a.indexOf( "2" ) != -1);			// false
 ```
 
-The `indexOf(..)` comparison requires a strict `===` match, so a search for `"2"` fails to find a value of `2`, and vice versa. There's no way to override the matching algorithm for `indexOf(..)`. It's also unfortunate/ungraceful to have to make the manual comparison to the `-1` value.
+A comparação `indexOf` requer uma equivalência estrita com `===`, então a procura por `"2"` falha ao encontrar o valor `2` e vice-versa. Não tem como sobrescrever o algoritmo de equivalência para `indexOf(..)`. E também é infeliz/deselegante ter que fazer uma comparação manual com o valor `-1`.
 
-**Tip:** See the *Types & Grammar* title of this series for an interesting (and controversially confusing) technique to work around the `-1` ugliness with the `~` operator.
+**Dica:** Veja o título *Tipos e Gramática* dessa série para uma técnica interessante (e controversamente confusa) para trabalhar com a feiura do `-1` com o operador `~`.
 
-Since ES5, the most common workaround to have control over the matching logic has been the `some(..)` method. It works by calling a function callback for each element, until one of those calls returns a `true`/truthy value, and then it stops. Because you get to define the callback function, you have full control over how a match is made:
+Desde o ES5, a solução alternativa para ter controle da lógica de equivalência tem sido o método `some(..)`. Ele funciona chamando uma função callback para cada elemento, até que um deles retorne um valor `true`/verdadeiro, e então para. Por conta de você ter que definir uma função callback, você tem total controle de como a equivalência é feita:
 
 ```js
 var a = [1,2,3,4,5];
@@ -299,9 +300,9 @@ a.some( function matcher(v){
 } );								// false
 ```
 
-But the downside to this approach is that you only get the `true`/`false` indicating if a suitably matched value was found, but not what the actual matched value was.
+Mas o lado negativo dessa abordagem é que você só tem o `true`/`false` indicando se uma equivalência adequada foi encontrada, mas não qual o valor dela.
 
-ES6's `find(..)` addresses this. It works basically the same as `some(..)`, except that once the callback returns a `true`/truthy value, the actual array value is returned:
+O `find(..)` do ES6 aborda isso. Funciona basicamente da mesma maneira que o `some(..)`, exceto que uma vez que o callback retorna `true`/valor verdadeiro, o real valor do array é retornado:
 
 ```js
 var a = [1,2,3,4,5];
@@ -315,7 +316,7 @@ a.find( function matcher(v){
 });
 ```
 
-Using a custom `matcher(..)` function also lets you match against complex values like objects:
+Usar uma função customizada `matcher(..)` também te deixa testar a equivalência contra valores complexos, como objetos:
 
 ```js
 var points = [
@@ -334,13 +335,13 @@ points.find( function matcher(point) {
 } );								// { x: 30, y: 40 }
 ```
 
-**Note:** As with other array methods that take callbacks, `find(..)` takes an optional second argument that if set will specify the `this` binding for the callback passed as the first argument. Otherwise, `this` will be `undefined`.
+**Nota:** Assim como outros métodos de arrays que aceitam callbacks, `find(..)` aceita um argumento opcional que, se definido, vai especificar o `this` para o callback passado no primeiro argumento. Caso contrário, `this` será indefinido.
 
-### `findIndex(..)` Prototype Method
+### Método Prototipado `findIndex(..)`
 
-While the previous section illustrates how `some(..)` yields a boolean result for a search of an array, and `find(..)` yields the matched value itself from the array search, there's also a need for finding the positional index of the matched value.
+Enquanto a seção anterior ilustra como o `some(..)` produz um resultado booleano para uma procura em um array, `find(..)` produz o próprio valor combinadodo array que buscamos, mas ainda há a necessidade de saber o índice da posição desse valor.
 
-`indexOf(..)` does that, but there's no control over its matching logic; it always uses `===` strict equality. So ES6's `findIndex(..)` is the answer:
+`indexOf(..)` faz isso, mas não há controle sobre a sua lógica de equivalência; ele sempre usa igualdade restrita `===`. Então o `findIndex` do ES6 é a resposta:
 
 ```js
 var points = [
@@ -366,15 +367,15 @@ points.findIndex( function matcher(point) {
 } );								// -1
 ```
 
-Don't use `findIndex(..) != -1` (the way it's always been done with `indexOf(..)`) to get a boolean from the search, because `some(..)` already yields the `true`/`false` you want. And don't do `a[ a.findIndex(..) ]` to get the matched value, because that's what `find(..)` accomplishes. And finally, use `indexOf(..)` if you need the index of a strict match, or `findIndex(..)` if you need the index of a more customized match.
+Não use o `findIndex(..) != -1` (do jeito que é feito com `indexOf(..)`) para pegar um valor booleano da busca, porque `some(..)` já produz o valor `true`/`false` que você quer. E não faça `a[ a.findIndex(..) ]` para pegar o valor combinado, porque é o que o `find(..)` faz. E finalmente, use `indexOf(..)` se você precisa do índice de uma igualdade restrita, ou `findIndex(..)` se você precisa do índice de uma equivalência mais customizada.
 
-**Note:** As with other array methods that take callbacks, `find(..)` takes an optional second argument that if set will specify the `this` binding for the callback passed as the first argument. Otherwise, `this` will be `undefined`.
+**Nota:** Assim como outros métodos de arrays que aceitam callbacks, `find(..)` aceita um argumento opcional que, se definido, vai especificar o `this` para o callback passado no primeiro argumento. Caso contrário, `this` será indefinido.
 
-### `entries()`, `values()`, `keys()` Prototype Methods
+### Métodos Prototipados `entries()`, `values()`, `keys()`
 
-In Chapter 3, we illustrated how data structures can provide a patterned item-by-item enumeration of their values, via an iterator. We then expounded on this approach in Chapter 5, as we explored how the new ES6 collections (Map, Set, etc.) provide several methods for producing different kinds of iterations.
+No Capítulo 3, nós ilustramos como estruturas de dados podem prover uma enumeração modelada item-por-item dos seus valores, via um iterador. Nós então expusemos essa abordagem no Capítulo 5, quando exploramos como as novas collections do ES6 (Map, Set, etc.) provêem vários métodos para produzir diferentes tipos de iterações.
 
-Because it's not new to ES6, `Array` might not be thought of traditionally as a "collection," but it is one in the sense that it provides these same iterator methods: `entries()`, `values()`, and `keys()`. Consider:
+Por conta de isso não ser novo no ES6, `Array` pode não ser pensado tradicionalmente como uma "coleção", mas é se pensarmos que ele fornece os mesmos métodos para iterar: `entries()`, `values()`, e `keys()`. Considere:
 
 ```js
 var a = [1,2,3];
@@ -386,9 +387,9 @@ var a = [1,2,3];
 [...a[Symbol.iterator]()];			// [1,2,3]
 ```
 
-Just like with `Set`, the default `Array` iterator is the same as what `values()` returns.
+Assim como com `Set`, o iterador padrão `Array` do array retorna o mesmo que `values()`.
 
-In "Avoiding Empty Slots" earlier in this chapter, we illustrated how `Array.from(..)` treats empty slots in an array as just being present slots with `undefined` in them. That's actually because under the covers, the array iterators behave that way:
+Em "Evitando Espaços Vazios" mais acima nesse capítulo, nós ilustramos como `Array.from(..)` trata espaçoes vazios em um array somente colocando `undefined`. Isso é na verdade porque, por baixo dos panos, os iteradores de array se comportam desse jeito:
 
 ```js
 var a = [];
@@ -402,17 +403,17 @@ a[1] = 2;
 
 ## `Object`
 
-A few additional static helpers have been added to `Object`. Traditionally, functions of this sort have been seen as focused on the behaviors/capabilities of object values.
+Alguns outros helpers estáticos foram adicionados ao `Object`. Tradicionalmente, funções desse tipo têm sido focadas nos comportamentos/capacidades dos valores do objeto.
 
-However, starting with ES6, `Object` static functions will also be for general-purpose global APIs of any sort that don't already belong more naturally in some other location (i.e., `Array.from(..)`).
+Contudo, iniciando com ES6, funções estáticas de `Object` vão servir também para o propósito geral de APIs globais de qualquer tipo que ainda não pertença naturalmente a loutro local (como `Array.from(..)`).
 
-### `Object.is(..)` Static Function
+### Função Estática `Object.is(..)`
 
-The `Object.is(..)` static function makes value comparisons in an even more strict fashion than the `===` comparison.
+A função estática `Object.is(..)` faz comparação de valores de uma maneira ainda mais estilosamente estrita do que a comparação com `===`.
 
-`Object.is(..)` invokes the underlying `SameValue` algorithm (ES6 spec, section 7.2.9). The `SameValue` algorithm is basically the same as the `===` Strict Equality Comparison Algorithm (ES6 spec, section 7.2.13), with two important exceptions.
+`Object.is(..)` invoca o algoritmo subjacente `SameValue` (ES6 spec, seção 7.2.9). O algoritmo `SameValue` é basicamente o mesmo que `===` Algoritmo de Comparação de Igualidade Estrita (ES6 spec, seção 7.2.13), com duas exceções importantes.
 
-Consider:
+Considere:
 
 ```js
 var x = NaN, y = 0, z = -0;
@@ -424,15 +425,15 @@ Object.is( x, x );					// true
 Object.is( y, z );					// false
 ```
 
-You should continue to use `===` for strict equality comparisons; `Object.is(..)` shouldn't be thought of as a replacement for the operator. However, in cases where you're trying to strictly identify a `NaN` or `-0` value, `Object.is(..)` is now the preferred option.
+Você deveria continuar usando `===` para comparações de igualidade estritas; `Object.is(..)` não deveria ser pensado como um substituto para o operador. Entretanto, em casos onde você está tentando estritamente identificar um `NaN` ou o valor `-0`, `Object.is(..)` é agora a opção preferida.
 
-**Note:** ES6 also adds a `Number.isNaN(..)` utility (discussed later in this chapter) which may be a slightly more convenient test; you may prefer `Number.isNaN(x)` over `Object.is(x,NaN)`. You *can* accurately test for `-0` with a clumsy `x == 0 && 1 / x === -Infinity`, but in this case `Object.is(x,-0)` is much better.
+**Nota:** ES6 também adiciona um utilitário `Number.isNaN(..)` (discutido mais adiante nesse capítulo) que pode ser levemente mais conveniente; você pode preferir `Number.isNaN(x)` ao invés de `Object.is(x,NaN)`. Você *pode* precisamente testar para `-0` com um desajeitado `x == 0 && 1 / x === -Infinity`, mas nesse caso `Object.is(x,-0)` é muito melhor.
 
-### `Object.getOwnPropertySymbols(..)` Static Function
+### Função Estática `Object.getOwnPropertySymbols(..)`
 
-The "Symbols" section in Chapter 2 discusses the new Symbol primitive value type in ES6.
+A seção "Símbolos" no Capítulo 2 discute o novo tipo de valor primitivo Symbols em ES6.
 
-Symbols are likely going to be mostly used as special (meta) properties on objects. So the `Object.getOwnPropertySymbols(..)` utility was introduced, which retrieves only the symbol properties directly on an object:
+Símbolos provavelmente vão ser os mais usados como propriedades especiais (meta) em objetos. Então o utilitário `Object.getOwnPropertySymbols(..)` foi introduzido, que recupera apenas as propriedades símbolo diretamente de um objeto:
 
 ```js
 var o = {
@@ -444,9 +445,9 @@ var o = {
 Object.getOwnPropertySymbols( o );	// [ Symbol(bar) ]
 ```
 
-### `Object.setPrototypeOf(..)` Static Function
+### Função Estática `Object.setPrototypeOf(..)`
 
-Also in Chapter 2, we mentioned the `Object.setPrototypeOf(..)` utility, which (unsurprisingly) sets the `[[Prototype]]` of an object for the purposes of *behavior delegation* (see the *this & Object Prototypes* title of this series). Consider:
+Também no Capítulo 2, nós mencionamos o utilitário `Object.setPrototypeOf(..)`, que (sem surpresa) seta o `[[Prototype]]` de um objeto para fins de *delegação de comportamento* (veja o título *this & Object Prototypes* dessa série). Considere:
 
 ```js
 var o1 = {
@@ -462,7 +463,7 @@ Object.setPrototypeOf( o2, o1 );
 o2.foo();							// foo
 ```
 
-Alternatively:
+Alternativamente:
 
 ```js
 var o1 = {
@@ -477,17 +478,17 @@ var o2 = Object.setPrototypeOf( {
 o2.foo();							// foo
 ```
 
-In both previous snippets, the relationship between `o2` and `o1` appears at the end of the `o2` definition. More commonly, the relationship between an `o2` and `o1` is specified at the top of the `o2` definition, as it is with classes, and also with `__proto__` in object literals (see "Setting `[[Prototype]]`" in Chapter 2).
+Em ambos os trechos anteriores, a relação entre `o2` e `o1` aparece no fim da definição do `o2`. Mais comumente, a relação entre um `o2` e `o1` é especificada no topo da definição do `o2`, assim como com classes, e também com `__proto__` em objetos literais (veja "Setting `[[Prototype]]` no Capítulo 2").
 
-**Warning:** Setting a `[[Prototype]]` right after object creation is reasonable, as shown. But changing it much later is generally not a good idea and will usually lead to more confusion than clarity.
+**Atenção:** Configurar um `[[Prototype]]` logo após a criação do objeto é razoável, como mostrado. Mas mudá-lo muito depois de criá-lo não é uma boa ideia e geralmente acaba mais em confusão do que clareza.
 
-### `Object.assign(..)` Static Function
+### Função Estática `Object.assign(..)`
 
-Many JavaScript libraries/frameworks provide utilities for copying/mixing one object's properties into another (e.g., jQuery's `extend(..)`). There are various nuanced differences between these different utilities, such as whether a property with value `undefined` is ignored or not.
+Muitas bibliotecas/frameworks JavaScript provêem utilitários para copiar/misturar propriedades de um objeto ao outro (por exemplo, `extend(..)` do jQuery). Tem diferenças de nuances entre esses diferentes utilitários, como se a propriedade com valor `undefined` é ignorada ou não.
 
-ES6 adds `Object.assign(..)`, which is a simplified version of these algorithms. The first argument is the *target*, and any other arguments passed are the *sources*, which will be processed in listed order. For each source, its enumerable and own (e.g., not "inherited") keys, including symbols, are copied as if by plain `=` assignment. `Object.assign(..)` returns the target object.
+ES6 adiciona `Object.assign(..)`, que é uma versão simplificada desses algoritmos. O primeiro argumento é o *alvo*, e quaisquer outros argumentos passados são *origens* (sources), que vão ser processadas em uma ordem listada. Para cada origem, seu enumerável e suas próprias chaves (exemplo, não "herdadas"), incluindo símbolos, são copiadas como se fosse uma atribuição com `=`. `Object.assign(..)` retorna o objeto alvo.
 
-Consider this object setup:
+Considere essa configuração de objeto:
 
 ```js
 var target = {},
@@ -519,7 +520,7 @@ Object.defineProperty( o3, Symbol( "h" ), {
 Object.setPrototypeOf( o3, o4 );
 ```
 
-Only the properties `a`, `b`, `c`, `e`, and `Symbol("g")` will be copied to `target`:
+Somente as propriedades `a`, `b`, `c`, `e`, e o  `Symbol("g")` vão ser copiados ao `target`:
 
 ```js
 Object.assign( target, o1, o2, o3 );
@@ -536,9 +537,9 @@ Object.getOwnPropertySymbols( target );
 // [Symbol("g")]
 ```
 
-The `d`, `f`, and `Symbol("h")` properties are omitted from copying; non-enumerable properties and non-owned properties are all excluded from the assignment. Also, `e` is copied as a normal property assignment, not duplicated as a read-only property.
+As propriedades `d`, `f`, e `Symbol("h")` são omitidas da cópia; Propriedades não-enumeráveis e não-próprias são todas excluidas da atribuição. Também, `e` é copiada como uma atribuição normal de propriedade, não duplicada como uma propriedade read-only.
 
-In an earlier section, we showed using `setPrototypeOf(..)` to set up a `[[Prototype]]` relationship between an `o2` and `o1` object. There's another form that leverages `Object.assign(..)`:
+Em uma seção anterior, nós mostramos o uso de `setPrototypeOf(..)` para configurar uma relação `[[Prototype]]` entre os objetos `o2` e `o1`. Tem outra forma que se aproveita do `Object.assign(..)`:
 
 ```js
 var o1 = {
@@ -556,59 +557,59 @@ var o2 = Object.assign(
 o2.foo();							// foo
 ```
 
-**Note:** `Object.create(..)` is the ES5 standard utility that creates an empty object that is `[[Prototype]]`-linked. See the *this & Object Prototypes* title of this series for more information.
+**Nota:** `Object.create(..)` é o utilitário padrão do ES5 que cria um objeto vazio que é `[[Prototype]]`-linked. Veja o título *this & Object Prototypes* dessa série para mais informação.
 
 ## `Math`
 
-ES6 adds several new mathematic utilities that fill in holes or aid with common operations. All of these can be manually calculated, but most of them are now defined natively so that in some cases the JS engine can either more optimally perform the calculations, or perform them with better decimal precision than their manual counterparts.
+ES6 adiciona diversos utilitários matemáticos que preenchem buracos ou ajudam com operações comuns. Todos podem ser manualmente calculados, mas a maioria está agora definida nativamente, então em alguns casos o motor do JS pode otimizar a performance dos cálculos e ser mais performático com mais precisão de números decimais do que a solução manual.
 
-It's likely that asm.js/transpiled JS code (see the *Async & Performance* title of this series) is the more likely consumer of many of these utilities rather than direct developers.
+É provavel que asm.js/código JS transpilado (veja o título *Async & Performance* dessa série) é o consumidor mais provável de muitos desses utilitários, ao invés de desenvolvedores diretos.
 
-Trigonometry:
+Trigonometria:
 
-* `cosh(..)` - Hyperbolic cosine
-* `acosh(..)` - Hyperbolic arccosine
-* `sinh(..)` - Hyperbolic sine
-* `asinh(..)` - Hyperbolic arcsine
-* `tanh(..)` - Hyperbolic tangent
-* `atanh(..)` - Hyperbolic arctangent
-* `hypot(..)` - The squareroot of the sum of the squares (i.e., the generalized Pythagorean theorem)
+* `cosh(..)` - Coseno hiperbólico
+* `acosh(..)` - Arco-cosseno hiperbólico
+* `sinh(..)` - Seno hiperbólico
+* `asinh(..)` - Arco-seno hiperbólico
+* `tanh(..)` - Tangente hiperbólica
+* `atanh(..)` - Arco-tangente hiperbólica
+* `hypot(..)` - A raíz quadrada da soma dos quadrados (ou seja, o generalizado Teorema de Pitágoras)
 
-Arithmetic:
+Aritmética:
 
-* `cbrt(..)` - Cube root
-* `clz32(..)` - Count leading zeros in 32-bit binary representation
-* `expm1(..)` - The same as `exp(x) - 1`
-* `log2(..)` - Binary logarithm (log base 2)
-* `log10(..)` - Log base 10
-* `log1p(..)` - The same as `log(x + 1)`
-* `imul(..)` - 32-bit integer multiplication of two numbers
+* `cbrt(..)` - Raíz cúbica
+* `clz32(..)` - Conta os zeros à esquerda em uma representação binária de 32-bit
+* `expm1(..)` - O mesmo que `exp(x) - 1`
+* `log2(..)` - Logarítimo binário (log de base 2)
+* `log10(..)` - Log de base 10
+* `log1p(..)` - O mesmo que `log(x + 1)`
+* `imul(..)` - Multiplicação de dois números inteiros de 32-bit
 
 Meta:
 
-* `sign(..)` - Returns the sign of the number
-* `trunc(..)` - Returns only the integer part of a number
-* `fround(..)` - Rounds to nearest 32-bit (single precision) floating-point value
+* `sign(..)` - Retorna o sinal de um número
+* `trunc(..)` - Retorna apenas a parte inteira de um número
+* `fround(..)` - Arrendonda para o valor float mais próximo de 32-bit (precisão única)
 
 ## `Number`
 
-Importantly, for your program to properly work, it must accurately handle numbers. ES6 adds some additional properties and functions to assist with common numeric operations.
+Importante, para seu programa funcionar corretamente, ele deve lidar com precisão de números. ES6 adiciona algumas propriedades adicionais e funções para ajudar com operações numéricas comuns.
 
-Two additions to `Number` are just references to the preexisting globals: `Number.parseInt(..)` and `Number.parseFloat(..)`.
+Duas adições ao `Number` são apenas referências aos globais preexistentes: `Number.parseInt(..)` e `Number.parseFloat(..)`.
 
-### Static Properties
+### Propriedades Estáticas
 
-ES6 adds some helpful numeric constants as static properties:
+ES6 adiciona alguns constante númericos úteis como propriedades estáticas:
 
-* `Number.EPSILON` - The minimum value between any two numbers: `2^-52` (see Chapter 2 of the *Types & Grammar* title of this series regarding using this value as a tolerance for imprecision in floating-point arithmetic)
-* `Number.MAX_SAFE_INTEGER` - The highest integer that can "safely" be represented unambiguously in a JS number value: `2^53 - 1`
-* `Number.MIN_SAFE_INTEGER` - The lowest integer that can "safely" be represented unambiguously in a JS number value: `-(2^53 - 1)` or `(-2)^53 + 1`.
+* `Number.EPSILON` - O valor mínimo entro dois números quaisquer: `2^-52` (veja o Capítulo 2 do título *Types & Grammar* dessa série para usar esse valor como uma tolerância para precisão em aritmética de pontos-flutuantes)
+* `Number.MAX_SAFE_INTEGER` - O maior inteiro que pode ser representado sem ambiguidade com segurança em um valor numérico de JS: `2^53 -1`
+* `Number.MIN_SAFE_INTEGER` - O menor inteiro que pode ser representado sem ambiguidade com segurança em um valor numérico de JS: `-(2^53 - 1)` ou `(-2)^53 + 1`.
 
-**Note:** See Chapter 2 of the *Types & Grammar* title of this series for more information about "safe" integers.
+**Nota:** Veja o capítulo 2 do título *Types & Grammar* dessa série para mais informações a respeito de inteiros "seguros".
 
-### `Number.isNaN(..)` Static Function
+### Função Estática `Number.isNaN(..)`
 
-The standard global `isNaN(..)` utility has been broken since its inception, in that it returns `true` for things that are not numbers, not just for the actual `NaN` value, because it coerces the argument to a number type (which can falsely result in a NaN). ES6 adds a fixed utility `Number.isNaN(..)` that works as it should:
+O utilitário global padrão `isNaN(..)` tem sido quebrado desde o início, onde ele retornava `true` para coisas que não são números, não apenas o valor `NaN`, porque ele força o argumento a um tipo de número (o que pode falsamente resultar em um NaN). ES6 adiciona um utilitário reparado, que funciona como deveria:
 
 ```js
 var a = NaN, b = "NaN", c = 42;
@@ -622,9 +623,9 @@ Number.isNaN( b );					// false -- fixed!
 Number.isNaN( c );					// false
 ```
 
-### `Number.isFinite(..)` Static Function
+### Função Estática `Number.isFinite(..)`
 
-There's a temptation to look at a function name like `isFinite(..)` and assume it's simply "not infinite". That's not quite correct, though. There's more nuance to this new ES6 utility. Consider:
+Há uma tentação de olhar para uma função nomeada de `isFinite(..)` e assumir que é simplesmente "não infinito". Porém, isso não está exatamente correto. Há uma pequena divergência nesse novo utilitário do ES6. Considere:
 
 ```js
 var a = NaN, b = Infinity, c = 42;
@@ -635,7 +636,7 @@ Number.isFinite( b );				// false
 Number.isFinite( c );				// true
 ```
 
-The standard global `isFinite(..)` coerces its argument, but `Number.isFinite(..)` omits the coercive behavior:
+O padrão global `isFinite(..)` força esse argumento, mas `Number.isFinite(..)` omite esse comportamento forçado:
 
 ```js
 var a = "42";
@@ -644,37 +645,38 @@ isFinite( a );						// true
 Number.isFinite( a );				// false
 ```
 
-You may still prefer the coercion, in which case using the global `isFinite(..)` is a valid choice. Alternatively, and perhaps more sensibly, you can use `Number.isFinite(+x)`, which explicitly coerces `x` to a number before passing it in (see Chapter 4 of the *Types & Grammar* title of this series).
+Você pode ainda preferir a coerção, e nesse caso usar o `isFinite(..)` global é uma boa escolha. Uma outra possibilidade, e talvez mais sensível, é você usar `Number.isFinite(+x)`, que explicitamente força `x` a um número antes de passá-lo (veja o Capítulo 4 do título *Types & Grammar* dessa série).
 
-### Integer-Related Static Functions
+### Funções Estáticas Relacionadas Com Inteiros
 
+Valores numéricos de JavaScript são sempre ponteiros flutuantes (IEEE-754). Então a noção de determinar se um número é um "inteiro" não é checando seu tipo, porque JS não faz nenhuma distinção.
 JavaScript number values are always floating point (IEEE-754). So the notion of determining if a number is an "integer" is not about checking its type, because JS makes no such distinction.
 
-Instead, you need to check if there's any non-zero decimal portion of the value. The easiest way to do that has commonly been:
+Ao invés disso, você precisa checar se há algum decimal diferente de zero que é parte do valor. A forma mais fácil de fazer isso tem sido comumente assim:
 
 ```js
 x === Math.floor( x );
 ```
 
-ES6 adds a `Number.isInteger(..)` helper utility that potentially can determine this quality slightly more efficiently:
+ES6 adiciona o utilitário `Number.isInteger(..)` que potencialmente pode determinar sua qualidade de maneira levemente mais eficiente:
 
 ```js
 Number.isInteger( 4 );				// true
 Number.isInteger( 4.2 );			// false
 ```
 
-**Note:** In JavaScript, there's no difference between `4`, `4.`, `4.0`, or `4.0000`. All of these would be considered an "integer", and would thus yield `true` from `Number.isInteger(..)`.
+**Nota:** Em JavaScript, não tem nenhuma diferença entre `4`, `4.`, `4.0` ou `4.0000`. Todos esses seriam considerados como um "inteiro", e, assim, retornariam `true` em `Number.isInteger`.
 
-In addition, `Number.isInteger(..)` filters out some clearly not-integer values that `x === Math.floor(x)` could potentially mix up:
+Alem disso, `Number.isInteger(..)` filtra alguns valores que claramente não são inteiros e `x === Math.floor(x)` potencialmente iria se confundir:
 
 ```js
 Number.isInteger( NaN );			// false
 Number.isInteger( Infinity );		// false
 ```
 
-Working with "integers" is sometimes an important bit of information, as it can simplify certain kinds of algorithms. JS code by itself will not run faster just from filtering for only integers, but there are optimization techniques the engine can take (e.g., asm.js) when only integers are being used.
+Trabalhar com "inteiros" às vezes é importante, já que pode simplificar alguns tipos de algoritmos. O Código JS por si só não vai rodar mais rápido apenas por filtrar somente números inteiros, mas há algumas técnicas de otimização que a engine pode fazer (exemplo, asm.js) onde somente inteiros são usados.
 
-Because of `Number.isInteger(..)`'s handling of `NaN` and `Infinity` values, defining a `isFloat(..)` utility would not be just as simple as `!Number.isInteger(..)`. You'd need to do something like:
+Por conta da forma como `Number.isInteger(..)` lida com valores `NaN` e `Infinity`, definir um utilitário `isFloat` não seria tão simples como `!Number.isInteger(..)`. Ia ser algo como:
 
 ```js
 function isFloat(x) {
@@ -688,9 +690,9 @@ isFloat( NaN );						// false
 isFloat( Infinity );				// false
 ```
 
-**Note:** It may seem strange, but Infinity should neither be considered an integer nor a float.
+**Nota:** Isso pode ser estranho, mas Infinito nunca deveria ser considerado nem inteiro nem float.
 
-ES6 also defines a `Number.isSafeInteger(..)` utility, which checks to make sure the value is both an integer and within the range of `Number.MIN_SAFE_INTEGER`-`Number.MAX_SAFE_INTEGER` (inclusive).
+ES6 também tem um utilitário `Number.isSafeInteger(..)`, que checa para ter certeza que o valor é inteiro e está dentro do intervalo de `Number.MIN_SAFE_INTEGER`-`Number.MAX_SAFE_INTEGER` (inclusivo).
 
 ```js
 var x = Math.pow( 2, 53 ),
@@ -705,11 +707,11 @@ Number.isSafeInteger( y );			// false
 
 ## `String`
 
-Strings already have quite a few helpers prior to ES6, but even more have been added to the mix.
+Strings já tinham alguns helpers antes do ES6, mas alguns mais foram adicionados à mistura.
 
-### Unicode Functions
+### Funções Unicode
 
-"Unicode-Aware String Operations" in Chapter 2 discusses `String.fromCodePoint(..)`, `String#codePointAt(..)`, and `String#normalize(..)` in detail. They have been added to improve Unicode support in JS string values.
+"Unicode-Aware String Operations" no Capítulo 2 discute `String.fromCodePoint(..)`, `String#codePointAt(..)`, e `String#normalize(..)` em detalhes. Eles foram adicionados para melhorar o suporte a Unicode em valores string de JS.
 
 ```js
 String.fromCodePoint( 0x1d49e );			// "𝒞"
@@ -717,9 +719,9 @@ String.fromCodePoint( 0x1d49e );			// "𝒞"
 "ab𝒞d".codePointAt( 2 ).toString( 16 );		// "1d49e"
 ```
 
-The `normalize(..)` string prototype method is used to perform Unicode normalizations that either combine characters with adjacent "combining marks" or decompose combined characters.
+O método prototipado de string `normalize(..)` é usado para realizar normalizações Unicode que combinam caracteres com "combinação de marcas" adjacentes ou decompõem caractéres combinados.
 
-Generally, the normalization won't create a visible effect on the contents of the string, but will change the contents of the string, which can affect how things like the `length` property are reported, as well as how character access by position behave:
+Geralmente, a normalização não vai criar um efeito visível nos conteúdos da string, mas vai mudar o conteúdo da string, o que pode afetar como coisas como a propriedade `length` é reportada, e também em como um acesso a um caracter pela posição se comporta:
 
 ```js
 var s1 = "e\u0301";
@@ -730,15 +732,15 @@ s2.length;							// 1
 s2 === "\xE9";						// true
 ```
 
-`normalize(..)` takes an optional argument that specifies the normalization form to use. This argument must be one of the following four values: `"NFC"` (default), `"NFD"`, `"NFKC"`, or `"NFKD"`.
+`normalize(..)` aceita um argumento opcional que especifica a forma normalizada de usar. Esse argumento deve ser um dos 4 valores a seguir: `"NFC"` (padrão), `"NFD"`, `"NFKC"`, or `"NFKD"`.
 
-**Note:** Normalization forms and their effects on strings is well beyond the scope of what we'll discuss here. See "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) for more information.
+**Nota:** Formas de normalização e seus efeitos nas strings está bem além do escopo que nós estamos discutindo aqui. Veja "Unicode Normalization Forms" (http://www.unicode.org/reports/tr15/) para mais informações.
 
-### `String.raw(..)` Static Function
+### Função Estática `String.raw(..)`
 
-The `String.raw(..)` utility is provided as a built-in tag function to use with template string literals (see Chapter 2) for obtaining the raw string value without any processing of escape sequences.
+O utilitário `String.raw(..)` é fornecido como uma função nativa para ser usado com template string literals (veja o Capítulo 2) para obter o valor crú da string sem o processamento de sequências de escape.
 
-This function will almost never be called manually, but will be used with tagged template literals:
+Essa função quase nunca será chamada manualmente, mas vai ser usada com tagged template literals:
 
 ```js
 var str = "bc";
@@ -747,27 +749,27 @@ String.raw`\ta${str}d\xE9`;
 // "\tabcd\xE9", not "	abcdé"
 ```
 
-In the resultant string, `\` and `t` are separate raw characters, not the one escape sequence character `\t`. The same is true with the Unicode escape sequence.
+Na string resultante, `\` e `t` são caracteres crus separados, e não o caracter escapado `\t`. A mesma coisa acontece com a sequência de escape Unicode.
 
-### `repeat(..)` Prototype Function
+### Função Prototipada `repeat(..)`
 
-In languages like Python and Ruby, you can repeat a string as:
+Em linguagens como Python e Ruby, você pode repetir uma string assim:
 
 ```js
 "foo" * 3;							// "foofoofoo"
 ```
 
-That doesn't work in JS, because `*` multiplication is only defined for numbers, and thus `"foo"` coerces to the `NaN` number.
+Isso não funciona em JS, porque a multiplicação `*` está definida apenas para números, e assim `"foo"` é forçado para um número `NaN`.
 
-However, ES6 defines a string prototype method `repeat(..)` to accomplish the task:
+No entanto, ES6 define o método prototipado de string `repeat(..)` para realizar a tarefa:
 
 ```js
 "foo".repeat( 3 );					// "foofoofoo"
 ```
 
-### String Inspection Functions
+### Funções de Inspeção de Strings
 
-In addition to `String#indexOf(..)` and `String#lastIndexOf(..)` from prior to ES6, three new methods for searching/inspection have been added: `startsWith(..)`, `endsWidth(..)`, and `includes(..)`.
+Alem de `String#indexOf(..)` e `String#lastIndexOf(..)` de antes do ES6, três novos métodos para busca/inspeção foram adicionados: `startsWith(..)`, `endsWidth(..)`, e `includes(..)`.
 
 ```js
 var palindrome = "step on no pets";
@@ -782,18 +784,18 @@ palindrome.includes( "on" );		// true
 palindrome.includes( "on", 6 );		// false
 ```
 
-For all the string search/inspection methods, if you look for an empty string `""`, it will either be found at the beginning or the end of the string.
+Para todos os métodos de busca/inspeção de string, se você busca por uma string vazia `""`, ela vai ser encontrada tanto no começo quanto no final da string.
 
-**Warning:** These methods will not by default accept a regular expression for the search string. See "Regular Expression Symbols" in Chapter 7 for information about disabling the `isRegExp` check that is performed on this first argument.
+**Atenção:** Esses métodos não vão aceitar uma expressão regular por padrão para a string de busca. Veja "Regular Expression Symbols" no Capítulo 7 para informação a respeito de desabilitar a checagem `isRegExp` que é realizada nesse primeiro argumento.
 
-## Review
+## Revisão
 
-ES6 adds many extra API helpers on the various built-in native objects:
+ES6 adiciona muitos API de helpers extras nos vários objetos nativos:
 
-* `Array` adds `of(..)` and `from(..)` static functions, as well as prototype functions like `copyWithin(..)` and `fill(..)`.
-* `Object` adds static functions like `is(..)` and `assign(..)`.
-* `Math` adds static functions like `acosh(..)` and `clz32(..)`.
-* `Number` adds static properties like `Number.EPSILON`, as well as static functions like `Number.isFinite(..)`.
-* `String` adds static functions like `String.fromCodePoint(..)` and `String.raw(..)`, as well as prototype functions like `repeat(..)` and `includes(..)`.
+* `Array` adiciona as funções estáticas `of(..)` e `from(..)`, e também funções prototipadas como `copyWithin(..)` e `fill(..)`.
+* `Object` adiciona funções estáticas como `is(..)` e `assign(..)`.
+* `Math` adiciona funções estáticas como `acosh(..)` e `clz32(..)`.
+* `Number` adiciona propriedades estáticas como `Number.EPSILON`, e também funções estáticas como `Number.isFinite(..)`.
+* `String` adiciona funções estáticas como `String.fromCodePoint(..)` e `String.raw(..)`, e também funções de prototipagem como `repeat(..)` e `includes(..)`.
 
-Most of these additions can be polyfilled (see ES6 Shim), and were inspired by utilities in common JS libraries/frameworks.
+A maioria dessas adições podem ser polyfilled (veja ES6 Shim) e foram inspiradas por utilitários em bibliotecas/frameworks comuns de JS.
