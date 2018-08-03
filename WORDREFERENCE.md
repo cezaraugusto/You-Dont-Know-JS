@@ -83,6 +83,7 @@
 * Code snippet: trecho de código
 * Call-site: call-site
 * Call-stack: pilha de chamadas. Identifica qual função está sendo executada atualmente, quais funções são chamadas de dentro dessa função e devem ser chamadas de próximo.
+* Currying - Currying é o nome dado à técnica de dividimos uma função que recebe vários argumentos numa série de funções, cada uma lidando com um argumento da função inicial.
 
 #### D
 
