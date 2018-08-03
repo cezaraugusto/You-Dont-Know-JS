@@ -451,6 +451,7 @@ obj2.foo(); // 3
 obj1.foo.call( obj2 ); // 3
 obj2.foo.call( obj1 ); // 2
 ```
+
 Portanto, *binding explícito* tem precedência sobre *binding implícito*, o que significa que você deve perguntar **primeiro** se *o binding explícito* é aplicado antes de verificar pelo *binding implícito*.
 
 Agora, só precisamos descobrir em qual precedência o *new binding* se encaixa.
@@ -514,9 +515,10 @@ function bind(fn, obj) {
 	};
 }
 ```
+
 Se você pensar sobre como o código do helper funciona, não há uma maneira da chamada do operador `new` substituir o hard binding para `obj` como nós observamos.
 
-Mas a função nativa `Function.prototype.bind(..)` a partir do ES5 é mais sofisticada, na verdade é mais ou menos. Aqui está o polyfill (ligeriamente reformulado) fornecid pela página do MDN para `bind(..)`.
+Mas a função nativa `Function.prototype.bind(..)` a partir do ES5 é mais sofisticada, na verdade é mais ou menos. Aqui está o polyfill (ligeriamente reformulado) fornecido pela página do MDN para `bind(..)`.
 
 ```js
 if (!Function.prototype.bind) {
@@ -551,7 +553,7 @@ if (!Function.prototype.bind) {
 }
 ```
 
-**Nota** o polyfill de `bind(..)` mostrado acima difere do `bind(..)` nativo no ES5 com respeito à funções com hard binding que serão usadas com `new` (veja abaixo porque isso é útil). Porque o polyfill não pode criar uma função sem um `prototype` como as funcionalidades nativas fazem, há alguma diferenciação indireta para se aproximar do mesmo comportamento. Tenha cuidado se você planeja usar `new` com uma função hard binding e você confia nesse polyfill.
+**Nota** o polyfill de `bind(..)` mostrado acima difere do `bind(..)` nativo no ES5 com respeito à funções com hard binding que serão usadas com `new` (veja abaixo porque isso é útil). Porque o polyfill não pode criar uma função sem um `prototype` como as funcionalidades nativas fazem, há uma aproximação suavemente indireta para o mesmo comportamento. Tenha cuidado se você planeja usar `new` com uma função hard binding e você confia nesse polyfill.
 
 A parte que está permitindo a substituição do `new` é:
 
@@ -567,9 +569,9 @@ fBound.prototype = new fNOP();
 
 Nós não vamos realmente explicar como esse truque funciona (é complicado e além do nosso escopo aqui), mas essencialmente a utilidade determina se a função hard binding foi chamada com `new` (resultando em um objeto recém construído sendo `this`), e se assim for, ele usa *esse* recém criado `this` ao invés do *hard binding* para o `this`.
 
-Porque a aptidão do `new` de substituir o hard binding é útil?
+Porque a capacidade do `new` de substituir o hard binding é útil?
 
-A principal razão para este comportamento é criar uma função (que pode ser usada com `new` para construir objetos) que essencialmente ignora o `this` com *hard binding*, mas que pré configura alguns ou todos os argumentos da função. Uma das capacidades do `bind (..)` é que quaisquer argumentos passados ​​após o primeiro argumento de binding do `this` são padronizados como argumentos padrão para a função subjacente (tecnicamente chamado de "aplicação parcial", que é um subconjunto de "currying ").
+A principal razão para este comportamento é criar uma função (que pode ser usada com `new` para construir objetos) que essencialmente ignora o `this` com *hard binding*, mas que pré configura alguns ou todos os argumentos da função. Uma das capacidades do `bind (..)` é que quaisquer argumentos passados ​​após o primeiro argumento de binding do `this` são padronizados como argumentos padrão para a função subjacente (tecnicamente chamado de "aplicação parcial", que é um subconjunto de "currying" -- Vide [WORDREFERENCE](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/WORDREFERENCE.md#c)).
 
 Por exemplo:
 
