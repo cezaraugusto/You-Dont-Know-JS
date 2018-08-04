@@ -270,7 +270,7 @@ In ES6, that last line throws a `ReferenceError`.
 
 ## Spread/Rest
 
-ES6 introduces a new `...` operator that's typically referred to as the *spread* or *rest* operator, depending on where/how it's used. Let's take a look:
+O ES6 introduz um novo operador `...` que normalmente é chamado de operador *spread* ou *rest*, dependendo de onde/como ele é usado. Vamos dar uma olhada:
 
 ```js
 function foo(x,y,z) {
@@ -280,15 +280,15 @@ function foo(x,y,z) {
 foo( ...[1,2,3] );				// 1 2 3
 ```
 
-When `...` is used in front of an array (actually, any *iterable*, which we cover in Chapter 3), it acts to "spread" it out into its individual values.
+Quando `...` é usado na frente de um array (na verdade, qualquer *iterável*, que abordamos no Capítulo 3), ele age para "distribuí-lo" em seus valores individuais.
 
-You'll typically see that usage as is shown in that previous snippet, when spreading out an array as a set of arguments to a function call. In this usage, `...` acts to give us a simpler syntactic replacement for the `apply(..)` method, which we would typically have used pre-ES6 as:
+Você normalmente verá esse uso como é mostrado no trecho anterior, ao distribuir um array como um conjunto de argumentos para uma chamada de função. Neste caso, o `...` atua para nos dar uma substituição sintática mais simples para o método `apply(...)`, que normalmente teríamos usado antes do ES6 como:
 
 ```js
 foo.apply( null, [1,2,3] );		// 1 2 3
 ```
 
-But `...` can be used to spread out/expand a value in other contexts as well, such as inside another array declaration:
+Mas o `...` pode ser usado para distribuir/expandir um valor em outros contextos também, como dentro de uma outra declaração de array:
 
 ```js
 var a = [2,3,4];
@@ -297,9 +297,9 @@ var b = [ 1, ...a, 5 ];
 console.log( b );					// [1,2,3,4,5]
 ```
 
-In this usage, `...` is basically replacing `concat(..)`, as it behaves like `[1].concat( a, [5] )` here.
+Neste caso, o `...` está basicamente substituindo o `concat(..)`, que se comporta como o `[1].concat( a, [5] )` aqui.
 
-The other common usage of `...` can be seen as essentially the opposite; instead of spreading a value out, the `...` *gathers* a set of values together into an array. Consider:
+O outro uso comum de `…` pode ser visto essencialmente como o oposto; em vez de distribuindo um valor, o `...` *agrupa* um conjunto de valores em um array. Considere:
 
 ```js
 function foo(x, y, ...z) {
@@ -309,9 +309,9 @@ function foo(x, y, ...z) {
 foo( 1, 2, 3, 4, 5 );			// 1 2 [3,4,5]
 ```
 
-The `...z` in this snippet is essentially saying: "gather the *rest* of the arguments (if any) into an array called `z`." Because `x` was assigned `1`, and `y` was assigned `2`, the rest of the arguments `3`, `4`, and `5` were gathered into `z`.
+O `…z` neste trecho está essencialmente dizendo: “reúna o *resto* dos argumentos (se houver) em um array chamado de `z`.” Como o `x` foi designado como `1` e o `y` foi designado como `2`, o restante dos argumentos `3`,`4` e `5` foram agrupados em `z`.
 
-Of course, if you don't have any named parameters, the `...` gathers all arguments:
+Claro, se você não tem nenhum parâmetro nomeado, o `...` agrupa todos os argumentos:
 
 ```js
 function foo(...args) {
@@ -321,49 +321,49 @@ function foo(...args) {
 foo( 1, 2, 3, 4, 5);			// [1,2,3,4,5]
 ```
 
-**Note:** The `...args` in the `foo(..)` function declaration is usually called "rest parameters," because you're collecting the rest of the parameters. I prefer "gather," because it's more descriptive of what it does rather than what it contains.
+**Nota:** O `…args` na declaração da função `foo(...)` é normalmente chamado de “parâmetros restantes”, porque você está coletando o resto dos parâmetros. Eu prefiro “agrupar”, porque é mais descritivo do que ele faz e não o que contém.
 
-The best part about this usage is that it provides a very solid alternative to using the long-since-deprecated `arguments` array -- actually, it's not really an array, but an array-like object. Because `args` (or whatever you call it -- a lot of people prefer `r` or `rest`) is a real array, we can get rid of lots of silly pre-ES6 tricks we jumped through to make `arguments` into something we can treat as an array.
+A melhor parte deste uso é que ele fornece uma alternativa bastante sólida ao uso do array `arguments` a muito tempo já obsoleto - que na verdade não é realmente um array, mas um objeto parecido com array.  Porque o `args` (o o que você quiser chamar – muitas pessoas preferem chamar de  `r` ou `resto`) é um verdadeiro array, podemos nos livrar de um monte de truques pré-ES6 que criamos para fazer o `arguments` em algo que podemos tratá-lo como um array.
 
-Consider:
+Considere:
 
 ```js
-// doing things the new ES6 way
+// fazendo as coisas à nova maneira ES6
 function foo(...args) {
-	// `args` is already a real array
+	// `args` já é um array real
 
-	// discard first element in `args`
+	// descarte o primeiro elemente em `args`
 	args.shift();
 
-	// pass along all of `args` as arguments
-	// to `console.log(..)`
+	// passa por todos os `args` como argumentos
+	// para `console.log(..)`
 	console.log( ...args );
 }
 
-// doing things the old-school pre-ES6 way
+// fazendo as coisas à moda antiga pré-ES6
 function bar() {
-	// turn `arguments` into a real array
+	// transforma `arguments` em um array real
 	var args = Array.prototype.slice.call( arguments );
 
-	// add some elements on the end
+	// adiciona alguns elementos ao final
 	args.push( 4, 5 );
 
-	// filter out odd numbers
+	// filtra os números ímpares
 	args = args.filter( function(v){
 		return v % 2 == 0;
 	} );
 
-	// pass along all of `args` as arguments
-	// to `foo(..)`
+	// passa por todos os `args` como argumentos
+	// para `foo(..)`
 	foo.apply( null, args );
 }
 
 bar( 0, 1, 2, 3 );					// 2 4
 ```
 
-The `...args` in the `foo(..)` function declaration gathers arguments, and the `...args` in the `console.log(..)` call spreads them out. That's a good illustration of the symmetric but opposite uses of the `...` operator.
+O `...args` na declaração da função `foo(...)` reúne os argumentos, e o `...args` no `console.log(...)` chama os distribui. Essa é uma boa ilustração dos usos simétricos, mas opostos operadores `...`.
 
-Besides the `...` usage in a function declaration, there's another case where `...` is used for gathering values, and we'll look at it in the "Too Many, Too Few, Just Enough" section later in this chapter.
+Além do caso do `...` na declaração da função, há outro caso onde `...` é usado para reunir valores, e nós veremos isso mais adiante neste capítulo, na seção “Muitos, poucos, apenas o suficiente”.
 
 ## Default Parameter Values
 
