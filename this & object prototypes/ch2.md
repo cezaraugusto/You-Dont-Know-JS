@@ -422,13 +422,13 @@ console.log( bar.a ); // 2
 
 Ao chamar `foo(..)` com `new` a sua frente, nós construímos um novo objeto e definimos esse novo objeto como `this` para a chamada de `foo(..)`. **Então `new` é a última maneira que uma chamada de função `this` pode sofrer o bind.** Vamos chamar isso de *new binding* .
 
-## Everything In Order
+## Tudo em Ordem
 
-So, now we've uncovered the 4 rules for binding `this` in function calls. *All* you need to do is find the call-site and inspect it to see which rule applies. But, what if the call-site has multiple eligible rules? There must be an order of precedence to these rules, and so we will next demonstrate what order to apply the rules.
+Então, agora descobrimos as 4 regras para ligação do `this` em chamadas de função. *Tudo* que você precisa fazer é encontrar o local de chamada e inspecioná-lo para ver qual regra se aplica. Mas, e se o local de chamada tiver várias regras elegíveis? Deve haver uma ordem de precedência para essas regras e, assim, demonstraremos em seguida que ordem aplicar à elas.
 
-It should be clear that the *default binding* is the lowest priority rule of the 4. So we'll just set that one aside.
+Deve ficar claro que o *default binding* (binding padrão) é a regra de prioridade mais baixa das 4. Então, vamos deixar isso de lado.
 
-Which is more precedent, *implicit binding* or *explicit binding*? Let's test it:
+Qual tem maior precedência, *binding implícito* ou *binding explícito*? Vamos testar:
 
 ```js
 function foo() {
@@ -452,9 +452,9 @@ obj1.foo.call( obj2 ); // 3
 obj2.foo.call( obj1 ); // 2
 ```
 
-So, *explicit binding* takes precedence over *implicit binding*, which means you should ask **first** if *explicit binding* applies before checking for *implicit binding*.
+Portanto, *binding explícito* tem precedência sobre *binding implícito*, o que significa que você deve perguntar **primeiro** se *o binding explícito* é aplicado antes de verificar pelo *binding implícito*.
 
-Now, we just need to figure out where *new binding* fits in the precedence.
+Agora, só precisamos descobrir em qual precedência o *new binding* se encaixa.
 
 ```js
 function foo(something) {
@@ -478,15 +478,15 @@ console.log( obj1.a ); // 2
 console.log( bar.a ); // 4
 ```
 
-OK, *new binding* is more precedent than *implicit binding*. But do you think *new binding* is more or less precedent than *explicit binding*?
+OK, o *new binding* tem maior precedêcnia que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedêcia sobre o *binding explícito*?
 
-**Note:** `new` and `call`/`apply` cannot be used together, so `new foo.call(obj1)` is not allowed, to test *new binding* directly against *explicit binding*. But we can still use a *hard binding* to test the precedence of the two rules.
+**Nota** `new` e `call`/`apply` não podem ser usados juntos, então `new foo.call(obj1)` não é permitido, para testar o *new binding* diretamente contra o *binding explícito*. Mas nós ainda podemos usar o *hard binding* para testar a precedência entre as duas regras.
 
-Before we explore that in a code listing, think back to how *hard binding* physically works, which is that `Function.prototype.bind(..)` creates a new wrapper function that is hard-coded to ignore its own `this` binding (whatever it may be), and use a manual one we provide.
+Antes de explorarmos isso em uma listagem de código, pense em como o *hard binding* funciona fisicamente, `Function.prototype.bind(..)` cria uma nova função de encapsulamento que é codificada para ignorar seu próprio binding `this` (qualquer que seja), e usar um que fornecemos manualmente.
 
-By that reasoning, it would seem obvious to assume that *hard binding* (which is a form of *explicit binding*) is more precedent than *new binding*, and thus cannot be overridden with `new`.
+Por esse raciocínio, parece óbvio assumir que *hard binding* (que é uma forma de *binding explícito*) tem maior precedência que *new binding*, e assim não pode ser substituído por `new`.
 
-Let's check:
+Vamos checar:
 
 ```js
 function foo(something) {
@@ -504,9 +504,9 @@ console.log( obj1.a ); // 2
 console.log( baz.a ); // 3
 ```
 
-Whoa! `bar` is hard-bound against `obj1`, but `new bar(3)` did **not** change `obj1.a` to be `3` as we would have expected. Instead, the *hard bound* (to `obj1`) call to `bar(..)` ***is*** able to be overridden with `new`. Since `new` was applied, we got the newly created object back, which we named `baz`, and we see in fact that  `baz.a` has the value `3`.
+Epa! `bar` tem hard binding contra `obj1`, mas `new bar(3)` **não** mudou o `obj1.a` para ser `3` como havíamos esperado. Em vez disso, a chamada *hard binding* (para `obj1`) **é** passível de ser substituída com `new`. Desde que `new` foi aplicada, nós temos de volta o objeto recém criado, que nomeamos como `baz`, e nós vemos de fato que `baz.a` tem o valor `3`.
 
-This should be surprising if you go back to our "fake" bind helper:
+Isso pode ser surpreendente se você voltar para nosso bind helper "fake":
 
 ```js
 function bind(fn, obj) {
@@ -516,9 +516,9 @@ function bind(fn, obj) {
 }
 ```
 
-If you reason about how the helper's code works, it does not have a way for a `new` operator call to override the hard-binding to `obj` as we just observed.
+Se você pensar sobre como o código do helper funciona, não há uma maneira da chamada do operador `new` substituir o hard binding para `obj` como nós observamos.
 
-But the built-in `Function.prototype.bind(..)` as of ES5 is more sophisticated, quite a bit so in fact. Here is the (slightly reformatted) polyfill provided by the MDN page for `bind(..)`:
+Mas a função nativa `Function.prototype.bind(..)` a partir do ES5 é mais sofisticada, na verdade é mais ou menos. Aqui está o polyfill (ligeriamente reformulado) fornecido pela página do MDN para `bind(..)`.
 
 ```js
 if (!Function.prototype.bind) {
@@ -553,36 +553,36 @@ if (!Function.prototype.bind) {
 }
 ```
 
-**Note:** The `bind(..)` polyfill shown above differs from the built-in `bind(..)` in ES5 with respect to hard-bound functions that will be used with `new` (see below for why that's useful). Because the polyfill cannot create a function without a `.prototype` as the built-in utility does, there's some nuanced indirection to approximate the same behavior. Tread carefully if you plan to use `new` with a hard-bound function and you rely on this polyfill.
+**Nota** o polyfill de `bind(..)` mostrado acima difere do `bind(..)` nativo no ES5 com respeito à funções com hard binding que serão usadas com `new` (veja abaixo porque isso é útil). Porque o polyfill não pode criar uma função sem um `prototype` como as funcionalidades nativas fazem, há uma aproximação suavemente indireta para o mesmo comportamento. Tenha cuidado se você planeja usar `new` com uma função hard binding e você confia nesse polyfill.
 
-The part that's allowing `new` overriding is:
+A parte que está permitindo a substituição do `new` é:
 
 ```js
 this instanceof fNOP &&
 oThis ? this : oThis
 
-// ... and:
+// ... e:
 
 fNOP.prototype = this.prototype;
 fBound.prototype = new fNOP();
 ```
 
-We won't actually dive into explaining how this trickery works (it's complicated and beyond our scope here), but essentially the utility determines whether or not the hard-bound function has been called with `new` (resulting in a newly constructed object being its `this`), and if so, it uses *that* newly created `this` rather than the previously specified *hard binding* for `this`.
+Nós não vamos realmente explicar como esse truque funciona (é complicado e além do nosso escopo aqui), mas essencialmente a utilidade determina se a função hard binding foi chamada com `new` (resultando em um objeto recém construído sendo `this`), e se assim for, ele usa *esse* recém criado `this` ao invés do *hard binding* para o `this`.
 
-Why is `new` being able to override *hard binding* useful?
+Porque a capacidade do `new` de substituir o hard binding é útil?
 
-The primary reason for this behavior is to create a function (that can be used with `new` for constructing objects) that essentially ignores the `this` *hard binding* but which presets some or all of the function's arguments. One of the capabilities of `bind(..)` is that any arguments passed after the first `this` binding argument are defaulted as standard arguments to the underlying function (technically called "partial application", which is a subset of "currying").
+A principal razão para este comportamento é criar uma função (que pode ser usada com `new` para construir objetos) que essencialmente ignora o `this` com *hard binding*, mas que pré configura alguns ou todos os argumentos da função. Uma das capacidades do `bind (..)` é que quaisquer argumentos passados ​​após o primeiro argumento de binding do `this` são padronizados como argumentos padrão para a função subjacente (tecnicamente chamado de "aplicação parcial", que é um subconjunto de "currying" -- Vide [WORDREFERENCE](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/WORDREFERENCE.md#c)).
 
-For example:
+Por exemplo:
 
 ```js
 function foo(p1,p2) {
   this.val = p1 + p2;
 }
 
-// using `null` here because we don't care about
-// the `this` hard-binding in this scenario, and
-// it will be overridden by the `new` call anyway!
+// usando o `null` aqui porque não nos importamos
+// com o `this` hard-binding nesse cenário, e isso
+// será substituído pela chamada `new` de qualquer forma!
 var bar = foo.bind( null, "p1" );
 
 var baz = new bar( "p2" );
