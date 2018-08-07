@@ -332,7 +332,7 @@ Considere:
 function foo(...args) {
 	// `args` já é um array real
 
-	// descarte o primeiro elemente em `args`
+	// descarte o primeiro elemento em `args`
 	args.shift();
 
 	// passa por todos os `args` como argumentos
