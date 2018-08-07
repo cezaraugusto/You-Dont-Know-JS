@@ -365,9 +365,9 @@ The `...args` in the `foo(..)` function declaration gathers arguments, and the `
 
 Besides the `...` usage in a function declaration, there's another case where `...` is used for gathering values, and we'll look at it in the "Too Many, Too Few, Just Enough" section later in this chapter.
 
-## Default Parameter Values
+## Valores Padrão de Parâmetro
 
-Perhaps one of the most common idioms in JavaScript relates to setting a default value for a function parameter. The way we've done this for years should look quite familiar:
+Talvez um dos idiomas mais comuns em JavaScript seja definir um valor padrão para um parâmetro de uma função. A maneira como nós fizemos isso por anos deve ser bastante familiar a:
 
 ```js
 function foo(x,y) {
@@ -383,15 +383,15 @@ foo( 5 );			// 36
 foo( null, 6 );		// 17
 ```
 
-Of course, if you've used this pattern before, you know that it's both helpful and a little bit dangerous, if for example you need to be able to pass in what would otherwise be considered a falsy value for one of the parameters. Consider:
+É claro que, se você já usou este padrão antes, você sabe como isso é um tanto perigoso como útil, se por exemplo, você precisa ser capaz de transmitir em o que outro modo pode ser considerado um valor falso para um dos parâmetros. Considere:
 
 ```js
-foo( 0, 42 );		// 53 <-- Oops, not 42
+foo( 0, 42 );		// 53 <-- Oops, não 42
 ```
 
-Why? Because the `0` is falsy, and so the `x || 11` results in `11`, not the directly passed in `0`.
+Por quê? Porque o `0` é falso, e então o `x || 11` resulta em `11`, não o transmitido diretamente em `0`.
 
-To fix this gotcha, some people will instead write the check more verbosely like this:
+Para corrigir essa pegadinha, algumas pessoas vão escrever a validação de uma maneira mais verbosa, assim:
 
 ```js
 function foo(x,y) {
