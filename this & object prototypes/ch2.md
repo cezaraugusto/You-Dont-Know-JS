@@ -592,13 +592,13 @@ baz.val; // p1p2
 
 ### Determinando o `this`
 
-Agora, podemos resumir as regras para determinar o `this` a partir do local de chamada de uma chamada de função, na sua ordem de precedência. Faça estas perguntas nesta ordem e pare quando a primeira regra se aplicar.
+Agora, podemos resumir as regras para determinar o `this` a partir do local de chamada de uma função, na sua ordem de precedência. Faça estas perguntas nesta ordem e pare quando a primeira regra se aplicar.
 
 1. A função está sendo chamada com `new` (**new binding**)? Se sim, `this` é o objeto recém construído.
 
     `var bar = new foo()`
 
-2. A função pe chamada com `call` ou `apply` (**explicit binding**), mesmo oculta dentro de um `bind` *hard binding*? Se sim, `this` é o objeto especificado explicitamente.
+2. A função é chamada com `call` ou `apply` (**explicit binding**), mesmo oculta dentro de um `bind` *hard binding*? Se sim, `this` é o objeto especificado explicitamente.
 
     `var bar = foo.call( obj2 )`
 
@@ -606,11 +606,11 @@ Agora, podemos resumir as regras para determinar o `this` a partir do local de c
 
     `var bar = obj1.foo()`
 
-4. Caso contrário, o padrão é `this` (**default binding**). Se em `strict mode`, escolha` undefined`, caso contrário escolha o objeto `global`.
+4. Caso contrário, o padrão é `this` (**default binding**). Se em `strict mode`, escolha `undefined`, caso contrário escolha o objeto `global`.
 
     `var bar = foo()`
 
-É isso aí. Isso é *tudo o que é preciso* para entender as regras de binding do `this` para chamadas normais de função. Bem... quase.
+É isso aí. Isso é *tudo o que é preciso* para entender as regras de binding do `this` para chamadas normais de funções. Bem... quase.
 
 ## Binding Exceptions
 
