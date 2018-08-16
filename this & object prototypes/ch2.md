@@ -614,13 +614,13 @@ That's it. That's *all it takes* to understand the rules of `this` binding for n
 
 ## Exceções do Binding
 
-Como de costume, há algumas *exceções* nas "regras".
+Como de costume, há algumas *exceções* às "regras".
 
 O comportamento do binding de `this` pode, em alguns cenários, ser surpreendente, onde você pretendia um binding diferente, mas acaba tendo um comportamento de binding da regra de *default binding* (veja anteriormente).
 
 ### Ignorando o `this`
 
-Se você passar `null` ou` undefined` como um parâmetro de binding do `this` para` call`, `apply` ou` bind`, esses valores serão efetivamente ignorados e, em vez disso, a regra *default binding* será aplicada à invocação.
+Se você passar `null` ou `undefined` como um parâmetro de binding do `this` para `call`, `apply` ou `bind`, esses valores serão de fato ignorados e, em vez disso, a regra *default binding* será aplicada à invocação.
 
 ```js
 function foo() {
@@ -634,7 +634,7 @@ foo.call( null ); // 2
 
 Por que você iria intencionalmente passar algo como `null` para um binding `this`?
 
-É muito comum usar `apply (..)` para espalhar matrizes de valores como parâmetros para uma chamada de função. Da mesma forma, `bind (..)` pode arranjar parâmetros (valores pré-definidos), o que pode ser muito útil.
+É muito comum usar `apply(..)` para espalhar arrays de valores como parâmetros para uma chamada de função. Da mesma forma, `bind(..)` pode arranjar parâmetros (valores pré-definidos), o que pode ser muito útil.
 
 ```js
 function foo(a,b) {
@@ -649,11 +649,11 @@ var bar = foo.bind( null, 2 );
 bar( 3 ); // a:2, b:3
 ```
 
-Ambas das utilidades requerem um binding `this` para o primeiro parâmetro. Se as funções em questão não se preocuparem com `this`, você precisará de um valor de espaço reservado, e `null` pode parecer uma escolha razoável, conforme mostrado neste trecho.
+Ambas das utilidades requerem um binding `this` para o primeiro parâmetro. Se as funções em questão não se preocuparem com `this`, você precisará de um valor substituto, e `null` pode parecer uma escolha razoável, conforme mostrado neste trecho.
 
-**Nota:** Não abordamos neste livro, mas o ES6 tem o operador `...` spread que permite sintaticamente "espalhar" um array como parâmetros sem precisar de `apply (..)`, tal como `foo (... [1,2])`, que equivale a `foo (1,2)` - sintaticamente evitando um binding 'this' se for desnecessário. Infelizmente, não há nenhum substituto sintático do ES6 para curry, então o parâmetro `this` da chamada` bind (..) `ainda precisa de atenção.
+**Nota:** Não abordamos neste livro, mas o ES6 tem o operador `...` spread que permite sintaticamente "espalhar" um array como parâmetros sem precisar de `apply(..)`, tal como `foo(... [1,2])`, que equivale a `foo(1,2)` - sintaticamente evitando um binding 'this' se for desnecessário. Infelizmente, não há nenhum substituto sintático do ES6 para curry, então o parâmetro `this` da chamada `bind(..)` ainda precisa de atenção.
 
-Entretanto, existe um pequeno "perigo" oculto sempre usar `null` quando você não se importa com o binding de `this`. Se você alguma vez usa isso em uma chamada de função (por exemplo, uma função de biblioteca de terceiros que você não controla), e essa função *não* faz uma referência a this, a regra *default binding* significa que pode inadvertidamente fazer referência (ou pior, mudar!) o objeto `global` (`window` no navegador).
+Entretanto, existe um pequeno "perigo" oculto em sempre usar `null` quando você não se importa com o binding de `this`. Se você sempre usa isso em uma chamada de função (por exemplo, uma função de biblioteca de terceiros que você não controla), e essa função *faz* uma referência a this, a regra *default binding* significa que pode acidentalmente fazer referência (ou pior, mudar!) o objeto `global` (`window` no navegador).
 
 Obviamente, essa armadilha pode levar a uma variedade de bugs *muito difícil* de diagnosticar/rastrear .
 
