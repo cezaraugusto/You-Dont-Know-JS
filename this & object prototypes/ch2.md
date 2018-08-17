@@ -685,11 +685,11 @@ bar( 3 ); // a:2, b:3
 
 Essa funcionalidade não é apenas "mais segura", há vários benefícios estéticos para `ø` na medida que se transmite semanticamente "eu quero que o `this` seja vazio" mais claramente do que o `null` poderia. Mas, de novo, nomeie seu objeto DMZ da forma que você preferir.
 
-### Indirection
+### Referências Indiretas
 
-Another thing to be aware of is you can (intentionally or not!) create "indirect references" to functions, and in those cases,  when that function reference is invoked, the *default binding* rule also applies.
+Outra coisa para ter cuidado é que você pode (intencionalmente ou não!) criar "referências indiretas" para funções, e nesses casos, quando a referência dessa função é invocada, a regra de *default binding* também se aplica.
 
-One of the most common ways that *indirect references* occur is from an assignment:
+Uma das formas mais comuns pelas quais *referências indiretas* ocorrem é de uma atribuição:
 
 ```js
 function foo() {
@@ -704,9 +704,9 @@ o.foo(); // 3
 (p.foo = o.foo)(); // 2
 ```
 
-The *result value* of the assignment expression `p.foo = o.foo` is a reference to just the underlying function object. As such, the effective call-site is just `foo()`, not `p.foo()` or `o.foo()` as you might expect. Per the rules above, the *default binding* rule applies.
+O *valor do resultado* da expressão de atribuição `p.foo = o.foo` é uma referência apenas ao objeto de função adjacente. Como tal, o local efetivo das chamadas é `foo()`, não `p.foo()` ou `o.foo()` como você pode ter esperado. De acordo com as regras acima, a regra de *default binding* se aplica.
 
-Reminder: regardless of how you get to a function invocation using the *default binding* rule, the `strict mode` status of the **contents** of the invoked function making the `this` reference -- not the function call-site -- determines the *default binding* value: either the `global` object if in non-`strict mode` or `undefined` if in `strict mode`.
+Lembrete: independentemente de como você chega à uma invocação de função usando a regra de *default binding*, o status `strict mode` do **conteúdo** da função invocada fazendo a referência `this` -- não ao local de chamada da função -- determinar o valor do *default binding*: o objeto `global` se estiver em modo não `strict` ou `undefined` se estiver em `strict mode`.
 
 ### Softening Binding
 
