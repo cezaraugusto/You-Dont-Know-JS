@@ -659,13 +659,13 @@ Obviously, such a pitfall can lead to a variety of *very difficult* to diagnose/
 
 #### `this` Seguro
 
-Talvez uma prática mais "segura" seja passar um objeto para `this` que garanta que este não seja um objeto que possa criar efeitos colaterais em seu programa. Pegando emprestado a terminologia da área de redes (e da militar), nós podemos criar um objeto "DMZ" (de-militarized zone / zona desmilitarizada) --  nada mais especial que um objeto completamente vazio, não delegado (veja no Capítulo 5).
+Talvez uma prática mais "segura" seja passar um objeto para `this` que garanta que este não seja um objeto que possa criar efeitos colaterais em seu programa. Pegando emprestado a terminologia da área de redes (e da militar), nós podemos criar um objeto "DMZ" (de-militarized zone / zona desmilitarizada) -- nada mais especial que um objeto completamente vazio, não delegado (veja no Capítulo 5).
 
 Se nós sempre passarmos um objeto DMZ para bindings `this` ignorados, nós achamos que não precisamos nos preocupar, temos certeza que qualquer uso oculto/inesperado de `this` estará restrito ao objeto vazio, o que isola o objeto `global` do nosso programa de efeitos colaterais.
 
-Já que esse objeto é totalmente vazio, eu pessoalmente gosto de dar um nome de variável `ø` à ele (o símbolo matemático para uma definição vazia). Em muitos teclados (como o US-layout no Mac), esse símbolo é facilmente digitado com `⌥`+`o` (option+`o`). Alguns sistemas também deixam você definir teclas de atalho para símbolos específicos. Se você não gostar do símbolo `ø`, ou se seu teclado não o torna fácil de digitá-lo, claro que você pode chamá-lo como quiser.
+Já que esse objeto é totalmente vazio, eu pessoalmente gosto de dar um nome de variável `ø` à ele (o símbolo matemático para um conjunto vazio). Em muitos teclados (como o US-layout no Mac), esse símbolo é facilmente digitado com `⌥`+`o` (option+`o`). Alguns sistemas também deixam você definir teclas de atalho para símbolos específicos. Se você não gostar do símbolo `ø`, ou se seu teclado não o torna fácil de digitá-lo, claro que você pode chamá-lo como quiser.
 
-Seja do que for que você o chame, a melhor forma de configurá-lo como **totalmente vazio** é com `Object.create(null)` (veja o Capítulo 5). `Object.create(null)` é similar à `{ }`, mas sem a delegação do `Object.prototype`, então ele é ainda "mais vazio" do que apenas `{}`.
+Seja do que for que você o chame, a melhor forma de configurá-lo como **totalmente vazio** é com `Object.create(null)` (veja o Capítulo 5). `Object.create(null)` é similar à `{ }`, mas sem a delegação do `Object.prototype`, então ele é ainda "mais vazio" do que apenas `{ }`.
 
 ```js
 function foo(a,b) {
@@ -683,7 +683,7 @@ var bar = foo.bind( ø, 2 );
 bar( 3 ); // a:2, b:3
 ```
 
-Essa funcionalidade não é apenas "mais segura", há vários benefícios siglísticos para `ø` na medida que se transmite semanticamente "eu quero que o `this` seja vazio" mais claramente do que o `null` poderia. Mas, de novo, nomeie seu objeto DMZ da forma que você preferir.
+Essa funcionalidade não é apenas "mais segura", há vários benefícios estéticos para `ø` na medida que se transmite semanticamente "eu quero que o `this` seja vazio" mais claramente do que o `null` poderia. Mas, de novo, nomeie seu objeto DMZ da forma que você preferir.
 
 ### Indirection
 
