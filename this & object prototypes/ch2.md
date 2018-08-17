@@ -704,9 +704,9 @@ o.foo(); // 3
 (p.foo = o.foo)(); // 2
 ```
 
-O *valor do resultado* da expressão de atribuição `p.foo = o.foo` é uma referência apenas ao objeto de função adjacente. Como tal, o local efetivo das chamadas é `foo()`, não `p.foo()` ou `o.foo()` como você havia esperado. De acordo com as regras acima, a regra de *default binding* se aplica.
+O *valor do resultado* da expressão de atribuição `p.foo = o.foo` é uma referência apenas ao objeto de função adjacente. Como tal, o local efetivo das chamadas é `foo()`, não `p.foo()` ou `o.foo()` como você pode ter esperado. De acordo com as regras acima, a regra de *default binding* se aplica.
 
-Lembrete: independentemente de como você chega à uma invocação de função usando a regra de *default binding* o status `strict mode` do **conteúdo** da função invocada tornando a referencia `this` -- não ao local de chamada da função -- determina o valor do *default binding*: o objeto `global` se estiver em modo não `strict` ou `undefined` se estiver em `strict mode`.
+Lembrete: independentemente de como você chega à uma invocação de função usando a regra de *default binding*, o status `strict mode` do **conteúdo** da função invocada fazendo a referência `this` -- não ao local de chamada da função -- determinar o valor do *default binding*: o objeto `global` se estiver em modo não `strict` ou `undefined` se estiver em `strict mode`.
 
 ### Softening Binding
 
