@@ -657,33 +657,33 @@ Entretanto, existe um pequeno "perigo" oculto em sempre usar `null` quando você
 
 Obviamente, essa armadilha pode levar a uma variedade de bugs *muito difícil* de diagnosticar/rastrear .
 
-#### Safer `this`
+#### `this` Seguro
 
-Perhaps a somewhat "safer" practice is to pass a specifically set up object for `this` which is guaranteed not to be an object that can create problematic side effects in your program. Borrowing terminology from networking (and the military), we can create a "DMZ" (de-militarized zone) object -- nothing more special than a completely empty, non-delegated (see Chapters 5 and 6) object.
+Talvez uma prática mais "segura" seja passar um objeto para `this` que garanta que este não seja um objeto que possa criar efeitos colaterais em seu programa. Pegando emprestado a terminologia da área de redes (e da militar), nós podemos criar um objeto "DMZ" (de-militarized zone / zona desmilitarizada) -- nada mais especial que um objeto completamente vazio, não delegado (veja no Capítulo 5).
 
-If we always pass a DMZ object for ignored `this` bindings we don't think we need to care about, we're sure any hidden/unexpected usage of `this` will be restricted to the empty object, which insulates our program's `global` object from side-effects.
+Se nós sempre passarmos um objeto DMZ para bindings `this` ignorados, nós achamos que não precisamos nos preocupar, temos certeza que qualquer uso oculto/inesperado de `this` estará restrito ao objeto vazio, o que isola o objeto `global` do nosso programa de efeitos colaterais.
 
-Since this object is totally empty, I personally like to give it the variable name `ø` (the lowercase mathematical symbol for the empty set). On many keyboards (like US-layout on Mac), this symbol is easily typed with `⌥`+`o` (option+`o`). Some systems also let you set up hotkeys for specific symbols. If you don't like the `ø` symbol, or your keyboard doesn't make that as easy to type, you can of course call it whatever you want.
+Já que esse objeto é totalmente vazio, eu pessoalmente gosto de dar um nome de variável `ø` à ele (o símbolo matemático para um conjunto vazio). Em muitos teclados (como o US-layout no Mac), esse símbolo é facilmente digitado com `⌥`+`o` (option+`o`). Alguns sistemas também deixam você definir teclas de atalho para símbolos específicos. Se você não gostar do símbolo `ø`, ou se seu teclado não o torna fácil de digitá-lo, claro que você pode chamá-lo como quiser.
 
-Whatever you call it, the easiest way to set it up as **totally empty** is `Object.create(null)` (see Chapter 5). `Object.create(null)` is similar to `{ }`, but without the delegation to `Object.prototype`, so it's "more empty" than just `{ }`.
+Seja do que for que você o chame, a melhor forma de configurá-lo como **totalmente vazio** é com `Object.create(null)` (veja o Capítulo 5). `Object.create(null)` é similar à `{ }`, mas sem a delegação do `Object.prototype`, então ele é ainda "mais vazio" do que apenas `{ }`.
 
 ```js
 function foo(a,b) {
   console.log( "a:" + a + ", b:" + b );
 }
 
-// our DMZ empty object
+// nosso objeto vazio DMZ
 var ø = Object.create( null );
 
-// spreading out array as parameters
+// espalhando arrays como parâmetros
 foo.apply( ø, [2, 3] ); // a:2, b:3
 
-// currying with `bind(..)`
+// currying com `bind(..)`
 var bar = foo.bind( ø, 2 );
 bar( 3 ); // a:2, b:3
 ```
 
-Not only functionally "safer", there's a sort of stylistic benefit to `ø`, in that it semantically conveys "I want the `this` to be empty" a little more clearly than `null` might. But again, name your DMZ object whatever you prefer.
+Essa funcionalidade não é apenas "mais segura", há vários benefícios estéticos para `ø` na medida que se transmite semanticamente "eu quero que o `this` seja vazio" mais claramente do que o `null` poderia. Mas, de novo, nomeie seu objeto DMZ da forma que você preferir.
 
 ### Indirection
 
