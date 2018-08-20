@@ -710,9 +710,9 @@ Reminder: regardless of how you get to a function invocation using the *default 
 
 ### Soft Binding
 
-Nós vimos anteriormente que *hard binding* era uma das estratégias para prevenir que uma chamada de função caia na regra de *default binding* inadivertidamente, forçando-a a ter o binding em um `this` específico (a menos que você use o `new` para substituí-lo!). O problema é, o *hard binding* diminui muito a flexibilidade de uma função, prevenindo a substituição manual do `this` tanto com tentativas de *binding implícito* ou até subsequentemente com o *binding explícito*.
+Nós vimos anteriormente que *hard binding* era uma das estratégias para prevenir que uma chamada de função caia na regra de *default binding* acidentalmente, forçando-a a ter o binding em um `this` específico (a menos que você use o `new` para substituí-lo!). O problema é, o *hard binding* diminui muito a flexibilidade de uma função, prevenindo a substituição manual do `this` tanto com tentativas de *binding implícito* ou até subsequentemente com o *binding explícito*.
 
-Seria legal se houvesse uma forma de fornecer um padrão diferente para *default binding* (não `global` ou `undefined`). enquanto continuamos deixando a função capaz de fazer o binding do `this` manualmente pelas técnicas de *binding implícito* ou *binding explícito*.
+Seria legal se houvesse uma forma de fornecer um padrão diferente para *default binding* (não `global` ou `undefined`), enquanto continuamos deixando a função capaz de fazer o binding do `this` manualmente pelas técnicas de *binding implícito* ou *binding explícito*.
 
 Nós podemos construir a utilidade denominada *soft binding* que emula nosso comportamento desejado.
 
@@ -738,7 +738,7 @@ if (!Function.prototype.softBind) {
 }
 ```
 
-A utilidade `softBind(..)` fornecida aqui funciona de forma parecida com a utilidade `bind(..)` nativa do ES5, exceto com nosso comportamento de *soft binding*. Ela encapsula a função especificada na lógica que verifica se o `this` no momento da cahamada é `global` ou `undefined`, usa uma alternativa *default* de (`obj`)  pré-especificada. Caso contrário o `this` fica intocado. Ele também fornece currying opcional(veja a discussão `bind (..)` antes).
+A utilidade `softBind(..)` fornecida aqui funciona de forma parecida com a utilidade `bind(..)` nativa do ES5, exceto com nosso comportamento de *soft binding*. Ela encapsula a função especificada na lógica que verifica o `this` no momento da chamada e se ele for `global` ou `undefined`, usa uma alternativa *default* de (`obj`)  pré-especificada. Caso contrário o `this` fica intocado. Ele também fornece currying opcional (veja a discussão `bind (..)` antes).
 
 Vamos demonstrar seu uso:
 
