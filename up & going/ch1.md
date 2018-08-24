@@ -35,7 +35,7 @@ Em contrapartida, o `2` é apenas um valor, chamado *valor literal*, por que é 
 
 Os caracteres `=` e `*` são *operadores* (veja "Operadores") -- eles realizam ações com os valores e variáveis como realizar uma atribuição qualquer ou uma multiplicação matemática.
 
-A maioria das intruões em JavaScript termina com um ponto e vírgula (`;`) no final.
+A maioria das instruções em JavaScript termina com um ponto e vírgula (`;`) no final.
 
 A instrução `a = b * 2;` diz ao computador, grosseiramente falando, para pegar o valor atual dentro da variável `b`, multiplicar esse valor por `2`, depois armazenar o resultado dentro de outra variável, chamada `a`.
 
@@ -720,7 +720,7 @@ Não existe absolutamente nenhum substituto para prática ao aprender à program
 
 Com isso em mente, vamos tentar praticar alguns conceitos que aprendemos neste capítulo. Eu irei lhe dar os "requerimentos", e você primeiro irá tentar executá-los. Depois, consulte o código listado abaixo para ver a forma que eu os resolvi.
 
-* Escreva um programa que calcula o preço total da compra do seu celular. Você pode continuar comprando telefones (dica: loop!) até você ficar sem dinheiro na sua conta bancária. Você irá também comprar acessórios para cada telefone enquanto sua quantidade de dinheiro for menor do que seu limite mental.
+* Escreva um programa que calcula o preço total da compra do seu celular. Você pode continuar comprando telefones (dica: loop!) até você ficar sem dinheiro na sua conta bancária. Você irá também comprar acessórios para cada telefone enquanto sua quantidade de dinheiro for menor do que seu limite mensal.
 * Após calcular o valor da compra, adicione as taxas, depois imprima a quantidade total, devidamente formatada.
 * Por fim, verifique o total gasto em sua conta bancária para saber se você pode comprar ou não.
 * Você deve definir algumas constantes para a "taxa de imposto", "preço do telefone", "preço do acessório", e "limite de gastos", assim como variáveis para o seu "saldo bancário".
@@ -782,7 +782,7 @@ if (amount > bank_balance) {
 
 Como você foi? Não dói se você tentar de novo agora que viu meu código. Brinque um pouco alterando algumas constantes e veja como o programa roda com valores diferentes.
 
-## Recaptulando
+## Recapitulando
 
 Aprender a programar não precisa ser um processo complexo e cansativo. Existem apenas alguns conceitos que você precisa entender para as coisas começarem a fazer sentido.
 
