@@ -43,7 +43,7 @@ Mas o caso que eu faço a respeito de protótipos e a delegação é muito mais 
 
 O terceiro título desta série tem foco principalmente em combater ainda outro tópico altamente controverso: a coerção de tipos. Provavelmente nenhum tópico causa mais frustração entre os desenvolvedores JS que quando você fala sobre as confusões acerca da coerção implícita.
 
-De longe, a sabedoria popular diz que a coerção implícita é uma "parte ruim" da linguagem e deve ser evitada a qualquer custo. Na verdade, alguns tem ido tão longe ao ponto de chamá-la de falha na concepção da linguagem. Realmente, existem ferramentas que tem o foco em nada mais que escanear o códido e alertar se você estiver fazendo alguma coisa parecida com a coerção.
+De longe, a sabedoria popular diz que a coerção implícita é uma "parte ruim" da linguagem e deve ser evitada a qualquer custo. Na verdade, alguns tem ido tão longe ao ponto de chamá-la de falha na concepção da linguagem. Realmente, existem ferramentas que tem o foco em nada mais que escanear o código e alertar se você estiver fazendo alguma coisa parecida com a coerção.
 
 Mas a coerção é realmente confusa, tão ruim, tão falsa, que seu código estará condenado desde o início, se você usá-la?
 
@@ -57,7 +57,7 @@ Você apenas quer continuar seguindo o que a multidão diz, ou você está dispo
 
 Os três primeiros títulos desta série tem o foco nos mecanismos centrais da linguagem, mas o quarto título ramifica-se levemente para cobrir padrões no topo da linguagem para gerenciar a programação assíncrona. Programação assíncrona não é somente crítica para a performance das nossas aplicações, ela está se tornando cada vez mais o fator crítico para a sua escrita e manutenção.
 
-O livro começa primeiramente esclarecendo um monte de conceitos e terminologias confusas acerca de coisas como "assíncrino", "paralelismo" e "simultâneo", e explica detalhadamente como essas coisas se aplicam ou não ao JS.
+O livro começa primeiramente esclarecendo um monte de conceitos e terminologias confusas acerca de coisas como "assíncrono", "paralelismo" e "simultâneo", e explica detalhadamente como essas coisas se aplicam ou não ao JS.
 
 Em seguida, passamos a examinar os callbacks como o principal método à possibilitar programação assíncrona. Mas é aqui que vemos rapidamente que o callback em si é insuficiente para as exigências modernas de programação assíncrona. Identificamos duas principais deficiências da codificação somente callback: a perda de confiança na *Inversão de Controle* (IoC), e falta de capacidade de raciocinar linearmente.
 
@@ -81,7 +81,7 @@ O título *Assíncrono & Desempenho* (*Async & Performance*) é feito para te da
 
 Não importa o quanto você se sinta o mestre em JavaScript até aqui, a verdade é que JavaScript nunca deixará de evoluir, e além disso, a taxa de evolução está aumentando rapidamente. Este fato é quase uma metáfora para o espírito desta série, compreender que nós nunca vamos *saber* tudo sobre JS, porque tão logo você dominar tudo, surgirão coisas novas que irão para a fila do que você precisa aprender.
 
-Este título é dedicado tanto para visões de curto e médio prazo de para onde a linguagem caminha, não apenas as coisas *conhecidas* como ES6 mas as também as coisas *prováveis* que estão por vir.
+Este título é dedicado tanto para visões de curto e médio prazo para onde a linguagem caminha, não apenas as coisas *conhecidas* como ES6 mas também as coisas *prováveis* que estão por vir.
 
 Enquanto todos os títulos desta série compreendem o estado do JavaScript do momento em que foram escritos, que está na metade do caminho para a adoção do ES6, o foco primário desta série tem sido mais no ES5. Agora, nós queremos voltar nossa atenção para o ES6, ES7, e...
 
