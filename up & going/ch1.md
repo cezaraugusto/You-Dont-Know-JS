@@ -789,7 +789,7 @@ Aprender a programar não precisa ser um processo complexo e cansativo. Existem 
 Eles funcionam como blocos de montar. Para construir uma torre alta, você precisa primeiro colocar bloco em cima de bloco. O mesmo acontece com programação. Aqui encontram-se alguns blocos essenciais para programação:
 
 * Você precisa de *operadores* para modificar valores.
-* Você precisa de valores e *tipos* para realizar tipos deferentes de alterações como operações matemáticas em números (`number`s) ou em um output com `string`s.
+* Você precisa de valores e *tipos* para realizar tipos diferentes de alterações como operações matemáticas em números (`number`s) ou em um output com `string`s.
 * Você precisa de *variáveis* para armazenar informação (conhecido como *estado*) durante a execução de um programa.
 * Você precisa de *condicionais* como `if` para tomar decisões.
 * Você precisa de *loops* para repetir tarefas até uma condição deixar de ser verdadeira (`true`).
