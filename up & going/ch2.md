@@ -602,7 +602,7 @@ var x = function bar(){
 
 A primeira expressão da função designada para a variável `foo` é chamada de *anônima* porque não tem `nome`.
 
-A segunda expressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expresões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
+A segunda expressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expressões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
 
 Para mais informações, veja o título desta série *Escopos & Clausuras*.
 
@@ -623,7 +623,7 @@ O `( .. )` externo que rodeia a expressão de função `(function IIFE(){ .. })`
 
 O final `()` no fim da expressão -- a linha `})();` -- é o que atualmente executa a expressão da função referenciada logo em seguida a ela.
 
-Isso pode parecer estranho, mas não é tão desconhecido em uma primeiro olhar. Considere as similaridades entre `foo` e `IIFE` abaixo:
+Isso pode parecer estranho, mas não é tão desconhecido em um primeiro olhar. Considere as similaridades entre `foo` e `IIFE` abaixo:
 
 ```js
 function foo() { .. }
@@ -839,7 +839,7 @@ Talvez ajude visualizando os objetos `foo` e `bar` e sua relação:
 
 <img src="fig6.png">
 
-A propriedade `a` não existe atualmente no objeto `bar`, mas conta de `bar` ser prototipalmente associada a `foo`, o JavaScript automaticamente *falls back* para procurar por `a` no objeto `foo`, onde o encontra.
+A propriedade `a` não existe atualmente no objeto `bar`, mas por conta de `bar` ser prototipalmente associada a `foo`, o JavaScript automaticamente *falls back* para procurar por `a` no objeto `foo`, onde o encontra.
 
 Essa *linkagem* (associação) pode parecer uma funcionalidade estranha na linguagem. A forma mais comum que essa funcionalidade é usada -- e eu digo até, abusada -- é ao tentar emular um mecanismo de "classe" com "herança".
 
