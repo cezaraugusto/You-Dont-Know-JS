@@ -1,7 +1,7 @@
 # You Don't Know JS: Escopos e Clausuras
 # Capítulo 2: Escopo Léxico
 
-No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quando nos *Escopos aninhados* que este possa estar inserido.
+No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quanto nos *Escopos aninhados* que este possa estar inserido.
 
 Existem dois modelos principais para a definição de funcionamento do escopo. O primeiro e mais comum, utilizado pela grande maioria das linguagens de programação, é chamado de **Escopo Léxico**, e vamos examiná-lo em profundidade. O outro modelo, que ainda é utilizado em algumas linguagens como Bash scripting e alguns modos de Perl, é chamado de **Escopo Dinâmico**.
 
