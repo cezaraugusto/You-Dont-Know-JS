@@ -39,7 +39,7 @@ Sendo assim, eu estou mostrando de forma bem grosseira aqui. Mas eu acho que voc
 
 Por um lado, o motor do Javascript não tem o luxo (como compiladores de outras linguagens) de ter uma grande disponibilidade de tempo para otimização, porque a compilação de Javascript não acontece numa etapa de preparação anterior, como em outras linguagens.
 
-Para Javascript, a compilação executada acontece, em muitos casos, somente alguns microsegundos (ou menos!) antes do código ser executado. Para garantir o mais alto desempenho, diferentes motores JS utilizam todos os tipos de truques (como JITs, que compilam de maneira preguiçosa e até mesmo recompilam rapidamente, etc.) que vão além do escopo da nossa discussão aqui.
+Para Javascript, a compilação executada acontece, em muitos casos, somente alguns microssegundos (ou menos!) antes do código ser executado. Para garantir o mais alto desempenho, diferentes motores JS utilizam todos os tipos de truques (como JITs, que compilam de maneira preguiçosa e até mesmo recompilam rapidamente, etc.) que vão além do escopo da nossa discussão aqui.
 
 Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de Javascript tem que ser compilado antes (geralmente *logo antes* como dito anteriormente!) de ser executado. Sendo assim, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, geralmente de imediato.
 
@@ -241,7 +241,7 @@ Você resolve as referências LHS e RHS através da busca no andar atual, e, se 
 
 ## Erros
 
-Por que é relevante se temos uma LHS ou RHS?
+Por que é relevante termos uma LHS ou RHS?
 
 Porque estes dois tipos de busca comportam-se de maneiras diferentes quando uma variável ainda não foi declarada (não foi localizada em nenhum dos *Escopos* consultados).
 
