@@ -1,7 +1,7 @@
 # You Don't Know JS: Escopos e Clausuras
 # Capítulo 4: Elevação (Hoisting)
 
-A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes leveis de escopo  dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada ele.
+A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes níveis de escopo  dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada ele.
 
 Mas existe um pequeno detalhe de como o anexo de escopo funciona com declarações que aparecem em vários lugares dentro de um escopo, e este detalhe é o que nós analisaremos aqui.
 
@@ -31,7 +31,7 @@ console.log( a );
 var a = 2;
 ```
 
-Você pode ser tentado a supor que, já que o exemplo anterior mostrou um certo comportamento aparentemente não tão de-cima-pra-baixo assim, talvez nesse trecho de código, `2` também será impresso. Outros podem pensar que um vez que variável `a` é usada antes de ser declarada, isso deve resultar em um `ReferenceError` sendo lançado.
+Você pode ser tentado a supor que, já que o exemplo anterior mostrou um certo comportamento aparentemente não tão de-cima-pra-baixo assim, talvez nesse trecho de código, `2` também será impresso. Outros podem pensar que uma vez que variável `a` é usada antes de ser declarada, isso deve resultar em um `ReferenceError` sendo lançado.
 
 Infelizmente, os dois palpites estão errados. `undefined` é a saída.
 
@@ -56,7 +56,7 @@ a = 2;
 console.log( a );
 ```
 
-...onde a primeiro parte é a compilação e a segunda é a execução.
+...onde a primeira parte é a compilação e a segunda é a execução.
 
 De maneira similar, nosso segundo trecho de código é, de fato, processado da seguinte forma:
 
