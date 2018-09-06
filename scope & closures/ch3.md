@@ -511,7 +511,7 @@ for (let i=0; i<10; i++) {
 console.log( i ); // ReferenceError
 ```
 
-Não só `let` no cabeçalho for-loop associa o `i` para o corpo for-loop, mas de fato, ele **re-associa** a cada *iteração* do loop, certificando-se de reatribuir-lhe o valor do final da iteração anterior do loop.
+Não só `let` no cabeçalho for-loop associa o `i` para o corpo for-loop, mas de fato, ele **reassocia** a cada *iteração* do loop, certificando-se de reatribuir-lhe o valor do final da iteração anterior do loop.
 
 Aqui está outra maneira de ilustrar o comportamento de ligação por-iteração que ocorre:
 
