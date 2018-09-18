@@ -842,7 +842,7 @@ A program can effectively use both styles of code (lexical and `this`), but insi
 
 ## Revisão (TL;DR)
 
-Determinar a ligação `this` para uma função de execução requer encontrar o local de chamada direta dessa função. Uma vez examinada, quatro regras podem ser aplicadas ao local de chamada, *nesta* ordem de precedência:
+Determinar a ligação `this` para uma função em execução requer que se encontre o local de chamada direto dessa função. Uma vez examinada, quatro regras podem ser aplicadas ao local de chamada, *nesta* ordem de precedência:
 
 1. Chamada com `new`? Use o objeto recém construído.
 
@@ -852,6 +852,6 @@ Determinar a ligação `this` para uma função de execução requer encontrar o
 
 4. Padrão: `undefined` em `strict mode`, do contrário, objeto global.
 
-Cuidado com a invocação acidental/involuntária da regra *default binding*. Nos casos em que você deseja "com segurança" ignorar o binding de `this`, um objeto "DMZ" como `ø = Object.create (null)` é um bom placeholder que protege o objeto `global` de efeitos colaterais indesejados.
+Cuidado com a invocação acidental/involuntária da regra *default binding*. Nos casos em que você deseja "com segurança" ignorar o binding de `this`, um objeto "DMZ" como `ø = Object.create(null)` é um bom placeholder que protege o objeto `global` de efeitos colaterais indesejados.
 
 Em vez das quatro regras de binding padrão, as arrow functions do ES6 usam o escopo léxico para o binding de `this`, o que significa que adotam binding `this` (o que quer que seja) de sua chamada de função delimitadora. Eles são essencialmente uma substituição sintática de `self = this` na codificação pré-ES6.
