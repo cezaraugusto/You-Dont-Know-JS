@@ -1,25 +1,25 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 8: Beyond ES6
+# You Don't Know JS: ES6 & Além
+# Capítulo 8: ES6 & Além
 
-At the time of this writing, the final draft of ES6 (*ECMAScript 2015*) is shortly headed toward its final official vote of approval by ECMA. But even as ES6 is being finalized, the TC39 committee is already hard at work at on features for ES7/2016 and beyond.
+No momento atual em que escrevo, o rascunho final do ES6 (*ECMAScript 2015*) está perto de ser encaminhado ao último voto oficial de aprovação pelo ECMA. Entretanto, ao mesmo tempo em que o ES6 está sendo finalizado, o comitê TC39 já está trabalhando duro nas funcionalidades para o ES7/2016 e além. 
 
-As we discussed in Chapter 1, it's expected that the cadence of progress for JS is going to accelerate from updating once every several years to having an official version update once per year (hence the year-based naming). That alone is going to radically change how JS developers learn about and keep up with the language.
+Como discutimos no Capítulo 1, espera-se que o ritmo de progresso do JS será mais acelerado, e, ao invés de ser atualizado uma vez a cada vários anos, terá uma versão oficial uma vez por ano (por isso a nomenclatura baseada no ano). Isso, por si só, já mudará radicalmente como os desenvolvedores JS aprendem e se mantêm atualizado com a linguagem.
 
-But even more importantly, the committee is actually going to work feature by feature. As soon as a feature is spec-complete and has its kinks worked out through implementation experiments in a few browsers, that feature will be considered stable enough to start using. We're all strongly encouraged to adopt features once they're ready instead of waiting for some official standards vote. If you haven't already learned ES6, the time is *past due* to get on board!
+Ainda mais importante que isso, o comitê passará em realidade a trabalhar em uma funcionalidade de cada vez. Assim que a especificação de uma funcionalidade esteja completa e todas suas excentricidades tiverem sido testadas em experimentos de implementação em alguns navegadores, ela será considerada estável suficiente para uso. Somos encorajados a adotar funcionalidades uma vez que estejam prontas ao invés de esperar por uma votação de padrões oficiais. Se você ainda não aprendeu ES6, já está mais que na hora de fazer isso! 
 
-As the time of this writing, a list of future proposals and their status can be seen here (https://github.com/tc39/ecma262#current-proposals).
+No momento atual em que escrevo, uma lista de propostas futuras e seus status podem ser encontrados aqui (https://github.com/tc39/ecma262#current-proposals).
 
-Transpilers and polyfills are how we'll bridge to these new features even before all browsers we support have implemented them. Babel, Traceur, and several other major transpilers already have support for some of the post-ES6 features that are most likely to stabilize.
+Transpilers e polyfills serão utilizados por nós como ponte para essas novas funcionalidade, antes mesmo que todos os navegadores que apoiamos as tenham implementado. Babel, Traceur, e vários outros grandes transpilers já tem suporte para algumas dessas funcionalidades pós-ES6 que são mais prováveis de serem estabilizadas. 
 
-With that in mind, it's already time for us to look at some of them. Let's jump in!
+Com isso em mente, é hora de dar uma olhada em algumas dessas funcionalidades. Vamos lá! 
 
-**Warning:** These features are all in various stages of development. While they're likely to land, and probably will look similar, take the contents of this chapter with more than a few grains of salt. This chapter will evolve in future editions of this title as these (and other!) features finalize.
+**Atenção:** Essas funcionalidades estão em diferentes estágios de desenvolvimento. Apesar de ser provável que elas venham a existir, e provavelmente parecerão similares, leia o conteúdo desse capítulo com bastante cautela. Esse capítulo evoluirá em edições futuras desse livro a medida que essas (e outras!) funcionalidades estejam finalizadas.
 
-## `async function`s
+## `funções async`
 
-In "Generators + Promises" in Chapter 4, we mentioned that there's a proposal for direct syntactic support for the pattern of generators `yield`ing promises to a runner-like utility that will resume it on promise completion. Let's take a brief look at that proposed feature, called `async function`.
+Na seção “Generators + Promises” do Capítulo 4, mencionamos que existe uma proposta para suporte sintático direto para o padrão de *generators* que entregam (`YIELD`) *promises* à uma utilidade do tipo *runner* que irá retomá-lo uma vez a *promise* seja completada. Vamos dar uma olhada rápida nessa funcionalidade proposta, chamada de `função async`. 
 
-Recall this generator example from Chapter 4:
+Lembre-se desse exemplo de *generator* do Capítulo 4: 
 
 ```js
 run( function *main() {
@@ -42,15 +42,14 @@ run( function *main() {
 } )
 .then(
 	function fulfilled(){
-		// `*main()` completed successfully
+		// `*main()` foi completada com sucesso
 	},
 	function rejected(reason){
-		// Oops, something went wrong
+		// Oops, algo deu errado
 	}
 );
 ```
-
-The proposed `async function` syntax can express this same flow control logic without needing the `run(..)` utility, because JS will automatically know how to look for promises to wait and resume. Consider:
+A sintaxe proposta para `função async` pode expressar essa mesma lógica de controle de fluxo sem precisar da utilidade `run(..)`, porque o JS saberá automaticamente como buscar *promises* para esperar e retomar. Considere:
 
 ```js
 async function main() {
@@ -75,29 +74,28 @@ async function main() {
 main()
 .then(
 	function fulfilled(){
-		// `main()` completed successfully
+		// `main()` completada com sucesso
 	},
 	function rejected(reason){
-		// Oops, something went wrong
+		// Oops, algo deu errado 
 	}
 );
 ```
+Ao invés da declaração `function *main() { ..`, declaramos com o formato `async function main() { ..`. E ao invés de entregar (`yield`) uma *promise*, nós a esperamos (`await`). A chamada para executar a função `main()` em realidade retorna uma *promise* que podemos observar diretamente. É o equivalente à *promise* que recebemos de volta da chamada de `run(main)`.
 
-Instead of the `function *main() { ..` declaration, we declare with the `async function main() { ..` form. And instead of `yield`ing a promise, we `await` the promise. The call to run the function `main()` actually returns a promise that we can directly observe. That's the equivalent to the promise that we get back from a `run(main)` call.
+Você consegue ver a simeteria? A `função async` é basicamente açúcar sintático para padrões como os de *generators* + *promises* + `run(..)`; por detrás dos panos, funciona da mesma maneira!
 
-Do you see the symmetry? `async function` is essentially syntactic sugar for the generators + promises + `run(..)` pattern; under the covers, it operates the same!
+Se você é um desenvolvedor C# e `async`/`await` parece familiar, é porque essa funcionalidade foi diretamente inspirada por uma de C#. É bom ver precedência de linguagem formando convergência. 
 
-If you're a C# developer and this `async`/`await` looks familiar, it's because this feature is directly inspired by C#'s feature. It's nice to see language precedence informing convergence!
+Babel, Traceur e outros transpilers já tem um suporte antecipado para o status atual das `funções async`, então você já poderia começar a usá-las. Entretanto, na próxima seção "Ressalvas" veremos porque talvez você não deveria pular nesse barco por agora.
 
-Babel, Traceur and other transpilers already have early support for the current status of `async function`s, so you can start using them already. However, in the next section "Caveats", we'll see why you perhaps shouldn't jump on that ship quite yet.
+**Nota:** Há também uma proposta para `função* async`, que seria chamada de "generator async." Você poderia usar `yield` e `await` no mesmo código e até mesmo combinar essas operações em uma mesma instrução: `x = await yield y`. Essa proposta de "generator async" parece estar ainda em curso – ou seja, o valor de retorno não está completamente definido ainda. Algumas pessoas pensam que deveria ser *observável*, o que seria como a combinação de um iterador e uma promise. Por agora, não iremos entrar em mais detalhes sobre esse tópico, mas fique atento à medida que evolua. 
 
-**Note:** There's also a proposal for `async function*`, which would be called an "async generator." You can both `yield` and `await` in the same code, and even combine those operations in the same statement: `x = await yield y`. The "async generator" proposal seems to be more in flux -- namely, its return value is not fully worked out yet. Some feel it should be an *observable*, which is kind of like the combination of an iterator and a promise. For now, we won't go further into that topic, but stay tuned as it evolves.
+### Ressalvas
 
-### Caveats
+Um ponto de discórdia não resolvido com a `função async` se deve ao fato de que ela só retorna uma *promise*, e não é possível cancelar uma `função async` desde fora dela. Isso pode ser um problema se a operação *async* utiliza recursos de maneira intensiva e você quisesse liberar os recursos assim que você tivesse certeza que o resultado não fosse mais necessário. 
 
-One unresolved point of contention with `async function` is that because it only returns a promise, there's no way from the outside to *cancel* an `async function` instance that's currently running. This can be a problem if the async operation is resource intensive, and you want to free up the resources as soon as you're sure the result won't be needed.
-
-For example:
+Por exemplo: 
 
 ```js
 async function request(url) {
@@ -126,34 +124,34 @@ var pr = request( "http://some.url.1" );
 
 pr.then(
 	function fulfilled(responseText){
-		// ajax success
+		// sucesso do ajax
 	},
 	function rejected(reason){
-		// Oops, something went wrong
+		// Oops, algo deu errado
 	}
 );
 ```
 
-This `request(..)` that I've conceived is somewhat like the `fetch(..)` utility that's recently been proposed for inclusion into the web platform. So the concern is, what happens if you want to use the `pr` value to somehow indicate that you want to cancel a long-running Ajax request, for example?
+Essa função `request(..)` que concebi é de certa forma parecida com a utilidade `fetch(..)` que foi recentemente proposta de ser incluída na plataforma web. A preocupação então é: o que acontece se você quer usar o valor `pr` para, de alguma maneira, indicar que você quer cancelar um pedido de Ajax de longa-duração, por exemplo?
 
-Promises are not cancelable (at the time of writing, anyway). In my opinion, as well as many others, they never should be (see the *Async & Performance* title of this series). And even if a promise did have a `cancel()` method on it, does that necessarily mean that calling `pr.cancel()` should actually propagate a cancelation signal all the way back up the promise chain to the `async function`?
+*Promises* não são canceláveis (pelo menos não no momento em que escrevo). Na minha opinião, assim como de muitas outras pessoas, elas nunca deveriam ser (veja o título *Async e Performance* dessa série). E mesmo se uma *promise* tivesse um método de cancelar como `cancel()`, isso deveria mesmo significar que chamar  `pr.cancel()` propagaria o sinal de cancelamento de volta por todo o caminho da sequência até a função `async`?
 
-Several possible resolutions to this debate have surfaced:
+Várias resoluções possíveis a esse debate surgiram: 
 
-* `async function`s won't be cancelable at all (status quo)
-* A "cancel token" can be passed to an async function at call time
-* Return value changes to a cancelable-promise type that's added
-* Return value changes to something else non-promise (e.g., observable, or control token with promise and cancel capabilities)
+* `funções async` não seriam canceláveis de maneira alguma (status quo)
+* Um "token de cancelamento" poderia ser passado como argumento a uma função async na hora da função ser chamada
+* O valor retornado se tornaria um tipo de *promise* cancelável que é adicionado 
+* O valor retornado se tornaria algo que não uma *promise* (por exemplo: observável, ou um token de controle com capacidades de *promise* e cancelamento) 
 
-At the time of this writing, `async function`s return regular promises, so it's less likely that the return value will entirely change. But it's too early to tell where things will land. Keep an eye on this discussion.
+No momento em que escrevo, `funções async` devolvem *promises* normais, então é menos provável que o valor retornado irá mudar completamente. Entretanto, é muito cedo para saber como as coisas vão terminar. Fique de olho nessa discussão.
 
 ## `Object.observe(..)`
 
-One of the holy grails of front-end web development is data binding -- listening for updates to a data object and syncing the DOM representation of that data. Most JS frameworks provide some mechanism for these sorts of operations.
+Um dos cálices sagrados do desenvolvimento front-end é data binding -- escutar por atualizações de um objeto e sincronizar a representação do DOM de acordo com aquele dado. A maioria dos frameworks JS disponibilizam algum mecanismo para esse tipo de operação.
 
-It appears likely that post ES6, we'll see support added directly to the language, via a utility called `Object.observe(..)`. Essentially, the idea is that you can set up a listener to observe an object's changes, and have a callback called any time a change occurs. You can then update the DOM accordingly, for instance.
+Provavelmente depois do ES6, nós vamos ver esse suporte diretamente na linguagem, via um utilitário chamado `Object.observe(..)`. Em essência, a ideia é que você pode configurar um listener para observar uma mudança de objeto, e chamar um callback toda vez que isso acontecer. Você pode então atualizar o DOM, por exemplo.
 
-There are six types of changes that you can observe:
+Há seis tipos de mudanças que você pode observar:
 
 * add
 * update
@@ -162,9 +160,9 @@ There are six types of changes that you can observe:
 * setPrototype
 * preventExtensions
 
-By default, you'll be notified of all these change types, but you can filter down to only the ones you care about.
+Por padrão, você será notificada de todos os tipos de mudanças, mas você pode filtrar apenas aqueles que te interessa.
 
-Consider:
+Considere:
 
 ```js
 var obj = { a: 1, b: 2 };
@@ -189,21 +187,23 @@ delete obj.b;
 // { name: "b", object: obj, type: "delete", oldValue: 2 }
 ```
 
-In addition to the main `"add"`, `"update"`, and `"delete"` change types:
+Além dos principais tipos de mudança `"add"`, `"update"`, e `"delete"`:
 
-* The `"reconfigure"` change event is fired if one of the object's properties is reconfigured with `Object.defineProperty(..)`, such as changing its `writable` attribute. See the *this & Object Prototypes* title of this series for more information.
-* The `"preventExtensions"` change event is fired if the object is made non-extensible via `Object.preventExtensions(..)`.
+* O evento de mudança `"reconfigure"` é disparado se uma das propriedades do objecto é refonfigurada com `Object.defineProperty(..)`, como por exemplo mudar o atributo `writable`. Veja o título *this e Prototipagem de Objetos* dessa série para mais informações.
 
-   Because both `Object.seal(..)` and `Object.freeze(..)` also imply `Object.preventExtensions(..)`, they'll also fire its corresponding change event. In addition, `"reconfigure"` change events will also be fired for each property on the object.
-* The `"setPrototype"` change event is fired if the `[[Prototype]]` of an object is changed, either by setting it with the `__proto__` setter, or using `Object.setPrototypeOf(..)`.
+* O evento de mudança `"preventExtensions"` é disparado se tornamos o objeto não extensível via `Object.preventExtensions(..)`.
+Dado que `Object.seal(..)` e `Object.freeze(..)` também implicam em `Object.preventExtensions(..)`, eles também vão disparar o evento de mudança correspondente. Além disso, os eventos de mudança `"reconfigure"` também vão ser disparados para cada propriedade no objeto.
 
-Notice that these change events are notified immediately after said change. Don't confuse this with proxies (see Chapter 7) where you can intercept the actions before they occur. Object observation lets you respond after a change (or set of changes) occurs.
+* O evento de mudança `"setPrototype"` é disparado se o `[[Prototype]]` de um objeto é modificado, tanto configurando com o setter `__proto__`, ou usando `Object.setPrototypeOf(.)`.
 
-### Custom Change Events
+Note que esses eventos de mudança são notificados imediatamente depois da mudança. Não confunda com proxies (veja o Capítulo 7) onde você pode interceptar as ações antes delas acontecerem. Object observation te deixa responder depois que uma ação (ou uma série de ações) ocorre.
 
-In addition to the six built-in change event types, you can also listen for and fire custom change events.
 
-Consider:
+### Eventos de Mudança Customizados
+
+Além dos seis tipos de eventos nativos, você também pode ouvir e disparar eventos customizados.
+
+Considere:
 
 ```js
 function observer(changes){
@@ -246,15 +246,15 @@ obj.b;			// 30
 obj.c;			// 3
 ```
 
-The change set (`"recalc"` custom event) has been queued for delivery to the observer, but not delivered yet, which is why `obj.c` is still `3`.
+A série de mudanças (evento customizado `"recalc"`) foi colocado na fila para ser entregue ao observer, mas ainda não foi entregue, por isso `obj.c` ainda é `3`.
 
-The changes are by default delivered at the end of the current event loop (see the *Async & Performance* title of this series). If you want to deliver them immediately, use `Object.deliverChangeRecords(observer)`. Once the change events are delivered, you can observe `obj.c` updated as expected:
+As mudanças são por padrão entregues no final do laço de evento atual (veja o título *Async & Performance* dessa série). Se você quer entregá-las imediatamente, use `Object.deliverChangeRecords(observer)`. Uma vez que os eventos de mudança são entregues, você pode observar `obj.c` atualizado como esperado:
 
 ```js
 obj.c;			// 42
 ```
 
-In the previous example, we called `notifier.notify(..)` with the complete change event record. An alternative form for queuing change records is to use `performChange(..)`, which separates specifying the type of the event from the rest of event record's properties (via a function callback). Consider:
+No exemplo anterior, nós chamamos `notifier.notify(..)` com registro completo do evento de mudanças. Uma forma alternativa de colocar os registros de mudança na fila é usar o `performChange(..)`, que separa o tipo de evento do resto das propriedades de registro (via uma função callback). Considere:
 
 ```js
 notifier.performChange( "recalc", function(){
@@ -266,13 +266,13 @@ notifier.performChange( "recalc", function(){
 } );
 ```
 
-In certain circumstances, this separation of concerns may map more cleanly to your usage pattern.
+Em algumas circunstâncias, a separação de responsabilidades pode resultar em mais clareza para seu padrão de uso.
 
-### Ending Observation
+### Parando Observações
 
-Just like with normal event listeners, you may wish to stop observing an object's change events. For that, you use `Object.unobserve(..)`.
+Assim como eventos de escuta normais, você também pode querer parar de observar a mudança de evento de um objeto. Para isso, use `Object.unobserve(..)`.
 
-For example:
+Por exemplo:
 
 ```js
 var obj = { a: 1, b: 2 };
@@ -289,11 +289,11 @@ Object.observe( obj, function observer(changes) {
 } );
 ```
 
-In this trivial example, we listen for change events until we see the `"setPrototype"` event come through, at which time we stop observing any more change events.
+Nesse exemplo simples, escutamos por eventos de mudança até ver o evento `"setPrototype"` aparecer, e aí paramos de observar qualquer mudança de eventos.
 
-## Exponentiation Operator
+## Operador de Exponenciação
 
-An operator has been proposed for JavaScript to perform exponentiation in the same way that `Math.pow(..)` does. Consider:
+Um operador foi proposto ao JavaScript para aumentar a performance de exponenciação da mesma maneira que o `Math.pow(..)` faz. Considere:
 
 ```js
 var a = 2;
@@ -304,13 +304,13 @@ a **= 3;		// a = Math.pow( a, 3 )
 a;				// 8
 ```
 
-**Note:** `**` is essentially the same as it appears in Python, Ruby, Perl, and others.
+**Nota:** `**` é essencialmente o mesmo que aparece em Python, Ruby, Perl, e outras linguagens.
 
-## Objects Properties and `...`
+## Propriedades de Objetos e `...`
 
-As we saw in the "Too Many, Too Few, Just Enough" section of Chapter 2, the `...` operator is pretty obvious in how it relates to spreading or gathering arrays. But what about objects?
+Como vimos na seção "Muito, Pouco, Suficiente" do capítulo 2, o operador `...` é bem óbvio em como ele se relaciona com o spreading ou gathering arrays. Mas e os objetos?
 
-Such a feature was considered for ES6, but was deferred to be considered after ES6 (aka "ES7" or "ES2016" or ...). Here's how it might work in that "beyond ES6" timeframe:
+Essa funcionalidade foi considerada para ES6, mas foi postergada para ser considerada depois do ES6 (conhecido como "ES7" ou "ES2016" ou ...). Aqui está como provavelmente irá funcionar nos tempos "além do ES6":
 
 ```js
 var o1 = { a: 1, b: 2 },
@@ -321,7 +321,7 @@ console.log( o3.a, o3.b, o3.c, o3.d );
 // 1 2 3 4
 ```
 
-The `...` operator might also be used to gather an object's destructured properties back into an object:
+O operador `...` provavelmente também será usado para juntar as propriedades de um objeto desestruturado em um objeto:
 
 ```js
 var o1 = { b: 2, c: 3, d: 4 };
@@ -330,13 +330,13 @@ var { b, ...o2 } = o1;
 console.log( b, o2.c, o2.d );		// 2 3 4
 ```
 
-Here, the `...o2` re-gathers the destructured `c` and `d` properties back into an `o2` object (`o2` does not have a `b` property like `o1` does).
+Aqui, o `...o2` recolhe as propriedades desestruturadas `c` e `d` para um objeto `o2` (`o2` não tem uma propriedade `b` como `o1` tem).
 
-Again, these are just proposals under consideration beyond ES6. But it'll be cool if they do land.
+De novo, essas são apenas propostas sendo consideradas no pós-ES6. Mas será bem legal se elas realmente existirem.
 
 ## `Array#includes(..)`
 
-One extremely common task JS developers need to perform is searching for a value inside an array of values. The way this has always been done is:
+Uma tarefa extremamente comum que pessoas desenvolvedoras JS precisam fazer é procurar por um valor dentro de um array de valores. A maneira que elas tem feito é:
 
 ```js
 var vals = [ "foo", "bar", 42, "baz" ];
@@ -346,9 +346,9 @@ if (vals.indexOf( 42 ) >= 0) {
 }
 ```
 
-The reason for the `>= 0` check is because `indexOf(..)` returns a numeric value of `0` or greater if found, or `-1` if not found. In other words, we're using an index-returning function in a boolean context. But because `-1` is truthy instead of falsy, we have to be more manual with our checks.
+A razão para a checagem `>= 0` é porque `indexOf(..)` retorna um valor numérico de `0` ou maior se encontrado, ou `-1` se não encontrado. Em outras palavras, estamos usando um índex do retorno da função em um contexto booleano. Mas já que `-1` é verdadeiro ao invés de falso, temos que ser mais manuais nas nossas checagens.
 
-In the *Types & Grammar* title of this series, I explored another pattern that I slightly prefer:
+No título *Tipos e Gramática* dessa série, eu explorei outro padrão que eu prefiro:
 
 ```js
 var vals = [ "foo", "bar", 42, "baz" ];
@@ -358,11 +358,11 @@ if (~vals.indexOf( 42 )) {
 }
 ```
 
-The `~` operator here conforms the return value of `indexOf(..)` to a value range that is suitably boolean coercible. That is, `-1` produces `0` (falsy), and anything else produces a non-zero (truthy) value, which is what we for deciding if we found the value or not.
+O operador `~` aqui adapta o valor de retorno do `indexOf(..)` para um intervalo de valor que é facilmente convertível para booleano. Isso é, `01` produz 0 (falso), e qualquer outra coisa produz um valor não-zero (verdadeiro), que é o que usamos para decidir se encontramos o valor ou não.
 
-While I think that's an improvement, others strongly disagree. However, no one can argue that `indexOf(..)`'s searching logic is perfect. It fails to find `NaN` values in the array, for example.
+Enquanto eu acho que isso é um avanço, outras pessoas discordam fortemente. Porém, ninguém pode dizer que a lógica de busca do `indexOf(..)` é perfeita. Ela falha em encontrar valores `NaN` no array, por exemplo.
 
-So a proposal has surfaced and gained a lot of support for adding a real boolean-returning array search method, called `includes(..)`:
+Então apareceu uma proposta e ganhou muito suporte porque adiciona um retorno booleano real no método de busca, chamado `includes(..)`:
 
 ```js
 var vals = [ "foo", "bar", 42, "baz" ];
@@ -372,15 +372,15 @@ if (vals.includes( 42 )) {
 }
 ```
 
-**Note:** `Array#includes(..)` uses matching logic that will find `NaN` values, but will not distinguish between `-0` and `0` (see the *Types & Grammar* title of this series). If you don't care about `-0` values in your programs, this will likely be exactly what you're hoping for. If you *do* care about `-0`, you'll need to do your own searching logic, likely using the `Object.is(..)` utility (see Chapter 6).
+**Nota:** `Array#includes(..)` usa logica de combinação que vai encontrar valores `NaN`, mas não vai distinguir entre `-0` e `0` (veja o título *Tipos e Gramática* dessa série). Se você não se importa com os valores `-0` nos seus programas, isso provavelmente vai ser exatamente o que você está esperando. Se você *sim* se importa com o `-0`, você vai precisar fazer a sua própria lógica de busca, provavelmente usando o utilitário `Object.is(..)` (veja o Capítulo 6). 
 
 ## SIMD
 
-We cover Single Instruction, Multiple Data (SIMD) in more detail in the *Async & Performance* title of this series, but it bears a brief mention here, as it's one of the next likely features to land in a future JS.
+Nós abordamos a Instrução Única, Múltiplos Dados (SIMD - Single Instruction, Multiple Data) em mais detalhes no título *Async e Performance* dessa série, mas essa é uma rápida menção, já que é uma das funcionalidades que provavelmente serão lançadas em um futuro JS.
 
-The SIMD API exposes various low-level (CPU) instructions that can operate on more than a single number value at a time. For example, you'll be able to specify two *vectors* of 4 or 8 numbers each, and multiply the respective elements all at once (data parallelism!).
+A SIMD API expõe várias instruções de baixo nível (CPU) que podem operar em mais de um único valor ao mesmo tempo. Por exemplo, você poderá especificar dois *vetores* de 4 ou 8 números cada, e multiplicar os respectivos elementos de uma vez só (paralelismo de dados!).
 
-Consider:
+Considere:
 
 ```js
 var v1 = SIMD.float32x4( 3.14159, 21.0, 32.3, 55.55 );
@@ -390,50 +390,50 @@ SIMD.float32x4.mul( v1, v2 );
 // [ 6.597339, 67.2, 138.89, 299.97 ]
 ```
 
-SIMD will include several other operations besides `mul(..)` (multiplication), such as `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, and many more.
+SIMD irá incluir várias outras operações além de `mul(..)` (multiplicação), como `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, e muito mais. 
 
-Parallel math operations are critical for the next generations of high performance JS applications.
+Operações matemáticas paralelas são critícas para a próxima geração de aplicações JS de alta performance.
 
 ## WebAssembly (WASM)
 
-Brendan Eich made a late breaking announcement near the completion of the first edition of this title that has the potential to significantly impact the future path of JavaScript: WebAssembly (WASM). We will not be able to cover WASM in detail here, as it's extremely early at the time of this writing. But this title would be incomplete without at least a brief mention of it.
+Brendan Eich fez um anúncio quente tardio próximo da finalização da primeira edição desse título que tem potencial para impactar significantemente o futuro do JavaScript: WebAssembly (WASM). Nós não vamos conseguir cobrir WASM em detalhes aqui, já que está muito recente no momento atual que escrevo. Mas esse título estaria incompleto sem ao menos uma menção do assunto.
 
-One of the strongest pressures on the recent (and near future) design changes of the JS language has been the desire that it become a more suitable target for transpilation/cross-compilation from other languages (like C/C++, ClojureScript, etc.). Obviously, performance of code running as JavaScript has been a primary concern.
+Uma das pressões mais fortes nas mudanças de desenho recentes (e futuro próximo) da linguagem tem sido o desejo de que ela se torne um alvo mais apropriado para a transpilação/cross-compilação vindo de outras linguagens (como C/C++, ClojureScript, etc.). Óbvio, a performance do código rodando em JavaScript tem sido uma preocupação primária.
 
-As discussed in the *Async & Performance* title of this series, a few years ago a group of developers at Mozilla introduced an idea to JavaScript called ASM.js. ASM.js is a subset of valid JS that most significantly restricts certain actions that make code hard for the JS engine to optimize. The result is that ASM.js compatible code running in an ASM-aware engine can run remarkably faster, nearly on par with native optimized C equivalents. Many viewed ASM.js as the most likely backbone on which performance-hungry applications would ride in JavaScript.
+Como discutido no título *Async e Performance* dessa série, há alguns anos um grupo de desenvolvedores na Mozilla introduziu uma ideia ao JavaScript chamada ASM.js. ASM.js é um subconjunto de JS válido que basicamente restringe algumas ações que deixam o código dificíl para a engine JS otimizar. O resultado é que o código compatível ASM.js rodando em uma engine ASM-consciente pode rodar notavelmente mais rápido, junto com código nativo e otimizado em C e equivalentes. Muitas pessoas viram ASM.js como muito provavelmente backbone em que aplicações necessitadas por performance iriam alavancar em JavaScript.
 
-In other words, all roads to running code in the browser *lead through JavaScript*.
+Em outras palavras, todos os caminhos para rodar código no navegador *liderado pelo JavaScript*.
 
-That is, until the WASM announcement. WASM provides an alternate path for other languages to target the browser's runtime environment without having to first pass through JavaScript. Essentially, if WASM takes off, JS engines will grow an extra capability to execute a binary format of code that can be seen as somewhat similar to a bytecode (like that which runs on the JVM).
+Isso é, antes do anúncio do WASM. WASM provê um caminho alternativo para outras linguagens mirarem no ambiente runtime do navegador sem ter que passar pelo JavaScript. Em essência, se o WASM pegar, os motores JS vão ter uma capacidade extra de executar um formato binário de código que pode ser visto como algo similar ao bytecode (parecido com o que roda na JVM).
 
-WASM proposes a format for a binary representation of a highly compressed AST (syntax tree) of code, which can then give instructions directly to the JS engine and its underpinnings, without having to be parsed by JS, or even behave by the rules of JS. Languages like C or C++ can be compiled directly to the WASM format instead of ASM.js, and gain an extra speed advantage by skipping the JS parsing.
+WASM propõe um formato para uma representação binária de uma AST (sintaxe de árvore) altamente compactada de código, que pode então dar instruções diretamente para o motor de JS e sua base, sem ter que ser parseado para JS, ou até mesmo se comportar como as regras de JS. Linguagens como C ou C++ podem ser compiladas diretamente para o formato WASM ao invés de ASM.js e ganhar velocidade extra e a vantagem de pular o parseamento para JS.
 
-The near term for WASM is to have parity with ASM.js and indeed JS. But eventually, it's expected that WASM would grow new capabilities that surpass anything JS could do. For example, the pressure for JS to evolve radical features like threads -- a change that would certainly send major shockwaves through the JS ecosystem -- has a more hopeful future as a future WASM extension, relieving the pressure to change JS.
+O curto prazo para WASM é estar similar ao ASM.js e o JS real. Mas eventualmente, é esperado que WASM possa ter novas capacidades que passam qualquer coisa que o JS pode fazer. Por exemplo, a pressão para o JS desenvolver funcionalidades radicais como threads -- uma mudança que certamente enviam uma onda de choque para o ecossistema JavaScript -- tem um futuro mais provável como uma extensão futura do WASM, aliviando a pressão de mudança do JS.
 
-In fact, this new roadmap opens up many new roads for many languages to target the web runtime. That's an exciting new future path for the web platform!
+Na verdade, esse novo roteiro abre muitos novos caminhos para várias linguagens atingirem a web runtime. Esse é um caminho empolgante para a plataforma web! 
 
-What does it mean for JS? Will JS become irrelevant or "die"? Absolutely not. ASM.js will likely not see much of a future beyond the next couple of years, but the majority of JS is quite safely anchored in the web platform story.
+E o que isso significa para o JS? JS vai se tornar irrelevante ou "morrer"? Claro que não. ASM.js provavelmente não vai ter muito futuro nos próximos anos, mas a maior parte do JS está segura e ancorada na história da plataforma web.
 
-Proponents of WASM suggest its success will mean that the design of JS will be protected from pressures that would have eventually stretched it beyond assumed breaking points of reasonability. It is projected that WASM will become the preferred target for high-performance parts of applications, as authored in any of a myriad of different languages.
+Defensores do WASM sugerirem o seu sucesso vai significar que o desenho do JS vai ser protegido de pressões que eventualmente teriam gerado um stress além de presumir uma ruptura de razoabilidade. De acordo com as previsões WASM vai se tornar o alvo preferido para partes de aplicações que precisam de alta performance, como acontece em várias outras linguagens.
 
-Interestingly, JavaScript is one of the lesser likely languages to target WASM in the future. There may be future changes that carve out subsets of JS that might be tenable for such targeting, but that path doesn't seem high on the priority list.
+Curiosamente, JavaScript é uma das linguagens que menos visam atingir WASM no futuro. Haverão outras mudanças futuras que constroem possibilidades do JS ser sustentável para esse fim, mas esse caminho não parece estar no topo da lista de prioridades.
 
-While JS likely won't be much of a WASM funnel, JS code and WASM code will be able to interoperate in the most significant ways, just as naturally as current module interactions. You can imagine calling a JS function like `foo()` and having that actually invoke a WASM function of that name with the power to run well outside the constraints of the rest of your JS.
+Já que JavaScript não vai ser um funil de WASM, os códigos JS e WASM serão capazes de interoperar de várias formas, assim como interações entre módulos. Você pode imaginar chamar uma função JS como `foo()` e na verdade invocar uma função WASM com esse nome com o poder de rodar bem tirando as preocupações do restante do seu código JS.
 
-Things which are currently written in JS will probably continue to always be written in JS, at least for the foreseeable future. Things which are transpiled to JS will probably eventually at least consider targeting WASM instead. For things which need the utmost in performance with minimal tolerance for layers of abstraction, the likely choice will be to find a suitable non-JS language to author in, then targeting WASM.
+As coisas que atualmente são escritas em JS provavelmente continuarão sendo escritas em JS, pelo menos pelo futuro próximo. As que são transpiladas para JS vão provavelmente eventualmente ao menos considerar usar WASM. Paras as coisas que precisam de muita performance com uma tolerância mínica para camadas de abstração, a escolha mais comum vai ser achar uma línguagem não-JS adequada para trabalhar, e então usar WASM.
 
-There's a good chance this shift will be slow, and will be years in the making. WASM landing in all the major browser platforms is probably a few years out at best. In the meantime, the WASM project (https://github.com/WebAssembly) has an early polyfill to demonstrate proof-of-concept for its basic tenets.
+Tem chances de que a mudança será devagar, e vai levar anos em contrução. WASM ser lançada na maioria das plataformas de navegadores provavelmente vai levar alguns anos, sendo otimista. Enquanto isso, o projeto WASM (https://github.com/WebAssembly) tem um polyfill prévio para demonstrar a prova de conceito para os princípios básicos.
 
-But as time goes on, and as WASM learns new non-JS tricks, it's not too much a stretch of imagination to see some currently-JS things being refactored to a WASM-targetable language. For example, the performance sensitive parts of frameworks, game engines, and other heavily used tools might very well benefit from such a shift. Developers using these tools in their web applications likely won't notice much difference in usage or integration, but will just automatically take advantage of the performance and capabilities.
+Mas com o tempo, e enquanto WASM aprende novos truques que não são do JS, não é muito difíficl imaginar algumas aplicações que estão em JS atualmente sendo refatoradas para uma linguagem que é compatível com WASM. Por exemplo, as partes sensíveis de performance de frameworks, motores de jogos e outras ferramentas pesadas provavelmente terão benefícios com essas mudanças. Pessoas desenvolvedoras usando essas ferramentas em suas aplicações provavelmente não verão muita diferença no uso ou na integração, mas automaticamente terão as vantagens de performance e capacidades.
 
-What's certain is that the more real WASM becomes over time, the more it means to the trajectory and design of JavaScript. It's perhaps one of the most important "beyond ES6" topics developers should keep an eye on.
+O que é certo é que quanto mais WASM se torna real, mais significante fica para a trajetória e desenho do JavaScript. Esse é provavelmente um dos tópicos mais importantes do "além do ES6" que as pessoas desenvolvedoras deveriam ficar de olho.
 
-## Review
+## Revisão
 
-If all the other books in this series essentially propose this challenge, "you (may) not know JS (as much as you thought)," this book has instead suggested, "you don't know JS anymore." The book has covered a ton of new stuff added to the language in ES6. It's an exciting collection of new language features and paradigms that will forever improve our JS programs.
+Se todos os outros livros nessa série essencialmente propõem esse desafio, "você (provavelmente) não sabe JS (tanto quanto você achava)", esse livro na verdade sugere que "você não sabe mais JS". O livro cobriu uma série de novas coisas adicionadas à linguagem em ES6. Essa é uma coleção emocionante de novas funcionalidades da linguagem e paradigmas que vão melhorar seus programas JS para sempre.
 
-But JS is not done with ES6! Not even close. There's already quite a few features in various stages of development for the "beyond ES6" timeframe. In this chapter, we briefly looked at some of the most likely candidates to land in JS very soon.
+Mas JS não é só ES6! Nem perto disso. Já existem algumas novas funcionalidades em vários estágios do desenvolvimento para os tempos de "além do ES6". Nesse capítulo, nós brevemente vimos alguns dos mais prováveis candidatos a se juntar ao JS em breve.
 
-`async function`s are powerful syntactic sugar on top of the generators + promises pattern (see Chapter 4). `Object.observe(..)` adds direct native support for observing object change events, which is critical for implementing data binding. The `**` exponentiation operator, `...` for object properties, and `Array#includes(..)` are all simple but helpful improvements to existing mechanisms. Finally, SIMD ushers in a new era in the evolution of high performance JS.
+`async function`s são açucar sintáticos poderosos além dos padrões de generators + promises (veja o Capítulo 4). `Object.observe(..)` adiciona suporte diretamente nativo para observar mudanças de eventos em objetos, o que é crítico para implementação de data binding. O operador de exponenciação `**`, o `...` para propriedades de objetos, e `Array#includes(..)` são todas melhoras simples mas úteis para os mecanismos existentes. Finalmente, SIMD segue em uma nova era de evolução de JS com alta performance.
 
-Cliché as it sounds, the future of JS is really bright! The challenge of this series, and indeed of this book, is incumbent on every reader now. What are you waiting for? It's time to get learning and exploring!
+Por mais que soe cliche, o futuro do JS é realmente brilhante! O desafio dessa série, e de fato desse livro, está estabelecida em todas as pessoas leitoras agora. O que você está esperando? É hora de aprender e explorar!

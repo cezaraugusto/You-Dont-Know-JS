@@ -1,19 +1,20 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 7: Meta Programming
+# You Don't Know JS: ES6 & Além
+# Capítulo 7: Metaprogramação
 
-Meta programming is programming where the operation targets the behavior of the program itself. In other words, it's programming the programming of your program. Yeah, a mouthful, huh?
+Metaprogramação é programação onde a operação visa o comportamento do próprio programa. Em outras palavras, é programar a programação do seu programa. Sim, um bocado, não é?
 
-For example, if you probe the relationship between one object `a` and another `b` -- are they `[[Prototype]]` linked? -- using `a.isPrototype(b)`, this is commonly referred to as introspection, a form of meta programming. Macros (which don't exist in JS, yet) --  where the code modifies itself at compile time -- are another obvious example of meta programming. Enumerating the keys of an object with a `for..in` loop, or checking if an object is an *instance of* a "class constructor", are other common meta programming tasks.
+Por exemplo, se você investigar a relação entre um objeto `a` e outro `b` -- eles são `[[Prototype]]` conectados? -- usando `a.isPrototype(b)`, isso é comumente referido como instrospecão, uma forma de metaprogramação. Macros (que não existem em JS, ainda) -- onde o código se modifica no momento da compilação -- são outros exemplos óbvios de metaprogramação.
+Enumerar as chaves de um objeto com um loop `for..in` ou verificar se um objeto é uma *instância de* um "construtor de uma classe", são outros tipos comuns de metaprogramação.
 
-Meta programming focuses on one or more of the following: code inspecting itself, code modifying itself, or code modifying default language behavior so other code is affected.
+Metaprogramação concentra-se em um ou mais dos seguintes itens: inspeção de código, modificação do código ou código que modifica o comportamento padrão da linguagem, de modo que outro código seja afetado.
 
-The goal of meta programming is to leverage the language's own intrinsic capabilities to make the rest of your code more descriptive, expressive, and/or flexible. Because of the *meta* nature of meta programming, it's somewhat difficult to put a more precise definition on it than that. The best way to understand meta programming is to see it through examples.
+O objetivo da metaprogramação é aproveitar as capacidades intrísecas à linguagem para tornar o resto do seu código mais descritivo, expressivo, e/ou flexível· Por conta da natureza do termo *meta* de metaprogramação, é um tanto difícil de colocar uma definição mais precisa do que essa. A melhor forma de entender metaprogramação é ve-la através de exemplos.
 
-ES6 adds several new forms/features for meta programming on top of what JS already had.
+A ES6 adiciona vários novos métodos/funcionalidades para metaprogramação em cima do que o JS já possuía.
 
-## Function Names
+## Nome de Funções
 
-There are cases where your code may want to introspect on itself and ask what the name of some function is. If you ask what a function's name is, the answer is surprisingly somewhat ambiguous. Consider:
+Existem casos em que seu código pode querer se voltar pra si mesmo e perguntar qual o nome de alguma função. Se você perguntar qual o nome da função, a reposta será algo surpreendentemente abíguo. Considere:
 
 ```js
 function daz() {
@@ -34,25 +35,25 @@ var obj = {
 };
 ```
 
-In this previous snippet, "what is the name of `obj.foo()`" is slightly nuanced. Is it `"foo"`, `""`, or `undefined`? And what about `obj.bar()` -- is it named `"bar"` or `"baz"`? Is `obj.bam()` named `"bam"` or `"daz"`? What about `obj.zim()`?
+Nesse fragmento anterior, "qual é o nome de `obj.foo()`" é ligeiramente variado. É `"foo"`, `""`, ou `undefined`? E sobre `obj.bar()` -- ele é nomeado `"bar"` ou `"baz"`? O nome de  `obj.bam()` é `"bam"` ou `"daz"`? E sobre `obj.zim()`?
 
-Moreover, what about functions which are passed as callbacks, like:
+Além disso, e sobre as funções que são passadas como callbacks, como essas:
 
 ```js
 function foo(cb) {
-	// what is the name of `cb()` here?
+	// qual o nome de`cb()` aqui?
 }
 
 foo( function(){
-	// I'm anonymous!
+	// Eu sou anônima!
 } );
 ```
 
-There are quite a few ways that functions can be expressed in programs, and it's not always clear and unambiguous what the "name" of that function should be.
+Há várias maneiras com as quais funções podem ser expressadas em programas, e nem sempre está claro e sem abiguidade qual o "nome" que a função deveria ter.
 
-More importantly, we need to distinguish whether the "name" of a function refers to its `name` property -- yes, functions have a property called `name` -- or whether it refers to the lexical binding name, such as `bar` in `function bar() { .. }`.
+Mais importante, nós precisamos distinguir se o nome de uma função se refere à propriedade `name` da sua propriedade -- sim, funções têm uma propriedade chamada `name` -- ou o que quer que se refira ao *nome da ligação léxica*(lexical binding name), assim como `bar` em `function bar() { .. }`.
 
-The lexical binding name is what you use for things like recursion:
+O nome da ligação léxica é o que você usa para coisas como recursão: 
 
 ```js
 function foo(i) {
@@ -61,31 +62,31 @@ function foo(i) {
 }
 ```
 
-The `name` property is what you'd use for meta programming purposes, so that's what we'll focus on in this discussion.
+A propriedade `name` é o que você usaria para os propósitos da metaprogramação, então é o que vamos focar nessa discussão.
 
-The confusion comes because by default, the lexical name a function has (if any) is also set as its `name` property. Actually there was no official requirement for that behavior by the ES5 (and prior) specifications. The setting of the `name` property was nonstandard but still fairly reliable. As of ES6, it has been standardized.
+A confusão aparece porque por padrão, o nome léxico que a função tinha (se algum) também foi definido como a sua propriedade `name`. Atualmente não há requerimentos oficiais para esse comportamento pela especificação ES5 (e anterior). A definição da propriedade `name` não era padrão, mas ainda era bastante confiável. A partir da ES6, isso foi padronizado.
 
-**Tip:** If a function has a `name` value assigned, that's typically the name used in stack traces in developer tools.
+**Dica** Se a função tem um valor de `name` atribuído, esse é tipicamente o nome usado em traços de pilha(*stack traces*) nas ferramentas dos desenvolvedores.
 
-### Inferences
+### Inferências
 
-But what happens to the `name` property if a function has no lexical name?
+Mas o que acontece com a propriedade `name` se uma função não tiver um nome léxico?
 
-As of ES6, there are now inference rules which can determine a sensible `name` property value to assign a function even if that function doesn't have a lexical name to use.
+A partir da ES6, existem regras de inferência que podem determinar um valor adequado para ser atrubído à propriedade `name` de uma função, mesmo se essa função não tiver um nome léxico para usar.
 
-Consider:
+Considere:
 
 ```js
 var abc = function() {
 	// ..
 };
 
-abc.name;				// "abc"
+abc.name;	// "abc"
 ```
 
-Had we given the function a lexical name like `abc = function def() { .. }`, the `name` property would of course be `"def"`. But in the absence of the lexical name, intuitively the `"abc"` name seems appropriate.
+Se tivéssemos dado um nome léxico como `abc = function def() { .. }`, a propriedade `name` certamente seria `"def"`. Mas, na ausência de um nome léxico, intuitivamente o nome `"abc"` parece ser apropriado.
 
-Here are other forms that will infer a name (or not) in ES6:
+Aqui estão outras formas de inferir um nome (ou não) no ES6:
 
 ```js
 (function(){ .. });					// name:
@@ -123,26 +124,26 @@ var GeneratorFunction =
 var z = new GeneratorFunction();	// name: anonymous
 ```
 
-The `name` property is not writable by default, but it is configurable, meaning you can use `Object.defineProperty(..)` to manually change it if so desired.
+A propriedade `name` não é editável por padrão, mas é configurável, significando que você pode usar `Object.defineProperty(..)` para mudar manualmente se desejar.
 
-## Meta Properties
+## Meta Propriedades
 
-In the "`new.target`" section of Chapter 3, we introduced a concept new to JS in ES6: the meta property. As the name suggests, meta properties are intended to provide special meta information in the form of a property access that would otherwise not have been possible.
+Na seção "`new.target`" do Capítulo 3, nós introduzimos um conceito novo para o JS no ES6: a meta propriedade. Como o nome sugere, meta propriedades têm a intenção de fornecer meta informações especiais na forma de acesso de uma propriedade que de outra forma não teria sido possível.
 
-In the case of `new.target`, the keyword `new` serves as the context for a property access. Clearly `new` is itself not an object, which makes this capability special. However, when `new.target` is used inside a constructor call (a function/method invoked with `new`), `new` becomes a virtual context, so that `new.target` can refer to the target constructor that `new` invoked.
+No caso de `new.target`, a palavra-chave `new` serve como contexto para o acesso de uma propriedade. Claramente `new` não é um objeto propriamente, o que torna essa capacidade especial. Entretanto, quando `new.target` é usado dentro de uma chamada de um construtor (uma função/método invocado com `new`), `new` se torna um contexto virtual, tanto que `new.target` pode se referir ao construtor de destino no qual `new` foi invocado.
 
-This is a clear example of a meta programming operation, as the intent is to determine from inside a constructor call what the original `new` target was, generally for the purposes of introspection (examining typing/structure) or static property access.
+Este é um exemplo claro de uma operação de meta programação, visto que sua intenção é determinar, dentro da chamada do construtor, qual era o alvo original de `new`, geralmente para propósitos de instrospecção (examinar tipagem/estrutura) ou acesso de propriedades estáticas.
 
-For example, you may want to have different behavior in a constructor depending on if it's directly invoked or invoked via a child class:
+Por exemplo, você pode querer ter diferentes comportamentos em um construtor, dependendo se ele foi invocado diretamente ou invocado através do filho de uma classe:
 
 ```js
 class Parent {
 	constructor() {
 		if (new.target === Parent) {
-			console.log( "Parent instantiated" );
+			console.log( "Parent instanciada" );
 		}
 		else {
-			console.log( "A child instantiated" );
+			console.log( "Descendente instanciada" );
 		}
 	}
 }
@@ -150,33 +151,33 @@ class Parent {
 class Child extends Parent {}
 
 var a = new Parent();
-// Parent instantiated
+// Parent instanciada
 
 var b = new Child();
-// A child instantiated
+// Descendente instanciada
 ```
 
-There's a slight nuance here, which is that the `constructor()` inside the `Parent` class definition is actually given the lexical name of the class (`Parent`), even though the syntax implies that the class is a separate entity from the constructor.
+Há uma pequena nuance aqui, que é o fato do `constructor()` dentro da definição da classe `Parent` receber o nome léxico da própria classe (`Parent`),embora a sintaxe sugira que a classe é uma entidade separada do construtor.
 
-**Warning:** As with all meta programming techniques, be careful of creating code that's too clever for your future self or others maintaining your code to understand. Use these tricks with caution.
+**Atenção** Assim como todas técnicas de meta programação, tenha cuidado na criação de códigos que sejam muito "malandros"  ou que dificultem a compreensão para outros. Use esses macetes com cautela.
 
-## Well Known Symbols
+## Símbolos bem conhecidos
 
-In the "Symbols" section of Chapter 2, we covered the new ES6 primitive type `symbol`. In addition to symbols you can define in your own program, JS predefines a number of built-in symbols, referred to as *Well Known Symbols* (WKS).
+Na seção "Símbolos" do Capítulo 2, nós abordamos o novo tipo primitivo `symbol` do ES6. Além dos símbolos que você pode definir em seu próprio programa, o JS predefine uma série de símbolos internos, conhecidos como *Símbolos bem conhecidos* (WKS - *do original*).
 
-These symbol values are defined primarily to expose special meta properties that are being exposed to your JS programs to give you more control over JS's behavior.
+Esses valores de símbolos são definidos, primeiramente, para expôr meta propriedades especiais, que ficam disponíveis para seus programas JS e proporcionam maior controle sobre o comportamento do JS.
 
-We'll briefly introduce each and discuss their purpose.
+Nós vamos introduzir brevemente cada um e discutir suas propostas.
 
 ### `Symbol.iterator`
 
-In Chapters 2 and 3, we introduced and used the `@@iterator` symbol, automatically used by `...` spreads and `for..of` loops. We also saw `@@iterator` as defined on the new ES6 collections as defined in Chapter 5.
+Nos Capítulos 2 e 3, nós apresentamos e usamos o símbolo `@@iterator`, automaticamente usado pelos spreads `...` e loops `for..of`. Nós também vimos `@@iterator` definidos nas coleções no novo ES6, como mostrado no Capítulo 5.
 
-`Symbol.iterator` represents the special location (property) on any object where the language mechanisms automatically look to find a method that will construct an iterator instance for consuming that object's values. Many objects come with a default one defined.
+`Symbol.iterator` representa uma localização especial (propriedade) em qualquer objeto onde os mecanismos da lignuagem bucam por um método que irá construir uma instânica de iteração para consumo dos valores deste objeto. Muitos objetos vêm com um valor definido como padrão.
 
-However, we can define our own iterator logic for any object value by setting the `Symbol.iterator` property, even if that's overriding the default iterator. The meta programming aspect is that we are defining behavior which other parts of JS (namely, operators and looping constructs) use when processing an object value we define.
+Entretanto, nós podemos definir a nossa própria lógica de iterador para qualquer valor de objeto definindo a propriedade `Symbol.iterator`, mesmo se isso estiver substituindo o iterador padrão. O apecto de meta programação é que nós estamos definindo comportamentos que outras partes do JS (como operadores e construtores de loops) usam quando peocessam o valor de um objeto que nós definimos.
 
-Consider:
+Considere:
 
 ```js
 var arr = [4,5,6,7,8,9];
@@ -186,8 +187,8 @@ for (var v of arr) {
 }
 // 4 5 6 7 8 9
 
-// define iterator that only produces values
-// from odd indexes
+// define o iterador que produz apenas valores
+// de índices ímpares
 arr[Symbol.iterator] = function*() {
 	var idx = 1;
 	do {
@@ -201,11 +202,11 @@ for (var v of arr) {
 // 5 7 9
 ```
 
-### `Symbol.toStringTag` and `Symbol.hasInstance`
+### `Symbol.toStringTag` e `Symbol.hasInstance`
 
-One of the most common meta programming tasks is to introspect on a value to find out what *kind* it is, usually to decide what operations are appropriate to perform on it. With objects, the two most common inspection techniques are `toString()` and `instanceof`.
+Umas das tarefas de meta programação mais comuns é inspecionar um valor para descobrir de qual *tipo* ele é, geralmente para decidir quais operações são apropriadas para atuar neles. Com objetos, as duas técnicas de inspeção mais comuns são `toString()` e `instanceof`.
 
-Consider:
+Considere:
 
 ```js
 function Foo() {}
@@ -243,23 +244,23 @@ a instanceof Foo;			// true
 b instanceof Foo;			// false
 ```
 
-The `@@toStringTag` symbol on the prototype (or instance itself) specifies a string value to use in the `[object ___]` stringification.
+O símbolo `@@toStringTag` no prototype (ou na própria instância) especifica o valor da string para uso na conversão para string `[object ___]`.
 
-The `@@hasInstance` symbol is a method on the constructor function which receives the instance object value and lets you decide by returning `true` or `false` if the value should be considered an instance or not.
+O símbolo `@@hasInstance` é um método da função construtora que recebe o valor da instância de um objeto e deixa voçê decidir se retorna `true` ou `false` se o valor deverá ser considerado uma instância ou não.
 
-**Note:** To set `@@hasInstance` on a function, you must use `Object.defineProperty(..)`, as the default one on `Function.prototype` is `writable: false`. See the *this & Object Prototypes* title of this series for more information.
+**Observação** Para definir `@@hasInstance` em uma função, você precisa usar o `Object.defineProperty(..)`, assim como o padrão em `Function.prototype` é `writable: false`. Veja o título *this e Object Prototypes* dessa série para mais informações.
 
 ### `Symbol.species`
 
-In "Classes" in Chapter 3, we introduced the `@@species` symbol, which controls which constructor is used by built-in methods of a class that needs to spawn new instances.
+Em "Classes" no Capítulo 3, nós apresentamos o símbolo `@@species`, que controla qual construtor é usado em métodos legados de uma classe que precisa gerar novas instâncias.
 
-The most common example is when subclassing `Array` and wanting to define which constructor (`Array(..)` or your subclass) inherited methods like `slice(..)` should use. By default, `slice(..)` called on an instance of a subclass of `Array` would produce a new instance of that subclass, which is frankly what you'll likely often want.
+O exemplo mais comum é quando se adiciona uma `Array` a subclasse e queremos definir qual métodos herdados seu construtor (`Array(..)` ou sua subclasse), como o `slice(..)` você deveria usar. Por padrão, o `slice (..)` chamado em uma instância de uma subclasse de `Array` produziria uma nova instância dessa subclasse, na qual é, francamente, o que você vai querer frequentemente.
 
-However, you can meta program by overriding a class's default `@@species` definition:
+Entretanto, você pode meta programar substituindo a definição padrão `@@species`:
 
 ```js
 class Cool {
-	// defer `@@species` to derived constructor
+	// adiar `@@species` para um construtor derivado
 	static get [Symbol.species]() { return this; }
 
 	again() {
@@ -270,7 +271,7 @@ class Cool {
 class Fun extends Cool {}
 
 class Awesome extends Cool {
-	// force `@@species` to be parent constructor
+	// forçar `@@species` para ser um construtor pai
 	static get [Symbol.species]() { return Cool; }
 }
 
@@ -284,17 +285,17 @@ d instanceof Awesome;		// false
 d instanceof Cool;			// true
 ```
 
-The `Symbol.species` setting defaults on the built-in native constructors to the `return this` behavior as illustrated in the previous snippet in the `Cool` definition. It has no default on user classes, but as shown that behavior is easy to emulate.
+A configuração `Symbol.species` padrão está nos construtores nativos incorporados ao comportamento do `return this` assim como ilustrado no snippet anterior na definição `cool`. Não há padrão em classes de usuário, mas, como mostrado, esse comportamento é fácil de emular.
 
-If you need to define methods that generate new instances, use the meta programming of the `new this.constructor[Symbol.species](..)` pattern instead of the hard-wiring of `new this.constructor(..)` or `new XYZ(..)`. Derived classes will then be able to customize `Symbol.species` to control which constructor vends those instances.
+Se você precisa definir métodos que irão gerar novas instâncias, use a a metaprogramação do  padrão `new this.constructor[Symbol.species](..)` em vez da engessada `new this.constructor(..)` or `new XYZ(..)`. Classes derivadas serão então capazes de customizar `Symbol.species` para controlar qual construtor vende aquelas isntâncias.
 
 ### `Symbol.toPrimitive`
 
-In the *Types & Grammar* title of this series, we discussed the `ToPrimitive` abstract coercion operation, which is used when an object must be coerced to a primitive value for some operation (such as `==` comparison or `+` addition). Prior to ES6, there was no way to control this behavior.
+No título *Typos & Gramática* dessa série, nós discutimos a operação de coerção abstrata `ToPrimitive`, que é usada quando um objeto precisa ser coagido para um valor primitivo para algumas operações (assim como a comparação `==` ou adição `+`). Antes do ES6, não havia uma maneira de controlar esse comportamento.
 
-As of ES6, the `@@toPrimitive` symbol as a property on any object value can customize that `ToPrimitive` coercion by specifying a method.
+No ES6, o símbolo `@@toPrimitive` como uma propriedade em qualquer valor de objeto pode customizar essa coerção `toPrimitive` especificando um método.
 
-Consider:
+Considere:
 
 ```js
 var arr = [1,2,3,4,5];
@@ -303,7 +304,7 @@ arr + 10;				// 1,2,3,4,510
 
 arr[Symbol.toPrimitive] = function(hint) {
 	if (hint == "default" || hint == "number") {
-		// sum all numbers
+		// soma de todos os números
 		return this.reduce( function(acc,curr){
 			return acc + curr;
 		}, 0 );
@@ -312,39 +313,41 @@ arr[Symbol.toPrimitive] = function(hint) {
 
 arr + 10;				// 25
 ```
+O método `Symbol.toPrimitive` vai ser fornecido com uma *dica* de `"string"`, `"number"`, ou `"default"` (o que será interpretado como `"number"`), dependendo de qual tipo de operação invocada `ToPrimitive` está esperando. No snippet anterior, a operação de adição `+` não tem dica (é passado o `"default"`). Uma operação de multiplicação `*` vai ter uma dica `"number"` e uma `String(arr)` vai ter uma dica `"string"`.
 
-The `Symbol.toPrimitive` method will be provided with a *hint* of `"string"`, `"number"`, or `"default"` (which should be interpreted as `"number"`), depending on what type the operation invoking `ToPrimitive` is expecting. In the previous snippet, the additive `+` operation has no hint (`"default"` is passed). A multiplicative `*` operation would hint `"number"` and a `String(arr)` would hint `"string"`.
+**Atenção** O operador `==` vai invocar a operação `ToPrimitive` sem uma dica -- o método `@@toPrimitive`, se algum for chamado com a dica `"default"` -- em um objeto se o outro valor comparado não for um objeto. Entretanto, se os dois valores de comparação são objetos, o comportamento de `==` é idêntico ao `===`. que se referenciam a eles mesmos e são comparáveis diretamente. Nesse caso, `@@toPrimitive` não é invocado. Veja no título *Tipos & Gramática* dessa série para mais informações sobre coerção e as operaçãoes abstratas.
 
-**Warning:** The `==` operator will invoke the `ToPrimitive` operation with no hint -- the `@@toPrimitive` method, if any is called with hint `"default"` -- on an object if the other value being compared is not an object. However, if both comparison values are objects, the behavior of `==` is identical to `===`, which is that the references themselves are directly compared. In this case, `@@toPrimitive` is not invoked at all. See the *Types & Grammar* title of this series for more information about coercion and the abstract operations.
+### Símbolos de expressões regulares
 
-### Regular Expression Symbols
+Há quatro símbolos bem conhecidos que podem ser subtituídos por objetos de expressão regular, que controla como essas expressões regulares são usadas pelas quatro funções `String.prototype` com os mesmos nomes correspondentes:
 
-There are four well known symbols that can be overridden for regular expression objects, which control how those regular expressions are used by the four corresponding `String.prototype` functions of the same name:
+* `@@match`: O valor `Symbol.match` de uma expressão regular é o método usado para combinar todas as partes do valor de uma string com a expressão regular fornecida. É usado por `String.prototype.match(..)` se você passar ele como uma expressão regular para o padrão de combinação.
 
-* `@@match`: The `Symbol.match` value of a regular expression is the method used to match all or part of a string value with the given regular expression. It's used by `String.prototype.match(..)` if you pass it a regular expression for the pattern matching.
+	O algotítimo padrão para combinar está na seção 21.2.5.6 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@match). Você poderá substituir esse algoritimo padrão e fornacer funcionalidades extras na regex, assim como assertivas looking-behind.
 
-   The default algorithm for matching is laid out in section 21.2.5.6 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@match). You could override this default algorithm and provide extra regex features, such as look-behind assertions.
+	`Symbol.match` também  é usado pela operação abstrata `isRegExp` (veja a nota em "Funções de inspeção da String" no Capítulo 6) para determinar se uma objeto tem a intenção de ser usado como uma expressão regular. Para forçar a falha dessa verificação no objeto oara que isso não seja tratado como expressão regular, defina o valor do símbolo `Symbol.match` para `false` (ou algo falseável).
 
-   `Symbol.match` is also used by the `isRegExp` abstract operation (see the note in "String Inspection Functions" in Chapter 6) to determine if an object is intended to be used as a regular expression. To force this check to fail for an object so it's not treated as a regular expression, set the `Symbol.match` value to `false` (or something falsy).
-* `@@replace`: The `Symbol.replace` value of a regular expression is the method used by `String.prototype.replace(..)` to replace within a string one or all occurrences of character sequences that match the given regular expression pattern.
+*`@@replace`: O valor do símbolo `Symbol.replace` de uma expressão regular é o método usado pelo `String.prototype.replace(..)` para substituir dentro de uma string uma ou todas ocorrências de sequências de caracteres que combinarem com padrão fornecido das expressões regulares.
 
-   The default algorithm for replacing is laid out in section 21.2.5.8 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@replace).
+	O algoritmo padrão para substituição está explícito na seção 21.2.5.8 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@replace).
 
-   One cool use for overriding the default algorithm is to provide additional `replacer` argument options, such as supporting `"abaca".replace(/a/g,[1,2,3])` producing `"1b2c3"` by consuming the iterable for successive replacement values.
-* `@@search`: The `Symbol.search` value of a regular expression is the method used by `String.prototype.search(..)` to search for a sub-string within another string as matched by the given regular expression.
+	Um uso legal para substituir o algoritmo padrão pe fornecer opções adicionais do argumento `replacer`, assim como o dado `"abaca".replace(/a/g,[1,2,3])` produz `"1b2c3"` consumindo a iteração por sucessivos valores substituídos.
 
-   The default algorithm for searching is laid out in section 21.2.5.9 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@search).
-* `@@split`: The `Symbol.split` value of a regular expression is the method used by `String.prototype.split(..)` to split a string into sub-strings at the location(s) of the delimiter as matched by the given regular expression.
+* `@@search`: O valor `Symbol.search` de uma expressão regular é o método usado por `String.prototype.search(..)` para buscar por uma substring dentro de outra string assim que combinado com a expressão regular fornecida.
 
-   The default algorithm for splitting is laid out in section 21.2.5.11 of the ES6 specification (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@split).
+	O algoritmo padrão para buscas está descrito na seção 21.2.5.9 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@search).
 
-Overriding the built-in regular expression algorithms is not for the faint of heart! JS ships with a highly optimized regular expression engine, so your own user code will likely be a lot slower. This kind of meta programming is neat and powerful, but it should only be used in cases where it's really necessary or beneficial.
+* `@@split`: O valor do símbolo `Symbol.split` de uma expressão regular é o método usado por `String.prototype.split(..)` para repartir uma string em substrings na localização(ões) do delimitador da combinação da expressão regular fornecida.
+
+	O algoritmo padrão para repartir (splitting) está na seção 21.2.5.11 da especificação ES6(https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@split).
+
+Substituir os algoritmos de expressão regular nativos não é para os fracos de coração! O JS vem com um motor de expressões regulares altamente otimizado, então seu próprio código provavelmente será bem mais lento. Esse tipo de metaprogramação é limpo e poderoso, mas só deve ser usado em casos onde são realmente necessários ou benéficos.
 
 ### `Symbol.isConcatSpreadable`
 
-The `@@isConcatSpreadable` symbol can be defined as a boolean property (`Symbol.isConcatSpreadable`) on any object (like an array or other iterable) to indicate if it should be *spread out* if passed to an array `concat(..)`.
+O símbolo `@@isConcarSpreadable` pode ser definido como uma propriedade booleana (`Symbol.isConcatSpreadable`) de qualquer objeto (como um array ou outro iterável) para indicar se isso deve ser *espalhado* se passar para um array `concat(..)`
 
-Consider:
+Considere:
 
 ```js
 var a = [1,2,3],
@@ -357,9 +360,9 @@ b[Symbol.isConcatSpreadable] = false;
 
 ### `Symbol.unscopables`
 
-The `@@unscopables` symbol can be defined as an object property (`Symbol.unscopables`) on any object to indicate which properties can and cannot be exposed as lexical variables in a `with` statement.
+O símbolo `@@unscopables` pode ser definido com uma propriedade de objeto (`Symbol.unscopables`)em qualquer objeto para indicar qual propriedade não podem ser expostas como variáveis léxicas em uma declaração `with`.
 
-Consider:
+Considere:
 
 ```js
 var o = { a:1, b:2, c:3 },
@@ -376,24 +379,26 @@ with (o) {
 }
 ```
 
-A `true` in the `@@unscopables` object indicates the property should be *unscopable*, and thus filtered out from the lexical scope variables. `false` means it's OK to be included in the lexical scope variables.
+Um `true` em um objeto `@@unscopables` indica que a propriedade deve ser *fora de escopo (unscopable)*, e é filtrada do escopo das variáveis léxicas. `false` significa que é OK incluir em um escopo de variáveis léxicas.
 
-**Warning:** The `with` statement is disallowed entirely in `strict` mode, and as such should be considered deprecated from the language. Don't use it. See the *Scope & Closures* title of this series for more information. Because `with` should be avoided, the `@@unscopables` symbol is also moot.
+**Atenção** A declaração `with` é totalmente proibida no modo `strict`, assim como deve ser considerada obsoleta para a linguagem. Não a use. Veja o título *Escopo & Closures* dessa série para mais informações. Porque `with` deve ser evitado, o símbolo `@@ unscopables` também é discutível.
 
 ## Proxies
 
-One of the most obviously meta programming features added to ES6 is the `Proxy` feature.
+Uma das funcionalidades mais óbvias da metaprogramação adicionanda no ES6 é a funcionalidade `Proxy`.
 
-A proxy is a special kind of object you create that "wraps" -- or sits in front of -- another normal object. You can register special handlers (aka *traps*) on the proxy object which are called when various operations are performed against the proxy. These handlers have the opportunity to perform extra logic in addition to *forwarding* the operations on to the original target/wrapped object.
+Um proxy é um tipo especial de objeto que você cria aqueles "wraps" -- ou seta da frente de -- outro objeto normal. Você pode registrar marcadores especiais (aka *armadilhas*) no objeto de proxy que são chamados quando várias operações são performadas contra o proxy. Esses marcadores têm a oportunidade de realizar lógicas extras em adição a operações de *encaminhamento* no objeto alvo original.
 
-One example of the kind of *trap* handler you can define on a proxy is `get` that intercepts the `[[Get]]` operation -- performed when you try to access a property on an object. Consider:
+Um exemplo do tipo de marcadores de *armadilhas* que você pode definir em um proxy é `get` que intercepta a operação `[[Get]]` -- realizada quando você tenta acessar a propriedade de um objeto.
+
+Considere:
 
 ```js
 var obj = { a: 1 },
 	handlers = {
 		get(target,key,context) {
-			// note: target === obj,
-			// context === pobj
+			// nota: target === obj,
+			// contexto === pobj
 			console.log( "accessing: ", key );
 			return Reflect.get(
 				target, key, context
@@ -406,36 +411,37 @@ obj.a;
 // 1
 
 pobj.a;
-// accessing: a
+// acessando: a
 // 1
 ```
 
-We declare a `get(..)` handler as a named method on the *handler* object (second argument to `Proxy(..)`), which receives a reference to the *target* object (`obj`), the *key* property name (`"a"`), and the `self`/receiver/proxy (`pobj`).
+Nós declaramos um manipulador `get(..)` como nomeado no método no objeto *handler* (segundo argumento para `Proxy(..)`), que recebe uma referência para o objeto *target* (`obj`), o nome da propriedade *key* (`"a"`), e o `self`/recebedor/proxy (`pobj`).
 
-After the `console.log(..)` tracing statement, we "forward" the operation onto `obj` via `Reflect.get(..)`. We will cover the `Reflect` API in the next section, but note that each available proxy trap has a corresponding `Reflect` function of the same name.
+Depois do `console.log(..)` traçar a declaração, nós "encaminhamos" a operação para o `obj` via `Reflect.get(..)`. Nós vamos abordar a API `Reflect` na próxima seção, mas note que cada armadilha proxy disponível tem uma funcção `Reflect` correspondente com o mesmo nome.
 
-These mappings are symmetric on purpose. The proxy handlers each intercept when a respective meta programming task is performed, and the `Reflect` utilities each perform the respective meta programming task on an object. Each proxy handler has a default definition that automatically calls the corresponding `Reflect` utility. You will almost certainly use both `Proxy` and `Reflect` in tandem.
+Esses mapeamentos têm propósitos simétricos. cada manipulador proxy intercepta quando uma respectiva tarefa de metaprogramação é realizada, e cada uma das utilidades do `Reflect` realizam a terefa de mataprogramação respectiva em um objeto. Cada manipulador proxy tem uma definição padrão que automaticamente chama uma utilidade `Reflect` correspondente. Você vai com certeza utilizar ambas, `Reflect` e `Proxy`.
 
-Here's a list of handlers you can define on a proxy for a *target* object/function, and how/when they are triggered:
+Aqui está uma lista de manipuladores que você pode4rá definir em um proxy para uma função/objeto *alvo*, e como/quando eles serão disparados:
 
-* `get(..)`: via `[[Get]]`, a property is accessed on the proxy (`Reflect.get(..)`, `.` property operator, or `[ .. ]` property operator)
-* `set(..)`: via `[[Set]]`, a property value is set on the proxy (`Reflect.set(..)`, the `=` assignment operator, or destructuring assignment if it targets an object property)
-* `deleteProperty(..)`: via `[[Delete]]`, a property is deleted from the proxy (`Reflect.deleteProperty(..)` or `delete`)
-* `apply(..)` (if *target* is a function): via `[[Call]]`, the proxy is invoked as a normal function/method (`Reflect.apply(..)`, `call(..)`, `apply(..)`, or the `(..)` call operator)
-* `construct(..)` (if *target* is a constructor function): via `[[Construct]]`, the proxy is invoked as a constructor function (`Reflect.construct(..)` or `new`)
-* `getOwnPropertyDescriptor(..)`: via `[[GetOwnProperty]]`, a property descriptor is retrieved from the proxy (`Object.getOwnPropertyDescriptor(..)` or `Reflect.getOwnPropertyDescriptor(..)`)
-* `defineProperty(..)`: via `[[DefineOwnProperty]]`, a property descriptor is set on the proxy (`Object.defineProperty(..)` or `Reflect.defineProperty(..)`)
-* `getPrototypeOf(..)`: via `[[GetPrototypeOf]]`, the `[[Prototype]]` of the proxy is retrieved (`Object.getPrototypeOf(..)`, `Reflect.getPrototypeOf(..)`, `__proto__`, `Object#isPrototypeOf(..)`, or `instanceof`)
-* `setPrototypeOf(..)`: via `[[SetPrototypeOf]]`, the `[[Prototype]]` of the proxy is set (`Object.setPrototypeOf(..)`, `Reflect.setPrototypeOf(..)`, or `__proto__`)
-* `preventExtensions(..)`: via `[[PreventExtensions]]`, the proxy is made non-extensible (`Object.preventExtensions(..)` or `Reflect.preventExtensions(..)`)
-* `isExtensible(..)`: via `[[IsExtensible]]`, the extensibility of the proxy is probed (`Object.isExtensible(..)` or `Reflect.isExtensible(..)`)
-* `ownKeys(..)`: via `[[OwnPropertyKeys]]`, the set of owned properties and/or owned symbol properties of the proxy is retrieved (`Object.keys(..)`, `Object.getOwnPropertyNames(..)`, `Object.getOwnSymbolProperties(..)`, `Reflect.ownKeys(..)`, or `JSON.stringify(..)`)
-* `enumerate(..)`: via `[[Enumerate]]`, an iterator is requested for the proxy's enumerable owned and "inherited" properties (`Reflect.enumerate(..)` or `for..in`)
-* `has(..)`: via `[[HasProperty]]`, the proxy is probed to see if it has an owned or "inherited" property (`Reflect.has(..)`, `Object#hasOwnProperty(..)`, or `"prop" in obj`)
+* `get(..)`: via `[[Get]]`, uma propriedade é acessado no proxy (`Reflect.get(..)`, `.` operador da propriedade, ou `[ .. ]` operador da proopriedade)
+* `set(..)`: via `[[Set]]`, um valor é definido para a propriedade do proxy (`Reflect.set(..)`, o `=` operador de atribuição, ou desestruturando a atribuição se ele tiver uma propriedade de objeto como alvo)
+* `deleteProperty(..)`: via `[[Delete]]`, uma propriedade é deletada do proxy (`Reflect.deleteProperty(..)` ou `delete`)
+* `apply(..)` (se *target* é uma função): via `[[Call]]`, o proxy é invocado como uma função/método normal (`Reflect.apply(..)`, `call(..)`, `apply(..)`, ou o `(..)` operador de chamada)
+* `construct(..)` (se o *target* é uma função construtora): via `[[Construct]]`, o proxy é invocado como como uma função construtora (`Reflect.construct(..)` ou `new`)
+* `getOwnPropertyDescriptor(..)`: via `[[GetOwnProperty]]`, uma propriedade decriptada é recuperada do proxy (`Object.getOwnPropertyDescriptor(..)` ou `Reflect.getOwnPropertyDescriptor(..)`)
+* `defineProperty(..)`: via `[[DefineOwnProperty]]`, uma propriedade decripitada é definida no Proxy (`Object.defineProperty(..)` ou `Reflect.defineProperty(..)`)
+* `getPrototypeOf(..)`: via `[[GetPrototypeOf]]`, o `[[Prototype]]` do proxy é recuperado (`Object.getPrototypeOf(..)`, `Reflect.getPrototypeOf(..)`, `__proto__`, `Object#isPrototypeOf(..)`, ou `instanceof`)
+* `setPrototypeOf(..)`: via `[[SetPrototypeOf]]`, o `[[Prototype]]` do proxy é definido(`Object.setPrototypeOf(..)`, `Reflect.setPrototypeOf(..)`, or `__proto__`)
+* `preventExtensions(..)`: via `[[PreventExtensions]]`, o proxy é feito não extensível(`Object.preventExtensions(..)` ou `Reflect.preventExtensions(..)`)
+* `isExtensible(..)`: via `[[IsExtensible]]`, a extensibilidade do proxy é avaliada
+ (`Object.isExtensible(..)` or `Reflect.isExtensible(..)`)
+* `ownKeys(..)`: via `[[OwnPropertyKeys]]`, o conjunto de propriedades próprias e/ou propriedade de símbolos do proxy é recuperado (`Object.keys(..)`, `Object.getOwnPropertyNames(..)`, `Object.getOwnSymbolProperties(..)`, `Reflect.ownKeys(..)`, ou `JSON.stringify(..)`)
+* `enumerate(..)`: via `[[Enumerate]]`, um iterador é solicitado para propriedades próprias enumeradas e "herdadas" do proxy (`Reflect.enumerate(..)` ou `for..in`)
+* `has(..)`: via `[[HasProperty]]`, o proxy é avalidado para ver se ele tem uma propriedade própria ou "herdada" (`Reflect.has(..)`, `Object#hasOwnProperty(..)`, ou `"prop" in obj`)
 
-**Tip:** For more information about each of these meta programming tasks, see the "`Reflect` API" section later in this chapter.
+**Dica** Para mais informação sobre cada uma dessas tarefas de metaprogramação, veja a seção API `Reflect` depois nesse capítulo.
 
-In addition to the notations in the preceding list about actions that will trigger the various traps, some traps are triggered indirectly by the default actions of another trap. For example:
+Além das notações na lista anterior sobre ações que irão disparar várias armadilhas, algumas armadilhas são disparadas indiretamente por ações padrão de outra armadilha. Poe exemplo:
 
 ```js
 var handlers = {
@@ -461,13 +467,13 @@ proxy.a = 2;
 // defineProperty
 ```
 
-The `getOwnPropertyDescriptor(..)` and `defineProperty(..)` handlers are triggered by the default `set(..)` handler's steps when setting a property value (whether newly adding or updating). If you also define your own `set(..)` handler, you may or may not make the corresponding calls against `context` (not `target`!) which would trigger these proxy traps.
+Os manipuladores `getOwnPropertyDescriptor(..)` e `defineProperty(..)` são disparados pelo manipulador padrão `set(..)`quando definido um valor de propriedade (tanto faz adiconar ou atualizar). Se você também definir seu próprio manipulador `set(..)`, você poderá ou não fazer as chamadas correspondentes conta o `context` (não o `target`!) que vai disparar essas armadilhas de proxy.
 
-### Proxy Limitations
+### Limitações de Proxy
 
-These meta programming handlers trap a wide array of fundamental operations you can perform against an object. However, there are some operations which are not (yet, at least) available to intercept.
+Esses manipuladores de metaprogramação envolvem uma ampla gama de operações fundamentais que você pode executar contra um objeto. Entretanto, há algumas opreações que não são (ainda, pelo menos) disponíveis para interceptar.
 
-For example, none of these operations are trapped and forwarded from `pobj` proxy to `obj` target:
+Por exemplo, nenhum desses operadores são presos e encaminhados do proxy `pobj` para o target `obj`:
 
 ```js
 var obj = { a:1, b:2 },
@@ -481,20 +487,20 @@ obj == pobj;
 obj === pobj
 ```
 
-Perhaps in the future, more of these underlying fundamental operations in the language will be interceptable, giving us even more power to extend JavaScript from within itself.
+Talvez no futuro, mais dessas operações fundamentais subjacentes na linguagem serão interceptáveis, nos dando ainda mais poder para estender o JavaScript dentro de si.
 
-**Warning:** There are certain *invariants* -- behaviors which cannot be overridden -- that apply to the use of proxy handlers. For example, the result from the `isExtensible(..)` handler is always coerced to a `boolean`. These invariants restrict some of your ability to customize behaviors with proxies, but they do so only to prevent you from creating strange and unusual (or inconsistent) behavior. The conditions for these invariants are complicated so we won't fully go into them here, but this post (http://www.2ality.com/2014/12/es6-proxies.html#invariants) does a great job of covering them.
+**Atenção** Há certa *invariantes* -- comportamentos que não podem ser sobrescritos -- que se aplicam no uso dos manipuladore de proxy. Por exemplo, o resultado do manipulador `isExtensible(..)` será sempre coagido em um `boolean`. Essas invariantes restringem algumas das suas possibilidadedes de customizar comportamentos so proxies, mas eles somente previnem você de criar comportamentos estranhos e incomuns (ou inconsistentes). As condições dessas invariantes são complicadas então não vamos abordá-las a fundo aqui, mas esse post (http://www.2ality.com/2014/12/es6-proxies.html#invariants) faz um excelente trabalho abordando-as.
 
-### Revocable Proxies
+### Proxies Revogáveis
 
-A regular proxy always traps for the target object, and cannot be modified after creation -- as long as a reference is kept to the proxy, proxying remains possible. However, there may be cases where you want to create a proxy that can be disabled when you want to stop allowing it to proxy. The solution is to create a *revocable proxy*:
+Um proxy regular sempre se prende para o objeto alvo, e não poderá ser modificado após a criação -- Enquanto uma referência é mantida no proxy, a proxissão (*proxying*) continua sendo possível. No entanto, poderá haver casos onde vecê desejará criar um proxy que possa ser desabilitado quando você quiser parar de permitir que ele seja proxy. A solução é criar um *porxy revogável*:
 
 ```js
 var obj = { a: 1 },
 	handlers = {
 		get(target,key,context) {
-			// note: target === obj,
-			// context === pobj
+			// nota: target === obj,
+			// contexto === pobj
 			console.log( "accessing: ", key );
 			return target[key];
 		}
@@ -503,52 +509,52 @@ var obj = { a: 1 },
 		Proxy.revocable( obj, handlers );
 
 pobj.a;
-// accessing: a
+// acessando: a
 // 1
 
-// later:
+// depois:
 prevoke();
 
 pobj.a;
 // TypeError
 ```
 
-A revocable proxy is created with `Proxy.revocable(..)`, which is a regular function, not a constructor like `Proxy(..)`. Otherwise, it takes the same two arguments: *target* and *handlers*.
+Um proxy revogável é criado com `Proxy.revocable(..)`, que é uma função regular, não um construtor como `Proxy(..)`. Por outro lado, ele terá os mesmos dois argumentos: *target*(alvo) e *handlers*(manipuladores).
 
-The return value of `Proxy.revocable(..)` is not the proxy itself as with `new Proxy(..)`. Instead, it's an object with two properties: *proxy* and *revoke* -- we used object destructuring (see "Destructuring" in Chapter 2) to assign these properties to `pobj` and `prevoke()` variables, respectively.
+O retorno do valor de `Proxy.revocable(..)` não é o próprio proxy como com `new Proxy (..)`. Em vez disso, ele é um objeto com duas propriedades: *proxy* e *revoke* -- nós usamos a desestruturação do objeto (veja "Desestruturação" no Capítulo 2) para declarar essas propriedades para as variáveis `pobj` e `prevoke()`, respectivamente.
 
-Once a revocable proxy is revoked, any attempts to access it (trigger any of its traps) will throw a `TypeError`.
+Uma vez que o proxy revogável é revogado, qualquer tentativa de acessá-lo (acionará qualquer uma das suas armadilhas) vai retornar um `TypeError`.
 
-An example of using a revocable proxy might be handing out a proxy to another party in your application that manages data in your model, instead of giving them a reference to the real model object itself. If your model object changes or is replaced, you want to invalidate the proxy you handed out so the other party knows (via the errors!) to request an updated reference to the model.
+Um exemplo do uso de um proxy revogável pode ser distribuindo um proxy para outra parte em seu aplicativo que gerencia dados em seu modelo, em vez de dar a eles uma referência do próprio objeto real. Se o modelo do seu objeto mudar ou for substituído, você deseja invalidar o proxy que você entregou para que a outra parte saiba (através dos erros!) para requisitar uma atualização referente ao modelo.
 
-### Using Proxies
+### Utilizando Proxies
 
-The meta programming benefits of these Proxy handlers should be obvious. We can almost fully intercept (and thus override) the behavior of objects, meaning we can extend object behavior beyond core JS in some very powerful ways. We'll look at a few example patterns to explore the possibilities.
+Os benefícios da metaprogramação desses manipuladores de Proxy devem ser óbvios. Nós podemos quase que totalmente interceptar (e substituir) o comportamento de objetos, significando que podemos extender o comportamento de objetos além do core do JS de maneiras muito poderosas. Nós vamos ver alguns poucos modelos exemplos para explorar as possibilidades.
 
-#### Proxy First, Proxy Last
+#### Proxy Primeiro, Proxy por Último
 
-As we mentioned earlier, you typically think of a proxy as "wrapping" the target object. In that sense, the proxy becomes the primary object that the code interfaces with, and the actual target object remains hidden/protected.
+Como mencionamos antes, você normalmente pensa em um proxy como "embrulhar" o objeto alvo. Nesse sentido, o proxy torna-se o objeto primário com o qual o código interage, o objeto alvo atual se mantém escondido/protegido.
 
-You might do this because you want to pass the object somewhere that can't be fully "trusted," and so you need to enforce special rules around its access rather than passing the object itself.
+Você pode fazer isso porque deseja passar o objeto por algum lugar que não pode ser totalmente "confiável", e então você precisa impor regras especiais em torno de seu acesso em vez de passar o próprio objeto.
 
-Consider:
+Considere:
 
 ```js
 var messages = [],
 	handlers = {
 		get(target,key) {
-			// string value?
+			// valor da string?
 			if (typeof target[key] == "string") {
-				// filter out punctuation
+				// filtrando a pontuação
 				return target[key]
 					.replace( /[^\w]/g, "" );
 			}
 
-			// pass everything else through
+			// passar todo o resto através de
 			return target[key];
 		},
 		set(target,key,val) {
-			// only set unique strings, lowercased
+			// apenas defina strings únicas, em caixa baixa
 			if (typeof val == "string") {
 				val = val.toLowerCase();
 				if (target.indexOf( val ) == -1) {
@@ -563,7 +569,7 @@ var messages = [],
 	messages_proxy =
 		new Proxy( messages, handlers );
 
-// elsewhere:
+// em outro lugar:
 messages_proxy.push(
 	"heLLo...", 42, "wOrlD!!", "WoRld!!"
 );
@@ -579,13 +585,13 @@ messages.forEach( function(val){
 // hello... world!!
 ```
 
-I call this *proxy first* design, as we interact first (primarily, entirely) with the proxy.
+Eu chamo isso de design de *proxy primeiro*(proxy first), como nós interagimos primeiro (primeiramente, inteiramente) com o proxy.
 
-We enforce some special rules on interacting with `messages_proxy` that aren't enforced for `messages` itself. We only add elements if the value is a string and is also unique; we also lowercase the value. When retrieving values from `messages_proxy`, we filter out any punctuation in the strings.
+Nós reforçamos algumas regras especiais na interação com `messages_proxy` que não são reforçadas pelas próprias `messages`. Nós apenas adicionamos elementos se o valor é uma string e é também única; nós também deixamos o valor em caixa baixa. Quando recuperamos valores de `message_proxy`, nós filtramos qualquer pontuação nas strings.
 
-Alternatively, we can completely invert this pattern, where the target interacts with the proxy instead of the proxy interacting with the target. Thus, code really only interacts with the main object. The easiest way to accomplish this fallback is to have the proxy object in the `[[Prototype]]` chain of the main object.
+Alternativamente, nós podemos inverter esse padrão completamente, onde o alvo interage com o proxy em vez do proxy interagir com o alvo. Portanto, o código só interage realmente com o objeto principal. A maneira mais fácil de cumprir esse *fallback* é ter o objeto proxy na cadeia `[[Prototype]]` do objeto principal.
 
-Consider:
+Considere: 
 
 ```js
 var handlers = {
@@ -602,7 +608,7 @@ var handlers = {
 		}
 	};
 
-// setup `greeter` to fall back to `catchall`
+// definindo `greeter` como fall back para `catchall`
 Object.setPrototypeOf( greeter, catchall );
 
 greeter.speak();				// hello someone
@@ -611,17 +617,17 @@ greeter.speak( "world" );		// hello world
 greeter.everyone();				// hello everyone!
 ```
 
-We interact directly with `greeter` instead of `catchall`. When we call `speak(..)`, it's found on `greeter` and used directly. But when we try to access a method like `everyone()`, that function doesn't exist on `greeter`.
+Nós iteragimos diretamente com `greeter` em vez de `catchall`. Quando chamamos `speak(..)`, ele é encontrado em `greeter` e usado diretamente. Mas quando nós tentamos acessar um método como `everyone()`, essa função não existe em `greeter`.
 
-The default object property behavior is to check up the `[[Prototype]]` chain (see the *this & Object Prototypes* title of this series), so `catchall` is consulted for an `everyone` property. The proxy `get()` handler then kicks in and returns a function that calls `speak(..)` with the name of the property being accessed (`"everyone"`).
+O comportamento da propriedade padrão do objeto é verificar a cadeia `[[Prototype]]` (veja o título *this & Objects Prototypes* dessa série), então `catchall` é consultado para uma propriedade `everyone`. O manipulador proxy `get()` então bate e retorna uma função que chama `speak(..)` com o nome da propriedade sendo acessada (`"everyone"`).
 
-I call this pattern *proxy last*, as the proxy is used only as a last resort.
+Eu chamo esse padrão de *proxy por último*(proxy last), como o proxy é usado somente como último recurso.
 
-#### "No Such Property/Method"
+#### "A Propriedade/Método não existe"
 
-A common complaint about JS is that objects aren't by default very defensive in the situation where you try to access or set a property that doesn't already exist. You may wish to predefine all the properties/methods for an object, and have an error thrown if a nonexistent property name is subsequently used.
+Uma queixa comum sobre o JS é que objetos não são por padrão muito defensivos em situações onde você tenta acessar ou definir uma propriedade que ainda não existe. Você pode desejar pré definir todas as propriedades/métodos para um objeto, e ter uma erro lançado se o nome de uma propriedade não existente é usada subsequentemente.
 
-We can accomplish this with a proxy, either in *proxy first* or *proxy last* design. Let's consider both.
+Nós podemos fazer isso com um proxy, tanto no design de *proxy first* ou *proxy last*. Vamos considerar ambos:
 
 ```js
 var obj = {
@@ -657,13 +663,13 @@ var obj = {
 pobj.a = 3;
 pobj.foo();			// a: 3
 
-pobj.b = 4;			// Error: No such property/method!
-pobj.bar();			// Error: No such property/method!
+pobj.b = 4;			// Error: No such property/method (A Propriedade/Método não existe)!
+pobj.bar();			// Error: No such property/method(A Propriedade/Método não existe)!
 ```
 
-For both `get(..)` and `set(..)`, we only forward the operation if the target object's property already exists; error thrown otherwise. The proxy object (`pobj`) is the main object code should interact with, as it intercepts these actions to provide the protections.
+Para ambos `get(..)` e `set(..)`, nós somente prosseguimos a operação se a propriedade do objeto alvo já existir; do contrário o erro é lançado. O objeto proxy (`pobj`) é o objeto principal que o código deverá interagir, assim que ele intercepta essas ações para oferecer proteções.
 
-Now, let's consider inverting with *proxy last* design:
+Agora, vamos considerar inverter com o design *proxy last*:
 
 ```js
 var handlers = {
@@ -682,7 +688,7 @@ var handlers = {
 		}
 	};
 
-// setup `obj` to fall back to `pobj`
+// definido `obj` como fall back para `pobj`
 Object.setPrototypeOf( obj, pobj );
 
 obj.a = 3;
@@ -692,17 +698,18 @@ obj.b = 4;			// Error: No such property/method!
 obj.bar();			// Error: No such property/method!
 ```
 
-The *proxy last* design here is a fair bit simpler with respect to how the handlers are defined. Instead of needing to intercept the `[[Get]]` and `[[Set]]` operations and only forward them if the target property exists, we instead rely on the fact that if either `[[Get]]` or `[[Set]]` get to our `pobj` fallback, the action has already traversed the whole `[[Prototype]]` chain and not found a matching property. We are free at that point to unconditionally throw the error. Cool, huh?
+O design *proxy last* aqui é bem mais simples a respeito de como os manipuladores são definidos. Em vez da necessidade de interceptar as operações `[[Get]]` e `[[Set]]` e apenas prosseguir com elas se a propriedade do alvo existir, em vez disso nós confiamos no fato de que tanro `[[Get]]` ou `[[Set]]` chegue ao fallback do nosso `pobj`, as ações já percorreu toda a cadeia de `[[Prototype]]` e não achou uma propriedade compatível. Nós estamos livres nesse que ponto para lançar o erro incondicionalmente. Legal né?
 
-#### Proxy Hacking the `[[Prototype]]` Chain
+#### Proxy "Hackeando" a cadeia `[[Prototype]]`
 
-The `[[Get]]` operation is the primary channel by which the `[[Prototype]]` mechanism is invoked. When a property is not found on the immediate object, `[[Get]]` automatically hands off the operation to the `[[Prototype]]` object.
+A operação `[[Get]]` é o canal primário pelo qual o mecanismo `[[Prototype]]` é invocado. Quando uma propriedade não é encontrada em um objeto imediato, `[[Get]]` automaticamente desliga a operação para o objeto `[[Prototype]]`.
 
-That means you can use the `get(..)` trap of a proxy to emulate or extend the notion of this `[[Prototype]]` mechanism.
+Isso significa que você pode usar a armadilha `get(..)` de um proxy para emular ou extender a noção desse mechanismo `[[Prototype]]`.
 
-The first hack we'll consider is creating two objects which are circularly linked via `[[Prototype]]` (or, at least it appears that way!). You cannot actually create a real circular `[[Prototype]]` chain, as the engine will throw an error. But a proxy can fake it!
+O primeiro *hack* que nós vamos considerar é criar dois objetos que são ligados circularmente via `[[Prototype]]` (ou, pelo menos ele aparece dessa forma!). Na verdade você não pode criar uma cadeia `[[Prototype]]` circular reall, como o motor lançará um erro. Mas um proxy pode fingir isso!
 
-Consider:
+Considere:
+
 
 ```js
 var handlers = {
@@ -712,7 +719,7 @@ var handlers = {
 					target, key, context
 				);
 			}
-			// fake circular `[[Prototype]]`
+			//  `[[Prototype]]` circular fingido
 			else {
 				return Reflect.get(
 					target[
@@ -744,26 +751,26 @@ var handlers = {
 		}
 	);
 
-// fake circular `[[Prototype]]` link
+// ligação fingida do circular `[[Prototype]]`
 obj1[ Symbol.for( "[[Prototype]]" ) ] = obj2;
 
 obj1.bar();
-// bar: obj-1 <-- through proxy faking [[Prototype]]
-// foo: obj-1 <-- `this` context still preserved
+// bar: obj-1 <-- através de proxy fingindo [[Protótipo]]
+// foo: obj-1 <-- `this` contexto continua preservado
 
 obj2.foo();
-// foo: obj-2 <-- through [[Prototype]]
+// foo: obj-2 <-- através de [[Prototype]]
 ```
 
-**Note:** We didn't need to proxy/forward `[[Set]]` in this example, so we kept things simpler. To be fully `[[Prototype]]` emulation compliant, you'd want to implement a `set(..)` handler that searches the `[[Prototype]]` chain for a matching property and respects its descriptor behavior (e.g., set, writable). See the *this & Object Prototypes* title of this series.
+**Observação** Nós não precisamos de proxy/foward `[[Set]]` nesse exemplo, então menteremos as coisas simples. Para ser uma emulação `[[Prototype]]` completamente compatível, você vai querer implementar um manipulador `set(..)` que buscará na cadeia `[[Prototype]]` por uma propriedade correspondente e respeitará seu comportamento descritor (e.g., set, writable). Veja o título *this & Object Prototypes* dessa série.
 
-In the previous snippet, `obj2` is `[[Prototype]]` linked to `obj1` by virtue of the `Object.create(..)` statement. But to create the reverse (circular) linkage, we create property on `obj1` at the symbol location `Symbol.for("[[Prototype]]")` (see "Symbols" in Chapter 2). This symbol may look sort of special/magical, but it isn't. It just allows me a conveniently named hook that semantically appears related to the task I'm performing.
+No snipet anterior, `obj2` é `[[Prototype]]` ligado à `obj1` em virtude da declaração `Object.create(..)`. Mas para criar uma ligação reversa (circular), nós criamos a propriedade no `obj1` na localização do símbolo `Symbol.for("[[Prototype]]")`(Veja Símbolos no capítulo 2). Esse símbolo pode parecer meio especial/mágico, mas não é. Apenas me permite convenientemente comear um gancho que semanticamente aperece relacionado com a terafa que estou executando.
 
-Then, the proxy's `get(..)` handler looks first to see if a requested `key` is on the proxy. If not, the operation is manually handed off to the object reference stored in the `Symbol.for("[[Prototype]]")` location of `target`.
+Então, o manipulador proxy `get(..)` procura primeiro enxergar se uma `key` requisitada está no proxy. Se não, a operação é manualmente desligada do referente objeto armazenado no local `Symbol.for("[[Prototype]]")` do `target`.
 
-One important advantage of this pattern is that the definitions of `obj1` and `obj2` are mostly not intruded by the setting up of this circular relationship between them. Although the previous snippet has all the steps intertwined for brevity's sake, if you look closely, the proxy handler logic is entirely generic (doesn't know about `obj1` or `obj2` specifically). So, that logic could be pulled out into a simple helper that wires them up, like a `setCircularPrototypeOf(..)` for example. We'll leave that as an exercise for the reader.
+Uma vantagem importante desse padrão é que as definições de `obj1` e `obj2` na maioria das vezes não são invadidas pela configuração desta relação circular entre elas. Embora o fragmento anterior tenha todas as etapas entrelaçadas por razões de brevidade,s e você olhar mais de perto, a lógica do manipulador proxy é inteiramente genérica (não sabem sobre `ojb1` ou `obj2` especificamente) Então, essa lógica poderia ser puxada para um ajudante simples que os alinha, como um `setCircularPrototypeOf(..)` por exemplo. Nós vamos deixar isso como em exercício para o leitor.
 
-Now that we've seen how we can use `get(..)` to emulate a `[[Prototype]]` link, let's push the hackery a bit further. Instead of a circular `[[Prototype]]`, what about multiple `[[Prototype]]` linkages (aka "multiple inheritance")? This turns out to be fairly straightforward:
+Agora que vimos como podemos usar `get(..)` para emular uma ligação `[[Prototype]]`, vamos empurrar o hack um pouco mais. Em vez de um `[[Prorotype]]` circular, que tal múltiplas ligações `[[Prototype]]` (herança múltipla)? Isso acaba sendo bastante direto:
 
 ```js
 var obj1 = {
@@ -823,25 +830,23 @@ obj3.baz();
 // obj2.bar: obj-3
 ```
 
-**Note:** As mentioned in the note after the earlier circular `[[Prototype]]` example, we didn't implement the `set(..)` handler, but it would be necessary for a complete solution that emulates `[[Set]]` actions as normal `[[Prototype]]`s behave.
+**Observação** Como mencionado na nota do exemplo de `[[Prototype]]` circular anterior, nós não implementamos o manipulador `set(..)`, mas ele seria necessário para uma solução completa que emulasse cções `[[Set]]` como comportamentos do `[[Prototype]]`.
 
-`obj3` is set up to multiple-delegate to both `obj1` and `obj2`. In `obj3.baz()`, the `this.foo()` call ends up pulling `foo()` from `obj1` (first-come, first-served, even though there's also a `foo()` on `obj2`). If we reordered the linkage as `obj2, obj1`, the `obj2.foo()` would have been found and used.
+`obj3` está configurado como delegação múltipla para ambos `obj1` e `obj2`. No `obj3.baz()`, a chamada `this.foo()` termina puxando `foo()` de `obj1` (o primeiro que chegou, o primeiro a ser servido, mesmo que haja também um `foo ()` em `obj2`). Se nós reordenarmos a ligação como `obj2, obj1`, o `obj2.foo()` vai ser encontrado e utilizado. Mas, como está, a chamada `this.bar ()` não encontra uma `barra ()` em `obj1`, então cai para verificar` obj2`, onde encontra uma correspondência.
 
-But as is, the `this.bar()` call doesn't find a `bar()` on `obj1`, so it falls over to check `obj2`, where it finds a match.
+`obj1` e` obj2` representam duas cadeias paralelas `[[Protótipo]]` `obj3`. `obj1` e/ou` obj2` podiam ter uma delegação normal [[Protótipo]] "para outros objetos, ou mesmo poderia ser um proxy (como` obj3` é) que pode delegar múltiplas.
 
-`obj1` and `obj2` represent two parallel `[[Prototype]]` chains of `obj3`. `obj1` and/or `obj2` could themselves have normal `[[Prototype]]` delegation to other objects, or either could themself be a proxy (like `obj3` is) that can multiple-delegate.
+Assim como com o exemplo `[[Protótipo]]` circular anterior, as definições de `obj1`, 'obj2` e` obj3` são quase inteiramente separadas da lógica genérica de proxy que lida com a delegação múltipla. Seria trivial definir um utilitário como `setPrototypesOf (..)` (observe o "s"!) Que leva um objeto principal e uma lista de objetos para falsificar a ligação `[[Protótipo]]`. Mais uma vez, deixaremos isso como um exercício para o leitor.
 
-Just as with the circular `[[Prototype]]` example earlier, the definitions of `obj1`, `obj2`, and `obj3` are almost entirely separate from the generic proxy logic that handles the multiple-delegation. It would be trivial to define a utility like `setPrototypesOf(..)` (notice the "s"!) that takes a main object and a list of objects to fake the multiple `[[Prototype]]` linkage to. Again, we'll leave that as an exercise for the reader.
+Felizmente, o poder dos proxies agora está se tornando mais claro depois desses vários exemplos. Existem muitas outras tarefas poderosas de metaprogramação que os proxies habilitam.
 
-Hopefully the power of proxies is now becoming clearer after these various examples. There are many other powerful meta programming tasks that proxies enable.
+## API `Reflect`
 
-## `Reflect` API
+O objeto `Reflect` é um objeto simples (como `Math`), não uma função/construtor como outros intergrados nativos.
 
-The `Reflect` object is a plain object (like `Math`), not a function/constructor like the other built-in natives.
+Ele possui funções estáticas que correspondem a várias tarefas de mataprogramação que você pode controlar. Essas funções correspondem uma a uma com métodos manipuladores (*armadilhas*) que Proxies podem definir.
 
-It holds static functions which correspond to various meta programming tasks that you can control. These functions correspond one-to-one with the handler methods (*traps*) that Proxies can define.
-
-Some of the functions will look familiar as functions of the same names on `Object`:
+Algumas das funções vão parecer familiares como funções de mesmo nome em `Object`:
 
 * `Reflect.getOwnPropertyDescriptor(..)`
 * `Reflect.defineProperty(..)`
@@ -850,40 +855,40 @@ Some of the functions will look familiar as functions of the same names on `Obje
 * `Reflect.preventExtensions(..)`
 * `Reflect.isExtensible(..)`
 
-These utilities in general behave the same as their `Object.*` counterparts. However, one difference is that the `Object.*` counterparts attempt to coerce their first argument (the target object) to an object if it's not already one. The `Reflect.*` methods simply throw an error in that case.
+Essas utilidades em geral se comportam da mesma forma que seus `Object.*` equivalentes. Entretanto, uma diferença é que as equivalências de `Object.*` tentam coagir seu primeiro argumento (o objeto alvo) para um objeto se ele ainda não for um. Os métodos `Reflect` simplesmente lançam um erro nesse caso.
 
-An object's keys can be accessed/inspected using these utilities:
+A chave de um objeto pode ser acessada/inspecionada usando essas utilidades:
 
-* `Reflect.ownKeys(..)`: Returns the list of all owned keys (not "inherited"), as returned by both `Object.getOwnPropertyNames(..)` and `Object.getOwnPropertySymbols(..)`. See the "Property Enumeration Order" section for information about the order of keys.
-* `Reflect.enumerate(..)`: Returns an iterator that produces the set of all non-symbol keys (owned and "inherited") that are *enumerable* (see the *this & Object Prototypes* title of this series). Essentially, this set of keys is the same as those processed by a `for..in` loop. See the "Property Enumeration Order" section for information about the order of keys.
-* `Reflect.has(..)`: Essentially the same as the `in` operator for checking if a property is on an object or its `[[Prototype]]` chain. For example, `Reflect.has(o,"foo")` essentially performs `"foo" in o`.
+* `Reflect.ownKeys(..)`: Retorna a lista de todas as chaves possuídas (não "herdado"), como retornado por ambos `Object.getOwnPropertyNames(..)` e `Object.getOwnPropertySymbols(..)`. Veja a seção "Ordem de enumeração de propriedade" para informações sobre a ordenação das chaves.
+* `Reflect.enumerate(..)`: Retorna um iterador que produz a definição de todas chaves não-símbolos (próprias e "herdadas") que são *enumeráveis* (Veja o título *this & Object Prototypes* dessa série). Essencilamente, isso define se as chaves são as mesmas daquelas processadas por um loop `for..in`. Veja a seção Ordem de enumeração de propriedade" para informações sobre a ordenação das chaves.
+* `Reflect.has(..)`: Essencialmente o mesmo que o operador `in` para verificar se uma propriedade está no objeto ou está na cadeia `[[Prototype]]`. Por exemplo, `Reflect.has(o,"foo")` essencialmente executa `"foo" in o`.
 
-Function calls and constructor invocations can be performed manually, separate of the normal syntax (e.g., `(..)` and `new`) using these utilities:
+Chamadas de funções e invocação de construtores podem ser realizados manualmente, separados da sintaxe normal (e.g., `(..)` e `new`) usando essas utilidades:
 
-* `Reflect.apply(..)`: For example, `Reflect.apply(foo,thisObj,[42,"bar"])` calls the `foo(..)` function with `thisObj` as its `this`, and passes in the `42` and `"bar"` arguments.
-* `Reflect.construct(..)`: For example, `Reflect.construct(foo,[42,"bar"])` essentially calls `new foo(42,"bar")`.
+* `Reflect.apply(..)`: Por exemplo, `Reflect.apply(foo,thisObj,[42,"bar"])` chama a função `foo(..)` com `thisObj` como se fosse `this`, e passa argumentos em `42` e `"bar'`.
+* `Reflect.construct(..)`: Por exemplo, `Reflect.construct(foo,[42,"bar"])` essencialmente chama `new foo(42,"bar")`.
 
-Object property access, setting, and deletion can be performed manually using these utilities:
+Acesso de propriedade do objeto, configuração, e exclusão podem ser feitas manualmente usando essas utilidades:
 
-* `Reflect.get(..)`: For example, `Reflect.get(o,"foo")` retrieves `o.foo`.
-* `Reflect.set(..)`: For example, `Reflect.set(o,"foo",42)` essentially performs `o.foo = 42`.
-* `Reflect.deleteProperty(..)`: For example, `Reflect.deleteProperty(o,"foo")` essentially performs `delete o.foo`.
+* `Reflect.get(..)`: Por exemplo, `Reflect.get(o,"foo")` recupera `o.foo`.
+* `Reflect.set(..)`: Por exemplo, `Reflect.set(o,"foo",42)` essencilamente executa `o.foo = 42`.
+* `Reflect.deleteProperty(..)`: Por exemplo, `Reflect.deleteProperty(o,"foo")` essencialmente executa `delete o.foo`.
 
-The meta programming capabilities of `Reflect` give you programmatic equivalents to emulate various syntactic features, exposing previously hidden-only abstract operations. For example, you can use these capabilities to extend features and APIs for *domain specific languages* (DSLs).
+As capacidades de `Reflect` da metaprogramação te dá equivalentes programáticos para emular várias funcionalidades sintáticas, expondo previamente operações abstratas ocultas. Por exemplo, você pode usar essas capacidades para extender funcionalidade e APIs para *domínio de linguagem específica* (domain specific labguages - DSLs).
 
-### Property Ordering
+### Ordenação de Propriedade
 
-Prior to ES6, the order used to list an object's keys/properties was implementation dependent and undefined by the specification. Generally, most engines have enumerated them in creation order, though developers have been strongly encouraged not to ever rely on this ordering.
+Antes do ES6, a ordem usada para listas chaves/propriedades de objetos eram implementações dependentes e indefinidas pela especificação. Geralmente, a maioria dos motores as enumeravam na ordem de criação, embora os desenvolvedores fossem fortemente encorajados a nunca confiar nessa ordem.
 
-As of ES6, the order for listing owned properties is now defined (ES6 specification, section 9.1.12) by the `[[OwnPropertyKeys]]` algorithm, which produces all owned properties (strings or symbols), regardless of enumerability. This ordering is only guaranteed for `Reflect.ownKeys(..)` (and by extension, `Object.getOwnPropertyNames(..)` and `Object.getOwnPropertySymbols(..)`).
+No ES6, a ordem para a listagem de propriedades próprias é agora definida (seção 9.1.12 da especificação ES6) pelo algoritmo `[[OwnPropertyKeys]]`, que produz todas as propriedades próprias (strings ou símbolos), independentemente da enumerabilidade. Essa ordem apenas é garantida pela `Reflect.ownKeys(..)` (e por extensão, `Object.getOwnPropertyNames(..)` e `Object.getOwnPropertySymbols(..)`).
 
-The ordering is:
+A ordem é:
 
-1. First, enumerate any owned properties that are integer indexes, in ascending numeric order.
-2. Next, enumerate the rest of the owned string property names in creation order.
-3. Finally, enumerate owned symbol properties in creation order.
+1. Primeiro, enumera-se quaisquer propriedades próprias que sejam índices inteiros, em ordem numérica ascendente.
+2. Próximo, enumera-se o resto dos nomes das propriedades das strings próprias em ordem de criação.
+3. Finalmente, enumera-se propriedades de símbolos próprios em ordem de criação.
 
-Consider:
+Considere:
 
 ```js
 var o = {};
@@ -899,13 +904,13 @@ Object.getOwnPropertyNames( o );	// [1,2,"b","a"]
 Object.getOwnPropertySymbols( o );	// [Symbol(c)]
 ```
 
-On the other hand, the `[[Enumerate]]` algorithm (ES6 specification, section 9.1.11) produces only enumerable properties, from the target object as well as its `[[Prototype]]` chain. It is used by both `Reflect.enumerate(..)` and `for..in`. The observable ordering is implementation dependent and not controlled by the specification.
+Por outro lado, o algoritmo `[[Enumerate]]` (seção 9.1.11 da especificação ES6) produz apenas propriedades enumeradas, tanto do objeto alvo quanto da cadeia `[[Prototype]]`. Ela é usada por ambos `Reflect.enumerate(..)` e `for..in`. A ordem observável é de implementação dependente e não controlada pela especificação.
 
-By contrast, `Object.keys(..)` invokes the `[[OwnPropertyKeys]]` algorithm to get a list of all owned keys. However, it filters out non-enumerable properties and then reorders the list to match legacy implementation-dependent behavior, specifically with `JSON.stringify(..)` and `for..in`. So, by extension the ordering *also* matches that of `Reflect.enumerate(..)`.
+Em contraste, `Object.keys(..)` invoca o algoritmo `[[OwnPropertyKeys]]` para pegar uma lista de todas as chaves próprias. No entanto, ele filtra propriedades não enumeráveis e então reordena a lista para combinar o comportamento dependente da implementação legada, especificamente com `JSON.stringify(..)` e `for..in`. Então, por extensão a ordenação *também* corresponde ao de `Reflect.enumerate(..)`.
 
-In other words, all four mechanisms (`Reflect.enumerate(..)`, `Object.keys(..)`, `for..in`, and `JSON.stringify(..)`) will  match with the same implementation-dependent ordering, though they technically get there in different ways.
+Em outras palavras, todos os quatro mecanismos (`Reflect.enumerate(..)`, `Object.keys(..)`, `for..in`, e `JSON.stringify(..)`) vão combinar com a mesma ondernação dependente da implementação, embora eles tecnicamente cheguem lá de maneiras diferentes.
 
-Implementations are allowed to match these four to the ordering of `[[OwnPropertyKeys]]`, but are not required to. Nevertheless, you will likely observe the following ordering behavior from them:
+Implementações são permitidas para combinar esses quatro para a ordenação de `[[OwnPropertyKeys]]`, mas eles também não são obrigatórios. No entanto, você provavelmente vai observar o seguinte comportamento da ordenação a partir deles:
 
 ```js
 var o = { a: 1, b: 2 };
@@ -930,17 +935,17 @@ Object.keys( p );
 // ["c","d"]
 ```
 
-Boiling this all down: as of ES6, `Reflect.ownKeys(..)`, `Object.getOwnPropertyNames(..)`, and `Object.getOwnPropertySymbols(..)` all have predictable and reliable ordering guaranteed by the specification. So it's safe to build code that relies on this ordering.
+Resumindo tudo isso: A partir do ES6, `Reflect.ownKeys(..)`, `Object.getOwnPropertyNames(..)`, e `Object.getOwnPropertySymbols(..)` todos têm ordenação previsíveis e confiáveis garantidas pela especificação. Então é seguro contruir um código que confie nessa ordenação.
 
-`Reflect.enumerate(..)`, `Object.keys(..)`, and `for..in` (as well as `JSON.stringification(..)` by extension) continue to share an observable ordering with each other, as they always have. But that ordering will not necessarily be the same as that of `Reflect.ownKeys(..)`. Care should still be taken in relying on their implementation-dependent ordering.
+`Reflect.enumerate(..)`, `Object.keys(..)`, e `for..in` (assim como `JSON.stringification(..)` por extensão) continuam compartilhando uma ordem observável entre eles, como sempre fizeram. Mas essa ordem não vai necessariamente ser a mesma de `Reflect.ownKeys(..)`. Deve-se continuar a ter cuidado ao confiar nessa ordanação de implementação dependente.
 
-## Feature Testing
+## Teste de funcionalidade
 
-What is a feature test? It's a test that you run to determine if a feature is available or not. Sometimes, the test is not just for existence, but for conformance to specified behavior -- features can exist but be buggy.
+O que é o teste de funcionalidade? É um teste que você pode rodar para determinar se uma funcionalidade está disponível ou não. Às vezes, o teste não é somente para existência, mas para conformidade de um comportamento especificado -- funcionalidades podem existir mas estarem bugadas.
 
-This is a meta programming technique, to test the environment your program runs in to then determine how your program should behave.
+Essa é uma técnica de metaprogramação, para testar o ambiente que seu programa roda e então determinar como seu programa deve se comportar.
 
-The most common use of feature tests in JS is checking for the existence of an API and if it's not present, defining a polyfill (see Chapter 1). For example:
+O uso mais comum de teste de funcionalidade em JS é verificar pela existência de uma API e se ela não estiver presente, definir um polyfill (veja o Capítulo 1). Por exemplo:
 
 ```js
 if (!Number.isNaN) {
@@ -950,11 +955,11 @@ if (!Number.isNaN) {
 }
 ```
 
-The `if` statement in this snippet is meta programming: we're probing our program and its runtime environment to determine if and how we should proceed.
+A declaração `if` nesse snippet é metaprogramação: nós estamos provando nosso programa e estamos em ambiente de produção para determinar, se e como, nós devemos prosseguir.
 
-But what about testing for features that involve new syntax?
+Mas e testes para funcionalidades que envolvem sintaxe nova?
 
-You might try something like:
+Você pode tentar algo como:
 
 ```js
 try {
@@ -966,15 +971,15 @@ catch (err) {
 }
 ```
 
-Unfortunately, this doesn't work, because our JS programs are compiled. Thus, the engine will choke on the `() => {}` syntax if it is not already supporting ES6 arrow functions. Having a syntax error in your program prevents it from running, which prevents your program from subsequently responding differently if the feature is supported or not.
+Infelizmente, isso não funciona, porque nossos programas JS estão compilados. Portanto, o motor vai engasgar na sintaxe `() => {}` se a ES6 ainda não estiver suportando arrow functions. Ter um erro de sintaxe no seu programa impede ele de rodar, o que subsequentemente, impede seu programa de responder de forma diferente se uma funcionalidade for suportada ou não.
 
-To meta program with feature tests around syntax-related features, we need a way to insulate the test from the initial compile step our program runs through. For instance, if we could store the code for the test in a string, then the JS engine wouldn't by default try to compile the contents of that string, until we asked it to.
+Para metaprogramar com testes de funcionalidades em torno de recursos relacionados à sintaxe, nós precisamos uma maneira de isolar o teste da etapa de compilação inicial em que nosso programa funciona. Por exemplo, se pudessemos armazenar o código para o teste em uma string, então o mecanismo JS não tentaria, por padrão, compilar o conteúdo dessa string, até que nós solicitássemos.
 
-Did your mind just jump to using `eval(..)`?
+Sua mente simplesmente pensou em usar o `eval(..)`?
 
-Not so fast. See the *Scope & Closures* title of this series for why `eval(..)` is a bad idea. But there's another option with less downsides: the `Function(..)` constructor.
+Não tão rápido. Veja o título *Escopo & Clausuras* dessa série para saber porque `eval(..)` é uma má ideia. Mas há outra opção com menos desvantagens: o construtor `Function(..)`.
 
-Consider:
+Considere:
 
 ```js
 try {
@@ -986,57 +991,57 @@ catch (err) {
 }
 ```
 
-OK, so now we're meta programming by determining if a feature like arrow functions *can* compile in the current engine or not. You might then wonder, what would we do with this information?
+Ok, então agora estamos metaprogramando pela determinação se uma funcionalidade como as arrow functions *podem* compilar no motor atual ou não. Você deve estar se perguntando, o que nós iremos fazer com essa informação?
 
-With existence checks for APIs, and defining fallback API polyfills, there's a clear path for what to do with either test success or failure. But what can we do with the information that we get from `ARROW_FUNCS_ENABLED` being `true` or `false`?
+Com a verificação por APIs existentes, e definindo polyfills como API fallbacks, há um caminho claro para o que fazer com testes tanto bem sucedidos como fracassados. Mas o que nós podemos fazer com a informação que nós pegamos de `ARROW_FUNCS_ENABLED` sendo `true` ou `false`?
 
-Because the syntax can't appear in a file if the engine doesn't support that feature, you can't just have different functions defined in the file with and without the syntax in question.
+Por conta da sintaxe não poder aparecer em um arquivo se o motor não suportar essa funcionalidade, você não pode apenas ter funções diferentes definidas no arquivo com e sem a sintaxe em questão.
 
-What you can do is use the test to determine which of a set of JS files you should load. For example, if you had a set of these feature tests in a bootstrapper for your JS application, it could then test the environment to determine if your ES6 code can be loaded and run directly, or if you need to load a transpiled version of your code (see Chapter 1).
+O que você pode fazer é usar o teste para determinar qual dos conjuntos de arquivos JS você deve carregar. Por exemplo, se você tem um conjunto desses testes de funcionalidade em um bootstraper para sua aplicação JS, ele poderá então testar o ambiente para determinar se seu código ES6 pode ser carregado e executado diretamente, ou se você precisa carregar uma versão transpilada do seu código (veja o Capítulo 1).
 
-This technique is called *split delivery*.
+Essa técnica é chamada *entrega dividida*.
 
-It recognizes the reality that your ES6 authored JS programs will sometimes be able to entirely run "natively" in ES6+ browsers, but other times need transpilation to run in pre-ES6 browsers. If you always load and use the transpiled code, even in the new ES6-compliant environments, you're running suboptimal code at least some of the time. This is not ideal.
+Ela reconhece a realidade que seu programa criado em JS ES6 vai, às vezes, ser capaz de rodar inteiramente *nativo* em navegadores ES6+, mas outras vezes precisará de transpilação para rodar em navegadores pré-ES6. Se você sempre carregar e usar o código transpilado, mesmo em ambientes no novo compilador ES6, você estará rodando um código sub otimizado, pelo menos por um tempo. Isso não é o ideal.
 
-Split delivery is more complicated and sophisticated, but it represents a more mature and robust approach to bridging the gap between the code you write and the feature support in browsers your programs must run in.
+Entrega dividida é mais complicada e sofisticada, mas ela representa uma abordagem mais robusta e madura para cobrir a falha ente o código que você escreve e a funcionalidade suportada em navagadores que seu programa precisa rodar.
 
 ### FeatureTests.io
 
-Defining feature tests for all of the ES6+ syntax, as well as the semantic behaviors, is a daunting task you probably don't want to tackle yourself. Because these tests require dynamic compilation (`new Function(..)`), there's some unfortunate performance cost.
+Definir testes de funcionalidade para todas as sintaxes do ES6+, bem como os comportamentos semânticos, é uma tarefa árdua que vocẽ provavelmente não vai querer enfrentar. Como esses teste requerem compilação dinâmica (`new Function(..)`), há alguns custos de performance infelizes.
 
-Moreover, running these tests every single time your app runs is probably wasteful, as on average a user's browser only updates once in a several week period at most, and even then, new features aren't necessarily showing up with every update.
+Além disso, a execução desses testes a cada vez que seu app rodar é desperdício, uma vez que, em média, o navegador de um usuário comum atualiza apenas uma vez, em um período de várias semanas no máximo, e mesmo assim, novas funcionalidades não estão necessariamente aparecendo com cada atualização.
 
-Finally, managing the list of feature tests that apply to your specific code base -- rarely will your programs use the entirety of ES6 -- is unruly and error-prone.
+Finalmente, gerenciando a lista de testes de recursos que se aplicam à sua base de código específica -- raramente seus programas vão fazer uso inteiramente do ES6 -- é indisciplinado e propenso à erros.
 
-The "https://featuretests.io" feature-tests-as-a-service offers solutions to these frustrations.
+O feature-tests-as-a-service "https://featuretests.io" oferece soluções para essas frustações.
 
-You can load the service's library into your page, and it loads the latest test definitions and runs all the feature tests. It does so using background processing with Web Workers, if possible, to reduce the performance overhead. It also uses LocalStorage persistence to cache the results in a way that can be shared across all sites you visit which use the service, which drastically reduces how often the tests need to run on each browser instance.
+Você pode carregar a biblioteca do serviço na sua página, e ele irá carregar as últimas definições de testes e rodar todos os testes de funcionalidades.  Ele faz isso usando processamento em segundo plano com Web Workers, se possível, para reduzir a sobrecarga de desempenho. Eele também usa o LocalStorage para cachear os resultados de uma maneira que podem ser compartilhados por todos os sites que vocẽ visitar que usam o serviço, o que reduz drasticamente quantas vezes os testes precisam ser executados em cada instância do navegador.
 
-You get runtime feature tests in each of your users' browsers, and you can use those tests results dynamically to serve users the most appropriate code (no more, no less) for their environments.
+Você obtém testes de funcionalidade em tempo de execução em cada um dos navegadores de seus usuários, e você pode usar esses resultados de testes de forma dinâmica para servir aos usuários o código mais apropriado (não mais, nem menos) para seus ambientes.
 
-Moreover, the service provides tools and APIs to scan your files to determine what features you need, so you can fully automate your split delivery build processes.
+Além disso, o serviço fornece ferramentas e APIs para escanear seus arquivos para determinar quais funcionalidades você precisa, então você consegue automatizar completamente seus processos de compilação de entrega dividida.
 
-FeatureTests.io makes it practical to use feature tests for all parts of ES6 and beyond to make sure that only the best code is ever loaded and run for any given environment.
+FeatureTests.io torna prático usar testes de funcionalidade para todas as partes do ES6 e além para ter certeza que apenas o melhor código será sempre carregado e executado para qualquer ambiente fornecido.
 
-## Tail Call Optimization (TCO)
+## Otimização da chamada de cauda (Tail Call Optimization - TCO)
 
-Normally, when a function call is made from inside another function, a second *stack frame* is allocated to separately manage the variables/state of that other function invocation. Not only does this allocation cost some processing time, but it also takes up some extra memory.
+Normalmente quando a chamada de uma função é feita de dentro de outra função, um segundo *quadro de pilha* (stack frame) é alocado para administrar separadamente as variáveis/estados daquela outra invocação da função. Essa alocação não apenas custa algum tempo de processamento, mas ela também toma uma memória extra.
 
-A call stack chain typically has at most 10-15 jumps from one function to another and another. In those scenarios, the memory usage is not likely any kind of practical problem.
+Uma cadeia de quadros de pilha tipicamente têm no máximo 10-15 saltos de uma função para outra e outra. Nesses cenários, o uso da memória provavelmente não é nenhum tipo de problema prático.
 
-However, when you consider recursive programming (a function calling itself repeatedly) -- or mutual recursion with two or more functions calling each other -- the call stack could easily be hundreds, thousands, or more levels deep. You can probably see the problems that could cause, if memory usage grows unbounded.
+Entretanto, quando você considera a programação recursiva (uma função chamando a si mesma repetidamente) -- ou recursão mútua com duas ou mais funções chamando uma a outra -- a pilha de chamadas pode facilmente ser centenas, milhares, ou mais níveis profundos. Você pode provavelmente ver os problemas que isso poderia causar, se o uso da memória cresce indiscriminadamente.
 
-JavaScript engines have to set an arbitrary limit to prevent such programming techniques from crashing by running the browser and device out of memory. That's why we get the frustrating "RangeError: Maximum call stack size exceeded" thrown if the limit is hit.
+Motores JavaScript têm que definir limites arbirtrários para prevenir certas técnicas de programação de quebrar na execução e deixar o navagador e dispositivo sem memória. Essa é a causa porque temos o erro frustante *"RangeError: Maximum call stack size exceeded"* (Erro de Alcance: Tamanho máximo de pilha de chamadas excedido) lançado se esse limite for atingido.
 
-**Warning:** The limit of call stack depth is not controlled by the specification. It's implementation dependent, and will vary between browsers and devices. You should never code with strong assumptions of exact observable limits, as they may very well change from release to release.
+**Atenção** O limite de chamadas da pilha não é controlado pela especificação. Isso é uma implementação dependente, e vai variar entre os navegadores e dispositivos. Você nunca deve codificar com fortes pressupostos de limites exatos observados, e eles podem muito bem mudar de versão para versão.
 
-Certain patterns of function calls, called *tail calls*, can be optimized in a way to avoid the extra allocation of stack frames. If the extra allocation can be avoided, there's no reason to arbitrarily limit the call stack depth, so the engines can let them run unbounded.
+Certos padrões de chamadas de função, chamadas *chamadas de cauda* (tail calls), podem ser otimizadas em uma maneira para evitar a alocação extra de quadros de pilha. Se uma alocação extra pode ser evitada, não há razão para limitar arbitrariamente a profundidade de uma pilha de chamadas, então os motores podem deixá-las rodar livremente.
 
-A tail call is a `return` statement with a function call, where nothing has to happen after the call except returning its value.
+Uma chamada de cauda é uma declaração `return` com uma chamada de função, onde nada precisa acontecer após a chamada exceto o retorno do valor.
 
-This optimization can only be applied in `strict` mode. Yet another reason to always be writing all your code as `strict`!
+Essa otimização apenas pode ser aplicada em modo `strict`. Ainda outra razão para sempre escrever todo o seu código como `strict`!
 
-Here's a function call that is *not* in tail position:
+Aqui está uma chamada de função que *não* é uma posição de cauda:
 
 ```js
 "use strict";
@@ -1046,16 +1051,16 @@ function foo(x) {
 }
 
 function bar(x) {
-	// not a tail call
+	// não é uma chamada de cauda
 	return 1 + foo( x );
 }
 
 bar( 10 );				// 21
 ```
 
-`1 + ..` has to be performed after the `foo(x)` call completes, so the state of that `bar(..)` invocation needs to be preserved.
+`1 + ..` deve ser executado depois que a chamada de `foo(x)` completar, então o estado dessa invocação `bar(..)` precisa ser preservado.
 
-But the following snippet demonstrates calls to `foo(..)` and `bar(..)` where both *are* in tail position, as they're the last thing to happen in their code path (other than the `return`):
+Mas o snippet seguinte demonstra chamadas para `foo(..)` e `bar(..)` onde ambas *são* em posição de cauda, como elas são as últimas coisas que acontecem nesse caminho de código (diferente do `return`):
 
 ```js
 "use strict";
@@ -1078,23 +1083,23 @@ bar( 5 );				// 24
 bar( 15 );				// 32
 ```
 
-In this program, `bar(..)` is clearly recursive, but `foo(..)` is just a regular function call. In both cases, the function calls are in *proper tail position*. The `x + 1` is evaluated before the `bar(..)` call, and whenever that call finishes, all that happens is the `return`.
+Nesse programa, `bar(..)` é claramente recursiva, mas `foo(..)` é aoenas uma chamada de função normal. Em ambos os casos, as chamadas das funções estão em *poisção correta da cauda (PTC)*. O `x +1` é avaliado antes da chamada de `bar(..)`, e sempre que essa chamada termina, tudo que acontece é o `return`.
 
-Proper Tail Calls (PTC) of these forms can be optimized -- called tail call optimization (TCO) -- so that the extra stack frame allocation is unnecessary. Instead of creating a new stack frame for the next function call, the engine just reuses the existing stack frame. That works because a function doesn't need to preserve any of the current state, as nothing happens with that state after the PTC.
+Posições corretas de cauda *(PTC - proper tail calls)* dessas formas podem ser otimizadas -- chamado "otimização de chamada de cauda" -- visto isso, alocação de quadros de pilha extra são desnecessários. Em vez de criar uma novo quadro de pilha para a próxima chamada de função, o motor apenas reusa o quadro de pilha já existente. Isso funciona porque uma função não precisa preservar nenhum dos estados atuais, já que nada acontece com esse estado depois da posição correta de cauda.
 
-TCO means there's practically no limit to how deep the call stack can be. That trick slightly improves regular function calls in normal programs, but more importantly opens the door to using recursion for program expression even if the call stack could be tens of thousands of calls deep.
+Otimização da chamada de cauda significa que praticamente não há limites para quão profundo a pilha de chamadas pode ser. Esse truque melhora ligeiramente as chamadas de funções regulares em programas normais. mas mais importante, abre as portas para o uso de recursão para expressões do programa mesmo se a pilha de chamadas possa ser de milhares de chamadas de profundidade.
 
-We're no longer relegated to simply theorizing about recursion for problem solving, but can actually use it in real JavaScript programs!
+Nós não somos mais relegados para simplesmente teorizar sobre a recursão para a resolução de problemas, mas podemos realmente usá-los em programas reais de JavaScript!
 
-As of ES6, all PTC should be optimizable in this way, recursion or not.
+A parir do ES6, todas as PTC devem ser otimizadas dessa forma, recursivamente ou não.
 
-### Tail Call Rewrite
+### Substituição de Chamada de Cauda
 
-The hitch, however, is that only PTC can be optimized; non-PTC will still work of course, but will cause stack frame allocation as they always did. You'll have to be careful about structuring your functions with PTC if you expect the optimizations to kick in.
+O entrave, no entanto, é que apenas o PTC pode ser otimizado; não PTC vão continuar funcionando, é claro, mas vão causar alocações de quadros de pilha como sempre fizeram. Você terá que ser cuidadoso sobre estruturar suas funções com PTC se você espera que as otimizações aconteçam.
 
-If you have a function that's not written with PTC, you may find the need to manually rearrange your code to be eligible for TCO.
+Se você tem uma função que não é escrita em PTC, você poderá encontrar a necessidade de rearranjar seu código manualmente para que ele seja elegível para TCO.
 
-Consider:
+Considere:
 
 ```js
 "use strict";
@@ -1107,9 +1112,9 @@ function foo(x) {
 foo( 123456 );			// RangeError
 ```
 
-The call to `foo(x-1)` isn't a PTC because its result has to be added to `(x / 2)` before `return`ing.
+A chamada para `foo(x-1)` não é um PTC porque seu resultado tem que ser adicionado em `(x / 2)` antes de `return`.
 
-However, to make this code eligible for TCO in an ES6 engine, we can rewrite it as follows:
+Porém, para fazer com que esse código seja elegível ao TCO em um motor ES6, nós podemos sobrescreve-lo como a seguir:
 
 ```js
 "use strict";
@@ -1128,13 +1133,15 @@ var foo = (function(){
 foo( 123456 );			// 3810376848.5
 ```
 
-If you run the previous snippet in an ES6 engine that implements TCO, you'll get the `3810376848.5` answer as shown. However, it'll still fail with a `RangeError` in non-TCO engines.
+Se você rodar o snippet anterior em uma motor ES6 que implmente o TCO, você vai ter a resposta `3810376848.5` como mostrado. Porém, ela vai continuar falhando com um `RangeError` em motores não TCO.
 
-### Non-TCO Optimizations
+### Otimizações não TCO
 
-There are other techniques to rewrite the code so that the call stack isn't growing with each call.
+Há outras técnicas para reescrever o código de forma que a pilha de chamadas não cresça a cada chamada.
 
-One such technique is called *trampolining*, which amounts to having each partial result represented as a function that either returns another partial result function or the final result. Then you can simply loop until you stop getting a function, and you'll have the result. Consider:
+Uma destas técnicas é chamada *tampolim*(trampolining), o que equivale a ter cada resultado parcial representado como uma função que retorna outra função de resultado parcial ou resultado final. Então você pode simplesmente ter um loop, até que você pare de ter uma função, e você vai ter o resultado.
+
+Considere:
 
 ```js
 "use strict";
@@ -1162,16 +1169,16 @@ var foo = (function(){
 foo( 123456 );			// 3810376848.5
 ```
 
-This reworking required minimal changes to factor out the recursion into the loop in `trampoline(..)`:
+Esse retrabalho requer mudanças mínimas para avaliar a recursão no loop em `tramponine(..)`:
 
-1. First, we wrapped the `return _foo ..` line in the `return partial() { ..` function expression.
-2. Then we wrapped the `_foo(1,x)` call in the `trampoline(..)` call.
+1. Primeiro, nós embrulhamos a linha `return _foo ..` na espressão da função `return partial() { ..`.
+2. Então embrulhamos a chamada `_foo(1,x)` na chamada `trampoline(..)`.
 
-The reason this technique doesn't suffer the call stack limitation is that each of those inner `partial(..)` functions is just returned back to the `while` loop in `trampoline(..)`, which runs it and then loop iterates again. In other words, `partial(..)` doesn't recursively call itself, it just returns another function. The stack depth remains constant, so it can run as long as it needs to.
+A razão para essa técnica não sofrer a limitação de pilha de chamada é que cada uma dessas funções `partial(..)` está apenas retornando para o loop `while` em `trampoline(..)`, que executa-os e então o loop interage novamente. Em outras palavras, `partial(..)` não chama ela mesma recursivamente, ela retorna outra função. A profundidade da pilha continua constante, então ela pode rodar o quanto ela precisar.
 
-Trampolining expressed in this way uses the closure that the inner `partial()` function has over the `x` and `acc` variables to keep the state from iteration to iteration. The advantage is that the looping logic is pulled out into a reusable `trampoline(..)` utility function, which many libraries provide versions of. You can reuse `trampoline(..)` multiple times in your program with different trampolined algorithms.
+O trampolim expresso dessa forma usa o fechamento que a função `partial()` tem sobre as variáveis `x` e `acc` para manter o estado de iteraçãi para iteração. A vantagem é que a lógica de looping é posta para uma função `tampoline(..)` de utilidade reusável, o que muitas bibliotecas oferecem versões destas. Você pode reusar `trampoline(..)` múltiplas vezes no seu programa com diferentes algoritmos de trampolim.
 
-Of course, if you really wanted to deeply optimize (and the reusability wasn't a concern), you could discard the closure state and inline the state tracking of `acc` into just one function's scope along with a loop. This technique is generally called *recursion unrolling*:
+É claro, se você realmente quiser otimizar profundamente (e a reusabilidade não for uma preocupação), você pode descartar o estado de fechamento e alinhar o rastreamento de estado de `acc` em apenas um escopo de função, além de um loop. Essa técnica é geralmete chamada de *desenrolamento de recursão (recursion unrolling)*:
 
 ```js
 "use strict";
@@ -1188,22 +1195,23 @@ function foo(x) {
 foo( 123456 );			// 3810376848.5
 ```
 
-This expression of the algorithm is simpler to read, and will likely perform the best (strictly speaking) of the various forms we've explored. That may seem like a clear winner, and you may wonder why you would ever try the other approaches.
+Essa expressão do algoritmo é mais simples de ler, e vai provavelmente performar melhor (estritamente falando)de várias formas que vamos explorar. Isso pode parecer claro como água, e te fazer pensar no porque você tentaria outras abordagens.
 
-There are some reasons why you might not want to always manually unroll your recursions:
+Há algumas razões do porque você não deveria querer sempre desenrolar suas recursões manualmente:
 
-* Instead of factoring out the trampolining (loop) logic for reusability, we've inlined it. This works great when there's only one example to consider, but as soon as you have a half dozen or more of these in your program, there's a good chance you'll want some reusability to keep things shorter and more manageable.
-* The example here is deliberately simple enough to illustrate the different forms. In practice, there are many more complications in recursion algorithms, such as mutual recursion (more than just one function calling itself).
+* Em vez de fabricar sua lógica de trampolin (loop) para reusabilidade, nós vamos alinhar isso. Isso funciona muito bem quando há apenas um exemplo a se considerar, mas assim que você tiver meia dúzia ou mais existem muito mais complicações em algoritmos de recursão, assim como recursões mútuas (mais do que apenas uma função chamando a si mesma).
 
-   The farther you go down this rabbit hole, the more manual and intricate the *unrolling* optimizations are. You'll quickly lose all the perceived value of readability. The primary advantage of recursion, even in the PTC form, is that it preserves the algorithm readability, and offloads the performance optimization to the engine.
+	Quanto mais fundo você vai nessa toca de coelho, mais manuais e instricadas o *desenrolar* das otimizações são. Você perderá rapidamente todo o valor percebido da legibilidade. A primeira vantagem da recursão mesmo na forma PTC, é que ela preserva a legibilidade do algoritmo, e descarrega a otimização de desempenho para o motor.
 
-If you write your algorithms with PTC, the ES6 engine will apply TCO to let your code run in constant stack depth (by reusing stack frames). You get the readability of recursion with most of the performance benefits and no limitations of run length.
+Se vocẽ escrever algoritmos com PTC, o motor ES6 vai aplicar o TCO para deixar seu código rodar em profundidade de pilha constante (reusando quadros de pilhas). Você ganha legibilidade da recursão com a maioria dos benefícios de performance e sem limitação de largura de execução.
 
 ### Meta?
 
-What does TCO have to do with meta programming?
+O que TCO tem a ver com metaprogramação?
 
-As we covered in the "Feature Testing" section earlier, you can determine at runtime what features an engine supports. This includes TCO, though determining it is quite brute force. Consider:
+Assim como abordamos na seção anterior "Teste de funcionalidade", você pode determinar em tempo de execução quais funcionalidade o motor suporta. Isso inclui TCO, apesar de determinar que isso é uma forã bem bruta.
+
+Considere:
 
 ```js
 "use strict";
@@ -1220,15 +1228,15 @@ catch (err) {
 }
 ```
 
-In a non-TCO engine, the recursive loop will fail out eventually, throwing an exception caught by the `try..catch`. Otherwise, the loop completes easily thanks to TCO.
+Em um motor não TCO, o loop recursivo vai falhar eventualmente, lançando uma *exception caught* através de `try..catch`. Do contrário, o loop se completa facilmente graças a TCO.
 
-Yuck, right?
+Uhuuu, certo?
 
-But how could meta programming around the TCO feature (or rather, the lack thereof) benefit our code? The simple answer is that you could use such a feature test to decide to load a version of your application's code that uses recursion, or an alternative one that's been converted/transpiled to not need recursion.
+Mas como metaprogramar sobre uma funcinalidade TCO (ou melhor, a falta dela) beneficiaria nosso código? A respostam mais simples é que vocẽ poderia usar um teste de funcionalidade para decidir carregar uma versão do código da sua aplicação que usa recursão, ou uma alternativa que foi convertida/transpilada para não precisar de recursão.
 
-#### Self-Adjusting Code
+#### Código auto ajustável
 
-But here's another way of looking at the problem:
+Mas aqui está outra maneira de olhar para o problema:
 
 ```js
 "use strict";
@@ -1257,30 +1265,30 @@ function foo(x) {
 foo( 123456 );			// 3810376848.5
 ```
 
-This algorithm works by attempting to do as much of the work with recursion as possible, but keeping track of the progress via scoped variables `x` and `acc`. If the entire problem can be solved with recursion without an error, great. If the engine kills the recursion at some point, we simply catch that with the `try..catch` and then try again, picking up where we left off.
+Esse algoritmo funciona tentando fazer a maior parte possível do trabalho com recursão, mas mantendo o trilho de progresso via variáveis de escopo `x` e `acc`. Se todo o problema pode ser resolvido com recursão sem nenhum erro, ótimo. Se o motor matar a recursão em algum ponto, nós simplesmente o pegaremos com `try..catch` e tentaremos de novo, continuando de onde paramos.
 
-I consider this a form of meta programming in that you are probing during runtime the ability of the engine to fully (recursively) finish the task, and working around any (non-TCO) engine limitations that may restrict you.
+Eu considero essa uma forma de metaprogramação em que você está provando durante a execução a habilidade do motor de finalizar (recursivamente) totalmente a tarefa, e trabalhando sobre qualquer limitação de motor (não TCO) que podem te restringir.
 
-At first (or even second!) glance, my bet is this code seems much uglier to you compared to some of the earlier versions. It also runs a fair bit slower (on larger runs in a non-TCO environment).
+A primeria vista (ou até na segunda!), minha aposta é que esse código paracerá muito mais feio comparado com algumas versões mais recentes. Ele também roda um pouco mais devagar (e mais ainda em ambientes não TCO).
 
-The primary advantage, other than it being able to complete any size task even in non-TCO engines, is that this "solution" to the recursion stack limitation is much more flexible than the trampolining or manual unrolling techniques shown previously.
+A primeira vantagem, além de poder completar uma tarefa de qualquer tamanho em motores não TCO, é esta uma "solução" para a limitação de pilha de recursão é muito mais flexível que o trampolim ou técnicas de desenrolamento manual mostradas anteriormente.
 
-Essentially, `_foo()` in this case is a sort of stand-in for practically any recursive task, even mutual recursion. The rest is the boilerplate that should work for just about any algorithm.
+Essencilamente, `_foo()` nesse caso é um tipo de *stand-in* para praticamente qualquer tarefa, mesmo recursão mútua. O resto é o boilerplate que deve funcionar praticamente em qualquer algoritmo.
 
-The only "catch" is that to be able to resume in the event of a recursion limit being hit, the state of the recursion must be in scoped variables that exist outside the recursive function(s). We did that by leaving `x` and `acc` outside of the `_foo()` function, instead of passing them as arguments to `_foo()` as earlier.
+A única "pegadinha" é de poder retomar do caso de um limite de recursão ser batido, o estado da recursão deve estar nas variáveis do escopo que existem fora das funções recursivas. Nós fizemos isso deixando o `x` e `acc` fora da função `_foo()`, em vez de passá-las como argumentos para `_foo()` como antes.
 
-Almost any recursive algorithm can be adapted to work this way. That means it's the most widely applicable way of leveraging TCO with recursion in your programs, with minimal rewriting.
+Quase todos algoritmos recursivos podem ser adaptados para trabalhar dessa forma. Isso significa que é a aplicação mais ampla de alavancar o TCO com recursão em seus programas, com o mínimo de reescrita.
 
-This approach still uses a PTC, meaning that this code will *progressively enhance* from running using the loop many times (recursion batches) in an older browser to fully leveraging TCO'd recursion in an ES6+ environment. I think that's pretty cool!
+Essa abordagem continua usando PTC, o que significa que esse código vai *aumentará progressivamente* de execução usando o loop muitas vezes (lotes de recursão) em um navegador mais antigo para alavancar completamente a recursão TCO em um ambiente ES6+. Eu acho que isso é bem legal!
 
-## Review
+## Revisão
 
-Meta programming is when you turn the logic of your program to focus on itself (or its runtime environment), either to inspect its own structure or to modify it. The primary value of meta programming is to extend the normal mechanisms of the language to provide additional capabilities.
+Metaprogramação é quando você vira a lógica do seu programa para focar nele mesmo (ou em seu ambiente), tanto para inspecionar sua própria estrutura quanto para modificá-la. O valor primário da metaprogramação é extender os mecanismos normais da linguagem para forcer capacidades adicionais.
 
-Prior to ES6, JavaScript already had quite a bit of meta programming capability, but ES6 significantly ramps that up with several new features.
+Antes do ES6, o Javascript já tinha um pouco de capacidade de metaprogramação, mas o ES6 aumenta significativamente com vários novos recursos.
 
-From function name inferences for anonymous functions to meta properties that give you information about things like how a constructor was invoked, you can inspect the program structure while it runs more than ever before. Well Known Symbols let you override intrinsic behaviors, such as coercion of an object to a primitive value. Proxies can intercept and customize various low-level operations on objects, and `Reflect` provides utilities to emulate them.
+Desde inferências com nomes de funções anônimas para meta propriedades que te dá informação sobre coisas, sobre como um construtor é invocado, você pode inspecionar a estrutra do programa enquando ele executa muito mais do que antes. Símbolos bem conhecidos te permite subscrever comportamentos intrísecos, como coerção de uma objeto para um valor primitivo. Proxies podem interceptar e personalizar várias operações de baixo-nível em objetos, e `Reflect` oferece recusos para emula-las.
 
-Feature testing, even for subtle semantic behaviors like Tail Call Optimization, shifts the meta programming focus from your program to the JS engine capabilities itself. By knowing more about what the environment can do, your programs can adjust themselves to the best fit as they run.
+Teste de funcionalidade, mesmo para comportamentos semânticos sutis, como Otimização da chamada de cauda, alterna o foco da metaprogramação do seu programa para as próprias capacidades do motor Javascript. Conhecendo mais do que o ambiente pode fazer, seus programas podem se auto ajustar à melhor combinação enquando eles executam.
 
-Should you meta program? My advice is: first focus on learning how the core mechanics of the language really work. But once you fully know what JS itself can do, it's time to start leveraging these powerful meta programming capabilities to push the language further!
+Você deveria metaprogramar? Meu conselho é: primeiro foque em como as macânicas fundamentais da linguagem realmente funcionam. Mas uma vez que você conhece completamente o que o próprio JS pode fazer, é hora de começar a alavancar essa poderosa capacidade de metaprogramação para aumentar a linguagem.

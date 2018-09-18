@@ -1,64 +1,64 @@
-# You Don't Know JS: *this* & Object Prototypes
-# Chapter 2: `this` All Makes Sense Now!
+# You Don't Know JS: *this* & Prototipagem de Objetos
+# Capítulo 2: `this` Agora tudo faz sentido!
 
-In Chapter 1, we discarded various misconceptions about `this` and learned instead that `this` is a binding made for each function invocation, based entirely on its **call-site** (how the function is called).
+No Capítulo 1, nós eliminamos diversos equívocos relacionados à `this` e aprendemos que `this` é um *binding* feito para cada invocação de função, baseado inteiramente no seu **call-site** (como a função é chamada).
 
 ## Call-site
 
-To understand `this` binding, we have to understand the call-site: the location in code where a function is called (**not where it's declared**). We must inspect the call-site to answer the question: what's *this* `this` a reference to?
+Para entender o binding the `this`, precisamos entender o call-site: o lugar no código onde a função é chamada (**não onde ela é declarada**). Nós devemos inspecionar o call-site para responder a seguinte questão: a quem este `this` está fazendo referência?
 
-Finding the call-site is generally: "go locate where a function is called from", but it's not always that easy, as certain coding patterns can obscure the *true* call-site.
+Encontrar o call-site é geralmente: "ir até o local de onde a função é chamada", mas não é sempre tão fácil assim, já que alguns padrões de código podem obscurecer o *verdadeiro* call-site.
 
-What's important is to think about the **call-stack** (the stack of functions that have been called to get us to the current moment in execution). The call-site we care about is *in* the invocation *before* the currently executing function.
+O que é importante é pensar sobre o **call-stack** (a pilha de funções que foram chamadas para nos deixar no momento atual na execução). O call-site que devemos nos importar está *dentro* da invocação *anterior* à função em execução atual.
 
-Let's demonstrate call-stack and call-site:
+Demonstremos o call-stack e o call-site:
 
 ```js
 function baz() {
-    // call-stack is: `baz`
-    // so, our call-site is in the global scope
+    // call-stack é: `baz`
+    // sendo assim, nosso call-site está no escopo global
 
     console.log( "baz" );
-    bar(); // <-- call-site for `bar`
+    bar(); // <-- call-site para `bar`
 }
 
 function bar() {
-    // call-stack is: `baz` -> `bar`
-    // so, our call-site is in `baz`
+    // call-stack é: `baz` -> `bar`
+    // sendo assim, nosso call-site está em `baz`
 
     console.log( "bar" );
-    foo(); // <-- call-site for `foo`
+    foo(); // <-- call-site para `foo`
 }
 
 function foo() {
-    // call-stack is: `baz` -> `bar` -> `foo`
-    // so, our call-site is in `bar`
+    // call-stack é: `baz` -> `bar` -> `foo`
+    // sendo assim, nosso call-site está em `bar`
 
     console.log( "foo" );
 }
 
-baz(); // <-- call-site for `baz`
+baz(); // <-- call-site para `baz`
 ```
 
-Take care when analyzing code to find the actual call-site (from the call-stack), because it's the only thing that matters for `this` binding.
+Seja cuidadoso ao analizar o código ao procurar pelo call-site atual (através do call-stack), visto que ele é a única coisa que importa para o binding the `this`.
 
-**Note:** You can visualize a call-stack in your mind by looking at the chain of function calls in order, as we did with the comments in the above snippet. But this is painstaking and error-prone. Another way of seeing the call-stack is using a debugger tool in your browser. Most modern desktop browsers have built-in developer tools, which includes a JS debugger. In the above snippet, you could have set a breakpoint in the tools for the first line of the `foo()` function, or simply inserted the `debugger;` statement on that first line. When you run the page, the debugger will pause at this location, and will show you a list of the functions that have been called to get to that line, which will be your call stack. So, if you're trying to diagnose `this` binding, use the developer tools to get the call-stack, then find the second item from the top, and that will show you the real call-site.
+**Nota:** Você pode visualizar o call-stack mentalmente ao ver a cadeia de funções em ordem, como fizemos nos comentários no trecho de código anterior. Entretanto, esta é uma forma dolorosa e passível a erros. Uma outra forma de de ver o call-stack é usar a ferramenta de debug do seu navegador. A maioria dos navegadores modernos tem ferramentas do desenvolvedor nativas, as quais ingluem um debugger de JS. No trecho de código anterior, você poderia ter definido um breakpoint na ferramenta para a primeira linha da função `foo()`, ou simplesmente inserido a instrução `debugger;` nessa primeira linha. Quando você rodar a página, o debugger irá pausar neste ponto, e irá mostrar à você a lista de funções que foram acionadas para poder chegar à esta linha, que virá a ser o seu call stack. Sendo assim, se você está tentando diagnosticar o binding de `this`, use as ferramentas do desenvolvedor para acessar o call-stack, e então busque o segundo item começando do topo, e ela irá mostrar à você o verdadeiro call-site.
 
-## Nothing But Rules
+## Nada além de Regras
 
-We turn our attention now to *how* the call-site determines where `this` will point during the execution of a function.
+Iremos direcionar nossa atenção agora para *como* o call-site determina onde o `this` irá apontar durante a execução de uma função.
 
-You must inspect the call-site and determine which of 4 rules applies. We will first explain each of these 4 rules independently, and then we will illustrate their order of precedence, if multiple rules *could* apply to the call-site.
+Você precisa inspecionar o call-site e determinar onde as 4 regras se aplicam. Iremos primeiro explicar cada uma dessas 4 regras de maneira independente, e depois iremos ilustrar sua ordem de precedência, caso *pudermos* aplicar multiplas regraspara o call-site.
 
-### Default Binding
+### Binding padrão
 
-The first rule we will examine comes from the most common case of function calls: standalone function invocation. Think of *this* `this` rule as the default catch-all rule when none of the other rules apply.
+A primeira regra que iremos examinar vem do caso mais comum ao se chamar uma função: invocar uma função separada. Pense *nessa* regra de `this` como a regra padrão para todos os casos quando nenhuma outra regra puder ser aplicada. 
 
-Consider this code:
+Considere esse código:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -66,19 +66,19 @@ var a = 2;
 foo(); // 2
 ```
 
-The first thing to note, if you were not already aware, is that variables declared in the global scope, as `var a = 2` is, are synonymous with global-object properties of the same name. They're not copies of each other, they *are* each other. Think of it as two sides of the same coin.
+A primeira coisa a se notar, se você ainda não estiver notado, é que as variáveis declaradas no escopo global, como `var a = 2`, são sinônimos de propriedades de objetos globais com o mesmo nome. Elas não são cópias umas das outras, eles *são* as outras. Pense nisso como os dois lados da mesma moeda.
 
-Secondly, we see that when `foo()` is called, `this.a` resolves to our global variable `a`. Why? Because in this case, the *default binding* for `this` applies to the function call, and so points `this` at the global object.
+A segunda coisa a se notar, nós vemos que quando `foo()` é chamado, `this.a` se refere à nossa variável global `a`. Porque? Por que nesse caso, o *binding padrão* para `this`se aplica ao chamado da função, sendo assim ela aponta `this`para o objeto global.
 
-How do we know that the *default binding* rule applies here? We examine the call-site to see how `foo()` is called. In our snippet, `foo()` is called with a plain, un-decorated function reference. None of the other rules we will demonstrate will apply here, so the *default binding* applies instead.
+Como podemos saber se a regra do *binding padrão* se aplica aqui? Nós examinaremos o call-site para ver como `foo()` é chamado. No nosso trecho de código, `foo()` é chamado como uma referência plana, sem nenhuma decoração. Nenhuma das outras regras que iremos demonstrar seriam aplicadas aqui, sendo assim o *binding padrão* é o que seria aplicado.
 
-If `strict mode` is in effect, the global object is not eligible for the *default binding*, so the `this` is instead set to `undefined`.
+Se o `strict mode` estiver ativo, o objeto global não é elegível para o *binding padrão*, sendo `this` nesse caso sendo apresentado como `undefined`.
 
 ```js
 function foo() {
-	"use strict";
+  "use strict";
 
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -86,247 +86,247 @@ var a = 2;
 foo(); // TypeError: `this` is `undefined`
 ```
 
-A subtle but important detail is: even though the overall `this` binding rules are entirely based on the call-site, the global object is **only** eligible for the *default binding* if the **contents** of `foo()` are **not** running in `strict mode`; the `strict mode` state of the call-site of `foo()` is irrelevant.
+Um detalhe sutil, mas importante, é que: mesmo que a regra geral do binding de `this` seja inteiramente baseada no call-site, o objeto global é eligível **apenas** para o *binding padrão* se o **conteúdo** de `foo()` não estiver rodando em `strict mode`; o estado `strict mode` do call-site de `foo()` é irrelevante.
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
 
 (function(){
-	"use strict";
+  "use strict";
 
-	foo(); // 2
+  foo(); // 2
 })();
 ```
 
-**Note:** Intentionally mixing `strict mode` and non-`strict mode` together in your own code is generally frowned upon. Your entire program should probably either be **Strict** or **non-Strict**. However, sometimes you include a third-party library that has different **Strict**'ness than your own code, so care must be taken over these subtle compatibility details.
+**Nota:** Misturar código `strict mode` e código não-`strict mode` juntos não é uma boa ideia. Seu programa deveria ser inteiramente ou **Strict** ou **não-Strict**. Entretanto, às vezes você inclui uma biblioteca externa que tem um modo diferente do seu código, então esteja atento com esse sutil detalhe sobre compatibilidade.
 
-### Implicit Binding
+### Binding Implícito
 
-Another rule to consider is: does the call-site have a context object, also referred to as an owning or containing object, though *these* alternate terms could be slightly misleading.
+Outra regra à se considerar é: o call-site tem um objeto como contexto, também chamado de objeto proprietário ou que contêm, apesar *destes* termos alternativos serem levemente enganosos.
 
-Consider:
+Considere:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 obj.foo(); // 2
 ```
 
-Firstly, notice the manner in which `foo()` is declared and then later added as a reference property onto `obj`. Regardless of whether `foo()` is initially declared *on* `obj`, or is added as a reference later (as this snippet shows), in neither case is the **function** really "owned" or "contained" by the `obj` object.
+Primeiramente, note a maneira como `foo()` é declarado e depois adicionado como uma propriedade de referência em `obj`. Independentemente se `foo()` é inicialmente declarado *no* `obj`, ou se é adicionado como uma referência depois (como o snippet mostra), em nenhum dos casos essa **função** realmente é "possuida" ou está "contida" pelo objeto `obj`.
 
-However, the call-site *uses* the `obj` context to **reference** the function, so you *could* say that the `obj` object "owns" or "contains" the **function reference** at the time the function is called.
+Entretanto, a call-site *usa* o contexto do `obj` para **referenciar** a função, então você *poderia* dizer que o objeto `obj` é "dono" ou "contém" a **função de referência** no momento que a função é chamada.
 
-Whatever you choose to call this pattern, at the point that `foo()` is called, it's preceded by an object reference to `obj`. When there is a context object for a function reference, the *implicit binding* rule says that it's *that* object which should be used for the function call's `this` binding.
+Qualquer que seja a forma que você chama esse padrão, no momento em que `foo()` é chamado, é precedido por uma referência de objeto à `obj`. Quando existe um objeto de contexto para uma função referenciada, a regra do *binding implítico* diz que deve ser *aquele* objeto que deve ser usado para o binding da função `this` chamada.
 
-Because `obj` is the `this` for the `foo()` call, `this.a` is synonymous with `obj.a`.
+Pelo fato de que `obj` é o `this` para a chamada de `foo()`, `this.a` é sinônimo de `obj.a`.
 
-Only the top/last level of an object property reference chain matters to the call-site. For instance:
+Apenas o topo/último nível de uma cadeia de propriedade de um objeto referênciado é o que importa para o call-site. Por exemplo;
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj2 = {
-	a: 42,
-	foo: foo
+  a: 42,
+  foo: foo
 };
 
 var obj1 = {
-	a: 2,
-	obj2: obj2
+  a: 2,
+  obj2: obj2
 };
 
 obj1.obj2.foo(); // 42
 ```
 
-#### Implicitly Lost
+#### Perda implícita
 
-One of the most common frustrations that `this` binding creates is when an *implicitly bound* function loses that binding, which usually means it falls back to the *default binding*, of either the global object or `undefined`, depending on `strict mode`.
+Uma das frustrações mais comuns que o binding do `this` cria é quando uma função *bindada implícitamente* perde seu binding, o que normalmente quer dizer que ela retorna ao seu *binding padrão*, que ou é do objeto global ou `undefined`, dependendo do `strict mode`.
 
-Consider:
+Considere:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
-var bar = obj.foo; // function reference/alias!
+var bar = obj.foo; // referência para a função!
 
-var a = "oops, global"; // `a` also property on global object
+var a = "oops, global"; // `a` também é propriedade do objeto global
 
 bar(); // "oops, global"
 ```
 
-Even though `bar` appears to be a reference to `obj.foo`, in fact, it's really just another reference to `foo` itself. Moreover, the call-site is what matters, and the call-site is `bar()`, which is a plain, un-decorated call and thus the *default binding* applies.
+Apesar de `bar` aparentemente ser uma referência para `obj.foo`, na realidade, é apenas outra referência para o próprio `foo`. Além do mais, o call-site é o que importa, e o call-site é `bar()`, o que é uma chamada simples e não-decorada, e por isso o *binding padrão* se aplica.
 
-The more subtle, more common, and more unexpected way this occurs is when we consider passing a callback function:
+A maneira mais sútil, mais comum, e mais inesperada em que isso acontece é quando passamos uma função de callback:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 function doFoo(fn) {
-	// `fn` is just another reference to `foo`
+  // `fn` é apenas mais uma referência para `foo`
 
-	fn(); // <-- call-site!
+  fn(); // <-- call-site!
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
-var a = "oops, global"; // `a` also property on global object
+var a = "oops, global"; // `a` também é propriedade do objeto global
 
 doFoo( obj.foo ); // "oops, global"
 ```
 
-Parameter passing is just an implicit assignment, and since we're passing a function, it's an implicit reference assignment, so the end result is the same as the previous snippet.
+Passagem de parâmetros é apenas uma atribuição implicita, e já que estamos passando uma função, é uma atribuição por referência implícita, então o resultado final é o mesmo que no snippet anterior.
 
-What if the function you're passing your callback to is not your own, but built-in to the language? No difference, same outcome.
+Mas e se a função que você estiver passando como callback não for sua, mas nativa da linguagem? Sem diferenças, o resultado é o mesmo.
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
-var a = "oops, global"; // `a` also property on global object
+var a = "oops, global"; // `a` também é propriedade do objeto global
 
 setTimeout( obj.foo, 100 ); // "oops, global"
 ```
 
-Think about this crude theoretical pseudo-implementation of `setTimeout()` provided as a built-in from the JavaScript environment:
+Pense sobre essa pseudo-implementação teórica e cru do `setTimeout()`, fornecido nativamente pelo ambiente JavaScript:
 
 ```js
 function setTimeout(fn,delay) {
-	// wait (somehow) for `delay` milliseconds
-	fn(); // <-- call-site!
+  // espera (de alguma forma) por `delay` milissegundos
+  fn(); // <-- call-site!
 }
 ```
 
-It's quite common that our function callbacks *lose* their `this` binding, as we've just seen. But another way that `this` can surprise us is when the function we've passed our callback to intentionally changes the `this` for the call. Event handlers in popular JavaScript libraries are quite fond of forcing your callback to have a `this` which points to, for instance, the DOM element that triggered the event. While that may sometimes be useful, other times it can be downright infuriating. Unfortunately, these tools rarely let you choose.
+É bem comum que a nossa função de callback *perca* seu binding ao `this`, como nós acabamos de ver. Mas outra maneira em que o `this` pode nós surpreender é quando a função que passamos nosso callback intencionalmente muda o `this` para a chamada. Event handlers em bibliotecas JavaScript populares são bem afeiçoados de forçar seu callback a ter um `this` que aponta para, por exemplo, o elemento da DOM que disparou o evento. Enquanto isso pode ser útil algumas vezes, outras vezes podem ser completamente enfurecedor. Infelizmente, essas ferramentas raramente deixam você escolher.
 
-Either way the `this` is changed unexpectedly, you are not really in control of how your callback function reference will be executed, so you have no way (yet) of controlling the call-site to give your intended binding. We'll see shortly a way of "fixing" that problem by *fixing* the `this`.
+De qualquer forma o `this` é modificado inesperadamente, você não está realmente com o controle de como sua função de callback referenciada vai ser executada, então você não tem nenhuma forma (ainda) de controlar o call-site para dar a ele seu binding desejado. Veremos em breve, uma maneira de "consertar" essa problema *consertando* o `this`.
 
-### Explicit Binding
+### Binding Explícito
 
-With *implicit binding* as we just saw, we had to mutate the object in question to include a reference on itself to the function, and use this property function reference to indirectly (implicitly) bind `this` to the object.
+Com o *binding implícito* como acabamos de ver, nós tivemos que alterar o objeto em questão para incluir a referência dele mesmo para a função, e usar essa referência da propriedade da função para indiretamente (implicitamente) fazer o bind do `this` para o objeto.
 
-But, what if you want to force a function call to use a particular object for the `this` binding, without putting a property function reference on the object?
+Mas, e se você quiser forçar uma chamada de função para usar um objeto específico para o binding `this`, sem colocar uma referência de propriedade de função no objeto?
 
-"All" functions in the language have some utilities available to them (via their `[[Prototype]]` -- more on that later) which can be useful for this task. Specifically, functions have `call(..)` and `apply(..)` methods. Technically, JavaScript host environments sometimes provide functions which are special enough (a kind way of putting it!) that they do not have such functionality. But those are few. The vast majority of functions provided, and certainly all functions you will create, do have access to `call(..)` and `apply(..)`.
+"Todas" as funções da linguagem têm algumas utilidades disponíveis nelas (via `[[Prototype]]` -- mais disso adiante) que podem ser úteis para essa tarefa. Especificamente, funções têm os métodos `call(..)` e `apply(..)`. Tecnicamente, ambientes de host Javascript, por vezes, fornecem funções que são especiais o suficiente (uma maneira gentil de coloca-lo!) que elas não tem tal funcionalidade. Mas essas são poucas. A vasta maioria das funções fornecidas, e certamente todas as funções que você irá criar, têm acesso ao `call(..)` e `apply(..)`.
 
-How do these utilities work? They both take, as their first parameter, an object to use for the `this`, and then invoke the function with that `this` specified. Since you are directly stating what you want the `this` to be, we call it *explicit binding*.
+Como essas funcionalidade funcionam? Ambas tomam, como primeiro parâmetro, um objeto para usar o `this`, e então invocam a função com o `this` específicado. Já que você está clarando diretamente o que você quer que seja `this`, chamamos de *binding explícito*.
 
-Consider:
+Considere:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 foo.call( obj ); // 2
 ```
 
-Invoking `foo` with *explicit binding* by `foo.call(..)` allows us to force its `this` to be `obj`.
+Invocando `foo` com *binding explícito* no `foo.call(..)` nos permite forçar o `this` para ser o `obj`.
 
-If you pass a simple primitive value (of type `string`, `boolean`, or `number`) as the `this` binding, the primitive value is wrapped in its object-form (`new String(..)`, `new Boolean(..)`, or `new Number(..)`, respectively). This is often referred to as "boxing".
+Se você simplesmente passar uma valor primitivo (do tipo `string`, `boolean` ou `number`) como o binding `this`, o valor primitivo é encapsulado na sua forma de objeto (`new String(..)`, `new Boolean(..)`, ou `new Number(..)`, respectivamente). Isso é frequentemente referido como "boxing".
 
-**Note:** With respect to `this` binding, `call(..)` and `apply(..)` are identical. They *do* behave differently with their additional parameters, but that's not something we care about presently.
+**Nota:** Com relação ao binding `this`, `call(..)` e `apply(..)` são idênticos. Eles *comportam-se* de maneira diferente com seus parâmetros adicionais, mas isso não é algo com que nos importamos atualmente.
 
-Unfortunately, *explicit binding* alone still doesn't offer any solution to the issue mentioned previously, of a function "losing" its intended `this` binding, or just having it paved over by a framework, etc.
+Infelizmente, *binding explicito* sozinho continua não oferecendo nenhuma solução para o problema mencionado anteriormente, de uma função "perdendo" seu binding `this` pretendido, ou apenas ter ele passado por um framework, etc.
 
 #### Hard Binding
 
-But a variation pattern around *explicit binding* actually does the trick. Consider:
+Mas um padrão diferente sobre *binding explícito* realmente faz o truque. Considere:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = function() {
-	foo.call( obj );
+  foo.call( obj );
 };
 
 bar(); // 2
 setTimeout( bar, 100 ); // 2
 
-// `bar` hard binds `foo`'s `this` to `obj`
-// so that it cannot be overriden
+// `bar` aplica hard bind no `this` de `foo` para `obj`
+// então isso não pode ser substituído
 bar.call( window ); // 2
 ```
 
-Let's examine how this variation works. We create a function `bar()` which, internally, manually calls `foo.call(obj)`, thereby forcibly invoking `foo` with `obj` binding for `this`. No matter how you later invoke the function `bar`, it will always manually invoke `foo` with `obj`. This binding is both explicit and strong, so we call it *hard binding*.
+Vamos agora examinar como essa variação funciona. Nós criamos uma função `bar()` que, internamente, chama manualmente `foo.call(obj)`, invocando de forma forçada `foo` com o binding `obj` para `this`. Não importa quão tarde você invoque a função `bar`, ela vai manualmente invocar `foo` com `obj`. Esse binding é explícito e forte, então o chamamos de *hard binding*.
 
-The most typical way to wrap a function with a *hard binding* creates a pass-thru of any arguments passed and any return value received:
+O modo mais comum de encapsular uma função com um *hard binding* é criar uma via de quaisquer argumentos passados ​​e qualquer valor de retorno recebido:
 
 ```js
 function foo(something) {
-	console.log( this.a, something );
-	return this.a + something;
+  console.log( this.a, something );
+  return this.a + something;
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = function() {
-	return foo.apply( obj, arguments );
+  return foo.apply( obj, arguments );
 };
 
 var b = bar( 3 ); // 2 3
 console.log( b ); // 5
 ```
 
-Another way to express this pattern is to create a re-usable helper:
+Outra forma de representar esse padrão é criar um helper reutilizável:
 
 ```js
 function foo(something) {
-	console.log( this.a, something );
-	return this.a + something;
+  console.log( this.a, something );
+  return this.a + something;
 }
 
-// simple `bind` helper
+// `bind` helper simples
 function bind(fn, obj) {
-	return function() {
-		return fn.apply( obj, arguments );
-	};
+  return function() {
+    return fn.apply( obj, arguments );
+  };
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = bind( foo, obj );
@@ -335,16 +335,16 @@ var b = bar( 3 ); // 2 3
 console.log( b ); // 5
 ```
 
-Since *hard binding* is such a common pattern, it's provided with a built-in utility as of ES5: `Function.prototype.bind`, and it's used like this:
+Já que *hard binding* é um padrão bem comum, é fornecido como uma utilidade nativa do ES5: `Function.prototype.bind`, e é usada assim:
 
 ```js
 function foo(something) {
-	console.log( this.a, something );
-	return this.a + something;
+  console.log( this.a, something );
+  return this.a + something;
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 var bar = foo.bind( obj );
@@ -353,96 +353,96 @@ var b = bar( 3 ); // 2 3
 console.log( b ); // 5
 ```
 
-`bind(..)` returns a new function that is hard-coded to call the original function with the `this` context set as you specified.
+`bind(..)` retorna uma nova função que é escrita para chamar a função original com o contexto do `this` definido como você especificou.
 
-**Note:** As of ES6, the hard-bound function produced by `bind(..)` has a `.name` property that derives from the original *target function*. For example: `bar = foo.bind(..)` should have a `bar.name` value of `"bound foo"`, which is the function call name that should show up in a stack trace.
+**Nota:** No ES6, a função que faz o hard binding produzida por `bind(..)` tem uma propriedade `.name` que deriva da *função alvo* original. Por exemplo: `bar = foo.bind(..)` deveria ter um valor `bar.name` de `"bound foo"` , que é o nome da chamada da função que deve aparecer em um rastreamento de pilha.
 
-#### API Call "Contexts"
+#### "Contextos" de chamadas de API
 
-Many libraries' functions, and indeed many new built-in functions in the JavaScript language and host environment, provide an optional parameter, usually called "context", which is designed as a work-around for you not having to use `bind(..)` to ensure your callback function uses a particular `this`.
+Muitas funções de bibliotecas, e de fato muitas funções nativas na linguagem JavaScript e em seus ambientes, fornecem um parâmetro opcional, geralmente chamado "contexto", que é projetado como uma solução para você não ter que usar o `bind(..)` para garantir que seu callback use um `this` em particular.
 
-For instance:
+Por exemplo:
 
 ```js
 function foo(el) {
-	console.log( el, this.id );
+  console.log( el, this.id );
 }
 
 var obj = {
-	id: "awesome"
+  id: "awesome"
 };
 
-// use `obj` as `this` for `foo(..)` calls
+// use `obj` como `this` para chamadas `foo(..)` 
 [1, 2, 3].forEach( foo, obj ); // 1 awesome  2 awesome  3 awesome
 ```
 
-Internally, these various functions almost certainly use *explicit binding* via `call(..)` or `apply(..)`, saving you the trouble.
+Internamente, essas funções certamente usam *ligação explícita* via `call (..)` ou `apply (..)`, poupando você do problema.
 
 ### `new` Binding
 
-The fourth and final rule for `this` binding requires us to re-think a very common misconception about functions and objects in JavaScript.
+A quarta e última regra para binding do `this` requer que nós repensemos um equívoco muito comum sobre funções e objetos no JavaScript.
 
-In traditional class-oriented languages, "constructors" are special methods attached to classes, that when the class is instantiated with a `new` operator, the constructor of that class is called. This usually looks something like:
+Em linguagens tradicionais orientadas por classes, "construtores" (constructors) são métodos especiais anexados nas classes, que quando a classe é instanciada com um operador `new`, o construtor dessa classe é chamado. Isso geralmente se parece com algo assim:
 
 ```js
 something = new MyClass(..);
 ```
 
-JavaScript has a `new` operator, and the code pattern to use it looks basically identical to what we see in those class-oriented languages; most developers assume that JavaScript's mechanism is doing something similar. However, there really is *no connection* to class-oriented functionality implied by `new` usage in JS.
+JavaScript tem um operador `new` e o padrão de código para utilizá-lo é basicamente o mesmo que vemos naquelas linguagens orientadas à classes; a maioria dos desenvolvedores assumem que o mecanismo JavaScript está fazendo algo similar. Porém, realmente não há *nenhuma relação* com funcionalidades orientadas à classes no uso do `new` em JS.
 
-First, let's re-define what a "constructor" in JavaScript is. In JS, constructors are **just functions** that happen to be called with the `new` operator in front of them. They are not attached to classes, nor are they instantiating a class. They are not even special types of functions. They're just regular functions that are, in essence, hijacked by the use of `new` in their invocation.
+Primeiro, vamos redefinir o que é um "construtor" em JavaScript. Em JS, construtores são **apenas funções** que são chamadas quando o operador `new` está na frente delas. Elas não são vinculadas à classes, nem estão instanciando-as. Elas não são nem tipos especiais de funções. Elas são apenas funções normais que são, em essência, sequestradas pelo uso de `new` quando invocadas.
 
-For example, the `Number(..)` function acting as a constructor, quoting from the ES5.1 spec:
+Por exemplo, a função `Number(..)` atua como um construtor, citação da especificação ES5.1:
 
-> 15.7.2 The Number Constructor
+> 15.7.2 O Construtor Number
 >
-> When Number is called as part of a new expression it is a constructor: it initialises the newly created object.
+> Quando Number é chamado como parte de uma expressão ele é um construtor: ele inicializa o novos objetos criados.
 
-So, pretty much any ol' function, including the built-in object functions like `Number(..)` (see Chapter 3) can be called with `new` in front of it, and that makes that function call a *constructor call*. This is an important but subtle distinction: there's really no such thing as "constructor functions", but rather construction calls *of* functions.
+Então, praticamente qualquer função, incluindo funções de objetos nativos como `Number(..)` (Veja o Capítulo 3) podem ser chamadas com `new` à frente, e isso faz dessa chamada uma *chamada de construtor*. Essa é uma importante mas sútil diferença: não existem "funções construtoras" mas sim *chamadas construtoras* de funções.
 
-When a function is invoked with `new` in front of it, otherwise known as a constructor call, the following things are done automatically:
+Quando uma função é invocada com `new` à sua frente, também conhecida como chamada de construtor, as seguintes coisas são feitas automaticamente:
 
-1. a brand new object is created (aka, constructed) out of thin air
-2. *the newly constructed object is `[[Prototype]]`-linked*
-3. the newly constructed object is set as the `this` binding for that function call
-4. unless the function returns its own alternate **object**, the `new`-invoked function call will *automatically* return the newly constructed object.
+1. um objeto novo em folha é criado (construído)
+2. *o objeto recém construído é linkado ao `[[Prototype]]`*
+3. o objeto recém construído é definido como bind do `this` para aquela chamada de função
+4. a menos que a função retorne seu próprio **objeto** alternado, a chamada da função invocada `new` vai retornar o objeto recém construído *automaticamente*.
 
-Steps 1, 3, and 4 apply to our current discussion. We'll skip over step 2 for now and come back to it in Chapter 5.
+Os passos 1, 3 e 4 aplicam-se à nossa discussão atual. Nós vamos pular o passo 2 por agora e voltar nele no Capítulo 5.
 
-Consider this code:
+Considere esse código:
 
 ```js
 function foo(a) {
-	this.a = a;
+  this.a = a;
 }
 
 var bar = new foo( 2 );
 console.log( bar.a ); // 2
 ```
 
-By calling `foo(..)` with `new` in front of it, we've constructed a new object and set that new object as the `this` for the call of `foo(..)`. **So `new` is the final way that a function call's `this` can be bound.** We'll call this *new binding*.
+Ao chamar `foo(..)` com `new` a sua frente, nós construímos um novo objeto e definimos esse novo objeto como `this` para a chamada de `foo(..)`. **Então `new` é a última maneira que uma chamada de função `this` pode sofrer o bind.** Vamos chamar isso de *new binding* .
 
-## Everything In Order
+## Tudo em Ordem
 
-So, now we've uncovered the 4 rules for binding `this` in function calls. *All* you need to do is find the call-site and inspect it to see which rule applies. But, what if the call-site has multiple eligible rules? There must be an order of precedence to these rules, and so we will next demonstrate what order to apply the rules.
+Então, agora descobrimos as 4 regras para ligação do `this` em chamadas de função. *Tudo* que você precisa fazer é encontrar o local de chamada e inspecioná-lo para ver qual regra se aplica. Mas, e se o local de chamada tiver várias regras elegíveis? Deve haver uma ordem de precedência para essas regras e, assim, demonstraremos em seguida que ordem aplicar à elas.
 
-It should be clear that the *default binding* is the lowest priority rule of the 4. So we'll just set that one aside.
+Deve ficar claro que o *default binding* (binding padrão) é a regra de prioridade mais baixa das 4. Então, vamos deixar isso de lado.
 
-Which is more precedent, *implicit binding* or *explicit binding*? Let's test it:
+Qual tem maior precedência, *binding implícito* ou *binding explícito*? Vamos testar:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var obj1 = {
-	a: 2,
-	foo: foo
+  a: 2,
+  foo: foo
 };
 
 var obj2 = {
-	a: 3,
-	foo: foo
+  a: 3,
+  foo: foo
 };
 
 obj1.foo(); // 2
@@ -452,17 +452,17 @@ obj1.foo.call( obj2 ); // 3
 obj2.foo.call( obj1 ); // 2
 ```
 
-So, *explicit binding* takes precedence over *implicit binding*, which means you should ask **first** if *explicit binding* applies before checking for *implicit binding*.
+Portanto, *binding explícito* tem precedência sobre *binding implícito*, o que significa que você deve perguntar **primeiro** se *o binding explícito* é aplicado antes de verificar pelo *binding implícito*.
 
-Now, we just need to figure out where *new binding* fits in the precedence.
+Agora, só precisamos descobrir em qual precedência o *new binding* se encaixa.
 
 ```js
 function foo(something) {
-	this.a = something;
+  this.a = something;
 }
 
 var obj1 = {
-	foo: foo
+  foo: foo
 };
 
 var obj2 = {};
@@ -478,19 +478,19 @@ console.log( obj1.a ); // 2
 console.log( bar.a ); // 4
 ```
 
-OK, *new binding* is more precedent than *implicit binding*. But do you think *new binding* is more or less precedent than *explicit binding*?
+OK, o *new binding* tem maior precedêcnia que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedêcia sobre o *binding explícito*?
 
-**Note:** `new` and `call`/`apply` cannot be used together, so `new foo.call(obj1)` is not allowed, to test *new binding* directly against *explicit binding*. But we can still use a *hard binding* to test the precedence of the two rules.
+**Nota** `new` e `call`/`apply` não podem ser usados juntos, então `new foo.call(obj1)` não é permitido, para testar o *new binding* diretamente contra o *binding explícito*. Mas nós ainda podemos usar o *hard binding* para testar a precedência entre as duas regras.
 
-Before we explore that in a code listing, think back to how *hard binding* physically works, which is that `Function.prototype.bind(..)` creates a new wrapper function that is hard-coded to ignore its own `this` binding (whatever it may be), and use a manual one we provide.
+Antes de explorarmos isso em uma listagem de código, pense em como o *hard binding* funciona fisicamente, `Function.prototype.bind(..)` cria uma nova função de encapsulamento que é codificada para ignorar seu próprio binding `this` (qualquer que seja), e usar um que fornecemos manualmente.
 
-By that reasoning, it would seem obvious to assume that *hard binding* (which is a form of *explicit binding*) is more precedent than *new binding*, and thus cannot be overridden with `new`.
+Por esse raciocínio, parece óbvio assumir que *hard binding* (que é uma forma de *binding explícito*) tem maior precedência que *new binding*, e assim não pode ser substituído por `new`.
 
-Let's check:
+Vamos checar:
 
 ```js
 function foo(something) {
-	this.a = something;
+  this.a = something;
 }
 
 var obj1 = {};
@@ -504,85 +504,85 @@ console.log( obj1.a ); // 2
 console.log( baz.a ); // 3
 ```
 
-Whoa! `bar` is hard-bound against `obj1`, but `new bar(3)` did **not** change `obj1.a` to be `3` as we would have expected. Instead, the *hard bound* (to `obj1`) call to `bar(..)` ***is*** able to be overridden with `new`. Since `new` was applied, we got the newly created object back, which we named `baz`, and we see in fact that  `baz.a` has the value `3`.
+Epa! `bar` tem hard binding contra `obj1`, mas `new bar(3)` **não** mudou o `obj1.a` para ser `3` como havíamos esperado. Em vez disso, a chamada *hard binding* (para `obj1`) **é** passível de ser substituída com `new`. Desde que `new` foi aplicada, nós temos de volta o objeto recém criado, que nomeamos como `baz`, e nós vemos de fato que `baz.a` tem o valor `3`.
 
-This should be surprising if you go back to our "fake" bind helper:
+Isso pode ser surpreendente se você voltar para nosso bind helper "fake":
 
 ```js
 function bind(fn, obj) {
-	return function() {
-		fn.apply( obj, arguments );
-	};
+  return function() {
+    fn.apply( obj, arguments );
+  };
 }
 ```
 
-If you reason about how the helper's code works, it does not have a way for a `new` operator call to override the hard-binding to `obj` as we just observed.
+Se você pensar sobre como o código do helper funciona, não há uma maneira da chamada do operador `new` substituir o hard binding para `obj` como nós observamos.
 
-But the built-in `Function.prototype.bind(..)` as of ES5 is more sophisticated, quite a bit so in fact. Here is the (slightly reformatted) polyfill provided by the MDN page for `bind(..)`:
+Mas a função nativa `Function.prototype.bind(..)` a partir do ES5 é mais sofisticada, na verdade é mais ou menos. Aqui está o polyfill (ligeriamente reformulado) fornecido pela página do MDN para `bind(..)`.
 
 ```js
 if (!Function.prototype.bind) {
-	Function.prototype.bind = function(oThis) {
-		if (typeof this !== "function") {
-			// closest thing possible to the ECMAScript 5
-			// internal IsCallable function
-			throw new TypeError( "Function.prototype.bind - what " +
-				"is trying to be bound is not callable"
-			);
-		}
+  Function.prototype.bind = function(oThis) {
+    if (typeof this !== "function") {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError( "Function.prototype.bind - what " +
+        "is trying to be bound is not callable"
+      );
+    }
 
-		var aArgs = Array.prototype.slice.call( arguments, 1 ),
-			fToBind = this,
-			fNOP = function(){},
-			fBound = function(){
-				return fToBind.apply(
-					(
-						this instanceof fNOP &&
-						oThis ? this : oThis
-					),
-					aArgs.concat( Array.prototype.slice.call( arguments ) )
-				);
-			}
-		;
+    var aArgs = Array.prototype.slice.call( arguments, 1 ),
+      fToBind = this,
+      fNOP = function(){},
+      fBound = function(){
+        return fToBind.apply(
+          (
+            this instanceof fNOP &&
+            oThis ? this : oThis
+          ),
+          aArgs.concat( Array.prototype.slice.call( arguments ) )
+        );
+      }
+    ;
 
-		fNOP.prototype = this.prototype;
-		fBound.prototype = new fNOP();
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();
 
-		return fBound;
-	};
+    return fBound;
+  };
 }
 ```
 
-**Note:** The `bind(..)` polyfill shown above differs from the built-in `bind(..)` in ES5 with respect to hard-bound functions that will be used with `new` (see below for why that's useful). Because the polyfill cannot create a function without a `.prototype` as the built-in utility does, there's some nuanced indirection to approximate the same behavior. Tread carefully if you plan to use `new` with a hard-bound function and you rely on this polyfill.
+**Nota** o polyfill de `bind(..)` mostrado acima difere do `bind(..)` nativo no ES5 com respeito à funções com hard binding que serão usadas com `new` (veja abaixo porque isso é útil). Porque o polyfill não pode criar uma função sem um `prototype` como as funcionalidades nativas fazem, há uma aproximação suavemente indireta para o mesmo comportamento. Tenha cuidado se você planeja usar `new` com uma função hard binding e você confia nesse polyfill.
 
-The part that's allowing `new` overriding is:
+A parte que está permitindo a substituição do `new` é:
 
 ```js
 this instanceof fNOP &&
 oThis ? this : oThis
 
-// ... and:
+// ... e:
 
 fNOP.prototype = this.prototype;
 fBound.prototype = new fNOP();
 ```
 
-We won't actually dive into explaining how this trickery works (it's complicated and beyond our scope here), but essentially the utility determines whether or not the hard-bound function has been called with `new` (resulting in a newly constructed object being its `this`), and if so, it uses *that* newly created `this` rather than the previously specified *hard binding* for `this`.
+Nós não vamos realmente explicar como esse truque funciona (é complicado e além do nosso escopo aqui), mas essencialmente a utilidade determina se a função hard binding foi chamada com `new` (resultando em um objeto recém construído sendo `this`), e se assim for, ele usa *esse* recém criado `this` ao invés do *hard binding* para o `this`.
 
-Why is `new` being able to override *hard binding* useful?
+Porque a capacidade do `new` de substituir o hard binding é útil?
 
-The primary reason for this behavior is to create a function (that can be used with `new` for constructing objects) that essentially ignores the `this` *hard binding* but which presets some or all of the function's arguments. One of the capabilities of `bind(..)` is that any arguments passed after the first `this` binding argument are defaulted as standard arguments to the underlying function (technically called "partial application", which is a subset of "currying").
+A principal razão para este comportamento é criar uma função (que pode ser usada com `new` para construir objetos) que essencialmente ignora o `this` com *hard binding*, mas que pré configura alguns ou todos os argumentos da função. Uma das capacidades do `bind (..)` é que quaisquer argumentos passados ​​após o primeiro argumento de binding do `this` são padronizados como argumentos padrão para a função subjacente (tecnicamente chamado de "aplicação parcial", que é um subconjunto de "currying" -- Vide [WORDREFERENCE](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/WORDREFERENCE.md#c)).
 
-For example:
+Por exemplo:
 
 ```js
 function foo(p1,p2) {
-	this.val = p1 + p2;
+  this.val = p1 + p2;
 }
 
-// using `null` here because we don't care about
-// the `this` hard-binding in this scenario, and
-// it will be overridden by the `new` call anyway!
+// usando o `null` aqui porque não nos importamos
+// com o `this` hard-binding nesse cenário, e isso
+// será substituído pela chamada `new` de qualquer forma!
 var bar = foo.bind( null, "p1" );
 
 var baz = new bar( "p2" );
@@ -590,41 +590,41 @@ var baz = new bar( "p2" );
 baz.val; // p1p2
 ```
 
-### Determining `this`
+### Determinando o `this`
 
-Now, we can summarize the rules for determining `this` from a function call's call-site, in their order of precedence. Ask these questions in this order, and stop when the first rule applies.
+Agora, podemos resumir as regras para determinar o `this` a partir do local de chamada de uma função, na sua ordem de precedência. Faça estas perguntas nesta ordem e pare quando a primeira regra se aplicar.
 
-1. Is the function called with `new` (**new binding**)? If so, `this` is the newly constructed object.
+1. A função está sendo chamada com `new` (**new binding**)? Se sim, `this` é o objeto recém construído.
 
     `var bar = new foo()`
 
-2. Is the function called with `call` or `apply` (**explicit binding**), even hidden inside a `bind` *hard binding*? If so, `this` is the explicitly specified object.
+2. A função é chamada com `call` ou `apply` (**explicit binding**), mesmo oculta dentro de um `bind` *hard binding*? Se sim, `this` é o objeto especificado explicitamente.
 
     `var bar = foo.call( obj2 )`
 
-3. Is the function called with a context (**implicit binding**), otherwise known as an owning or containing object? If so, `this` is *that* context object.
+3. A função é chamada com um contexto (**implicit binding**), também conhecido como objeto proprietário ou contido? Se for assim, `this` é *aquele* objeto de contexto.
 
     `var bar = obj1.foo()`
 
-4. Otherwise, default the `this` (**default binding**). If in `strict mode`, pick `undefined`, otherwise pick the `global` object.
+4. Caso contrário, o padrão é `this` (**default binding**). Se em `strict mode`, escolha `undefined`, caso contrário escolha o objeto `global`.
 
     `var bar = foo()`
 
-That's it. That's *all it takes* to understand the rules of `this` binding for normal function calls. Well... almost.
+É isso aí. Isso é *tudo o que é preciso* para entender as regras de binding do `this` para chamadas normais de funções. Bem... quase.
 
-## Binding Exceptions
+## Exceções do Binding
 
-As usual, there are some *exceptions* to the "rules".
+Como de costume, há algumas *exceções* às "regras".
 
-The `this`-binding behavior can in some scenarios be surprising, where you intended a different binding but you end up with binding behavior from the *default binding* rule (see previous).
+O comportamento do binding de `this` pode, em alguns cenários, ser surpreendente, onde você pretendia um binding diferente, mas acaba tendo um comportamento de binding da regra de *default binding* (veja anteriormente).
 
-### Ignored `this`
+### Ignorando o `this`
 
-If you pass `null` or `undefined` as a `this` binding parameter to `call`, `apply`, or `bind`, those values are effectively ignored, and instead the *default binding* rule applies to the invocation.
+Se você passar `null` ou `undefined` como um parâmetro de binding do `this` para `call`, `apply` ou `bind`, esses valores serão de fato ignorados e, em vez disso, a regra *default binding* será aplicada à invocação.
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -632,13 +632,13 @@ var a = 2;
 foo.call( null ); // 2
 ```
 
-Why would you intentionally pass something like `null` for a `this` binding?
+Por que você iria intencionalmente passar algo como `null` para um binding `this`?
 
-It's quite common to use `apply(..)` for spreading out arrays of values as parameters to a function call. Similarly, `bind(..)` can curry parameters (pre-set values), which can be very helpful.
+É muito comum usar `apply(..)` para espalhar arrays de valores como parâmetros para uma chamada de função. Da mesma forma, `bind(..)` pode arranjar parâmetros (valores pré-definidos), o que pode ser muito útil.
 
 ```js
 function foo(a,b) {
-	console.log( "a:" + a + ", b:" + b );
+  console.log( "a:" + a + ", b:" + b );
 }
 
 // spreading out array as parameters
@@ -649,51 +649,51 @@ var bar = foo.bind( null, 2 );
 bar( 3 ); // a:2, b:3
 ```
 
-Both these utilities require a `this` binding for the first parameter. If the functions in question don't care about `this`, you need a placeholder value, and `null` might seem like a reasonable choice as shown in this snippet.
+Ambas das utilidades requerem um binding `this` para o primeiro parâmetro. Se as funções em questão não se preocuparem com `this`, você precisará de um valor substituto, e `null` pode parecer uma escolha razoável, conforme mostrado neste trecho.
 
-**Note:** We don't cover it in this book, but ES6 has the `...` spread operator which will let you syntactically "spread out" an array as parameters without needing `apply(..)`, such as `foo(...[1,2])`, which amounts to `foo(1,2)` -- syntactically avoiding a `this` binding if it's unnecessary. Unfortunately, there's no ES6 syntactic substitute for currying, so the `this` parameter of the `bind(..)` call still needs attention.
+**Nota:** Não abordamos neste livro, mas o ES6 tem o operador `...` spread que permite sintaticamente "espalhar" um array como parâmetros sem precisar de `apply(..)`, tal como `foo(... [1,2])`, que equivale a `foo(1,2)` - sintaticamente evitando um binding 'this' se for desnecessário. Infelizmente, não há nenhum substituto sintático do ES6 para curry, então o parâmetro `this` da chamada `bind(..)` ainda precisa de atenção.
 
-However, there's a slight hidden "danger" in always using `null` when you don't care about the `this` binding. If you ever use that against a function call (for instance, a third-party library function that you don't control), and that function *does* make a `this` reference, the *default binding* rule means it might inadvertently reference (or worse, mutate!) the `global` object (`window` in the browser).
+Entretanto, existe um pequeno "perigo" oculto em sempre usar `null` quando você não se importa com o binding de `this`. Se você sempre usa isso em uma chamada de função (por exemplo, uma função de biblioteca de terceiros que você não controla), e essa função *faz* uma referência a this, a regra *default binding* significa que pode acidentalmente fazer referência (ou pior, mudar!) o objeto `global` (`window` no navegador).
 
-Obviously, such a pitfall can lead to a variety of *very difficult* to diagnose/track-down bugs.
+Obviamente, essa armadilha pode levar a uma variedade de bugs *muito difícil* de diagnosticar/rastrear .
 
-#### Safer `this`
+#### `this` Seguro
 
-Perhaps a somewhat "safer" practice is to pass a specifically set up object for `this` which is guaranteed not to be an object that can create problematic side effects in your program. Borrowing terminology from networking (and the military), we can create a "DMZ" (de-militarized zone) object -- nothing more special than a completely empty, non-delegated (see Chapters 5 and 6) object.
+Talvez uma prática mais "segura" seja passar um objeto para `this` que garanta que este não seja um objeto que possa criar efeitos colaterais em seu programa. Pegando emprestado a terminologia da área de redes (e da militar), nós podemos criar um objeto "DMZ" (de-militarized zone / zona desmilitarizada) -- nada mais especial que um objeto completamente vazio, não delegado (veja no Capítulo 5).
 
-If we always pass a DMZ object for ignored `this` bindings we don't think we need to care about, we're sure any hidden/unexpected usage of `this` will be restricted to the empty object, which insulates our program's `global` object from side-effects.
+Se nós sempre passarmos um objeto DMZ para bindings `this` ignorados, nós achamos que não precisamos nos preocupar, temos certeza que qualquer uso oculto/inesperado de `this` estará restrito ao objeto vazio, o que isola o objeto `global` do nosso programa de efeitos colaterais.
 
-Since this object is totally empty, I personally like to give it the variable name `ø` (the lowercase mathematical symbol for the empty set). On many keyboards (like US-layout on Mac), this symbol is easily typed with `⌥`+`o` (option+`o`). Some systems also let you set up hotkeys for specific symbols. If you don't like the `ø` symbol, or your keyboard doesn't make that as easy to type, you can of course call it whatever you want.
+Já que esse objeto é totalmente vazio, eu pessoalmente gosto de dar um nome de variável `ø` à ele (o símbolo matemático para um conjunto vazio). Em muitos teclados (como o US-layout no Mac), esse símbolo é facilmente digitado com `⌥`+`o` (option+`o`). Alguns sistemas também deixam você definir teclas de atalho para símbolos específicos. Se você não gostar do símbolo `ø`, ou se seu teclado não o torna fácil de digitá-lo, claro que você pode chamá-lo como quiser.
 
-Whatever you call it, the easiest way to set it up as **totally empty** is `Object.create(null)` (see Chapter 5). `Object.create(null)` is similar to `{ }`, but without the delegation to `Object.prototype`, so it's "more empty" than just `{ }`.
+Seja do que for que você o chame, a melhor forma de configurá-lo como **totalmente vazio** é com `Object.create(null)` (veja o Capítulo 5). `Object.create(null)` é similar à `{ }`, mas sem a delegação do `Object.prototype`, então ele é ainda "mais vazio" do que apenas `{ }`.
 
 ```js
 function foo(a,b) {
-	console.log( "a:" + a + ", b:" + b );
+  console.log( "a:" + a + ", b:" + b );
 }
 
-// our DMZ empty object
+// nosso objeto vazio DMZ
 var ø = Object.create( null );
 
-// spreading out array as parameters
+// espalhando arrays como parâmetros
 foo.apply( ø, [2, 3] ); // a:2, b:3
 
-// currying with `bind(..)`
+// currying com `bind(..)`
 var bar = foo.bind( ø, 2 );
 bar( 3 ); // a:2, b:3
 ```
 
-Not only functionally "safer", there's a sort of stylistic benefit to `ø`, in that it semantically conveys "I want the `this` to be empty" a little more clearly than `null` might. But again, name your DMZ object whatever you prefer.
+Essa funcionalidade não é apenas "mais segura", há vários benefícios estéticos para `ø` na medida que se transmite semanticamente "eu quero que o `this` seja vazio" mais claramente do que o `null` poderia. Mas, de novo, nomeie seu objeto DMZ da forma que você preferir.
 
-### Indirection
+### Referências Indiretas
 
-Another thing to be aware of is you can (intentionally or not!) create "indirect references" to functions, and in those cases,  when that function reference is invoked, the *default binding* rule also applies.
+Outra coisa para ter cuidado é que você pode (intencionalmente ou não!) criar "referências indiretas" para funções, e nesses casos, quando a referência dessa função é invocada, a regra de *default binding* também se aplica.
 
-One of the most common ways that *indirect references* occur is from an assignment:
+Uma das formas mais comuns pelas quais *referências indiretas* ocorrem é de uma atribuição:
 
 ```js
 function foo() {
-	console.log( this.a );
+  console.log( this.a );
 }
 
 var a = 2;
@@ -704,43 +704,43 @@ o.foo(); // 3
 (p.foo = o.foo)(); // 2
 ```
 
-The *result value* of the assignment expression `p.foo = o.foo` is a reference to just the underlying function object. As such, the effective call-site is just `foo()`, not `p.foo()` or `o.foo()` as you might expect. Per the rules above, the *default binding* rule applies.
+O *valor do resultado* da expressão de atribuição `p.foo = o.foo` é uma referência apenas ao objeto de função adjacente. Como tal, o local efetivo das chamadas é `foo()`, não `p.foo()` ou `o.foo()` como você pode ter esperado. De acordo com as regras acima, a regra de *default binding* se aplica.
 
-Reminder: regardless of how you get to a function invocation using the *default binding* rule, the `strict mode` status of the **contents** of the invoked function making the `this` reference -- not the function call-site -- determines the *default binding* value: either the `global` object if in non-`strict mode` or `undefined` if in `strict mode`.
+Lembrete: independentemente de como você chega à uma invocação de função usando a regra de *default binding*, o status `strict mode` do **conteúdo** da função invocada fazendo a referência `this` -- não ao local de chamada da função -- determinar o valor do *default binding*: o objeto `global` se estiver em modo não `strict` ou `undefined` se estiver em `strict mode`.
 
-### Softening Binding
+### Soft Binding
 
-We saw earlier that *hard binding* was one strategy for preventing a function call falling back to the *default binding* rule inadvertently, by forcing it to be bound to a specific `this` (unless you use `new` to override it!). The problem is, *hard-binding* greatly reduces the flexibility of a function, preventing manual `this` override with either the *implicit binding* or even subsequent *explicit binding* attempts.
+Nós vimos anteriormente que *hard binding* era uma das estratégias para prevenir que uma chamada de função caia na regra de *default binding* acidentalmente, forçando-a a ter o binding em um `this` específico (a menos que você use o `new` para substituí-lo!). O problema é, o *hard binding* diminui muito a flexibilidade de uma função, prevenindo a substituição manual do `this` tanto com tentativas de *binding implícito* ou até subsequentemente com o *binding explícito*.
 
-It would be nice if there was a way to provide a different default for *default binding* (not `global` or `undefined`), while still leaving the function able to be manually `this` bound via *implicit binding* or *explicit binding* techniques.
+Seria legal se houvesse uma forma de fornecer um padrão diferente para *default binding* (não `global` ou `undefined`), enquanto continuamos deixando a função capaz de fazer o binding do `this` manualmente pelas técnicas de *binding implícito* ou *binding explícito*.
 
-We can construct a so-called *soft binding* utility which emulates our desired behavior.
+Nós podemos construir a utilidade denominada *soft binding* que emula nosso comportamento desejado.
 
 ```js
 if (!Function.prototype.softBind) {
-	Function.prototype.softBind = function(obj) {
-		var fn = this,
-			curried = [].slice.call( arguments, 1 ),
-			bound = function bound() {
-				return fn.apply(
-					(!this ||
-						(typeof window !== "undefined" &&
-							this === window) ||
-						(typeof global !== "undefined" &&
-							this === global)
-					) ? obj : this,
-					curried.concat.apply( curried, arguments )
-				);
-			};
-		bound.prototype = Object.create( fn.prototype );
-		return bound;
-	};
+  Function.prototype.softBind = function(obj) {
+    var fn = this,
+      curried = [].slice.call( arguments, 1 ),
+      bound = function bound() {
+        return fn.apply(
+          (!this ||
+            (typeof window !== "undefined" &&
+              this === window) ||
+            (typeof global !== "undefined" &&
+              this === global)
+          ) ? obj : this,
+          curried.concat.apply( curried, arguments )
+        );
+      };
+    bound.prototype = Object.create( fn.prototype );
+    return bound;
+  };
 }
 ```
 
-The `softBind(..)` utility provided here works similarly to the built-in ES5 `bind(..)` utility, except with our *soft binding* behavior. It wraps the specified function in logic that checks the `this` at call-time and if it's `global` or `undefined`, uses a pre-specified alternate *default* (`obj`). Otherwise the `this` is left untouched. It also provides optional currying (see the `bind(..)` discussion earlier).
+A utilidade `softBind(..)` fornecida aqui funciona de forma parecida com a utilidade `bind(..)` nativa do ES5, exceto com nosso comportamento de *soft binding*. Ela encapsula a função especificada na lógica que verifica o `this` no momento da chamada e se ele for `global` ou `undefined`, usa uma alternativa *default* de (`obj`)  pré-especificada. Caso contrário o `this` fica intocado. Ele também fornece currying opcional (veja a discussão `bind (..)` antes).
 
-Let's demonstrate its usage:
+Vamos demonstrar seu uso:
 
 ```js
 function foo() {
@@ -756,14 +756,14 @@ var fooOBJ = foo.softBind( obj );
 fooOBJ(); // name: obj
 
 obj2.foo = foo.softBind(obj);
-obj2.foo(); // name: obj2   <---- look!!!
+obj2.foo(); // name: obj2   <---- olha!!!
 
-fooOBJ.call( obj3 ); // name: obj3   <---- look!
+fooOBJ.call( obj3 ); // name: obj3   <---- olha!
 
-setTimeout( obj2.foo, 10 ); // name: obj   <---- falls back to soft-binding
+setTimeout( obj2.foo, 10 ); // name: obj   <---- volta para o soft binding
 ```
 
-The soft-bound version of the `foo()` function can be manually `this`-bound to `obj2` or `obj3` as shown, but it falls back to `obj` if the *default binding* would otherwise apply.
+A versão da função `foo()` que sofreu o soft binding pode fazer o bind em `this` manualmente para `obj2` ou `obj3`, como demonstrado, mas cai de volta para `obj` se o *default binding* se aplicar.
 
 ## `this` Léxico
 
@@ -783,11 +783,11 @@ function foo() {
 }
 
 var obj1 = {
-	a: 2
+  a: 2
 };
 
 var obj2 = {
-	a: 3
+  a: 3
 };
 
 var bar = foo.call( obj1 );
@@ -807,7 +807,7 @@ function foo() {
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 foo.call( obj ); // 2
@@ -827,7 +827,7 @@ function foo() {
 }
 
 var obj = {
-	a: 2
+  a: 2
 };
 
 foo.call( obj ); // 2
@@ -843,8 +843,9 @@ Se você se encontrar escrevendo o código com `this`, mas na maior parte ou em 
 
 Um programa pode efetivamente usar ambos os estilos de código (léxico e `this`), mas dentro da mesma função, e na verdade para os mesmos tipos de abordagens, misturar os dois mecanismos geralmente é ter um código mais difícil de manter, e provavelmente trabalhando muito para ser inteligente.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
+Determinar o vínculo (bind) the `this` para uma função em execução requer a 
 Determining the `this` binding for an executing function requires finding the direct call-site of that function. Once examined, four rules can be applied to the call-site, in *this* order of precedence:
 
 1. Called with `new`? Use the newly constructed object.

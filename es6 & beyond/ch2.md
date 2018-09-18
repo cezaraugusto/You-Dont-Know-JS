@@ -1,15 +1,15 @@
-# You Don't Know JS: ES6 & Beyond
-# Chapter 2: Syntax
+# You Don't Know JS: ES6 & Além
+# Capítulo 2: Sintaxe
 
-If you've been writing JS for any length of time, odds are the syntax is pretty familiar to you. There are certainly many quirks, but overall it's a fairly reasonable and straightforward syntax that draws many similarities from other languages.
+Se você vem escrevendo JS por algum tempo, é provável que a sintaxe pareça bem familiar à você. Com certeza existem algumas confusões, mas em geral a sintaxe é bem clara e de entendimento razoável, com formato bem similar à outras linguagens.
 
-However, ES6 adds quite a few new syntactic forms that take some getting used to. In this chapter, we'll tour through them to find out what's in store.
+Entretanto, o ES6 adiciona algumas formas sintáxicas que requerem algum tempo para se familiarizar. Nesse capítulo, iremos navegar através dela para encontrar o que ela nos reserva.
 
-**Tip:** At the time of this writing, some of the features discussed in this book have been implemented in various browsers (Firefox, Chrome, etc.), but some have only been partially implemented and many others have not been implemented at all. Your experience may be mixed trying these examples directly. If so, try them out with transpilers, as most of these features are covered by those tools. ES6Fiddle (http://www.es6fiddle.net/) is a great, easy-to-use playground for trying out ES6, as is the online REPL for the Babel transpiler (http://babeljs.io/repl/).
+**Dica:** No momento desta escrita, algumas funcionalidades	discutidas neste livro já foram implementadas em diversos navegadores (Firefox, Chrome, etc.), mas algumas foram apenas parcialmente implementadas e muitas outras não sequer implementadas ainda. Sua experiência pode ser diversificada ao tentar esses exemplos diretamente. Se for, tente elas utilizando transpiladores, já que a maioria dessas funcionalidades foram cobertas por essas ferramentas. O ES6Fiddle (http://www.es6fiddle.net/) é um playground ótimo, fácil de usar para testar o ES6, já que é o REPL online para o transpilador Babel. (http://babeljs.io/repl/).
 
-## Block-Scoped Declarations
+## Declarações em blocos de Escopos
 
-You're probably aware that the fundamental unit of variable scoping in JavaScript has always been the `function`. If you needed to create a block of scope, the most prevalent way to do so other than a regular function declaration was the immediately invoked function expression (IIFE). For example:
+Você provavelmente está consciente que a unidade fundamental de escopo de variáveis em JavaScript sempre foi `function`. Se você precisar criar um escopo de bloco, a forma mais prevalente de fazê-lo além da declaração regular de função seria a Expressão de Função Imediatamente Invocada (IIFE). Por exemplo:
 
 ```js
 var a = 2;
@@ -22,9 +22,9 @@ var a = 2;
 console.log( a );		// 2
 ```
 
-### `let` Declarations
+### Declarações `let`
 
-However, we can now create declarations that are bound to any block, called (unsurprisingly) *block scoping*. This means all we need is a pair of `{ .. }` to create a scope. Instead of using `var`, which always declares variables attached to the enclosing function (or global, if top level) scope, use `let`:
+Entretanto, nós podemos criar declarações que estão limitadas à qualquer bloco, chamados (sem nenhuma surpresa) *escopamento de bloco* (block scoping). Isso significa que tudo que precisamos é um par de `{ .. }` para criar o escopo. Ao invés de usar `var`, que sempre declara variáveis anexadas ao enclausuramento do escopo da função (ou global, se for *top level*), use `let`:
 
 ```js
 var a = 2;
@@ -37,11 +37,11 @@ var a = 2;
 console.log( a );		// 2
 ```
 
-It's not very common or idiomatic thus far in JS to use a standalone `{ .. }` block, but it's always been valid. And developers from other languages that have *block scoping* will readily recognize that pattern.
+Não é muito comum ou idiomático até o presente momento, usar blocos `{ .. }` soltos, mas de qualquer forma isso sempre foi válido. E desenvolvedores de outras linguagens que contém *escopamento* de blocos (block scoping) irão rapidamente reconhecer este padrão.
 
-I believe this is the best way to create block-scoped variables, with a dedicated `{ .. }` block. Moreover, you should always put the `let` declaration(s) at the very top of that block. If you have more than one to declare, I'd recommend using just one `let`.
+Eu acredito que esta é a melhor forma de criar variáveis escopadas em blocos, usando um bloco `{ .. }` dedicado. E ainda mais, você deve sempre colocar as declarações `let` no ponto mais alto do bloco. Se você tiver mais de um a declarar, eu recomendo usar apenas um `let`.
 
-Stylistically, I even prefer to put the `let` on the same line as the opening `{`, to make it clearer that this block is only for the purpose of declaring the scope for those variables.
+Estéticamente falando, eu sempre prefiro usar o `let` na mesma linha do que a abertura `{`, para deixar claro que este escopo de bloco tem o objetivo de apenas declarar o escopo dessas variáveis.
 
 ```js
 {	let a = 2, b, c;
@@ -49,9 +49,9 @@ Stylistically, I even prefer to put the `let` on the same line as the opening `{
 }
 ```
 
-Now, that's going to look strange and it's not likely going to match the recommendations given in most other ES6 literature. But I have reasons for my madness.
+Agora, isso parece estranho aos olhos e é provável que não vá corresponder às recomendações dadas na maioria das literaturas sobre ES6. Maas eu tenho razões para minha loucura.
 
-There's another experimental (not standardized) form of the `let` declaration called the `let`-block, which looks like:
+Existe outra forma experimental (não padronizada) de declarações `let` chamadas de `let`-block, que se parece com isso:
 
 ```js
 let (a = 2, b, c) {
@@ -59,11 +59,11 @@ let (a = 2, b, c) {
 }
 ```
 
-That form is what I call *explicit* block scoping, whereas the `let ..` declaration form that mirrors `var` is more *implicit*, as it kind of hijacks whatever `{ .. }` pair it's found in. Generally developers find *explicit* mechanisms a bit more preferable than *implicit* mechanisms, and I claim this is one of those cases.
+Esta forma é o que eu chamo de escopo de bloco *explícito*, onde a forma da declaração `let ..` que espelha `var`é mais *implícita*, como se ela meio que *sequestrasse* qualquer par de `{ .. }` que for encontrado. Geralmente desenvolvedores acham mecanismos *explícitos* mais *preferíveis*, e eu digo que esse seria um desses casos.
 
-If you compare the previous two snippet forms, they're very similar, and in my opinion both qualify stylistically as *explicit* block scoping. Unfortunately, the `let (..) { .. }` form, the most *explicit* of the options, was not adopted in ES6. That may be revisited post-ES6, but for now the former option is our best bet, I think.
+Se você comparar os dois trechos e código, eles são bem similares, e na minha opinião os dois se qualificam estéticamente como escopamento de blocos *explícito*. Infelizmente, a forma `let (..) { .. }`, a mais *explícita* das opções, não foi adotada no ES6. Ela pode ser revisada em um pós-ES6, mas por ora a primeira opção é nossa melhor pedida, eu acho.
 
-To reinforce the *implicit* nature of `let ..` declarations, consider these usages:
+Para reforçar a natureza *implícita* das declarações `let ..`, considere seu uso:
 
 ```js
 let a = 2;
@@ -83,17 +83,17 @@ if (a > 1) {
 }
 ```
 
-Quick quiz without looking back at that snippet: which variable(s) exist only inside the `if` statement, and which variable(s) exist only inside the `for` loop?
+Pequeno quiz antes de olhar novamente para o trecho de código: qua(l/is) variáve(l/is) existe(m) apenas dentro da instrução `if`, e qua(l/is) variáve(l/is) existe(m) apenas dentro do loop `for`?
 
-The answers: the `if` statement contains `b` and `c` block-scoped variables, and the `for` loop contains `i` and `j` block-scoped variables.
+As respostas: a instrução `if` contém em escopo de bloco as variáveis `b` e `c`, e o loop `for` contém em escopo de bloco as variáveis `i` e `j`.
 
-Did you have to think about it for a moment? Does it surprise you that `i` isn't added to the enclosing `if` statement scope? That mental pause and questioning -- I call it a "mental tax" -- comes from the fact that this `let` mechanism is not only new to us, but it's also *implicit*.
+Você teve que pensar nisso por um instante? Te surpreende que  `i` não tenha sido adicionada ao encerramento do escopo da instrução `if`? Aquela pausa mental e questionadora -- Eu chamo isso de "taxa mental" -- vem do fato de que o esse mecanismo `let` não é só novo para nós, como também é *implícito*.
 
-There's also hazard in the `let c = ..` declaration appearing so far down in the scope. Unlike traditional `var`-declared variables, which are attached to the entire enclosing function scope regardless of where they appear, `let` declarations attach to the block scope but are not initialized until they appear in the block.
+Existe também o perigo da declaração `let c = ..` aparecer tão abaixo no escopo. Diferente das declarações `var` tradicionais, que são anexadas ao enclausuramento de todo escopo da função independentemente de onde apareçam, as declarações `let` anexam-se ao escopo de bloco mas não são inicializadas até aparecerem no bloco.
 
-Accessing a `let`-declared variable earlier than its `let ..` declaration/initialization causes an error, whereas with `var` declarations the ordering doesn't matter (except stylistically).
+Acessar uma declaração de variável `let` antes de sua declaração/inicialização `let ..`, causa um erro, onde de outra forma nas declarações `var` sua ordenação não importa (apenas esteticamente).
 
-Consider:
+Considere:
 
 ```js
 {
@@ -105,18 +105,18 @@ Consider:
 }
 ```
 
-**Warning:** This `ReferenceError` from accessing too-early `let`-declared references is technically called a *Temporal Dead Zone (TDZ)* error -- you're accessing a variable that's been declared but not yet initialized. This will not be the only time we see TDZ errors -- they crop up in several places in ES6. Also, note that "initialized" doesn't require explicitly assigning a value in your code, as `let b;` is totally valid. A variable that's not given an assignment at declaration time is assumed to have been assigned the `undefined` value, so `let b;` is the same as `let b = undefined;`. Explicit assignment or not, you cannot access `b` until the `let b` statement is run.
+**Atenção:** Por conta da referências declaradas com `let` terem sido acessado de forma muito antecipada, esse `ReferenceError` é tecnicamente chamado de um erro de Zona Morta Temporal *Temporal Dead Zone (TDZ)* -- você está acessando uma variável que foi declarada mas não foi inicializada ainda. Esta não será a primeira vez que você verá erros TDZ -- eles estão talhados em diversos lugares no ES6. Além disso, note que *inicializado* não significa explicitamente designar um valor no seu código, visto que `let b;` é totalmente válido. Uma variável que não é designda no momento da declaração é pressuposta a ter o valor designado de `undefined`. Sendo assim `let b;` é o mesmo que `let b = undefined;`. Explicitamente declarado ou não, você não pode acessar `b` até que a instrução `let b` rode.
 
-One last gotcha: `typeof` behaves differently with TDZ variables than it does with undeclared (or declared!) variables. For example:
+Uma última pegadinha: `typeof` se comporta de maneira diferente entre variáveis não declaradas (ou declaradas!) e variáveis TDZ. Por exemplo:
 
 ```js
 {
-	// `a` is not declared
+	// `a` não está declarada
 	if (typeof a === "undefined") {
 		console.log( "cool" );
 	}
 
-	// `b` is declared, but in its TDZ
+	// `b` está declarada, mas em seu TDZ
 	if (typeof b === "undefined") {		// ReferenceError!
 		// ..
 	}
@@ -127,21 +127,21 @@ One last gotcha: `typeof` behaves differently with TDZ variables than it does wi
 }
 ```
 
-The `a` is not declared, so `typeof` is the only safe way to check for its existence or not. But `typeof b` throws the TDZ error because farther down in the code there happens to be a `let b` declaration. Oops.
+A variável `a` não está declarada, entçao `typeof` é a única maneira segura de verificar sua existência ou não. Mas `typeof b` lança um erro TDZ por lá embaixo no código acontece de haver uma declaração `let b`. Oops.
 
-Now it should be clearer why I insist that `let` declarations should all be at the top of their scope. That totally avoids the accidental errors of accessing too early. It also makes it more *explicit* when you look at the start of a block, any block, what variables it contains.
+Agora que já deve estar claro sobre o porquê de eu insistir sobre porque declarações `let` devem estar todas no topo de seu escopo. Essa forma afasta totalmente o erro acidental de acessá-las de maneira precoce. Essa forma também faz torná-la mais *explícita* quando você procura no bloco, qualquer bloco, quais variáveis ele contém.
 
-Your blocks (`if` statements, `while` loops, etc.) don't have to share their original behavior with scoping behavior.
+Seus blocos (instruções `if`, `while` loops, etc.) não precisam compartilhar seus comportamentos originais com seu comportamentos de escopo.
 
-This explicitness on your part, which is up to you to maintain with discipline, will save you lots of refactor headaches and footguns down the line.
+Estas explicitações são da sua parte, é contigo, e se você manter a sua parte com disciplina, esta forma irá te salvar de diversas dores de cabeça com refatorações e evitar tiros no pé.
 
-**Note:** For more information on `let` and block scoping, see Chapter 3 of the *Scope & Closures* title of this series.
+**Nota:** Para mais informações sobre `let` escopos de blocos, veja o Capítulo 3 do título desta série *Escopos & Clausuras*.
 
 #### `let` + `for`
 
-The only exception I'd make to the preference for the *explicit* form of `let` declaration blocking is a `let` that appears in the header of a `for` loop. The reason may seem nuanced, but I believe it to be one of the more important ES6 features.
+A única exceção que eu daria preferência pela forma *explicita* num bloco de declaração é o `let` que aparece no cabeçalho de um `for` loop. O motivo pode parecer confuso, mas eu acho que seja um dos recursos mais importantes do ES6.
 
-Consider:
+Considere:
 
 ```js
 var funcs = [];
@@ -155,11 +155,11 @@ for (let i = 0; i < 5; i++) {
 funcs[3]();		// 3
 ```
 
-The `let i` in the `for` header declares an `i` not just for the `for` loop itself, but it redeclares a new `i` for each iteration of the loop. That means that closures created inside the loop iteration close over those per-iteration variables the way you'd expect.
+O `let i` no cabeçalho do `for` declara um `i` não só para o `for` loop, mas redeclara um novo `i` para cada interação do loop. Isso significa que closures criadas dentro do loop fecham essas variáveis por iteração do jeito que você esperava.
 
-If you tried that same snippet but with `var i` in the `for` loop header, you'd get `5` instead of `3`, because there'd only be one `i` in the outer scope that was closed over, instead of a new `i` for each iteration's function to close over.
+Se você tentou esse mesmo trecho, mas com o `var i` no cabeçalho do `for` loop, você deveria ter `5` ao invés de `3`, porque haveria apenas um `i` no escopo externo que foi fechado, em vez de um novo `i` para cada função de fechamento.
 
-You could also have accomplished the same thing slightly more verbosely:
+Você também poderia ter obtido a mesma coisa um pouco mais verbosamente:
 
 ```js
 var funcs = [];
@@ -174,15 +174,15 @@ for (var i = 0; i < 5; i++) {
 funcs[3]();		// 3
 ```
 
-Here, we forcibly create a new `j` for each iteration, and then the closure works the same way. I prefer the former approach; that extra special capability is why I endorse the `for (let .. ) ..` form. It could be argued it's somewhat more *implicit*, but it's *explicit* enough, and useful enough, for my tastes.
+Aqui, nós forçadamente criamos um novo `j` para cada iteração, e então a closure trabalha da mesma maneira. Eu prefiro da primeira forma; esta habilidade especial extra é a razão pela qual eu defendo a forma `for (let ..) ..`. Pode ser argumentar que é um pouco mais *implícito*, mas isso é *explícito* o bastante, e útil bastante, pro meu gosto.
 
-`let` also works the same way with `for..in` and `for..of` loops (see "`for..of` Loops").
+`let` também funciona do mesmo jeito com os loops `for..in` e `for..of` (veja em "for..of Loops").
 
-### `const` Declarations
+### Declarações `const`
 
-There's one other form of block-scoped declaration to consider: the `const`, which creates *constants*.
+Há uma outra forma de declaração com escopo de bloco a ser considerada: o `const`, que cria *constantes*.
 
-What exactly is a constant? It's a variable that's read-only after its initial value is set. Consider:
+O que exatamente é uma constante? É uma variável que se baseia na leitura do valor inicial e definido. Considere:
 
 ```js
 {
@@ -193,9 +193,9 @@ What exactly is a constant? It's a variable that's read-only after its initial v
 }
 ```
 
-You are not allowed to change the value the variable holds once it's been set, at declaration time. A `const` declaration must have an explicit initialization. If you wanted a *constant* with the `undefined` value, you'd have to declare `const a = undefined` to get it.
+Você não tem permissão para alterar o valor que a variável tem uma vez que tenha sido definido, no momento da declaração. A declaração da `const` deve ter uma inicialização explícita. Se você quisesse uma *constante* com o valor `undefined`, você deveria ter declarado `const a = undefined` para obtê-la.
 
-Constants are not a restriction on the value itself, but on the variable's assignment of that value. In other words, the value is not frozen or immutable because of `const`, just the assignment of it. If the value is complex, such as an object or array, the contents of the value can still be modified:
+Constantes não são uma restrição ao valor em si, mas à atribuição da variável desse valor. Em outras palavras, o valor não é congelado ou imutável por causa da `const`, apenas a atribuição dele. Se o valor é complexo, como um objeto ou array, o conteúdo do valor ainda poderá ser modificado:
 
 ```js
 {
@@ -207,35 +207,35 @@ Constants are not a restriction on the value itself, but on the variable's assig
 }
 ```
 
-The `a` variable doesn't actually hold a constant array; rather, it holds a constant reference to the array. The array itself is freely mutable.
+A variável `a` na verdade não contém um array constante; em vez disso, ele contém uma referência constante ao array. O array em si é livremente mutável.
 
-**Warning:** Assigning an object or array as a constant means that value will not be able to be garbage collected until that constant's lexical scope goes away, as the reference to the value can never be unset. That may be desirable, but be careful if it's not your intent!
+**Atenção:** Atribuir um objeto ou array como uma constante, significa que o valor não estará disponível para o coletor de lixo até que o escopo léxico dessa constante desapareça pois a referência ao valor nunca pode ser desconfigurada. Isso pode ser desejável, mas tenha cuidado se não for sua intenção!
 
-Essentially, `const` declarations enforce what we've stylistically signaled with our code for years, where we declared a variable name of all uppercase letters and assigned it some literal value that we took care never to change. There's no enforcement on a `var` assignment, but there is now with a `const` assignment, which can help you catch unintended changes.
+Essencialmente, declarações `const` reforçam o que estilisticamente sinalizamos com nosso código por anos, onde declaramos o nome da variável de todas as letras em maiúsculo e atribuímos isso algum valor literal que nós tomamos cuidado em nunca mudar. Não existe uma aplicação em uma atribuição `var`, mas agora há com a atribuição `const`, que pode te ajudar a capturar alterações não intencionais.
 
-`const` *can* be used with variable declarations of `for`, `for..in`, and `for..of` loops (see "`for..of` Loops"). However, an error will be thrown if there's any attempt to reassign, such as the typical `i++` clause of a `for` loop.
+`const` *pode* ser usada com declarações de variáveis de `for`, `for..in` e `for..of` loops (veja em "for..of Loops"). No entanto, um erro será retornado se houver qualquer tentativa de reatribuição, como a típica cláusula de `i ++` de um `for` loop.
 
-#### `const` Or Not
+#### `const` Ou Não
 
-There's some rumored assumptions that a `const` could be more optimizable by the JS engine in certain scenarios than a `let` or `var` would be. Theoretically, the engine more easily knows the variable's value/type will never change, so it can eliminate some possible tracking.
+Há algumas suposições de que a `const` poderia ser mais otimizável pelo JS em certos cenários do que um `let` ou `var` poderiam ser. Teoricamente, o JS reconhece mais facilmente o valor/tipo da variável que nunca mudará, então, ele pode eliminar qualquer possibilidade de rastreamento.
 
-Whether `const` really helps here or this is just our own fantasies and intuitions, the much more important decision to make is if you intend constant behavior or not. Remember: one of the most important roles for source code is to communicate clearly, not only to you, but your future self and other code collaborators, what your intent is.
+Se `const` realmente ajuda aqui ou isso é apenas coisa de nossas próprias fantasias e intuições, a decisão muito mais importante a se fazer é se você pretende ter um comportamento constante ou não. Lembre-se: um dos papéis mais importantes para o código-fonte é se comunicar claramente, não para apenas você, mas para seu eu do futuro e outros colaboradores, qual é a sua intenção.
 
-Some developers prefer to start out every variable declaration as a `const` and then relax a declaration back to a `let` if it becomes necessary for its value to change in the code. This is an interesting perspective, but it's not clear that it genuinely improves the readability or reason-ability of code.
+Alguns desenvolvedores preferem começar a declaração de cada variável como uma 'const' e depois relaxar uma declaração para 'let` se for necessário que seu valor seja alterado no código. Essa é uma perspectiva interessante, mas não está claro se ela realmente melhora a legibilidade ou capacidade de raciocínio do código.
 
-It's not really a *protection*, as many believe, because any later developer who wants to change a value of a `const` can just blindly change `const` to `let` on the declaration. At best, it protects accidental change. But again, other than our intuitions and sensibilities, there doesn't appear to be objective and clear measure of what constitutes "accidents" or prevention thereof. Similar mindsets exist around type enforcement.
+Isso não é realmente uma *proteção*, como muitos acreditam, porque o próximo desenvolvedor que quiser alterar o valor da `const` pode cegamente mudar esse `const` para `let` na declaração. Na melhor das hipóteses, isso protege de mudanças acidentais. Mas ainda, além de nossas intuições e sensibilidades, não parece haver uma medida objetiva e clara do que constitui "acidentes" ou prevenção disso. Existem maneiras semelhantes de pensar sobre a aplicação de tipos.
 
-My advice: to avoid potentially confusing code, only use `const` for variables that you're intentionally and obviously signaling will not change. In other words, don't *rely on* `const` for code behavior, but instead use it as a tool for signaling intent, when intent can be signaled clearly.
+Meu conselho: para evitar códigos potencialmente confusos, use apenas `const` para variáveis que intencionalmente e obviamente você está sinalizando que não irão mudar. Em outras palavras, não *dependa* do `const` para o comportamento do código, mas use-o como uma ferramenta para sinalizar a intenção, quando a intenção puder ser claramente sinalizada.
 
-### Block-scoped Functions
+### Funções de Escopo em Bloco
 
-Starting with ES6, function declarations that occur inside of blocks are now specified to be scoped to that block. Prior to ES6, the specification did not call for this, but many implementations did it anyway. So now the specification meets reality.
+A partir do ES6, as declarações de função que ocorrem dentro dos blocos são agora definidas para serem escopo nesse bloco. Antes do ES6, as especificações não exigiam isso, mas muitas implementações faziam de qualquer forma. Então agora as especificações atendem a realidade.
 
-Consider:
+Considere:
 
 ```js
 {
-	foo();					// works!
+	foo();					// funciona!
 
 	function foo() {
 		// ..
@@ -245,12 +245,12 @@ Consider:
 foo();						// ReferenceError
 ```
 
-The `foo()` function is declared inside the `{ .. }` block, and as of ES6 is block-scoped there. So it's not available outside that block. But also note that it is "hoisted" within the block, as opposed to `let` declarations, which suffer the TDZ error trap mentioned earlier.
+A função `foo()` é declarada dentro do bloco `{...}`, e a partir do ES6 tem um escopo de bloco. Portanto, não está disponível fora desse bloco. Mas também note que ele é “içado” dentro do bloco, ao contrário das declarações do `let`, que sofrem da armadilha de erro TDZ mencionada anteriormente.
 
-Block-scoping of function declarations could be a problem if you've ever written code like this before, and relied on the old legacy non-block-scoped behavior:
+O escopo em bloco de uma declaração de função pode ser um problema se você sempre codificou desse jeito, e se baseou no que foi herdado do comportamento de escopo fora do bloco:
 
 ```js
-if (something) {
+if (algumaCoisa) {
 	function foo() {
 		console.log( "1" );
 	}
@@ -264,13 +264,13 @@ else {
 foo();		// ??
 ```
 
-In pre-ES6 environments, `foo()` would print `"2"` regardless of the value of `something`, because both function declarations were hoisted out of the blocks, and the second one always wins.
+Em ambientes pré-ES6, `foo()` imprimiria `”2”`, independentemente do valor de `algumaCoisa`, porque ambas declarações da função foram içadas pelos blocos, e a segunda sempre vence.
 
-In ES6, that last line throws a `ReferenceError`.
+No ES6, essa última linha retorna um `ReferenceError`.
 
 ## Spread/Rest
 
-ES6 introduces a new `...` operator that's typically referred to as the *spread* or *rest* operator, depending on where/how it's used. Let's take a look:
+O ES6 introduz um novo operador `...` que normalmente é chamado de operador *spread* ou *rest*, dependendo de onde/como ele é usado. Vamos dar uma olhada:
 
 ```js
 function foo(x,y,z) {
@@ -280,15 +280,15 @@ function foo(x,y,z) {
 foo( ...[1,2,3] );				// 1 2 3
 ```
 
-When `...` is used in front of an array (actually, any *iterable*, which we cover in Chapter 3), it acts to "spread" it out into its individual values.
+Quando `...` é usado na frente de um array (na verdade, qualquer *iterável*, que abordamos no Capítulo 3), ele age para "distribuí-lo" em seus valores individuais.
 
-You'll typically see that usage as is shown in that previous snippet, when spreading out an array as a set of arguments to a function call. In this usage, `...` acts to give us a simpler syntactic replacement for the `apply(..)` method, which we would typically have used pre-ES6 as:
+Você normalmente verá esse uso como é mostrado no trecho anterior, ao distribuir um array como um conjunto de argumentos para uma chamada de função. Neste caso, o `...` atua para nos dar uma substituição sintática mais simples para o método `apply(...)`, que normalmente teríamos usado antes do ES6 como:
 
 ```js
 foo.apply( null, [1,2,3] );		// 1 2 3
 ```
 
-But `...` can be used to spread out/expand a value in other contexts as well, such as inside another array declaration:
+Mas o `...` pode ser usado para distribuir/expandir um valor em outros contextos também, como dentro de uma outra declaração de array:
 
 ```js
 var a = [2,3,4];
@@ -297,9 +297,9 @@ var b = [ 1, ...a, 5 ];
 console.log( b );					// [1,2,3,4,5]
 ```
 
-In this usage, `...` is basically replacing `concat(..)`, as it behaves like `[1].concat( a, [5] )` here.
+Neste caso, o `...` está basicamente substituindo o `concat(..)`, que se comporta como o `[1].concat( a, [5] )` aqui.
 
-The other common usage of `...` can be seen as essentially the opposite; instead of spreading a value out, the `...` *gathers* a set of values together into an array. Consider:
+O outro uso comum de `…` pode ser visto essencialmente como o oposto; em vez de distribuindo um valor, o `...` *agrupa* um conjunto de valores em um array. Considere:
 
 ```js
 function foo(x, y, ...z) {
@@ -309,9 +309,9 @@ function foo(x, y, ...z) {
 foo( 1, 2, 3, 4, 5 );			// 1 2 [3,4,5]
 ```
 
-The `...z` in this snippet is essentially saying: "gather the *rest* of the arguments (if any) into an array called `z`." Because `x` was assigned `1`, and `y` was assigned `2`, the rest of the arguments `3`, `4`, and `5` were gathered into `z`.
+O `…z` neste trecho está essencialmente dizendo: “reúna o *resto* dos argumentos (se houver) em um array chamado de `z`.” Como o `x` foi designado como `1` e o `y` foi designado como `2`, o restante dos argumentos `3`,`4` e `5` foram agrupados em `z`.
 
-Of course, if you don't have any named parameters, the `...` gathers all arguments:
+Claro, se você não tem nenhum parâmetro nomeado, o `...` agrupa todos os argumentos:
 
 ```js
 function foo(...args) {
@@ -321,49 +321,49 @@ function foo(...args) {
 foo( 1, 2, 3, 4, 5);			// [1,2,3,4,5]
 ```
 
-**Note:** The `...args` in the `foo(..)` function declaration is usually called "rest parameters," because you're collecting the rest of the parameters. I prefer "gather," because it's more descriptive of what it does rather than what it contains.
+**Nota:** O `…args` na declaração da função `foo(...)` é normalmente chamado de “parâmetros restantes”, porque você está coletando o resto dos parâmetros. Eu prefiro “agrupar”, porque é mais descritivo do que ele faz e não o que contém.
 
-The best part about this usage is that it provides a very solid alternative to using the long-since-deprecated `arguments` array -- actually, it's not really an array, but an array-like object. Because `args` (or whatever you call it -- a lot of people prefer `r` or `rest`) is a real array, we can get rid of lots of silly pre-ES6 tricks we jumped through to make `arguments` into something we can treat as an array.
+A melhor parte deste uso é que ele fornece uma alternativa bastante sólida ao uso do array `arguments` a muito tempo já obsoleto - que na verdade não é realmente um array, mas um objeto parecido com array.  Porque o `args` (o o que você quiser chamar – muitas pessoas preferem chamar de  `r` ou `resto`) é um verdadeiro array, podemos nos livrar de um monte de truques pré-ES6 que criamos para fazer o `arguments` em algo que podemos tratá-lo como um array.
 
-Consider:
+Considere:
 
 ```js
-// doing things the new ES6 way
+// fazendo as coisas à nova maneira ES6
 function foo(...args) {
-	// `args` is already a real array
+	// `args` já é um array real
 
-	// discard first element in `args`
+	// descarte o primeiro elemento em `args`
 	args.shift();
 
-	// pass along all of `args` as arguments
-	// to `console.log(..)`
+	// passa por todos os `args` como argumentos
+	// para `console.log(..)`
 	console.log( ...args );
 }
 
-// doing things the old-school pre-ES6 way
+// fazendo as coisas à moda antiga pré-ES6
 function bar() {
-	// turn `arguments` into a real array
+	// transforma `arguments` em um array real
 	var args = Array.prototype.slice.call( arguments );
 
-	// add some elements on the end
+	// adiciona alguns elementos ao final
 	args.push( 4, 5 );
 
-	// filter out odd numbers
+	// filtra os números ímpares
 	args = args.filter( function(v){
 		return v % 2 == 0;
 	} );
 
-	// pass along all of `args` as arguments
-	// to `foo(..)`
+	// passa por todos os `args` como argumentos
+	// para `foo(..)`
 	foo.apply( null, args );
 }
 
 bar( 0, 1, 2, 3 );					// 2 4
 ```
 
-The `...args` in the `foo(..)` function declaration gathers arguments, and the `...args` in the `console.log(..)` call spreads them out. That's a good illustration of the symmetric but opposite uses of the `...` operator.
+O `...args` na declaração da função `foo(...)` reúne os argumentos, e o `...args` no `console.log(...)` chama os distribui. Essa é uma boa ilustração dos usos simétricos, mas opostos operadores `...`.
 
-Besides the `...` usage in a function declaration, there's another case where `...` is used for gathering values, and we'll look at it in the "Too Many, Too Few, Just Enough" section later in this chapter.
+Além do caso do `...` na declaração da função, há outro caso onde `...` é usado para reunir valores, e nós veremos isso mais adiante neste capítulo, na seção “Muitos, poucos, apenas o suficiente”.
 
 ## Default Parameter Values
 
