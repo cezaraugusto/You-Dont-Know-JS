@@ -1,41 +1,41 @@
-# You Don't Know JS: Types & Grammar
-# Chapter 1: Types
+# You Don't Know JS: Tipos e Gramática
+# Capítulo 1: Tipos
 
-Most developers would say that a dynamic language (like JS) does not have *types*. Let's see what the ES5.1 specification (http://www.ecma-international.org/ecma-262/5.1/) has to say on the topic:
+Muitos desenvolvedores diriam que uma linguagem dinâmica (como JS) não possui *tipos*. Vamos ver o que a especificação ES5.1 (http://www.ecma-international.org/ecma-262/5.1/) tem a dizer sobre este tópico:
 
-> Algorithms within this specification manipulate values each of which has an associated type. The possible value types are exactly those defined in this clause. Types are further sub classified into ECMAScript language types and specification types.
+> Algorítimos dentro desta especificação manipulam valores cada um dos quais possui um tipo associado. Os tipos de valores possíveis são exatamente os definidos nessa cláusula. Tipos são ainda sub-classificados na ECMAScript como tipos de linguagem e tipos de especificação.
 >
-> An ECMAScript language type corresponds to values that are directly manipulated by an ECMAScript programmer using the ECMAScript language. The ECMAScript language types are Undefined, Null, Boolean, String, Number, and Object.
+> A tipagem da linguagem ECMAScript corresponde à valores que são diretamente manipulados por um programador ECMAScript usando a linguagem ECMAScript. Os tipos existentes da linguagem ECMAScript são Undefined, Null, Boolean, String, Number, e Object.
 
-Now, if you're a fan of strongly typed (statically typed) languages, you may object to this usage of the word "type." In those languages, "type" means a whole lot *more* than it does here in JS.
+Agora, se você é um fã de linguagens com tipagem forte (tipagem estática), você pode opôr-se a esse uso da palavra "tipo." Nessas linguagens, "tipo" significa muito *mais* do que ele faz aqui no JS.
 
-Some people say JS shouldn't claim to have "types," and they should instead be called "tags" or perhaps "subtypes".
+Algumas pessoas dizem que JS não deveria possuir "tipos," antes estes deveriam ser chamados de "tags" ou talvez "subtipos".
 
-Bah! We're going to use this rough definition (the same one that seems to drive the wording of the spec): a *type* is an intrinsic, built-in set of characteristics that uniquely identifies the behavior of a particular value and distinguishes it from other values, both to the engine **and to the developer**.
+Bah! Nós iremos usar essa grosseira definição (a mesma que parece dirigir a escrita da especificação): um *tipo* é intrínseco, construído com um conjunto de características que unicamente identifica o comportamento de um valor em particular e distingue-o de outros valores, tanto para o motor (engine) **quanto para o desenvolvedor**.
 
-In other words, if both the engine and the developer treat value `42` (the number) differently than they treat value `"42"` (the string), then those two values have different *types* -- `number` and `string`, respectively. When you use `42`, you are *intending* to do something numeric, like math. But when you use `"42"`, you are *intending* to do something string'ish, like outputting to the page, etc. **These two values have different types.**
+Em outras palavras, se tanto o motor (engine) quanto o desenvolvedor tratam o valor `42` (o número) diferentemente do que eles tratam o valor `"42"` (a string), então esses dois valores possuem *tipos* diferentes -- `number` e `string`, respectivamente. Quando você usa `42`, você *pretende* fazer algo numérico, como matemática. Mas quando você usa `"42"`, você está *pretendendo* fazer alguma coisa com texto/strings, como saída (output) para a página, etc. **Esses dois valores possuem tipagem diferente.**
 
-That's by no means a perfect definition. But it's good enough for this discussion. And it's consistent with how JS describes itself.
+Isso não é uma definição perfeita. Mas é bom o suficiente para essa discussão. E é consistente com a maneira que JS descreve-se.
 
-# A Type By Any Other Name...
+# O que importa em um tipo é o que ele é, não pelo quê é chamado...
 
-Beyond academic definition disagreements, why does it matter if JavaScript has *types* or not?
+Além dos desacordos da definição acadêmica, por que é importante se JavaScript possui *tipos* ou não?
 
-Having a proper understanding of each *type* and its intrinsic behavior is absolutely essential to understanding how to properly and accurately convert values to different types (see Coercion, Chapter 4). Nearly every JS program ever written will need to handle value coercion in some shape or form, so it's important you do so responsibly and with confidence.
+Ter uma compreensão adequada de cada *tipo* e seu comportamento intrínsico é absolutamente essencial para entender como converter valores corretamente e precisamente para diferentes tipos (veja Coerção (Coercion), Capítulo 4). Quase todos programas escritos em JS precisarão lidar com coerção de valores em algum tipo de formulário, assim é importante você fazê-los com responsabilidade e confiança.
 
-If you have the `number` value `42`, but you want to treat it like a `string`, such as pulling out the `"2"` as a character in position `1`, you obviously must first convert (coerce) the value from `number` to `string`.
+Se você possui o `número (number)` com valor `42`, mas você deseja tratá-lo como uma `string`, tal que a saída dê-se como um caractere `"2"` na posição `1`, você obviamente deve primeiro converter (coerce) o valor de `número (number)` para `string`.
 
-That seems simple enough.
+Isso parece bastante simples.
 
-But there are many different ways that such coercion can happen. Some of these ways are explicit, easy to reason about, and reliable. But if you're not careful, coercion can happen in very strange and surprising ways.
+Mas exitem muitas maneiras diferentes em que a coerção pode acontecer. Algumas dessas maneiras são explícitas, fáceis de assimilar e confiáveis. Mas se você não for cuidadoso, a coerção (coercion) pode acontecer de formas muito estranhas e surpreendentes.
 
-Coercion confusion is perhaps one of the most profound frustrations for JavaScript developers. It has often been criticized as being so *dangerous* as to be considered a flaw in the design of the language, to be shunned and avoided.
+Confusão na coerção é possivelmente uma das mais profundas frustrações para desenvolvedores JavaScript. Tem sido frequentemente criticada como sendo tão *perigosa* que pode ser considerada uma falha no design da linguagem, à ser banida e evitada.
 
-Armed with a full understanding of JavaScript types, we're aiming to illustrate why coercion's *bad reputation* is largely overhyped and somewhat undeserved -- to flip your perspective, to seeing coercion's power and usefulness. But first, we have to get a much better grip on values and types.
+Armados com total conhecimento dos tipos do JavaScript, nosso objetivo é demonstrar por que a *má reputação* da coerção é largamente famosa e um pouco imerecida -- mudando a sua perspectiva, para ver a coerção como uma poderosa utilidade. Mas primeiro, devemos ter uma compreensão melhor sobre valores e tipos.
 
-## Built-in Types
+## Tipos nativos (built-in)
 
-JavaScript defines seven built-in types:
+JavaScript define sete tipos nativos:
 
 * `null`
 * `undefined`
@@ -43,52 +43,52 @@ JavaScript defines seven built-in types:
 * `number`
 * `string`
 * `object`
-* `symbol` -- added in ES6!
+* `symbol` -- adicionado no ES6!
 
-**Note:** All of these types except `object` are called "primitives".
+**Nota:** Todos esses tipos, exceto `object` são chamados "primitivos".
 
-The `typeof` operator inspects the type of the given value, and always returns one of seven string values -- surprisingly, there's not an exact 1-to-1 match with the seven built-in types we just listed.
-
-```js
-typeof undefined     === "undefined"; // true
-typeof true          === "boolean";   // true
-typeof 42            === "number";    // true
-typeof "42"          === "string";    // true
-typeof { life: 42 }  === "object";    // true
-
-// added in ES6!
-typeof Symbol()      === "symbol";    // true
-```
-
-These six listed types have values of the corresponding type and return a string value of the same name, as shown. `Symbol` is a new data type as of ES6, and will be covered in Chapter 3.
-
-As you may have noticed, I excluded `null` from the above listing. It's *special* -- special in the sense that it's buggy when combined with the `typeof` operator:
+O operador `typeof` inspeciona o tipo do valor obtido, e sempre retorna um dos sete valores de string -- surpreendentemente, não há uma correspondência exata de 1-para-1 com os sete tipos nativos que listamos.
 
 ```js
-typeof null === "object"; // true
+typeof undefined     === "undefined"; // true (verdadeiro)
+typeof true          === "boolean";   // true (verdadeiro)
+typeof 42            === "number";    // true (verdadeiro)
+typeof "42"          === "string";    // true (verdadeiro)
+typeof { life: 42 }  === "object";    // true (verdadeiro)
+
+// adicionado no ES6!
+typeof Symbol()      === "symbol";    // true (verdadeiro)
 ```
 
-It would have been nice (and correct!) if it returned `"null"`, but this original bug in JS has persisted for nearly two decades, and will likely never be fixed because there's too much existing web content that relies on its buggy behavior that "fixing" the bug would *create* more "bugs" and break a lot of web software.
+Estes seis tipos listados possuem valores do tipo correspondente e retornam uma string com o mesmo nome, como mostrado. `Symbol` é um novo tipo de dados introduzido à partir do ES6, e será explicado no Capítulo 3.
 
-If you want to test for a `null` value using its type, you need a compound condition:
+Como você pode perceber, eu excluí `null` da lista acima. Ele é *especial* -- especial no sentido que é problemático quando combinado com o operador `typeof`:
+
+```js
+typeof null === "object"; // true (verdadeiro)
+```
+
+Teria sido legal (e correto!) se retornasse `"null"`, mas esse "bug" original no JS tem persistido por aproximadamente duas décadas, e provavelmente nunca será corrigido porque existe muito conteúdo na web que se baseia nesse comportamente "bugado", e corrigí-lo *criaria* mais "bugs", e causaria rupturas em uma grade quantidade de softwares web.
+
+Se você deseja testar um valor `null` usando seu tipo, precisará de uma condição composta:
 
 ```js
 var a = null;
 
-(!a && typeof a === "object"); // true
+(!a && typeof a === "object"); // true (verdadeiro)
 ```
 
-`null` is the only primitive value that is "falsy" (aka false-like; see Chapter 4) but that also returns `"object"` from the `typeof` check.
+`null` é o único valor primitivo que pode ser "falso" (também conhecido como "false-like"; veja o Capítulo 4) mas que também retorna `"object"` na checagem de `typeof`.
 
-So what's the seventh string value that `typeof` can return?
+Então qual é o sétimo valor de string que `typeof` pode retornar?
 
 ```js
-typeof function a(){ /* .. */ } === "function"; // true
+typeof function a(){ /* .. */ } === "function"; // true (verdadeiro)
 ```
 
-It's easy to think that `function` would be a top-level built-in type in JS, especially given this behavior of the `typeof` operator. However, if you read the spec, you'll see it's actually a "subtype" of object. Specifically, a function is referred to as a "callable object" -- an object that has an internal `[[Call]]` property that allows it to be invoked.
+É fácil pensar que `function (função)` é um tipo nativo de alto nível no JS, especialmente obtendo esse comportamento do operador `typeof`. Contudo, se você ler a especificação, verá que atualmente é um "subtipo" de objeto. Especificamente, uma função é referenciada como um "objeto chamável (callable object)" -- um objeto que possui uma propriedade `[[Call]]` interna que possibilita ao mesmo ser invocado.
 
-The fact that functions are actually objects is quite useful. Most importantly, they can have properties. For example:
+O fato de funções atualmente serem objetos é muito útil. Mais importante, elas podem ter propriedades. Por exemplo:
 
 ```js
 function a(b,c) {
@@ -96,119 +96,119 @@ function a(b,c) {
 }
 ```
 
-The function object has a `length` property set to the number of formal parameters it is declared with.
+O objeto de função tem uma propriedade `length` definido com o número de parâmetros formais com o qual a função foi declarada.
 
 ```js
 a.length; // 2
 ```
 
-Since you declared the function with two formal named parameters (`b` and `c`), the "length of the function" is `2`.
+Uma vez que você tenha declarado a função com dois parâmetros formalmente nomeados (`b` e `c`), o "length (tamanho) da função" será `2`.
 
-What about arrays? They're native to JS, so are they a special type?
+E quanto aos arrays? Eles são nativos para o JS, então eles são um tipo especial?
 
 ```js
-typeof [1,2,3] === "object"; // true
+typeof [1,2,3] === "object"; // true (verdadeiro)
 ```
 
-Nope, just objects. It's most appropriate to think of them also as a "subtype" of object (see Chapter 3), in this case with the additional characteristics of being numerically indexed (as opposed to just being string-keyed like plain objects) and maintaining an automatically updated `.length` property.
+Não, apenas objetos. É muito apropriado pensar sobre eles também como um "subtipo" de objeto (veja o Capítulo 3), neste caso com as características adicionais de serem numéricamente indexáveis (em oposição aos objetos simples com chaves do tipo string) e manterem uma propriedade `.length` automaticamente atualizada.
 
-## Values as Types
+## Valores como tipos
 
-In JavaScript, variables don't have types -- **values have types**. Variables can hold any value, at any time.
+Em JavaScript, variáveis não possuem tipos -- **valores possuem tipos**. Variáveis podem conter qualquer valor à qualquer momento.
 
-Another way to think about JS types is that JS doesn't have "type enforcement," in that the engine doesn't insist that a *variable* always holds values of the *same initial type* that it starts out with. A variable can, in one assignment statement, hold a `string`, and in the next hold a `number`, and so on.
+Outra maneira de pensar sobre tipos do JS é que JS não possui "tipagem forçada (type enforcement)," pois a engine não insiste que uma *variável* sempre terá valores do *mesmo tipo inicial* com que ela começou. Uma variável pode, em uma declaração de atribuição, possuir um valor do tipo `string`, e no futuro ter um `number`, e assim por diante.
 
-The *value* `42` has an intrinsic type of `number`, and its *type* cannot be changed. Another value, like `"42"` with the `string` type, can be created *from* the `number` value `42` through a process called **coercion** (see Chapter 4).
+O *valor* `42` possui o tipo `number` intrínseco, e seu *tipo* não pode ser modificado. Um outro valor, como `"42"` com o tipo `string`, pode ser criado *à partir* do valor `42` de tipo `number` através de um processo chamado **coerção (coercion)** (veja o Capítulo 4).
 
-If you use `typeof` against a variable, it's not asking "what's the type of the variable?" as it may seem, since JS variables have no types. Instead, it's asking "what's the type of the value *in* the variable?"
+Se você usa o `typeof` em uma variável, ele não está perguntando "qual o tipo da variável?" como pode parecer, pois variáveis JS não possuem tipos. Pelo contrário, ele está perguntando "qual é o tipo do valor *na* variável?"
 
 ```js
 var a = 42;
-typeof a; // "number"
+typeof a; // "number" ("número")
 
 a = true;
-typeof a; // "boolean"
+typeof a; // "boolean" ("booleano")
 ```
 
-The `typeof` operator always returns a string. So:
+O operador `typeof` sempre retorna uma string. Assim:
 
 ```js
 typeof typeof 42; // "string"
 ```
 
-The first `typeof 42` returns `"number"`, and `typeof "number"` is `"string"`.
+O primeiro `typeof 42` retorna `"number"`, e `typeof "number"` é `"string"`.
 
 ### `undefined` vs "undeclared"
 
-Variables that have no value *currently*, actually have the `undefined` value. Calling `typeof` against such variables will return `"undefined"`:
+Variáveis que não possuem valores *neste momento*, atualmente possuem o valor `undefined (indefinido)`. Chamar `typeof` nestas variáveis retornará `"undefined"`:
 
 ```js
 var a;
 
-typeof a; // "undefined"
+typeof a; // "undefined" ("indefinido")
 
 var b = 42;
 var c;
 
-// later
+// depois
 b = c;
 
-typeof b; // "undefined"
-typeof c; // "undefined"
+typeof b; // "undefined" ("indefinido")
+typeof c; // "undefined" ("indefinido")
 ```
 
-It's tempting for most developers to think of the word "undefined" and think of it as a synonym for "undeclared." However, in JS, these two concepts are quite different.
+É tentador para muitos desenvolvedores olharem para a palavra "undefined (indefinido)" e pensar nela como sinônimo para "undeclared (não declarada)." Contudo, em JS, esses dois conceitos são bastante diferentes.
 
-An "undefined" variable is one that has been declared in the accessible scope, but *at the moment* has no other value in it. By contrast, an "undeclared" variable is one that has not been formally declared in the accessible scope.
+Uma variável "undefined" é aquela que foi declarada no escopo acessível, mas *neste momento* não possui nenhum outro valor. Por contraste, uma variável "undeclared" é aquela que não foi formalmente declarada no escopo acessível.
 
-Consider:
+Considere:
 
 ```js
 var a;
 
-a; // undefined
-b; // ReferenceError: b is not defined
+a; // undefined (indefinido)
+b; // ReferenceError: b is not defined (Erro de Referência: b não está definido)
 ```
 
-An annoying confusion is the error message that browsers assign to this condition. As you can see, the message is "b is not defined," which is of course very easy and reasonable to confuse with "b is undefined." Yet again, "undefined" and "is not defined" are very different things. It'd be nice if the browsers said something like "b is not found" or "b is not declared," to reduce the confusion!
+Uma irritante confusão é a mensagem de erro que os navegadores atribuem para essa condição. Como você pode ver, a mensagem é "b is not defined (b não está definido)," a qual é com certeza muito fácil de confundir com "b is undefined (b é indefinido)." Novamente, "undefined (indefinido)" e "is not defined (não está definido)" são coisas bem diferentes. Seria ótimo se os navegadores retornassem algo como "b is not found (b não foi encontrado)" ou "b is not declared (b não está declarado) ," para reduzir essa confusão!
 
-There's also a special behavior associated with `typeof` as it relates to undeclared variables that even further reinforces the confusion. Consider:
+Há também um comportamento especial associado com `typeof` no que se refere às variáveis não declaradas que reforça ainda mais a confusão. Considere:
 
 ```js
 var a;
 
-typeof a; // "undefined"
+typeof a; // "undefined" ("indefinido")
 
-typeof b; // "undefined"
+typeof b; // "undefined" ("indefinido"?)
 ```
 
-The `typeof` operator returns `"undefined"` even for "undeclared" (or "not defined") variables. Notice that there was no error thrown when we executed `typeof b`, even though `b` is an undeclared variable. This is a special safety guard in the behavior of `typeof`.
+O operador `typeof` retorna `"undefined"` até para variáveis "undeclared (não declaradas)" (ou "não definidas"). Note que aqui não há erros disparados quando nós executamos `typeof b`, apesar de `b` ser uma variável "não declarada". Isso é uma questão especial de segurança no comportamento de `typeof`.
 
-Similar to above, it would have been nice if `typeof` used with an undeclared variable returned "undeclared" instead of conflating the result value with the different "undefined" case.
+Similarmente, teria sido ótimo se `typeof` usado com uma variável não declarada retornasse "undeclared" ao invés de confundir o resultado com os diferentes tipos de "undefined".
 
 ### `typeof` Undeclared
 
-Nevertheless, this safety guard is a useful feature when dealing with JavaScript in the browser, where multiple script files can load variables into the shared global namespace.
+De qualquer forma, esta proteção de segurança é útil quando lidamos com JavaScript no navegador, onde vários arquivos de script podem carregar variáveis no namespace global compartilhado.
 
-**Note:** Many developers believe there should never be any variables in the global namespace, and that everything should be contained in modules and private/separate namespaces. This is great in theory but nearly impossible in practicality; still it's a good goal to strive toward! Fortunately, ES6 added first-class support for modules, which will eventually make that much more practical.
+**Nota:** Muitos desenvolvedores acreditam que jamais deverá haver variáveis no namespace global, e que tudo deve estar contido em módulos e namespaces privados/separados. Isto é ótimo em teoria, mas quase impossível na prática; Mesmo assim, é um bom objetivo para se tentar alcançar! Felizmente, o ES6 adicionou suporte de primeira classe para módulos, que eventualmente tornará isso muito mais prático.
 
-As a simple example, imagine having a "debug mode" in your program that is controlled by a global variable (flag) called `DEBUG`. You'd want to check if that variable was declared before performing a debug task like logging a message to the console. A top-level global `var DEBUG = true` declaration would only be included in a "debug.js" file, which you only load into the browser when you're in development/testing, but not in production.
+Como um exemplo simples, imagine ter um "modo debug (depuração)" em seu programa que é controlado por uma variável global (flag) chamada `DEBUG`. Você gostaria de verificar se essa variável foi declarada antes de executar uma tarefa de depuração, como por exemplo, exibir uma mensagem de log no console. A declaração global de nível superior `var DEBUG = true` só seria incluída no arquivo "debug.js", o qual você carrega no navegador somente quando estiver em desenvolvimento/teste, mas não em produção.
 
-However, you have to take care in how you check for the global `DEBUG` variable in the rest of your application code, so that you don't throw a `ReferenceError`. The safety guard on `typeof` is our friend in this case.
+Entretanto, você deve tomar cuidado com a forma na qual você verifica a variável global `DEBUG` no restante do código da sua aplicação, para que você não cause um `ReferenceError` (Erro de referência). A proteção de segurança por meio do `typeof` é nossa amiga nesse caso.
 
 ```js
-// oops, this would throw an error!
+// oops, isto causaria um erro!
 if (DEBUG) {
-	console.log( "Debugging is starting" );
+	console.log( "A depuração está começando" );
 }
 
-// this is a safe existence check
+// Esta é uma verificação de existência segura
 if (typeof DEBUG !== "undefined") {
-	console.log( "Debugging is starting" );
+	console.log( "A depuração está começando" );
 }
 ```
 
-This sort of check is useful even if you're not dealing with user-defined variables (like `DEBUG`). If you are doing a feature check for a built-in API, you may also find it helpful to check without throwing an error:
+Este tipo de verificação é útil mesmo se você não estiver lidando com váriaveis definidas pelo usuário (como a `DEBUG`). Se você estiver fazendo uma verificação de recursos para integração com uma API, você também pode achar útil verificar sem lançar um erro:
 
 ```js
 if (typeof atob === "undefined") {
@@ -216,9 +216,9 @@ if (typeof atob === "undefined") {
 }
 ```
 
-**Note:** If you're defining a "polyfill" for a feature if it doesn't already exist, you probably want to avoid using `var` to make the `atob` declaration. If you declare `var atob` inside the `if` statement, this declaration is hoisted (see the *Scope & Closures* title of this series) to the top of the scope, even if the `if` condition doesn't pass (because the global `atob` already exists!). In some browsers and for some special types of global built-in variables (often called "host objects"), this duplicate declaration may throw an error. Omitting the `var` prevents this hoisted declaration.
+**Nota:** Se você estiver definindo um "polyfill" para um recurso que ainda não existe, você provavelmente deseja evitar o uso de `var` para fazer a declaração de `atob`. Se você declarar `var atob` dentro da instrução `if`, esta declaração será elevada (veja o livro *Escopos & Clausuras* desta série) para o topo do escopo, mesmo se a condição `if` não passar (porque a váriavel global `atob` já existe!). Em alguns navegadores e para alguns tipos especiais de variáveis construidas globalmente (geralmente chamadas de "host objects (objetos hospedeiros)"), esta declaração duplicada pode gerar erros. Omitindo o `var` impede que essa declaração seja elevada.
 
-Another way of doing these checks against global variables but without the safety guard feature of `typeof` is to observe that all global variables are also properties of the global object, which in the browser is basically the `window` object. So, the above checks could have been done (quite safely) as:
+Outra maneira de fazer essas verificações de variáveis globais sem utilizar a proteção de segurança do `typeof` é observar que todas essas variáveis globais são propriedades do objeto global, que no navegador é basicamente o objeto `window`. Então, as verificações acima poderiam ter sido feitas (seguramente) com:
 
 ```js
 if (window.DEBUG) {
@@ -230,38 +230,38 @@ if (!window.atob) {
 }
 ```
 
-Unlike referencing undeclared variables, there is no `ReferenceError` thrown if you try to access an object property (even on the global `window` object) that doesn't exist.
+Ao contrário de referenciar variáveis não declaradas, não ocorrerá um `ReferenceError` (Erro de referência) se você tentar acessar uma propriedade que não existe em um objeto (mesmo no objeto global `window`).
 
-On the other hand, manually referencing the global variable with a `window` reference is something some developers prefer to avoid, especially if your code needs to run in multiple JS environments (not just browsers, but server-side node.js, for instance), where the global variable may not always be called `window`.
+Por outro lado, referenciar manualmente variáveis globais utilizando a referência de `window` é algo que alguns desenvolvedores preferem evitar, especialmente se o seu código precisa ser executado em múltiplos ambientes JS (não apenas navegadores, mas do lado do servidor, como node.js, por exemplo), onde o objeto global pode nem sempre ser chamado `window`.
 
-Technically, this safety guard on `typeof` is useful even if you're not using global variables, though these circumstances are less common, and some developers may find this design approach less desirable. Imagine a utility function that you want others to copy-and-paste into their programs or modules, in which you want to check to see if the including program has defined a certain variable (so that you can use it) or not:
+Tecnicamente, a proteção de segurança por meio do `typeof` é útil mesmo se você não estiver utilizando variáveis globais, embora essas circunstâncias sejam menos comuns, e alguns desenvolvedores podem achar essa abordagem menos aplicável. Imagine uma função de utilidade a qual você deseja que outros copiem e colem em seus programas ou módulos, onde você deseja verificar se o programa em questão contém a definição para uma certa variável (para que você possa usá-la) ou não:
 
 ```js
 function doSomethingCool() {
 	var helper =
 		(typeof FeatureXYZ !== "undefined") ?
 		FeatureXYZ :
-		function() { /*.. default feature ..*/ };
+		function() { /*.. característica padrão ..*/ };
 
 	var val = helper();
 	// ..
 }
 ```
 
-`doSomethingCool()` tests for a variable called `FeatureXYZ`, and if found, uses it, but if not, uses its own. Now, if someone includes this utility in their module/program, it safely checks if they've defined `FeatureXYZ` or not:
+`doSomethingCool()` testa uma variável chamada `FeatureXYZ` e, se econtrar, utiliza ela, mas se não, utiliza sua própria definição. Agora, se alguém incluir em seu programa/módulo esta função, ele verificará com segurança se `FeatureXYZ` foi definida ou não:
 
 ```js
-// an IIFE (see "Immediately Invoked Function Expressions"
-// discussion in the *Scope & Closures* title of this series)
+// uma IIFE (veja a discussão "Expressão de Função Imediatamente Invocada"
+// no livro *Escopo & Clausuras* desta série)
 (function(){
-	function FeatureXYZ() { /*.. my XYZ feature ..*/ }
+	function FeatureXYZ() { /*.. minha função XYZ ..*/ }
 
-	// include `doSomethingCool(..)`
+	// incluir `doSomethingCool(..)`
 	function doSomethingCool() {
 		var helper =
 			(typeof FeatureXYZ !== "undefined") ?
 			FeatureXYZ :
-			function() { /*.. default feature ..*/ };
+			function() { /*.. característica padrão ..*/ };
 
 		var val = helper();
 		// ..
@@ -271,30 +271,30 @@ function doSomethingCool() {
 })();
 ```
 
-Here, `FeatureXYZ` is not at all a global variable, but we're still using the safety guard of `typeof` to make it safe to check for. And importantly, here there is *no* object we can use (like we did for global variables with `window.___`) to make the check, so `typeof` is quite helpful.
+Neste caso, `FeatureXYZ` não é uma variável global, mas assim mesmo estamos utilizando a proteção de segurança por meio do `typeof` para garantir a verificação. E o mais importante, aqui não existe objeto que possamos usar (como fizemos para variáveis globais com `window.___`) para fazer a verificação, então o `typeof` é muito útil.
 
-Other developers would prefer a design pattern called "dependency injection," where instead of `doSomethingCool()` inspecting implicitly for `FeatureXYZ` to be defined outside/around it, it would need to have the dependency explicitly passed in, like:
+Outros desenvolvedores preferem um padrão de projetos chamado "injeção de dependência", em que, ao invés de `doSomethingCool()` verificar implicitamente se `FeatureXYZ` está definida fora dela, ela precisaria ter a dependência passada explicitamente, como:
 
 ```js
 function doSomethingCool(FeatureXYZ) {
 	var helper = FeatureXYZ ||
-		function() { /*.. default feature ..*/ };
+		function() { /*.. característica padrão ..*/ };
 
 	var val = helper();
 	// ..
 }
 ```
 
-There are lots of options when designing such functionality. No one pattern here is "correct" or "wrong" -- there are various tradeoffs to each approach. But overall, it's nice that the `typeof` undeclared safety guard gives us more options.
+Há muitas opções para projetar essa funcionalidade. Nenhum padrão apresentado aqui é "certo" ou "errado" -- Existem vários prós e contras para cada abordagem. Mas, em geral, é bom que a proteção de segurança do `typeof` para tipos não declarados (undeclared) nos dê mais opções.
 
-## Review
+## Revisão
 
-JavaScript has seven built-in *types*: `null`, `undefined`,  `boolean`, `number`, `string`, `object`, `symbol`. They can be identified by the `typeof` operator.
+JavaScript tem sete *tipos* nativos: `null`, `undefined`,  `boolean`, `number`, `string`, `object`, `symbol`. Eles podem ser identificados pelo operador `typeof`.
 
-Variables don't have types, but the values in them do. These types define intrinsic behavior of the values.
+Variáveis não possuem tipos, mas os valores sim. Estes tipos definem o comportamento intrínseco dos valores.
 
-Many developers will assume "undefined" and "undeclared" are roughly the same thing, but in JavaScript, they're quite different. `undefined` is a value that a declared variable can hold. "Undeclared" means a variable has never been declared.
+Muitos desenvolvedores assumirão que "undefined" e "undeclared" são, grosseiramente, a mesma coisa, mas em JavaScript, elas são bem diferentes. `undefined` é um valor que uma variável declarada pode conter. "Undeclared" significa que uma variável nunca foi declarada.
 
-JavaScript unfortunately kind of conflates these two terms, not only in its error messages ("ReferenceError: a is not defined") but also in the return values of `typeof`, which is `"undefined"` for both cases.
+O JavaScript, infelizmente, combina esses dois termos não só nas suas mensagens de erro ("ReferenceError: a is not defined (Erro de referência: a não está definido)"), mas também no valor retornado pelo `typeof`, que é `"undefined"` para os dois casos.
 
-However, the safety guard (preventing an error) on `typeof` when used against an undeclared variable can be helpful in certain cases.
+No entando, a proteção de segurança (evitando um erro) do `typeof` quando utilizada em uma variável não declarada, em alguns casos pode ser útil.
