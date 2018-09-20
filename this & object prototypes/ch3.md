@@ -326,7 +326,7 @@ Além disso, não fica realmente claro o que "duplicar" uma função significari
 
 Então como resolvemos todas essas difíceis questões? Vários frameworks JS possuem suas próprias interpretações e decisões. Mas qual delas (se existe alguma) o JS deveria adotar como *o* padrão? Durante um longo tempo, não havia uma resposta clara.
 
-Uma parte da solução é que objetos que são JSON-safe (que é, pode ser serializado para uma string JSON e depois re-transformada em um objeto com a mesma estrutura e valores) pode facilamente ser *duplicados* com:
+Uma parte da solução é que objetos que são JSON-safe (que é, pode ser serializado para uma string JSON e depois re-transformada em um objeto com a mesma estrutura e valores) podem facilmente serem *duplicados* com:
 
 
 ```js
@@ -466,7 +466,7 @@ Object.defineProperty( myObject, "a", {
 } ); // TypeError
 ```
 
-O última chamada de `defineProperty(..)` resulta em um TypeError, independente do `strict mode`, se você tentar mudar a definição do descritor de uma propriedade não configurável. Cuidado: como você pode ver, alterando `configurable` para `false` é uma **ação de via única, e não pode ser desfeita!**
+A última chamada de `defineProperty(..)` resulta em um TypeError, independente do `strict mode`, se você tentar mudar a definição do descritor de uma propriedade não configurável. Cuidado: como você pode ver, alterando `configurable` para `false` é uma **ação de via única, e não pode ser desfeita!**
 
 **Nota:** Há uma exceção diferenciada para estar ciente: mesmo se a propriedade já está com `configurable:false`, `writable` sempre pode ser alterada de `true` para `false` sem erro, mas não o contrário, de `false` para `true`.
 
@@ -499,7 +499,7 @@ Como pode ver, a última chamada de `delete` falhou (silenciosamente) porque def
 
 #### Enumerável
 
-A última característica de descritor que vamos mencionar aqui (existem outras duas, que veremos em breve quando discutimos getter/setters) é `enumerable`.
+A última característica de descritor que vamos mencionar aqui (existem outras duas, que veremos em breve quando discutirmos getter/setters) é `enumerable`.
 
 O nome provavelmente é óbvio, mas essa característica controla se uma propriedade aparecerá em certas enumerações objeto-propriedade, tal como o laço `for..in`. Configure para `false` para não aparecer em tais enumerações, mesmo que ainda esteja completamente acessível. Configure `true` para mantê-lo presente.
 
@@ -562,9 +562,9 @@ Então, além de você não poder adicionar mais propriedades, também não pode
 
 #### Freeze
 
-`Object.freeze(..)` cria um objeto "congelado", que pega um objeto existente e essencialmente chama `Object.seal(..)`, mas também marca todas as propriedades "acessores de dados" como `writable:false`, com isso os valores das proriedades não podem ser alteradas.
+`Object.freeze(..)` cria um objeto "congelado", que pega um objeto existente e essencialmente chama `Object.seal(..)`, mas também marca todas as propriedades "acessores de dados" como `writable:false`, com isso os valores das propriedades não podem ser alteradas.
 
-Essa abordagem é o nível mais alto de imutabilidade para uma objeto que você pode atingir, visto que previne qualquer mudança no objeto ou em qualquer de suas propriedades diretas (embora, como mecionado acima, o conteúdo de qualquer objeto referenciado não é afetado).
+Essa abordagem é o nível mais alto de imutabilidade para uma objeto que você pode atingir, visto que previne qualquer mudança no objeto ou em qualquer de suas propriedades diretas (embora, como mencionado acima, o conteúdo de qualquer objeto referenciado não é afetado).
 
 Você poderia "deep freeze" um objeto através do `Object.freeze(..)`, e então iterar recursivamente sobre todos os objetos que dado objeto referencia (que teriam sido afetados até agora), e chamando `Object.freeze(..)` para eles também. Cuidado, embora isso possa afetar outros objetos (compartilhados) você não tem intenção de afetá-los.
 
@@ -586,7 +586,7 @@ O `myObject.a` é um acesso à propriedade, mas não é *apenas* procurar em `my
 
 De acordo com a especificação, o código acima na verdade realiza uma operação `[[Get]]` (tipo uma chamada de função: `[[Get]]()`) no `myObject`. A operação nativa padrão `[[Get]]` de um objeto inspeciona *primeiro* o objeto à procura de uma propriedade com nome solicitado, se encontrar, retornará o respectivo valor.
 
-Entretando, o algoritmo de `[[Get]]` define outro importante comportamento caso *não* encontre a propriedade com nome solicidado. Examinaremos no Capítulo 5 o que acontece *em seguida* (passagem pela cadeia de `[[Prototype]]`, caso houver).
+Entretanto, o algoritmo de `[[Get]]` define outro importante comportamento caso *não* encontre a propriedade com nome solicitado. Examinaremos no Capítulo 5 o que acontece *em seguida* (passagem pela cadeia de `[[Prototype]]`, caso houver).
 
 Mas um importante resultado dessa operação `[[Get]]` é que se a propriedade solicitada não for encontrada, o valor `undefined` é retornado.
 
@@ -628,7 +628,7 @@ Se a propriedade estiver presente, o algoritmo de `[[Put]]` irá checar grosseir
 2. A propriedade é um descritor de dado com `writable` definido como `false`? **Se sim, falha silenciosamente no `non-strict mode` ou lança `TypeError` no `strict mode`.**
 3. Caso contrário, define o valor para a propriedade existente normalmente.
 
-Se a propriedade ainda não estiver presente no objeto em questão, a operação `[[Put]]` é ainda mais diferenciada e complexa. Nós iremos rever esse caso com mais clareza no Capítulo 5 quando discutimos `[[Prototype]]`.
+Se a propriedade ainda não estiver presente no objeto em questão, a operação `[[Put]]` é ainda mais diferenciada e complexa. Nós iremos rever esse caso com mais clareza no Capítulo 5 quando discutirmos `[[Prototype]]`.
 
 ### Getters & Setters
 
@@ -682,9 +682,9 @@ myObject.a = 3;
 myObject.a; // 2
 ```
 
-Desde que nós apenas definimos um getter para `a`, se tentarmos definir o valor de `a` depois, a operação de set não lançará um erro, mas irá descartar a atribuição silenciosamente. Mesmo se houvesse um setter válido, nosso getter personalizado é _hard-coded_ para retornar apenas `2`, logo o operação de set seria discutível. 
+Desde que nós apenas definimos um getter para `a`, se tentarmos definir o valor de `a` depois, a operação de set não lançará um erro, mas irá descartar a atribuição silenciosamente. Mesmo se houvesse um setter válido, nosso getter personalizado é _hard-coded_ para retornar apenas `2`, logo a operação de set seria discutível. 
 
-Para deixar esse cenário mais sensível, propriedades deveriam ser definidades com setters também, que sobrescrevem a operação `[[Put]]` padrão (conhecida como atribuição), por-propriedade, apenas como esperaríamos. Você provavelmente vai sempre querer declarar tanto getter como setter (ter apenas um ou outro geralmente leva a um comportamento inesperado/espantoso):
+Para deixar esse cenário mais sensível, propriedades deveriam ser definidas com setters também, que sobrescrevem a operação `[[Put]]` padrão (conhecida como atribuição), por-propriedade, apenas como esperaríamos. Você provavelmente vai sempre querer declarar tanto getter como setter (ter apenas um ou outro geralmente leva a um comportamento inesperado/espantoso):
 
 ```js
 var myObject = {
@@ -710,7 +710,7 @@ myObject.a; // 4
 
 Nós mostramos anteriormente que o acesso à propriedade como `myObject.a` pode resultar em um valor `undefined` caso o `undefined` for armazenado explicitamente na propriedade ou a propriedade `a` não existir de forma alguma. Logo, se o valor é o mesmo em ambos os casos, como é que diferenciamos? 
 
-Podemos perguntar a um objeto se ele possue certa propriedade *sem* pedir para obter o valor da propriedade: 
+Podemos perguntar a um objeto se ele possui certa propriedade *sem* pedir para obter o valor da propriedade: 
 
 ```js
 var myObject = {
@@ -937,14 +937,14 @@ for (var n of randoms) {
 }
 ```
 
-Esse iterador gerará números randômicos "para sempre", por isso tivermos cuidado em pegar apenas 100 valores, fazendo com que nosso programa não fique suspenso.
+Esse iterador gerará números randômicos "para sempre", por isso tivemos cuidado em pegar apenas 100 valores, fazendo com que nosso programa não fique suspenso.
 
 
 ## Revisão (TL;DR)
 
 Objetos em JS possuem uma forma literal (tal como `var a = { .. }`) e uma forma construída (tal como `var a = new Array(..)`). A forma literal é quase sempre preferível, mas a forma construída oferece, em alguns casos, mais opções de criação.
 
-Muitas pessoas alegam erradamente que "tudo em JavaScript é um objeto", mas essa afirmação é incorreta. Objetos são um dos 6 (or 7, dependendo de sua perspectiva) tipos primitivos. Objetos têm sub-tipos, incluindo `function`, e também podem ser comportamento-especializado, como `[object Array]`, rótulo interno representando o sub-tipo de objeto de array.
+Muitas pessoas alegam erradamente que "tudo em JavaScript é um objeto", mas essa afirmação é incorreta. Objetos são um dos 6 (or 7, dependendo de sua perspectiva) tipos primitivos. Objetos têm subtipos, incluindo `function`, e também podem ser comportamento-especializado, como `[object Array]`, rótulo interno representando o subtipo de objeto de array.
 
 Objetos são coleções de pares chave/valor. Os valores podem ser acessados como propriedades, via sintaxe `.propName` ou `["propName"]`. A qualquer momento que uma propriedade é acessada, o motor JS, na verdade, invoca a operação interna `[[Get]]` padrão (e `[[Put]]` para definir valores), que não só procura pela propriedade diretamente no objeto, mas irá percorrer a cadeia de `[[Prototype]]` se não for encontrada.
 
