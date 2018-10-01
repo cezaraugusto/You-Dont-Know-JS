@@ -7,15 +7,15 @@ Nós veremos que esses conceitos não mapeiam muito naturalmente com o mecanismo
 
 **Nota:** Este capítulo gasta um bom tempo (a primeira metade!) na pesada teoria de "programação orientada a objeto". Nós finalmente relacionamos essas idéias a um concreto código JavaScript na segunda metade, quando nós falamos sobre "Mixins". Mas há uma grande quantidade de conceito e pseudo-código para percorrer primeiro, então não se perca -- apenas fique com isso!
 
-## Class Theory
+## Teoria de Classes
 
-"Class/Inheritance" describes a certain form of code organization and architecture -- a way of modeling real world problem domains in our software.
+Class/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software
 
-OO or class oriented programming stresses that data intrinsically has associated behavior (of course, different depending on the type and nature of the data!) that operates on it, so proper design is to package up (aka, encapsulate) the data and the behavior together. This is sometimes called "data structures" in formal computer science.
+OO ou programação orientada a classe enfatiza que os dados tem um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso as vezes é chamado "estruturas de dados" na ciência da computação.
 
-For example, a series of characters that represents a word or phrase is usually called a "string". The characters are the data. But you almost never just care about the data, you usually want to *do things* with the data, so the behaviors that can apply *to* that data (calculating its length, appending data, searching, etc.) are all designed as methods of a `String` class.
+Por exemplo, uma série de caractéres que representa uma palavra ou frase geralmente é chamada de "string". Os caractéres são os dados. Mas você quase nunca se importa apenas com os dados, você geralmente quer *fazer coisas* com o dados, assim os comportamentos que podem se aplicar *para* aquele dado (calcular seu tamanho, anexar dados, busca, etc.) são todos concebidos como métodos de uma classe `String`.
 
-Any given string is just an instance of this class, which means that it's a neatly collected packaging of both the character data and the functionality we can perform on it.
+Qualquer string é apenas uma instância dessa classe, o que significa que é um pacote bem controlado tanto dos dados de caractéres quanto das funcionalidades que podemos executar nele.
 
 Classes also imply a way of *classifying* a certain data structure. The way we do this is to think about any given structure as a specific variation of a more general base definition.
 
