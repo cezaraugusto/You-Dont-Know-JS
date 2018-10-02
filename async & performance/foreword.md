@@ -1,22 +1,22 @@
-# You Don't Know JS: Async & Performance
-# Foreword
+# You Don't Know JS: Async e Performance
+# Introdução
 
-Over the years, my employer has trusted me enough to conduct interviews. If we're looking for someone with skills in JavaScript, my first line of questioning… actually that's not true, I first check if the candidate needs the bathroom and/or a drink, because comfort is important, but once I'm past the bit about the candidate's fluid in/out-take, I set about determining if the candidate knows JavaScript, or just jQuery.
+Com o passar dos anos, conquistei, no local onde trabalho, confiança o suficiente para conduzir entrevistas. Se estamos procurando alguém com skills em JavaScript, minha primeira pergunta seria... bem, isso não é verdade. Primeiramente verifico se a(o) candidata(o) precisar is ao banheiro ou se gostaria de beber água (conforto é importante), mas passada a parte relaciona à entrada e saída de fluidos, começo a avaliar se a(o) candidata(o) conhece JavaScript ou apenas jQuery.
 
-Not that there's anything wrong with jQuery. It lets you do a lot without really knowing JavaScript, and that's a feature not a bug. But if the job calls for advanced skills in JavaScript performance and maintainability, you need someone who knows how libraries such as jQuery are put together. You need to be able to harness the core of JavaScript the same way they do.
+Não que haja algo errado com jQuery. Ela permite que você faça muito sem a necessidade de realmente saber JavaScript e isso é uma *feature* e não um bug. Porém, se a vaga requer habilidades avançadas em JavaScript relacionadas à performance e mantenabilidade, você precisa de alguém que entenda a forma com que bibliotecas como jQuery são feitas. Você precisa aproveitar os fundamentos do JavaScript da mesma forma que ela aproveita.
 
-If I want to get a picture of someone's core JavaScript skill, I'm most interested in what they make of closures (you've read that book of this series already, right?) and how to get the most out of asynchronicity, which brings us to this book.
+Se quero ter uma ideia do conhecimento de alguém em relação aos fundamentos de JavaScript, estou mais interessado em saber o que essa pessoa faz com *closures* (você já leu este livro da série, certo?) e como obtém o máximo da assincronicidade, o que nos leva a este livro.
 
-For starters, you'll be taken through callbacks, the bread and butter of asynchronous programming. Of course, bread and butter does not make for a particularly satisfying meal, but the next course is full of tasty tasty promises!
+Como entrada, você será conduzida(o) por *callbacks*, o principal aperitivo da programação assíncrona. É claro que um aperitivo não é exatamente uma refeição satisfatória, mas o próximo prato está cheio de *promises* deliciosas!
 
-If you don't know promises, now is the time to learn. Promises are now the official way to provide async return values in both JavaScript and the DOM. All future async DOM APIs will use them, many already do, so be prepared! At the time of writing, Promises have shipped in most major browsers, with IE shipping soon. Once you've finished that, I hope you left room for the next course, Generators.
+Se você não conhece *promises*, agora é a hora de aprender. *Promises* são, atualmente, a maneira oficial de provermos retornos de valores asíncronos tanto no JavaScript quanto no DOM. Todas as futuras APIs assíncronas do DOM as utilizarão, muitas já utilizam, portanto prepare-se! No momento que escrevemos isso, Promises estão disponíveis nos principais browsers (em breve no IE). Assim que você terminar, espero que tenha guardado espaço para o próximo prato, *Generators*.
 
-Generators snuck their way into stable versions of Chrome and Firefox without too much pomp and ceremony, because, frankly, they're more complicated than they are interesting. Or, that's what I thought until I saw them combined with promises. There, they become an important tool in readability and maintenance.
+*Generators* chegaram às versões estáveis do Chrome e Firefox sem muita pompa ou cerimônia pois, francamente, são mais complicadas do que interessantes. Pelo menos é o que eu pensava até vê-los combinados com *Promises*, quando tornam-se uma importante ferramenta para legibilidade e manutenção.
 
-For dessert, well, I won't spoil the surprise, but prepare to gaze into the future of JavaScript! Features that give you more and more control over concurrency and asynchronicity.
+Para sobremesa, bem, não vou estragar a surpresa, mas prepare-se para olhar o futuro do JavaScript! Funcionalidades que lhe darão mais e mais controle sobre concorrência e assincronicidade.
 
-Well, I won't block your enjoyment of the book any longer, on with the show! If you've already read part of the book before reading this Foreword, give yourself 10 asynchronous points! You deserve them!
+Bem, não vou mais bloquear sua diversão com o livro, que siga o espetáculo! Se você já leu alguma parte do livro antes desta introdução, lhe presenteie com 10 pontos assíncronos! Você merece!
 
 Jake Archibald<br>
 [jakearchibald.com](http://jakearchibald.com), [@jaffathecake](http://twitter.com/jaffathecake)<br>
-Developer Advocate at Google Chrome
+Developer Advocate na Google Chrome
