@@ -405,9 +405,9 @@ foo( 0, 42 );			// 42
 foo( undefined, 6 );	// 17
 ```
 
-Of course, that means that any value except `undefined` can be directly passed in. However, `undefined` will be assumed to signal, "I didn't pass this in." That works great unless you actually need to be able to pass `undefined` in.
+Claro, isso significa que qualquer valor, exceto `undefined`, pode ser transmitido diretamente. No entanto, será assumido que "indefinido" indica "Eu não passei isso". Isso funciona muito bem, a não ser que que você realmente precise passar `undefined`.
 
-In that case, you could test to see if the argument is actually omitted, by it actually not being present in the `arguments` array, perhaps like this:
+Nesse caso, você poderia testar para ver se o argumento é realmente omitido, por não estar presente na matriz `arguments`, talvez assim:
 
 ```js
 function foo(x,y) {
@@ -421,17 +421,17 @@ foo( 5 );				// 36
 foo( 5, undefined );	// NaN
 ```
 
-But how would you omit the first `x` argument without the ability to pass in any kind of value (not even `undefined`) that signals "I'm omitting this argument"?
+Mas como omitir o primeiro argumento `x` sem a possibilidade de passar para qualquer tipo de valor (nem mesmo `undefined`) que sinalize "estou omitindo este argumento"?
 
-`foo(,5)` is tempting, but it's invalid syntax. `foo.apply(null,[,5])` seems like it should do the trick, but `apply(..)`'s quirks here mean that the arguments are treated as `[undefined,5]`, which of course doesn't omit.
+`foo (, 5)` é tentador, mas é uma sintaxe inválida. `foo.apply (null, [, 5])` parece que deve fazer o truque, mas as peculiaridades do `apply (..)` aqui significam que os argumentos são tratados como `[undefined, 5]`, que com certeza não são omitidos
 
-If you investigate further, you'll find you can only omit arguments on the end (i.e., righthand side) by simply passing fewer arguments than "expected," but you cannot omit arguments in the middle or at the beginning of the arguments list. It's just not possible.
+Se você investigar mais, verá que só pode omitir argumentos no final (ou seja, no lado direito) simplesmente passando menos argumentos que "esperado", mas você não pode omitir os argumentos no meio ou no início da lista de argumentos. Isso não é possível.
 
-There's a principle applied to JavaScript's design here that is important to remember: `undefined` means *missing*. That is, there's no difference between `undefined` and *missing*, at least as far as function arguments go.
+Há um princípio aplicado ao design do JavaScript aqui que é importante lembrar: `undefined` significa *ausente*. Ou seja, não há diferença entre `undefined` e *ausente*, pelo menos no que diz respeito aos argumentos de função.
 
-**Note:** There are, confusingly, other places in JS where this particular design principle doesn't apply, such as for arrays with empty slots. See the *Types & Grammar* title of this series for more information.
+**Nota:** Estranhamente, existem outros lugares em JS onde esse princípio específico de design não se aplica, como arrays com casas vazios. Veja o título *Tipos & Gramática* desta série para mais informações.
 
-With all this in mind, we can now examine a nice helpful syntax added as of ES6 to streamline the assignment of default values to missing arguments:
+Com tudo isso em mente, agora podemos examinar uma sintaxe útil e agradável adicionada a partir do ES6 para facilitar a atribuição de valores padrão a argumentos ausentes:
 
 ```js
 function foo(x = 11, y = 31) {
@@ -443,18 +443,18 @@ foo( 5, 6 );			// 11
 foo( 0, 42 );			// 42
 
 foo( 5 );				// 36
-foo( 5, undefined );	// 36 <-- `undefined` is missing
-foo( 5, null );			// 5  <-- null coerces to `0`
+foo( 5, undefined );	// 36 <-- `undefined` está faltando
+foo( 5, null );			// 5  <-- null força para `0`
 
-foo( undefined, 6 );	// 17 <-- `undefined` is missing
-foo( null, 6 );			// 6  <-- null coerces to `0`
+foo( undefined, 6 );	// 17 <-- `undefined` está faltando
+foo( null, 6 );			// 6  <-- null força para `0`
 ```
 
-Notice the results and how they imply both subtle differences and similarities to the earlier approaches.
+Observe os resultados e a maneira como eles implicam sutis diferenças e semelhanças com abordagens anteriores.
 
-`x = 11` in a function declaration is more like `x !== undefined ? x : 11` than the much more common idiom `x || 11`, so you'll need to be careful in converting your pre-ES6 code to this ES6 default parameter value syntax.
+`x = 11` em uma declaração de função é mais parecido com` x! == undefined? x: 11` do que o mais comum `x || 11`, então você deve ter cuidado ao converter seu código pré-ES6 nesta sintaxe do valor do parâmetro ES6 padrão.
 
-**Note:** A rest/gather parameter (see "Spread/Rest") cannot have a default value. So, while `function foo(...vals=[1,2,3]) {` might seem an intriguing capability, it's not valid syntax. You'll need to continue to apply that sort of logic manually if necessary.
+**Nota:** Um parâmetro rest/gather (veja "Spread/Rest") não pode ter um valor padrão. Então, enquanto `function foo(...vals=[1,2,3]) {` pode parecer uma capacidade intrigante, não é uma sintaxe válida. Você terá que continuar aplicando esse tipo de lógica manualmente, se necessário.
 
 ### Default Value Expressions
 
