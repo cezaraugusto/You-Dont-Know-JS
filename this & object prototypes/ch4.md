@@ -9,31 +9,32 @@ Nós veremos que esses conceitos não mapeiam muito naturalmente com o mecanismo
 
 ## Teoria de Classes
 
-Class/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software
+Class/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software.
 
-OO ou programação orientada a classe enfatiza que os dados tem um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso as vezes é chamado "estruturas de dados" na ciência da computação.
+OO ou programação orientada a classe enfatiza que os dados têm um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso às vezes é chamado "estruturas de dados" na ciência da computação.
 
-Por exemplo, uma série de caractéres que representa uma palavra ou frase geralmente é chamada de "string". Os caractéres são os dados. Mas você quase nunca se importa apenas com os dados, você geralmente quer *fazer coisas* com o dados, assim os comportamentos que podem se aplicar *para* aquele dado (calcular seu tamanho, anexar dados, busca, etc.) são todos concebidos como métodos de uma classe `String`.
+Por exemplo, uma série de caracteres que representa uma palavra ou frase geralmente é chamada de "string". Os caracteres são os dados. Mas você quase nunca se importa apenas com os dados, você geralmente quer *fazer coisas* com o dados, assim os comportamentos que podem se aplicar *para* aquele dado (calcular seu tamanho, anexar dados, busca, etc.) são todos concebidos como métodos de uma classe `String`.
 
-Qualquer string é apenas uma instância dessa classe, o que significa que é um pacote bem controlado tanto dos dados de caractéres quanto das funcionalidades que podemos executar nele.
+Qualquer string é apenas uma instância dessa classe, o que significa que é um pacote bem controlado tanto dos dados de caracteres quanto das funcionalidades que podemos executar nele.
 
-Classes also imply a way of *classifying* a certain data structure. The way we do this is to think about any given structure as a specific variation of a more general base definition.
+Classe também insinuam uma maneira de *classificar* uma certa estrutura de dados, A maneira que nós fazemos isso é pensar em qualquer dada estrutura como uma variação específica de uma definição base mais geral.
 
-Let's explore this classification process by looking at a commonly cited example. A *car* can be described as a specific implementation of a more general "class" of thing, called a *vehicle*.
+Vamos explorar esse processo de classificação olhando para um exemplo comumente citado. Um *carro* pode ser descrito como uma implementação específica de uma "classe" genérica de uma coisa, chamada de *veículo*.
 
-We model this relationship in software with classes by defining a `Vehicle` class and a `Car` class.
+Nós modelamos esse relacionamento em software com classes definindo uma classe `Veículo` e uma classe `Carro`.
 
-The definition of `Vehicle` might include things like propulsion (engines, etc.), the ability to carry people, etc., which would all be the behaviors. What we define in `Vehicle` is all the stuff that is common to all (or most of) the different types of vehicles (the "planes, trains, and automobiles").
+A definição de `Veículo` pode incluir coisas como propulsão (motores, etc.), a capacidade de transportar pessoas, etc., que seriam todos os comportamentos. O que nós definimos em `Veículo` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
 
-It might not make sense in our software to re-define the basic essence of "ability to carry people" over and over again for each different type of vehicle. Instead, we define that capability once in `Vehicle`, and then when we define `Car`, we simply indicate that it "inherits" (or "extends") the base definition from `Vehicle`. The definition of `Car` is said to specialize the general `Vehicle` definition.
+Pode não fazer sentido no nosso software redefinir a essência básica da "capacidade de transportar pessoas"
+repetidas vezes para cada tipo diferente de veículo. Ao invés, nós definimos essa capacidade uma vez em `Veículo`, e então quando definimos `Carro`, nós simplesmente indicamos que ele "herda" (ou "extende") sua definição base de `Veículo`. Diz-se que a definição de `Carro` especializa a definição geral de `Veículo`.
 
-While `Vehicle` and `Car` collectively define the behavior by way of methods, the data in an instance would be things like the unique VIN of a specific car, etc.
+Enquanto `Veículo` e `Carro` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico, etc.
 
-**And thus, classes, inheritance, and instantiation emerge.**
+**E assim, classes, herança e instanciação aparecem.**
 
-Another key concept with classes is "polymorphism", which describes the idea that a general behavior from a parent class can be overridden in a child class to give it more specifics. In fact, relative polymorphism lets us reference the base behavior from the overridden behavior.
+Outro conceito chave com classes é o "polimorfismo", o qual descreve a ideia que um comportamento genérico de uma classe pai pode ser sobrescrito em uma classe filha para dar mais especificidade. De fato, o polimorfismo relativo nos permite referenciar o comportamento base a partir do comportamento sobrescrito.
 
-Class theory strongly suggests that a parent class and a child class share the same method name for a certain behavior, so that the child overrides the parent (differentially). As we'll see later, doing so in your JavaScript code is opting into frustration and code brittleness.
+A teoria de Classe sugere fortemente que uma classe pai e uma classe filha compartilhem o mesmo nome de método para um determinado comportamento, então esse filho substitui o pai (diferentemente). Como nós veremos mais tarde, fazer isso no seu código Javascript é optar pela frustração e pela fragilidade do código.
 
 ### "Class" Design Pattern
 
