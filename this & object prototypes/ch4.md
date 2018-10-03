@@ -7,9 +7,9 @@ Nós veremos que esses conceitos não mapeiam muito naturalmente com o mecanismo
 
 **Nota:** Este capítulo gasta um bom tempo (a primeira metade!) na pesada teoria de "programação orientada a objeto". Nós finalmente relacionamos essas idéias a um concreto código JavaScript na segunda metade, quando nós falamos sobre "Mixins". Mas há uma grande quantidade de conceito e pseudo-código para percorrer primeiro, então não se perca -- apenas fique com isso!
 
-## Teoria de Classes
+## Teoria das Classes
 
-Class/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software.
+Classe/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software.
 
 OO ou programação orientada a classe enfatiza que os dados têm um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso às vezes é chamado "estruturas de dados" na ciência da computação.
 
@@ -26,11 +26,11 @@ Nós modelamos esse relacionamento em software com classes definindo uma classe 
 A definição de `Veículo` pode incluir coisas como propulsão (motores, etc.), a capacidade de transportar pessoas, etc., que seriam todos os comportamentos. O que nós definimos em `Veículo` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
 
 Pode não fazer sentido no nosso software redefinir a essência básica da "capacidade de transportar pessoas"
-repetidas vezes para cada tipo diferente de veículo. Ao invés, nós definimos essa capacidade uma vez em `Veículo`, e então quando definimos `Carro`, nós simplesmente indicamos que ele "herda" (ou "extende") sua definição base de `Veículo`. Diz-se que a definição de `Carro` especializa a definição geral de `Veículo`.
+repetidas vezes para cada tipo diferente de veículo. Ao invés disso, nós definimos essa capacidade uma vez em `Veículo`, e então quando definimos `Carro`, nós simplesmente indicamos que ele "herda" (ou "extende") sua definição base de `Veículo`. Diz-se que a definição de `Carro` especializa a definição geral de `Veículo`.
 
 Enquanto `Veículo` e `Carro` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico, etc.
 
-**E assim, classes, herança e instanciação aparecem.**
+**E assim, classes, herança e instanciação surgem.**
 
 Outro conceito chave com classes é o "polimorfismo", o qual descreve a ideia que um comportamento genérico de uma classe pai pode ser sobrescrito em uma classe filha para dar mais especificidade. De fato, o polimorfismo relativo nos permite referenciar o comportamento base a partir do comportamento sobrescrito.
 
