@@ -326,7 +326,7 @@ Além disso, não fica realmente claro o que "duplicar" uma função significari
 
 Então como resolvemos todas essas difíceis questões? Vários frameworks JS possuem suas próprias interpretações e decisões. Mas qual delas (se existe alguma) o JS deveria adotar como *o* padrão? Durante um longo tempo, não havia uma resposta clara.
 
-Uma parte da solução é que objetos que são JSON-safe (que é, pode ser serializado para uma string JSON e depois re-transformada em um objeto com a mesma estrutura e valores) podem facilmente serem *duplicados* com:
+Uma parte da solução é que objetos que são JSON-safe (que é, pode ser serializado para uma string JSON e depois re-transformada em um objeto com a mesma estrutura e valores) podem facilmente ser *duplicados* com:
 
 
 ```js
@@ -667,7 +667,7 @@ myObject.a; // 2
 myObject.b; // 4
 ```
 
-Através da sintaxe de objeto-literal com `get a() { .. }` ou por definição explícita com `defineProperty(..)`, nos dois casos nós criamos uma propriedade do objeto que realmente não mantém um valor, mas o acesso à propriedade resulta automaticamente em uma chamada de função oculta a uma função getter, com qualquer valor que ela retorna sendo o resultado do acesso à propriedade. 
+Através da sintaxe de objeto-literal com `get a() { .. }` ou por definição explícita com `defineProperty(..)`, nos dois casos nós criamos uma propriedade do objeto que realmente não mantém um valor, mas o acesso à propriedade resulta automaticamente em uma chamada de função oculta a uma função getter, com qualquer valor que ela retorna sendo o resultado do acesso à propriedade.
 
 ```js
 var myObject = {
@@ -682,7 +682,7 @@ myObject.a = 3;
 myObject.a; // 2
 ```
 
-Desde que nós apenas definimos um getter para `a`, se tentarmos definir o valor de `a` depois, a operação de set não lançará um erro, mas irá descartar a atribuição silenciosamente. Mesmo se houvesse um setter válido, nosso getter personalizado é _hard-coded_ para retornar apenas `2`, logo a operação de set seria discutível. 
+Desde que nós apenas definimos um getter para `a`, se tentarmos definir o valor de `a` depois, a operação de set não lançará um erro, mas irá descartar a atribuição silenciosamente. Mesmo se houvesse um setter válido, nosso getter personalizado é _hard-coded_ para retornar apenas `2`, logo a operação de set seria discutível.
 
 Para deixar esse cenário mais sensível, propriedades deveriam ser definidas com setters também, que sobrescrevem a operação `[[Put]]` padrão (conhecida como atribuição), por-propriedade, apenas como esperaríamos. Você provavelmente vai sempre querer declarar tanto getter como setter (ter apenas um ou outro geralmente leva a um comportamento inesperado/espantoso):
 
@@ -708,9 +708,9 @@ myObject.a; // 4
 
 ### Existência
 
-Nós mostramos anteriormente que o acesso à propriedade como `myObject.a` pode resultar em um valor `undefined` caso o `undefined` for armazenado explicitamente na propriedade ou a propriedade `a` não existir de forma alguma. Logo, se o valor é o mesmo em ambos os casos, como é que diferenciamos? 
+Nós mostramos anteriormente que o acesso à propriedade como `myObject.a` pode resultar em um valor `undefined` caso o `undefined` for armazenado explicitamente na propriedade ou a propriedade `a` não existir de forma alguma. Logo, se o valor é o mesmo em ambos os casos, como é que diferenciamos?
 
-Podemos perguntar a um objeto se ele possui certa propriedade *sem* pedir para obter o valor da propriedade: 
+Podemos perguntar a um objeto se ele possui certa propriedade *sem* pedir para obter o valor da propriedade:
 
 ```js
 var myObject = {
@@ -843,7 +843,7 @@ for (var v of myArray) {
 // 3
 ```
 
-O laço `for..of` precisa de um objeto iterador (de uma função interna padrão conhecido nas especificações como `@@iterator`) da *coisa* a ser iterada, e o laço então itera sobre sucessivos valores retornado da chamada do método `next()` do objeto iterador, uma vez para cada iteração do laço. 
+O laço `for..of` precisa de um objeto iterador (de uma função interna padrão conhecido nas especificações como `@@iterator`) da *coisa* a ser iterada, e o laço então itera sobre sucessivos valores retornado da chamada do método `next()` do objeto iterador, uma vez para cada iteração do laço.
 
 Arrays têm um `@@iterator` nativo, então o `for..of` funciona facilmente neles, como mostrado. Mas vamos iterar o array usando o `@@iterator` nativo para ver como funciona:
 
@@ -861,10 +861,10 @@ it.next(); // { done:true }
 
 Como o trecho acima revela, o valor de retorno de uma chamada `next()` do iterador é um objeto na forma de `{ value: .. , done: .. }`, onde `value` é o atual valor da iteração e o `done` é um `boolean` que indica se há algo mais para iterar.
 
-Note que o valor `3` foi retornado com `done:false`, que parece estranho à primeira vista. Você tem que chamar o `next()` uma quarta vez (que o laço `for..of` no trecho de código anterior faz automaticamente) para obter `done:true` e saber que você realmente finalizou a iteração. O motivo dessa peculiaridade está além do escopo do que iremos discutir aqui, mas vem de semânticas de funções do gerador no ES6. 
+Note que o valor `3` foi retornado com `done:false`, que parece estranho à primeira vista. Você tem que chamar o `next()` uma quarta vez (que o laço `for..of` no trecho de código anterior faz automaticamente) para obter `done:true` e saber que você realmente finalizou a iteração. O motivo dessa peculiaridade está além do escopo do que iremos discutir aqui, mas vem de semânticas de funções do gerador no ES6.
 
 Enquanto arrays iteram automaticamente nos laços `for..of`, objetos comuns **não possuem um `@@iterator` nativo**.
-As razões para omissão intencional são mais complexas do que examinaremos aqui, mas em geral foi melhor não incluir alguma implementação que pudesse ser problemática em futuros tipos de objetos. 
+As razões para omissão intencional são mais complexas do que examinaremos aqui, mas em geral foi melhor não incluir alguma implementação que pudesse ser problemática em futuros tipos de objetos.
 
 *É* possível definir seu próprio `@@iterator` padrão para qualquer objeto que você queira iterar. Por exemplo:
 
