@@ -241,7 +241,7 @@ Você resolve as referências LHS e RHS através da busca no andar atual, e, se 
 
 ## Erros
 
-Por que é relevante termos uma LHS ou RHS?
+Qual a importância de nos referirmos como LHS ou RHS?
 
 Porque estes dois tipos de busca comportam-se de maneiras diferentes quando uma variável ainda não foi declarada (não foi localizada em nenhum dos *Escopos* consultados).
 
