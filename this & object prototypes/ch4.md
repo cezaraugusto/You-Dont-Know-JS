@@ -1,11 +1,11 @@
-# You Don't Know JS: *this* & Object Prototypes
-# Chapter 4: Mixing (Up) "Class" Objects
+# You Don't Know JS: *this* & Prototipagem de Objetos
+# Chapter 4: Confundindo Objetos com "Classes"
 
-Following our exploration of objects from the previous chapter, it's natural that we now turn our attention to "object oriented (OO) programming", with "classes". We'll first look at "class orientation" as a design pattern, before examining the mechanics of "classes": "instantiation", "inheritance" and "(relative) polymorphism".
+Continuando com nossa exploração de objetos do capítulo anterior, é natural que agora nós demos atenção a "programação orientada a objetos (OO)", com "classes". Nós primeiro iremos olhar para "orientação de classe" como um padrão de projeto, antes de examinar as mecânicas de "classes": "instanciação", "herança" e "(relativo) polimorfismo".
 
-We'll see that these concepts don't really map very naturally to the object mechanism in JS, and the lengths (mixins, etc.) many JavaScript developers go to overcome such challenges.
+Nós veremos que esses conceitos não mapeiam muito naturalmente com o mecanismo de objeto no JS e suas extensões (mixins, etc.). Muitos desenvolvedores JavaScript irão superar esses desafios.
 
-**Note:** This chapter spends quite a bit of time (the first half!) on heavy "objected oriented programming" theory. We eventually relate these ideas to real concrete JavaScript code in the second half, when we talk about "Mixins". But there's a lot of concept and pseudo-code to wade through first, so don't get lost -- just stick with it!
+**Nota:** Este capítulo gasta um bom tempo (a primeira metade!) na pesada teoria de "programação orientada a objeto". Nós finalmente relacionamos essas idéias a um concreto código JavaScript na segunda metade, quando nós falamos sobre "Mixins". Mas há uma grande quantidade de conceito e pseudo-código para percorrer primeiro, então não se perca -- apenas fique com isso!
 
 ## Class Theory
 
