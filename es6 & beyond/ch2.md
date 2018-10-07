@@ -456,13 +456,13 @@ Notice the results and how they imply both subtle differences and similarities t
 
 **Note:** A rest/gather parameter (see "Spread/Rest") cannot have a default value. So, while `function foo(...vals=[1,2,3]) {` might seem an intriguing capability, it's not valid syntax. You'll need to continue to apply that sort of logic manually if necessary.
 
-### Default Value Expressions
+### Expressões de valor padrão
 
-Function default values can be more than just simple values like `31`; they can be any valid expression, even a function call:
+Os valores padrão de funções podem ser mais do que apenas valores como `31`; pode ser qualquer expressão válida, até mesmo uma chamada de função:
 
 ```js
 function bar(val) {
-	console.log( "bar called!" );
+	console.log( "barra chamada!" );
 	return y + val;
 }
 
@@ -471,19 +471,19 @@ function foo(x = y + 3, z = bar( x )) {
 }
 
 var y = 5;
-foo();								// "bar called"
+foo();								// "barra chamada"
 									// 8 13
-foo( 10 );							// "bar called"
+foo( 10 );							// "barra chamada"
 									// 10 15
 y = 6;
 foo( undefined, 10 );				// 9 10
 ```
 
-As you can see, the default value expressions are lazily evaluated, meaning they're only run if and when they're needed -- that is, when a parameter's argument is omitted or is `undefined`.
+Como você pode ver, as expressões de valor padrão são avaliadas preguiçosamente, o que significa que elas só serão executadas se e quando forem necessárias - ou seja, quando o argumento de um parâmetro for omitido ou for `undefined`.
 
-It's a subtle detail, but the formal parameters in a function declaration are in their own scope (think of it as a scope bubble wrapped around just the `( .. )` of the function declaration), not in the function body's scope. That means a reference to an identifier in a default value expression first matches the formal parameters' scope before looking to an outer scope. See the *Scope & Closures* title of this series for more information.
+É um detalhe sutil, mas os parâmetros formais em uma declaração de função estão dentro de seu próprio escopo (pense nisso como uma bolha de escopo envolvendo apenas o `(..)` da declaração da função), não dentro do corpo da função. Isso significa que uma referência a um identificador em uma expressão de valor padrão corresponde primeiro ao escopo dos parâmetros formais antes de procurar um escopo externo. Veja o título *Escopos & Clausuras* desta série para mais informações.
 
-Consider:
+Considere:
 
 ```js
 var w = 1, z = 2;
@@ -495,13 +495,13 @@ function foo( x = w + 1, y = x + 1, z = z + 1 ) {
 foo();					// ReferenceError
 ```
 
-The `w` in the `w + 1` default value expression looks for `w` in the formal parameters' scope, but does not find it, so the outer scope's `w` is used. Next, The `x` in the `x + 1` default value expression finds `x` in the formal parameters' scope, and luckily `x` has already been initialized, so the assignment to `y` works fine.
+O `w` na expressão de valor padrão` w + 1` procura por `w` no escopo dos parâmetros formais, mas não o encontra, então o` w` do escopo externo é usado. Assim, o `x` na expressão de valor padrão` x + 1` encontra `x` no escopo dos parâmetros formais e, felizmente, o ` x` já foi inicializado, então a designação para `y` funciona bem.
 
-However, the `z` in `z + 1` finds `z` as a not-yet-initialized-at-that-moment parameter variable, so it never tries to find the `z` from the outer scope.
+No entanto, o `z` em` z + 1` encontra `z` como uma variável de parâmetro ainda não inicializada no momento, então ele nunca tenta encontrar o` z` do escopo externo.
 
-As we mentioned in the "`let` Declarations" section earlier in this chapter, ES6 has a TDZ, which prevents a variable from being accessed in its uninitialized state. As such, the `z + 1` default value expression throws a TDZ `ReferenceError` error.
+Como mencionamos na seção "Declarações de let" anteriormente neste capítulo, o ES6 tem um TDZ (Temporal Dead Zone), que impede que uma variável seja acessada em seu estado não inicializado. Como tal, a expressão de valor padrão `z + 1` gera um erro TDZ `ReferenceError`.
 
-Though it's not necessarily a good idea for code clarity, a default value expression can even be an inline function expression call -- commonly referred to as an immediately invoked function expression (IIFE):
+Embora não seja necessariamente uma boa ideia para clareza de código, uma expressão de valor padrão pode até ser uma chamada de expressão de função embutida (ou in-line) - normalmente chamada de expressão de função invocada imediatamente (IIFE):
 
 ```js
 function foo( x =
@@ -513,23 +513,23 @@ function foo( x =
 foo();			// 42
 ```
 
-There will very rarely be any cases where an IIFE (or any other executed inline function expression) will be appropriate for default value expressions. If you find yourself tempted to do this, take a step back and reevaluate!
+Raramente haverá casos em que um IIFE (ou qualquer outra expressão de função in-line executada) seja apropriado para expressões de valor padrão. Se você se sentir tentado a fazer isso, dê um passo atrás e reavalie!
 
-**Warning:** If the IIFE had tried to access the `x` identifier and had not declared its own `x`, this would also have been a TDZ error, just as discussed before.
+**Atenção:** Se a IIFE tentasse acessar o identificador `x` e não tivesse declarado seu próprio` x`, isso também seria um erro de TDZ, como discutido acima.
 
-The default value expression in the previous snippet is an IIFE in that in the sense that it's a function that's executed right inline, via `(31)`. If we had left that part off, the default value assigned to `x` would have just been a function reference itself, perhaps like a default callback. There will probably be cases where that pattern will be quite useful, such as:
+A expressão de valor padrão no trecho anterior é considerada uma IIFE desde que, no sentido de que é uma função que é executada imediatamente, através de `(31)`. Se tivéssemos deixado essa parte de lado, o valor padrão atribuído a `x` teria sido apenas uma referência de função, talvez como um retorno de chamada padrão. Provavelmente haverá casos em que esse padrão será bastante útil, como:
 
 ```js
 function ajax(url, cb = function(){}) {
 	// ..
 }
 
-ajax( "http://some.url.1" );
+	ajax( "http://algum.url.1" );
 ```
 
-In this case, we essentially want to default `cb` to be a no-op empty function call if not otherwise specified. The function expression is just a function reference, not a function call itself (no invoking `()` on the end of it), which accomplishes that goal.
+Neste caso, nós essencialmente queremos que o padrão `cb` seja uma chamada de função vazia, se não for especificada. A expressão de função é apenas uma referência a uma função, não uma chamada de função em si (sem invocar `()` no final dela), que realiza esse objetivo.
 
-Since the early days of JS, there's been a little-known but useful quirk available to us: `Function.prototype` is itself an empty no-op function. So, the declaration could have been `cb = Function.prototype` and saved the inline function expression creation.
+Desde o começo do JS, há uma peculiaridade pouco conhecida, mas útil, disponível para nós: `Function.prototype` é uma função vazia não operacional. Assim, a declaração poderia ter sido `cb = Function.prototype` e salva a criação das expressões in-line.
 
 ## Destructuring
 
