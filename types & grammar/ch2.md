@@ -521,11 +521,11 @@ foo();
 
 **Amigos não deixam amigos sobrescrever `undefined`.** Nunca.
 
-#### `void` Operator
+#### Operador `void`
 
-While `undefined` is a built-in identifier that holds (unless modified -- see above!) the built-in `undefined` value, another way to get this value is the `void` operator.
+Enquanto `undefined` é um identificador nativo que guarda (a menos que modificado -- veja acima) o valor nativo `undefined`, outra forma de ter esse valor é pelo operador `void`.
 
-The expression `void ___` "voids" out any value, so that the result of the expression is always the `undefined` value. It doesn't modify the existing value; it just ensures that no value comes back from the operator expression.
+A expressão `void ___` "esvazia" qualquer valor, então o resultado da expressão será sempre um valor `undefined`. Ele não modifica o valor existente; ele apenas garante que nenhum valor retorne do operador da expressão.
 
 ```js
 var a = 42;
@@ -533,45 +533,45 @@ var a = 42;
 console.log( void a, a ); // undefined 42
 ```
 
-By convention (mostly from C-language programming), to represent the `undefined` value stand-alone by using `void`, you'd use `void 0` (though clearly even `void true` or any other `void` expression does the same thing). There's no practical difference between `void 0`, `void 1`, and `undefined`.
+Por convenção (principalmente a partir da linguagem de programação C), para representar o valor `undefined` independente usando `void`, você usaria o `void 0` (embora claramente mesmo `void true` ou qualquer outra expressão `void` faz a mesma coisa). Não há nenhuma diferença prática entre `void 0`, `void 1` e `undefined`.
 
-But the `void` operator can be useful in a few other circumstances, if you need to ensure that an expression has no result value (even if it has side effects).
+Mas o operador `void` pode ser útil em algumas outras circunstância, se você precisar garantir que essa expressão não tenha um valor resultante (mesmo que isso tenha efeitos colaterais).
 
-For example:
+Por exemplo:
 
 ```js
 function doSomething() {
-	// note: `APP.ready` is provided by our application
+	// nota: `APP.ready` é fornecido por sua aplicação
 	if (!APP.ready) {
-		// try again later
+		// tente novamente mais tarde
 		return void setTimeout( doSomething, 100 );
 	}
 
 	var result;
 
-	// do some other stuff
+	// faça outra coisa
 	return result;
 }
 
-// were we able to do it right away?
+// estamos prontos para fazer isso agora?
 if (doSomething()) {
-	// handle next tasks right away
+	// lida com a próxima tarefa agora
 }
 ```
 
-Here, the `setTimeout(..)` function returns a numeric value (the unique identifier of the timer interval, if you wanted to cancel it), but we want to `void` that out so that the return value of our function doesn't give a false-positive with the `if` statement.
+Aqui, a função `setTimeout(..)` retorna um valor numérico (o único indentificador do intervalo de tempo, se você quiser cancelá-lo), mas não queremos o `void` esvazie-o para que então o valor retornado da nossa função não dê um falso positivo com a declaração `if`.
 
-Many devs prefer to just do these actions separately, which works the same but doesn't use the `void` operator:
+Muitos devs preferem apenas fazer essas ações separadamente, o que funciona da mesma forma mas não usa o operador `void`:
 
 ```js
 if (!APP.ready) {
-	// try again later
+	// tente novamente mais tarde
 	setTimeout( doSomething, 100 );
 	return;
 }
 ```
 
-In general, if there's ever a place where a value exists (from some expression) and you'd find it useful for the value to be `undefined` instead, use the `void` operator. That probably won't be terribly common in your programs, but in the rare cases you do need it, it can be quite helpful.
+Em geral, se houver algum lugar onde exista um valor (de alguma expressão) e você ache útil que o valor seja `undefined`, use o operador` void`. Isso provavelmente não será muito comum em seus programas, mas nos casos raros que você precisar, pode ser bastante útil.
 
 ### Special Numbers
 
