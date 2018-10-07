@@ -531,9 +531,9 @@ In this case, we essentially want to default `cb` to be a no-op empty function c
 
 Since the early days of JS, there's been a little-known but useful quirk available to us: `Function.prototype` is itself an empty no-op function. So, the declaration could have been `cb = Function.prototype` and saved the inline function expression creation.
 
-## Destructuring
+## Desestruturação (Destructuring)
 
-ES6 introduces a new syntactic feature called *destructuring*, which may be a little less confusing if you instead think of it as *structured assignment*. To understand this meaning, consider:
+ES6 introduz um novo recurso sintático chamado *destructuring* (*desestruturação*), que pode ser um pouco menos confusa se você pensar nela como uma *designação estruturada*. Para entender esse significado, considere:
 
 ```js
 function foo() {
@@ -546,9 +546,9 @@ var tmp = foo(),
 console.log( a, b, c );				// 1 2 3
 ```
 
-As you can see, we created a manual assignment of the values in the array that `foo()` returns to individual variables `a`, `b`, and `c`, and to do so we (unfortunately) needed the `tmp` variable.
+Como pode ver, criamos uma atribuição manual dos valores no array que `foo ()` retorna para as variáveis individuais `a`,` b` e `c` e para isso nós (infelizmente) precisamos da variável `tmp`.
 
-Similarly, we can do the following with objects:
+Da mesma forma, podemos fazer o seguinte com objetos:
 
 ```js
 function bar() {
@@ -567,7 +567,7 @@ console.log( x, y, z );				// 4 5 6
 
 The `tmp.x` property value is assigned to the `x` variable, and likewise for `tmp.y` to `y` and `tmp.z` to `z`.
 
-Manually assigning indexed values from an array or properties from an object can be thought of as *structured assignment*. ES6 adds a dedicated syntax for *destructuring*, specifically *array destructuring* and *object destructuring*. This syntax eliminates the need for the `tmp` variable in the previous snippets, making them much cleaner. Consider:
+A atribuição manual de valores indexados por um array ou propriedades de um objeto pode ser considerada como *atribuição estruturada*. O ES6 adiciona uma sintaxe dedicada para *destructuring*, especificamente *array destructuring* e *object destructuring*. Esta sintaxe elimina a necessidade da variável `tmp` nos trechos anteriores, tornando-os muito mais limpos. Considere:
 
 ```js
 var [ a, b, c ] = foo();
@@ -577,11 +577,11 @@ console.log( a, b, c );				// 1 2 3
 console.log( x, y, z );				// 4 5 6
 ```
 
-You're likely more accustomed to seeing syntax like `[a,b,c]` on the righthand side of an `=` assignment, as the value being assigned.
+Você provavelmente está mais acostumado a ver sintaxes como `[a, b, c]` à direita de uma atribuição `=`, como o valor sendo atribuído.
 
-Destructuring symmetrically flips that pattern, so that `[a,b,c]` on the lefthand side of the `=` assignment is treated as a kind of "pattern" for decomposing the righthand side array value into separate variable assignments.
+A desestruturação inverte simetricamente esse padrão, de modo que `[a, b, c]` no lado esquerdo da atribuição `=` é tratado como um tipo de "padrão" para decompor o valor da matriz à direita em atribuições de variáveis separadas.
 
-Similarly, `{ x: x, y: y, z: z }` specifies a "pattern" to decompose the object value from `bar()` into separate variable assignments.
+Da mesma forma, `{x: x, y: y, z: z}` especifica um "padrão" para decompor o valor do objeto de `bar ()` em atribuições de variáveis separadas.
 
 ### Object Property Assignment Pattern
 
