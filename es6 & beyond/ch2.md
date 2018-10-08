@@ -444,10 +444,10 @@ foo( 0, 42 );			// 42
 
 foo( 5 );				// 36
 foo( 5, undefined );	// 36 <-- `undefined` está faltando
-foo( 5, null );			// 5  <-- null força para `0`
+foo( 5, null );			// 5  <-- null é convertido em `0`
 
 foo( undefined, 6 );	// 17 <-- `undefined` está faltando
-foo( null, 6 );			// 6  <-- null força para `0`
+foo( null, 6 );			// 6  <-- null é convertido em `0`
 ```
 
 Observe os resultados e a maneira como eles implicam sutis diferenças e semelhanças com abordagens anteriores.
