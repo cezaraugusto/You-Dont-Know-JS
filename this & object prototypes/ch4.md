@@ -1,39 +1,40 @@
 # You Don't Know JS: *this* & Prototipagem de Objetos
 # Chapter 4: Confundindo Objetos com "Classes"
 
-Continuando com nossa exploração de objetos do capítulo anterior, é natural que agora nós demos atenção a "programação orientada a objetos (OO)", com "classes". Nós primeiro iremos olhar para "orientação de classe" como um padrão de projeto, antes de examinar as mecânicas de "classes": "instanciação", "herança" e "(relativo) polimorfismo".
+Continuando com nossa exploração de objetos do capítulo anterior, é natural que agora nós demos atenção a "programação orientada a objetos (OO)", com "classes". Nós primeiro iremos olhar para "orientação à classes" como um padrão de projeto, antes de examinar as mecânicas de "classes": "instanciação", "herança" e "polimorfismo (relativo)".
 
-Nós veremos que esses conceitos não mapeiam muito naturalmente com o mecanismo de objeto no JS e suas extensões (mixins, etc.). Muitos desenvolvedores JavaScript irão superar esses desafios.
+Nós veremos que esses conceitos não mapeiam muito naturalmente para o mecanismo de objetos no JS e também até onde muitos desenvolvedores JavaScript vão para superar estes desafios (mixins etc.).
 
-**Nota:** Este capítulo gasta um bom tempo (a primeira metade!) na pesada teoria de "programação orientada a objeto". Nós finalmente relacionamos essas idéias a um concreto código JavaScript na segunda metade, quando nós falamos sobre "Mixins". Mas há uma grande quantidade de conceito e pseudo-código para percorrer primeiro, então não se perca -- apenas fique com isso!
+**Nota:** Este capítulo gasta um tempo considerável (a primeira metade!) na exploração massiva da teoria por trás da "programação orientada a objetos". Nós eventualmente relacionaremos a um código JavaScript concreto na segunda metade, quando nós falamos sobre "Mixins". Mas há uma grande quantidade de conceito e pseudocódigo para percorrer primeiro, então não se perca -- apenas fique com isso!
 
-## Class Theory
+## Teoria das Classes
 
-"Class/Inheritance" describes a certain form of code organization and architecture -- a way of modeling real world problem domains in our software.
+Classe/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software.
 
-OO or class oriented programming stresses that data intrinsically has associated behavior (of course, different depending on the type and nature of the data!) that operates on it, so proper design is to package up (aka, encapsulate) the data and the behavior together. This is sometimes called "data structures" in formal computer science.
+OO ou programação orientada à classes enfatiza que os dados têm um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso às vezes é chamado "estruturas de dados" na ciência da computação.
 
-For example, a series of characters that represents a word or phrase is usually called a "string". The characters are the data. But you almost never just care about the data, you usually want to *do things* with the data, so the behaviors that can apply *to* that data (calculating its length, appending data, searching, etc.) are all designed as methods of a `String` class.
+Por exemplo, uma série de caracteres que representa uma palavra ou frase geralmente é chamada de "string". Os caracteres são os dados. Mas você quase nunca se importa apenas com os dados, você geralmente quer *fazer coisas* com os dados, assim os comportamentos que podem se aplicar *para* aquele dado (calcular seu tamanho, anexar dados, busca etc.) são todos concebidos como métodos de uma classe `String`.
 
-Any given string is just an instance of this class, which means that it's a neatly collected packaging of both the character data and the functionality we can perform on it.
+Qualquer string é apenas uma instância dessa classe, o que significa que é um pacote cuidadosamente organizado contendo tanto os caracteres quanto as funcionalidades que podemos executar neles.
 
-Classes also imply a way of *classifying* a certain data structure. The way we do this is to think about any given structure as a specific variation of a more general base definition.
+Classe também insinuam uma maneira de *classificar* uma certa estrutura de dados. A maneira que fazemos isso é assumindo que qualquer estrutura é uma variação específica de uma definição `base` mais ampla.
 
-Let's explore this classification process by looking at a commonly cited example. A *car* can be described as a specific implementation of a more general "class" of thing, called a *vehicle*.
+Vamos explorar esse processo de classificação olhando para um exemplo comumente citado. Um *carro* pode ser descrito como uma implementação específica de uma "classe" de coisas, chamada de *veículo*.
 
-We model this relationship in software with classes by defining a `Vehicle` class and a `Car` class.
+Nós modelamos esse relacionamento em software com classes definindo uma classe `Veículo` e uma classe `Carro`.
 
-The definition of `Vehicle` might include things like propulsion (engines, etc.), the ability to carry people, etc., which would all be the behaviors. What we define in `Vehicle` is all the stuff that is common to all (or most of) the different types of vehicles (the "planes, trains, and automobiles").
+A definição de `Veículo` pode incluir coisas como propulsão (motores etc.), a capacidade de transportar pessoas etc., que seriam todos os comportamentos. O que nós definimos em `Veículo` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
 
-It might not make sense in our software to re-define the basic essence of "ability to carry people" over and over again for each different type of vehicle. Instead, we define that capability once in `Vehicle`, and then when we define `Car`, we simply indicate that it "inherits" (or "extends") the base definition from `Vehicle`. The definition of `Car` is said to specialize the general `Vehicle` definition.
+Pode não fazer sentido no nosso software redefinir a essência básica da "capacidade de transportar pessoas"
+repetidas vezes para cada tipo diferente de veículo. Ao invés disso, nós definimos essa capacidade uma vez em `Veículo`, e então quando definimos `Carro`, nós simplesmente indicamos que ele "herda" (ou "estende") sua definição base de `Veículo`. Diz-se que a definição de `Carro` especializa a definição geral de `Veículo`.
 
-While `Vehicle` and `Car` collectively define the behavior by way of methods, the data in an instance would be things like the unique VIN of a specific car, etc.
+Enquanto `Veículo` e `Carro` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico etc.
 
-**And thus, classes, inheritance, and instantiation emerge.**
+**E assim, classes, herança e instanciação surgem.**
 
-Another key concept with classes is "polymorphism", which describes the idea that a general behavior from a parent class can be overridden in a child class to give it more specifics. In fact, relative polymorphism lets us reference the base behavior from the overridden behavior.
+Outro conceito chave com classes é o "polimorfismo", o qual descreve a ideia que um comportamento genérico de uma classe pai pode ser sobrescrito em uma classe filha para dar mais especificidade. De fato, o polimorfismo relativo nos permite referenciar o comportamento base a partir do comportamento sobrescrito.
 
-Class theory strongly suggests that a parent class and a child class share the same method name for a certain behavior, so that the child overrides the parent (differentially). As we'll see later, doing so in your JavaScript code is opting into frustration and code brittleness.
+A teoria de Classe sugere fortemente que uma classe pai e uma classe filha compartilhem o mesmo nome de método para um determinado comportamento, de modo que esse filho substitui o pai (diferentemente). Como nós veremos mais tarde, fazer isso no seu código JavaScript é optar pela frustração e pela fragilidade do código.
 
 ### "Class" Design Pattern
 
