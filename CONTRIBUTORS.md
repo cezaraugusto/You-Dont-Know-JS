@@ -1,5 +1,5 @@
 # Contribuições :wolf: :zap:
-[![All Contributors](https://img.shields.io/badge/all_contributors-38-orange.svg?style=flat-square)](#contributors)
+[![All Contributors](https://img.shields.io/badge/all_contributors-39-orange.svg?style=flat-square)](#contributors)
 
 > Quer ver seu nome aqui também? [Junte-se a nós](CONTRIBUTING.md)!
 
@@ -62,6 +62,7 @@ Osmar https://github.com/osmar-vil translation
 Michael Marques https://github.com/michaelycus tests
 Maicon Pinto https://github.com/maiconpinto tests
 caique-minhare https://github.com/caique-minhare translation
+Wesley Melo https://github.com/wesmelo translation
 
 Contributors END -->
 
@@ -81,7 +82,7 @@ Contributors END -->
 | [![Camila Rondinini](https://avatars.githubusercontent.com/crondinini?s=100)<br /><sub>Camila Rondinini</sub>](https://github.com/crondinini)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=crondinini) | [![Aline Dias](https://avatars.githubusercontent.com/alinedmelo?s=100)<br /><sub>Aline Dias</sub>](https://github.com/alinedmelo)<br />[ 🌍  👀 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=alinedmelo) | [![Guilherme B. Ferreira](https://avatars.githubusercontent.com/guilhermebferreira?s=100)<br /><sub>Guilherme B. Ferreira</sub>](https://github.com/guilhermebferreira)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=guilhermebferreira) | [![Kelvyn Risso](https://avatars.githubusercontent.com/kelvynrisso?s=100)<br /><sub>Kelvyn Risso</sub>](https://github.com/kelvynrisso)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=kelvynrisso) | [![Ailton da Silva](https://avatars.githubusercontent.com/ailton07?s=100)<br /><sub>Ailton da Silva</sub>](https://github.com/ailton07)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=ailton07) | [![Jéssica Paz](https://avatars.githubusercontent.com/jessicapaz?s=100)<br /><sub>Jéssica Paz</sub>](https://github.com/jessicapaz)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=jessicapaz) | [![Osmar](https://avatars.githubusercontent.com/osmar-vil?s=100)<br /><sub>Osmar</sub>](https://github.com/osmar-vil)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=osmar-vil) |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 
-| [![Michael Marques](https://avatars.githubusercontent.com/michaelycus?s=100)<br /><sub>Michael Marques</sub>](https://github.com/michaelycus)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=michaelycus) | [![Maicon Pinto](https://avatars.githubusercontent.com/maiconpinto?s=100)<br /><sub>Maicon Pinto</sub>](https://github.com/maiconpinto)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=maiconpinto) | [![caique-minhare](https://avatars.githubusercontent.com/caique-minhare?s=100)<br /><sub>caique-minhare</sub>](https://github.com/caique-minhare)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=caique-minhare) |
-| :---: | :---: | :---: |
+| [![Michael Marques](https://avatars.githubusercontent.com/michaelycus?s=100)<br /><sub>Michael Marques</sub>](https://github.com/michaelycus)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=michaelycus) | [![Maicon Pinto](https://avatars.githubusercontent.com/maiconpinto?s=100)<br /><sub>Maicon Pinto</sub>](https://github.com/maiconpinto)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=maiconpinto) | [![caique-minhare](https://avatars.githubusercontent.com/caique-minhare?s=100)<br /><sub>caique-minhare</sub>](https://github.com/caique-minhare)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=caique-minhare) | [![Wesley Melo](https://avatars.githubusercontent.com/wesmelo?s=100)<br /><sub>Wesley Melo</sub>](https://github.com/wesmelo)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=wesmelo) |
+| :---: | :---: | :---: | :---: |
 
 <!-- Contributors table END -->
