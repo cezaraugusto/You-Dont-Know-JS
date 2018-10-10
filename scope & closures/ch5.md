@@ -27,7 +27,7 @@ Aqui está uma definição curta e grossa do que você precisa saber para entend
 
 > Closure é quando uma função é capaz de lembrar e acessar seu escopo léxico, mesmo quando essa função está sendo executada fora do seu escopo léxico.
 
-Vamos entrar em um pedaço código para ilustrar esta definição.
+Vamos entrar em um pedaço de código para ilustrar esta definição.
 
 ```js
 function foo() {
@@ -174,7 +174,7 @@ setupBot( "Closure Bot 2", "#bot_2" );
 
 Não tenho certeza do tipo de código você escreve, mas eu normalmente escrevo código que é responsável por controlar todo um exército mundial de drones de closure bots, então é totalmente realista!
 
-(Algumas) brincadeiras à parte, essencialmente *sempre que* and *onder quer que* você tratar funções (que acessam seu respectivo escopo léxico) como valores de primeira classe e as passe por aí, provavelmente você vê aquelas funções que exercem closure. Sejam elas timers, manipuladores de eventos, requisições Ajax, mensagens de janelas cruzadas, web workers, ou alguma outra tarefa assíncrona (ou síncrona!), quando você passa em uma *função de callback*, prepare-se para lançar algumas closures por aí!
+(Algumas) brincadeiras à parte, essencialmente *sempre que* e *onde quer que* você trate funções (que acessam seu respectivo escopo léxico) como valores de primeira classe e as passe por aí, provavelmente você vê aquelas funções que exercem closure. Sejam elas timers, manipuladores de eventos, requisições Ajax, mensagens de janelas cruzadas, web workers, ou alguma outra tarefa assíncrona (ou síncrona!), quando você passa em uma *função de callback*, prepare-se para lançar algumas closures por aí!
 
 **Nota:** O capítulo 3 introduz o padrão IIFE. Embora seja frequentemente dito que IIFE (sozinho) é um exemplo de closure, Eu devo discordar um pouco, pela nossa definição acima.
 
@@ -210,9 +210,9 @@ for (var i=1; i<=5; i++) {
 }
 ```
 
-**Nota:** Linters frequentemente reclamam quando você coloca funções dentro de loops, porque os erros do não entendimento de closures são **muito comuns entre desenvolvedores**. Nós explicaremos com fazer apropriadamente aqui, liberando o total poder do closure. Mas essa sutileza é frequentemente perdida em linters e eles vão reclamar, assumindo que, *na verdade*, você não sabe o que está fazendo. 
+**Nota:** Linters frequentemente reclamam quando você coloca funções dentro de loops, porque os erros do não entendimento de closures são **muito comuns entre desenvolvedores**. Nós explicaremos como fazer apropriadamente aqui, liberando o total poder do closure. Mas essa sutileza é frequentemente perdida em linters e eles vão reclamar, assumindo que, *na verdade*, você não sabe o que está fazendo. 
 
-A essência desse trecho de código é que nós normalmente *esperaríamos* que o comportamento fosse que os os números "1", "2", .. "5" fossem impressos, um de cada vez, um por segundo, respectivamente.
+A essência desse trecho de código é que nós normalmente *esperaríamos* que o comportamento fosse que os números "1", "2", .. "5" fossem impressos, um de cada vez, um por segundo, respectivamente.
 
 De fato, se você rodar esse código, você terá o "6" impresso 5 vezes, no intervalo de 1 segundo.
 
@@ -364,7 +364,7 @@ Vamos examinar algumas coisas sobre esse código.
 
 Primeiramente, `CoolModule()` é apenas uma função, mas ela *tem que ser invocada* para que seja criada uma instância do módulo. Sem a execução de uma função externa, a criação do escopo interno e closures não vai acontecer.
 
-Em segundo, a função `CoolModule()` retorna uma objeto, denotado pela sintaxe literal de objeto `{ chave: valor, ... }`. O objeto que retornamos tem como referência nossa funções internas, mas *não* com os dados das nossas variáveis internas. Nós as mantemos privadas e escondidas. É apropriado pensar nesse valor do objeto retornado essencialmente como uma **API pública para nosso módulo**.
+Em segundo, a função `CoolModule()` retorna um objeto, denotado pela sintaxe literal de objeto `{ chave: valor, ... }`. O objeto que retornamos tem como referência nossas funções internas, mas *não* com os dados das nossas variáveis internas. Nós as mantemos privadas e escondidas. É apropriado pensar nesse valor do objeto retornado essencialmente como uma **API pública para nosso módulo**.
 
 Esse valor de objeto retornado é associado à variável externa `foo`, e então nós podemos acessar os métodos apropriados na API, como `foo.doSomething()`.
 
@@ -372,7 +372,7 @@ Esse valor de objeto retornado é associado à variável externa `foo`, e então
 
 As funções `doSomething()` e `doAnother()` têm closure no escopo interno da "instância" do módulo (que chegou quando invocamos `CoolModule()`). Quando nós transportamos essas funções para fora do escopo léxico, através de propriedades referenciadas no objeto que retornamos, nós agora definimos uma condição para que cada closure possa ser observado e exercido.
 
-Para colocar de forma mais simples, existem dois "requisitos" para que o padrão de mósulo seja exercido:
+Para colocar de forma mais simples, existem dois "requisitos" para que o padrão de módulo seja exercido:
 
 1. É preciso existir uma função de inclusão externa, e ela precisa ser invocada pelo menos uma vez (cada vez cria uma nova instância do módulo).
 
@@ -405,7 +405,7 @@ foo.doSomething(); // cool
 foo.doAnother(); // 1 ! 2 ! 3
 ```
 
-Aqui, nós tornarmos nossa função de módulo em uma IIFE (veja o Capítulo 3), e nós *imediatamente* invocamos e associamos seu valor de retorno diretamente ao nosso identificador de instância de módulo único `foo`.
+Aqui, nós tornamos nossa função de módulo em uma IIFE (veja o Capítulo 3), e nós *imediatamente* invocamos e associamos seu valor de retorno diretamente ao nosso identificador de instância de módulo único `foo`.
 
 Módulos são apenas funções, então eles podem receber parâmetros:
 
@@ -526,7 +526,7 @@ Ambos os módulos, "foo" e "bar", são definidos com a função que retorna uma 
 
 Gaste algum tempo examinando esses trechos de código para entender completamente o poder dos closures colocados em uso para nossos propósitos. O ponto crucial é que na verdade não existe nenhuma "mágica" em gerenciadores de módulo. Eles complementam ambas características do padrão de módulo que listei acima: invocando um encapsulador de definição de função, e mantendo seu valor de retorno como a API para aquele módulo.
 
-Em outras palavras, módulos são apenas módulos, mesmo se você coloque uma ferramenta de encapsulamento amigável no topo dele.
+Em outras palavras, módulos são apenas módulos, mesmo se você colocar uma ferramenta de encapsulamento amigável no topo dele.
 
 ### Módulos do Futuro
 
@@ -579,7 +579,7 @@ foo.awesome(); // LET ME INTRODUCE: HIPPO
 
 **Nota:** Arquivos separados **"foo.js"** e **"bar.js"** precisarão ser criados com os conteúdos como mostrados no primeiro trecho de código, respectivamente. Então, seu programa vai carregar/importar esses módulos para usá-los, como mostrado no terceiro trecho de código.
 
-`import` importa um ou mais membros de uma API de módulo dentro do escopo atual, cada um ligado à uma variável (no nosso caso, `hello`). `module` importa todo uma API do módulo ligado à uma variável (em nosso caso, `foo` e `bar`). `export` exporta um identificador (variável, função) para a API pública para o módulo atual. Esses operadores podem ser usados quantas vezes forem necessários em uma definição de módulo.
+`import` importa um ou mais membros de uma API de módulo dentro do escopo atual, cada um ligado à uma variável (no nosso caso, `hello`). `module` importa toda uma API do módulo ligado à uma variável (em nosso caso, `foo` e `bar`). `export` exporta um identificador (variável, função) para a API pública para o módulo atual. Esses operadores podem ser usados quantas vezes forem necessários em uma definição de módulo.
 
 O conteúdo dentro do *arquivo de módulo* é tratado como se fosse encapsulado em um escopo de closure, assim como com os módulos de funções closure vistos anteriormente.
 
