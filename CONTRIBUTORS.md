@@ -83,6 +83,6 @@ Contributors END -->
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 
 | [![Michael Marques](https://avatars.githubusercontent.com/michaelycus?s=100)<br /><sub>Michael Marques</sub>](https://github.com/michaelycus)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=michaelycus) | [![Maicon Pinto](https://avatars.githubusercontent.com/maiconpinto?s=100)<br /><sub>Maicon Pinto</sub>](https://github.com/maiconpinto)<br />[ ⚠️ ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=maiconpinto) | [![caique-minhare](https://avatars.githubusercontent.com/caique-minhare?s=100)<br /><sub>caique-minhare</sub>](https://github.com/caique-minhare)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=caique-minhare) | [![Wesley Melo](https://avatars.githubusercontent.com/wesmelo?s=100)<br /><sub>Wesley Melo</sub>](https://github.com/wesmelo)<br />[ 🌍 ](git@github.com:cezaraugusto/You-Dont-Know-JS/commits?author=wesmelo) |
-| :---: | :---: | :---: | :---: |
+| :---: | :---: | :---: | :---: | :---: | :---: |
 
 <!-- Contributors table END -->
