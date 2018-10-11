@@ -205,13 +205,13 @@ This is better error handling behavior than Promises themselves have, because it
 
 **Note:** If a sequence is piped into (aka subsumed by) another sequence -- see "Combining Sequences"  for a complete description -- then the source sequence is opted out of error reporting, but now the target sequence's error reporting or lack thereof must be considered.
 
-### Parallel Steps
+### Passos paralelos
 
-Not all steps in your sequences will have just a single (async) task to perform; some will need to perform multiple steps "in parallel" (concurrently). A step in a sequence in which multiple substeps are processing concurrently is called a `gate(..)` -- there's an `all(..)` alias if you prefer -- and is directly symmetric to native `Promise.all([..])`.
+Nem todos os passos em sua sequência terão apenas uma única tarefa (assíncrona) para executar; alguns precisarão executar múltiplos passos "em paralelo" (ao mesmo tempo). Um passo em uma sequência no qual múltiplos sub-passos são processados ao mesmo tempo é chamado de `gate(..)` -- existe um alias `all(..)` se você preferir -- e é diretamente simétrico ao `Promise.all([..])` nativo.
 
-If all the steps in the `gate(..)` complete successfully, all success messages will be passed to the next sequence step. If any of them generate errors, the whole sequence immediately goes into an error state.
+Se todos os passos em `gate(..)` completam com sucesso, todas as mensagens de sucesso serão passadas para o próximo passo da sequência. Se algum deles gerar um erro, a sequência inteira passa para um estado de erro.
 
-Consider:
+Considere:
 
 ```js
 ASQ( function(done){
@@ -235,7 +235,7 @@ ASQ( function(done){
 } );
 ```
 
-For illustration, let's compare that example to native Promises:
+Para ilustrarmos, vamos comparar este exemplo com Promises nativas:
 
 ```js
 new Promise( function(resolve,reject){
@@ -250,7 +250,7 @@ new Promise( function(resolve,reject){
 		} ),
 		new Promise( function(resolve,reject){
 			setTimeout( function(){
-				// note: we need a [ ] array here
+				// nota: precisamos de um [ ] array aqui
 				resolve( [ "World", "!" ] );
 			}, 100 );
 		} )
@@ -262,19 +262,19 @@ new Promise( function(resolve,reject){
 } );
 ```
 
-Yuck. Promises require a lot more boilerplate overhead to express the same asynchronous flow control. That's a great illustration of why the *asynquence* API and abstraction make dealing with Promise steps a lot nicer. The improvement only goes higher the more complex your asynchrony is.
+Eca! Promises necessitam de muita duplicação para expressar o mesmo controle de fluxo assíncrono. Esta é uma boa forma de ilustrar que a API e abstração de *asynquence* tornam a manipulação de Promises muito mais agradáveis. E isso só melhora na medida que a complexidade de sua assincronia aumenta.
 
-#### Step Variations
+#### Variações de passos
 
-There are several variations in the contrib plug-ins on *asynquence*'s `gate(..)` step type that can be quite helpful:
+Existem diversas variações nos plug-ins `contrib` para o passo `gate(..)` de *asynquence* que podem ser muito úteis:
 
-* `any(..)` is like `gate(..)`, except just one segment has to eventually succeed to proceed on the main sequence.
-* `first(..)` is like `any(..)`, except as soon as any segment succeeds, the main sequence proceeds (ignoring subsequent results from other segments).
-* `race(..)` (symmetric with `Promise.race([..])`) is like `first(..)`, except the main sequence proceeds as soon as any segment completes (either success or failure).
-* `last(..)` is like `any(..)`, except only the latest segment to complete successfully sends its message(s) along to the main sequence.
-* `none(..)` is the inverse of `gate(..)`: the main sequence proceeds only if all the segments fail (with all segment error message(s) transposed as success message(s) and vice versa).
+* `any(..)` é como `gate(..)`, exceto que apenas um segmento deve obter sucesso para darmos prosseguimento à sequência principal.
+* `first(..)` é como `any(..)`, exceto que assim que qualquer segmento obtenha sucesso a sequência principal é continuada (ignorando resultados de outros segmentos).
+* `race(..)` (simétrico ao `Promise.race([..])`) é como `first(..)`, exceto que a sequência principal prossegue assim que qualquer segmento se completa (seja em caso de sucesso ou falha).
+* `last(..)` é como `any(..)`, exceto que apenas o último segmento a completar com sucesso enviará adiante sua(s) mensagem(ns) para a sequência principal.
+* `none(..)` é o inverso de `gate(..)`: a sequência principal prossegue apenas se todos os segmentos falharem (tendo as mensagens de erro de todos os segmentos convertidas em mensagens de sucesso e vice versa).
 
-Let's first define some helpers to make illustration cleaner:
+Vamos definir algumas funções auxiliares para tornar a ilustração mais clara:
 
 ```js
 function success1(done) {
@@ -300,7 +300,7 @@ function output(msg) {
 }
 ```
 
-Now, let's demonstrate these `gate(..)` step variations:
+Agora vamos demonstrar estas variações do passo `gate(..)`:
 
 ```js
 ASQ().race(
@@ -349,7 +349,7 @@ ASQ().none(
 .or( output );		// 1
 ```
 
-Another step variation is `map(..)`, which lets you asynchronously map elements of an array to different values, and the step doesn't proceed until all the mappings are complete. `map(..)` is very similar to `gate(..)`, except it gets the initial values from an array instead of from separately specified functions, and also because you define a single function callback to operate on each value:
+Outra variação de passo é `map(..)`, que permite que você mapeie assincronamente valores de um array para valores diferentes, e o passo não completa até que todo mapeamento esteja completo. `map(..)` é muito parecido com `gate(..)`, exceto que recebe os valores iniciais de um array em vez de receber funções separadamente, e também porque você define uma única função callback para operar em cada valor:
 
 ```js
 function double(x,done) {
@@ -362,7 +362,7 @@ ASQ().map( [1,2,3], double )
 .val( output );					// [2,4,6]
 ```
 
-Also, `map(..)` can receive either of its parameters (the array or the callback) from messages passed from the previous step:
+Além disso, `map(..)` pode receber qualquer um dos seus parâmetros (array ou callback) a partir de mensagens enviadas por passos anteriores:
 
 ```js
 function plusOne(x,done) {
@@ -372,16 +372,16 @@ function plusOne(x,done) {
 }
 
 ASQ( [1,2,3] )
-.map( double )			// message `[1,2,3]` comes in
-.map( plusOne )			// message `[2,4,6]` comes in
+.map( double )			// recebe a mensagem `[1,2,3]`
+.map( plusOne )			// recebe a mensagem `[2,4,6]`
 .val( output );			// [3,5,7]
 ```
 
-Another variation is `waterfall(..)`, which is kind of like a mixture between `gate(..)`'s message collection behavior but `then(..)`'s sequential processing.
+Outra variação é `waterfall(..)`, que é como uma mistura do comportamento de acumular mensagens de `gate(..)` com o processamento sequencial de `then(..)`.
 
-Step 1 is first executed, then the success message from step 1 is given to step 2, and then both success messages go to step 3, and then all three success messages go to step 4, and so on, such that the messages sort of collect and cascade down the "waterfall".
+Passo 1 é executado e sua mensagem de sucesso é enviada para o passo 2, então ambas mensagens de sucesso são enviadas para o passo 3, e as três mensagens de sucesso são enviadas para o passo 4 e assim por diante, de modo que as mensagens são acumuladas e "descem" pela "cascata" (_waterfall_).
 
-Consider:
+Considere:
 
 ```js
 function double(done) {
@@ -406,13 +406,13 @@ ASQ( 3 )
 } );
 ```
 
-If at any point in the "waterfall" an error occurs, the whole sequence immediately goes into an error state.
+Se em qualquer ponto da "cascata" ocorrer um erro, toda sequência imediatamente passa para um estado de erro.
 
-#### Error Tolerance
+#### Tolerância a erro
 
-Sometimes you want to manage errors at the step level and not let them necessarily send the whole sequence into the error state. *asynquence* offers two step variations for that purpose.
+Às vezes você quer gerenciar erros no nível dos passos e não necessariamente enviar toda a sequência para um estado de erro. *asynquence* oferece duas variaçòes de passo para estes casos.
 
-`try(..)` attempts a step, and if it succeeds, the sequence proceeds as normal, but if the step fails, the failure is turned into a success message formated as `{ catch: .. }` with the error message(s) filled in:
+`try(..)` tenta executar um passo e, em caso de sucesso, a sequência prossegue normalmente. Mas se o passo falhar, a falha é convertida em uma mensagem de sucesso formatada como `{ catch: .. }` contendo a(s) mensagem(ns) de erro:
 
 ```js
 ASQ()
@@ -421,13 +421,13 @@ ASQ()
 .try( failure3 )
 .val( output )			// { catch: 3 }
 .or( function(err){
-	// never gets here
+	// nunca chega aqui
 } );
 ```
 
-You could instead set up a retry loop using `until(..)`, which tries the step and if it fails, retries the step again on the next event loop tick, and so on.
+Em vez disso, você poderia configurar um loop de tentativas utilizando `until(..)`, que tenta executar um passo e, se ele falhar, executa o passo novamente no próximo instante (_tick_) do loop de eventos (_event loop_) e assim por diante.
 
-This retry loop can continue indefinitely, but if you want to break out of the loop, you can call the `break()` flag on the completion trigger, which sends the main sequence into an error state:
+Este loop de tentativas pode continuar indefinidamente, mas se você quiser sair do loop, você pode chamar o método `break()` no callback de continuação, que envia toda sequência principal para um estado de erro:
 
 ```js
 var count = 0;
@@ -443,7 +443,7 @@ ASQ( 3 )
 			done.fail();
 		}
 		else {
-			// break out of the `until(..)` retry loop
+			// sai do loop de tentativas de `until(..)`
 			done.break( "Oops" );
 		}
 	}, 100 );
