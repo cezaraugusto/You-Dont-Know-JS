@@ -53,139 +53,139 @@ We'll explore all of these different variations as we go throughout the rest of 
 
 The takeaway is that sequences are a more powerful and sensible abstraction for complex asynchrony than just Promises (Promise chains) or just generators, and *asynquence* is designed to express that abstraction with just the right level of sugar to make async programming more understandable and more enjoyable.
 
-## *asynquence* API
+## API *asynquence*
 
-To start off, the way you create a sequence (an *asynquence* instance) is with the `ASQ(..)` function. An `ASQ()` call with no parameters creates an empty initial sequence, whereas passing one or more values or functions to `ASQ(..)` sets up the sequence with each argument representing the initial steps of the sequence.
+Para começar, a forma com que você cria uma sequência (uma instância *asynquence*) é com a função `ASQ(..)`. Um chamada para `ASQ()` sem parâmetros cria uma sequência inicial vazia, enquanto que se passarmos um ou mais valores ou funções para `ASQ(..)` a sequência é inicializada utilizando cada um de seus argumentos como um passo.
 
-**Note:** For the purposes of all code examples here, I will use the *asynquence* top-level identifier in global browser usage: `ASQ`. If you include and use *asynquence* through a module system (browser or server), you of course can define whichever symbol you prefer, and *asynquence* won't care!
+**Nota:** Utilizarei o identificador *asynquence* global para browsers `ASQ` para todos os exemplos de código aqui. Se você incluir *asynquence* através de um sistema de módulos (browser ou server), você certamente pode definir o identificador que preferir que *asynquence* não se importará!
 
-Many of the API methods discussed here are built into the core of *asynquence*, but others are provided through including the optional "contrib" plug-ins package. See the documentation for *asynquence* for whether a method is built in or defined via plug-in: http://github.com/getify/asynquence
+Muitos dos métodos da API discutidos aqui foram construídos no núcleo de *asynquence*, mas outros são providos através da inclusão do pacote de plugins "contrib". Veja a documentação de *asynquence* para identificar se um método é nativo ou se foi definido através de um plugin: http://github.com/getify/asynquence
 
-### Steps
+### Passos
 
-If a function represents a normal step in the sequence, that function is invoked with the first parameter being the continuation callback, and any subsequent parameters being any messages passed on from the previous step. The step will not complete until the continuation callback is called. Once it's called, any arguments you pass to it will be sent along as messages to the next step in the sequence.
+Se uma função representa um passo normal em uma sequência, esta função é invocada recebendo como primeiro parâmetro o callback de continuação e os parâmetros subsequentes são quaisquer mensagens transmitidas pelo passo anterior. O passo não será concluído até que o callback de continuação seja chamado. Assim que chamado, qualquer argumento passado para ele será enviado como mensagem para o próximo passo da sequência.
 
-To add an additional normal step to the sequence, call `then(..)` (which has essentially the exact same semantics as the `ASQ(..)` call):
+Para incluir um passo adicional à sequência basta chamar `then(..)` (que possui exatamente a mesma semântica de `ASQ(..)`):
 
 ```js
 ASQ(
-	// step 1
+	// passo 1
 	function(done){
 		setTimeout( function(){
 			done( "Hello" );
 		}, 100 );
 	},
-	// step 2
+	// passo 2
 	function(done,greeting) {
 		setTimeout( function(){
 			done( greeting + " World" );
 		}, 100 );
 	}
 )
-// step 3
+// passo 3
 .then( function(done,msg){
 	setTimeout( function(){
 		done( msg.toUpperCase() );
 	}, 100 );
 } )
-// step 4
+// passo 4
 .then( function(done,msg){
 	console.log( msg );			// HELLO WORLD
 } );
 ```
 
-**Note:** Though the name `then(..)` is identical to the native Promises API, this `then(..)` is different. You can pass as few or as many functions or values to `then(..)` as you'd like, and each is taken as a separate step. There's no two-callback fulfilled/rejected semantics involved.
+**Nota:** Embora o nome `then(..)` seja idêntico ao da API nativa de Promises, este `then(..)` é diferente. Você pode passar quantas funções ou valores quiser para `then(..)` e cada um é recebido como um passo separado. Não existe a semantica de dois callbacks realizado/rejeitado.
 
-Unlike with Promises, where to chain one Promise to the next you have to create and `return` that Promise from a `then(..)` fulfillment handler, with *asynquence*, all you need to do is call the continuation callback -- I always call it `done()` but you can name it whatever suits you -- and optionally pass it completion messages as arguments.
+Diferentemente das Promises, onde para encadearmos uma Promise na próxima temos que criar e também retornar (`return`) esta Promise no handler de sucesso enviado para `then(..)`. Com *asynquence*, tudo que você precisa fazer é chamar o callback de continuação -- eu sempre o chamo de `done()` mas vocês pode chamá-lo como achar melhor -- e opcionalmente passar para ele mensagens como argumentos.
 
-Each step defined by `then(..)` is assumed to be asynchronous. If you have a step that's synchronous, you can either just call `done(..)` right away, or you can use the simpler `val(..)` step helper:
+Cada passo definido por `then(..)` é assumido como assíncrono. Se você tem um passo que é síncrono, você pode chamar `done(..)` imediatamente ou chamar um utilitário mais simples invocando `val(..)`:
 
 ```js
-// step 1 (sync)
+// passo 1 (síncrono)
 ASQ( function(done){
-	done( "Hello" );	// manually synchronous
+	done( "Hello" );	// manualmente síncrono
 } )
-// step 2 (sync)
+// passo 2 (síncrono)
 .val( function(greeting){
 	return greeting + " World";
 } )
-// step 3 (async)
+// passo 3 (assíncrono)
 .then( function(done,msg){
 	setTimeout( function(){
 		done( msg.toUpperCase() );
 	}, 100 );
 } )
-// step 4 (sync)
+// passo 4 (síncrono)
 .val( function(msg){
 	console.log( msg );
 } );
 ```
 
-As you can see, `val(..)`-invoked steps don't receive a continuation callback, as that part is assumed for you -- and the parameter list is less cluttered as a result! To send a message along to the next step, you simply use `return`.
+Como você pode ver, passos invocados através de `val(..)` não recebem o callback de continuação pois isto é feito internamente para você -- e a lista de parâmetros fica menos bagunçada como resultado! Para enviar uma mensagem ao próximo passo, basta utilizar `return`.
 
-Think of `val(..)` as representing a synchronous "value-only" step, which is useful for synchronous value operations, logging, and the like.
+Pense em `val(..)` como a representação de um passo síncrono contendo apenas um valor, o que é útil para operações com valores síncronos, logging e afins.
 
-### Errors
+### Erros
 
-One important difference with *asynquence* compared to Promises is with error handling.
+Uma importante deiferença de *asynquence* em comparação com Promises se dá no tratamento de erros.
 
-With Promises, each individual Promise (step) in a chain can have its own independent error, and each subsequent step has the ability to handle the error or not. The main reason for this semantic comes (again) from the focus on individual Promises rather than on the chain (sequence) as a whole.
+Com Promises, cada Promise (passo) em uma cadeia pode ter seu próprio erro e cada paso subsequente tem a opção de manipulá-lo ou não. A principal razão desta semântica vem (novamente) do foco em Promises como unidades individuais e não como uma cadeia (sequência).
 
-I believe that most of the time, an error in one part of a sequence is generally not recoverable, so the subsequent steps in the sequence are moot and should be skipped. So, by default, an error at any step of a sequence throws the entire sequence into error mode, and the rest of the normal steps are ignored.
+Acredito que, na maior parte do tempo, um erro em uma parte de uma sequência é irrecuperável, portanto os passos subsequentes da sequência são discutíveis e devem ser ignorados. Portanto, por padrão, um erro em qualquer passo de uma sequência passa toda a sequência para um estado de erro e o restante dos passos são ignorados.
 
-If you *do* need to have a step where its error is recoverable, there are several different API methods that can accomodate, such as `try(..)` -- previously mentioned as a kind of `try..catch` step -- or `until(..)` -- a retry loop that keeps attempting the step until it succeeds or you manually `break()` the loop. *asynquence* even has `pThen(..)` and `pCatch(..)` methods, which work identically to how normal Promise `then(..)` and `catch(..)` work (see Chapter 3), so you can do localized mid-sequence error handling if you so choose.
+Se você *precisa* de um passo onde um erro é recuperável, existem diferentes métodos da API que podem auxiliar, como `try(..)` -- anteriormente mencionado como um tipo de passo `try..catch` -- ou `until(..)` -- um loop de tentativas que fica repetindo o passo até que obtenha sucesso ou que você chame `break()` manualmente dentro do loop. *asynquence* possui também os métodos `pThen(..)` e `pCatch(..)` que funcionam de forma idêntica aos métodos `then(..)` e `catch(..)` de uma Promise (veja o Capítulo 3) para que você possa tratar erros no meio de uma sequência se assim desejar.
 
-The point is, you have both options, but the more common one in my experience is the default. With Promises, to get a chain of steps to ignore all steps once an error occurs, you have to take care not to register a rejection handler at any step; otherwise, that error gets swallowed as handled, and the sequence may continue (perhaps unexpectedly). This kind of desired behavior is a bit awkward to properly and reliably handle.
+O ponto é que você tem ambas opções mas a mais comum na minha experiência é a padrão. Com Promises, para que uma cadeia de passos ignore todos os passos caso um erro ocorra você deve tomar o cuidado de não registrar um handler de rejeição em nenhum dos passos; caso contrário, este erro será desaparece como se fosse tratado e a sequência pode continuar (talvez de forma inesperada). Este tipo de comportamento, quando desejado, é um pouco estranho de se manipular adequada e confiavelmente.
 
-To register a sequence error notification handler, *asynquence* provides an `or(..)` sequence method, which also has an alias of `onerror(..)`. You can call this method anywhere in the sequence, and you can register as many handlers as you'd like. That makes it easy for multiple different consumers to listen in on a sequence to know if it failed or not; it's kind of like an error event handler in that respect.
+Para registrar um handler de notificação de sequências com erro, *asynquence* provê o método de sequência `or(..)`, o qual possui um alias `onerror(..)`. Você pode chamar este método em qualquer ponto da sequência e você pode registrar quantos handlers achar necessário. Isso torna mais fácil para múltiplos (e diferentes) consumidores saberem se uma sequ%encia falhou ou não; é como se fosse um handler de um evento de erro.
 
-Just like with Promises, all JS exceptions become sequence errors, or you can programmatically signal a sequence error:
+Assim como com Promises, toda exceção JS tornam-se erros da sequência, ou você pode sinalizar um erro na sequência programaticamente:
 
 ```js
 var sq = ASQ( function(done){
 	setTimeout( function(){
-		// signal an error for the sequence
+		// sinaliza um erro na sequência
 		done.fail( "Oops" );
 	}, 100 );
 } )
 .then( function(done){
-	// will never get here
+	// nunca chegará aqui
 } )
 .or( function(err){
 	console.log( err );			// Oops
 } )
 .then( function(done){
-	// won't get here either
+	// não chegará aqui também
 } );
 
-// later
+// depois
 
 sq.or( function(err){
 	console.log( err );			// Oops
 } );
 ```
 
-Another really important difference with error handling in *asynquence* compared to native Promises is the default behavior of "unhandled exceptions". As we discussed at length in Chapter 3, a rejected Promise without a registered rejection handler will just silently hold (aka swallow) the error; you have to remember to always end a chain with a final `catch(..)`.
+Outra importante diferença na manipulação de erros de *asynquence* em relação a Promises nativas é o comportamento padrão de "exceções não manipuladas" (_unhandled exceptions_). Como dicutimos massivamente no Capítulo 3, uma Promise rejeitada que não possui um handler de rejeição registrado irá prender silenciosamente (também referido como "engolir") o erro; você deve lembrar-se de sempre finalizar uma corrente com um `catch(..)`.
 
-In *asynquence*, the assumption is reversed.
+Em *asynquence* esta suposição é invertida.
 
-If an error occurs on a sequence, and it **at that moment** has no error handlers registered, the error is reported to the `console`. In other words, unhandled rejections are by default always reported so as not to be swallowed and missed.
+Se um erro ocorre em uma sequência e ela **até este momento** não possui um handler de erro registrado, o erro é reportado para o `console`. Em outras palavras, rejeições não manipuladas são, por padrão, reportadas de modo que não sejam engolidas ou perdidas.
 
-As soon as you register an error handler against a sequence, it opts that sequence out of such reporting, to prevent duplicate noise.
+Assim que um handler de error for registrado em uma sequência, a sequência para de reportar erros da forma mencionada anteriormente para evitar a duplicação/ruído.
 
-There may, in fact, be cases where you want to create a sequence that may go into the error state before you have a chance to register the handler. This isn't common, but it can happen from time to time.
+Podem haver, de fato, casos onde você quer criar uma sequência que pode ir para um estado de erro antes de você ter a chance de registrar um handler. Isto não é comum mas pode acontecer de tempos em tempos.
 
-In those cases, you can also **opt a sequence instance out** of error reporting by calling `defer()` on the sequence. You should only opt out of error reporting if you are sure that you're going to eventually handle such errors:
+Nestes casos, você pode **optar por não reportar erros desta sequência** chamando `defer()`. Você somente deve fazer isso se você tem certeza que eventualmente irá manipular estes erros:
 
 ```js
 var sq1 = ASQ( function(done){
-	doesnt.Exist();			// will throw exception to console
+	doesnt.Exist();			// vai lançar uma exceção no console
 } );
 
 var sq2 = ASQ( function(done){
-	doesnt.Exist();			// will throw only a sequence error
+	doesnt.Exist();			// vai lançar um erro apenas na sequência
 } )
-// opt-out of error reporting
+// optando por não reportar erros
 .defer();
 
 setTimeout( function(){
@@ -201,9 +201,9 @@ setTimeout( function(){
 // ReferenceError (from sq1)
 ```
 
-This is better error handling behavior than Promises themselves have, because it's the Pit of Success, not the Pit of Failure (see Chapter 3).
+Esta é uma forma de manipulação de erros melhor do que em Promises por se tratar do Poço do Sucesso e não do Poço da Falha (veja o Capítulo 3).
 
-**Note:** If a sequence is piped into (aka subsumed by) another sequence -- see "Combining Sequences"  for a complete description -- then the source sequence is opted out of error reporting, but now the target sequence's error reporting or lack thereof must be considered.
+**Nota:** Se uma sequência é canalizada (ou incluída em) outra sequência -- veja "Combinando Sequências" para uma descrição completa -- então a sequência de origem opta automaticamente por não reportar erros, embora agora a notificação ou não de erros da sequência de destino deva ser considerada.
 
 ### Parallel Steps
 
