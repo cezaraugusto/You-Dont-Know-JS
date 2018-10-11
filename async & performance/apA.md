@@ -15,43 +15,43 @@ I believe the value is strong enough with *asynquence* to make async flow contro
 
 To begin, I'll explain the design principles behind *asynquence*, and then we'll illustrate how its API works with code examples.
 
-## Sequences, Abstraction Design
+## Sequências, princípio de abstração
 
-Understanding *asynquence* begins with understanding a fundamental abstraction: any series of steps for a task, whether they separately are synchronous or asynchronous, can be collectively thought of as a "sequence". In other words, a sequence is a container that represents a task, and is comprised of individual (potentially async) steps to complete that task.
+A compreensão de *asynquence* inicia com a compreensão de uma abstração fundamental: qualquer série de passos para execução de uma tarefa, sejam eles individualmente síncronos ou assíncronos, podem, coletivamente, ser pensados como uma "sequência". Em outras palavras, uma sequência é um container que representa uma tarefa e é constituído por passos individuais (potencialmente assíncronos) para completá-la.
 
-Each step in the sequence is controlled under the covers by a Promise (see Chapter 3). That is, every step you add to a sequence implicitly creates a Promise that is wired to the previous end of the sequence. Because of the semantics of Promises, every single step advancement in a sequence is asynchronous, even if you synchronously complete the step.
+Cada passo na sequência é controlado internamente por Promises (veja Capítulo 3). Isto é, cada passo que você adiciona à sequência cria implicitamente uma Promise que esta ligada ao seu (antigo) último passo. Por conta da semântica de Promises, cada avanço de passos em uma sequência é assíncrono, mesmo se este passo for completado de forma síncrona.
 
-Moreover, a sequence will always proceed linearly from step to step, meaning that step 2 always comes after step 1 finishes, and so on.
+Além disso, uma sequência sempre avançará linearmente de passo em passo, de modo que o passo 2 sempre vem após o término do passo 1 e assim por diante.
 
-Of course, a new sequence can be forked off an existing sequence, meaning the fork only occurs once the main sequence reaches that point in the flow. Sequences can also be combined in various ways, including having one sequence subsumed by another sequence at a particular point in the flow.
+Obviamente, é possível criar uma nova sequência a partir da bifurcação de uma sequência existente, de modo que a nova sequência somente iniciará no momento que a sequência principal atingir o ponto de bifurcação do fluxo. Sequências também podem ser combinadas de várias formas, inclusive incluir uma sequência em outra em algum ponto do fluxo.
 
-A sequence is kind of like a Promise chain. However, with Promise chains, there is no "handle" to grab that references the entire chain. Whichever Promise you have a reference to only represents the current step in the chain plus any other steps hanging off it. Essentially, you cannot hold a reference to a Promise chain unless you hold a reference to the first Promise in the chain.
+Uma sequência é como uma cadeia de Promises. Porém, em uma cadeia de Promises não temos uma "alça" para nos segurarmos que referencie a cadeia por completo. Qualquer Promise para a qual você possua uma referência representa apenas o passo atual na cadeia e mais alguns passos subsequentes. Essencialmente você não pode ter uma referência para uma cadeia de Promises a não ser que você referencie a primeira Promise da cadeia.
 
-There are many cases where it turns out to be quite useful to have a handle that references the entire sequence collectively. The most important of those cases is with sequence abort/cancel. As we covered extensively in Chapter 3, Promises themselves should never be able to be canceled, as this violates a fundamental design imperative: external immutability.
+Existem muitos casos em que torna-se útil ter esta referência para a sequência como um todo, como em situações de interrupção/cancelamento. Conforme cobrimos extensivamente no Capítulo 3, Promises em si não devem nunca ser canceladas pois isto viola um princípio imperativo fundamental: imutabilidade externa.
 
-But sequences have no such immutability design principle, mostly because sequences are not passed around as future-value containers that need immutable value semantics. So sequences are the proper level of abstraction to handle abort/cancel behavior. *asynquence* sequences can be `abort()`ed at any time, and the sequence will stop at that point and not go for any reason.
+Mas sequências não possuem este princípio de imutabilidade por definição, muito pelo fato de não serem enviadas de um lado para o outro como containers de valores futuros que carecem de uma semântica de imutabilidade. Portanto sequências representam um nível de abstração adequado para manipulação de comportamentos relacionados à interrupções/cancelamentos. Sequências *asynquence* podem ser `abort()`adas a qualquer momento e a sequência será interrompida no ponto que estiver e não irá adiante por nenhuma razão.
 
-There's plenty more reasons to prefer a sequence abstraction on top of Promise chains, for flow control purposes.
+Existem muitas outras razões para se preferir a sequência como abstração em relação à corrente de Promises para controle de fluxo.
 
-First, Promise chaining is a rather manual process -- one that can get pretty tedious once you start creating and chaining Promises across a wide swath of your programs -- and this tedium can act counterproductively to dissuade the developer from using Promises in places where they are quite appropriate.
+Primeiramente, o processo de encadeamento de Promises é bastante manual -- e pode tornar-se bastante tedioso assim que você começa a criar e encadear Promises por uma faixa muito ampla de seus programas -- e este tédio pode tornar-se improdutivo ao dissuadir o(a) desenvolvedor(a) de utilizar Promises em locais onde seria bastante apropriado.
 
-Abstractions are meant to reduce boilerplate and tedium, so the sequence abstraction is a good solution to this problem. With Promises, your focus is on the individual step, and there's little assumption that you will keep the chain going. With sequences, the opposite approach is taken, assuming the sequence will keep having more steps added indefinitely.
+Abstrações tem por objetivo reduzir repetição de código e tédio, portanto a sequência como abstração é uma boa solução para este problema. Com Promises, seu foco é no passo individual e não se assume que uma corrente será formada. Uma abordagem oposta é tomada no caso das sequências, onde assumimos que esta possuirá mais passos indefinidamente.
 
-This abstraction complexity reduction is especially powerful when you start thinking about higher-order Promise patterns (beyond `race([..])` and `all([..])`.
+A redução de complexidade desta abstração é especialmente poderosa quando começamos a pensar em padrões que utilizam Promises de alta ordem (além de `race([..])` e `all([..])`).
 
-For example, in the middle of a sequence, you may want to express a step that is conceptually like a `try..catch` in that the step will always result in success, either the intended main success resolution or a positive nonerror signal for the caught error. Or, you might want to express a step that is like a retry/until loop, where it keeps trying the same step over and over until success occurs.
+Por exemplo, talvez você queira, no meio de uma sequência, expressar um passo similar a um bloco `try..catch` onde sempre é retornado sucesso, seja pelo sucesso de fato ou pelo envio de um sinal positivo nos casos que apanhamos um erro. Ou talvez você queira expressar um passo que funciona como um loop _retry/until_, onde o mesmo passo ocorre repetidas vezes até que se obtenha sucesso.
 
-These sorts of abstractions are quite nontrivial to express using only Promise primitives, and doing so in the middle of an existing Promise chain is not pretty. But if you abstract your thinking to a sequence, and consider a step as a wrapper around a Promise, that step wrapper can hide such details, freeing you to think about the flow control in the most sensible way without being bothered by the details.
+Estes tipos de abstrações não são trivialmente expressadas utilizando-se apenas Promises nativas, e aplicá-las em uma cadeia de Promises já existente não é bonito. Mas se você abstrair seu pensamento para uma sequência e considerar um passo como um envólucro de uma Promises, este passo envólucro pode esconder estes detalhes, liberando você para pensar sobre o controle de fluxo de forma mais sensata sem se incomodar com os detalhes.
 
-Second, and perhaps more importantly, thinking of async flow control in terms of steps in a sequence allows you to abstract out the details of what types of asynchronicity are involved with each individual step. Under the covers, a Promise will always control the step, but above the covers, that step can look either like a continuation callback (the simple default), or like a real Promise, or as a run-to-completion generator, or ... Hopefully, you get the picture.
+Em segundo lugar, e talvez o mais importante, pensar em controle de fluxo assíncrono em termos de passos em uma sequência permite que você abstraia detalhes de quais tipos de assincronia são envolvidos em cada passo individualmente. Por baixo dos panos, uma Promise sempre controlará um passo, mas, "por cima dos panos", este passo pode ser visto como um callback de continuidade (o padrão simples), uma Promise real, como um _generator_ em modo run-to-completion, ou... acho que você compreende.
 
-Third, sequences can more easily be twisted to adapt to different modes of thinking, such as event-, stream-, or reactive-based coding. *asynquence* provides a pattern I call "reactive sequences" (which we'll cover later) as a variation on the "reactive observable" ideas in RxJS ("Reactive Extensions"), that lets a repeatable event fire off a new sequence instance each time. Promises are one-shot-only, so it's quite awkward to express repetitious asynchrony with Promises alone.
+Em terceiro, sequências podem ser alteradas mais facilmente para adaptarem-se a diferentes formas de pensar, como programação baseada em eventos, streams ou reativa. *asynquence* provê um padrão que chamo de "sequências reativas" (as quais cobriremos mais adiante) como uma variação da ideia de "observável reativo" (_reactive observable_) em RxJS ("Reactive Extensions"), que permite que um evento recorrente inicie uma nova sequência a cada ocorrência. Promises são um tiro único, portanto é um pouco estranho expressar assincronia repetitiva apenas com Promises.
 
-Another alternate mode of thinking inverts the resolution/control capability in a pattern I call "iterable sequences". Instead of each individual step internally controlling its own completion (and thus advancement of the sequence), the sequence is inverted so the advancement control is through an external iterator, and each step in the *iterable sequence* just responds to the `next(..)` *iterator* control.
+Uma outra forma de pensar inverte a capacidade de resolução/controle em um padrão que chamo de "sequências iteráveis". Ao invés de cada passo controlar individualmente e internamente sua completude (e portanto o avanço da sequência), a sequência é invertida de modo que o controle de avanço se dê através de um iterador externo e cada passo na *sequência iterável* apenas responde ao controle `next(..)` do *iterador*.
 
-We'll explore all of these different variations as we go throughout the rest of this appendix, so don't worry if we ran over those bits far too quickly just now.
+Vamos explorar todas as diferentes variações na medida que avançarmos por este apêndice, portanto não se preocupe se fomos muito rápidos até o momento.
 
-The takeaway is that sequences are a more powerful and sensible abstraction for complex asynchrony than just Promises (Promise chains) or just generators, and *asynquence* is designed to express that abstraction with just the right level of sugar to make async programming more understandable and more enjoyable.
+O mais importante é a ideia de que sequências são uma abstração mais poderosa e sensata para assincronia complexa do que apenas Promises (cadeias de Promises) ou *generators*, e *asynquence* foi projetada para expressar esta abstração com o nível exato de praticidade para tornar a programação assíncrona mais compreensível e prazerosa.
 
 ## *asynquence* API
 
