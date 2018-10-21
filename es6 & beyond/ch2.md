@@ -796,9 +796,9 @@ var {
 
 Remember: **the purpose of destructuring is not just less typing, but more declarative readability.**
 
-#### Destructuring Assignment Expressions
+#### Destruturação de Expressões de Atribuição
 
-The assignment expression with object or array destructuring has as its completion value the full righthand object/array value. Consider:
+A expressão de atribuição com a desestruturação de objetos ou arrays tem o valor completo do objeto/array à direita como o valor de conclusão. Considere:
 
 ```js
 var o = { a:1, b:2, c:3 },
@@ -810,7 +810,7 @@ console.log( a, b, c );			// 1 2 3
 p === o;						// true
 ```
 
-In the previous snippet, `p` was assigned the `o` object reference, not one of the `a`, `b`, or `c` values. The same is true of array destructuring:
+No fragmento anterior, um `p` recebeu a referência de objeto `o`, não um dos valores `a`,` b` ou `c`. O mesmo acontece com a desestruturação de um array:
 
 ```js
 var o = [1,2,3],
@@ -822,7 +822,7 @@ console.log( a, b, c );			// 1 2 3
 p === o;						// true
 ```
 
-By carrying the object/array value through as the completion, you can chain destructuring assignment expressions together:
+Ao carregar o valor de objeto/array através da conclusão, você pode agrupar expressões de atribuição de desestruturação:
 
 ```js
 var o = { a:1, b:2, c:3 },
