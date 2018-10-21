@@ -798,7 +798,7 @@ Remember: **the purpose of destructuring is not just less typing, but more decla
 
 #### Destruturação de Expressões de Atribuição
 
-A expressão de atribuição com a desestruturação de objetos ou arrays tem o valor completo do objeto/array à direita como o valor de conclusão. Considere:
+A expressão de atribuição com a desestruturação de objetos ou arrays tem o valor completo do objeto/array à direita como o valor de conclusão. Considere que:
 
 ```js
 var o = { a:1, b:2, c:3 },
