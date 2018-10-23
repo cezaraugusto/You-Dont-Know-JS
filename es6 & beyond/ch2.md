@@ -836,9 +836,9 @@ console.log( a, b, c );			// 1 2 3
 console.log( x, y, z );			// 4 5 4
 ```
 
-### Too Many, Too Few, Just Enough
+### Muitos, poucos, apenas o suficiente
 
-With both array destructuring assignment and object destructuring assignment, you do not have to assign all the values that are present. For example:
+Com a atribuição de desestruturação do array e a atribuição de desestruturação do objeto, não é necessário atribuir todos os valores que estão presentes. Por exemplo:
 
 ```js
 var [,b] = foo();
@@ -847,9 +847,9 @@ var { x, z } = bar();
 console.log( b, x, z );				// 2 4 6
 ```
 
-The `1` and `3` values that came back from `foo()` are discarded, as is the `5` value from `bar()`.
+Os valores `1` e` 3` retornados de `foo ()` são descartados, assim como o valor `5` de `bar ()`.
 
-Similarly, if you try to assign more values than are present in the value you're destructuring/decomposing, you get graceful fallback to `undefined`, as you'd expect:
+Da mesma forma, se você tentar atribuir mais valores do que os que estão presentes no valor que você está desestruturando/decompondo, você terá um esplêndido fallback `undefined`, como ja era de se esperar:
 
 ```js
 var [,,c,d] = foo();
@@ -859,11 +859,11 @@ console.log( c, z );				// 3 6
 console.log( d, w );				// undefined undefined
 ```
 
-This behavior follows symmetrically from the earlier stated "`undefined` is missing" principle.
+Esse comportamento segue simetricamente igual ao princípio de "faltando `undefined`".
 
-We examined the `...` operator earlier in this chapter, and saw that it can sometimes be used to spread an array value out into its separate values, and sometimes it can be used to do the opposite: to gather a set of values together into an array.
+Analisamos o operador `...` anteriormente neste capítulo, e vimos que às vezes ele pode ser usado para distribuir um valor de array em seus valores separados, e às vezes, pode ser usado para fazer o oposto: para agrupar um conjunto de valores juntos em um array.
 
-In addition to the gather/rest usage in function declarations, `...` can perform the same behavior in destructuring assignments. To illustrate, let's recall a snippet from earlier in this chapter:
+Além de usar gather/rest em declarações de função, `...` pode executar o mesmo comportamento em tarefas de desestruturação. Para ilustrar, vamos relembrar um trecho do início deste capítulo:
 
 ```js
 var a = [2,3,4];
@@ -872,7 +872,7 @@ var b = [ 1, ...a, 5 ];
 console.log( b );					// [1,2,3,4,5]
 ```
 
-Here we see that `...a` is spreading `a` out, because it appears in the array `[ .. ]` value position. If `...a` appears in an array destructuring position, it performs the gather behavior:
+Aqui vemos que `... a` está distribuindo `a` fora, porque aparece na posição de valor `[..]`. Se `... a` aparecer em uma posição de desestruturação do array, ele executa o comportamento de gather/agrupar:
 
 ```js
 var a = [2,3,4];
@@ -881,9 +881,9 @@ var [ b, ...c ] = a;
 console.log( b, c );				// 2 [3,4]
 ```
 
-The `var [ .. ] = a` destructuring assignment spreads `a` out to be assigned to the pattern described inside the `[ .. ]`. The first part names `b` for the first value in `a` (`2`). But then `...c` gathers the rest of the values (`3` and `4`) into an array and calls it `c`.
+A atribuição de desestruturação `var [..] = a` se estende 'a' para ser atribuída ao padrão descrito em` [..] `. A primeira parte chama `b` para o primeiro valor em `a` (`2`). Mas então `...c` junta o resto dos valores (`3` e `4`) em um array chamado de `c`.
 
-**Note:** We've seen how `...` works with arrays, but what about with objects? It's not an ES6 feature, but see Chapter 8 for discussion of a possible "beyond ES6" feature where `...` works with spreading or gathering objects.
+**Nota:** Vimos como o `...` funciona com arrays, mas e com objetos? Não é uma feature do ES6, mas veja o Capítulo 8 para a discussão de uma possível função "além do ES6" na qual `...` trabalha com a distribuição ou agrupamento de objetos.
 
 ### Default Value Assignment
 
