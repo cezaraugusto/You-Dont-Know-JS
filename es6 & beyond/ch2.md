@@ -583,9 +583,9 @@ A desestruturação inverte simetricamente esse padrão, de modo que `[a, b, c]`
 
 Da mesma forma, `{x: x, y: y, z: z}` especifica um "padrão" para decompor o valor do objeto de `bar ()` em atribuições de variáveis separadas.
 
-### Object Property Assignment Pattern
+### Padrão de Atribuição de Propriedade do Objeto
 
-Let's dig into that `{ x: x, .. }` syntax from the previous snippet. If the property name being matched is the same as the variable you want to declare, you can actually shorten the syntax:
+Vamos nos aprofundar nessa sintaxe `{x: x, ..}` do trecho anterior. Se o nome da propriedade correspondente for igual à variável que você deseja declarar, é possível encurtar a sintaxe:
 
 ```js
 var { x, y, z } = bar();
@@ -593,11 +593,11 @@ var { x, y, z } = bar();
 console.log( x, y, z );				// 4 5 6
 ```
 
-Pretty cool, right?
+Massa demais, né!?
 
-But is `{ x, .. }` leaving off the `x: ` part or leaving off the `: x` part? We're actually leaving off the `x: ` part when we use the shorter syntax. That may not seem like an important detail, but you'll understand its importance in just a moment.
+Mas é `{x, ..}` que deixa de fora a parte `x:` ou deixa a parte `: x`? Na verdade estamos deixando de fora a parte `x:` quando usamos a sintaxe mais curta. Pode não parecer um detalhe importante, mas você entenderá sua importância em um momento.
 
-If you can write the shorter form, why would you ever write out the longer form? Because that longer form actually allows you to assign a property to a different variable name, which can sometimes be quite useful:
+Se você pode escrever o formulário mais curto, por que você deveria escrever o formulário mais longo? Porque essa forma mais longa realmente permite que você atribua uma propriedade a um nome de variável diferente, o que às vezes pode ser bastante útil:
 
 ```js
 var { x: bam, y: baz, z: bap } = bar();
@@ -606,7 +606,7 @@ console.log( bam, baz, bap );		// 4 5 6
 console.log( x, y, z );				// ReferenceError
 ```
 
-There's a subtle but super-important quirk to understand about this variation of the object destructuring form. To illustrate why it can be a gotcha you need to be careful of, let's consider the "pattern" of how normal object literals are specified:
+Há uma peculiaridade sutil, mas superimportante, para entender essa variação da forma de desestruturação do objeto. Para ilustrar por que pode ser uma pegadinha que precisa de atenção, vamos considerar o "padrão" de como os valores literais de objeto normais são especificados:
 
 ```js
 var X = 10, Y = 20;
@@ -616,19 +616,19 @@ var o = { a: X, b: Y };
 console.log( o.a, o.b );			// 10 20
 ```
 
-In `{ a: X, b: Y }`, we know that `a` is the object property, and `X` is the source value that gets assigned to it. In other words, the syntactic pattern is `target: source`, or more obviously, `property-alias: value`. We intuitively understand this because it's the same as `=` assignment, where the pattern is `target = source`.
+Em `{a: X, b: Y}`, sabemos que `a` é a propriedade do objeto, e `X` é o valor de origem que é atribuído a ela. Em outras palavras, o padrão sintático é `target: source` ou, mais obviamente, `property-alias: value`. Intuitivamente entendemos isso porque é o mesmo que `=`, onde o padrão é 'target = source'.
 
-However, when you use object destructuring assignment -- that is, putting the `{ .. }` object literal-looking syntax on the lefthand side of the `=` operator -- you invert that `target: source` pattern.
+No entanto, ao usar a atribuição de objetos destrutivos - isto é, colocando a sintaxe de visual literal do objeto `{..}` no lado esquerdo do operador `=`, você inverte o padrão `target: source`.
 
-Recall:
+Lembre-se:
 
 ```js
 var { x: bam, y: baz, z: bap } = bar();
 ```
 
-The syntactic pattern here is `source: target` (or `value: variable-alias`). `x: bam` means the `x` property is the source value and `bam` is the target variable to assign to. In other words, object literals are `target <-- source`, and object destructuring assignments are `source --> target`. See how that's flipped?
+O padrão de sintaxe aqui é `source: target` (ou `value: variable-alias`). `x: bam` significa que a propriedade` x` é o valor de origem e `bam` é a variável de destino a ser designada. Em outras palavras, os literais de objeto são `target <- source`, e as atribuições de desestruturação de objetos são `source -> target`. Percebe como isso é invertido?
 
-There's another way to think about this syntax though, which may help ease the confusion. Consider:
+Há outra maneira de pensar sobre essa sintaxe, o que pode ajudar a aliviar a confusão. Considere:
 
 ```js
 var aa = 10, bb = 20;
@@ -639,13 +639,13 @@ var     { x: AA, y: BB } = o;
 console.log( AA, BB );				// 10 20
 ```
 
-In the `{ x: aa, y: bb }` line, the `x` and `y` represent the object properties. In the `{ x: AA, y: BB }` line, the `x` and the `y` *also* represent the object properties.
+Na linha `{x: aa, y: bb}`, `x` e` y` representam as propriedades do objeto. Na linha `{x: AA, y: BB}`, o `x` e o `y` *também* representam as propriedades do objeto.
 
-Recall how earlier I asserted that `{ x, .. }` was leaving off the `x: ` part? In those two lines, if you erase the `x: ` and `y: ` parts in that snippet, you're left only with `aa, bb` and `AA, BB`, which in effect -- only conceptually, not actually -- are assignments from `aa` to `AA` and from `bb` to `BB`.
+Lembre-se de como eu afirmei anteriormente que `{x, ..}` estava deixando de fora a parte `x:`? Nessas duas linhas, se você apagar as partes `x:` e `y:` nesse trecho, você ficará apenas com `aa, bb` e` AA, BB`, que na verdade - apenas conceitualmente, não atualmente - são atribuições de `aa` para` AA` e de `bb` para` BB`.
 
-So, that symmetry may help to explain why the syntactic pattern was intentionally flipped for this ES6 feature.
+Assim, essa simetria pode ajudar a explicar por que o padrão sintático foi invertido intencionalmente para esse recurso do ES6.
 
-**Note:** I would have preferred the syntax to be `{ AA: x , BB: y }` for the destructuring assignment, as that would have preserved consistency of the more familiar `target: source` pattern for both usages. Alas, I'm having to train my brain for the inversion, as some readers may also have to do.
+**Nota:** Eu teria preferido que a sintaxe fosse `{AA: x, BB: y}` para a atribuição de desestruturação, já que isso preservaria a consistência do padrão mais conhecido de `target: source` para ambos os usos. Ai, estou tendo que treinar meu cérebro para a inversão, como alguns leitores também podem ter que fazer.
 
 ### Not Just Declarations
 
