@@ -647,11 +647,11 @@ Assim, essa simetria pode ajudar a explicar por que o padrão sintático foi inv
 
 **Nota:** Eu teria preferido que a sintaxe fosse `{AA: x, BB: y}` para a atribuição de desestruturação, já que isso preservaria a consistência do padrão mais conhecido de `target: source` para ambos os usos. Ai, estou tendo que treinar meu cérebro para a inversão, como alguns leitores também podem ter que fazer.
 
-### Not Just Declarations
+### Não só declarações
 
-So far, we've used destructuring assignment with `var` declarations (of course, they could also use `let` and `const`), but destructuring is a general assignment operation, not just a declaration.
+Até agora, usamos a atribuição de desestruturação com declarações `var` (obviamente, elas também poderiam usar `let` e `const`), mas a desestruturação é uma operação de atribuição geral, não apenas uma declaração.
 
-Consider:
+Considere:
 
 ```js
 var a, b, c, x, y, z;
@@ -663,11 +663,11 @@ console.log( a, b, c );				// 1 2 3
 console.log( x, y, z );				// 4 5 6
 ```
 
-The variables can already be declared, and then the destructuring only does assignments, exactly as we've already seen.
+As variáveis já podem ser declaradas e, em seguida, a desestruturação só executa atribuições, exatamente como já vimos.
 
-**Note:** For the object destructuring form specifically, when leaving off a `var`/`let`/`const` declarator, we had to surround the whole assignment expression in `( )`, because otherwise the `{ .. }` on the lefthand side as the first element in the statement is taken to be a block statement instead of an object.
+**Nota:** Para a desestruturação de objetos especificamente, ao sair de um declarador `var` / `let` / `const`, nós tivemos que cercar toda a expressão de atribuição em `()`, porque senão o `{. .}` no lado esquerdo, como o primeiro elemento na declaração é considerado como uma instrução de bloco em vez de um objeto.
 
-In fact, the assignment expressions (`a`, `y`, etc.) don't actually need to be just variable identifiers. Anything that's a valid assignment expression is allowed. For example:
+De fato, expressões de atribuição (`a`,`y`, etc.) não precisam ser apenas identificadores de variáveis. Qualquer coisa que seja uma expressão de atribuição válida é permitida. Por exemplo:
 
 ```js
 var o = {};
@@ -679,7 +679,7 @@ console.log( o.a, o.b, o.c );		// 1 2 3
 console.log( o.x, o.y, o.z );		// 4 5 6
 ```
 
-You can even use computed property expressions in the destructuring. Consider:
+Você pode até usar expressões de propriedade calculadas na desestruturação. Leve em consideração:
 
 ```js
 var which = "x",
@@ -690,9 +690,9 @@ var which = "x",
 console.log( o.x );					// 4
 ```
 
-The `[which]:` part is the computed property, which results in `x` -- the property to destructure from the object in question as the source of the assignment. The `o[which]` part is just a normal object key reference, which equates to `o.x` as the target of the assignment.
+A parte `[which]:` é a propriedade computada, o que resulta em `x` - a propriedade para desestruturada do objeto em questão como a origem da atribuição. A parte `o[which]` é apenas uma referência de chave de objeto normal, o que equivale a `o.x` como o destino da atribuição.
 
-You can use the general assignments to create object mappings/transformations, such as:
+Você pode usar atribuições gerais para criar mapeamentos / transformações de objetos, como por exemplo:
 
 ```js
 var o1 = { a: 1, b: 2, c: 3 },
@@ -703,7 +703,7 @@ var o1 = { a: 1, b: 2, c: 3 },
 console.log( o2.x, o2.y, o2.z );	// 1 2 3
 ```
 
-Or you can map an object to an array, such as:
+Ou você pode mapear um objeto para um array, como:
 
 ```js
 var o1 = { a: 1, b: 2, c: 3 },
@@ -714,7 +714,7 @@ var o1 = { a: 1, b: 2, c: 3 },
 console.log( a2 );					// [1,2,3]
 ```
 
-Or the other way around:
+Ou o contrário:
 
 ```js
 var a1 = [ 1, 2, 3 ],
@@ -725,7 +725,7 @@ var a1 = [ 1, 2, 3 ],
 console.log( o2.a, o2.b, o2.c );	// 1 2 3
 ```
 
-Or you could reorder one array to another:
+Ou você pode reordenar um array para outro:
 
 ```js
 var a1 = [ 1, 2, 3 ],
@@ -736,7 +736,7 @@ var a1 = [ 1, 2, 3 ],
 console.log( a2 );					// [2,3,1]
 ```
 
-You can even solve the traditional "swap two variables" task without a temporary variable:
+Você também pode resolver a tarefa tradicional "trocar duas variáveis" sem uma variável temporária:
 
 ```js
 var x = 10, y = 20;
@@ -746,7 +746,7 @@ var x = 10, y = 20;
 console.log( x, y );				// 20 10
 ```
 
-**Warning:** Be careful: you shouldn't mix in declaration with assignment unless you want all of the assignment expressions *also* to be treated as declarations. Otherwise, you'll get syntax errors. That's why in the earlier example I had to do `var a2 = []` separately from the `[ a2[0], .. ] = ..` destructuring assignment. It wouldn't make any sense to try `var [ a2[0], .. ] = ..`, because `a2[0]` isn't a valid declaration identifier; it also obviously couldn't implicitly create a `var a2 = []` declaration to use.
+**Atenção:** Tenha cuidado: você não precisa misturar declaração com atribuição, a menos que você queira que todas as expressões de atribuição *também* sejam tratadas como declarações.  Caso contrário, você receberá erros de sintaxe. É por isso que no exemplo anterior eu tive que fazer `var a2 = []` separadamente da atribuição de desestruturação  `[a2 [0], ..] = ..`. Não faria sentido tentar `var [a2 [0], ..] = ..`, porque `a2 [0]` não é um identificador de declaração válido; obviamente, não é possível criar implicitamente uma declaração `var a2 = []` para usar.
 
 ### Repeated Assignments
 
