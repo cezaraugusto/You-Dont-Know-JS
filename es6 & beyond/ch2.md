@@ -883,7 +883,7 @@ console.log( b, c );				// 2 [3,4]
 
 A atribuição de desestruturação `var [..] = a` se estende 'a' para ser atribuída ao padrão descrito em` [..] `. A primeira parte chama `b` para o primeiro valor em `a` (`2`). Mas então `...c` junta o resto dos valores (`3` e `4`) em um array chamado de `c`.
 
-**Nota:** Vimos como o `...` funciona com arrays, mas e com objetos? Não é uma feature do ES6, mas veja o Capítulo 8 para a discussão de uma possível função "além do ES6" na qual `...` trabalha com a distribuição ou agrupamento de objetos.
+**Nota:** Vimos como o `...` funciona com arrays, mas e com objetos? Não é uma funcionalidade do ES6, mas veja o Capítulo 8 para a discussão de uma possível função "além do ES6" na qual `...` trabalha com a distribuição ou agrupamento de objetos.
 
 ### Default Value Assignment
 
