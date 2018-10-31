@@ -462,7 +462,7 @@ Os valores padrão de funções podem ser mais do que apenas valores como `31`; 
 
 ```js
 function bar(val) {
-	console.log( "barra chamada!" );
+	console.log( "bar chamado!" );
 	return y + val;
 }
 
@@ -471,9 +471,9 @@ function foo(x = y + 3, z = bar( x )) {
 }
 
 var y = 5;
-foo();								// "barra chamada"
+foo();								// "bar chamado!"
 									// 8 13
-foo( 10 );							// "barra chamada"
+foo( 10 );							// "bar chamado!"
 									// 10 15
 y = 6;
 foo( undefined, 10 );				// 9 10
