@@ -748,9 +748,9 @@ console.log( x, y );				// 20 10
 
 **Atenção:** Tenha cuidado: você não precisa misturar declaração com atribuição, a menos que você queira que todas as expressões de atribuição *também* sejam tratadas como declarações.  Caso contrário, você receberá erros de sintaxe. É por isso que no exemplo anterior eu tive que fazer `var a2 = []` separadamente da atribuição de desestruturação  `[a2 [0], ..] = ..`. Não faria sentido tentar `var [a2 [0], ..] = ..`, porque `a2 [0]` não é um identificador de declaração válido; obviamente, não é possível criar implicitamente uma declaração `var a2 = []` para usar.
 
-### Repeated Assignments
+### Atribuições repetidas
 
-The object destructuring form allows a source property (holding any value type) to be listed multiple times. For example:
+A forma de desestruturação de objetos permite que uma propriedade de origem (mantendo qualquer tipo de valor) seja listada várias vezes. Por exemplo:
 
 ```js
 var { a: X, a: Y } = { a: 1 };
@@ -759,7 +759,7 @@ X;	// 1
 Y;	// 1
 ```
 
-That also means you can both destructure a sub-object/array property and also capture the sub-object/array's value itself. Consider:
+Isso também significa que você pode desconstruir uma propriedade de sub-objeto/array e também capturar o próprio valor do sub-objeto/array propriamente dito. Leve em consideração:
 
 ```js
 var { a: { x: X, x: Y }, a } = { a: { x: 1 } };
@@ -778,7 +778,7 @@ Y;	// [10,2]
 Z;	// 1
 ```
 
-A word of caution about destructuring: it may be tempting to list destructuring assignments all on a single line as has been done thus far in our discussion. However, it's a much better idea to spread destructuring assignment patterns over multiple lines, using proper indentation -- much like you would in JSON or with an object literal value -- for readability sake.
+Uma palavra de cautela sobre a desestruturação: pode ser tentador listar todas as atribuições de desestruturação em uma única linha, como foi feito até agora em nossa discussão. No entanto, é muito mais útil distribuir padrões de atribuição de desestruturação em várias linhas, usando o recuo adequado, bem como você faria em JSON ou com um valor literal de objeto, para fins de legibilidade.
 
 ```js
 // harder to read:
@@ -794,7 +794,7 @@ var {
 } = obj;
 ```
 
-Remember: **the purpose of destructuring is not just less typing, but more declarative readability.**
+Lembre-se: **O propósito da desestruturação não é apenas digitar menos código, mas uma maior legibilidade declarativa.**
 
 #### Destructuring Assignment Expressions
 
