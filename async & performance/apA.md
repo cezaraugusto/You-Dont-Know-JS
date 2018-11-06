@@ -1,19 +1,19 @@
-# You Don't Know JS: Async & Performance
-# Appendix A: *asynquence* Library
+# You Don't Know JS: Async e Performance
+# Apêndice A: Biblioteca *asynquence*
 
-Chapters 1 and 2 went into quite a bit of detail about typical asynchronous programming patterns and how they're commonly solved with callbacks. But we also saw why callbacks are fatally limited in capability, which led us to Chapters 3 and 4, with Promises and generators offering a much more solid, trustable, and reason-able base to build your asynchrony on.
+Os capítulos 1 e 2 trouxeram em detalhes padrões típicos da programação assíncrona e como estes se baseiam em callbacks. Mas também vimos que callbacks são fatalmente limitados em termos de capacidade, o que nos levou aos capítulos 3 e 4, com Promises e generators oferecendo uma base muito mais sólida, confiável e compreensível para construção de sua assincronia.
 
-I referenced my own asynchronous library *asynquence* (http://github.com/getify/asynquence) -- "async" + "sequence" = "asynquence" -- several times in this book, and I want to now briefly explain how it works and why its unique design is important and helpful.
+Referenciei minha própria biblioteca assíncrona *asynquence* (http://github.com/getify/asynquence) -- "async" + "sequence" (sequência) = "asynquence" -- diversas vezes neste livro, e agora gostaria de explicar brevemente como ela funciona e por que a forma única com que foi projetada é importante e útil.
 
-In the next appendix, we'll explore some advanced async patterns, but you'll probably want a library to make those palatable enough to be useful. We'll use *asynquence* to express those patterns, so you'll want to spend a little time here getting to know the library first.
+No próximo apêndice exploraremos alguns padrões `async` avançados, mas você provavelmente irá querer uma biblioteca para torná-los palatáveis o suficiente para serem úteis. Utilizaremos *asynquence* para expressar estes padrões, portanto você irá querer passar algum tempo por aqui para conhecê-la antes de mais nada.
 
-*asynquence* is obviously not the only option for good async coding; certainly there are many great libraries in this space. But *asynquence* provides a unique perspective by combining the best of all these patterns into a single library, and moreover is built on a single basic abstraction: the (async) sequence.
+*asynquence* obviamente não é a única opção para boas implementações `async`; certamente existem ótimas bibliotecas por aí. Mas *asynquence* oferece uma perspectiva única ao combinar o melhor destes padrões em uma única biblioteca e, além disso, foi criada sobre uma única abstração: a sequência (assíncrona).
 
-My premise is that sophisticated JS programs often need bits and pieces of various different asynchronous patterns woven together, and this is usually left entirely up to each developer to figure out. Instead of having to bring in two or more different async libraries that focus on different aspects of asynchrony, *asynquence* unifies them into variated sequence steps, with just one core library to learn and deploy.
+Minha premissa é que programas JS sofisticados necessitam, com frequência, de porções de diversos padrões assíncronos entrelaçados, e isso normalmente fica a cargo de cada desenvolvedor(a) descobrir. Em vez de incluirmos duas ou mais bibliotecas diferentes que focam em diferentes aspectos da assincronia, *asynquence* unifica-as em uma sequência variada de passos, com uma única biblioteca para aprender e implantar.
 
-I believe the value is strong enough with *asynquence* to make async flow control programming with Promise-style semantics super easy to accomplish, so that's why we'll exclusively focus on that library here.
+Acredito no valor agregado por *asynquence* na facilidade de se obter uma semântica de programação baseada em Promises para controle de fluxo assíncrono e é por isso que focaremos exclusivamente nesta biblioteca aqui.
 
-To begin, I'll explain the design principles behind *asynquence*, and then we'll illustrate how its API works with code examples.
+Para começar, vou explicar os princípios por trás de *asynquence* e então nós ilustraremos o funcionamento de sua API com exemplos de código.
 
 ## Sequências, princípio de abstração
 
