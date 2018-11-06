@@ -3,13 +3,13 @@
 
 Os capítulos 1 e 2 trouxeram em detalhes padrões típicos da programação assíncrona e como estes se baseiam em callbacks. Mas também vimos que callbacks são fatalmente limitados em termos de capacidade, o que nos levou aos capítulos 3 e 4, com Promises e generators oferecendo uma base muito mais sólida, confiável e compreensível para construção de sua assincronia.
 
-Referenciei minha própria biblioteca assíncrona *asynquence* (http://github.com/getify/asynquence) -- "async" + "sequence" (sequência) = "asynquence" -- diversas vezes neste livro, e agora gostaria de explicar brevemente como ela funciona a por que a forma única com que foi projetada é importante e útil.
+Referenciei minha própria biblioteca assíncrona *asynquence* (http://github.com/getify/asynquence) -- "async" + "sequence" (sequência) = "asynquence" -- diversas vezes neste livro, e agora gostaria de explicar brevemente como ela funciona e por que a forma única com que foi projetada é importante e útil.
 
 No próximo apêndice exploraremos alguns padrões `async` avançados, mas você provavelmente irá querer uma biblioteca para torná-los palatáveis o suficiente para serem úteis. Utilizaremos *asynquence* para expressar estes padrões, portanto você irá querer passar algum tempo por aqui para conhecê-la antes de mais nada.
 
-*asynquence* obviamente não é a única opção para boas implementações `async`; certamente existem ótimas bibliotecas por aí. Mas *asynquence* oferece uma perspectiva única ao combinar o melhor destes padrões em uma única biblioteca e, além disso, foi criada sobre uma única abstração: a (async) sequência.
+*asynquence* obviamente não é a única opção para boas implementações `async`; certamente existem ótimas bibliotecas por aí. Mas *asynquence* oferece uma perspectiva única ao combinar o melhor destes padrões em uma única biblioteca e, além disso, foi criada sobre uma única abstração: a sequência (assíncrona).
 
-Minha premissa é que programas JS sofisticados necessitam, com frequência, de porções de diversos padrões assíncronos tecidos juntos, e isso normalmente fica a cargo de cada desenvolvedor(a) descobrir. Em vez de incluirmos duas ou mais bibliotecas diferentes que focam em diferentes aspectos da assincronia, *asynquence* unifica-as em uma sequência variada de passos, com uma única biblioteca para aprender e implantar.
+Minha premissa é que programas JS sofisticados necessitam, com frequência, de porções de diversos padrões assíncronos entrelaçados, e isso normalmente fica a cargo de cada desenvolvedor(a) descobrir. Em vez de incluirmos duas ou mais bibliotecas diferentes que focam em diferentes aspectos da assincronia, *asynquence* unifica-as em uma sequência variada de passos, com uma única biblioteca para aprender e implantar.
 
 Acredito no valor agregado por *asynquence* na facilidade de se obter uma semântica de programação baseada em Promises para controle de fluxo assíncrono e é por isso que focaremos exclusivamente nesta biblioteca aqui.
 
