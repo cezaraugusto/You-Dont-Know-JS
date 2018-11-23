@@ -1,17 +1,17 @@
-# You Don't Know JS: *this* & Object Prototypes
-# Chapter 5: Prototypes
+# You Don't Know JS: *this* & Prototipagem de Objetos
+# Capítulo 5: Protótipos
 
-In Chapters 3 and 4, we mentioned the `[[Prototype]]` chain several times, but haven't said what exactly it is. We will now examine prototypes in detail.
+Nos capítulos 3 e 4, nós mencionamos a cadeia `[[Prototype]]` por diversas vezes, mas não havíamos dito ainda do que exatamente se trata. Agora, nós vamos examinar protótipos em detalhes.
 
-**Note:** All of the attempts to emulate class-copy behavior, as described previously in Chapter 4, labeled as variations of "mixins", completely circumvent the `[[Prototype]]` chain mechanism we examine here in this chapter.
+**Nota:** Todas as tentativas de emular o comportamento de cópia de classes, como descrito anteriormente no Capítulo 4, rotuladas como variações de "mixins", contornam completamente o mecanismo de cadeia de prototipagem `[[Prototype]]` que iremos examinar neste capítulo. 
 
 ## `[[Prototype]]`
 
-Objects in JavaScript have an internal property, denoted in the specification as `[[Prototype]]`, which is simply a reference to another object. Almost all objects are given a non-`null` value for this property, at the time of their creation.
+Objetos em JavaScript possuem propriedades internas, denominadas em sua especificação como `[[Prototype]]`, que trata-se simplesmente de uma referência à um outro objeto. Quase todos os objetos recebem um valor não nulo para essa propriedade, no momento de sua criação. 
 
-**Note:** We will see shortly that it *is* possible for an object to have an empty `[[Prototype]]` linkage, though this is somewhat less common.
+**Nota:** Nós veremos em breve que *é* possível para um objeto ter uma ligação vazia de `[[Prototype]]`, embora isso seja pouco comum.
 
-Consider:
+Considere:
 
 ```js
 var myObject = {
@@ -21,41 +21,41 @@ var myObject = {
 myObject.a; // 2
 ```
 
-What is the `[[Prototype]]` reference used for? In Chapter 3, we examined the `[[Get]]` operation that is invoked when you reference a property on an object, such as `myObject.a`. For that default `[[Get]]` operation, the first step is to check if the object itself has a property `a` on it, and if so, it's used.
+Qual é a referência de `[[Prototype]]` utilizada? No capítulo 3, nós examinamos a operação `[[Get]]` que é invocada quando você referencia uma propriedade à um objeto, como o `myObject.a`. Para uma operação `[[Get]]` padrão, o primeiro passo é checar se o próprio objeto possui uma propriedade `a`, e caso possua, se a mesma é utilizada.
 
-**Note:** ES6 Proxies are outside of our discussion scope in this book (will be covered in a later book in the series!), but everything we discuss here about normal `[[Get]]` and `[[Put]]` behavior does not apply if a `Proxy` is involved.
+**Nota:** ES6 Proxies estão fora do escopo de discussão deste livro (isso será visto em um futuro livro da série!), mas tudo que nós discutimos aqui sobre comportamentos normais de  `[[Get]]` e `[[Put]]` não se aplicam caso um `Proxy` seja envolvido.
 
-But it's what happens if `a` **isn't** present on `myObject` that brings our attention now to the `[[Prototype]]` link of the object.
+Mas é o que acontece se `a` **não está** presente em `myObject` que chama nossa atenção agora para a ligação `[[Prototype]]` do objeto. 
 
-The default `[[Get]]` operation proceeds to follow the `[[Prototype]]` **link** of the object if it cannot find the requested property on the object directly.
+O procedimento de uma operação `[[Get]]` padrão segue a ligação `[[Prototype]]` do objeto caso não consiga encontrar a propriedade que for solicitada diretamente no objeto.
 
 ```js
 var anotherObject = {
 	a: 2
 };
 
-// create an object linked to `anotherObject`
+// cria um objeto ligado com `anotherObject`
 var myObject = Object.create( anotherObject );
 
 myObject.a; // 2
 ```
 
-**Note:** We will explain what `Object.create(..)` does, and how it operates, shortly. For now, just assume it creates an object with the `[[Prototype]]` linkage we're examining to the object specified.
+**Nota:** Nós explicaremos o que `Object.create(..)` faz, e como ele opera, em breve. Por enquanto, apenas assuma que ele cria um objeto com uma ligação `[[Prototype]]` no objeto especificado que estamos examinando.
 
-So, we have `myObject` that is now `[[Prototype]]` linked to `anotherObject`. Clearly `myObject.a` doesn't actually exist, but nevertheless, the property access succeeds (being found on `anotherObject` instead) and indeed finds the value `2`.
+Então, temos `myObject` que agora está ligado através do `[[Prototype]]` com `anotherObject`. Embora `myObject.a` não exista realmente, o acesso à propriedade é bem sucedido (encontrado em `anotherObject` ao invés disso) e de fato encontra o valor `2`.
 
-But, if `a` weren't found on `anotherObject` either, its `[[Prototype]]` chain, if non-empty, is again consulted and followed.
+Mas, caso `a` também não seja encontrado em `anotherObject`, sua cadeia `[[Prototype]]`, caso não esteja vazia, é novamente consultada e seguida.
 
-This process continues until either a matching property name is found, or the `[[Prototype]]` chain ends. If no matching property is *ever* found by the end of the chain, the return result from the `[[Get]]` operation is `undefined`.
+Esse processo continua até que seja encontrada uma propriedade com o mesmo nome, ou até que a cadeia `[[Prototype]]` termine. Se *nenhuma* propriedade for encontrada até o final da cadeia `[[Prototype]]`, o resultado que a operação `[[Get]]` retorna é `undefined`.
 
-Similar to this `[[Prototype]]` chain look-up process, if you use a `for..in` loop to iterate over an object, any property that can be reached via its chain (and is also `enumerable` -- see Chapter 3) will be enumerated. If you use the `in` operator to test for the existence of a property on an object, `in` will check the entire chain of the object (regardless of *enumerability*).
+Similar à esse processo de busca na cadeia `[[Prototype]]`, se você usar o laço `for..in` para iterar um objeto, qualquer propriedade que seja alcançada através da cadeia (e que também seja `enumerable` -- veja Capítulo 3) será enumerada. Se você utilizar o operador `in` para testar a existência de uma propriedade dentro de um objeto, `in` irá verificar por toda a cadeia do objeto (independentemente da *enumerabilidade* do mesmo).
 
 ```js
 var anotherObject = {
 	a: 2
 };
 
-// create an object linked to `anotherObject`
+// cria um objeto ligado ao `anotherObject`
 var myObject = Object.create( anotherObject );
 
 for (var k in myObject) {
@@ -63,50 +63,50 @@ for (var k in myObject) {
 }
 // found: a
 
-("a" in myObject); // true
+("a" in myObject); // retorna true
 ```
 
-So, the `[[Prototype]]` chain is consulted, one link at a time, when you perform property look-ups in various fashions. The look-up stops once the property is found or the chain ends.
+Ou seja, a cadeia `[[Prototype]]` é consultada, uma ligação por vez, quando você realiza buscas de propriedades de diferentes maneiras. As buscas param assim que a propriedade é encontrada ou assim que cadeia termina. 
 
 ### `Object.prototype`
 
-But *where* exactly does the `[[Prototype]]` chain "end"?
+Mas *onde* exatamente a cadeia `[[Prototype]]` "termina"?
 
-The top-end of every *normal* `[[Prototype]]` chain is the built-in `Object.prototype`. This object includes a variety of common utilities used all over JS, because all normal (built-in, not host-specific extension) objects in JavaScript "descend from" (aka, have at the top of their `[[Prototype]]` chain) the `Object.prototype` object.
+No topo de toda cadeia `[[Prototype]]` *normal* está embutido o `Object.prototype`. Este objeto inclui uma varidade de utilitários normalmente utilizados por todo JS, porque todos objetos normais (que estão embutidos na linguagem, não extensões self-host) em Javascript "descendem" (ou constam no topo de sua cadeia `[[Prototype]]`) do objeto `Object.prototype`. 
 
-Some utilities found here you may be familiar with include `.toString()` and `.valueOf()`. In Chapter 3, we introduced another: `.hasOwnProperty(..)`. And yet another function on `Object.prototype` you may not be familiar with, but which we'll address later in this chapter, is `.isPrototypeOf(..)`.
+Alguns utilitários encontrados aqui com os quais você pode estar familiarizado incluem `.toString()` e `.valueOf()`. No Capítulo 3, nós introduzímos um outro: `.hasOwnProperty(..)`. E uma outra função dentro do `Object.prototype` da qual você não deve estar familiriazado, mas que iremos tratar adiante neste capítulo, é `.isPrototypeOf(..)`. 
 
-### Setting & Shadowing Properties
+### Configuração e Sombreamento de Propriedades
 
-Back in Chapter 3, we mentioned that setting properties on an object was more nuanced than just adding a new property to the object or changing an existing property's value. We will now revisit this situation more completely.
+No Capítulo 3, nós havíamos mencionado que a configuração das propriedades de um objeto é mais do que simplesmente adicionar uma nova propriedade ao objeto ou alterar o valor de uma propriedade existente. Nós vamos agora revisitar essa situação de uma forma mais completa.
 
 ```js
 myObject.foo = "bar";
 ```
 
-If the `myObject` object already has a normal data accessor property called `foo` directly present on it, the assignment is as simple as changing the value of the existing property.
+Se o objeto `myObject` já possui uma propriedade de acesso à dados normal chamada de `foo` diretamente presente, a atribuição é tão simples quanto alterar o valor de uma propriedade existe.
 
-If `foo` is not already present directly on `myObject`, the `[[Prototype]]` chain is traversed, just like for the `[[Get]]` operation. If `foo` is not found anywhere in the chain, the property `foo` is added directly to `myObject` with the specified value, as expected.
+Se `foo` não estiver diretamente presente em `myObject`, a cadeia `[[Prototype]]` é percorrida, assim como em uma operação `[[Get]]`. Se `foo` não for encontrada na cadeia, a propriedade `foo` é adicionada diretamente para `myObject` com seu valor especificado, como esperado. 
 
-However, if `foo` is already present somewhere higher in the chain, nuanced (and perhaps surprising) behavior can occur with the `myObject.foo = "bar"` assignment. We'll examine that more in just a moment.
+Entretanto, se `foo` já está presente em algum lugar mais alto da cadeia, comportamentos sutilmente (e talvez surpreendentemente) diferentes podem ocorrer com a atribuição `myObject.foo = "bar"`. Nós examinaremos isso em instantes.
 
-If the property name `foo` ends up both on `myObject` itself and at a higher level of the `[[Prototype]]` chain that starts at `myObject`, this is called *shadowing*. The `foo` property directly on `myObject` *shadows* any `foo` property which appears higher in the chain, because the `myObject.foo` look-up would always find the `foo` property that's lowest in the chain.
+Se a propriedade com nome `foo` acabar tanto no próprio `myObject` quanto em um nível mais alto da cadeia `[[Prototype]]` que começa em `myObject`, trata-se de algo chamado de *sombreamento*. A propriedade `foo` que se encontra diretamente em `myObject` *faz sombra* à qualquer propriedade `foo` que apareça mais alto na cadeia, porque a busca de `myObject.foo` irá sempre encontrar a propriedade `foo` que estiver em um lugar mais baixo na cadeia.      
 
-As we just hinted, shadowing `foo` on `myObject` is not as simple as it may seem. We will now examine three scenarios for the `myObject.foo = "bar"` assignment when `foo` is **not** already on `myObject` directly, but **is** at a higher level of `myObject`'s `[[Prototype]]` chain:
+Como acabamos de indicar, sombrear `foo` em `myObject` não é tão simples quanto pode parecer. Nós vamos agora examinar três cenários para a atribuição `myObject.foo = "bar"` quando `foo` **não está** diretamente presente em `myObject`, mas **está** presente em um nível mais alto da cadeia `[[Prototype]]` de `myObject`.
 
-1. If a normal data accessor (see Chapter 3) property named `foo` is found anywhere higher on the `[[Prototype]]` chain, **and it's not marked as read-only (`writable:false`)** then a new property called `foo` is added directly to `myObject`, resulting in a **shadowed property**.
-2. If a `foo` is found higher on the `[[Prototype]]` chain, but it's marked as **read-only (`writable:false`)**, then both the setting of that existing property as well as the creation of the shadowed property on `myObject` **are disallowed**. If the code is running in `strict mode`, an error will be thrown. Otherwise, the setting of the property value will silently be ignored. Either way, **no shadowing occurs**.
-3. If a `foo` is found higher on the `[[Prototype]]` chain and it's a setter (see Chapter 3), then the setter will always be called. No `foo` will be added to (aka, shadowed on) `myObject`, nor will the `foo` setter be redefined.
+1. Se uma propriedade de acesso à dados normal (veja Capítulo 3) de nome `foo` é encontrada em qualquer lugar da cadeia `[[Prototype]]`, **e não está marcada como somente leitura (`writable:false`)** então uma nova propriedade de nome `foo` é diretamente adicionada à `myObject`, resultando em uma **propriedade sombreada**.
+2. Se `foo` é encontrada no alto da cadeia `[[Prototype]]`, mas está marcada como **somente leitura (`writable:false`)**, então tanto a configuração de uma propriedade existente quanto a criação de uma propriedade sombreada em `myObject` **não são permitidas**. Se o código estiver rodando em `strict mode`, um erro será retornado. Caso não esteja, uma atribuição de valor à propriedade será silenciosamente ignorada. Em todo caso, **não haverá sombreamento**. 
+3. Se `foo` é encontrada no alto da cadeia `[[Prototype]]` é for um setter (veja Capítulo 3), então o setter sempre será chamado. Nenhuma `foo` será adicionada (ou sombreada) em `myObject`, e nem o setter de `foo` será redefinido.
 
-Most developers assume that assignment of a property (`[[Put]]`) will always result in shadowing if the property already exists higher on the `[[Prototype]]` chain, but as you can see, that's only true in one (#1) of the three situations just described.
+Muitos desenvolvedores assumem que a atribuição de uma propriedade (`[[Put]]`) sempre resultará em sombreamento se a propriedade já existir no alto da cadeia `[[Prototype]]`, mas como se nota, isso só é verdadeiro em uma (a primeira) das três situações descritas acima.
 
-If you want to shadow `foo` in cases #2 and #3, you cannot use `=` assignment, but must instead use `Object.defineProperty(..)` (see Chapter 3) to add `foo` to `myObject`.
+Se você quer sombrear `foo` nos casos 2 e 3, não poderá usar `=` para fazer a atribuição, ao invés disso deve utilizar `Object.defineProperty(..)` (veja Capítulo 3) para adicionar `foo` em `myObject`.
 
-**Note:** Case #2 may be the most surprising of the three. The presence of a *read-only* property prevents a property of the same name being implicitly created (shadowed) at a lower level of a `[[Prototype]]` chain. The reason for this restriction is primarily to reinforce the illusion of class-inherited properties. If you think of the `foo` at a higher level of the chain as having been inherited (copied down) to `myObject`, then it makes sense to enforce the non-writable nature of that `foo` property on `myObject`. If you however separate the illusion from the fact, and recognize that no such inheritance copying *actually* occured (see Chapters 4 and 5), it's a little unnatural that `myObject` would be prevented from having a `foo` property just because some other object had a non-writable `foo` on it. It's even stranger that this restriction only applies to `=` assignment, but is not enforced when using `Object.defineProperty(..)`.
+**Nota:** O caso 2 pode ser o mais surpreendente dos três. A presença de uma propriedade *somente leitura* previne que uma propriedade de mesmo nome seja implicitamente criada (sombreada) em um nível mais baixo da cadeia `[[Prototype]]`. O motivo para esta restrição é primariamente para reforçar a ilusão de propriedades herdadas de classes. Se você pensar em `foo` em um nível alto da cadeia como tendo sido herdado (copiado para baixo) para `myObject`, então faz sentido impor a natureza não-gravável desta propriedade `foo` em `myObject`. Se você no entanto separar a ilusão e o fato, e reconhecer que nenhuma cópia de herança *realmente* ocorreu (veja Capítulos 4 e 5), é um pouco antinatural que `myObject` seja impedido de ter uma propriedade `foo` apenas porque algum outro objeto tinha um `foo` não-gravável nele. É ainda mais estranho que esta restrição só se aplique à designação `=`, mas não seja aplicada quando `Object.defineProperty (..)` é utilizado.    
 
-Shadowing with **methods** leads to ugly *explicit pseudo-polymorphism* (see Chapter 4) if you need to delegate between them. Usually, shadowing is more complicated and nuanced than it's worth, **so you should try to avoid it if possible**. See Chapter 6 for an alternative design pattern, which among other things discourages shadowing in favor of cleaner alternatives.
+Sombreamento com **métodos** leva ao terrível *pseudo-polimorfismo explícito* (veja Capítulo 4), se você precisa delegar entre eles. Normalmente, sombreamento é mais complicado e específico do que sua importância, **então você deve tentar evitar de usar, se possível**. Veja o Capítulo 6 para um design pattern alternativo, que entre outras coisas desencoraja o uso do sombreamento em favor de alternativas mais limpas.
 
-Shadowing can even occur implicitly in subtle ways, so care must be taken if trying to avoid it. Consider:
+Sombreamento pode até ocorrer implicitamente de maneiras sutis, então um cuidado deve ser tomado na tentativa de evitá-lo. Considere:
 
 ```js
 var anotherObject = {
@@ -121,7 +121,7 @@ myObject.a; // 2
 anotherObject.hasOwnProperty( "a" ); // true
 myObject.hasOwnProperty( "a" ); // false
 
-myObject.a++; // oops, implicit shadowing!
+myObject.a++; // ops, sombreamento implicito!
 
 anotherObject.a; // 2
 myObject.a; // 3
@@ -129,25 +129,25 @@ myObject.a; // 3
 myObject.hasOwnProperty( "a" ); // true
 ```
 
-Though it may appear that `myObject.a++` should (via delegation) look-up and just increment the `anotherObject.a` property itself *in place*, instead the `++` operation corresponds to `myObject.a = myObject.a + 1`. The result is `[[Get]]` looking up `a` property via `[[Prototype]]` to get the current value `2` from `anotherObject.a`, incrementing the value by one, then `[[Put]]` assigning the `3` value to a new shadowed property `a` on `myObject`. Oops!
+Embora possa parecer que `myObject.a++` deveria (via delegação) procurar e apenas incrementar a propriedade `anotherObject.a` propriamente dita *em seu lugar*, em vez disso a operação `++` corresponde à `myObject.a = myObject.a + 1`. O resultado é um `[[Get]]` procurando a propriedade `a` através de `[[Prototype]]` para obter o valor atual `2` de `anotherObject.a`, incrementando o valor em um, e então um `[[Put]]` atribuindo o valor `3` à uma nova propriedade sombreada `a` em `myObject`. Ops!
 
-Be very careful when dealing with delegated properties that you modify. If you wanted to increment `anotherObject.a`, the only proper way is `anotherObject.a++`.
+Tenha muito cuidado ao lidar com as propriedades delegadas que modifica. Se você quer incrementar `anotherObject.a`, a única maneira apropriada é `anotherObject.a++`.
 
 ## "Class"
 
-At this point, you might be wondering: "*Why* does one object need to link to another object?" What's the real benefit? That is a very appropriate question to ask, but we must first understand what `[[Prototype]]` is **not** before we can fully understand and appreciate what it *is* and how it's useful.
+Neste momento, você deve estar imaginando: "*Por que* um objeto precisa ser ligado à um outro objeto?" Qual é o real benefício? Esta é uma pergunta muito apropriada de se fazer, mas primeiro precisamos entender o que `[[Prototype]]` **não é** antes de entendê-lo completamente e apreciar o que **é** e como pode ser útil.
 
-As we explained in Chapter 4, in JavaScript, there are no abstract patterns/blueprints for objects called "classes" as there are in class-oriented languages. JavaScript **just** has objects.
+Como explicamos no Capítulo 4, em Javascript, não há padrões abstratos para objetos chamados de "classes" como no caso de linguagens orientadas à classes. Javascript tem **apenas** objetos.
 
-In fact, JavaScript is **almost unique** among languages as perhaps the only language with the right to use the label "object oriented", because it's one of a very short list of languages where an object can be created directly, without a class at all.
+Na verdade, Javascript é **quase única** entre as linguagens pelo fato de talvez ser a única linguagem com o direito de ser rotulada de "orientada à objetos", porque é uma entre uma lista bem pequena de linguagens em que objetos podem ser criados diretamente, sem a existência de uma classe.
 
-In JavaScript, classes can't (being that they don't exist!) describe what an object can do. The object defines its own behavior directly. **There's *just* the object.**
+Em Javascript, classes não podem (já que não existem!) descrever o que um objeto pode fazer. O objeto define diretamente seu próprio comportamento. **Existe *apenas* o objeto.**
 
 ### "Class" Functions
 
-There's a peculiar kind of behavior in JavaScript that has been shamelessly abused for years to *hack* something that *looks* like "classes". We'll examine this approach in detail.
+Existe um tipo de comportamento peculiar em Javascript que vem sendo descaradamente abusado por anos para *hackear* algo que somente *parece* com "classes". Nós examinaremos essa abordagem em detalhes. 
 
-The peculiar "sort-of class" behavior hinges on a strange characteristic of functions: all functions by default get a public, non-enumerable (see Chapter 3) property on them called `prototype`, which points at an otherwise arbitrary object.
+O peculiar comportamento de "espécie de classe" depende de uma estranha característica das funções: por padrão, todas as funções obtêm uma propriedade pública, não enumerável (veja o Capítulo 3) nelas chamada  `prototype`, que aponta para um objeto arbitrário.
 
 ```js
 function Foo() {
@@ -157,13 +157,13 @@ function Foo() {
 Foo.prototype; // { }
 ```
 
-This object is often called "Foo's prototype", because we access it via an unfortunately-named `Foo.prototype` property reference. However, that terminology is hopelessly destined to lead us into confusion, as we'll see shortly. Instead, I will call it "the object formerly known as Foo's prototype". Just kidding. How about: "object arbitrarily labeled 'Foo dot prototype'"?
+Esse objeto é frequentemente chamado de "prototype de Foo", porque o acessamos atráves de uma referência de propriedade com o infeliz nome de `Foo.prototype`. Entretanto, essa terminologia está fatalmente destinada à nos confundir, como veremos em breve. Ao invés disso, irei chamar de "o objeto que antes era conhecido como prototype de Foo". Brincadeira. Que tal: "o objeto arbitrariamente rotulado de 'Foo ponto prototype'"?
 
-Whatever we call it, what exactly is this object?
+Independente de como chamamos, o que exatamente é este objeto? 
 
-The most direct way to explain it is that each object created from calling `new Foo()` (see Chapter 2) will end up (somewhat arbitrarily) `[[Prototype]]`-linked to this "Foo dot prototype" object.
+A forma mais direta de se explicar é que cada objeto criado ao chamar `new Foo()` (veja Capítulo 2) acabará (de certa forma, arbitrariamente) ligado pelo `[[Prototype]]` com esse objeto 'Foo ponto prototype'.
 
-Let's illustrate:
+Vamos ilustrar:
 
 ```js
 function Foo() {
@@ -175,53 +175,52 @@ var a = new Foo();
 Object.getPrototypeOf( a ) === Foo.prototype; // true
 ```
 
-When `a` is created by calling `new Foo()`, one of the things (see Chapter 2 for all *four* steps) that happens is that `a` gets an internal `[[Prototype]]` link to the object that `Foo.prototype` is pointing at.
+Quando `a` é criado ao chamar `new Foo()`, uma das coisas (ceja Capítulo 2 para todos os *quatro* passos) que acontece é que `a` obtêm uma ligação `[[Prototype]]` interna com o objeto que `Foo.prototype` está apontando.
 
-Stop for a moment and ponder the implications of that statement.
+Pare um momento e pondere as implicações desta declaração.
 
-In class-oriented languages, multiple **copies** (aka, "instances") of a class can be made, like stamping something out from a mold. As we saw in Chapter 4, this happens because the process of instantiating (or inheriting from) a class means, "copy the behavior plan from that class into a physical object", and this is done again for each new instance.
+Em linguagens orientadas à classes, multiplas **cópias** (também conhecidas como "instâncias") de uma classe podem ser criadas, como carimbar algo à partir de um molde. Como vimos no Capítulo 4, isso acontece porque o processo de instânciação (ou de herdar de) uma classe significa "copiar o plano de comportamento desta classe para um objeto físico", e isso é feito novamente para cada nova instância.  
 
-But in JavaScript, there are no such copy-actions performed. You don't create multiple instances of a class. You can create multiple objects that `[[Prototype]]` *link* to a common object. But by default, no copying occurs, and thus these objects don't end up totally separate and disconnected from each other, but rather, quite ***linked***.
+Mas em Javascript, não há ações de cópias deste tipo. Você não cria múltiplas instâncias de uma classe. Você cria múltiplos objetos que são *ligados* pelo `[[Prototype]]` com um objeto comum. Mas por padrão, nenhuma cópia ocorre, e portanto esses objetos acabam não sendo totalmente separados e nem desconectados um do outro, pelo contrário, estão bem ***ligados***. 
 
-`new Foo()` results in a new object (we called it `a`), and **that** new object `a` is internally `[[Prototype]]` linked to the `Foo.prototype` object.
+`new Foo()` resulta em um novo objeto (que chamamos de `a`), e **este** novo objeto `a` é internamente ligado por `[[Prototype]]` com o objeto `Foo.prototype`.  
 
-**We end up with two objects, linked to each other.** That's *it*. We didn't instantiate a class. We certainly didn't do any copying of behavior from a "class" into a concrete object. We just caused two objects to be linked to each other.
+**Nós acabamos com dois objetos, um ligado ao outro.** E *é isso*. Nós não instanciamos uma classe. Nós certamente não fizemos nenhuma cópia de comportamento de uma "classe" para um objeto concreto. Nós só fizemos com que dois objetos fossem ligados um ao outro.
 
-In fact, the secret, which eludes most JS developers, is that the `new Foo()` function calling had really almost nothing *direct* to do with the process of creating the link. **It was sort of an accidental side-effect.** `new Foo()` is an indirect, round-about way to end up with what we want: **a new object linked to another object**.
+Na verdade, o segredo, que ilude a maioria dos desenvolvedores de JS, é que a chamada da função `new Foo()` não tem praticamente nada à ver *diretamente* com o processo de criar a ligação. **Foi uma espécie de efeito colateral acidental.** `new Foo()` é uma forma indireta de se conseguir o que queremos: **um novo objeto ligado à um outro objeto**. 
 
-Can we get what we want in a more *direct* way? **Yes!** The hero is `Object.create(..)`. But we'll get to that in a little bit.
+Nós conseguimos ter o que queremos de uma forma mais *direta*? **Sim!** o herói é `Object.create(..)`. Mas nós chegaremos lá daqui à pouco. 
 
-#### What's in a name?
+#### O que está em um nome?
 
-In JavaScript, we don't make *copies* from one object ("class") to another ("instance"). We make *links* between objects. For the `[[Prototype]]` mechanism, visually, the arrows move from right to left, and from bottom to top.
-
+Em Javascript, nós não fazemos *cópias* de um objeto ("class") para outro ("instância"). Nós criamos *ligações* entre objetos. Para o mecanismo `[[Prototype]]`, visualmente, as setas movem da direita pra esquerda, e de baixo pra cima.
 <img src="fig3.png">
 
-This mechanism is often called "prototypal inheritance" (we'll explore the code in detail shortly), which is commonly said to be the dynamic-language version of "classical inheritance". It's an attempt to piggy-back on the common understanding of what "inheritance" means in the class-oriented world, but *tweak* (**read: pave over**) the understood semantics, to fit dynamic scripting.
+Este mecanismo é frequentemente chamado de "herança prototípica" (nós examinaremos o código em detalhes à seguir), e é comumente considerado como a versão em linguagem dinâmica para a "herança clássica". É uma tentativa de se apoiar no entendimento comum do que "herança" significa no mundo orientado a classes, mas *ajustar* (**leia: pavimentar**) a semântica compreendida para se adequar ao script dinâmico.
 
-The word "inheritance" has a very strong meaning (see Chapter 4), with plenty of mental precedent. Merely adding "prototypal" in front to distinguish the *actually nearly opposite* behavior in JavaScript has left in its wake nearly two decades of miry confusion.
+A palavra "herança" tem um significado poderoso (veja Capítulo 4), com muito precedente mental. Meramente adicionar o termo "prototípica" para distinguir um comportamento *que é na verdade quase oposto* em Javascript deixou um rastro de quase duas décadas de confusão.
 
-I like to say that sticking "prototypal" in front "inheritance" to drastically reverse its actual meaning is like holding an orange in one hand, an apple in the other, and insisting on calling the apple a "red orange". No matter what confusing label I put in front of it, that doesn't change the *fact* that one fruit is an apple and the other is an orange.
+Eu gosto de dizer que o rótulo de "protótipo" para uma "herança" inverte drásticamente o seu real significado, é como segurar uma laranja em uma mão, uma maçã na outra, e insistir para que chamem a maçã de "laranja vermelha". Não importa o quão confuso seja o rótulo que eu utilize, isso não muda o *fato* que uma fruta é maçã e a outra é laranja.
 
-The better approach is to plainly call an apple an apple -- to use the most accurate and direct terminology. That makes it easier to understand both their similarities and their **many differences**, because we all have a simple, shared understanding of what "apple" means.
+A melhor abordagem é simplesmente chamar uma maçã de maçã -- para usar a terminologia mais precisa e direta. Isso facilita o entendimento tanto em suas similaridades quanto suas **muitas diferenças**, porque tudo que temos é um entendimento simples e compartilhado do que "maçã" significa. 
 
-Because of the confusion and conflation of terms, I believe the label "prototypal inheritance" itself (and trying to mis-apply all its associated class-orientation terminology, like "class", "constructor", "instance", "polymorphism", etc) has done **more harm than good** in explaining how JavaScript's mechanism *really* works.
+Graças à confusão e conflação de termos, acredito que o próprio rótulo de "herança prototípica" (e a tentativa de se aplicar incorretamente toda a sua terminologia de orientação de classe associada, como "classe", "construtor", "instância", "polimorfismo", etc.) tem causado efeitos **mais negativos que positivos** em explicar como o mecanismo de Javascript *realmente* funciona. 
 
-"Inheritance" implies a *copy* operation, and JavaScript doesn't copy object properties (natively, by default). Instead, JS creates a link between two objects, where one object can essentially *delegate* property/function access to another object. "Delegation" (see Chapter 6) is a much more accurate term for JavaScript's object-linking mechanism.
+"Herança" implica em uma operação de *cópia*, e JavaScript não copia propriedades de objetos (nativamente, por padrão). Ao invés disso, JS cria uma ligação entre dois objetos, onde um objeto pode essencialmente *delegar* acesso às propriedades/funções para outro objeto. "Delegação" (veja Capítulo 6) é um termo muito mais preciso para o mecanismo de ligação entre objetos do JavaScript.
 
-Another term which is sometimes thrown around in JavaScript is "differential inheritance". The idea here is that we describe an object's behavior in terms of what is *different* from a more general descriptor. For example, you explain that a car is a kind of vehicle, but one that has exactly 4 wheels, rather than re-describing all the specifics of what makes up a general vehicle (engine, etc).
+Outro termo que às vezes é jogado em JavaScript é "herança diferencial". A ideia aqui é que descrevemos o comportamento de um objeto em termos do que é *diferente* de um descritor mais generalizado. Por exemplo, você explica que um carro é um tipo de veículo, mas que tem exatamente 4 rodas, ao invés de descrever todos os detalhes do que compõe um veículo em geral (motor, etc). 
 
-If you try to think of any given object in JS as the sum total of all behavior that is *available* via delegation, and **in your mind you flatten** all that behavior into one tangible *thing*, then you can (sorta) see how "differential inheritance" might fit.
+Se você tentar pensar em qualquer objeto em JS como a soma total de todo o comportamento que está *disponível* via delegação, e **em sua mente você nivela** todo esse comportamento em apenas uma *coisa* tangível, então você pode (de certa forma) ver como "herança diferencial" poderá se encaixar.
 
-But just like with "prototypal inheritance", "differential inheritance" pretends that your mental model is more important than what is physically happening in the language. It overlooks the fact that object `B` is not actually differentially constructed, but is instead built with specific characteristics defined, alongside "holes" where nothing is defined. It is in these "holes" (gaps in, or lack of, definition) that delegation *can* take over and, on the fly, "fill them in" with delegated behavior.
+Mas assim como "herança prototípica", "herança diferencial" finge que seu modelo mental é mais importante que o que está fisicamente acontecendo na linguagem. Ela negligencia o fato que o objeto `B` não é realmente diferencialmente construído, mas é construído com características específicas definidas, ao lado de "buracos" onde nada é definido. É nesses "buracos" (lacunas ou falta de definição) que a delegação *pode* assumir e, na mosca, "preenchê-los" com o comportamento delegado.
 
-The object is not, by native default, flattened into the single differential object, **through copying**, that the mental model of "differential inheritance" implies. As such, "differential inheritance" is just not as natural a fit for describing how JavaScript's `[[Prototype]]` mechanism actually works.
+O objeto não é, por padrão nativo, nivelado em um único objeto diferencial, ***através de cópia***, que o modelo mental de "herança diferencial" implica. Como tal, "herança diferencial" não é apenas um ajuste natural para descrever como o mecanismo `[[Prototype]]` do JavaScript realmente funciona.
 
-You *can choose* to prefer the "differential inheritance" terminology and mental model, as a matter of taste, but there's no denying the fact that it *only* fits the mental acrobatics in your mind, not the physical behavior in the engine.
+Você *pode escolher* em preferir a terminologia de "herança diferencial" e o modelo mental, por questão de gosto, mas não há como negar o fato de que *apenas* se encaixa nas acrobacias mentais dentro de sua mente, e não do comportamento físico da engine.
 
 ### "Constructors"
 
-Let's go back to some earlier code:
+Vamos voltar à um código visto mais cedo:
 
 ```js
 function Foo() {
@@ -231,11 +230,11 @@ function Foo() {
 var a = new Foo();
 ```
 
-What exactly leads us to think `Foo` is a "class"?
+O que exatamente nos leva a pensar que `Foo` é uma "classe"?
 
-For one, we see the use of the `new` keyword, just like class-oriented languages do when they construct class instances. For another, it appears that we are in fact executing a *constructor* method of a class, because `Foo()` is actually a method that gets called, just like how a real class's constructor gets called when you instantiate that class.
+Primeiramente, nós vimos o uso da palavra-chave `new`, assim como em linguagens orientadas à classes quando se instânciam classes. Além disso, parece que estamos na verdade executando um método *construtor* de uma classe, porque `Foo()` é o método de que de fato é chamado, assim como construtores reais de classes são chamados quando se instância está classe. 
 
-To further the confusion of "constructor" semantics, the arbitrarily labeled `Foo.prototype` object has another trick up its sleeve. Consider this code:
+Para aumentar a confusão sobre a semântica de um "construtor", o objeto arbitrariamente rotulado de `Foo.prototype` tem outro truque na manga. Considere este código: 
 
 ```js
 function Foo() {
@@ -248,44 +247,44 @@ var a = new Foo();
 a.constructor === Foo; // true
 ```
 
-The `Foo.prototype` object by default (at declaration time on line 1 of the snippet!) gets a public, non-enumerable (see Chapter 3) property called `.constructor`, and this property is a reference back to the function (`Foo` in this case) that the object is associated with. Moreover, we see that object `a` created by the "constructor" call `new Foo()` *seems* to also have a property on it called `.constructor` which similarly points to "the function which created it".
+O objeto `Foo.prototype` por padrão (no momento da declaração na linha 1 do snippet) recebe uma propriedade pública, não enumerável (veja Capítulo 3) chamada `.constructor`, e essa propriedade é uma referência de volta à função (`Foo` neste caso) em que o objeto está associado. Além disso, vemos que o objeto `a` criado através da chamada do "construtor" `new Foo ()` *parece* ter também uma propriedade nele chamada `.constructor` que similarmente aponta para "a função que o criou".  
 
-**Note:** This is not actually true. `a` has no `.constructor` property on it, and though `a.constructor` does in fact resolve to the `Foo` function, "constructor" **does not actually mean** "was constructed by", as it appears. We'll explain this strangeness shortly.
+**Nota:** Isso não é realmente verdade. `a` não possui uma propriedade `.constructor`, e ainda que `a.constructor` de fato funcione para a função `Foo`, "construtor" **não significa realmente** "foi construído por", como parece. Nós explicaremos essa estranha situação em breve.   
 
-Oh, yeah, also... by convention in the JavaScript world, "class"es are named with a capital letter, so the fact that it's `Foo` instead of `foo` is a strong clue that we intend it to be a "class". That's totally obvious to you, right!?
+Ah sim, outra coisa... por convenção no mundo JavaScript, "classes" são nomeadas com letra maiúscula, então o fato de ser `Foo` ao invés de `foo` é uma forte pista de que a intenção é de que seja uma "classe". Isso é totalmente óbvio pra você, certo!?
 
-**Note:** This convention is so strong that many JS linters actually *complain* if you call `new` on a method with a lowercase name, or if we don't call `new` on a function that happens to start with a capital letter. That sort of boggles the mind that we struggle so much to get (fake) "class-orientation" *right* in JavaScript that we create linter rules to ensure we use capital letters, even though the capital letter doesn't mean ***anything* at all** to the JS engine.
+**Nota:** Essa convenção é tão forte que muitos linters de JS de fato *reclamam* se você chama `new` em um método com letra minúscula, ou se não chamamos `new` em uma função que por acaso comece com uma letra maiúscula. Isso meio que confunde a ideia de que lutamos tanto para obter uma (falsa) "orientação à classe" *do jeito certo* em Javascript em que criamos regras de linter para assegurar que usamos letras maiúsculas, mesmo que letra maiúscula não signifique ***absolutamente* nada** para o motor (engine) JS. 
 
-#### Constructor Or Call?
+#### Construtor ou Chamada?
 
-In the above snippet, it's tempting to think that `Foo` is a "constructor", because we call it with `new` and we observe that it "constructs" an object.
+No snippet acima, é tentador pensar que `Foo` é um "construtor", porque nós o chamamos com `new` e observamos que isso "constrói" um objeto.
 
-In reality, `Foo` is no more a "constructor" than any other function in your program. Functions themselves are **not** constructors. However, when you put the `new` keyword in front of a normal function call, that makes that function call a "constructor call". In fact, `new` sort of hijacks any normal function and calls it in a fashion that constructs an object, **in addition to whatever else it was going to do**.
+Na realidade, `Foo` não é mais "construtor" que qualquer outra função em seu programa. Funções por si só **não** são construtores. Entretanto, quando se coloca a palavra-chave `new` em frente à chamada de uma função normal, isso faz com que a função chame uma "chamada de construtor". Na verdade, `new` meio que sequestra qualquer função normal e chama de uma forma que constrói um objeto, **junto com qualquer outra coisa que iria fazer**.
 
-For example:
+Por exemplo:
 
 ```js
 function NothingSpecial() {
-	console.log( "Don't mind me!" );
+	console.log( "Não ligue pra mim!" );
 }
 
 var a = new NothingSpecial();
-// "Don't mind me!"
+// "Não ligue pra mim!"
 
 a; // {}
 ```
 
-`NothingSpecial` is just a plain old normal function, but when called with `new`, it *constructs* an object, almost as a side-effect, which we happen to assign to `a`. The **call** was a *constructor call*, but `NothingSpecial` is not, in and of itself, a *constructor*.
+`NothingSpecial` é apenas uma função normal, mas quando chamada com `new`, ela *constrói* um objeto, quase como um efeito colateral, que nós por acaso atribuímos à `a`. A **chamada** foi uma *chamada de construtor*, mas `NothingSpecial` não é, por si só, um *construtor*.  
 
-In other words, in JavaScript, it's most appropriate to say that a "constructor" is **any function called with the `new` keyword** in front of it.
+Em outras palavras, em Javascript, é mais apropriado dizer que um "construtor" é **qualquer função chamada através de uma palavra-chave `new`** na frente.
 
-Functions aren't constructors, but function calls are "constructor calls" if and only if `new` is used.
+Funções não são construtores, mas chamadas de funções são "chamadas de construtores" se e apenas se `new` é utilizado.
 
-### Mechanics
+### Mecânicas
 
-Are *those* the only common triggers for ill-fated "class" discussions in JavaScript?
+São *esses* os únicos gatilhos comuns para as malfadadas discussões sobre "classe" em Javascript?
 
-**Not quite.** JS developers have strived to simulate as much as they can of class-orientation:
+**Não exatamente.** Desenvolvedores JS se esforçaram o máximo possível para simular orientação à classes:
 
 ```js
 function Foo(name) {
@@ -303,79 +302,80 @@ a.myName(); // "a"
 b.myName(); // "b"
 ```
 
-This snippet shows two additional "class-orientation" tricks in play:
+Este snippet mostra dois truques adicionais "orientados à classe" em jogo:
 
-1. `this.name = name`: adds the `.name` property onto each object (`a` and `b`, respectively; see Chapter 2 about `this` binding), similar to how class instances encapsulate data values.
+1. `this.name = name`: adiciona a propriedade `.name` em cada objeto (`a` e `b`, respectivamente; veja Capítulo 2 sobre ligação `this`), similar em como instâncias de classes encapsulam dados.
 
-2. `Foo.prototype.myName = ...`: perhaps the more interesting technique, this adds a property (function) to the `Foo.prototype` object. Now, `a.myName()` works, but perhaps surprisingly. How?
+2. `Foo.prototype.myName = ...`: talvez a técnica mais interessante, ela adiciona uma propriedade(função) para o objeto `Foo.prototype`. Agora, surpreendentemente talvez, `a.myName()` funciona. Como?   
 
-In the above snippet, it's strongly tempting to think that when `a` and `b` are created, the properties/functions on the `Foo.prototype` object are *copied* over to each of `a` and `b` objects. **However, that's not what happens.**
+No snippet acima, é fortemente tentador pensar que quando `a` e `b` são criados, as propriedades/funções em objeto `Foo.prototype` são *copiadas* sobre cada objeto `a` e `b`. **Entretanto, não é isso o que acontece.**
 
-At the beginning of this chapter, we explained the `[[Prototype]]` link, and how it provides the fall-back look-up steps if a property reference isn't found directly on an object, as part of the default `[[Get]]` algorithm.
+No início deste capítulo, nós explicamos a ligação `[[Prototype]]`, e cada passo que ela segue para realizar as buscas caso uma referência da propriedade não seja diretamente encontrada no objeto, como parte do padrão do algoritmo `[[Get]]`.
 
-So, by virtue of how they are created, `a` and `b` each end up with an internal `[[Prototype]]` linkage to `Foo.prototype`. When `myName` is not found on `a` or `b`, respectively, it's instead found (through delegation, see Chapter 6) on `Foo.prototype`.
+Então, por virtude do que criamos, cada `a` e `b` acabam com uma ligação `[[Prototype]]` interna com `Foo.prototype`. Quando `myName` não é encontrada em `a` ou `b`, respectivamente, é encontrada em seu lugar (através de delegação, veja Capítulo 6) em `Foo.prototype`. 
 
-#### "Constructor" Redux
+#### "Construtor" Redux
 
-Recall the discussion from earlier about the `.constructor` property, and how it *seems* like `a.constructor === Foo` being true means that `a` has an actual `.constructor` property on it, pointing at `Foo`? **Not correct.**
+Você se lembra da discussão mais cedo sobre a propriedade `.constructor`, e como ela *faz parecer* que `a.constructor === Foo` sendo verdadeiro significa que `a` tem de fato uma propriedade `.constructor` em si, apontando para `Foo`? **Isso não está correto.**   
 
-This is just unfortunate confusion. In actuality, the `.constructor` reference is also *delegated* up to `Foo.prototype`, which **happens to**, by default, have a `.constructor` that points at `Foo`.
+Essa é apenas uma infeliz confusão. Na realidade, a refêrencia de `.constructor` também é *delegada* para `Foo.prototype`, que **acontece de**, por padrão, ter um `.constructor` que aponta para `Foo`.
 
-It *seems* awfully convenient that an object `a` "constructed by" `Foo` would have access to a `.constructor` property that points to `Foo`. But that's nothing more than a false sense of security. It's a happy accident, almost tangentially, that `a.constructor` *happens* to point at `Foo` via this default `[[Prototype]]` delegation. There's actually several ways that the ill-fated assumption of `.constructor` meaning "was constructed by" can come back to bite you.
+*Parece* muito conveniente que o objeto `a` "construído por" `Foo` deveria ter acesso à propriedade `.constructor` que aponta para `Foo`. Mas isso nada mais é que uma sensação falsa de segurança. É um acidente feliz, quase tangencial, que `a.constructor` *por acaso* aponta para `Foo` através desta delegação `[[Prototype]]` padrão. Existem diversas maneiras da malfadada suposição de que `.constructor` significa "foi constrúido por" voltar para te assombrar.
 
-For one, the `.constructor` property on `Foo.prototype` is only there by default on the object created when `Foo` the function is declared. If you create a new object, and replace a function's default `.prototype` object reference, the new object will not by default magically get a `.constructor` on it.
+Uma delas é que, a propriedade `.constructor` em `Foo.prototype` só está lá por padrão no objeto criado quando a função `Foo` é declarada. Se você cria um novo objeto, e substitui a referência padrão do objeto `.prototype` de uma função, o novo objeto não irá magicamente obter um `.constructor` em si.
 
-Consider:
+Considere:
 
 ```js
 function Foo() { /* .. */ }
 
-Foo.prototype = { /* .. */ }; // create a new prototype object
+Foo.prototype = { /* .. */ }; // cria um novo objeto prototype
 
 var a1 = new Foo();
 a1.constructor === Foo; // false!
 a1.constructor === Object; // true!
 ```
+`Object(..)` não "construiu" `a1`, construiu? Certamente parece que `Foo()` "construiu". Muitos desenvolvedores pensam que `Foo()` estava fazendo a construção, mas esse pensamento cai por terra quando se pensa que "construtor" significa "foi construído por", porque seguindo essa lógica, `a1.constructor` deveria ser `Foo`, mas não é!
 
-`Object(..)` didn't "construct" `a1` did it? It sure seems like `Foo()` "constructed" it. Many developers think of `Foo()` as doing the construction, but where everything falls apart is when you think "constructor" means "was constructed by", because by that reasoning, `a1.constructor` should be `Foo`, but it isn't!
+O que está acontecendo? `a1` não possui nenhuma propriedade `.constructor`, então ele delega até a cadeia `[[Prototype]]` para `Foo.prototype`. Mas este objeto também não tem um `.constructor` (como o objeto padrão `Foo.prototype` teria!), então ele continua delegando, dessa vez até `Object.prototype`, o topo da cadeia de delegação. *Este* objeto de fato possui um `.constructor` em si, que aponta para a função embutida `Object(..)`.
 
-What's happening? `a1` has no `.constructor` property, so it delegates up the `[[Prototype]]` chain to `Foo.prototype`. But that object doesn't have a `.constructor` either (like the default `Foo.prototype` object would have had!), so it keeps delegating, this time up to `Object.prototype`, the top of the delegation chain. *That* object indeed has a `.constructor` on it, which points to the built-in `Object(..)` function.
 
-**Misconception, busted.**
+**Equívoco encontrado.**
 
-Of course, you can add `.constructor` back to the `Foo.prototype` object, but this takes manual work, especially if you want to match native behavior and have it be non-enumerable (see Chapter 3).
+Claro, você pode adicionar `.constructor` de volta ao objeto `Foo.prototype`, mas isso requer trabalho manual, especialmente se você quer que tenha um comportamento nativo e que seja não enumerável (veja Capítulo 3).
 
-For example:
+Por exemplo:
 
 ```js
 function Foo() { /* .. */ }
 
-Foo.prototype = { /* .. */ }; // create a new prototype object
+Foo.prototype = { /* .. */ }; // cria um novo objeto prototype
 
-// Need to properly "fix" the missing `.constructor`
-// property on the new object serving as `Foo.prototype`.
-// See Chapter 3 for `defineProperty(..)`.
+// Precisa "consertar" de forma apropriada a propriedade 
+// `.constructor` que está faltando no novo objeto 
+// servindo como `Foo.prototype`.  
+// Veja o Capítulo 3 sobre `defineProperty(..)`.
 Object.defineProperty( Foo.prototype, "constructor" , {
 	enumerable: false,
 	writable: true,
 	configurable: true,
-	value: Foo    // point `.constructor` at `Foo`
+	value: Foo    // aponta `.constructor` para `Foo`
 } );
 ```
 
-That's a lot of manual work to fix `.constructor`. Moreover, all we're really doing is perpetuating the misconception that "constructor" means "was constructed by". That's an *expensive* illusion.
+Trata-se de muito trabalho manual só para poder consertar o `.constructor`. Além disso, nós estamos realmente perpetuando o equívoco de que "construtor" significa "foi construído por". Essa é uma ilusão *bem cara*.
 
-The fact is, `.constructor` on an object arbitrarily points, by default, at a function who, reciprocally, has a reference back to the object -- a reference which it calls `.prototype`. The words "constructor" and "prototype" only have a loose default meaning that might or might not hold true later. The best thing to do is remind yourself, "constructor does not mean constructed by".
+O fato é, `.constructor` em um objeto aponta arbitrariamente, por padrão, para uma função que, recíprocamente, possui uma referência de volta ao objeto -- uma referência que se chama `.prototype`. As palavras "constructor" e "prototype" neste caso possuem um significado padrão que podem ou não se manter o mesmo mais tarde. A melhor coisa a se fazer é lembrar a si mesmo, "construtor não significa construído por". 
 
-`.constructor` is not a magic immutable property. It *is* non-enumerable (see snippet above), but its value is writable (can be changed), and moreover, you can add or overwrite (intentionally or accidentally) a property of the name `constructor` on any object in any `[[Prototype]]` chain, with any value you see fit.
+`.constructor` não é uma propriedade imutável mágica. Ela *é* não enumerável (veja snippet abaixo), mas seu valor é gravável (pode ser alterado), e além disso, você pode adicionar ou sobreescrever (de forma intencional ou acidental) uma propriedade com nome de `constructor` em qualquer objeto que esteja em qualquer cadeia `[[Prototype]]`, com o valor que julgar necessário.
 
-By virtue of how the `[[Get]]` algorithm traverses the `[[Prototype]]` chain, a `.constructor` property reference found anywhere may resolve quite differently than you'd expect.
+Em virtude de como o algoritmo `[[Get]]` atravessa a cadeia `[[Prototype]]`, uma referência da propriedade `.constructor` encontrada em qualquer lugar pode se resolver de forma bem diferente do que se espera.
 
-See how arbitrary its meaning actually is?
+Vê como é arbitrário seu real significado?
 
-The result? Some arbitrary object-property reference like `a1.constructor` cannot actually be *trusted* to be the assumed default function reference. Moreover, as we'll see shortly, just by simple omission, `a1.constructor` can even end up pointing somewhere quite surprising and insensible.
+O resultado? Alguma referência arbitrária de objeto-propriedade como `a1.constructor` não pode ser *confiada* como sendo a referência de função que se assume como padrão. Além disso, como veremos em breve, apenas por simples omissão, `a1.constructor` pode até apontar pra algum lugar bem surpreendente e insensível.
 
-`a1.constructor` is extremely unreliable, and an unsafe reference to rely upon in your code. **Generally, such references should be avoided where possible.**
+`a1.constructor` não é nada confiável, e uma referência insegura para se colocar em seu código. **Geralmente, essas referências devem ser evitadas quando possível.**
 
 ## "(Prototypal) Inheritance"
 
