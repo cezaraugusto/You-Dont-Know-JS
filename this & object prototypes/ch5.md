@@ -72,7 +72,7 @@ Ou seja, a cadeia `[[Prototype]]` é consultada, uma ligação por vez, quando v
 
 Mas *onde* exatamente a cadeia `[[Prototype]]` "termina"?
 
-No topo de toda cadeia `[[Prototype]]` *normal* está embutido o objeto `Object.prototype`. Este objeto inclui uma varidade de utilitários normalmente utilizados por todo JS, porque todos objetos normais (que estão embutidos na linguagem, e não extensões self-hosted) em JavaScript "descendem" (ou constam no topo de sua cadeia `[[Prototype]]`) do objeto `Object.prototype`. 
+No topo de toda cadeia `[[Prototype]]` *normal* está objeto nativo `Object.prototype`. Este objeto inclui uma varidade de utilitários normalmente utilizados por todo JS, porque todos objetos normais (nativos, não extensões *self-hosted*) em JavaScript "descendem" (ou constam no topo de sua cadeia `[[Prototype]]`) do objeto `Object.prototype`. 
 
 Alguns utilitários encontrados aqui com os quais você pode estar familiarizado incluem `.toString()` e `.valueOf()`. No Capítulo 3, nós introduzímos um outro: `.hasOwnProperty(..)`. E uma outra função dentro do `Object.prototype` da qual você não deve estar familiriazado, mas que iremos tratar adiante neste capítulo, é `.isPrototypeOf(..)`. 
 
@@ -337,7 +337,7 @@ a1.constructor === Object; // true!
 ```
 `Object(..)` não "construiu" `a1`, construiu? Certamente parece que `Foo()` "construiu". Muitos desenvolvedores pensam que `Foo()` estava fazendo a construção, mas esse pensamento cai por terra quando se pensa que "construtor" significa "foi construído por", porque seguindo essa lógica, `a1.constructor` deveria ser `Foo`, mas não é!
 
-O que está acontecendo? `a1` não possui nenhuma propriedade `.constructor`, então ele delega até a cadeia `[[Prototype]]` para `Foo.prototype`. Mas este objeto também não tem um `.constructor` (como o objeto padrão `Foo.prototype` teria!), então ele continua delegando, dessa vez até `Object.prototype`, o topo da cadeia de delegação. *Este* objeto de fato possui um `.constructor` em si, que aponta para a função interna `Object(..)`.
+O que está acontecendo? `a1` não possui nenhuma propriedade `.constructor`, então ele delega até a cadeia `[[Prototype]]` para `Foo.prototype`. Mas este objeto também não tem um `.constructor` (como o objeto padrão `Foo.prototype` teria!), então ele continua delegando, dessa vez até `Object.prototype`, o topo da cadeia de delegação. *Este* objeto de fato possui um `.constructor` em si, que aponta para a função nativa `Object(..)`.
 
 **Equívoco encontrado.**
 
@@ -487,7 +487,7 @@ O operador `instanceof` pega um objeto simples como seu operando à esquerda e u
 
 Infelizmente, isso significa que você pode apenas questionar sobre a "ancestralidade" de algum objeto (`a`) se você tiver alguma **função** (`Foo`, que está anexada à referência `.prototype`) para poder testar. Se você tiver dois objetos arbitrários, digamos `a` e `b`, e quiser descobrir se *os objetos* estão relacionados entre si através da cadeia `[[Prototype]]`, o `instanceof` sozinho não poderá te ajudar. 
 
-**Nota:** Se você usar o utilitário interno `.bind(..)` para criar uma função hard-bound (veja Capítulo 2), a função criada não terá uma propriedade `.prototype`. Usando `instanceof` com este tipo de função substitui de forma transparente o `.prototype` da *função de destino* da qual a função hard-bound foi criada. 
+**Nota:** Se você usar o utilitário nativo `.bind(..)` para criar uma função hard-bound (veja Capítulo 2), a função criada não terá uma propriedade `.prototype`. Usando `instanceof` com este tipo de função substitui de forma transparente o `.prototype` da *função de destino* da qual a função hard-bound foi criada. 
 
 É muito comum de se utilizar funções hard-bound como "chamadas de construtor", mas ao invés disso se você o fizer, irá se comportar como a *função de destino* original que foi invocada, o que significa que usar `instanceof` com uma função hard-bound também faz com que se comporte de acordo com a função original. 
 
@@ -528,7 +528,7 @@ Nós *só precisamos* de dois **objetos** para inspecionar uma relação entre e
 b.isPrototypeOf( c );
 ```
 
-Perceba, essa abordagem não requer nenhuma função ("classe"). Ela só usa as referências de objeto diretamente para `b` e `c`, e pergunta sobre sua relação. Em outras palavras, nosso utilitário `isRelatedTo(..)` acima é embutido na linguagem, e é chamado de `isPrototypeOf(..)`.
+Perceba, essa abordagem não requer nenhuma função ("classe"). Ela só usa as referências de objeto diretamente para `b` e `c`, e pergunta sobre sua relação. Em outras palavras, nosso utilitário `isRelatedTo(..)` acima é nativo da linguagem, e é chamado de `isPrototypeOf(..)`.
 
 Nós também podemos recuperar diretamente o `[[Prototype]]` de um objeto. Em ES5, a maneira padrão de fazer isso é:
 
@@ -550,7 +550,7 @@ a.__proto__ === Foo.prototype; // true
 
 O estranho como `.__proto__` (que não fazia parte do padrão até ES6!) "magicamente" recupera o `[[Prototype]]` interno de um objeto como uma referência, o que é bem útil se você quer inspecionar (ou até cruzar: `.__proto__.__proto__...`) diretamente a cadeia.
 
-Assim como vimos anteriormente com `.constructor`, `.__proto__` não existe de fato no objeto que você está inspecionando (`a` no nosso exemplo atual). Na verdade, existe (não enumerável; veja Capítulo 2) no `Object.prototype` interno, junto com outros utilitários comuns (`.toString()`, `.isPrototypeOf(..)`, etc).    
+Assim como vimos anteriormente com `.constructor`, `.__proto__` não existe de fato no objeto que você está inspecionando (`a` no nosso exemplo atual). Na verdade, existe (não enumerável; veja Capítulo 2) no `Object.prototype` nativo, junto com outros utilitários comuns (`.toString()`, `.isPrototypeOf(..)`, etc).    
 
 Além disso, `.__proto__` parece com uma propriedade, mas é mais apropriado considerá-la como um getter/setter (veja Capítulo 3).
 
@@ -575,7 +575,7 @@ Então, quando nós acessamos (recuperamos o valor de) `a.__proto__`, é como se
 
 Existem algumas técnicas avançadas e muito complexas utilizadas no fundo de alguns frameworks que permitem truques como criar "subclasses" em um `Array`, mas em geral isso não é algo visto como uma boa prática de programação, já que leva há um entendimento e manutenção muito mais difíceis do código.
 
-**Nota:** A partir do ES6, a palavra-chave `class` permitirá algo que que se aproxima da criação de "subclasses" para utilitários internos como o `Array`. Veja o Apêndice A para a discussão da síntaxe `class` adicionada no ES6.  
+**Nota:** A partir do ES6, a palavra-chave `class` permitirá algo que que se aproxima da criação de "subclasses" para utilitários nativos como o `Array`. Veja o Apêndice A para a discussão da síntaxe `class` adicionada no ES6.  
 
 A única pequena exceção (como mencionado antes) seria configurar o `[[Prototype]]` de um objeto `.prototype` como uma função padrão para referenciar algum outro objeto (além de `Object.prototype`). Isso evitaria substituir inteiramente o objeto padrão com um novo objeto ligado. Caso contrário, **é melhor tratar a ligação `[[Prototype]]` do objeto como uma característica de somente leitura** para facilitar a leitura de seu código mais tarde.
 
@@ -629,7 +629,7 @@ if (!Object.create) {
 
 Esse polyfill funciona atrávés do uso da função descartável `F` e sobrescrevendo sua propriedade `.prototype` para apontar para o objeto que desejamos criar uma ligação. Então nós usamos a construção `new F()` para criar um novo objeto que será ligado conforme especificamos.
 
-Esse uso do `Object.create(..)` é de longe o mais comum, porque é a parte dele em que *pode* ser aplicado o polyfill. Existe uma série de funcionalidades adicionais que o `Object.create(..)` padrão em ES5 fornece, e que *não podem* ter o polyfill aplicado em ambientes pré-ES5. Devido à isso, sua capacidade é muito menos explorada. Para tornar isso mais claro, vamos dar uma olha nessa funcionalidade adicional:
+Esse uso do `Object.create(..)` é de longe o mais comum, porque é a parte dele em que *pode* ser aplicado o polyfill. Existe uma série de funcionalidades adicionais que o `Object.create(..)` nativo de ES5 fornece, e que *não podem* ter o polyfill aplicado em ambientes pré-ES5. Devido à isso, sua capacidade é muito menos explorada. Para tornar isso mais claro, vamos dar uma olha nessa funcionalidade adicional:
 
 ```js
 var anotherObject = {
@@ -738,7 +738,7 @@ Em outras palavras, delegação tende à ser menos surpreendente/confusa se for 
 
 Ao tentar acessar uma propriedade em um objeto que não possui essa propriedade, a ligação `[[Prototype]]` interna do objeto irá definir onde a operação `[[Get]]` (veja Capítulo 3) irá procurar na sequência. Essa ligação em cascata de um objeto para outro essencialmente define uma "cadeia de protótipos" (de certa forma similar à cadeia de escopo aninhada) de objetos à serem percorridos para resolução da propriedade.
 
-Todos os objetos normais possuem o `Object.prototype` interno como o topo da cadeia de protótipos (como o escopo global na buscar de escopo), onde a resolução da propriedade será interrompida caso a mesma não seja encontrada em nenhum lugar da cadeia. `toString()`, `valueOf()`, e muitos outros utilitários comuns existem nesse objeto `Object.prototype`, o que explica como todos os objetos na linguagem são capazes de acessá-los. 
+Todos os objetos normais possuem o `Object.prototype` nativo como o topo da cadeia de protótipos (como o escopo global na buscar de escopo), onde a resolução da propriedade será interrompida caso a mesma não seja encontrada em nenhum lugar da cadeia. `toString()`, `valueOf()`, e muitos outros utilitários comuns existem nesse objeto `Object.prototype`, o que explica como todos os objetos na linguagem são capazes de acessá-los. 
 
 A maneira mais comum de se ligar dois objetos entre si é usando a palavra-chave `new` com a chamada de uma função, que entre seus quatro passos (veja Capítulo 2) cria um novo objeto ligado à outro objeto.
 
