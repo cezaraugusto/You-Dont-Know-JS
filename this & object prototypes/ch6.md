@@ -1,45 +1,45 @@
-# You Don't Know JS: *this* & Object Prototypes
-# Chapter 6: Behavior Delegation
+# You Don't Know JS: *this* & Prototipagem de Objetos
+# Capítulo 6: Delegação de Comportamentos
 
-In Chapter 5, we addressed the `[[Prototype]]` mechanism  in detail, and *why* it's confusing and inappropriate (despite countless attempts for nearly two decades) to describe it as "class" or "inheritance". We trudged through not only the fairly verbose syntax (`.prototype` littering the code), but the various gotchas (like surprising `.constructor` resolution or ugly pseudo-polymorphic syntax). We explored variations of the "mixin" approach, which many people use to attempt to smooth over such rough areas.
+No Capítulo 5, nós abordamos detalhadamente o mecânismo `[[Prototype]]`, e o *porquê* de ser confuso e inapropriado (apesar das incontáveis tentativas por quase duas décadas) descrevê-lo como "classe" ou "herança". Vimos à fundo não só sua síntaxe razoavelmente prolixa (`.prototype` sujando o código), mas também as armadilhas (como a surpreendente resolução de `.constructor` ou a horrível síntaxe pseudo-polimórfica). E exploramos as variações da abordagem "mixin", que muitas pessoas utilizam para tentar suavizar áreas mais pesadas.
 
-It's a common reaction at this point to wonder why it has to be so complex to do something seemingly so simple. Now that we've pulled back the curtain and seen just how dirty it all gets, it's not a surprise that most JS developers never dive this deep, and instead relegate such mess to a "class" library to handle it for them.
+É uma reação comum à essa altura imaginar qual a necessidade de ser tão complexo algo que parece ser tão simples de ser feito. Agora que abaixamos as cortinas e vimos o quão poluído o código fica, não é uma surpresa a maioria dos desenvolvedores JS nunca mergulharem tão fundo, e ao invés disso relegarem  toda a bagunça para uma biblioteca de "classes" cuidar para eles.
 
-I hope by now you're not content to just gloss over and leave such details to a "black box" library. Let's now dig into how we *could and should be* thinking about the object `[[Prototype]]` mechanism in JS, in a **much simpler and more straightforward way** than the confusion of classes.
+Eu espero que agora você não se contente em encobrir e deixar tais detalhes para uma biblioteca "caixa preta" cuidar. Vamos ver à seguir como nós *podemos e devemos* pensar sobre o mecânismo do objeto `[[Prototype]]` em JS, de uma **forma muito mais simples e direta** que a confusão de classes.
 
-As a brief review of our conclusions from Chapter 5, the `[[Prototype]]` mechanism is an internal link that exists on one object which references another object.
+Como uma breve revisão de nossas conclusões do Capítulo 5, o mecânismo `[[Prototype]]` é uma ligação interna que existe em um objeto que referencia outro objeto.
 
-This linkage is exercised when a property/method reference is made against the first object, and no such property/method exists. In that case, the `[[Prototype]]` linkage tells the engine to look for the property/method on the linked-to object. In turn, if that object cannot fulfill the look-up, its `[[Prototype]]` is followed, and so on. This series of links between objects forms what is called the "prototype chain".
+Essa ligação é exercida quando uma referência de uma propriedade/método é feita contra o primeiro objeto, e tal propriedade/método não existe. Neste caso, a ligação `[[Prototype]]` diz ao motor para buscar pela propriedade/método no objeto que está ligado. Por sua vez, caso o objeto não consiga completar a busca, seu `[[Prototype]]` é seguido, e assim por diante. Essa série de ligações entre formas de objetos é chamada de "cadeia de protótipos".
 
-In other words, the actual mechanism, the essence of what's important to the functionality we can leverage in JavaScript, is **all about objects being linked to other objects.**
+Em outras palavras, o mecânismo atual, a essência do que é importante para a funcionalidade do que podemos fazer com JavaScript, se resume à **objetos sendo ligados à outros objetos.**
 
-That single observation is fundamental and critical to understanding the motivations and approaches for the rest of this chapter!
+Essa observação por si só é fundamental e crítica para entender as motivações e abordagens ao longo deste capítulo!
 
-## Towards Delegation-Oriented Design
+## Em Direção ao Design Orientado à Delegação
 
-To properly focus our thoughts on how to use `[[Prototype]]` in the most straightforward way, we must recognize that it represents a fundamentally different design pattern from classes (see Chapter 4).
+Para focar adequadamente nossa forma de pensar em como usar o `[[Prototype]]` da maneira mais direta, nós devemos reconhecer que isso representa uma diferença fundamental de design pattern em relação às classes (veja Capítulo 4).
 
-**Note:** *Some* principles of class-oriented design are still very valid, so don't toss out everything you know (just most of it!). For example, *encapsulation* is quite powerful, and is compatible (though not as common) with delegation.
+**Nota:** *Alguns* princípios de design orientado à classes continuam muito válidos, então não jogue fora tudo que sabe (apenas a maior parte!). Por exemplo, *encapsulamento* é bem poderoso, e é compátivel (embora não muito comum) com delegação.
 
-We need to try to change our thinking from the class/inheritance design pattern to the behavior delegation design pattern. If you have done most or all of your programming in your education/career thinking in classes, this may be uncomfortable or feel unnatural. You may need to try this mental exercise quite a few times to get the hang of this very different way of thinking.
+Nós devemos tentar mudar nossa forma de pensar do padrão classe/herança para o padrão de delegação de comportamento. Se a maior parte do que programou em sua educação/carreira pensando em classes, essa maneira pode ser desconfortável ou não parecer natural. Você pode precisar experimentar fazer esse exercício mental algumas vezes até conseguir pegar o jeito dessa forma tão diferente de se pensar. 
 
-I'm going to walk you through some theoretical exercises first, then we'll look side-by-side at a more concrete example to give you practical context for your own code.
+Eu vou orientá-lo através de alguns exercícios teóricos primeiro, e então vamos ver lado à lado em um exemplo mais concreto para te dar um contexto prático para seu próprio código.  
 
-### Class Theory
+### Teoria de Classe
 
-Let's say we have several similar tasks ("XYZ", "ABC", etc) that we need to model in our software.
+Digamos que temos várias tarefas semelhantes ("XYZ", "ABC", etc) que precisamos modelar em nosso software.
 
-With classes, the way you design the scenario is: define a general parent (base) class like `Task`, defining shared behavior for all the "alike" tasks. Then, you define child classes `XYZ` and `ABC`, both of which inherit from `Task`, and each of which adds specialized behavior to handle their respective tasks.
+Com classes, a forma de se projetar esse cenário é: definir uma classe geral pai (base) como `Task`, definindo o comportamento compartilhado para todas as tarefas "parecidas". Então, você define as classes filhas `XYZ` e `ABC`, ambas herdadas de `Task`, e cada uma adiciona um comportamento especial para lidar com suas respectivas tarefas.
 
-**Importantly,** the class design pattern will encourage you that to get the most out of inheritance, you will want to employ method overriding (and polymorphism), where you override the definition of some general `Task` method in your `XYZ` task, perhaps even making use of `super` to call to the base version of that method while adding more behavior to it. **You'll likely find quite a few places** where you can "abstract" out general behavior to the parent class and specialize (override) it in your child classes.
+**Mais importante,** o design pattern de classes irá encorajá-lo a obter o máximo de herança, você irá querer empregar sobreescrita de métodos (e polimorfismo), onde você sobreescreve a definição de algum método geral `Task` em sua tarefa `XYZ`, talvez até fazendo uso de `super` para chamar a versão base desse método ao adicionar mais comportamento à ele. **Você provavelmente encontrará alguns lugares** nos quais você pode "abstrair" o comportamento geral da classe pai e especializá-lo (substituí-lo) em suas classes filhas.
 
-Here's some loose pseudo-code for that scenario:
+Aqui vai um pseudo-código para esse cenário:
 
 ```js
 class Task {
 	id;
 
-	// constructor `Task()`
+	// construtor `Task()`
 	Task(ID) { id = ID; }
 	outputTask() { output( id ); }
 }
@@ -47,7 +47,7 @@ class Task {
 class XYZ inherits Task {
 	label;
 
-	// constructor `XYZ()`
+	// construtor `XYZ()`
 	XYZ(ID,Label) { super( ID ); label = Label; }
 	outputTask() { super(); output( label ); }
 }
@@ -57,17 +57,17 @@ class ABC inherits Task {
 }
 ```
 
-Now, you can instantiate one or more **copies** of the `XYZ` child class, and use those instance(s) to perform task "XYZ". These instances have **copies both** of the general `Task` defined behavior as well as the specific `XYZ` defined behavior. Likewise, instances of the `ABC` class would have copies of the `Task` behavior and the specific `ABC` behavior. After construction, you will generally only interact with these instances (and not the classes), as the instances each have copies of all the behavior you need to do the intended task.
+Agora, você pode instanciar uma ou mais **cópias** da classe filha `XYZ` e usar essas instâncias para executar a tarefa "XYZ". Estas instâncias possuem **cópias** tanto do comportamento geral definido para a classe `Task` como também do comportamento especificamente definido para `XYZ`. Da mesma forma, instâncias da classe `ABC` teriam cópias do comportamento de `Task` e do comportamento específico de `ABC`. Após a construção, você geralmente só interage com essas instâncias (e não as classes), já que as instâncias têm cópias de todo o comportamento necessário para executar a tarefa pretendida.
 
-### Delegation Theory
+### Teoria da Delegação
 
-But now let's try to think about the same problem domain, but using *behavior delegation* instead of *classes*.
+Mas agora vamos tentar pensar sobre o mesmo domínio do problema, mas usando *delegação de comportamento* ao invés de *classes*.
 
-You will first define an **object** (not a class, nor a `function` as most JS'rs would lead you to believe) called `Task`, and it will have concrete behavior on it that includes utility methods that various tasks can use (read: *delegate to*!). Then, for each task ("XYZ", "ABC"), you define an **object** to hold that task-specific data/behavior. You **link** your task-specific object(s) to the `Task` utility object, allowing them to delegate to it when they need to.
+Primeiro você irá definir um **objeto** (não uma classe, nem uma `function` como muitos desenvolvedores JS o levariam à crer) chamado `Task`, e ele terá um comportamento concreto em si que inclui métodos utilitários que várias outras tarefas podem usar (leia: *delegar para*!). Então, para cada tarefa ("XYZ", "ABC"), você define um **objeto** para manter esses dados/comportamentos específicos. Você **liga** seu(s) objetos(s) de tarefas específicas com o objeto utilitário `Task`, permitindo que deleguem à ele quando precisam.
 
-Basically, you think about performing task "XYZ" as needing behaviors from two sibling/peer objects (`XYZ` and `Task`) to accomplish it. But rather than needing to compose them together, via class copies, we can keep them in their separate objects, and we can allow `XYZ` object to **delegate to** `Task` when needed.
+Basicamente, você pensa em executar a tarefa "XYZ" como se precisasse de comportamentos de dois objetos irmãos (`XYZ` e `Task`) para realizá-lo. Mas, ao invés de precisar compô-los juntos, por meio de cópias de classe, podemos mantê-los em seus objetos separados, e podemos permitir que o objeto `XYZ` **delegue para** `Task` quando preciso. 
 
-Here's some simple code to suggest how you accomplish that:
+Aqui tem um código simples para sugerir como se conseguir isso:
 
 ```js
 var Task = {
@@ -75,7 +75,7 @@ var Task = {
 	outputID: function() { console.log( this.id ); }
 };
 
-// make `XYZ` delegate to `Task`
+// faz `XYZ` delegar para `Task`
 var XYZ = Object.create( Task );
 
 XYZ.prepareTask = function(ID,Label) {
@@ -92,27 +92,26 @@ XYZ.outputTaskDetails = function() {
 // ABC ... = ...
 ```
 
-In this code, `Task` and `XYZ` are not classes (or functions), they're **just objects**. `XYZ` is set up via `Object.create(..)` to `[[Prototype]]` delegate to the `Task` object (see Chapter 5).
+Neste código, `Task` e `XYZ` não são classes (ou funções), eles são **apenas objetos**, `XYZ` é configurado via `Object.create(..)` para o `[[Prototype]]` delegar para o objeto `Task` (veja Capítulo 5).
 
-As compared to class-orientation (aka, OO -- object-oriented), I call this style of code **"OLOO"** (objects-linked-to-other-objects). All we *really* care about is that the `XYZ` object delegates to the `Task` object (as does the `ABC` object).
+Em comparação com orientação à classes (também conhecido como OO -- orientado à objetos), eu chamo esse estilo de código de **"OLOO"** (objetos-ligados-à-outros-objetos). Tudo que *realmente* nos importa é que o objeto `XYZ` delega para o objeto `Task` (assim como também faz o objeto `ABC`).
 
-In JavaScript, the `[[Prototype]]` mechanism links **objects** to other **objects**. There are no abstract mechanisms like "classes", no matter how much you try to convince yourself otherwise. It's like paddling a canoe upstream: you *can* do it, but you're *choosing* to go against the natural current, so it's obviously **going to be harder to get where you're going.**
+Em Javascript, o mecânismo `[[Prototype]]` liga **objetos** com outros **objetos**. Não há mecânismos abstratos como "classes" não importa o quanto tentarem te convencer do contrário. É como remar uma canoa rio acima: você *pode* fazer isso, mas se você estará *escolhendo* ir contra a corrente natural, então obviamente **será muito mais difícil de se chegar onde estiver indo.**
 
-Some other differences to note with **OLOO style code**:
+Algumas outras diferenças para se notar com o **código no estilo OLOO**:
 
-1. Both `id` and `label` data members from the previous class example are data properties directly on `XYZ` (neither is on `Task`). In general, with `[[Prototype]]` delegation involved, **you want state to be on the delegators** (`XYZ`, `ABC`), not on the delegate (`Task`).
-2. With the class design pattern, we intentionally named `outputTask` the same on both parent (`Task`) and child (`XYZ`), so that we could take advantage of overriding (polymorphism). In behavior delegation, we do the opposite: **we avoid if at all possible naming things the same** at different levels of the `[[Prototype]]` chain (called shadowing -- see Chapter 5), because having those name collisions creates awkward/brittle syntax to disambiguate references (see Chapter 4), and we want to avoid that if we can.
+1. Ambos os membros de dados `id` e `label` no exemplo de classe anterior são propriedades de dados diretamente em `XYZ` (sem estar em `Task`). Em geral, com delegação `[[Prototype]]` involvida, **você quer que o estado esteja em quem delega** (`XYZ`, `ABC`), não em quem é delegado (`Task`).
+2. Com o padrão de classes, nós intencionalmente nomeamos de `outputTask` tanto na classe pai (`Task`) quanto na filha (`XYZ`), para que pudessemos tirar vantagem da substituição (polimorfismo). Em delegação de comportamentos, nós fazemos o oposto: **nós evitamos dar o mesmo nome à qualquer coisa sempre que possível** em diferentes níveis da cadeia `[[Prototype]]` (chamado de sombreamento -- veja Capítulo 5), porque a colisão desses nomes cria uma síntaxe estranha e frágil para se tirar a ambiguidade de suas referências (veja Capítulo 4), e gostaríamos de evitar isso se pudermos.
 
-   This design pattern calls for less of general method names which are prone to overriding and instead more of descriptive method names, *specific* to the type of behavior each object is doing. **This can actually create easier to understand/maintain code**, because the names of methods (not only at definition location but strewn throughout other code) are more obvious (self documenting).
-3. `this.setID(ID);` inside of a method on the `XYZ` object first looks on `XYZ` for `setID(..)`, but since it doesn't find a method of that name on `XYZ`, `[[Prototype]]` *delegation* means it can follow the link to `Task` to look for `setID(..)`, which it of course finds. Moreover, because of implicit call-site `this` binding rules (see Chapter 2), when `setID(..)` runs, even though the method was found on `Task`, the `this` binding for that function call is `XYZ` exactly as we'd expect and want. We see the same thing with `this.outputID()` later in the code listing.
+   Esse padrão exige menos nomes de métodos gerais que tendem à substituir outros métodos e mais nomes descritivos, *específicos* para o tipo de comportamento que cada objeto está executando. **Isso pode de fato criar códigos mais fáceis de se entender/manter**, porque os nomes dos métodos (não só no local de definição como espalhado por outros códigos) são mais óbvios (se auto documentando).
+3. `this.setID (ID);` dentro de um método no objeto `XYZ` primeiro olha em` XYZ` para `setID (..)`, mas já que não encontra um método com esse nome em `XYZ`, *delegação* `[[Prototype]]` significa que ele pode seguir a ligação para `Task` procurar por `setID (..)`, que obviamente o encontra. Além disso, devido às regras de ligação implícitas em chamadas `this` (veja o Capítulo 2), quando `setID (..)` é executado, mesmo que o método tenha sido encontrado em `Task`, a ligação `this` para essa chamada de função é `XYZ` exatamente como esperávamos e queríamos. Nós vemos a mesma coisa com `this.outputID ()` depois na listagem de código.
+   Em outras palavras, os métodos gerais utilitários que existem em `Task` estão disponíveis para nós enquanto interagimos com `XYZ`, porque `XYZ` pode delegar para `Task`.
 
-   In other words, the general utility methods that exist on `Task` are available to us while interacting with `XYZ`, because `XYZ` can delegate to `Task`.
+**Delegação de comportamentos** significa: deixar algum objeto (`XYZ`) fornecer uma delegação (para `Task`) para referências de métodos ou propriedades, caso não sejam encontradas no objeto (`XYZ`).
 
-**Behavior Delegation** means: let some object (`XYZ`) provide a delegation (to `Task`) for property or method references if not found on the object (`XYZ`).
+Esse é um padrão de design *extremamente poderoso*, muito diferente da ideia de classes pai e filha, herança, polimorfismo, etc. Ao invés de organizar objetos mentalmente de forma vertical, com as classes Pais fluindo para as classes Filhas, pense em objetos lado à lado, como pares, com qualquer direção de ligação de delegação entre os objetos, conforme a necessidade.
 
-This is an *extremely powerful* design pattern, very distinct from the idea of parent and child classes, inheritance, polymorphism, etc. Rather than organizing the objects in your mind vertically, with Parents flowing down to Children, think of objects side-by-side, as peers, with any direction of delegation links between the objects as necessary.
-
-**Note:** Delegation is more properly used as an internal implementation detail rather than exposed directly in the API interface design. In the above example, we don't necessarily *intend* with our API design for developers to call `XYZ.setID()` (though we can, of course!). We sorta *hide* the delegation as an internal detail of our API, where `XYZ.prepareTask(..)` delegates to `Task.setID(..)`. See the "Links As Fallbacks?" discussion in Chapter 5 for more detail.
+**Nota:** O uso de delegação é mais apropriado como um detalhe de implementação interno ao invés de algo exposto diretamente no desenho da interface da API. No exemplo acima, nós não necessariamente *pretendemos* com o desenho de nossa API que desenvolvedores chamem `XYZ.setID()` (embora seja possível, é claro!). Nós meio que *escondemos* a delegação como um detalhe interno de nossa API, onde `XYZ.prepareTask(..)` delega para `Task.setID(..)`. Veja a discussão de "Ligações como Fallbacks?" no Capítulo 5 para maiores detalhes.
 
 #### Mutual Delegation (Disallowed)
 
