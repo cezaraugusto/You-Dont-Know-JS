@@ -582,7 +582,7 @@ A vendedora da loja de celulares provavelmente não anda com uma calculadora par
 De maneira similar, o programa quase certamente irá dividir o código em
 partes reusáveis, ao invés de ficar se repetindo. A forma que fazemos isso é definindo uma função (`function`).
 
-Uma função geralmente é uma bloco de código nomeado, de forma que ela possa ser "chamada" pelo nome, fazendo o código dentro dela ser acionado sempre que preciso. Considere:
+Uma função geralmente é uma bloco de código nomeado, de forma que ele possa ser "chamado" pelo nome, fazendo o código dentro dele ser acionado sempre que preciso. Considere:
 
 ```js
 function printAmount() {
