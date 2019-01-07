@@ -484,7 +484,7 @@ Or:
 * `undefined` ainda não teve um valor
 * `null` tinha um valor e não tem mais
 
-Independentemente de como você escolhe "definir" e usar esses dois valores, `null` é uma palavra-chave especial, não um identificador, e assim você pode tratá-la como uma variável a ser atribuída (Por que você faria isso!?). No entando, `undefined` *é* (infelizmente) um identificador. Uh oh.
+Independentemente de como você escolhe "definir" e usar esses dois valores, `null` é uma palavra-chave especial, não um identificador, e assim você não pode tratá-la como uma variável a ser atribuída (Por que você faria isso!?). No entando, `undefined` *é* (infelizmente) um identificador. Uh oh.
 
 ### Undefined
 
