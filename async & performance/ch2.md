@@ -3,13 +3,13 @@
 
 In Chapter 1, we explored the terminology and concepts around asynchronous programming in JavaScript. Our focus is on understanding the single-threaded (one-at-a-time) event loop queue that drives all "events" (async function invocations). We also explored various ways that concurrency patterns explain the relationships (if any!) between *simultaneously* running chains of events, or "processes" (tasks, function calls, etc.).
 
-All our examples in Chapter 1 used the function as the individual, indivisible unit of operations, whereby inside the function, statements run in predictable order (above the compiler level!), but at the function-ordering level, events (aka async function invocations) can happen in a variety of orders.
+Todos os nosso exemplos no Capítulo 1 usaram a função como a unidade indivisível e individual de operações, de forma que dentro da função, declarações sejam executadas de forma previsível (acima do nível do compilador!), mas no nível de ordenação de funções, eventos (aka invocações de funções assíncronas) podem acontecer em ordens variadas.
 
-In all these cases, the function is acting as a "callback," because it serves as the target for the event loop to "call back into" the program, whenever that item in the queue is processed.
+Em todos esses casos, a função está agindo como um "callback" porque ela serve como um objetivo para o loop de eventos "chamá-la de volta" para dentro do programa, sempre que aquele item na fila for processado.
 
-As you no doubt have observed, callbacks are by far the most common way that asynchrony in JS programs is expressed and managed. Indeed, the callback is the most fundamental async pattern in the language.
+Como você sem dúvida deve ter observado, callbacks são de longe a forma mais comum que a assincronia em programas em JS é expressa e gerenciada. De fato, o callback é o padrão assíncrono mais fundamental da linguagem.
 
-Countless JS programs, even very sophisticated and complex ones, have been written upon no other async foundation than the callback (with of course the concurrency interaction patterns we explored in Chapter 1). The callback function is the async work horse for JavaScript, and it does its job respectably.
+Inúmeros programas JavaScript, até os muito sofisticados e complexos, têm sido escritos sobre não outra fundação assíncrona que não o callback (claro que com padrões de interação concorrentes que exploramos no Capítulo 1). A função callback é o cavalo de trabalho assíncrono para o JavaScript, e ele respeitavelmente faz seu trabalho.
 
 Except... callbacks are not without their shortcomings. Many developers are excited by the *promise* (pun intended!) of better async patterns. But it's impossible to effectively use any abstraction if you don't understand what it's abstracting, and why.
 
