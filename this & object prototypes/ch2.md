@@ -478,7 +478,7 @@ console.log( obj1.a ); // 2
 console.log( bar.a ); // 4
 ```
 
-OK, o *new binding* tem maior precedêcnia que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedêcia sobre o *binding explícito*?
+OK, o *new binding* tem maior precedência que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedêcia sobre o *binding explícito*?
 
 **Nota** `new` e `call`/`apply` não podem ser usados juntos, então `new foo.call(obj1)` não é permitido, para testar o *new binding* diretamente contra o *binding explícito*. Mas nós ainda podemos usar o *hard binding* para testar a precedência entre as duas regras.
 
