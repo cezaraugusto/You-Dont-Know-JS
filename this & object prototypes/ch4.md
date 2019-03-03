@@ -46,17 +46,17 @@ Of course, if you have experience with "functional programming" (Monads, etc.), 
 
 Some languages (like Java) don't give you the choice, so it's not very *optional* at all -- everything's a class. Other languages like C/C++ or PHP give you both procedural and class-oriented syntaxes, and it's left more to the developer's choice which style or mixture of styles is appropriate.
 
-### JavaScript "Classes"
+### "Classes" Javascript
 
-Where does JavaScript fall in this regard? JS has had *some* class-like syntactic elements (like `new` and `instanceof`) for quite awhile, and more recently in ES6, some additions, like the `class` keyword (see Appendix A).
+Onde o Javascript cai a esse respeito? Js já possuia *alguns* elementos sintáticos baseados em classes (como `new` e `instaceof`) por um tempo, e mais recentemente no ES6, foram feitas algumas adições, como a palavra chave `class` (veja o Apêndice A).
 
-But does that mean JavaScript actually *has* classes? Plain and simple: **No.**
+Mas isso significa que atualmente o Javascript *possui* classes? Claro e simples: **Não.**
 
-Since classes are a design pattern, you *can*, with quite a bit of effort (as we'll see throughout the rest of this chapter), implement approximations for much of classical class functionality. JS tries to satisfy the extremely pervasive *desire* to design with classes by providing seemingly class-like syntax.
+Como as classes são um design pattern, você *pode*, com um pouco de esforço (como veremos ao longo desse capítulo), implementar aproximações de muitas funcionalidades clássicas das classes. O JS tenta satisfazer o desejo extremamente comum de projetar com classes, fornecendo uma sintaxe aparentemente semelhante com a de uma classe.
 
-While we may have a syntax that looks like classes, it's as if JavaScript mechanics are fighting against you using the *class design pattern*, because behind the curtain, the mechanisms that you build on are operating quite differently. Syntactic sugar and (extremely widely used) JS "Class" libraries go a long way toward hiding this reality from you, but sooner or later you will face the fact that the *classes* you have in other languages are not like the "classes" you're faking in JS.
+Embora possamos ter uma sintaxe parecida com as das classes, é como se o mecanismo do Javascript estivesse lutando contra o seu desejo de utilizar o *design pattern de classes*, porque por trás da cortina, os mecanismos que você constrói estão operando de forma bastante diferente. Açucar Sintático (e as amplamente utilizadas) bibliotecas "Class" JS percorrem um longo caminho para esconder essa realidade de você, porém mais cedo ou mais tarde você vai enfrentar o fato de que classes que você tem em outras linguagens não são como as "classes" do Javascript.
 
-What this boils down to is that classes are an optional pattern in software design, and you have the choice to use them in JavaScript or not. Since many developers have a strong affinity to class oriented software design, we'll spend the rest of this chapter exploring what it takes to maintain the illusion of classes with what JS provides, and the pain points we experience.
+Isso resume que as classes são um pattern opcional no design de um software, e você tem a escolha de usá-los no Javascript ou não. Como muitos desenvolvedores possuem uma grande afinidade com design de software orientado a classes, passaremos o restante deste capítulo explorando o que é necessário para manter a ilusão de que o JS provem classes, e os pontos problemáticos que teremos.
 
 ## Class Mechanics
 
