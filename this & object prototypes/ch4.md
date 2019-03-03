@@ -36,15 +36,15 @@ Outro conceito chave com classes é o "polimorfismo", o qual descreve a ideia qu
 
 A teoria de Classe sugere fortemente que uma classe pai e uma classe filha compartilhem o mesmo nome de método para um determinado comportamento, de modo que esse filho substitui o pai (diferentemente). Como nós veremos mais tarde, fazer isso no seu código JavaScript é optar pela frustração e pela fragilidade do código.
 
-### "Class" Design Pattern
+### Classes como Design Pattern
 
-You may never have thought about classes as a "design pattern", since it's most common to see discussion of popular "OO Design Patterns", like "Iterator", "Observer", "Factory", "Singleton", etc. As presented this way, it's almost an assumption that OO classes are the lower-level mechanics by which we implement all (higher level) design patterns, as if OO is a given foundation for *all* (proper) code.
+Talvez você nunca tenha pensado em classes como um "design pattern", já que é muito mais comum ver o debate dos populares "design patterns POO", como o "Iterador", "Observador", "Factory", "Singleton" e etc. Dessa forma é bem comum pensar que as classes da orientação a objetos são uma mecânica de nível inferior pela qual implementamos todos os design patterns(nível superior), como se ã orientação a objetos fosse na verdade uma base para todo o código.
 
-Depending on your level of formal education in programming, you may have heard of "procedural programming" as a way of describing code which only consists of procedures (aka, functions) calling other functions, without any higher abstractions. You may have been taught that classes were the *proper* way to transform procedural-style "spaghetti code" into well-formed, well-organized code.
+Dependendo do seu nível de educação formal em programação, você deve ter ouvido falar de "programação procedural" como uma maneira em que seu código consiste em procedimentos (também conhecidos como funções) chamando outras funções, sem quaisquer abstrações maiores. Você pode ter aprendido que classes são  a forma aprópriada de transformar o código procedural "código spaghetti" em um código bem formado, bem organizado.
 
-Of course, if you have experience with "functional programming" (Monads, etc.), you know very well that classes are just one of several common design patterns. But for others, this may be the first time you've asked yourself if classes really are a fundamental foundation for code, or if they are an optional abstraction on top of code.
+Naturalmente, se você tem alguma experiência com "programação funcional" (Monads, etc), você sabe muito bem que classes são um de muitos outros design patterns comuns. Mas para outros, essa pode ser a primeira vez que você se pergunta se as classes são uma base fundamental do código, ou se elas são uma abstração opcional sobre o código.
 
-Some languages (like Java) don't give you the choice, so it's not very *optional* at all -- everything's a class. Other languages like C/C++ or PHP give you both procedural and class-oriented syntaxes, and it's left more to the developer's choice which style or mixture of styles is appropriate.
+Algumas linguagens (como Java) não te dão o poder de escolha, então não é muito opcional -- tudo é uma classe. Outras linguagens como C/C++ ou PHP fornecem sintaxes procedurais, como orientadas as classes, e deixa o desenvolvedor escolher que estilo ou mistura de estilos é apropriada.
 
 ### JavaScript "Classes"
 
