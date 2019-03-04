@@ -64,31 +64,31 @@ In many class-oriented languages, the "standard library" provides a "stack" data
 
 But in such languages, you don't really operate directly on `Stack` (unless making a **Static** class member reference, which is outside the scope of our discussion). The `Stack` class is merely an abstract explanation of what *any* "stack" should do, but it's not itself *a* "stack". You must **instantiate** the `Stack` class before you have a concrete data structure *thing* to operate against.
 
-### Building
+### Construção
 
-The traditional metaphor for "class" and "instance" based thinking comes from a building construction.
+O pensamento metafórico tradicional baseado em "classe" e "instância" vêm da construção civil.
 
-An architect plans out all the characteristics of a building: how wide, how tall, how many windows and in what locations, even what type of material to use for the walls and roof. She doesn't necessarily care, at this point, *where* the building will be built, nor does she care *how many* copies of that building will be built.
+Uma arquiteta planeja todos as características de um edifício: quão largo, quão alto, quantas janelas em quais locais, até mesmo o tipo de material que será usado no teto e nas paredes. Até esse ponto, ela não necessáriamente se importa, onde o prédio será construido, nem se importa em quantas cópias do edifício serão construídas.
 
-She also doesn't care very much about the contents of the building -- the furniture, wall paper, ceiling fans, etc. -- only what type of structure they will be contained by.
+Ela também não se importa muito com o conteúdo do edifício - o mobiliário, o papel de parede, ventiladores de teto, etc. - somente o tipo de estrutura que serão contidos.
 
-The architectural blue-prints she produces are only *plans* for a building. They don't actually constitute a building we can walk into and sit down. We need a builder for that task. A builder will take those plans and follow them, exactly, as he *builds* the building. In a very real sense, he is *copying* the intended characteristics from the plans to the physical building.
+Os projetos arquitetônicos que ela produz são apenas planos para um edifício. Eles não constituem realmente um prédio onde podemos caminhar e sentar. Nós precisamos de um construtor para essa determinada tarefa. Um construtor irá pegar esses planos e os seguir, minuciosamente, enquanto constrói o prédio. Em um sentido mais real, ele está copiando as características dos planos para o prédio físico.
 
-Once complete, the building is a physical instantiation of the blue-print plans, hopefully an essentially perfect *copy*. And then the builder can move to the open lot next door and do it all over again, creating yet another *copy*.
+Uma vez concluído, o prédio é uma instanciação do projeto arquitetônico, espero que um *cópia* perfeita. E então o construtor pode se mover para o lote aberto ao lado e fazer tudo novamente, criando outra *cópia*.
 
-The relationship between building and blue-print is indirect. You can examine a blue-print to understand how the building was structured, for any parts where direct inspection of the building itself was insufficient. But if you want to open a door, you have to go to the building itself -- the blue-print merely has lines drawn on a page that *represent* where the door should be.
+O relacionamento entre o prédio e o plano arquitetônico é indireto. Você pode examinar um projeto arquitetônico para entender como o prédio foi estruturado, para todas as partes em que a inspeção direta do edifício em si fosse insuficiente. Mas se você quer abrir uma porta, você tem que ir para o prédio em si - a cópia impressa tem apenas linhas desenhadas em uma página represetando onde a porta deveria estar.
 
-A class is a blue-print. To actually *get* an object we can interact with, we must build (aka, "instantiate") something from the class. The end result of such "construction" is an object, typically called an "instance", which we can directly call methods on and access any public data properties from, as necessary.
+Uma classe é um projeto arquitetônico. Para realmente *conseguir* um objeto com o qual podemos interagir, nós devemos construir (também conhecido como instanciar) algo da classe. O resultado final dessa "construção" é um objeto, tipicamente chamado de "instância", no qual podemos chamar métodos diretamente e acessar quaisquer propriedades de dados públicos, conforme o necessário.
 
-**This object is a *copy*** of all the characteristics described by the class.
+**O objeto é uma cópia** de todas as características descritas pela classe.
 
-You likely wouldn't expect to walk into a building and find, framed and hanging on the wall, a copy of the blue-prints used to plan the building, though the blue-prints are probably on file with a public records office. Similarly, you don't generally use an object instance to directly access and manipulate its class, but it is usually possible to at least determine *which class* an object instance comes from.
+Você provavelmente não esperaria entrar em um prédio e encontrar, emoldurado na parede, uma cópia do projeto arquitetônico usado para planejar o prédio, embora projetos arquitetônicos provavelmente estejam arquivadas em um escritório de registros públicos. Similarmente, você geralmente não usa uma instância de objeto para diretamente acessar e manipular a classe, mas é geralmente possível ao menos determinar *de qual classe* um determinado objeto vem.
 
-It's more useful to consider the direct relationship of a class to an object instance, rather than any indirect relationship between an object instance and the class it came from. **A class is instantiated into object form by a copy operation.**
+É mais útil considerar a relação direta entre a classe e uma instância de objeto, ao invés do relacionamento indireto entre uma instância de objeto e a classe do qual ela vem. **Uma classe é instanciada em um objeto por uma operação de cópia.**
 
 <img src="fig1.png">
 
-As you can see, the arrows move from left to right, and from top to bottom, which indicates the copy operations that occur, both conceptually and physically.
+Como você pode ver, as setas se movem da esquerda para direita, e de cima para baixo, o que indica as operações de cópia que ocorrem tanto conceitualmente quanto físicamente.
 
 ### Constructor
 
