@@ -90,11 +90,11 @@ It's more useful to consider the direct relationship of a class to an object ins
 
 As you can see, the arrows move from left to right, and from top to bottom, which indicates the copy operations that occur, both conceptually and physically.
 
-### Constructor
+### Construtores
 
-Instances of classes are constructed by a special method of the class, usually of the same name as the class, called a *constructor*. This method's explicit job is to initialize any information (state) the instance will need.
+Instâncias das classes são construídas por um método especial da classe, que geralmente possui o mesmo nome da classe, chamado de construtor. O trabalho desse método é inicializar qualquer informação (estado) que a instância irá precisar.
 
-For example, consider this loose pseudo-code (invented syntax) for classes:
+Por exemplo, considere esse pseudo-código solto (sintaxe inventada) para as classes:
 
 ```js
 class CoolGuy {
@@ -110,7 +110,7 @@ class CoolGuy {
 }
 ```
 
-To *make* a `CoolGuy` instance, we would call the class constructor:
+Para *fazer* uma instância de `CoolGuy`, nós vamos chamar o construtor da classe:
 
 ```js
 Joe = new CoolGuy( "jumping rope" )
@@ -118,11 +118,11 @@ Joe = new CoolGuy( "jumping rope" )
 Joe.showOff() // Here's my trick: jumping rope
 ```
 
-Notice that the `CoolGuy` class has a constructor `CoolGuy()`, which is actually what we call when we say `new CoolGuy(..)`. We get an object back (an instance of our class) from the constructor, and we can call the method `showOff()`, which prints out that particular `CoolGuy`s special trick.
+Perceba que a classe `CoolGuy` tem um construtor `CoolGuy()`, que é o que chamamos quando dizemos `ǹew CoolGuy(..)`. Nós temos como retorno um objeto (uma instância da nossa classe) do construtor, e nós podemos chamar o método `showOff()`, que vai mostrar o truque especial daquele determinado `CoolGuy`
 
-*Obviously, jumping rope makes Joe a pretty cool guy.*
+*Obviamente, pular corda torna Joe um cara muito legal*
 
-The constructor of a class *belongs* to the class, almost universally with the same name as the class. Also, constructors pretty much always need to be called with `new` to let the language engine know you want to construct a *new* class instance.
+O construtor de uma classe pertence a classe, quase universalmente com o mesmo nome da classe. Além disso, construtores quase sempre precisam ser chamados com o operador `new` para que o motor da linguagem saiba que você quer construir uma nova instância da classe.
 
 ## Class Inheritance
 
