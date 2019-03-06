@@ -185,41 +185,41 @@ We define the `Vehicle` class to assume an engine, a way to turn on the ignition
 
 So then we define two specific kinds of vehicle: `Car` and `SpeedBoat`. They each inherit the general characteristics of `Vehicle`, but then they specialize the characteristics appropriately for each kind. A car needs 4 wheels, and a speed boat needs 2 engines, which means it needs extra attention to turn on the ignition of both engines.
 
-### Polymorphism
+### Polimorfismo
 
-`Car` defines its own `drive()` method, which overrides the method of the same name it inherited from `Vehicle`. But then, `Car`s `drive()` method calls `inherited:drive()`, which indicates that `Car` can reference the original pre-overridden `drive()` it inherited. `SpeedBoat`s `pilot()` method also makes a reference to its inherited copy of `drive()`.
+`Carro` define seu próprio método `drive()`, que sobrescreve o método de mesmo nome herdado da classe `Veiculo`. Mas então o método `drive()` pertencente a `Carro` chama `inherited:drive()`, o que indica que o carro pode referenciar o método original `drive()` pré-sobrescrito herdado.
 
-This technique is called "polymorphism", or "virtual polymorphism". More specifically to our current point, we'll call it "relative polymorphism".
+Essa técnica é chamada de "polimorfismo", ou "polimorfismo virtual". Mas especificamente para nosso ponto atual, vamos chamar isso de "polimorfismo relativo".
 
-Polymorphism is a much broader topic than we will exhaust here, but our current "relative" semantics refers to one particular aspect: the idea that any method can reference another method (of the same or different name) at a higher level of the inheritance hierarchy. We say "relative" because we don't absolutely define which inheritance level (aka, class) we want to access, but rather relatively reference it by essentially saying "look one level up".
+Polimorfismo é um tópico muito mais abrangente do que vamos abordar aqui, mas nossa atual semântica "relativa" refere-se a um aspecto em particular: a ideia de que qualquer método pode referenciar outro método (com o mesmo nome, ou um nome diferente) num nível mais alto da hierarquia de herança. Nós chamamos de "relativo" porque não estabelecemos absolutamente qual nível de herança (também conhecido como classe) queremos acessar, mas referencia-lo relativamente basicamente dizendo "procure um nível acima".
 
-In many languages, the keyword `super` is used, in place of this example's `inherited:`, which leans on the idea that a "super class" is the parent/ancestor of the current class.
+Em muitas linguagens, a palavra chave `super` é usada, no lugar de `inherited` desse exemplo, apoiando-se na ideia de que uma "superclasse" é o pai/ancestral da classe atual.
 
-Another aspect of polymorphism is that a method name can have multiple definitions at different levels of the inheritance chain, and these definitions are automatically selected as appropriate when resolving which methods are being called.
+Outro aspecto do polimorfismo é que um nome específico de método pode ter mútiplas definições em diferentes níveis da cadeia de herança, e essas definiçõessão selecionadas de forma automática de acordo com os métodos que estão sendo chamados.
 
-We see two occurrences of that behavior in our example above: `drive()` is defined in both `Vehicle` and `Car`, and `ignition()` is defined in both `Vehicle` and `SpeedBoat`.
+Nós vemos duas ocorrências desse comportamento em nosso exemplo acima: `drive()` é definido tanto em `Veiculo` como em `Carro`, e `ignition()` é definido tanto em `Veiculo` como em `SpeedBoat`.
 
-**Note:** Another thing that traditional class-oriented languages give you via `super` is a direct way for the constructor of a child class to reference the constructor of its parent class. This is largely true because with real classes, the constructor belongs to the class. However, in JS, it's the reverse -- it's actually more appropriate to think of the "class" belonging to the constructor (the `Foo.prototype...` type references). Since in JS the relationship between child and parent exists only between the two `.prototype` objects of the respective constructors, the constructors themselves are not directly related, and thus there's no simple way to relatively reference one from the other (see Appendix A for ES6 `class` which "solves" this with `super`).
+**Nota:** Outra coisa que linguagens orientadas a classes fornecem a você através do `super()` é uma forma do construtor da classe filho referenciar diretamente o construtor de sua classe pai. Isso é verdade principalmente porque, com classes reais, o construtor pertence a classe. No entanto em JS é o contrário - é mais apropriado pensar que a "classe" pertence ao construtor (as referências `Foo.prototype`). Já que em JS o relacionamento entre pai e filho existe apenas entre os dois objetos `.prototype` dos respectivos construtores, os próprios construtores não estão diretamente relacionados, e portanto, não há uma forma de referenciar um do outro (consulte o apêndice A para ver como `class` resolve isso com `super`).
 
-An interesting implication of polymorphism can be seen specifically with `ignition()`. Inside `pilot()`, a relative-polymorphic reference is made to (the inherited) `Vehicle`s version of `drive()`. But that `drive()` references an `ignition()` method just by name (no relative reference).
+Uma implicação interessante do polimorfismo pode ser visto especificamente com `ignition()`. Dentro de `pilot()`, uma referência polimórfica é feita para (a herdada) versão `drive()` de `Veiculo`. Mas esse método `drive()` faz referência ao método `ignition()` apenas pelo nome  (sem termos referência relativa).
 
-Which version of `ignition()` will the language engine use, the one from `Vehicle` or the one from `SpeedBoat`? **It uses the `SpeedBoat` version of `ignition()`.** If you *were* to instantiate `Vehicle` class itself, and then call its `drive()`, the language engine would instead just use `Vehicle`s `ignition()` method definition.
+Qual versão de `ignition()` o motor da linguagem irá usar?, a de `Veiculo` ou a de `SpeedBoat`? **Ela usa a versão de `SpeedBoat` de `ignition()`.** Se você *fosse* instanciar a clase `Veiculo`, e chamar o seu método `drive()`, o motro da linguagem usaria apenas a definição do método `ignition()` pertencete a `Veiculo`.
 
-Put another way, the definition for the method `ignition()` *polymorphs* (changes) depending on which class (level of inheritance) you are referencing an instance of.
+Dito de outra forma, a definição para o método `ignition()` polimorfa (muda) de acordo com a classe (nível de herança) que a sua instância está referenciando.
 
-This may seem like overly deep academic detail. But understanding these details is necessary to properly contrast similar (but distinct) behaviors in JavaScript's `[[Prototype]]` mechanism.
+Isso pode parecer um detalhe acadêmico muito profundo. Mas entender esses detalhes é necessário para diferenciar adequadamente comportamentos semelhantes (porém diferentes) no mecanismo `[[Prototype]]` do Javascript.
 
-When classes are inherited, there is a way **for the classes themselves** (not the object instances created from them!) to *relatively* reference the class inherited from, and this relative reference is usually called `super`.
+Quando classes são herdadas, existe uma maneira de as próprias classes (não as instâncias de objetos criadas a partir delas!) referirem-se relativamente à classe herdada, e essa referência relativa é geralmente chamada de `super()`.
 
-Remember this figure from earlier:
+Lembre se dessa figura anterior:
 
 <img src="fig1.png">
 
-Notice how for both instantiation (`a1`, `a2`, `b1`, and `b2`) *and* inheritance (`Bar`), the arrows indicate a copy operation.
+Note como todas as instanciações (`a1`, `a2`, `b1` e `b2`) e a herança (`Bar`) indicam operações de cópia.
 
-Conceptually, it would seem a child class `Bar` can access  behavior in its parent class `Foo` using a relative polymorphic reference (aka, `super`). However, in reality, the child class is merely given a copy of the inherited behavior from its parent class. If the child "overrides" a method it inherits, both the original and overridden versions of the method are actually maintained, so that they are both accessible.
+Conceitualmente, parece que uma classe filho `Bar` pode acessar o comportamento em sua classe pai `Foo` usando uma referência polimórfica relativa (também conhecida como `super`). No entanto, na realidade, a classe filho recebe meramente uma cópia do comportamento herdado da classe pai. Se o filho "sobrescrever" um método que ele herdou, as versões originais e sobrescritas do método são mantidas, para que ambas sejam acessíveis.
 
-Don't let polymorphism confuse you into thinking a child class is linked to its parent class. A child class instead gets a copy of what it needs from the parent class. **Class inheritance implies copies.**
+Não deixe o polimorfismo confundir você em pensar que uma classe filho é ligada a uma classe pai. Uma classe filho recebe uma cópia do que precisa da classe pai. **Herança de classes implica em cópias.**
 
 ### Multiple Inheritance
 
