@@ -168,7 +168,7 @@ O operador `*` realiza uma multiplicação matemática. Simples o suficiente, n�
 
 O operador de igualdade `=` é usado para *atribuir* -- primeiro calculamos o valor do *lado da mão direita* (valor original) do `=` e então o colocamos em uma variável que especificamos no *lado da mão esquerda* (variável de destino).
 
-**Atenção:** Essa pode parecer uma ordem reversa estranha de especificar um atribuição. Ao invés de `a = 42`, algumas pessoas preferem inverter a ordem do valor original na esquerda e a variável de destino na direita, algo como `42 -> a` (isso não é JavaScript valido!). Infelizmente, a forma ordenada `a = 42` e variações similares,prevalece em linguagens de programação modernas. Caso pareça uma forma não-natural, tome algum tempo assimilando essa forma na sua cabeça até se sentir acostumado.
+**Atenção:** Essa pode parecer uma ordem reversa estranha de especificar uma atribuição. Ao invés de `a = 42`, algumas pessoas preferem inverter a ordem do valor original na esquerda e a variável de destino na direita, algo como `42 -> a` (isso não é JavaScript valido!). Infelizmente, a forma ordenada `a = 42` e variações similares,prevalece em linguagens de programação modernas. Caso pareça uma forma não-natural, tome algum tempo assimilando essa forma na sua cabeça até se sentir acostumado.
 
 Considere:
 
