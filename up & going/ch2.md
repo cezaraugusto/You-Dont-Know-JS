@@ -766,7 +766,7 @@ Daqui, vá para o título desta série *Escopos e Clausuras* para uma exploraç�
 
 ## Identificador `this`
 
-Outro conceito comumente incompreendido em JavaScript é o identificador`this`. Novamente, existem um bocado de capítulos sobre ele no título desta série *this & Prototipagem de Objetos", então aqui iremos introduzir apenas superficialmente o conceito.
+Outro conceito comumente incompreendido em JavaScript é o identificador`this`. Novamente, existem um bocado de capítulos sobre ele no título desta série *this & Prototipagem de Objetos*, então aqui iremos introduzir apenas superficialmente o conceito.
 
 Enquanto geralmente possa parecer que `this` está relacionado aos padrões de orientação à objetos, em JS o `this` é um mecanismo diferente.
 
