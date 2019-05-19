@@ -199,7 +199,7 @@ Primeiro, note que o envolvimento da instrução da função começa com `(funct
 
 A principal diferença, que podemos observar aqui, entre uma declaração de função e uma expressão de função se refere a onde seu nome está vinculado como um identificador.
 
-Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é obrigado(bound) no escopo envolvido, e nós o chamamos diretamente com `foo()`. No segundo trecho, o nome foo não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
+Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é obrigatório (bound) no escopo envolvido, e nós o chamamos diretamente com `foo()`. No segundo trecho, o nome `foo` não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
 
 Em outras palavras, `(function foo(){..})` como uma expressão significa que o identificador `foo` é encontrado somente no escopo onde o `{ .. }`  é indicado, não no escopo externo. Escondendo o nome `foo` dentro dele mesmo significa que não polui o escopo envolvido desnecessariamente.
 
@@ -324,7 +324,7 @@ A expressão de função `def` é definida na segunda metade do trecho (de códi
 
 ## Blocos como Escopos
 
-Enquanto as funções são as unidades mais comum do escopo, e certamente o mais generalizado das abordagens de design na maioria dos JS em circulação, outras unidades de escopo são possíveis, e o uso dessas outras unidades de escopo podem conduzir ainda melhor, a manter um código limpo.
+Enquanto as funções são as unidades mais comuns do escopo, e certamente a mais generalizada das abordagens de design na maioria dos JS em circulação, outras unidades de escopo são possíveis, e o uso dessas outras unidades de escopo podem conduzir ainda melhor, a manter um código limpo.
 
 Muitas outras linguagens além do JavaScript suportam Blocos de escopo, e os desenvolvedores dessas linguagens estão acostumados com essa mentalidade, enquanto que aqueles que principalmente só trabalharam com JavaScript devem achar o conceito um pouco estranho.
 
@@ -600,7 +600,7 @@ console.log( b ); // ReferenceError!
 
 As funções são as unidades mais comuns de escopo em JavaScript. Variáveis e funções que são declaradas dentro de outra função são essencialmente "escondidas" de qualquer um dos "escopos" envolvidos, que é um princípio de design intencional de um bom software.
 
-Mas as funções são de nenhuma maneira a única unidade do escopo. Escopo do bloco refere-se à ideia de que as variáveis e funções pode pertencer a um bloco arbitrário (geralmente, qualquer par de `{ .. }`) de código, em vez de apenas para a função envolvida.
+Mas as funções são de nenhuma maneira a única unidade do escopo. Escopo do bloco refere-se à ideia de que as variáveis e funções podem pertencer a um bloco arbitrário (geralmente, qualquer par de `{ .. }`) de código, em vez de apenas para a função envolvida.
 
 Começando com ES3, a estrutura `try/catch` tem escopo do bloco na cláusula `catch`.
 
