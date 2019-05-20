@@ -57,7 +57,7 @@ Mas por que "ocultar" variáveis e funções seria uma técnica útil?
 
 Existem uma série de fatores que motivam este ocultamento baseado em escopo. Eles tendem a surgir de um princípio de projeto de software chamado "Princípio do privilégio mínimo" [^note-leastprivilege], também chamado de (Princípio da) "Menor autoridade" ou "Exposição mínima". Este princípio define que, no projeto de determinado software, como por exemplo a API de um módulo/objeto, você deve expôr somente o mínimo necessário e "esconder" todo o resto.
 
-Este princípio se estende à escolha de qual escopo deve conter determina variável ou função. Se todas as variáveis e funções estivessem disponíveis no escopo global, elas certamente poderiam ser acessadas por qualquer escopo aninhado. Mas isto violaria o "Princípio" pelo fato de você (provavelmente) estar expondo muitas variáveis e funções que deveriam ser mantidas ocultas, visto que um uso mais adequado para este código poderia desencorajar a utilização destas variáveis/funções.
+Este princípio se estende à escolha de qual escopo deve conter determinada variável ou função. Se todas as variáveis e funções estivessem disponíveis no escopo global, elas certamente poderiam ser acessadas por qualquer escopo aninhado. Mas isto violaria o "Princípio" pelo fato de você (provavelmente) estar expondo muitas variáveis e funções que deveriam ser mantidas ocultas, visto que um uso mais adequado para este código poderia desencorajar a utilização destas variáveis/funções.
 
 Por exemplo:
 
