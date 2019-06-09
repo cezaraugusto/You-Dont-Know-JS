@@ -3,14 +3,14 @@
 
 No capítulo 2, nós identificamos duas desvantagens importantes ao expressar controle de fluxo assíncrono com callbacks(retornos):
 
-* Fluxo assíncrono baseado em callback(retorno) não fit em como o nosso cérebro planeja os passos de uma tarefa.
-* Callbacks(retornos) não são confiávwis ou composable por causa da *nversão de controle*.
+* Fluxo assíncrono baseado em callback(retorno) não se alinha com o jeito de como o nosso cérebro planeja os passos de uma tarefa.
+* Callbacks(retornos) não são confiáveis ou combináveis por causa da *inversão de controle*.
 
-No capítulo 3, nós detalhamos como Promises uninvert a *inversão de controle* dos callbacks(retornos), restaurando a confiabilidade/composibilidade.
+No capítulo 3, nós detalhamos como Promises desinvertem a *inversão de controle* dos callbacks(retornos), restaurando a confiabilidade/composibilidade.
 
-Agora nós mudamos o nosso foco para expressar controle de fluxo assíncrono em uma sequential, de um jeito parecido com síncrono. A "mágica" que faz isto possível são **geradores** ES6.
+Agora nós mudamos o nosso foco para expressar controle de fluxo assíncrono em uma sequência, de um jeito parecido com síncrono. A "mágica" que faz isto possível são **geradores** (generators) do ES6.
 
-## Quebrando o Rodar-até-acabar
+## Desmembrando o Rodar-até-acabar
 
 No capítulo 1, nós explicamos uma expectativa que quase todas as pessoas desenvolvedoras JS têm com seu código: quando uma função começa a executar, ela roda até acabar, e nenhum outro código pode interromper este processo e rodar entre ela.
 
@@ -37,8 +37,7 @@ Nesse exemplo, nós temos certeza de que `bar()` roda entre `x++` e `console.log
 
 Agora vamos brincar com o nosso cérebro. E se `bar()` não estivesse ali, mas ainda pudesse rodar entre `x++` e `console.log(x)`? Como isso seria possível?
 
-Em linguagens de programação **paralelas** multi-tarefas, seria essencialmente possível que `bar()` "interrompesse" e rodasse exatamente entre esses dois pedaços de código. 
-In **preemptive** multithreaded languages, it would essentially be possible for `bar()` to "interrupt" and run at exactly the right moment between those two statements. But JS is not preemptive, nor is it (currently) multithreaded. And yet, a **cooperative** form of this "interruption" (concurrency) is possible, if `foo()` itself could somehow indicate a "pause" at that part in the code.
+Em linguagens de programação **paralelas** multi-tarefas, seria essencialmente possível que `bar()` "interrompesse" e rodasse exatamente entre esses dois pedaços de código. But JS is not preemptive, nor is it (currently) multithreaded. And yet, a **cooperative** form of this "interruption" (concurrency) is possible, if `foo()` itself could somehow indicate a "pause" at that part in the code.
 
 
 **Note:** I use the word "cooperative" not only because of the connection to classical concurrency terminology (see Chapter 1), but because as you'll see in the next snippet, the ES6 syntax for indicating a pause point in code is `yield` -- suggesting a politely *cooperative* yielding of control.
