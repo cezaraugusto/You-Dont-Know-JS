@@ -58,11 +58,12 @@ Embora possamos ter uma sintaxe parecida com as das classes, é como se o mecani
 
 Isso resume que as classes são um pattern opcional no design de um software, e você tem a escolha de usá-los no Javascript ou não. Como muitos desenvolvedores possuem uma grande afinidade com design de software orientado a classes, passaremos o restante deste capítulo explorando o que é necessário para manter a ilusão de que o JS provem classes, e os pontos problemáticos que teremos.
 
-## Class Mechanics
+## Mecânica das Classes
 
-In many class-oriented languages, the "standard library" provides a "stack" data structure (push, pop, etc.) as a `Stack` class. This class would have an internal set of variables that stores the data, and it would have a set of publicly accessible behaviors ("methods") provided by the class, which gives your code the ability to interact with the (hidden) data (adding & removing data, etc.).
+Na maioria das linguagens orientadas a classes, a "biblioteca padrão" provê uma "stack" de estruturas de dados (push, pop, etc) como uma classe `Stack`.
+Essa classe teria um conjunto interno de variáveis que armazena dados e um conjunto de comportamentos publicamente acessíveis ("métodos") fornecidos pela classe, o que dá ao seu código a capacidade de interagir (adicionando e removendo, etc.) com os dados (ocultos).
 
-But in such languages, you don't really operate directly on `Stack` (unless making a **Static** class member reference, which is outside the scope of our discussion). The `Stack` class is merely an abstract explanation of what *any* "stack" should do, but it's not itself *a* "stack". You must **instantiate** the `Stack` class before you have a concrete data structure *thing* to operate against.
+Porém em tais linguagens você não precisa trabalhar diretamente com essa classe `Stack` (a menos que esteja fazendo uma referência a um membro de uma classe do tipo **Static**, o que está fora do escopo da nossa discussão). A classe `Stack` é apenas uma explicação abstrata do que qualquer objeto do tipo "stack" pode fazer, mas não é em si uma "stack". Você deve **instanciar** a classe `Stack` antes de ter uma estrutura de dados concreta onde possa operar.
 
 ### Building
 
