@@ -38,13 +38,13 @@ A teoria de Classe sugere fortemente que uma classe pai e uma classe filha compa
 
 ### Classes como Design Pattern
 
-Talvez você nunca tenha pensado em classes como um "design pattern", já que é muito mais comum ver o debate dos populares "design patterns POO", como o "Iterador", "Observador", "Factory", "Singleton" e etc. Dessa forma é bem comum pensar que as classes da orientação a objetos são uma mecânica de nível inferior pela qual implementamos todos os design patterns(nível superior), como se ã orientação a objetos fosse na verdade uma base para todo o código.
+Talvez você nunca tenha pensado em classes como um "design pattern", já que é muito mais comum ver o debate dos populares "design patterns POO", como "Iterator", "Observer", "Factory", "Singleton", etc. Dessa forma, é bem comum pensar  que as classes da orientação a objetos são uma mecânica de baixo nível pela qual implementamos todos os design patterns(alto nível), como se a orientação a objetos fosse na verdade uma base para todo o código.
 
-Dependendo do seu nível de educação formal em programação, você deve ter ouvido falar de "programação procedural" como uma maneira em que seu código consiste em procedimentos (também conhecidos como funções) chamando outras funções, sem quaisquer abstrações maiores. Você pode ter aprendido que classes são  a forma aprópriada de transformar o código procedural "código spaghetti" em um código bem formado, bem organizado.
+Dependendo do seu nível de educação formal em programação, você deve ter ouvido falar de "programação procedural" como uma maneira em que seu código consiste em procedimentos (também conhecidos como funções) chamando outras funções, sem quaisquer abstrações maiores. Você pode ter aprendido que classes são  a forma apropriada de transformar o código procedural "código spaghetti" em um código bem formado, bem organizado.
 
 Naturalmente, se você tem alguma experiência com "programação funcional" (Monads, etc), você sabe muito bem que classes são um de muitos outros design patterns comuns. Mas para outros, essa pode ser a primeira vez que você se pergunta se as classes são uma base fundamental do código, ou se elas são uma abstração opcional sobre o código.
 
-Algumas linguagens (como Java) não te dão o poder de escolha, então não é muito opcional -- tudo é uma classe. Outras linguagens como C/C++ ou PHP fornecem sintaxes procedurais, como orientadas as classes, e deixa o desenvolvedor escolher que estilo ou mistura de estilos é apropriada.
+Algumas linguagens (como Java) não te dão o poder de escolha, então não é muito opcional -- tudo é uma classe. Outras linguagens como C/C++ ou PHP fornecem sintaxes procedurais e orientadas as classes, e deixa o desenvolvedor escolher que estilo ou mistura de estilos é apropriada.
 
 ### JavaScript "Classes"
 
