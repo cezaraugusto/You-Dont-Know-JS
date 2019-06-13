@@ -68,19 +68,19 @@ But in such languages, you don't really operate directly on `Stack` (unless maki
 
 O pensamento metafórico tradicional baseado em "classe" e "instância" vêm da construção civil.
 
-Uma arquiteta planeja todos as características de um edifício: quão largo, quão alto, quantas janelas em quais locais, até mesmo o tipo de material que será usado no teto e nas paredes. Até esse ponto, ela não necessáriamente se importa, onde o prédio será construido, nem se importa em quantas cópias do edifício serão construídas.
+Uma arquiteta planeja todos as características de um edifício: quão largo, quão alto, janelas e em quais locais, até mesmo o tipo de material que será usado no teto e nas paredes. Até esse ponto, ela não necessáriamente se importa, onde o prédio será construido, nem se importa em quantas cópias do edifício serão construídas.
 
-Ela também não se importa muito com o conteúdo do edifício - o mobiliário, o papel de parede, ventiladores de teto, etc. - somente o tipo de estrutura que serão contidos.
+Ela também não se importa muito com o conteúdo do edifício -- o mobiliário, o papel de parede, ventiladores de teto, etc. - somente o tipo de estrutura que serão contidos.
 
-Os projetos arquitetônicos que ela produz são apenas planos para um edifício. Eles não constituem realmente um prédio onde podemos caminhar e sentar. Nós precisamos de um construtor para essa determinada tarefa. Um construtor irá pegar esses planos e os seguir, minuciosamente, enquanto constrói o prédio. Em um sentido mais real, ele está copiando as características dos planos para o prédio físico.
+Os projetos arquitetônicos que ela produz são apenas *planos* para um edifício. Eles não constituem realmente um prédio onde podemos caminhar e sentar. Nós precisamos de um construtor para essa tarefa. Um construtor irá pegar esses planos e os seguir, minuciosamente, enquanto *constrói* o prédio. Em um sentido mais real, ele está *copiando* as características dos planos para o prédio físico.
 
-Uma vez concluído, o prédio é uma instanciação do projeto arquitetônico, espero que um *cópia* perfeita. E então o construtor pode se mover para o lote aberto ao lado e fazer tudo novamente, criando outra *cópia*.
+Uma vez concluído, o prédio é uma instanciação física do projeto arquitetônico, com sorte um *cópia* perfeita. E então o construtor pode se mover para o lote aberto ao lado e fazer tudo novamente, criando outra *cópia*.
 
-O relacionamento entre o prédio e o plano arquitetônico é indireto. Você pode examinar um projeto arquitetônico para entender como o prédio foi estruturado, para todas as partes em que a inspeção direta do edifício em si fosse insuficiente. Mas se você quer abrir uma porta, você tem que ir para o prédio em si - a cópia impressa tem apenas linhas desenhadas em uma página represetando onde a porta deveria estar.
+O relacionamento entre o prédio e o plano arquitetônico é indireto. Você pode examinar um projeto arquitetônico para entender como o prédio foi estruturado, para todas as partes em que a inspeção direta do edifício em si fosse insuficiente. Mas se você quer abrir uma porta, você tem que ir para o prédio em si -- o projeto tem apenas linhas desenhadas em uma página *representando* onde a porta deveria estar.
 
-Uma classe é um projeto arquitetônico. Para realmente *conseguir* um objeto com o qual podemos interagir, nós devemos construir (também conhecido como instanciar) algo da classe. O resultado final dessa "construção" é um objeto, tipicamente chamado de "instância", no qual podemos chamar métodos diretamente e acessar quaisquer propriedades de dados públicos, conforme o necessário.
+Uma classe é um projeto arquitetônico. Para realmente *conseguir* um objeto com o qual podemos interagir, nós devemos construir (também conhecido como "instanciar") algo da classe. O resultado final dessa "construção" é um objeto, tipicamente chamado de "instância", no qual podemos chamar métodos diretamente e acessar quaisquer propriedades de dados públicos, conforme o necessário.
 
-**O objeto é uma cópia** de todas as características descritas pela classe.
+**O objeto é uma *cópia*** de todas as características descritas pela classe.
 
 Você provavelmente não esperaria entrar em um prédio e encontrar, emoldurado na parede, uma cópia do projeto arquitetônico usado para planejar o prédio, embora projetos arquitetônicos provavelmente estejam arquivadas em um escritório de registros públicos. Similarmente, você geralmente não usa uma instância de objeto para diretamente acessar e manipular a classe, mas é geralmente possível ao menos determinar *de qual classe* um determinado objeto vem.
 
@@ -88,7 +88,7 @@ Você provavelmente não esperaria entrar em um prédio e encontrar, emoldurado 
 
 <img src="fig1.png">
 
-Como você pode ver, as setas se movem da esquerda para direita, e de cima para baixo, o que indica as operações de cópia que ocorrem tanto conceitualmente quanto físicamente.
+Como você pode ver, as setas se movem da esquerda para direita, e de cima para baixo, o que indica as operações de cópia que ocorrem tanto conceitualmente quanto fisicamente.
 
 ### Constructor
 
