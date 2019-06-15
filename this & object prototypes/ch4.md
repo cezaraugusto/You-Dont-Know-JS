@@ -124,23 +124,23 @@ Notice that the `CoolGuy` class has a constructor `CoolGuy()`, which is actually
 
 The constructor of a class *belongs* to the class, almost universally with the same name as the class. Also, constructors pretty much always need to be called with `new` to let the language engine know you want to construct a *new* class instance.
 
-### Heranças de classe
+## Heranças de classe
 
-Em linguagens orientadas a classes, você pode definir não somente que classe pode ser instânciada, como também pode definir que outra classe que herda da primeira classe.
+Em linguagens orientadas a classes, você pode definir não somente qual classe pode ser instânciada, como também pode definir que outra classe que herda da primeira classe.
 
 A segunda classe é também chamada de classe-filha enquanto que a primeira é chamada de classe-pai. Esses termos se originam, obviamente, de uma metáfora entre pais e filhos, embora as metáforas aqui estejam empregadas em um conceito mais amplo, como você verá em breve.
 
-Quando um pai tem um filho biológico, as características genéticas do pai são copiadas no filho. Obviamente, na maioria dos sistemas de reprodução biológicos, há dois pais que contribuem igualmente para a variabilidade genética. Mas por efeitos da metáfora, vamos considerar somente um pai.
+Quando um pai tem um filho/filha biológico, as características genéticas do pai são copiadas no filho. Obviamente, na maioria dos sistemas de reprodução biológicos, há dois pais que contribuem igualmente para a variabilidade genética. Mas por efeitos da metáfora, vamos considerar somente um pai.
 
-A partir do momento que o filho existe, ele é separado do pai. O filho foi fortemente influenciado pelo pai pela herança do seu pai, mas é único e distinto. Se uma criança tem cabelo ruivo isso não necessariamente significa que algum de seus pais tenha cabelo vermelho.
+A partir do momento que o filho existe, ele ou ela é separado do pai. O filho foi fortemente influenciado pela herança genética do seu pai, mas é único e distinto. Se uma criança tem cabelo ruivo isso não necessariamente significa que algum de seus pais tenha cabelo vermelho.
 
-De uma maneira similar, uma vez que uma classe filha é definida, ela é separada e distinta da classe pai. A classe filha possui uma cópia inicial do comportamento do pai, mas elas podem sobrescrever qualquer comportamento herdado e até mesmo definir um novo comportamento.
+De maneira similar, uma vez que uma classe filha é definida, ela é separada e distinta da classe pai. A classe filha possui uma cópia inicial do comportamento do pai, mas elas podem sobrescrever qualquer comportamento herdado e até mesmo definir um novo comportamento.
 
 É importante relembrar que estamos falando sobre **classes** pais e filhos, que não são coisas físicas. E é isso o que torna a metáfora de pais e filhos um tanto quanto confusas, por que o correto seria dizer que uma classe pai é na verdade o DNA de um pai, e uma classe filho seria como o DNA de um filho. Nós podemos criar (também conhecido como "instanciar") uma pessoa de cada conjunto de DNA para realmente ter uma pessoa com a qual podemos conversar.
 
 Vamos colocar de o conceito biológico de pais e filhos, e olhar a herança através de uma lente ligeramente diferente: diferentes tipos de veículos. Essa é uma das metáforas mais canônicas (e muitas vezes dignas) para entender herança.
 
-Vamos revisitar a discussão sobre `Veiculo` e `Carro` que tivemos anteriormente nesse capítulo. Considere esse pseudo-código solto (sintaxe inventada) para classes herdadas:
+Vamos revisitar a discussão sobre `Vehicle` (veículo) e `Car` (carro) que tivemos anteriormente nesse capítulo. Considere esse pseudo-código solto (sintaxe inventada) para classes herdadas:
 
 ```js
 class Vehicle {
