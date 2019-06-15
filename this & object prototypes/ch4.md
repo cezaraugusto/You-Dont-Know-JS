@@ -92,7 +92,7 @@ As you can see, the arrows move from left to right, and from top to bottom, whic
 
 ### Construtores
 
-Instâncias das classes são construídas por um método especial da classe, que geralmente possui o mesmo nome da classe, chamado de construtor. O trabalho desse método é inicializar qualquer informação (estado) que a instância irá precisar.
+Instâncias das classes são construídas por um método especial da classe, que geralmente possui o mesmo nome da classe, chamado de *construtor*. O trabalho desse método é inicializar qualquer informação (estado) que a instância irá precisar.
 
 Por exemplo, considere esse pseudo-código solto (sintaxe inventada) para as classes:
 
@@ -110,7 +110,7 @@ class CoolGuy {
 }
 ```
 
-Para *fazer* uma instância de `CoolGuy`, nós vamos chamar o construtor da classe:
+Para *criar* uma instância de `CoolGuy`, nós vamos chamar o construtor da classe:
 
 ```js
 Joe = new CoolGuy( "jumping rope" )
@@ -118,11 +118,11 @@ Joe = new CoolGuy( "jumping rope" )
 Joe.showOff() // Here's my trick: jumping rope
 ```
 
-Perceba que a classe `CoolGuy` tem um construtor `CoolGuy()`, que é o que chamamos quando dizemos `ǹew CoolGuy(..)`. Nós temos como retorno um objeto (uma instância da nossa classe) do construtor, e nós podemos chamar o método `showOff()`, que vai mostrar o truque especial daquele determinado `CoolGuy`
+Perceba que a classe `CoolGuy` tem um construtor `CoolGuy()`, que é o que chamamos quando dizemos `new CoolGuy(..)`. Nós temos como retorno um objeto (uma instância da nossa classe) do construtor, e nós podemos chamar o método `showOff()`, que vai mostrar o truque especial daquele determinado `CoolGuy`
 
 *Obviamente, pular corda torna Joe um cara muito legal*
 
-O construtor de uma classe pertence a classe, quase universalmente com o mesmo nome da classe. Além disso, construtores quase sempre precisam ser chamados com o operador `new` para que o motor da linguagem saiba que você quer construir uma nova instância da classe.
+O construtor de uma classe *pertence* a classe, quase universalmente com o mesmo nome da classe. Além disso, construtores quase sempre precisam ser chamados com o operador `new` para que o motor da linguagem saiba que você quer construir uma nova instância da classe.
 
 ## Class Inheritance
 
