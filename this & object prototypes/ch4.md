@@ -125,23 +125,23 @@ Perceba que a classe `CoolGuy` tem um construtor `CoolGuy()`, que é o que chama
 
 O construtor de uma classe *pertence* a classe, quase universalmente com o mesmo nome da classe. Além disso, construtores quase sempre precisam ser chamados com o operador `new` para que o motor da linguagem saiba que você quer construir uma nova instância da classe.
 
-## Class Inheritance
+## Heranças de classe
 
-In class-oriented languages, not only can you define a class which can be instantiated itself, but you can define another class that **inherits** from the first class.
+Em linguagens orientadas a classes, você pode definir não somente qual classe pode ser instânciada, como também pode definir que outra classe que herda da primeira classe.
 
-The second class is often said to be a "child class" whereas the first is the "parent class". These terms obviously come from the metaphor of parents and children, though the metaphors here are a bit stretched, as you'll see shortly.
+A segunda classe é também chamada de classe-filha enquanto que a primeira é chamada de classe-pai. Esses termos se originam, obviamente, de uma metáfora entre pais e filhos, embora as metáforas aqui estejam empregadas em um conceito mais amplo, como você verá em breve.
 
-When a parent has a biological child, the genetic characteristics of the parent are copied into the child. Obviously, in most biological reproduction systems, there are two parents who co-equally contribute genes to the mix. But for the purposes of the metaphor, we'll assume just one parent.
+Quando um pai tem um filho/filha biológico, as características genéticas do pai são copiadas no filho. Obviamente, na maioria dos sistemas de reprodução biológicos, há dois pais que contribuem igualmente para a variabilidade genética. Mas por efeitos da metáfora, vamos considerar somente um pai.
 
-Once the child exists, he or she is separate from the parent. The child was heavily influenced by the inheritance from his or her parent, but is unique and distinct. If a child ends up with red hair, that doesn't mean the parent's hair *was* or automatically *becomes* red.
+A partir do momento que o filho existe, ele ou ela é separado do pai. O filho foi fortemente influenciado pela herança genética do seu pai, mas é único e distinto. Se uma criança tem cabelo ruivo isso não necessariamente significa que algum de seus pais tenha cabelo vermelho.
 
-In a similar way, once a child class is defined, it's separate and distinct from the parent class. The child class contains an initial copy of the behavior from the parent, but can then override any inherited behavior and even define new behavior.
+De maneira similar, uma vez que uma classe filha é definida, ela é separada e distinta da classe pai. A classe filha possui uma cópia inicial do comportamento do pai, mas elas podem sobrescrever qualquer comportamento herdado e até mesmo definir um novo comportamento.
 
-It's important to remember that we're talking about parent and child **classes**, which aren't physical things. This is where the metaphor of parent and child gets a little confusing, because we actually should say that a parent class is like a parent's DNA and a child class is like a child's DNA. We have to make (aka "instantiate") a person out of each set of DNA to actually have a physical person to have a conversation with.
+É importante relembrar que estamos falando sobre **classes** pais e filhos, que não são coisas físicas. E é isso o que torna a metáfora de pais e filhos um tanto quanto confusas, por que o correto seria dizer que uma classe pai é na verdade o DNA de um pai, e uma classe filho seria como o DNA de um filho. Nós podemos criar (também conhecido como "instanciar") uma pessoa de cada conjunto de DNA para realmente ter uma pessoa com a qual podemos conversar.
 
-Let's set aside biological parents and children, and look at inheritance through a slightly different lens: different types of vehicles. That's one of the most canonical (and often groan-worthy) metaphors to understand inheritance.
+Vamos colocar de o conceito biológico de pais e filhos, e olhar a herança através de uma lente ligeramente diferente: diferentes tipos de veículos. Essa é uma das metáforas mais canônicas (e muitas vezes dignas) para entender herança.
 
-Let's revisit the `Vehicle` and `Car` discussion from earlier in this chapter. Consider this loose pseudo-code (invented syntax) for inherited classes:
+Vamos revisitar a discussão sobre `Vehicle` (veículo) e `Car` (carro) que tivemos anteriormente nesse capítulo. Considere esse pseudo-código solto (sintaxe inventada) para classes herdadas:
 
 ```js
 class Vehicle {
@@ -180,11 +180,11 @@ class SpeedBoat inherits Vehicle {
 }
 ```
 
-**Note:** For clarity and brevity, constructors for these classes have been omitted.
+**Nota:** Para clareza e abreviação, os construtores dessas classes foram omitidos
 
-We define the `Vehicle` class to assume an engine, a way to turn on the ignition, and a way to drive around. But you wouldn't ever manufacture just a generic "vehicle", so it's really just an abstract concept at this point.
+Nós definimos a classe `Veiculo` para que ela assumisse um motor, a forma de ligar a ignição e uma maneira de dirigir. Mas você não fabricaria um veículo genérico, então até esse ponto ela é um conceito abstrato.
 
-So then we define two specific kinds of vehicle: `Car` and `SpeedBoat`. They each inherit the general characteristics of `Vehicle`, but then they specialize the characteristics appropriately for each kind. A car needs 4 wheels, and a speed boat needs 2 engines, which means it needs extra attention to turn on the ignition of both engines.
+Então, definimos dosi tipos específicos de veículos: `Carro` e `SpeedBoat`. Ambos herdam as características gerais de `Veiculo`, mas especializam características apropriadamente para cada tipo. Um carro precisa de 4 rodas, e um SpeedBoat de dois motores, o que significa que é preciso atenção extra para ligar a ignição de ambos motores.
 
 ### Polymorphism
 
