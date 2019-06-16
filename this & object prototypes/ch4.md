@@ -223,7 +223,7 @@ Don't let polymorphism confuse you into thinking a child class is linked to its 
 
 ### Herança múltipla
 
-Lembra-se da nossa conversa sobre pais e filhos e DNA? Nós dizemos que a metáfora era um pouco estranha porque biologicamente a maioria dos descendentes vêm de dois pais. Se uma classe pudesse herdar de duas outras classes distintas, haveria uma maior aproximação com a metáfora de pais e filhos.
+Se lembra da nossa conversa sobre pais, filhos e DNA? Nós dizemos que a metáfora era um pouco estranha porque biologicamente a maioria dos descendentes vêm de dois pais. Se uma classe pudesse herdar de duas outras classes distintas, haveria uma maior aproximação com a metáfora de pais e filhos.
 
 Algumas linguagens orientadas a classes permitem que você especifique mais de uma classe "pai" para "herdar". Herança múltipla significa que cada definição das classes pai foram copiadas para a classe filha.
 
