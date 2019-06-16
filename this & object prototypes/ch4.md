@@ -21,14 +21,14 @@ Classe também insinuam uma maneira de *classificar* uma certa estrutura de dado
 
 Vamos explorar esse processo de classificação olhando para um exemplo comumente citado. Um *carro* pode ser descrito como uma implementação específica de uma "classe" de coisas, chamada de *veículo*.
 
-Nós modelamos esse relacionamento em software com classes definindo uma classe `Veículo` e uma classe `Carro`.
+Nós modelamos esse relacionamento em software com classes definindo uma classe `Vehicle` e uma classe `Car`.
 
-A definição de `Veículo` pode incluir coisas como propulsão (motores etc.), a capacidade de transportar pessoas etc., que seriam todos os comportamentos. O que nós definimos em `Veículo` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
+A definição de `Vehicle` pode incluir coisas como propulsão (motores etc.), a capacidade de transportar pessoas etc., que seriam todos os comportamentos. O que nós definimos em `Vehicle` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
 
 Pode não fazer sentido no nosso software redefinir a essência básica da "capacidade de transportar pessoas"
-repetidas vezes para cada tipo diferente de veículo. Ao invés disso, nós definimos essa capacidade uma vez em `Veículo`, e então quando definimos `Carro`, nós simplesmente indicamos que ele "herda" (ou "estende") sua definição base de `Veículo`. Diz-se que a definição de `Carro` especializa a definição geral de `Veículo`.
+repetidas vezes para cada tipo diferente de veículo. Ao invés disso, nós definimos essa capacidade uma vez em `Vehicle`, e então quando definimos `Car`, nós simplesmente indicamos que ele "herda" (ou "estende") sua definição base de `Vehicle`. Diz-se que a definição de `Car` especializa a definição geral de `Vehicle`.
 
-Enquanto `Veículo` e `Carro` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico etc.
+Enquanto `Vehicle` e `Car` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico etc.
 
 **E assim, classes, herança e instanciação surgem.**
 
@@ -187,21 +187,21 @@ So then we define two specific kinds of vehicle: `Car` and `SpeedBoat`. They eac
 
 ### Polimorfismo
 
-`Carro` define seu próprio método `drive()`, que sobrescreve o método de mesmo nome herdado da classe `Veiculo`. Mas então o método `drive()` pertencente a `Carro` chama `inherited:drive()`, o que indica que o carro pode referenciar o método original `drive()` pré-sobrescrito herdado.
+`Car` define seu próprio método `drive()`, que sobrescreve o método de mesmo nome herdado da classe `Veiculo`. Mas então o método `drive()` pertencente a `Car` chama `inherited:drive()`, o que indica que o carro pode referenciar o método original `drive()` pré-sobrescrito herdado. O método `pilot()` do SpeedBoat também faz referência à sua cópia herdada do `drive()`.
 
-Essa técnica é chamada de "polimorfismo", ou "polimorfismo virtual". Mas especificamente para nosso ponto atual, vamos chamar isso de "polimorfismo relativo".
+Essa técnica é chamada de "polimorfismo", ou "polimorfismo virtual". Mais especificamente para nosso ponto atual, vamos chamar isso de "polimorfismo relativo".
 
-Polimorfismo é um tópico muito mais abrangente do que vamos abordar aqui, mas nossa atual semântica "relativa" refere-se a um aspecto em particular: a ideia de que qualquer método pode referenciar outro método (com o mesmo nome, ou um nome diferente) num nível mais alto da hierarquia de herança. Nós chamamos de "relativo" porque não estabelecemos absolutamente qual nível de herança (também conhecido como classe) queremos acessar, mas referencia-lo relativamente basicamente dizendo "procure um nível acima".
+Polimorfismo é um tópico muito mais abrangente do que vamos abordar aqui, mas nossa atual semântica "relativa" refere-se a um aspecto em particular: a ideia de que qualquer método pode referenciar outro método (com o mesmo nome, ou um nome diferente) em um nível mais alto da hierarquia de herança. Nós chamamos de "relativo" porque não estabelecemos absolutamente qual nível de herança (também conhecido como classe) queremos acessar, mas referencia-lo relativamente basicamente dizendo "procure um nível acima".
 
 Em muitas linguagens, a palavra chave `super` é usada, no lugar de `inherited` desse exemplo, apoiando-se na ideia de que uma "superclasse" é o pai/ancestral da classe atual.
 
 Outro aspecto do polimorfismo é que um nome específico de método pode ter mútiplas definições em diferentes níveis da cadeia de herança, e essas definiçõessão selecionadas de forma automática de acordo com os métodos que estão sendo chamados.
 
-Nós vemos duas ocorrências desse comportamento em nosso exemplo acima: `drive()` é definido tanto em `Veiculo` como em `Carro`, e `ignition()` é definido tanto em `Veiculo` como em `SpeedBoat`.
+Nós vemos duas ocorrências desse comportamento em nosso exemplo acima: `drive()` é definido tanto em `Veiculo` como em `Car`, e `ignition()` é definido tanto em `Veiculo` como em `SpeedBoat`.
 
 **Nota:** Outra coisa que linguagens orientadas a classes fornecem a você através do `super()` é uma forma do construtor da classe filho referenciar diretamente o construtor de sua classe pai. Isso é verdade principalmente porque, com classes reais, o construtor pertence a classe. No entanto em JS é o contrário - é mais apropriado pensar que a "classe" pertence ao construtor (as referências `Foo.prototype`). Já que em JS o relacionamento entre pai e filho existe apenas entre os dois objetos `.prototype` dos respectivos construtores, os próprios construtores não estão diretamente relacionados, e portanto, não há uma forma de referenciar um do outro (consulte o apêndice A para ver como `class` resolve isso com `super`).
 
-Uma implicação interessante do polimorfismo pode ser visto especificamente com `ignition()`. Dentro de `pilot()`, uma referência polimórfica é feita para (a herdada) versão `drive()` de `Veiculo`. Mas esse método `drive()` faz referência ao método `ignition()` apenas pelo nome  (sem termos referência relativa).
+Uma implicação interessante do polimorfismo pode ser visto especificamente com `ignition()`. Dentro de `pilot()`, uma referência polimórfica é feita para (a herdada) versão `drive()` de `Veiculo`. Mas esse método `drive()` faz referência ao método `ignition()` apenas pelo nome (sem termos referência relativa).
 
 Qual versão de `ignition()` o motor da linguagem irá usar?, a de `Veiculo` ou a de `SpeedBoat`? **Ela usa a versão de `SpeedBoat` de `ignition()`.** Se você *fosse* instanciar a clase `Veiculo`, e chamar o seu método `drive()`, o motro da linguagem usaria apenas a definição do método `ignition()` pertencete a `Veiculo`.
 
@@ -219,7 +219,7 @@ Note como todas as instanciações (`a1`, `a2`, `b1` e `b2`) e a herança (`Bar`
 
 Conceitualmente, parece que uma classe filho `Bar` pode acessar o comportamento em sua classe pai `Foo` usando uma referência polimórfica relativa (também conhecida como `super`). No entanto, na realidade, a classe filho recebe meramente uma cópia do comportamento herdado da classe pai. Se o filho "sobrescrever" um método que ele herdou, as versões originais e sobrescritas do método são mantidas, para que ambas sejam acessíveis.
 
-Não deixe o polimorfismo confundir você em pensar que uma classe filho é ligada a uma classe pai. Uma classe filho recebe uma cópia do que precisa da classe pai. **Herança de classes implica em cópias.**
+Não deixe o polimorfismo confundir você em pensar que uma classe filho é ligada a uma classe pai. Uma classe filho recebe uma cópia do que precisa da classe pai. **Herança de classes significa cópias.**
 
 ### Multiple Inheritance
 
