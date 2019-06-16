@@ -359,6 +359,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "secato",
+      "name": "Felipe Secato",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5840942?v=4",
+      "profile": "https://www.linkedin.com/in/felipesecato/",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
