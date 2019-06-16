@@ -240,19 +240,19 @@ Javascript é mais simples: ele não fornece um mecanismo nativo para "herança 
 
 ## Mixins
 
-JavaScript's object mechanism does not *automatically* perform copy behavior when you "inherit" or "instantiate". Plainly, there are no "classes" in JavaScript to instantiate, only objects. And objects don't get copied to other objects, they get *linked together* (more on that in Chapter 5).
+O mecânismo objeto do Javascript não executa *automaticamente* o comportamento de uma cópia quando você "herda" ou "instancia". Obviamente, não há classes no Javascript que serão instanciadas, apenas objetos. E objetos não são cópiados para outros objetos, eles são *linkados juntos* (mais sobre isso no capítulo 5).
 
-Since observed class behaviors in other languages imply copies, let's examine how JS developers **fake** the *missing* copy behavior of classes in JavaScript: mixins. We'll look at two types of "mixin": **explicit** and **implicit**.
+Como comportamentos de classes observados em outras linguagens implicam em cópias, vamos examinar como desenvolvedores JS **falsificam** o comportamento de cópia *ausente* no mecânismo de classes JavaScript: Mixins. Vamos ver dois tipos de "mixin": **explicito** e **implicito**.
 
-### Explicit Mixins
+### Mixin Explicito
 
-Let's again revisit our `Vehicle` and `Car` example from before. Since JavaScript will not automatically copy behavior from `Vehicle` to `Car`, we can instead create a utility that manually copies. Such a utility is often called `extend(..)` by many libraries/frameworks, but we will call it `mixin(..)` here for illustrative purposes.
+Vamos revisitar nosso exemplo anterior sobre `Vehicle` e `Car`. Como o JavaScript não irá copiar automaticamente o comportamento de `Vehicle` para `Car`, podemos criar um utilitário que copie manualmente. Tal utilidade é frequentemente chamada de `extend(..)` por muitas bibliotecas/frameworks, mas aqui vamos chamar isso de `mixin(..)` por motivos ilustrativos.
 
 ```js
-// vastly simplified `mixin(..)` example:
+// Exemplo bem simplificado de`mixin(..)`:
 function mixin( sourceObj, targetObj ) {
 	for (var key in sourceObj) {
-		// only copy if not already present
+		// só copie se ainda não estiver presente
 		if (!(key in targetObj)) {
 			targetObj[key] = sourceObj[key];
 		}
@@ -284,37 +284,37 @@ var Car = mixin( Vehicle, {
 } );
 ```
 
-**Note:** Subtly but importantly, we're not dealing with classes anymore, because there are no classes in JavaScript. `Vehicle` and `Car` are just objects that we make copies from and to, respectively.
+**Nota:** De maneira sutil, mas importante, nós não estamos mais lidando com classes, porque não há classes no JavaScript. `Vehicle` e `Car` são apenas objetos dos quais fazemos cópias de e para, respectivamente.
 
-`Car` now has a copy of the properties and functions from `Vehicle`. Technically, functions are not actually duplicated, but rather *references* to the functions are copied. So, `Car` now has a property called `ignition`, which is a copied reference to the `ignition()` function, as well as a property called `engines` with the copied value of `1` from `Vehicle`.
+`Car` agora tem um cópia das propriedades e funções estabelecidas em `Vehicle`. Tecnicamente, as funções não são realmente duplicadas, mas as referências a elas são copiadas. Então `Car` possui agora uma propriedade chamada `ignition`, que é uma referência copiada para a função `ignition()`, assim como uma propriedade chamada `engines` com o valor copiado de `1` de `Vehicle`.
 
-`Car` *already* had a `drive` property (function), so that property reference was not overridden (see the `if` statement in `mixin(..)` above).
+`Car` já possui uma propriedade (função) `drive()`, de modo que a referência de propriedade não foi substituida (consulte a instução if no mixin(..) acima).
 
-#### "Polymorphism" Revisited
+#### "Polimorfismo" revisado
 
-Let's examine this statement: `Vehicle.drive.call( this )`. This is what I call "explicit pseudo-polymorphism". Recall in our previous pseudo-code this line was `inherited:drive()`, which we called "relative polymorphism".
+Vamos examinar essa instrução: `Vehicle.drive.call(this)`. Isso é o que eu chamo de "pseudo-polimorfismo explicito". Lembre-se que no nosso pseudo-código anterior, essa linha era `inherited:drive()`, que nós chamamos de "polimorfismo relativo".
 
-JavaScript does not have (prior to ES6; see Appendix A) a facility for relative polymorphism. So, **because both `Car` and `Vehicle` had a function of the same name: `drive()`**, to distinguish a call to one or the other, we must make an absolute (not relative) reference. We explicitly specify the `Vehicle` object by name, and call the `drive()` function on it.
+O JavaScript não tem (antes do ES6; veja apêndice A) um utilitário para o polimorfismo relativo. Então, **já que `Car` e `Vehicle` tinahm uma função com o mesmo nome: `drive()`**, para distinguir uma chamada de um ou outra, temos de fazer uma referência absoluta (não relativa). Nós explicitamente especificamos o objeto `Vehicle` pelo nome, e chamamos a função `drive()` nele.
 
-But if we said `Vehicle.drive()`, the `this` binding for that function call would be the `Vehicle` object instead of the `Car` object (see Chapter 2), which is not what we want. So, instead we use `.call( this )` (Chapter 2) to ensure that `drive()` is executed in the context of the `Car` object.
+Mas se dissermos `Vehicle.drive`, o binding do `this` para essa função será o objeto `Vehicle` em vez do objeto `Car` (veja o capítulo 2), o que não é o que queremos. Então, em vez disso usamos `.call( this )`(capítulo 2) para garantir que `drive()` seja executado no contexto do objeto `Car`.
 
-**Note:** If the function name identifier for `Car.drive()` hadn't overlapped with (aka, "shadowed"; see Chapter 5) `Vehicle.drive()`, we wouldn't have been exercising "method polymorphism". So, a reference to `Vehicle.drive()` would have been copied over by the `mixin(..)` call, and we could have accessed directly with `this.drive()`. The chosen identifier overlap **shadowing** is *why* we have to use the more complex *explicit pseudo-polymorphism* approach.
+**Nota:** Se o identificador da função para `Car.drive()` não tinha se sobreposto com (também conhecido como "sombreado"; veja capítulo 5) `Vehicle.drive()`, não teríamos exercido o "polimorfismo de método". Então, uma referência para `Vehicle.drive()` teria sido copiada pela chamada `mixin(..)`, e nós poderiamos tê-la acessado diretamente através de `this.drive()`. O identificador escolhido se sobrepondo ao sombreamento é o porque de termos de usar uma abordagem mais complexa de *pseudo-polimorfismo explicito*.
 
-In class-oriented languages, which have relative polymorphism, the linkage between `Car` and `Vehicle` is established once, at the top of the class definition, which makes for only one place to maintain such relationships.
+Em linguagens orientadas a classes, que possuem polimorfismo relativo, a linkagem entre `Car` e `Vehicle` é estabelecida uma vez, no topo da definição da classe, o que faz apenas um lugar para manter esses tais relacionamentos.
 
-But because of JavaScript's peculiarities, explicit pseudo-polymorphism (because of shadowing!) creates brittle manual/explicit linkage **in every single function where you need such a (pseudo-)polymorphic reference**. This can significantly increase the maintenance cost. Moreover, while explicit pseudo-polymorphism can emulate the behavior of "multiple inheritance", it only increases the complexity and brittleness.
+Mas por causa das peculiaridades do JavaScript, o pseudo-polimorfismo explicito (por causa do sombreamento!) cria vinculação manual/explicita frágil **em cada função onde você precisa de uma referência (pseudo) polimórfica.** Isso pode aumentar muito o custo de manutenção. Além disso, enquanto o pseudo-polimorfismo explícito pode emular o comportamento de "herança múltipla", ele apenas aumenta a complexidade e fragilidade.
 
-The result of such approaches is usually more complex, harder-to-read, *and* harder-to-maintain code. **Explicit pseudo-polymorphism should be avoided wherever possible**, because the cost outweighs the benefit in most respects.
+O resultado dessas abordagens é normalmente um código mais complexo, difícil de ler, *e* difícil de manter. **Pseudo polimorfismo explicito deve ser evitado sempre que possivel**, porque o custo supera o benefício na maioria dos aspectos.
 
-#### Mixing Copies
+#### Mesclando cópias
 
-Recall the `mixin(..)` utility from above:
+Relembre o utilitário `mixin(..)` acima:
 
 ```js
-// vastly simplified `mixin()` example:
+// Exemplo bem simplificado de`mixin(..)`:
 function mixin( sourceObj, targetObj ) {
 	for (var key in sourceObj) {
-		// only copy if not already present
+		// só copie se ainda não estiver presente
 		if (!(key in targetObj)) {
 			targetObj[key] = sourceObj[key];
 		}
@@ -324,9 +324,9 @@ function mixin( sourceObj, targetObj ) {
 }
 ```
 
-Now, let's examine how `mixin(..)` works. It iterates over the properties of `sourceObj` (`Vehicle` in our example) and if there's no matching property of that name in `targetObj` (`Car` in our example), it makes a copy. Since we're making the copy after the initial object exists, we are careful to not copy over a target property.
+Agora, vamos examinar como `mixin(..)` funciona. Ele itera sobre as propriedades de `sourceObj` (`Vehicle` em nosso exemplo) e se não tiver uma propriedade compatível em `targetObj` (`Car` em nosso exemplo) ele cria uma cópia. Como estamos fazendo uma cópia depois que o objeto inicial existe, tomamos o cuidado de não copiar uma propriedade de destino.
 
-If we made the copies first, before specifying the `Car` specific contents, we could omit this check against `targetObj`, but that's a little more clunky and less efficient, so it's generally less preferred:
+Se fazermos as cópias primeiro, antes de especificar o conteúdo específico para `Car`, poderiamos omitir essa verificação contra o `targetObj`, mas isso é um pouco mais desajeitado e menos eficiente, então geralmente é menos preferido:
 
 ```js
 // alternate mixin, less "safe" to overwrites
@@ -356,23 +356,23 @@ mixin( {
 }, Car );
 ```
 
-Either approach, we have explicitly copied the non-overlapping contents of `Vehicle` into `Car`. The name "mixin" comes from an alternate way of explaining the task: `Car` has `Vehicle`s contents **mixed-in**, just like you mix in chocolate chips into your favorite cookie dough.
+Em qualquer abordagem, copiamos explicitamente o conteúdo não sobreposto do `Vehicle` no `Car`. O nome "mixin" vem de uma maneira alternativa de explicar a tarefa: O `Car` tem o conteúdo de `Vehicle` misturado a ele, assim como você mistura pedaços de chocolate em sua massa de biscoito favorita.
 
-As a result of the copy operation, `Car` will operate somewhat separately from `Vehicle`. If you add a property onto `Car`, it will not affect `Vehicle`, and vice versa.
+Como resultado da operação, `Car` irá operar de forma pouco separada de `Vehicle`, e vice versa.
 
-**Note:** A few minor details have been skimmed over here. There are still some subtle ways the two objects can "affect" each other even after copying, such as if they both share a reference to a common object (such as an array).
+**Nota:** Alguns pequenos detalhes foram desdobrados por aqui. Ainda existem algumas maneiras sutis que os dois objetos podem "afetar" uns aos outros, mesmo após a cópia, como se ambos compartilhassem uma referência para um mesmo objeto (como um array).
 
-Since the two objects also share references to their common functions, that means that **even manual copying of functions (aka, mixins) from one object to another doesn't *actually emulate* the real duplication from class to instance that occurs in class-oriented languages**.
+Como os dois objetos também compartilham referências para as suas funções comuns, isso significa que **mesmo copias manuais de funções (também conhecidos como mixins) de um objeto para outro *não emulam* a duplicação real de classe para a instância que ocorre em linguagens orientadas a classes**.
 
-JavaScript functions can't really be duplicated (in a standard, reliable way), so what you end up with instead is a **duplicated reference** to the same shared function object (functions are objects; see Chapter 3). If you modified one of the shared **function objects** (like `ignition()`) by adding properties on top of it, for instance, both `Vehicle` and `Car` would be "affected" via the shared reference.
+Funções JavaScript não podem ser duplicadas (de uma maneira padrão e confiável), então, o que você acaba fazendo é ma referência duplicada ao mesmo objeto de função compartilhada (funções são objetos; veja capítulo 3). Se você modificar uma das **funções objetos** compartilhadas (como `ignition()`) adicionando propriedades sobre elas, por exemplo, tanto `Vehicle` quanto `Car` seriam "afetados" por meio da referência compartilhada.
 
-Explicit mixins are a fine mechanism in JavaScript. But they appear more powerful than they really are. Not much benefit is *actually* derived from copying a property from one object to another, **as opposed to just defining the properties twice**, once on each object. And that's especially true given the function-object reference nuance we just mentioned.
+Mixins explícitos são um ótimo mecânismo em JavaScript. Mas eles parecem ser mais fortes que realmente são. Poucos benefícios são realmente derivados da cópia de uma propriedade para outra, ao invés de apenas definir as propriedades duas vezes, uma vez em cada objeto. E isso é especialmente verdadeiro, dada a nuance de referência de objeto de função que acabamos de citar.
 
-If you explicitly mix-in two or more objects into your target object, you can **partially emulate** the behavior of "multiple inheritance", but there's no direct way to handle collisions if the same method or property is being copied from more than one source. Some developers/libraries have come up with "late binding" techniques and other exotic work-arounds, but fundamentally these "tricks" are *usually* more effort (and lesser performance!) than the pay-off.
+Se você *mixar* dois ou mais objetos dentro de um objeto alvo, você pode **emular parcialmente** o comportamento de "herança multipla", mas não há uma forma direta de lidarcom colisões se o mesmo método ou propriedade está sendo copiado de mais de uma origem. Alguns desenvolvedores e bibliotecas surgiram com técnicas de "binding tardio" e outras abordagens exóticas, mas fundamentalmente esses "truques" são *geralmente* mais trabalhosos (e têm desempenho menor) do que o resultado.
 
-Take care only to use explicit mixins where it actually helps make more readable code, and avoid the pattern if you find it making code that's harder to trace, or if you find it creates unnecessary or unwieldy dependencies between objects.
+Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar o código mais legível, e evite esse padrão sempre que você achar que ele está tornando o código mais difícil de rastrear, ou se achar que ele cria dependencias desnecessáriasou difíceis de manipular entre objetos.
 
-**If it starts to get *harder* to properly use mixins than before you used them**, you should probably stop using mixins. In fact, if you have to use a complex library/utility to work out all these details, it might be a sign that you're going about it the harder way, perhaps unnecessarily. In Chapter 6, we'll try to distill a simpler way that accomplishes the desired outcomes without all the fuss.
+**Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma bilioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
 
 #### Parasitic Inheritance
 
