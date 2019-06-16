@@ -1,0 +1,23 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "s0nicR3ducer",
+      "name": "Abel Junior",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/30609244?v=4",
+      "profile": "https://github.com/s0nicR3ducer",
+      "contributions": [
+        "translation"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "You-Dont-Know-JS",
+  "projectOwner": "cezaraugusto",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
