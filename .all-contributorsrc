@@ -1,0 +1,326 @@
+{
+  "files": [
+    "CONTRIBUTORS.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "name": "Cezar Augusto",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4672033?s=460&v=4",
+      "profile": "https://github.com/cezaraugusto",
+      "contributions": [
+        "doc", "review", "translation", "talk"
+      ]
+    },
+    {
+      "name": "Nathalia Bruno",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11399286?s=460&v=4",
+      "profile": "https://github.com/nathaliabruno",
+      "contributions": [
+        "doc", "review", "test"
+      ]
+    },
+    {
+      "name": "Gustavo Teodoro",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7719986?s=460&v=4",
+      "profile": "https://github.com/gustavoteodoro",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Gabriel Prates",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/12635603?s=460&v=4",
+      "profile": "https://github.com/gabsprates",
+      "contributions": [
+        "review", "translation", "example", "talk"
+      ]
+    },
+    {
+      "name": "Nelson Henrique",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1930729?s=460&v=4",
+      "profile": "https://github.com/nersoh",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Rodnei A. Ribeiro",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2672060?s=460&v=4",
+      "profile": "https://github.com/raribeiro",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Nelson P. Junior",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/771149?s=460&v=4",
+      "profile": "https://github.com/nelsonpjunior",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Marcelo Diniz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/441936?s=460&v=4",
+      "profile": "https://github.com/marcelod",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Eduardo Braga",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/265716?s=460&v=4",
+      "profile": "https://github.com/ebragaparah",
+      "contributions": [
+        "doc", "translation"
+      ]
+    },
+    {
+      "name": "Tiago S. Pereira",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11933789?s=460&v=4",
+      "profile": "https://github.com/TiagoSilvaPereira",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Holanda Junior",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/16870585?s=460&v=4",
+      "profile": "https://github.com/holandajunior",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "William Oliveira",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4243601?s=460&v=4",
+      "profile": "https://github.com/woliveiras",
+      "contributions": [
+        "talk"
+      ]
+    },
+    {
+      "name": "George Secrieru",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/190883?s=460&v=4",
+      "profile": "https://github.com/gmsecrieru",
+      "contributions": [
+        "translation", "test", "review", "example"
+      ]
+    },
+    {
+      "name": "Maicon Giovani",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5833310?s=460&v=4",
+      "profile": "https://github.com/doomsterinc",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Carlos",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6218906?s=460&v=4",
+      "profile": "https://github.com/carloszan",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Fernando Souza",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/502575?s=460&v=4",
+      "profile": "https://github.com/fernandosouza",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Amanda Vilela",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/9295389?s=460&v=4",
+      "profile": "https://github.com/amandavilela",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Felipe Santos",
+      "avatar_url": "",
+      "profile": "https://github.com/fesnt",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Filipe Silva",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8352747?s=460&v=4",
+      "profile": "https://github.com/ninrod",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "zav",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/19506813?s=460&v=4",
+      "profile": "https://github.com/zavjs",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Bruno Dulcetti",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/29564?s=460&v=4",
+      "profile": "https://github.com/dulcetti",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Paulo Chaves",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5408308?s=460&v=4",
+      "profile": "https://github.com/oPauloChaves",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Rogerio Moura",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/51328368?s=460&v=4",
+      "profile": "https://github.com/Rogerfm",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Bruna Pereira",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/4603866?s=460&v=4",
+      "profile": "https://github.com/brunapereira",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Marco Antônio",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/25869417?s=460&v=4",
+      "profile": "https://github.com/thismarcoantonio",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Gabriel Kalani",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/11067705?s=460&v=4",
+      "profile": "https://github.com/gkal19",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Felipe Augusto",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/9551950?s=460&v=4",
+      "profile": "https://github.com/felipe-augusto",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Vilton Bonifacio",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/14949486?s=460&v=4",
+      "profile": "https://github.com/viltonbonifacio",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "name": "Camila Rondinini",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/21973269?s=460&v=4",
+      "profile": "https://github.com/crondinini",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Aline Dias",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/13500967?s=460&v=4",
+      "profile": "https://github.com/alinedmelo",
+      "contributions": [
+        "translation", "doc", "review"
+      ]
+    },
+    {
+      "name": "Guilherme B. Ferreira",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5393392?s=460&v=4",
+      "profile": "https://github.com/guilhermebferreira",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Kelvy Risso",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/4906231?s=460&v=4",
+      "profile": "https://github.com/kelvynrisso",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Ailton da Silva",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/2119793?s=460&v=4",
+      "profile": "https://github.com/ailton07",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Jéssica Paz",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/20428941?s=460&v=4",
+      "profile": "https://github.com/jessicapaz",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Osmar",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/16701826?s=460&v=4",
+      "profile": "https://github.com/osmar-vil",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Michael Marques",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3816654?s=460&v=4",
+      "profile": "https://github.com/michaelycus",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "Maicon Pinto",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1476940?s=460&v=4",
+      "profile": "https://github.com/maiconpinto",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "name": "caique-minhare",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/38961490?s=460&v=4",
+      "profile": "https://github.com/caique-minhare",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "name": "Wesley Melo",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/36521654?s=460&v=4",
+      "profile": "https://github.com/wesmelo",
+      "contributions": [
+        "translation", "doc", "review"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "You-Dont-Know-JS",
+  "projectOwner": "cezaraugusto",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
