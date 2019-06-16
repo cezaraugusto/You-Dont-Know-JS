@@ -1,4 +1,5 @@
 ## Fique por dentro
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 A corrente tradução é autorizada pelo autor [Kyle Simpson](https://github.com/getify/) e iniciada por [Cezar Augusto](http://github.com/cezaraugusto). A tradução é em caráter voluntário e tem como único objetivo disponibilizar à comunidade o conteúdo do livro em português.
 
@@ -80,3 +81,15 @@ Então: blah, blah, blah... :)
 Todo o material aqui divulgado é (c) 2013-2015 Kyle Simpson.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a><br />Este trabalho está sob a licença <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+<table><tr><td align="center"><a href="https://github.com/s0nicR3ducer"><img src="https://avatars3.githubusercontent.com/u/30609244?v=4" width="100px;" alt="Abel Junior"/><br /><sub><b>Abel Junior</b></sub></a><br /><a href="#translation-s0nicR3ducer" title="Translation">🌍</a></td></tr></table>
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
