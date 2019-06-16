@@ -10,7 +10,10 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/4672033?s=460&v=4",
       "profile": "https://github.com/cezaraugusto",
       "contributions": [
-        "doc", "review", "translation", "talk"
+        "doc",
+        "review",
+        "translation",
+        "talk"
       ]
     },
     {
@@ -18,7 +21,9 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/11399286?s=460&v=4",
       "profile": "https://github.com/nathaliabruno",
       "contributions": [
-        "doc", "review", "test"
+        "doc",
+        "review",
+        "test"
       ]
     },
     {
@@ -34,7 +39,10 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/12635603?s=460&v=4",
       "profile": "https://github.com/gabsprates",
       "contributions": [
-        "review", "translation", "example", "talk"
+        "review",
+        "translation",
+        "example",
+        "talk"
       ]
     },
     {
@@ -74,7 +82,8 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/265716?s=460&v=4",
       "profile": "https://github.com/ebragaparah",
       "contributions": [
-        "doc", "translation"
+        "doc",
+        "translation"
       ]
     },
     {
@@ -106,7 +115,10 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/190883?s=460&v=4",
       "profile": "https://github.com/gmsecrieru",
       "contributions": [
-        "translation", "test", "review", "example"
+        "translation",
+        "test",
+        "review",
+        "example"
       ]
     },
     {
@@ -242,7 +254,9 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/13500967?s=460&v=4",
       "profile": "https://github.com/alinedmelo",
       "contributions": [
-        "translation", "doc", "review"
+        "translation",
+        "doc",
+        "review"
       ]
     },
     {
@@ -314,7 +328,9 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/36521654?s=460&v=4",
       "profile": "https://github.com/wesmelo",
       "contributions": [
-        "translation", "doc", "review"
+        "translation",
+        "doc",
+        "review"
       ]
     },
     {
@@ -322,6 +338,15 @@
       "name": "Abel Junior",
       "avatar_url": "https://avatars3.githubusercontent.com/u/30609244?v=4",
       "profile": "https://github.com/s0nicR3ducer",
+      "contributions": [
+        "translation"
+      ]
+    },
+    {
+      "login": "mauromattos00",
+      "name": "Mauro Mattos",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/13375865?v=4",
+      "profile": "https://github.com/mauromattos00",
       "contributions": [
         "translation"
       ]
