@@ -222,21 +222,21 @@ Conceitualmente, parece que uma classe filho `Bar` pode acessar o comportamento 
 
 Não deixe o polimorfismo confundir você em pensar que uma classe filho é ligada a uma classe pai. Uma classe filho recebe uma cópia do que precisa da classe pai. **Herança de classes significa cópias.**
 
-### Multiple Inheritance
+### Herança múltipla
 
-Recall our earlier discussion of parent(s) and children and DNA? We said that the metaphor was a bit weird because biologically most offspring come from two parents. If a class could inherit from two other classes, it would more closely fit the parent/child metaphor.
+Se lembra da nossa conversa sobre pais, filhos e DNA? Nós dizemos que a metáfora era um pouco estranha porque biologicamente a maioria dos descendentes vêm de dois pais. Se uma classe pudesse herdar de duas outras classes distintas, haveria uma maior aproximação com a metáfora de pais e filhos.
 
-Some class-oriented languages allow you to specify more than one "parent" class to "inherit" from. Multiple-inheritance means that each parent class definition is copied into the child class.
+Algumas linguagens orientadas a classes permitem que você especifique mais de uma classe "pai" para "herdar". Herança múltipla significa que cada definição das classes pai foram copiadas para a classe filha.
 
-On the surface, this seems like a powerful addition to class-orientation, giving us the ability to compose more functionality together. However, there are certainly some complicating questions that arise. If both parent classes provide a method called `drive()`, which version would a `drive()` reference in the child resolve to? Would you always have to manually specify which parent's `drive()` you meant, thus losing some of the gracefulness of polymorphic inheritance?
+Superficialmente, isso parece um adicional poderoso para a orientação a classes, nos dando a possibilidade de compor mais funcionalidades juntos. No entanto, há certamente algumas questões complicadas que se levantam. Se ambas as classes pai possuem um método chamado `drive()`, qual versão de `drive()` será referenciada pela classe filha? Você sempre teria que manualmente especificar qual o método pai `drive()` você quis dizer, perdendo um pouco da graça da herança polimórfica?
 
-There's another variation, the so called "Diamond Problem", which refers to the scenario where a child class "D" inherits from two parent classes ("B" and "C"), and each of those in turn inherits from a common "A" parent. If "A" provides a method `drive()`, and both "B" and "C" override (polymorph) that method, when `D` references `drive()`, which version should it use (`B:drive()` or `C:drive()`)?
+Há uma outra variação, o chamado "Problema do Diamante", que se refere a um cenário onde uma classe filha "D" herda de outras duas classes pai ("B" e "C"), e essas classes, por sua vez, herdam de um pai "A" comum. Se "A" provem um método `drive()`, e "B" e "C" sobrescrevem (polimorficamente) esse método, quando `D` referencia `drive()`, qual versão ele irá usar(`B:drive()` ou `C:drive()`)?
 
 <img src="fig2.png">
 
-These complications go even much deeper than this quick glance. We address them here only so we can contrast to how JavaScript's mechanisms work.
+Essas complicações são ainda mais profundas do que essa rápida análise. Nós as expomos aqui apenas para que possamos contrastar com o funcionamento dos mecanismos Javascript.
 
-JavaScript is simpler: it does not provide a native mechanism for "multiple inheritance". Many see this is a good thing, because the complexity savings more than make up for the "reduced" functionality. But this doesn't stop developers from trying to fake it in various ways, as we'll see next.
+Javascript é mais simples: ele não fornece um mecanismo nativo para "herança múltipla". Muitos vêem isso como uma coisa boa, porque a economia de complexidade é mais compensatória do que a funcionalidade "reduzida". Mas isso não impede os programadores de fingirem fazer isso de várias formas diferentes, como vamos ver a seguir.
 
 ## Mixins
 
