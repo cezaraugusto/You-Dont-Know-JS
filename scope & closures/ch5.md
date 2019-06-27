@@ -536,7 +536,7 @@ O ES6 adicionou suporte à sintaxe do conceito de primeira classe dos módulos. 
 
 Em contraste, APIs de módulos ES6 são estáticos (a API não muda em tempo de execução(*runtime*)). Desde que o compilador saiba *disso*, ele pode (e vai!) verificar durante (o carregamento de arquivo) a compilação que uma referência a um membro da API de um módulo importado *existe de fato*. Se a referência a API não exsitir, o compilador lança um erro "antecipado" na compilação, em vez de esperar pela dinâmica de resolução em tempo de execução(*runtime*) tradicional (e erros, se existirem).
 
-Módulos ES6 **não** possuem um formato "inline", eles devem ser definidos em arquivos separados (um por módulo). O browser/motor tem um "carregador de módulo" padrão (que é substituível, mas isso está mutio além da nossa discussão aqui) que de forma síncrona carrega um arquivo de módulo quando ele é importado.
+Módulos ES6 **não** possuem um formato "inline", eles devem ser definidos em arquivos separados (um por módulo). O browser/motor tem um "carregador de módulo" padrão (que é substituível, mas isso está muito além da nossa discussão aqui) que de forma síncrona carrega um arquivo de módulo quando ele é importado.
 
 Considere:
 
