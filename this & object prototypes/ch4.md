@@ -21,14 +21,14 @@ Classe também insinuam uma maneira de *classificar* uma certa estrutura de dado
 
 Vamos explorar esse processo de classificação olhando para um exemplo comumente citado. Um *carro* pode ser descrito como uma implementação específica de uma "classe" de coisas, chamada de *veículo*.
 
-Nós modelamos esse relacionamento em software com classes definindo uma classe `Veículo` e uma classe `Carro`.
+Nós modelamos esse relacionamento em software com classes definindo uma classe `Vehicle` e uma classe `Car`.
 
-A definição de `Veículo` pode incluir coisas como propulsão (motores etc.), a capacidade de transportar pessoas etc., que seriam todos os comportamentos. O que nós definimos em `Veículo` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
+A definição de `Vehicle` pode incluir coisas como propulsão (motores etc.), a capacidade de transportar pessoas etc., que seriam todos os comportamentos. O que nós definimos em `Vehicle` é todo o material que é comum a todos (ou a maioria) dos diferentes tipos de veículos (como os "aviões, trens e automóveis").
 
 Pode não fazer sentido no nosso software redefinir a essência básica da "capacidade de transportar pessoas"
-repetidas vezes para cada tipo diferente de veículo. Ao invés disso, nós definimos essa capacidade uma vez em `Veículo`, e então quando definimos `Carro`, nós simplesmente indicamos que ele "herda" (ou "estende") sua definição base de `Veículo`. Diz-se que a definição de `Carro` especializa a definição geral de `Veículo`.
+repetidas vezes para cada tipo diferente de veículo. Ao invés disso, nós definimos essa capacidade uma vez em `Vehicle`, e então quando definimos `Car`, nós simplesmente indicamos que ele "herda" (ou "estende") sua definição base de `Vehicle`. Diz-se que a definição de `Car` especializa a definição geral de `Vehicle`.
 
-Enquanto `Veículo` e `Carro` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico etc.
+Enquanto `Vehicle` e `Car` definem coletivamente o comportamento por meio de métodos, os dados em uma instância seriam coisas como o "número do chassi" de um carro específico etc.
 
 **E assim, classes, herança e instanciação surgem.**
 
@@ -36,65 +36,66 @@ Outro conceito chave com classes é o "polimorfismo", o qual descreve a ideia qu
 
 A teoria de Classe sugere fortemente que uma classe pai e uma classe filha compartilhem o mesmo nome de método para um determinado comportamento, de modo que esse filho substitui o pai (diferentemente). Como nós veremos mais tarde, fazer isso no seu código JavaScript é optar pela frustração e pela fragilidade do código.
 
-### "Class" Design Pattern
+### Padrão de projeto "Classe"
 
-You may never have thought about classes as a "design pattern", since it's most common to see discussion of popular "OO Design Patterns", like "Iterator", "Observer", "Factory", "Singleton", etc. As presented this way, it's almost an assumption that OO classes are the lower-level mechanics by which we implement all (higher level) design patterns, as if OO is a given foundation for *all* (proper) code.
+Você pode nunca ter pensando sobre classes como um "padrão de projeto", já que é mais comum ver discussões sobre os populares "Padrões de projeto OO", como "Iterator", "Observer", "Factory", "Singleton" etc. Apresentado dessa maneira, é quase uma suposição de que as classes OO são a mecânica baixo nível pela qual implementamos todos os padrões de projeto (alto nível), como se OO fosse uma base para *todo* o código (apropriado).
 
-Depending on your level of formal education in programming, you may have heard of "procedural programming" as a way of describing code which only consists of procedures (aka, functions) calling other functions, without any higher abstractions. You may have been taught that classes were the *proper* way to transform procedural-style "spaghetti code" into well-formed, well-organized code.
+Dependendo do seu nível de educação formal em programação, você pode ter ouvido falar sobre "programação procedural" como uma maneira de descrever o código que consiste apenas de procedimentos (também conhecido como funções) chamando outras funções, sem nenhuma maior abstração. Você pode ter sido ensinado que classes eram a maneira *adequada* de transformar o estilo procedural "código espaguete" em um código bem moldado e organizado.
 
-Of course, if you have experience with "functional programming" (Monads, etc.), you know very well that classes are just one of several common design patterns. But for others, this may be the first time you've asked yourself if classes really are a fundamental foundation for code, or if they are an optional abstraction on top of code.
+Claro que, se você tem experiência com "programação funcional" (Monads etc.), você sabe muito bem que as classes são apenas um dos vários padrões de projetos comuns. Mas para outras pessoas, esta pode ser a primeira vez que você se pergunta se as classes realmente são uma base fundamental para o código, ou se elas são uma abstração opcional sobre o código.
 
-Some languages (like Java) don't give you the choice, so it's not very *optional* at all -- everything's a class. Other languages like C/C++ or PHP give you both procedural and class-oriented syntaxes, and it's left more to the developer's choice which style or mixture of styles is appropriate.
+Algumas linguagens (como Java) não te dão a opção de escolha, então não é muito *opcional* -- tudo é uma classe. Outras linguagens como C/C++ ou PHP fornecem tanto a sintaxe procedural quanto a orientada a classes deixando mais para o desenvolvedor escolher qual estilo ou mistura de estilos é apropriado.
 
-### JavaScript "Classes"
+### "Classes" JavaScript
 
-Where does JavaScript fall in this regard? JS has had *some* class-like syntactic elements (like `new` and `instanceof`) for quite awhile, and more recently in ES6, some additions, like the `class` keyword (see Appendix A).
+Onde o JavaScript se enquadra nesse aspecto? JS já possuía *alguns* elementos sintáticos baseados em classes (como `new` e `instaceof`) por um tempo, e mais recentemente no ES6, foram feitas algumas adições, como a palavra chave `class` (veja o Apêndice A).
 
-But does that mean JavaScript actually *has* classes? Plain and simple: **No.**
+Mas isso significa que atualmente o Javascript *possui* classes? Claro e simples: **Não.**
 
-Since classes are a design pattern, you *can*, with quite a bit of effort (as we'll see throughout the rest of this chapter), implement approximations for much of classical class functionality. JS tries to satisfy the extremely pervasive *desire* to design with classes by providing seemingly class-like syntax.
+Como as classes são um design pattern, você *pode*, com um pouco de esforço (como veremos ao longo desse capítulo), implementar aproximações de muitas funcionalidades clássicas das classes. O JS tenta satisfazer o *desejo* extremamente comum de projetar com classes, fornecendo uma sintaxe aparentemente semelhante com a de uma classe.
 
-While we may have a syntax that looks like classes, it's as if JavaScript mechanics are fighting against you using the *class design pattern*, because behind the curtain, the mechanisms that you build on are operating quite differently. Syntactic sugar and (extremely widely used) JS "Class" libraries go a long way toward hiding this reality from you, but sooner or later you will face the fact that the *classes* you have in other languages are not like the "classes" you're faking in JS.
+Embora possamos ter uma sintaxe parecida com as das classes, é como se o mecanismo do Javascript estivesse lutando contra o seu desejo de utilizar o *design pattern de classes*, porque por trás da cortina, os mecanismos que você constrói estão operando de forma bastante diferente. Açúcar sintático e (as amplamente utilizadas) bibliotecas "Class" JS percorrem um longo caminho para esconder essa realidade de você, porém mais cedo ou mais tarde você vai enfrentar o fato de que classes que você tem em outras linguagens não são como as "classes" do Javascript.
 
-What this boils down to is that classes are an optional pattern in software design, and you have the choice to use them in JavaScript or not. Since many developers have a strong affinity to class oriented software design, we'll spend the rest of this chapter exploring what it takes to maintain the illusion of classes with what JS provides, and the pain points we experience.
+Isso resume que as classes são um pattern opcional no design de um software, e você tem a escolha de usá-los no Javascript ou não. Como muitos desenvolvedores possuem uma grande afinidade com design de software orientado a classes, passaremos o restante deste capítulo explorando o que é necessário para manter a ilusão de que o JS provem classes, e os pontos problemáticos que teremos.
 
-## Class Mechanics
+## Mecânica das Classes
 
-In many class-oriented languages, the "standard library" provides a "stack" data structure (push, pop, etc.) as a `Stack` class. This class would have an internal set of variables that stores the data, and it would have a set of publicly accessible behaviors ("methods") provided by the class, which gives your code the ability to interact with the (hidden) data (adding & removing data, etc.).
+Na maioria das linguagens orientadas a classes, a "biblioteca padrão" provê uma "stack" de estruturas de dados (push, pop, etc) como uma classe `Stack`.
+Essa classe teria um conjunto interno de variáveis que armazena dados e um conjunto de comportamentos publicamente acessíveis ("métodos") fornecidos pela classe, o que dá ao seu código a capacidade de interagir (adicionando e removendo, etc.) com os dados (ocultos).
 
-But in such languages, you don't really operate directly on `Stack` (unless making a **Static** class member reference, which is outside the scope of our discussion). The `Stack` class is merely an abstract explanation of what *any* "stack" should do, but it's not itself *a* "stack". You must **instantiate** the `Stack` class before you have a concrete data structure *thing* to operate against.
+Porém em tais linguagens você não precisa trabalhar diretamente com essa classe `Stack` (a menos que esteja fazendo uma referência a um membro de uma classe do tipo **Static**, o que está fora do escopo da nossa discussão). A classe `Stack` é apenas uma explicação abstrata do que qualquer objeto do tipo "stack" pode fazer, mas não é em si uma "stack". Você deve **instanciar** a classe `Stack` antes de ter uma estrutura de dados concreta onde possa operar.
 
-### Building
+### Construção
 
-The traditional metaphor for "class" and "instance" based thinking comes from a building construction.
+O pensamento metafórico tradicional baseado em "classe" e "instância" vêm da construção civil.
 
-An architect plans out all the characteristics of a building: how wide, how tall, how many windows and in what locations, even what type of material to use for the walls and roof. She doesn't necessarily care, at this point, *where* the building will be built, nor does she care *how many* copies of that building will be built.
+Uma arquiteta planeja todos as características de um edifício: quão largo, quão alto, janelas e em quais locais, até mesmo o tipo de material que será usado no teto e nas paredes. Até esse ponto, ela não necessáriamente se importa, onde o prédio será construido, nem se importa em quantas cópias do edifício serão construídas.
 
-She also doesn't care very much about the contents of the building -- the furniture, wall paper, ceiling fans, etc. -- only what type of structure they will be contained by.
+Ela também não se importa muito com o conteúdo do edifício -- o mobiliário, o papel de parede, ventiladores de teto, etc. - somente o tipo de estrutura que serão contidos.
 
-The architectural blue-prints she produces are only *plans* for a building. They don't actually constitute a building we can walk into and sit down. We need a builder for that task. A builder will take those plans and follow them, exactly, as he *builds* the building. In a very real sense, he is *copying* the intended characteristics from the plans to the physical building.
+Os projetos arquitetônicos que ela produz são apenas *planos* para um edifício. Eles não constituem realmente um prédio onde podemos caminhar e sentar. Nós precisamos de um construtor para essa tarefa. Um construtor irá pegar esses planos e os seguir, minuciosamente, enquanto *constrói* o prédio. Em um sentido mais real, ele está *copiando* as características dos planos para o prédio físico.
 
-Once complete, the building is a physical instantiation of the blue-print plans, hopefully an essentially perfect *copy*. And then the builder can move to the open lot next door and do it all over again, creating yet another *copy*.
+Uma vez concluído, o prédio é uma instanciação física do projeto arquitetônico, com sorte um *cópia* perfeita. E então o construtor pode se mover para o lote aberto ao lado e fazer tudo novamente, criando outra *cópia*.
 
-The relationship between building and blue-print is indirect. You can examine a blue-print to understand how the building was structured, for any parts where direct inspection of the building itself was insufficient. But if you want to open a door, you have to go to the building itself -- the blue-print merely has lines drawn on a page that *represent* where the door should be.
+O relacionamento entre o prédio e o plano arquitetônico é indireto. Você pode examinar um projeto arquitetônico para entender como o prédio foi estruturado, para todas as partes em que a inspeção direta do edifício em si fosse insuficiente. Mas se você quer abrir uma porta, você tem que ir para o prédio em si -- o projeto tem apenas linhas desenhadas em uma página *representando* onde a porta deveria estar.
 
-A class is a blue-print. To actually *get* an object we can interact with, we must build (aka, "instantiate") something from the class. The end result of such "construction" is an object, typically called an "instance", which we can directly call methods on and access any public data properties from, as necessary.
+Uma classe é um projeto arquitetônico. Para realmente *conseguir* um objeto com o qual podemos interagir, nós devemos construir (também conhecido como "instanciar") algo da classe. O resultado final dessa "construção" é um objeto, tipicamente chamado de "instância", no qual podemos chamar métodos diretamente e acessar quaisquer propriedades de dados públicos, conforme o necessário.
 
-**This object is a *copy*** of all the characteristics described by the class.
+**O objeto é uma *cópia*** de todas as características descritas pela classe.
 
-You likely wouldn't expect to walk into a building and find, framed and hanging on the wall, a copy of the blue-prints used to plan the building, though the blue-prints are probably on file with a public records office. Similarly, you don't generally use an object instance to directly access and manipulate its class, but it is usually possible to at least determine *which class* an object instance comes from.
+Você provavelmente não esperaria entrar em um prédio e encontrar, emoldurado na parede, uma cópia do projeto arquitetônico usado para planejar o prédio, embora projetos arquitetônicos provavelmente estejam arquivadas em um escritório de registros públicos. Similarmente, você geralmente não usa uma instância de objeto para diretamente acessar e manipular a classe, mas é geralmente possível ao menos determinar *de qual classe* um determinado objeto vem.
 
-It's more useful to consider the direct relationship of a class to an object instance, rather than any indirect relationship between an object instance and the class it came from. **A class is instantiated into object form by a copy operation.**
+É mais útil considerar a relação direta entre a classe e uma instância de objeto, ao invés do relacionamento indireto entre uma instância de objeto e a classe do qual ela vem. **Uma classe é instanciada em um objeto por uma operação de cópia.**
 
 <img src="fig1.png">
 
-As you can see, the arrows move from left to right, and from top to bottom, which indicates the copy operations that occur, both conceptually and physically.
+Como você pode ver, as setas se movem da esquerda para direita, e de cima para baixo, o que indica as operações de cópia que ocorrem tanto conceitualmente quanto fisicamente.
 
-### Constructor
+### Construtores
 
-Instances of classes are constructed by a special method of the class, usually of the same name as the class, called a *constructor*. This method's explicit job is to initialize any information (state) the instance will need.
+Instâncias das classes são construídas por um método especial da classe, que geralmente possui o mesmo nome da classe, chamado de *construtor*. O trabalho desse método é inicializar qualquer informação (estado) que a instância irá precisar.
 
-For example, consider this loose pseudo-code (invented syntax) for classes:
+Por exemplo, considere esse pseudo-código solto (sintaxe inventada) para as classes:
 
 ```js
 class CoolGuy {
@@ -110,7 +111,7 @@ class CoolGuy {
 }
 ```
 
-To *make* a `CoolGuy` instance, we would call the class constructor:
+Para *criar* uma instância de `CoolGuy`, nós vamos chamar o construtor da classe:
 
 ```js
 Joe = new CoolGuy( "jumping rope" )
@@ -118,29 +119,29 @@ Joe = new CoolGuy( "jumping rope" )
 Joe.showOff() // Here's my trick: jumping rope
 ```
 
-Notice that the `CoolGuy` class has a constructor `CoolGuy()`, which is actually what we call when we say `new CoolGuy(..)`. We get an object back (an instance of our class) from the constructor, and we can call the method `showOff()`, which prints out that particular `CoolGuy`s special trick.
+Perceba que a classe `CoolGuy` tem um construtor `CoolGuy()`, que é o que chamamos quando dizemos `new CoolGuy(..)`. Nós temos como retorno um objeto (uma instância da nossa classe) do construtor, e nós podemos chamar o método `showOff()`, que vai mostrar o truque especial daquele determinado `CoolGuy`
 
-*Obviously, jumping rope makes Joe a pretty cool guy.*
+*Obviamente, pular corda torna Joe um cara muito legal*
 
-The constructor of a class *belongs* to the class, almost universally with the same name as the class. Also, constructors pretty much always need to be called with `new` to let the language engine know you want to construct a *new* class instance.
+O construtor de uma classe *pertence* a classe, quase universalmente com o mesmo nome da classe. Além disso, construtores quase sempre precisam ser chamados com o operador `new` para que o motor da linguagem saiba que você quer construir uma nova instância da classe.
 
-## Class Inheritance
+## Heranças de classe
 
-In class-oriented languages, not only can you define a class which can be instantiated itself, but you can define another class that **inherits** from the first class.
+Em linguagens orientadas a classes, você pode definir não somente qual classe pode ser instânciada, como também pode definir que outra classe que herda da primeira classe.
 
-The second class is often said to be a "child class" whereas the first is the "parent class". These terms obviously come from the metaphor of parents and children, though the metaphors here are a bit stretched, as you'll see shortly.
+A segunda classe é também chamada de classe-filha enquanto que a primeira é chamada de classe-pai. Esses termos se originam, obviamente, de uma metáfora entre pais e filhos, embora as metáforas aqui estejam empregadas em um conceito mais amplo, como você verá em breve.
 
-When a parent has a biological child, the genetic characteristics of the parent are copied into the child. Obviously, in most biological reproduction systems, there are two parents who co-equally contribute genes to the mix. But for the purposes of the metaphor, we'll assume just one parent.
+Quando um pai tem um filho/filha biológico, as características genéticas do pai são copiadas no filho. Obviamente, na maioria dos sistemas de reprodução biológicos, há dois pais que contribuem igualmente para a variabilidade genética. Mas por efeitos da metáfora, vamos considerar somente um pai.
 
-Once the child exists, he or she is separate from the parent. The child was heavily influenced by the inheritance from his or her parent, but is unique and distinct. If a child ends up with red hair, that doesn't mean the parent's hair *was* or automatically *becomes* red.
+A partir do momento que o filho existe, ele ou ela é separado do pai. O filho foi fortemente influenciado pela herança genética do seu pai, mas é único e distinto. Se uma criança tem cabelo ruivo isso não necessariamente significa que algum de seus pais tenha cabelo vermelho.
 
-In a similar way, once a child class is defined, it's separate and distinct from the parent class. The child class contains an initial copy of the behavior from the parent, but can then override any inherited behavior and even define new behavior.
+De maneira similar, uma vez que uma classe filha é definida, ela é separada e distinta da classe pai. A classe filha possui uma cópia inicial do comportamento do pai, mas elas podem sobrescrever qualquer comportamento herdado e até mesmo definir um novo comportamento.
 
-It's important to remember that we're talking about parent and child **classes**, which aren't physical things. This is where the metaphor of parent and child gets a little confusing, because we actually should say that a parent class is like a parent's DNA and a child class is like a child's DNA. We have to make (aka "instantiate") a person out of each set of DNA to actually have a physical person to have a conversation with.
+É importante relembrar que estamos falando sobre **classes** pais e filhos, que não são coisas físicas. E é isso o que torna a metáfora de pais e filhos um tanto quanto confusas, por que o correto seria dizer que uma classe pai é na verdade o DNA de um pai, e uma classe filho seria como o DNA de um filho. Nós podemos criar (também conhecido como "instanciar") uma pessoa de cada conjunto de DNA para realmente ter uma pessoa com a qual podemos conversar.
 
-Let's set aside biological parents and children, and look at inheritance through a slightly different lens: different types of vehicles. That's one of the most canonical (and often groan-worthy) metaphors to understand inheritance.
+Vamos colocar de o conceito biológico de pais e filhos, e olhar a herança através de uma lente ligeramente diferente: diferentes tipos de veículos. Essa é uma das metáforas mais canônicas (e muitas vezes dignas) para entender herança.
 
-Let's revisit the `Vehicle` and `Car` discussion from earlier in this chapter. Consider this loose pseudo-code (invented syntax) for inherited classes:
+Vamos revisitar a discussão sobre `Vehicle` (veículo) e `Car` (carro) que tivemos anteriormente nesse capítulo. Considere esse pseudo-código solto (sintaxe inventada) para classes herdadas:
 
 ```js
 class Vehicle {
@@ -179,79 +180,79 @@ class SpeedBoat inherits Vehicle {
 }
 ```
 
-**Note:** For clarity and brevity, constructors for these classes have been omitted.
+**Nota:** Para clareza e abreviação, os construtores dessas classes foram omitidos
 
-We define the `Vehicle` class to assume an engine, a way to turn on the ignition, and a way to drive around. But you wouldn't ever manufacture just a generic "vehicle", so it's really just an abstract concept at this point.
+Nós definimos a classe `Veiculo` para que ela assumisse um motor, a forma de ligar a ignição e uma maneira de dirigir. Mas você não fabricaria um veículo genérico, então até esse ponto ela é um conceito abstrato.
 
-So then we define two specific kinds of vehicle: `Car` and `SpeedBoat`. They each inherit the general characteristics of `Vehicle`, but then they specialize the characteristics appropriately for each kind. A car needs 4 wheels, and a speed boat needs 2 engines, which means it needs extra attention to turn on the ignition of both engines.
+Então, definimos dosi tipos específicos de veículos: `Carro` e `SpeedBoat`. Ambos herdam as características gerais de `Veiculo`, mas especializam características apropriadamente para cada tipo. Um carro precisa de 4 rodas, e um SpeedBoat de dois motores, o que significa que é preciso atenção extra para ligar a ignição de ambos motores.
 
-### Polymorphism
+### Polimorfismo
 
-`Car` defines its own `drive()` method, which overrides the method of the same name it inherited from `Vehicle`. But then, `Car`s `drive()` method calls `inherited:drive()`, which indicates that `Car` can reference the original pre-overridden `drive()` it inherited. `SpeedBoat`s `pilot()` method also makes a reference to its inherited copy of `drive()`.
+`Car` define seu próprio método `drive()`, que sobrescreve o método de mesmo nome herdado da classe `Veiculo`. Mas então o método `drive()` pertencente a `Car` chama `inherited:drive()`, o que indica que o carro pode referenciar o método original `drive()` pré-sobrescrito herdado. O método `pilot()` do SpeedBoat também faz referência à sua cópia herdada do `drive()`.
 
-This technique is called "polymorphism", or "virtual polymorphism". More specifically to our current point, we'll call it "relative polymorphism".
+Essa técnica é chamada de "polimorfismo", ou "polimorfismo virtual". Mais especificamente para nosso ponto atual, vamos chamar isso de "polimorfismo relativo".
 
-Polymorphism is a much broader topic than we will exhaust here, but our current "relative" semantics refers to one particular aspect: the idea that any method can reference another method (of the same or different name) at a higher level of the inheritance hierarchy. We say "relative" because we don't absolutely define which inheritance level (aka, class) we want to access, but rather relatively reference it by essentially saying "look one level up".
+Polimorfismo é um tópico muito mais abrangente do que vamos abordar aqui, mas nossa atual semântica "relativa" refere-se a um aspecto em particular: a ideia de que qualquer método pode referenciar outro método (com o mesmo nome, ou um nome diferente) em um nível mais alto da hierarquia de herança. Nós chamamos de "relativo" porque não estabelecemos absolutamente qual nível de herança (também conhecido como classe) queremos acessar, mas referencia-lo relativamente basicamente dizendo "procure um nível acima".
 
-In many languages, the keyword `super` is used, in place of this example's `inherited:`, which leans on the idea that a "super class" is the parent/ancestor of the current class.
+Em muitas linguagens, a palavra chave `super` é usada, no lugar de `inherited` desse exemplo, apoiando-se na ideia de que uma "superclasse" é o pai/ancestral da classe atual.
 
-Another aspect of polymorphism is that a method name can have multiple definitions at different levels of the inheritance chain, and these definitions are automatically selected as appropriate when resolving which methods are being called.
+Outro aspecto do polimorfismo é que um nome específico de método pode ter mútiplas definições em diferentes níveis da cadeia de herança, e essas definiçõessão selecionadas de forma automática de acordo com os métodos que estão sendo chamados.
 
-We see two occurrences of that behavior in our example above: `drive()` is defined in both `Vehicle` and `Car`, and `ignition()` is defined in both `Vehicle` and `SpeedBoat`.
+Nós vemos duas ocorrências desse comportamento em nosso exemplo acima: `drive()` é definido tanto em `Veiculo` como em `Car`, e `ignition()` é definido tanto em `Veiculo` como em `SpeedBoat`.
 
-**Note:** Another thing that traditional class-oriented languages give you via `super` is a direct way for the constructor of a child class to reference the constructor of its parent class. This is largely true because with real classes, the constructor belongs to the class. However, in JS, it's the reverse -- it's actually more appropriate to think of the "class" belonging to the constructor (the `Foo.prototype...` type references). Since in JS the relationship between child and parent exists only between the two `.prototype` objects of the respective constructors, the constructors themselves are not directly related, and thus there's no simple way to relatively reference one from the other (see Appendix A for ES6 `class` which "solves" this with `super`).
+**Nota:** Outra coisa que linguagens orientadas a classes fornecem a você através do `super()` é uma forma do construtor da classe filho referenciar diretamente o construtor de sua classe pai. Isso é verdade principalmente porque, com classes reais, o construtor pertence a classe. No entanto em JS é o contrário - é mais apropriado pensar que a "classe" pertence ao construtor (as referências `Foo.prototype`). Já que em JS o relacionamento entre pai e filho existe apenas entre os dois objetos `.prototype` dos respectivos construtores, os próprios construtores não estão diretamente relacionados, e portanto, não há uma forma de referenciar um do outro (consulte o apêndice A para ver como `class` resolve isso com `super`).
 
-An interesting implication of polymorphism can be seen specifically with `ignition()`. Inside `pilot()`, a relative-polymorphic reference is made to (the inherited) `Vehicle`s version of `drive()`. But that `drive()` references an `ignition()` method just by name (no relative reference).
+Uma implicação interessante do polimorfismo pode ser visto especificamente com `ignition()`. Dentro de `pilot()`, uma referência polimórfica é feita para (a herdada) versão `drive()` de `Veiculo`. Mas esse método `drive()` faz referência ao método `ignition()` apenas pelo nome (sem termos referência relativa).
 
-Which version of `ignition()` will the language engine use, the one from `Vehicle` or the one from `SpeedBoat`? **It uses the `SpeedBoat` version of `ignition()`.** If you *were* to instantiate `Vehicle` class itself, and then call its `drive()`, the language engine would instead just use `Vehicle`s `ignition()` method definition.
+Qual versão de `ignition()` o motor da linguagem irá usar?, a de `Veiculo` ou a de `SpeedBoat`? **Ela usa a versão de `SpeedBoat` de `ignition()`.** Se você *fosse* instanciar a clase `Veiculo`, e chamar o seu método `drive()`, o motro da linguagem usaria apenas a definição do método `ignition()` pertencete a `Veiculo`.
 
-Put another way, the definition for the method `ignition()` *polymorphs* (changes) depending on which class (level of inheritance) you are referencing an instance of.
+Dito de outra forma, a definição para o método `ignition()` polimorfa (muda) de acordo com a classe (nível de herança) que a sua instância está referenciando.
 
-This may seem like overly deep academic detail. But understanding these details is necessary to properly contrast similar (but distinct) behaviors in JavaScript's `[[Prototype]]` mechanism.
+Isso pode parecer um detalhe acadêmico muito profundo. Mas entender esses detalhes é necessário para diferenciar adequadamente comportamentos semelhantes (porém diferentes) no mecanismo `[[Prototype]]` do Javascript.
 
-When classes are inherited, there is a way **for the classes themselves** (not the object instances created from them!) to *relatively* reference the class inherited from, and this relative reference is usually called `super`.
+Quando classes são herdadas, existe uma maneira de as próprias classes (não as instâncias de objetos criadas a partir delas!) referirem-se relativamente à classe herdada, e essa referência relativa é geralmente chamada de `super()`.
 
-Remember this figure from earlier:
+Lembre se dessa figura anterior:
 
 <img src="fig1.png">
 
-Notice how for both instantiation (`a1`, `a2`, `b1`, and `b2`) *and* inheritance (`Bar`), the arrows indicate a copy operation.
+Note como todas as instanciações (`a1`, `a2`, `b1` e `b2`) e a herança (`Bar`) indicam operações de cópia.
 
-Conceptually, it would seem a child class `Bar` can access  behavior in its parent class `Foo` using a relative polymorphic reference (aka, `super`). However, in reality, the child class is merely given a copy of the inherited behavior from its parent class. If the child "overrides" a method it inherits, both the original and overridden versions of the method are actually maintained, so that they are both accessible.
+Conceitualmente, parece que uma classe filho `Bar` pode acessar o comportamento em sua classe pai `Foo` usando uma referência polimórfica relativa (também conhecida como `super`). No entanto, na realidade, a classe filho recebe meramente uma cópia do comportamento herdado da classe pai. Se o filho "sobrescrever" um método que ele herdou, as versões originais e sobrescritas do método são mantidas, para que ambas sejam acessíveis.
 
-Don't let polymorphism confuse you into thinking a child class is linked to its parent class. A child class instead gets a copy of what it needs from the parent class. **Class inheritance implies copies.**
+Não deixe o polimorfismo confundir você em pensar que uma classe filho é ligada a uma classe pai. Uma classe filho recebe uma cópia do que precisa da classe pai. **Herança de classes significa cópias.**
 
-### Multiple Inheritance
+### Herança múltipla
 
-Recall our earlier discussion of parent(s) and children and DNA? We said that the metaphor was a bit weird because biologically most offspring come from two parents. If a class could inherit from two other classes, it would more closely fit the parent/child metaphor.
+Se lembra da nossa conversa sobre pais, filhos e DNA? Nós dizemos que a metáfora era um pouco estranha porque biologicamente a maioria dos descendentes vêm de dois pais. Se uma classe pudesse herdar de duas outras classes distintas, haveria uma maior aproximação com a metáfora de pais e filhos.
 
-Some class-oriented languages allow you to specify more than one "parent" class to "inherit" from. Multiple-inheritance means that each parent class definition is copied into the child class.
+Algumas linguagens orientadas a classes permitem que você especifique mais de uma classe "pai" para "herdar". Herança múltipla significa que cada definição das classes pai foram copiadas para a classe filha.
 
-On the surface, this seems like a powerful addition to class-orientation, giving us the ability to compose more functionality together. However, there are certainly some complicating questions that arise. If both parent classes provide a method called `drive()`, which version would a `drive()` reference in the child resolve to? Would you always have to manually specify which parent's `drive()` you meant, thus losing some of the gracefulness of polymorphic inheritance?
+Superficialmente, isso parece um adicional poderoso para a orientação a classes, nos dando a possibilidade de compor mais funcionalidades juntos. No entanto, há certamente algumas questões complicadas que se levantam. Se ambas as classes pai possuem um método chamado `drive()`, qual versão de `drive()` será referenciada pela classe filha? Você sempre teria que manualmente especificar qual o método pai `drive()` você quis dizer, perdendo um pouco da graça da herança polimórfica?
 
-There's another variation, the so called "Diamond Problem", which refers to the scenario where a child class "D" inherits from two parent classes ("B" and "C"), and each of those in turn inherits from a common "A" parent. If "A" provides a method `drive()`, and both "B" and "C" override (polymorph) that method, when `D` references `drive()`, which version should it use (`B:drive()` or `C:drive()`)?
+Há uma outra variação, o chamado "Problema do Diamante", que se refere a um cenário onde uma classe filha "D" herda de outras duas classes pai ("B" e "C"), e essas classes, por sua vez, herdam de um pai "A" comum. Se "A" provem um método `drive()`, e "B" e "C" sobrescrevem (polimorficamente) esse método, quando `D` referencia `drive()`, qual versão ele irá usar(`B:drive()` ou `C:drive()`)?
 
 <img src="fig2.png">
 
-These complications go even much deeper than this quick glance. We address them here only so we can contrast to how JavaScript's mechanisms work.
+Essas complicações são ainda mais profundas do que essa rápida análise. Nós as expomos aqui apenas para que possamos contrastar com o funcionamento dos mecanismos Javascript.
 
-JavaScript is simpler: it does not provide a native mechanism for "multiple inheritance". Many see this is a good thing, because the complexity savings more than make up for the "reduced" functionality. But this doesn't stop developers from trying to fake it in various ways, as we'll see next.
+Javascript é mais simples: ele não fornece um mecanismo nativo para "herança múltipla". Muitos vêem isso como uma coisa boa, porque a economia de complexidade é mais compensatória do que a funcionalidade "reduzida". Mas isso não impede os programadores de fingirem fazer isso de várias formas diferentes, como vamos ver a seguir.
 
 ## Mixins
 
-JavaScript's object mechanism does not *automatically* perform copy behavior when you "inherit" or "instantiate". Plainly, there are no "classes" in JavaScript to instantiate, only objects. And objects don't get copied to other objects, they get *linked together* (more on that in Chapter 5).
+O mecânismo objeto do Javascript não executa *automaticamente* o comportamento de uma cópia quando você "herda" ou "instancia". Obviamente, não há classes no Javascript que serão instanciadas, apenas objetos. E objetos não são cópiados para outros objetos, eles são *linkados juntos* (mais sobre isso no capítulo 5).
 
-Since observed class behaviors in other languages imply copies, let's examine how JS developers **fake** the *missing* copy behavior of classes in JavaScript: mixins. We'll look at two types of "mixin": **explicit** and **implicit**.
+Como comportamentos de classes observados em outras linguagens implicam em cópias, vamos examinar como desenvolvedores JS **falsificam** o comportamento de cópia *ausente* no mecânismo de classes JavaScript: Mixins. Vamos ver dois tipos de "mixin": **explicito** e **implicito**.
 
-### Explicit Mixins
+### Mixin Explicito
 
-Let's again revisit our `Vehicle` and `Car` example from before. Since JavaScript will not automatically copy behavior from `Vehicle` to `Car`, we can instead create a utility that manually copies. Such a utility is often called `extend(..)` by many libraries/frameworks, but we will call it `mixin(..)` here for illustrative purposes.
+Vamos revisitar nosso exemplo anterior sobre `Vehicle` e `Car`. Como o JavaScript não irá copiar automaticamente o comportamento de `Vehicle` para `Car`, podemos criar um utilitário que copie manualmente. Tal utilidade é frequentemente chamada de `extend(..)` por muitas bibliotecas/frameworks, mas aqui vamos chamar isso de `mixin(..)` por motivos ilustrativos.
 
 ```js
-// vastly simplified `mixin(..)` example:
+// Exemplo bem simplificado de`mixin(..)`:
 function mixin( sourceObj, targetObj ) {
 	for (var key in sourceObj) {
-		// only copy if not already present
+		// só copie se ainda não estiver presente
 		if (!(key in targetObj)) {
 			targetObj[key] = sourceObj[key];
 		}
@@ -283,37 +284,37 @@ var Car = mixin( Vehicle, {
 } );
 ```
 
-**Note:** Subtly but importantly, we're not dealing with classes anymore, because there are no classes in JavaScript. `Vehicle` and `Car` are just objects that we make copies from and to, respectively.
+**Nota:** De maneira sutil, mas importante, nós não estamos mais lidando com classes, porque não há classes no JavaScript. `Vehicle` e `Car` são apenas objetos dos quais fazemos cópias de e para, respectivamente.
 
-`Car` now has a copy of the properties and functions from `Vehicle`. Technically, functions are not actually duplicated, but rather *references* to the functions are copied. So, `Car` now has a property called `ignition`, which is a copied reference to the `ignition()` function, as well as a property called `engines` with the copied value of `1` from `Vehicle`.
+`Car` agora tem um cópia das propriedades e funções estabelecidas em `Vehicle`. Tecnicamente, as funções não são realmente duplicadas, mas as referências a elas são copiadas. Então `Car` possui agora uma propriedade chamada `ignition`, que é uma referência copiada para a função `ignition()`, assim como uma propriedade chamada `engines` com o valor copiado de `1` de `Vehicle`.
 
-`Car` *already* had a `drive` property (function), so that property reference was not overridden (see the `if` statement in `mixin(..)` above).
+`Car` já possui uma propriedade (função) `drive()`, de modo que a referência de propriedade não foi substituida (consulte a instução if no mixin(..) acima).
 
-#### "Polymorphism" Revisited
+#### "Polimorfismo" revisado
 
-Let's examine this statement: `Vehicle.drive.call( this )`. This is what I call "explicit pseudo-polymorphism". Recall in our previous pseudo-code this line was `inherited:drive()`, which we called "relative polymorphism".
+Vamos examinar essa instrução: `Vehicle.drive.call(this)`. Isso é o que eu chamo de "pseudo-polimorfismo explicito". Lembre-se que no nosso pseudo-código anterior, essa linha era `inherited:drive()`, que nós chamamos de "polimorfismo relativo".
 
-JavaScript does not have (prior to ES6; see Appendix A) a facility for relative polymorphism. So, **because both `Car` and `Vehicle` had a function of the same name: `drive()`**, to distinguish a call to one or the other, we must make an absolute (not relative) reference. We explicitly specify the `Vehicle` object by name, and call the `drive()` function on it.
+O JavaScript não tem (antes do ES6; veja apêndice A) um utilitário para o polimorfismo relativo. Então, **já que `Car` e `Vehicle` tinahm uma função com o mesmo nome: `drive()`**, para distinguir uma chamada de um ou outra, temos de fazer uma referência absoluta (não relativa). Nós explicitamente especificamos o objeto `Vehicle` pelo nome, e chamamos a função `drive()` nele.
 
-But if we said `Vehicle.drive()`, the `this` binding for that function call would be the `Vehicle` object instead of the `Car` object (see Chapter 2), which is not what we want. So, instead we use `.call( this )` (Chapter 2) to ensure that `drive()` is executed in the context of the `Car` object.
+Mas se dissermos `Vehicle.drive`, o binding do `this` para essa função será o objeto `Vehicle` em vez do objeto `Car` (veja o capítulo 2), o que não é o que queremos. Então, em vez disso usamos `.call( this )`(capítulo 2) para garantir que `drive()` seja executado no contexto do objeto `Car`.
 
-**Note:** If the function name identifier for `Car.drive()` hadn't overlapped with (aka, "shadowed"; see Chapter 5) `Vehicle.drive()`, we wouldn't have been exercising "method polymorphism". So, a reference to `Vehicle.drive()` would have been copied over by the `mixin(..)` call, and we could have accessed directly with `this.drive()`. The chosen identifier overlap **shadowing** is *why* we have to use the more complex *explicit pseudo-polymorphism* approach.
+**Nota:** Se o identificador da função para `Car.drive()` não tinha se sobreposto com (também conhecido como "sombreado"; veja capítulo 5) `Vehicle.drive()`, não teríamos exercido o "polimorfismo de método". Então, uma referência para `Vehicle.drive()` teria sido copiada pela chamada `mixin(..)`, e nós poderiamos tê-la acessado diretamente através de `this.drive()`. O identificador escolhido se sobrepondo ao sombreamento é o porque de termos de usar uma abordagem mais complexa de *pseudo-polimorfismo explicito*.
 
-In class-oriented languages, which have relative polymorphism, the linkage between `Car` and `Vehicle` is established once, at the top of the class definition, which makes for only one place to maintain such relationships.
+Em linguagens orientadas a classes, que possuem polimorfismo relativo, a linkagem entre `Car` e `Vehicle` é estabelecida uma vez, no topo da definição da classe, o que faz apenas um lugar para manter esses tais relacionamentos.
 
-But because of JavaScript's peculiarities, explicit pseudo-polymorphism (because of shadowing!) creates brittle manual/explicit linkage **in every single function where you need such a (pseudo-)polymorphic reference**. This can significantly increase the maintenance cost. Moreover, while explicit pseudo-polymorphism can emulate the behavior of "multiple inheritance", it only increases the complexity and brittleness.
+Mas por causa das peculiaridades do JavaScript, o pseudo-polimorfismo explicito (por causa do sombreamento!) cria vinculação manual/explicita frágil **em cada função onde você precisa de uma referência (pseudo) polimórfica.** Isso pode aumentar muito o custo de manutenção. Além disso, enquanto o pseudo-polimorfismo explícito pode emular o comportamento de "herança múltipla", ele apenas aumenta a complexidade e fragilidade.
 
-The result of such approaches is usually more complex, harder-to-read, *and* harder-to-maintain code. **Explicit pseudo-polymorphism should be avoided wherever possible**, because the cost outweighs the benefit in most respects.
+O resultado dessas abordagens é normalmente um código mais complexo, difícil de ler, *e* difícil de manter. **Pseudo polimorfismo explicito deve ser evitado sempre que possivel**, porque o custo supera o benefício na maioria dos aspectos.
 
-#### Mixing Copies
+#### Mesclando cópias
 
-Recall the `mixin(..)` utility from above:
+Relembre o utilitário `mixin(..)` acima:
 
 ```js
-// vastly simplified `mixin()` example:
+// Exemplo bem simplificado de`mixin(..)`:
 function mixin( sourceObj, targetObj ) {
 	for (var key in sourceObj) {
-		// only copy if not already present
+		// só copie se ainda não estiver presente
 		if (!(key in targetObj)) {
 			targetObj[key] = sourceObj[key];
 		}
@@ -323,9 +324,9 @@ function mixin( sourceObj, targetObj ) {
 }
 ```
 
-Now, let's examine how `mixin(..)` works. It iterates over the properties of `sourceObj` (`Vehicle` in our example) and if there's no matching property of that name in `targetObj` (`Car` in our example), it makes a copy. Since we're making the copy after the initial object exists, we are careful to not copy over a target property.
+Agora, vamos examinar como `mixin(..)` funciona. Ele itera sobre as propriedades de `sourceObj` (`Vehicle` em nosso exemplo) e se não tiver uma propriedade compatível em `targetObj` (`Car` em nosso exemplo) ele cria uma cópia. Como estamos fazendo uma cópia depois que o objeto inicial existe, tomamos o cuidado de não copiar uma propriedade de destino.
 
-If we made the copies first, before specifying the `Car` specific contents, we could omit this check against `targetObj`, but that's a little more clunky and less efficient, so it's generally less preferred:
+Se fazermos as cópias primeiro, antes de especificar o conteúdo específico para `Car`, poderiamos omitir essa verificação contra o `targetObj`, mas isso é um pouco mais desajeitado e menos eficiente, então geralmente é menos preferido:
 
 ```js
 // alternate mixin, less "safe" to overwrites
@@ -355,23 +356,23 @@ mixin( {
 }, Car );
 ```
 
-Either approach, we have explicitly copied the non-overlapping contents of `Vehicle` into `Car`. The name "mixin" comes from an alternate way of explaining the task: `Car` has `Vehicle`s contents **mixed-in**, just like you mix in chocolate chips into your favorite cookie dough.
+Em qualquer abordagem, copiamos explicitamente o conteúdo não sobreposto do `Vehicle` no `Car`. O nome "mixin" vem de uma maneira alternativa de explicar a tarefa: O `Car` tem o conteúdo de `Vehicle` misturado a ele, assim como você mistura pedaços de chocolate em sua massa de biscoito favorita.
 
-As a result of the copy operation, `Car` will operate somewhat separately from `Vehicle`. If you add a property onto `Car`, it will not affect `Vehicle`, and vice versa.
+Como resultado da operação, `Car` irá operar de forma pouco separada de `Vehicle`, e vice versa.
 
-**Note:** A few minor details have been skimmed over here. There are still some subtle ways the two objects can "affect" each other even after copying, such as if they both share a reference to a common object (such as an array).
+**Nota:** Alguns pequenos detalhes foram desdobrados por aqui. Ainda existem algumas maneiras sutis que os dois objetos podem "afetar" uns aos outros, mesmo após a cópia, como se ambos compartilhassem uma referência para um mesmo objeto (como um array).
 
-Since the two objects also share references to their common functions, that means that **even manual copying of functions (aka, mixins) from one object to another doesn't *actually emulate* the real duplication from class to instance that occurs in class-oriented languages**.
+Como os dois objetos também compartilham referências para as suas funções comuns, isso significa que **mesmo copias manuais de funções (também conhecidos como mixins) de um objeto para outro *não emulam* a duplicação real de classe para a instância que ocorre em linguagens orientadas a classes**.
 
-JavaScript functions can't really be duplicated (in a standard, reliable way), so what you end up with instead is a **duplicated reference** to the same shared function object (functions are objects; see Chapter 3). If you modified one of the shared **function objects** (like `ignition()`) by adding properties on top of it, for instance, both `Vehicle` and `Car` would be "affected" via the shared reference.
+Funções JavaScript não podem ser duplicadas (de uma maneira padrão e confiável), então, o que você acaba fazendo é ma referência duplicada ao mesmo objeto de função compartilhada (funções são objetos; veja capítulo 3). Se você modificar uma das **funções objetos** compartilhadas (como `ignition()`) adicionando propriedades sobre elas, por exemplo, tanto `Vehicle` quanto `Car` seriam "afetados" por meio da referência compartilhada.
 
-Explicit mixins are a fine mechanism in JavaScript. But they appear more powerful than they really are. Not much benefit is *actually* derived from copying a property from one object to another, **as opposed to just defining the properties twice**, once on each object. And that's especially true given the function-object reference nuance we just mentioned.
+Mixins explícitos são um ótimo mecânismo em JavaScript. Mas eles parecem ser mais fortes que realmente são. Poucos benefícios são realmente derivados da cópia de uma propriedade para outra, ao invés de apenas definir as propriedades duas vezes, uma vez em cada objeto. E isso é especialmente verdadeiro, dada a nuance de referência de objeto de função que acabamos de citar.
 
-If you explicitly mix-in two or more objects into your target object, you can **partially emulate** the behavior of "multiple inheritance", but there's no direct way to handle collisions if the same method or property is being copied from more than one source. Some developers/libraries have come up with "late binding" techniques and other exotic work-arounds, but fundamentally these "tricks" are *usually* more effort (and lesser performance!) than the pay-off.
+Se você *mixar* dois ou mais objetos dentro de um objeto alvo, você pode **emular parcialmente** o comportamento de "herança multipla", mas não há uma forma direta de lidarcom colisões se o mesmo método ou propriedade está sendo copiado de mais de uma origem. Alguns desenvolvedores e bibliotecas surgiram com técnicas de "binding tardio" e outras abordagens exóticas, mas fundamentalmente esses "truques" são *geralmente* mais trabalhosos (e têm desempenho menor) do que o resultado.
 
-Take care only to use explicit mixins where it actually helps make more readable code, and avoid the pattern if you find it making code that's harder to trace, or if you find it creates unnecessary or unwieldy dependencies between objects.
+Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar o código mais legível, e evite esse padrão sempre que você achar que ele está tornando o código mais difícil de rastrear, ou se achar que ele cria dependencias desnecessáriasou difíceis de manipular entre objetos.
 
-**If it starts to get *harder* to properly use mixins than before you used them**, you should probably stop using mixins. In fact, if you have to use a complex library/utility to work out all these details, it might be a sign that you're going about it the harder way, perhaps unnecessarily. In Chapter 6, we'll try to distill a simpler way that accomplishes the desired outcomes without all the fuss.
+**Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma bilioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
 
 #### Parasitic Inheritance
 

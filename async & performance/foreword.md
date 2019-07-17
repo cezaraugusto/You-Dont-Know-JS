@@ -1,7 +1,7 @@
 # You Don't Know JS: Async e Performance
 # Introdução
 
-Com o passar dos anos, conquistei, no local onde trabalho, confiança o suficiente para conduzir entrevistas. Se estamos procurando alguém com skills em JavaScript, minha primeira pergunta seria... bem, isso não é verdade. Primeiramente verifico se a(o) candidata(o) precisar is ao banheiro ou se gostaria de beber água (conforto é importante), mas passada a parte relaciona à entrada e saída de fluidos, começo a avaliar se a(o) candidata(o) conhece JavaScript ou apenas jQuery.
+Com o passar dos anos, conquistei, no local onde trabalho, confiança o suficiente para conduzir entrevistas. Se estamos procurando alguém com skills em JavaScript, minha primeira pergunta seria... bem, isso não é verdade. Primeiramente verifico se a(o) candidata(o) precisar ir ao banheiro ou se gostaria de beber água (conforto é importante), mas passada a parte relaciona à entrada e saída de fluidos, começo a avaliar se a(o) candidata(o) conhece JavaScript ou apenas jQuery.
 
 Não que haja algo errado com jQuery. Ela permite que você faça muito sem a necessidade de realmente saber JavaScript e isso é uma *feature* e não um bug. Porém, se a vaga requer habilidades avançadas em JavaScript relacionadas à performance e mantenabilidade, você precisa de alguém que entenda a forma com que bibliotecas como jQuery são feitas. Você precisa aproveitar os fundamentos do JavaScript da mesma forma que ela aproveita.
 

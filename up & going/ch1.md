@@ -78,8 +78,8 @@ Como essas coleções de instruções em programação dizem ao computador o que
 
 Instruções como `a = b * 2` são úteis quando desenvolvedores estão lendo e escrevendo, mas não são numa forma que o computador possa entender. Sendo assim, uma ferramenta especial (tanto um *interpretador* como um *compilador*) é usado para traduzir o código que você escreveu em comandos que o computador possa entender.
 
-Para algumas linguagens, essa tradução dos comandos é típicamente feita de cima para baixo, linha por linha, cada vez que o programa roda. Essas etapas são geralmente chamadas de *interpretação* do código
-**NT** *definem uma linguagem interpretada.*
+Para algumas linguagens, essa tradução dos comandos é típicamente feita de cima para baixo, linha por linha, cada vez que o programa roda. Essas etapas são geralmente chamadas de *interpretação* do código.
+**NT** *Definem uma linguagem interpretada.*
 
 Para outras linguagens, a tradução é feita em tempos distintos, chamado *compilamento* do código. Dessa forma, o programa *roda* depois, ou seja: o que está rodando são as instruções prontas, já compiladas.
 **NT** *Definem uma linguagem compilada.*
@@ -582,7 +582,7 @@ A vendedora da loja de celulares provavelmente não anda com uma calculadora par
 De maneira similar, o programa quase certamente irá dividir o código em
 partes reusáveis, ao invés de ficar se repetindo. A forma que fazemos isso é definindo uma função (`function`).
 
-Uma função geralmente é uma bloco de código nomeado, de forma que ela possa ser "chamada" pelo nome, fazendo o código dentro dela ser acionado sempre que preciso. Considere:
+Uma função geralmente é um bloco de código nomeado, de forma que ele possa ser "chamado" pelo nome, fazendo o código dentro dele ser acionado sempre que preciso. Considere:
 
 ```js
 function printAmount() {

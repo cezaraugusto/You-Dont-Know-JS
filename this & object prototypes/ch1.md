@@ -167,7 +167,7 @@ Na primeira função, chamada de "função nomeada", `foo` é uma referência qu
 
 Mas no segundo exemplo, a função de callback passada para o `setTimeout(..)` não tem identificador (então chamada de "função anônima"), então não há uma maneira adequada de se referenciar o próprio objeto da função.
 
-**Nota:** A referência old-school, mas agora deprecada e de torcer o nariz, `arguments.callee` dentro uma função *também* aponta para o objeto da função que está sendo executado. Essa referência é normalmente a única forma de acessar um objeto de função anônima de dentro dela mesma. A melhor abordagem no entanto, é evitar o uso de funções anônimas completamente, pelo menos para as que necessitam de auto-referência, e em vez disso utilizar funções nomeadas (expressões). `arguments.callee` é obsoleta e não deve ser usada.
+**Nota:** A referência old-school, mas agora depreciada e de torcer o nariz, `arguments.callee` dentro uma função *também* aponta para o objeto da função que está sendo executado. Essa referência é normalmente a única forma de acessar um objeto de função anônima de dentro dela mesma. A melhor abordagem no entanto, é evitar o uso de funções anônimas completamente, pelo menos para as que necessitam de auto-referência, e em vez disso utilizar funções nomeadas (expressões). `arguments.callee` é obsoleta e não deve ser usada.
 
 Outra solução para nosso atual exemplo seria usar o identificador `foo` como referência ao objeto da função em cada lugar, e não utilizar o `this` absolutamente, o que *funciona*:
 

@@ -1,29 +1,28 @@
 # You Don't Know JS: Async & Performance
-# Chapter 4: Generators
+# Capítulo 4: Geradores
 
-In Chapter 2, we identified two key drawbacks to expressing async flow control with callbacks:
+No capítulo 2, nós identificamos duas desvantagens importantes ao expressar controle de fluxo assíncrono com callbacks(retornos):
 
-* Callback-based async doesn't fit how our brain plans out steps of a task.
-* Callbacks aren't trustable or composable because of *inversion of control*.
+* Fluxo assíncrono baseado em callback(retorno) não se alinha com o jeito de como o nosso cérebro planeja os passos de uma tarefa.
+* Callbacks(retornos) não são confiáveis ou combináveis por causa da *inversão de controle*.
 
-In Chapter 3, we detailed how Promises uninvert the *inversion of control* of callbacks, restoring trustability/composability.
+No capítulo 3, nós detalhamos como Promises desinvertem a *inversão de controle* dos callbacks(retornos), restaurando a confiabilidade/composibilidade.
 
-Now we turn our attention to expressing async flow control in a sequential, synchronous-looking fashion. The "magic" that makes it possible is ES6 **generators**.
+Agora nós mudamos o nosso foco para expressar controle de fluxo assíncrono em uma sequência, de um jeito parecido com síncrono. A "mágica" que faz isto possível são **geradores** (generators) do ES6.
 
-## Breaking Run-to-Completion
+## Desmembrando o Rodar-até-acabar
 
-In Chapter 1, we explained an expectation that JS developers almost universally rely on in their code: once a function starts executing, it runs until it completes, and no other code can interrupt and run in between.
+No capítulo 1, nós explicamos uma expectativa que quase todas as pessoas desenvolvedoras JS têm com seu código: quando uma função começa a executar, ela roda até acabar, e nenhum outro código pode interromper este processo e rodar entre ela.
 
-As bizarre as it may seem, ES6 introduces a new type of function that does not behave with the run-to-completion behavior. This new type of function is called a "generator."
+Por mais bizarro que isso pareça, ES6 introduziu um novo tipo de função que não se comporta com o comportamente de rodar-até-acabar. Este novo tipo de função se chama "gerador".
 
-To understand the implications, let's consider this example:
-
+Para entender as implicações disso, vamos considerar o seguinte exemplo:
 ```js
 var x = 1;
 
 function foo() {
 	x++;
-	bar();				// <-- what about this line?
+	bar();				// <-- e essa linha?
 	console.log( "x:", x );
 }
 
@@ -34,11 +33,12 @@ function bar() {
 foo();					// x: 3
 ```
 
-In this example, we know for sure that `bar()` runs in between `x++` and `console.log(x)`. But what if `bar()` wasn't there? Obviously the result would be `2` instead of `3`.
+Nesse exemplo, nós temos certeza de que `bar()` roda entre `x++` e `console.log(x)`. Mas e se `bar()` não estivesse ali? É óbvio que o resultado seria `2` e não `3`.
 
-Now let's twist your brain. What if `bar()` wasn't present, but it could still somehow run between the `x++` and `console.log(x)` statements? How would that be possible?
+Agora vamos brincar com o nosso cérebro. E se `bar()` não estivesse ali, mas ainda pudesse rodar entre `x++` e `console.log(x)`? Como isso seria possível?
 
-In **preemptive** multithreaded languages, it would essentially be possible for `bar()` to "interrupt" and run at exactly the right moment between those two statements. But JS is not preemptive, nor is it (currently) multithreaded. And yet, a **cooperative** form of this "interruption" (concurrency) is possible, if `foo()` itself could somehow indicate a "pause" at that part in the code.
+Em linguagens de programação **paralelas** multi-tarefas, seria essencialmente possível que `bar()` "interrompesse" e rodasse exatamente entre esses dois pedaços de código. But JS is not preemptive, nor is it (currently) multithreaded. And yet, a **cooperative** form of this "interruption" (concurrency) is possible, if `foo()` itself could somehow indicate a "pause" at that part in the code.
+
 
 **Note:** I use the word "cooperative" not only because of the connection to classical concurrency terminology (see Chapter 1), but because as you'll see in the next snippet, the ES6 syntax for indicating a pause point in code is `yield` -- suggesting a politely *cooperative* yielding of control.
 
