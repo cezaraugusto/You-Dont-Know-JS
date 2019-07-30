@@ -925,9 +925,9 @@ console.log( x.y, y.y, z.y );		// 300 100 42
 ```
 O ponto aqui é: a desestruturação é ótima e pode ser muito útil, mas também é uma espada afiada que pode causar lesões (no cérebro de alguém) se usada imprudentemente.
 
-### Nested Destructuring
+### Desestruturação aninhada
 
-If the values you're destructuring have nested objects or arrays, you can destructure those nested values as well:
+Se os valores que você esta desestruturando tiverem objetos ou arrays aninhados, você poderá desestruturar esses valores também:
 
 ```js
 var a1 = [ 1, [2, 3, 4], 5 ];
@@ -940,6 +940,7 @@ console.log( a, b, c, d, e );		// 1 2 3 4 5
 console.log( w );					// 6
 ```
 
+A desestruturação aninhada pode ser uma maneira simples de nivelar namespaces de objeto. Por exemplo:
 Nested destructuring can be a simple way to flatten out object namespaces. For example:
 
 ```js
@@ -949,15 +950,15 @@ var App = {
 	}
 };
 
-// instead of:
+// ao invés de:
 // var User = App.model.User;
 
 var { model: { User } } = App;
 ```
 
-### Destructuring Parameters
+### Desestruturação de Parâmetros
 
-In the following snippet, can you spot the assignment?
+No trecho a seguir, você pode identificar a atribuição?
 
 ```js
 function foo(x) {
@@ -966,10 +967,9 @@ function foo(x) {
 
 foo( 42 );
 ```
+A atribuição é meio que escondida: `42` (o argumento) é atribuído a `x` (o parâmetro) quando `foo(42)` é executado. Se o pareamento parâmetro/argumento é uma atribuição, então é lógico que é uma atribuição que pode ser desestruturada, certo? Claro!
 
-The assignment is kinda hidden: `42` (the argument) is assigned to `x` (the parameter) when `foo(42)` is executed. If parameter/argument pairing is an assignment, then it stands to reason that it's an assignment that could be destructured, right? Of course!
-
-Consider array destructuring for parameters:
+Considere a desestruturação de arrays para parâmetros:
 
 ```js
 function foo( [ x, y ] ) {
@@ -981,7 +981,7 @@ foo( [ 1 ] );						// 1 undefined
 foo( [] );							// undefined undefined
 ```
 
-Object destructuring for parameters works, too:
+Desestruturação de objeto para parâmetros também funciona:
 
 ```js
 function foo( { x, y } ) {
@@ -993,11 +993,12 @@ foo( { y: 42 } );					// undefined 42
 foo( {} );							// undefined undefined
 ```
 
-This technique is an approximation of named arguments (a long requested feature for JS!), in that the properties on the object map to the destructured parameters of the same names. That also means that we get optional parameters (in any position) for free, as you can see leaving off the `x` "parameter" worked as we'd expect.
+Esta técnica é uma aproximação de argumentos nomeados (um recurso a muito solicitado para JS!), em que as propriedades no objeto são mapeados para os parâmetros desestruturados com os mesmos nomes. Isso também significa que nós obtemos parâmetros opcionais (em qualquer posição), como você pode ver deixando de fora o "parâmetro" `x` funcionou como seria de esperar. 
 
-Of course, all the previously discussed variations of destructuring are available to us with parameter destructuring, including nested destructuring, default values, and more. Destructuring also mixes fine with other ES6 function parameter capabilities, like default parameter values and rest/gather parameters.
+Naturalmente, todas as variações de desestruturação discutidas anteriormente estão disponíveis para nós com a desestruturação de parâmetros, incluindo a desestruturação aninhada, valores padrão e muito mais. A desestruturação também mistura bem com outros recursos de parâmetro de função ES6, como valores de parâmetro padrão e parâmetros rest/gather.
 
-Consider these quick illustrations (certainly not exhaustive of the possible variations):
+
+Considere estas ilustrações rápidas (certamente não exaustivas das possíveis variações):
 
 ```js
 function f1([ x=2, y=3, z ]) { .. }
@@ -1008,8 +1009,7 @@ function f4({ x: X, y }) { .. }
 function f5({ x: X = 10, y = 20 }) { .. }
 function f6({ x = 10 } = {}, { y } = { y: 10 }) { .. }
 ```
-
-Let's take one example from this snippet and examine it, for illustration purposes:
+Vamos pegar um exemplo deste trecho e examiná-lo, para fins de ilustração:
 
 ```js
 function f3([ x, y, ...z], ...w) {
@@ -1019,8 +1019,7 @@ function f3([ x, y, ...z], ...w) {
 f3( [] );							// undefined undefined [] []
 f3( [1,2,3,4], 5, 6 );				// 1 2 [3,4] [5,6]
 ```
-
-There are two `...` operators in use here, and they're both gathering values in arrays (`z` and `w`), though `...z` gathers from the rest of the values left over in the first array argument, while `...w` gathers from the rest of the main arguments left over after the first.
+Temos dois operadores `...` em uso aqui, e ambos estão reunindo valores em arrays (`z` e `w`), embora `...z` agrupa o resto dos valores que sobraram do array no primeiro argumento, enquanto `...w` agrupa do resto de argumentos principais depois do primeiro.
 
 #### Destructuring Defaults + Parameter Defaults
 
