@@ -24,7 +24,7 @@ console.log( a );		// 2
 
 ### Declarações `let`
 
-Entretanto, nós podemos criar declarações que estão limitadas à qualquer bloco, chamados (sem nenhuma surpresa) *escopamento de bloco* (block scoping). Isso significa que tudo que precisamos é um par de `{ .. }` para criar o escopo. Ao invés de usar `var`, que sempre declara variáveis anexadas ao enclausuramento do escopo da função (ou global, se for *top level*), use `let`:
+Entretanto, nós podemos criar declarações que estão limitadas à qualquer bloco, chamados (sem nenhuma surpresa) *escopo de bloco* (block scoping). Isso significa que tudo que precisamos é um par de `{ .. }` para criar o escopo. Ao invés de usar `var`, que sempre declara variáveis anexadas ao enclausuramento do escopo da função (ou global, se for *top level*), use `let`:
 
 ```js
 var a = 2;
@@ -127,7 +127,7 @@ Uma última pegadinha: `typeof` se comporta de maneira diferente entre variávei
 }
 ```
 
-A variável `a` não está declarada, entçao `typeof` é a única maneira segura de verificar sua existência ou não. Mas `typeof b` lança um erro TDZ por lá embaixo no código acontece de haver uma declaração `let b`. Oops.
+A variável `a` não está declarada, então `typeof` é a única maneira segura de verificar sua existência ou não. Mas `typeof b` lança um erro TDZ por lá embaixo no código acontece de haver uma declaração `let b`. Oops.
 
 Agora que já deve estar claro sobre o porquê de eu insistir sobre porque declarações `let` devem estar todas no topo de seu escopo. Essa forma afasta totalmente o erro acidental de acessá-las de maneira precoce. Essa forma também faz torná-la mais *explícita* quando você procura no bloco, qualquer bloco, quais variáveis ele contém.
 
@@ -174,7 +174,7 @@ for (var i = 0; i < 5; i++) {
 funcs[3]();		// 3
 ```
 
-Aqui, nós forçadamente criamos um novo `j` para cada iteração, e então a closure trabalha da mesma maneira. Eu prefiro da primeira forma; esta habilidade especial extra é a razão pela qual eu defendo a forma `for (let ..) ..`. Pode ser argumentar que é um pouco mais *implícito*, mas isso é *explícito* o bastante, e útil bastante, pro meu gosto.
+Aqui, nós forçadamente criamos um novo `j` para cada iteração, e então a closure trabalha da mesma maneira. Eu prefiro da primeira forma; esta habilidade especial extra é a razão pela qual eu defendo a forma `for (let ..) ..`. Pode se argumentar que é um pouco mais *implícito*, mas isso é *explícito* o bastante, e útil bastante, pro meu gosto.
 
 `let` também funciona do mesmo jeito com os loops `for..in` e `for..of` (veja em "for..of Loops").
 
@@ -323,7 +323,7 @@ foo( 1, 2, 3, 4, 5);			// [1,2,3,4,5]
 
 **Nota:** O `…args` na declaração da função `foo(...)` é normalmente chamado de “parâmetros restantes”, porque você está coletando o resto dos parâmetros. Eu prefiro “agrupar”, porque é mais descritivo do que ele faz e não o que contém.
 
-A melhor parte deste uso é que ele fornece uma alternativa bastante sólida ao uso do array `arguments` a muito tempo já obsoleto - que na verdade não é realmente um array, mas um objeto parecido com array.  Porque o `args` (o o que você quiser chamar – muitas pessoas preferem chamar de  `r` ou `resto`) é um verdadeiro array, podemos nos livrar de um monte de truques pré-ES6 que criamos para fazer o `arguments` em algo que podemos tratá-lo como um array.
+A melhor parte deste uso é que ele fornece uma alternativa bastante sólida ao uso do array `arguments` a muito tempo já obsoleto - que na verdade não é realmente um array, mas um objeto parecido com array.  Porque o `args` (ou como você quiser chamar – muitas pessoas preferem chamar de  `r` ou `resto`) é um verdadeiro array, podemos nos livrar de um monte de truques pré-ES6 que criamos para fazer o `arguments` em algo que podemos tratá-lo como um array.
 
 Considere:
 
@@ -546,7 +546,7 @@ var tmp = foo(),
 console.log( a, b, c );				// 1 2 3
 ```
 
-Como pode ver, criamos uma atribuição manual dos valores no array que `foo ()` retorna para as variáveis individuais `a`,` b` e `c` e para isso nós (infelizmente) precisamos da variável `tmp`.
+Como pode ver, criamos uma atribuição manual dos valores no array que `foo()` retorna para as variáveis individuais `a`,` b` e `c` e para isso nós (infelizmente) precisamos da variável `tmp`.
 
 Da mesma forma, podemos fazer o seguinte com objetos:
 
@@ -565,7 +565,7 @@ var tmp = bar(),
 console.log( x, y, z );				// 4 5 6
 ```
 
-The `tmp.x` property value is assigned to the `x` variable, and likewise for `tmp.y` to `y` and `tmp.z` to `z`.
+O valor da propriedade `tmp.x` é assinado para variável `x`, e da mesma forma `tmp.y` para `y` e `tmp.z` para `z`.
 
 A atribuição manual de valores indexados por um array ou propriedades de um objeto pode ser considerada como *atribuição estruturada*. O ES6 adiciona uma sintaxe dedicada para *destructuring*, especificamente *array destructuring* e *object destructuring*. Esta sintaxe elimina a necessidade da variável `tmp` nos trechos anteriores, tornando-os muito mais limpos. Considere:
 
@@ -885,9 +885,9 @@ A atribuição de desestruturação `var [..] = a` se estende 'a' para ser atrib
 
 **Nota:** Vimos como o `...` funciona com arrays, mas e com objetos? Não é uma funcionalidade do ES6, mas veja o Capítulo 8 para a discussão de uma possível função "além do ES6" na qual `...` trabalha com a distribuição ou agrupamento de objetos.
 
-### Default Value Assignment
+### Atribuição de valor padrão
 
-Both forms of destructuring can offer a default value option for an assignment, using the `=` syntax similar to the default function argument values discussed earlier.
+Ambas as formas de desestruturação podem oferecer uma opção de valor padrão para uma atribuição, usando a sintaxe `=` semelhante aos valores de argumento de função padrão discutidos anteriormente.
 
 Consider:
 
@@ -899,7 +899,7 @@ console.log( a, b, c, d );			// 1 2 3 12
 console.log( x, y, z, w );			// 4 5 6 20
 ```
 
-You can combine the default value assignment with the alternative assignment expression syntax covered earlier. For example:
+Você pode combinar a atribuição de valor padrão com a sintaxe de expressão de atribuição, alternativa coberta anteriormente. Por exemplo:
 
 ```js
 var { x, y, z, w: WW = 20 } = bar();
@@ -907,7 +907,7 @@ var { x, y, z, w: WW = 20 } = bar();
 console.log( x, y, z, WW );			// 4 5 6 20
 ```
 
-Be careful about confusing yourself (or other developers who read your code) if you use an object or array as the default value in a destructuring. You can create some really hard to understand code:
+Tenha cuidado ao confundir-se (ou a outros desenvolvedores que leem seu código) se você usa um objeto ou array como o valor padrão em uma desestruturação. Você pode criar algum codigo realmente muito difícil de entender.
 
 ```js
 var x = 200, y = 300, z = 100;
@@ -918,13 +918,12 @@ var o1 = { x: { y: 42 }, z: { y: z } };
 ( { x: z = { y: x } } = o1 );
 ```
 
-Can you tell from that snippet what values `x`, `y`, and `z` have at the end? Takes a moment of pondering, I would imagine. I'll end the suspense:
+Você pode dizer a partir desse trecho de cógio que valores `x`, `y`, e `z` terão no final? Leva um momento de reflexão, imagino. Eu terminarei o suspense:
 
 ```js
 console.log( x.y, y.y, z.y );		// 300 100 42
 ```
-
-The takeaway here: destructuring is great and can be very useful, but it's also a sharp sword that can cause injury (to someone's brain) if used unwisely.
+O ponto aqui é: a desestruturação é ótima e pode ser muito útil, mas também é uma espada afiada que pode causar lesões (no cérebro de alguém) se usada imprudentemente.
 
 ### Nested Destructuring
 
