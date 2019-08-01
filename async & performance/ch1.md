@@ -52,40 +52,41 @@ Antes que você proteste em discordância, não, sua vontade de evitar a confus�
 Por exemplo, observe esse código:
 
 ```js
-function agora() {
+function now() {
   return 21;
 }
 
-function depois() {
-  resposta = resposta * 2;
-  console.log( "Significado da vida:", resposta);
+function later() {
+  a = a * 2;
+  console.log( "Signficado da vida:", a );
 }
 
-var resposta = agora();
+var answer = now();
 
-setTimeout( depois, 1000 ); // Significado da vida: 42
+setTimeout( later, 1000 ); // Signifcado da vida: 42
 ```
 
 Existem duas partes para esse programa: o trecho que vai executar *agora* e o trecho que vai executar *depois*. É bem óbvio qual é qual, mas vamos ser super explícitos:
 
 Agora:
 ```js
-function agora() {
-	return 21;
+function now() {
+  return 21;
 }
 
-function depois() { .. }
+function later() { .. }
 
-var resposta = depois();
+var answer = now();
 
-setTimeout( depois, 1000 );
+setTimeout( later, 1000 );
 ```
 
 Depois:
 ```js
-resposta = resposta * 2;
-console.log( "Signficado da vida:", resposta );
+answer = answer * 2;
+console.log( "Meaning of life:", answer );
 ```
+
 
 O pedaço *agora* roda imediatamente, assim que você executar o programa. Mas `setTimeout(...)` também define um evento (um tempo limite) para acontecer *depois*, de maneira que os conteúdos da função `depois()` serão executados posteriormente (1.000 milisegundos a partir de agora). 
 
