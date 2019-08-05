@@ -374,14 +374,14 @@ Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar
 
 **Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma bilioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
 
-#### Parasitic Inheritance
+#### Herança Parasita
 
-A variation on this explicit mixin pattern, which is both in some ways explicit and in other ways implicit, is called "parasitic inheritance", popularized mainly by Douglas Crockford.
+Uma variação desse padrão de mixin explícito, que é de algumas formas explícita e de outras formas implícita, é chamada de "herança parasita", popularizado principalmente por Douglas Crockford.
 
-Here's how it can work:
+Aqui está como isso pode funcionar:
 
 ```js
-// "Traditional JS Class" `Vehicle`
+// "Tradicional Classe JS" `Vehicle`
 function Vehicle() {
 	this.engines = 1;
 }
@@ -393,18 +393,18 @@ Vehicle.prototype.drive = function() {
 	console.log( "Steering and moving forward!" );
 };
 
-// "Parasitic Class" `Car`
+// "Classe Parasita" `Car`
 function Car() {
-	// first, `car` is a `Vehicle`
+	// primeiramente, `car` é um `Vehicle`
 	var car = new Vehicle();
 
-	// now, let's modify our `car` to specialize it
+	// agora, vamos modificar nosso `car` para especificá-lo
 	car.wheels = 4;
 
-	// save a privileged reference to `Vehicle::drive()`
+	// salve uma referência especial para `Vehicle::drive()`
 	var vehDrive = car.drive;
 
-	// override `Vehicle::drive()`
+	// substitua `Vehicle::drive()`
 	car.drive = function() {
 		vehDrive.call( this );
 		console.log( "Rolling on all " + this.wheels + " wheels!" );
@@ -421,9 +421,9 @@ myCar.drive();
 // Rolling on all 4 wheels!
 ```
 
-As you can see, we initially make a copy of the definition from the `Vehicle` "parent class" (object), then mixin our "child class" (object) definition (preserving privileged parent-class references as needed), and pass off this composed object `car` as our child instance.
+Como você pode ver, nós inicialmente fizemos uma cópia da definição da "classe pai" `Vehicle` (objeto), então misturamos nossa definição da "classe filha" (objeto) (preservando as referências especiais da classe pai conforme necessário), e passamos esse objeto composto `car` como nossa instância filha.
 
-**Note:** when we call `new Car()`, a new object is created and referenced by `Car`s `this` reference (see Chapter 2). But since we don't use that object, and instead return our own `car` object, the initially created object is just discarded. So, `Car()` could be called without the `new` keyword, and the functionality above would be identical, but without the wasted object creation/garbage-collection.
+**Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e garbage-collection do objeto.
 
 ### Implicit Mixins
 
