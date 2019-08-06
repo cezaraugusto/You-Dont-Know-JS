@@ -425,11 +425,11 @@ Como você pode ver, nós inicialmente fizemos uma cópia da definição da "cla
 
 **Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e garbage-collection do objeto.
 
-### Implicit Mixins
+### Mixins Implícitos
 
-Implicit mixins are closely related to *explicit pseudo-polymorphism* as explained previously. As such, they come with the same caveats and warnings.
+Mixins implícitos estão intimamente relacionados com *pseudo-polimorfismo explícito* como explicado anteriormente. Sendo assim, eles vêm com as mesmas advertências e alertas.
 
-Consider this code:
+Considere este código:
 
 ```js
 var Something = {
@@ -445,21 +445,21 @@ Something.count; // 1
 
 var Another = {
 	cool: function() {
-		// implicit mixin of `Something` to `Another`
+		// mixin implícito de `Something` para `Another`
 		Something.cool.call( this );
 	}
 };
 
 Another.cool();
 Another.greeting; // "Hello World"
-Another.count; // 1 (not shared state with `Something`)
+Another.count; // 1 (não compartilha estado com `Something`)
 ```
 
-With `Something.cool.call( this )`, which can happen either in a "constructor" call (most common) or in a method call (shown here), we essentially "borrow" the function `Something.cool()` and call it in the context of `Another` (via its `this` binding; see Chapter 2) instead of `Something`. The end result is that the assignments that `Something.cool()` makes are applied against the `Another` object rather than the `Something` object.
+Com `Something.cool.call( this )`, que pode acontecer tanto numa chamada de "constructor" (mais comum), ou em uma chamada de método (mostrado aqui), nós essencialmente "emprestamos" a função `Something.cool()` e a chamamos no contexto de `Another` (via o vínculo `this`; veja o Capítulo 2) no lugar de `Something`. O resultado final é que as atribuições que `Something.cool()` faz são aplicadas no objeto `Another` ao invés do objeto `Something`.
 
-So, it is said that we "mixed in" `Something`s behavior with (or into) `Another`.
+Então, é dito que nós "misturamos" o comportamento de `Something` com (ou em) `Another`.
 
-While this sort of technique seems to take useful advantage of `this` rebinding functionality, it is the brittle `Something.cool.call( this )` call, which cannot be made into a relative (and thus more flexible) reference, that you should **heed with caution**. Generally, **avoid such constructs where possible** to keep cleaner and more maintainable code.
+Enquanto esse tipo de técnica parece tirar proveito da funcionalidade de re-ligação do `this`, é na frágil chamada `Something.cool.call( this )`, que não pode ser transformada em uma referência relativa (e então, mais flexível), que você deve **prestar atenção com cuidado**. Geralmente, **evite tais construções sempre que possível** para manter um código mais limpo e mais sustentável.
 
 ## Review (TL;DR)
 
