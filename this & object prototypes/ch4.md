@@ -381,7 +381,7 @@ Uma variação desse padrão de mixin explícito, que é de algumas formas expl�
 Aqui está como isso pode funcionar:
 
 ```js
-// "Tradicional Classe JS" `Vehicle`
+// "Classe Tradicional JS" `Vehicle`
 function Vehicle() {
 	this.engines = 1;
 }
@@ -463,18 +463,19 @@ Enquanto esse tipo de técnica parece tirar proveito da funcionalidade de re-lig
 
 ## Review (TL;DR)
 
-Classes are a design pattern. Many languages provide syntax which enables natural class-oriented software design. JS also has a similar syntax, but it behaves **very differently** from what you're used to with classes in those other languages.
+Classes são um design pattern. Muitas linguagens disponibilizam una sintaxe que permite um design de software orientado a classes natural. JS também tem uma sintaxe semelhante, mas ela funciona **muito diferente** do que você está acostumado com as classes nessas outras linguagens.
 
-**Classes mean copies.**
+**Classes significa cópias**
 
-When traditional classes are instantiated, a copy of behavior from class to instance occurs. When classes are inherited, a copy of behavior from parent to child also occurs.
+Quando classes tradicionais são instanciadas, ocorre uma cópia do comportamento da classe para a instância. Quando uma classe é herdada, também ocorre uma cópia do comportamento de pai para filho.
 
-Polymorphism (having different functions at multiple levels of an inheritance chain with the same name) may seem like it implies a referential relative link from child back to parent, but it's still just a result of copy behavior.
+Polimorfismo (diferentes funções em múltiplos níveis dentro de uma cadeia de herança com o mesmo nome) pode parecer que implica um link de referência relativa do filho de volta para o pai, mas isso ainda é o resultado da cópia do comportamento.
 
-JavaScript **does not automatically** create copies (as classes imply) between objects.
+JavaScript **não** cria cópias entre objetos (como classes fazem) **automaticamente**.
 
-The mixin pattern (both explicit and implicit) is often used to *sort of* emulate class copy behavior, but this usually leads to ugly and brittle syntax like explicit pseudo-polymorphism (`OtherObj.methodName.call(this, ...)`), which often results in harder to understand and maintain code.
+O padrão de mixin (ambos, explícito e implícito) é geralmente usado como *uma forma* de emular o comportamento de cópia de classes, mas isso geralmente leva a sintaxes feias e frágeis como o pseudo-polimorfismo explícito (`OtherObj.methodName.call(this, ...)`), que resultam em códigos difíceis de entender e manter.
 
-Explicit mixins are also not exactly the same as class *copy*, since objects (and functions!) only have shared references duplicated, not the objects/functions duplicated themselves. Not paying attention to such nuance is the source of a variety of gotchas.
+Mixins explícitos também não são exatamente iguais a uma *cópia* de classe, uma vez que objetos (e funções!) só terão compartilhado referências duplicadas, e não os objetos/funções duplicados. Não prestar atenção a tais detalhes é a fonte de uma variedade de armadilhas.
 
-In general, faking classes in JS often sets more landmines for future coding than solving present *real* problems.
+Em geral, imitar classes em JS geralmente criam mais minas terrestres para o código futuro do que soluções de problemas atuais *reais*.
+
