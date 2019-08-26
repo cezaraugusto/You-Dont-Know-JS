@@ -647,7 +647,7 @@ Apesar de `calculateFinalPurchaseAmount(..)` ser chamado apenas uma vez, organiz
 
 Se você pedir à vendedora da loja de celulares por um modelo que não está em estoque, ela não poderá te vender o celular que você quer. Ela só tem acesso aos aparelhos que estão em estoque, você terá que ir até outra loja para saber se eles têm o telefone que você deseja.
 
-Em programação temos um termo para esse conceito: *escopo* (tecnicamente chamado *escopo léxico*). Em JavaScript, cada função tem seu próprio escopo. O escopo é basicamente uma coleção de variáveis e regras de como essas variáveis serão acessadas pelo nome. Apenas o código dentro dessa função poderá as variáveis dentro daquele *escopo*.
+Em programação temos um termo para esse conceito: *escopo* (tecnicamente chamado *escopo léxico*). Em JavaScript, cada função tem seu próprio escopo. O escopo é basicamente uma coleção de variáveis e regras de como essas variáveis serão acessadas pelo nome. Apenas o código dentro dessa função poderá acessar as variáveis dentro daquele *escopo*.
 
 O nome de uma variável precisa ser único dentro do escopo -- não podem haver duas variáveis diferentes com o nome `a` no mesmo escopo. Porém duas variáveis com o nome `a` em escopos diferentes podem coexistir sem problemas.
 
