@@ -374,14 +374,14 @@ Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar
 
 **Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma bilioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
 
-#### Parasitic Inheritance
+#### Herança Parasita
 
-A variation on this explicit mixin pattern, which is both in some ways explicit and in other ways implicit, is called "parasitic inheritance", popularized mainly by Douglas Crockford.
+Uma variação desse padrão de mixin explícito, que é de algumas formas explícita e de outras formas implícita, é chamada de "herança parasita", popularizado principalmente por Douglas Crockford.
 
-Here's how it can work:
+Aqui está como isso pode funcionar:
 
 ```js
-// "Traditional JS Class" `Vehicle`
+// "Classe Tradicional JS" `Vehicle`
 function Vehicle() {
 	this.engines = 1;
 }
@@ -393,18 +393,18 @@ Vehicle.prototype.drive = function() {
 	console.log( "Steering and moving forward!" );
 };
 
-// "Parasitic Class" `Car`
+// "Classe Parasita" `Car`
 function Car() {
-	// first, `car` is a `Vehicle`
+	// primeiramente, `car` é um `Vehicle`
 	var car = new Vehicle();
 
-	// now, let's modify our `car` to specialize it
+	// agora, vamos modificar nosso `car` para especificá-lo
 	car.wheels = 4;
 
-	// save a privileged reference to `Vehicle::drive()`
+	// salve uma referência especial para `Vehicle::drive()`
 	var vehDrive = car.drive;
 
-	// override `Vehicle::drive()`
+	// substitua `Vehicle::drive()`
 	car.drive = function() {
 		vehDrive.call( this );
 		console.log( "Rolling on all " + this.wheels + " wheels!" );
@@ -421,15 +421,15 @@ myCar.drive();
 // Rolling on all 4 wheels!
 ```
 
-As you can see, we initially make a copy of the definition from the `Vehicle` "parent class" (object), then mixin our "child class" (object) definition (preserving privileged parent-class references as needed), and pass off this composed object `car` as our child instance.
+Como você pode ver, nós inicialmente fizemos uma cópia da definição da "classe pai" `Vehicle` (objeto), então misturamos nossa definição da "classe filha" (objeto) (preservando as referências especiais da classe pai conforme necessário), e passamos esse objeto composto `car` como nossa instância filha.
 
-**Note:** when we call `new Car()`, a new object is created and referenced by `Car`s `this` reference (see Chapter 2). But since we don't use that object, and instead return our own `car` object, the initially created object is just discarded. So, `Car()` could be called without the `new` keyword, and the functionality above would be identical, but without the wasted object creation/garbage-collection.
+**Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e garbage-collection do objeto.
 
-### Implicit Mixins
+### Mixins Implícitos
 
-Implicit mixins are closely related to *explicit pseudo-polymorphism* as explained previously. As such, they come with the same caveats and warnings.
+Mixins implícitos estão intimamente relacionados com *pseudo-polimorfismo explícito* como explicado anteriormente. Sendo assim, eles vêm com as mesmas advertências e alertas.
 
-Consider this code:
+Considere este código:
 
 ```js
 var Something = {
@@ -445,36 +445,37 @@ Something.count; // 1
 
 var Another = {
 	cool: function() {
-		// implicit mixin of `Something` to `Another`
+		// mixin implícito de `Something` para `Another`
 		Something.cool.call( this );
 	}
 };
 
 Another.cool();
 Another.greeting; // "Hello World"
-Another.count; // 1 (not shared state with `Something`)
+Another.count; // 1 (não compartilha estado com `Something`)
 ```
 
-With `Something.cool.call( this )`, which can happen either in a "constructor" call (most common) or in a method call (shown here), we essentially "borrow" the function `Something.cool()` and call it in the context of `Another` (via its `this` binding; see Chapter 2) instead of `Something`. The end result is that the assignments that `Something.cool()` makes are applied against the `Another` object rather than the `Something` object.
+Com `Something.cool.call( this )`, que pode acontecer tanto numa chamada de "constructor" (mais comum), ou em uma chamada de método (mostrado aqui), nós essencialmente "emprestamos" a função `Something.cool()` e a chamamos no contexto de `Another` (via o vínculo `this`; veja o Capítulo 2) no lugar de `Something`. O resultado final é que as atribuições que `Something.cool()` faz são aplicadas no objeto `Another` ao invés do objeto `Something`.
 
-So, it is said that we "mixed in" `Something`s behavior with (or into) `Another`.
+Então, é dito que nós "misturamos" o comportamento de `Something` com (ou em) `Another`.
 
-While this sort of technique seems to take useful advantage of `this` rebinding functionality, it is the brittle `Something.cool.call( this )` call, which cannot be made into a relative (and thus more flexible) reference, that you should **heed with caution**. Generally, **avoid such constructs where possible** to keep cleaner and more maintainable code.
+Enquanto esse tipo de técnica parece tirar proveito da funcionalidade de re-ligação do `this`, é na frágil chamada `Something.cool.call( this )`, que não pode ser transformada em uma referência relativa (e então, mais flexível), que você deve **prestar atenção com cuidado**. Geralmente, **evite tais construções sempre que possível** para manter um código mais limpo e mais sustentável.
 
 ## Review (TL;DR)
 
-Classes are a design pattern. Many languages provide syntax which enables natural class-oriented software design. JS also has a similar syntax, but it behaves **very differently** from what you're used to with classes in those other languages.
+Classes são um design pattern. Muitas linguagens disponibilizam una sintaxe que permite um design de software orientado a classes natural. JS também tem uma sintaxe semelhante, mas ela funciona **muito diferente** do que você está acostumado com as classes nessas outras linguagens.
 
-**Classes mean copies.**
+**Classes significa cópias**
 
-When traditional classes are instantiated, a copy of behavior from class to instance occurs. When classes are inherited, a copy of behavior from parent to child also occurs.
+Quando classes tradicionais são instanciadas, ocorre uma cópia do comportamento da classe para a instância. Quando uma classe é herdada, também ocorre uma cópia do comportamento de pai para filho.
 
-Polymorphism (having different functions at multiple levels of an inheritance chain with the same name) may seem like it implies a referential relative link from child back to parent, but it's still just a result of copy behavior.
+Polimorfismo (diferentes funções em múltiplos níveis dentro de uma cadeia de herança com o mesmo nome) pode parecer que implica um link de referência relativa do filho de volta para o pai, mas isso ainda é o resultado da cópia do comportamento.
 
-JavaScript **does not automatically** create copies (as classes imply) between objects.
+JavaScript **não** cria cópias entre objetos (como classes fazem) **automaticamente**.
 
-The mixin pattern (both explicit and implicit) is often used to *sort of* emulate class copy behavior, but this usually leads to ugly and brittle syntax like explicit pseudo-polymorphism (`OtherObj.methodName.call(this, ...)`), which often results in harder to understand and maintain code.
+O padrão de mixin (ambos, explícito e implícito) é geralmente usado como *uma forma* de emular o comportamento de cópia de classes, mas isso geralmente leva a sintaxes feias e frágeis como o pseudo-polimorfismo explícito (`OtherObj.methodName.call(this, ...)`), que resultam em códigos difíceis de entender e manter.
 
-Explicit mixins are also not exactly the same as class *copy*, since objects (and functions!) only have shared references duplicated, not the objects/functions duplicated themselves. Not paying attention to such nuance is the source of a variety of gotchas.
+Mixins explícitos também não são exatamente iguais a uma *cópia* de classe, uma vez que objetos (e funções!) só terão compartilhado referências duplicadas, e não os objetos/funções duplicados. Não prestar atenção a tais detalhes é a fonte de uma variedade de armadilhas.
 
-In general, faking classes in JS often sets more landmines for future coding than solving present *real* problems.
+Em geral, imitar classes em JS geralmente criam mais minas terrestres para o código futuro do que soluções de problemas atuais *reais*.
+
