@@ -83,6 +83,7 @@
     <td align="center"><a href="https://www.linkedin.com/in/felipesecato/"><img src="https://avatars0.githubusercontent.com/u/5840942?v=4" width="100px;" alt="Felipe Secato"/><br /><sub><b>Felipe Secato</b></sub></a><br /><a href="#translation-secato" title="Translation">🌍</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/karenkgs/"><img src="https://avatars1.githubusercontent.com/u/7390167?v=4" width="100px;" alt="Karen Garcia"/><br /><sub><b>Karen Garcia</b></sub></a><br /><a href="#translation-karenkgs" title="Translation">🌍</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/wesdeveloper"><img src="https://avatars0.githubusercontent.com/u/13066330?v=4" width="100px;" alt="Wesley Amaral Lopes"/><br /><sub><b>Wesley Amaral Lopes</b></sub></a><br /><a href="#translation-wesdeveloper" title="Translation">🌍</a> <a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=wesdeveloper" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/garboso"><img src="https://avatars0.githubusercontent.com/u/50976118?v=4" width="100px;" alt="christopher a."/><br /><sub><b>christopher a.</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=garboso" title="Documentation">📖</a></td>
   </tr>
 </table>
 
