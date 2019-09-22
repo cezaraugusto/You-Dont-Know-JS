@@ -85,6 +85,7 @@
     <td align="center"><a href="https://www.linkedin.com/in/wesdeveloper"><img src="https://avatars0.githubusercontent.com/u/13066330?v=4" width="100px;" alt="Wesley Amaral Lopes"/><br /><sub><b>Wesley Amaral Lopes</b></sub></a><br /><a href="#translation-wesdeveloper" title="Translation">🌍</a> <a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=wesdeveloper" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/garboso"><img src="https://avatars0.githubusercontent.com/u/50976118?v=4" width="100px;" alt="christopher a."/><br /><sub><b>christopher a.</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=garboso" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/victorpothin"><img src="https://avatars1.githubusercontent.com/u/24586471?v=4" width="100px;" alt="Victor Pothin"/><br /><sub><b>Victor Pothin</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=victorpothin" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/gustavofabro"><img src="https://avatars1.githubusercontent.com/u/14109186?v=4" width="100px;" alt="Gustavo Fabro"/><br /><sub><b>Gustavo Fabro</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=gustavofabro" title="Documentation">📖</a></td>
   </tr>
 </table>
 
