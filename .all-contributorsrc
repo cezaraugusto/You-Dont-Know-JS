@@ -405,6 +405,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "gustavofabro",
+      "name": "Gustavo Fabro",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/14109186?v=4",
+      "profile": "https://github.com/gustavofabro",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
