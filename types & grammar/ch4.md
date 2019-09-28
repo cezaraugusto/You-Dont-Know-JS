@@ -560,7 +560,7 @@ Na seção "inteiros de 32-bit (signed)" do Capítulo 2, nós abordamos como ope
 
 Enquanto não é *tecnicamente* uma coerção em si (desde que o type não mude!), o uso de operadores bit a bit (como `|` ou `~`) com um certo valor `number` especial produz um efeito coercivo que resulta em um valor `number` diferente.
 
-Por exemplo, primeiro vamos considerar o `|` "operador bit a bir OU" usado de outra forma em um idioma não-op `0 | x`, que (como o capítulo 2 mostrou) essencialmente apenas faz a conversão `ToInt32`:
+Por exemplo, primeiro vamos considerar o `|` "operador bit a bit OU" usado de outra forma em um idioma não-op `0 | x`, que (como o capítulo 2 mostrou) essencialmente apenas faz a conversão `ToInt32`:
 
 ```js
 0 | -0;			// 0
@@ -693,13 +693,13 @@ parseInt( b );	// 42
 
 Parsear um valor numérico de uma string é *tolerante* para caracteres não numéricos -- isso apenas para de parsear da esquerda para a direita quando encontrado -- enquanto a coerção é *não tolerante* e falha, resultando no valor 'NaN`.
 
-Perseamente deve ser visto como um substituto para coerção. Essas duas tarefas, mesmo similares, têm propósitos diferentes. Parsear uma `string` como um `number` quando você não sabe/se importa qual ordem caracteres não-numéricos podem estar no lado da mão-direita. Fazer a coerção de um `string` (para um `number`) quando os únicos valores aceitáveis são numéricos e algo como "42px" deve ser rejeitado como um `number`.
+Perseamento não deve ser visto como um substituto para coerção. Essas duas tarefas, mesmo similares, têm propósitos diferentes. Parsear uma `string` como um `number` quando você não sabe/se importa qual ordem caracteres não-numéricos podem estar no lado da mão-direita. Fazer a coerção de um `string` (para um `number`) quando os únicos valores aceitáveis são numéricos e algo como "42px" deve ser rejeitado como um `number`.
 
 **Dica** `parseInt(..)` tem um irmão gêmeo, `parseFloat(..)`, que (como parece) tira um número de ponto flutuante de uma string.
 
 Não esqueça que `parseInt(..)` opera em valores `string`. Não faz absolutamente nenhum sentido passar um valor `number` para `parseInt(..)`. Nem faria sentido passar nenhum outro tipo de valor, como `true`, `function(){..}` ou `[1,2,3]`.
 
-Se você passar uma não `string`, o valor que você passar vai automaticamente sofrer coerção para uma `string` primeiro (veja "`ToString`" anteriormente), o que vai claramente se um tipo de coerção *implícita* oculta. É realmente uma péssima ideia confiar em tal comportamento no seu programa, então nunca use `parseInt(..)` em um valor que não seja uma `string`.
+Se você passar uma não `string`, o valor que você passar vai automaticamente sofrer coerção para uma `string` primeiro (veja "`ToString`" anteriormente), o que vai claramente ser um tipo de coerção *implícita* oculta. É realmente uma péssima ideia confiar em tal comportamento no seu programa, então nunca use `parseInt(..)` em um valor que não seja uma `string`.
 
 Antes do ES5, outra pegadinha existia com `parseInt(..)`, a qual era fonte de muitos bugs de programas JS. Se você não passasse um segundo argumento para indicar qual base numérica (conhecida como radix) usar para interpretar o conteúdo numérico da `string`, `parseInt(..)` iria olhar para os caracteres iniciais e adivinhar.
 
@@ -736,7 +736,7 @@ A afirmação pretensiosa (mas totalmente inválida) foi: "Se eu passar infinito
 
 Embora este exemplo seja obviamente artificial e irreal, vamos entrar na loucura por um momento e examinar se JS realmente é tão louco.
 
-Primeiramente, o pecado mais óbvio cometido aqui é passar uma não-`string` para `parseInt(..)`. Não, não, não. Faça isso e você estará pedindo por problemas. Mas mesmo se você fizer, o JS, educadamente, faz a coerção o que você passa em uma `string` que pode tentar parsear.
+Primeiramente, o pecado mais óbvio cometido aqui é passar uma não-`string` para `parseInt(..)`. Não, não, não. Faça isso e você estará pedindo por problemas. Mas mesmo se você fizer, o JS, educadamente, faz a coerção do que você passa em uma `string` que pode tentar parsear.
 
 Alguns poderão argumentar que esse é um comportamento irracional, e que `parseInt(..)` deveria operar em um valor não-`string`. Isso deveria lançar um erro? Isso seria muito a cara do Java, francamente. Eu estremeço ao pensar que JS deveria começar a lançar erros em todo o lugar para que o `try..catch` seja necessário em quase todas as linhas.
 
@@ -769,7 +769,7 @@ Agora, e sobre caracteres base-19? Obviamente, completamente falso e artificial.
 
 Então, de volta para nosso exemplo `parseInt( 1/0, 19 )`. Isso é essencialmente `parseInt( "Infinity", 19 )`. Como ele irá parsear? O primeiro caractere é o `"I"`, no qual é valor `18` na boba base-19. O segundo caractere `"n"` não está no conjuntos de caracteres válidos, e como tal, o parse simplesmente pára, assim como quando ele cruzar com `"p"` em `"42px"`.
 
-O resultado? `18`. Exatamente como ele, sensatamente, deve ser. Os comportamentos envolvidos para nos trazer até aqui, e não para um próprio erro `Infitnity`, são **muito importantes** para o JS, e não devem ser descartados tão facilmente.
+O resultado? `18`. Exatamente como ele, sensatamente, deve ser. Os comportamentos envolvidos para nos trazer até aqui, e não para um próprio erro `Infinity`, são **muito importantes** para o JS, e não devem ser descartados tão facilmente.
 
 Outros examplos desse comportamento com `parseInt(..)` que podem ser surpreendentes mas são bastante sensatos incluem:
 
@@ -835,7 +835,7 @@ var g;
 !!g;	// false
 ```
 
-Qualquer uma dessas coerções `ToBoolean` podem acontecer *implicitamente* sem o `Boolean(..)` ou `!!`, se usado em um contexto `boolean` assim como uma declaração `if(..) ..`. Mas o objeto é forçar explicitamente o valor para um `boolean` para deixar claro que a coerção `ToBoolean` é intencional.
+Qualquer uma dessas coerções `ToBoolean` podem acontecer *implicitamente* sem o `Boolean(..)` ou `!!`, se usado em um contexto `boolean` assim como uma declaração `if(..) ..`. Mas o objetivo é forçar explicitamente o valor para um `boolean` para deixar claro que a coerção `ToBoolean` é intencional.
 
 Outro caso de uso para coerção explícita `ToBoolean` é se você quer forçar uma coerção de valor `true`/`false` em uma serialização JSON de uma estrutura de dados:
 
@@ -885,7 +885,7 @@ Enquanto está claro qual é o objetivo de coerção *explícita* (tornar o cód
 
 Confiar de olhos fechados, acredito que é aí que grande parte da raiva de coerções vêm. A maioria das reclamações sobre "coerções JavaScript" têm, na verdade, como alvo (eles percebendo ou não) coerções *implícitas*.
 
-**Observação** Douglas Crockford, autor de *"JavaScript: The Good Parts"*, afirmou em muitas palestras de conferências e artigos que coerção JavaScript deve ser evitada. Mas o que ele pareceu falar é que coerção *implícita* é ruim (na opnião dele). Porém, se você ler seu próprio código, você irá achar muitos exemplos de coerção, ambas *implícita* e *explícita*! Na verdade, a raiva dele parece ser primeiramente destinada para a operação `==`, mas você você verá nesse capítulo, essa é apenas uma parte do mecanismo de coerção.
+**Observação** Douglas Crockford, autor de *"JavaScript: The Good Parts"*, afirmou em muitas palestras de conferências e artigos que coerção JavaScript deve ser evitada. Mas o que ele pareceu falar é que coerção *implícita* é ruim (na opnião dele). Porém, se você ler seu próprio código, você irá achar muitos exemplos de coerção, ambas *implícita* e *explícita*! Na verdade, a raiva dele parece ser primeiramente destinada para a operação `==`, mas você verá nesse capítulo, essa é apenas uma parte do mecanismo de coerção.
 
 Então, a **coerção implícita é** maligna? Ela é perigosa? É uma falha no design do JavaScript? Nós devemos evitá-la a todo custo?
 
@@ -917,9 +917,9 @@ Alguns argumentariam, pelo menos em algumas circunstâncias, sim. Mas eu acho qu
 
 Sem dúvidas, nos bastidores, em algum lugar, a conversão intermediária continua acontecendo. Mas se esse detalhe é oculto da view, nós apenas podemos raciocinar sobre pegar `y` para o tipo `SomeType` como uma operação genérica e enconder os detalhes bangunçados.
 
-Embora não seja uma analogia perfeita, o que eu vou argumentar em todo o resto desse capítulo é que coerção *implícita* JS pode ser considerada como forncecedora de uma ajuda similar para seu código.
+Embora não seja uma analogia perfeita, o que eu vou argumentar em todo o resto desse capítulo é que coerção *implícita* JS pode ser considerada como fornecedora de uma ajuda similar para seu código.
 
-Mas, **e isso é muito importante**, essa não é uma declaração absoluta e ilimitada. Há definitivamente uma abundância de *males* que espreitam a coerção *implícita*, que prejidicará seu código muito mais do que qualquer potencial melhoria de legigibilidade. Claramente, nós teremos que aprender como evitar certos construtos para que não envenenemos nosso código com todas as formas de bugs.
+Mas, **e isso é muito importante**, essa não é uma declaração absoluta e ilimitada. Há definitivamente uma abundância de *males* que espreitam a coerção *implícita*, que prejudicará seu código muito mais do que qualquer potencial melhoria de legibilidade. Claramente, nós teremos que aprender como evitar certos construtos para que não envenenemos nosso código com todas as formas de bugs.
 
 Muitos desenvolvedores acreditam que se um mecanismo pode fazer algo últil **A** mas também pode ser abusado ou mal usado para fazer algo terrível **Z**, então nós devemos descartar completamente esse mecanismo, apenas por segurança.
 
