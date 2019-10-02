@@ -11,7 +11,7 @@ Sua jornada para entender a fundo JavaScript começa aqui.
 
 **Nota:** Como havia dito no Capítulo 1, você deve definitivamente testar por conta própria todos os códigos apresentados enquanto você estiver lendo através do capítulo. Tome nota que alguns dos códigos escritos aqui utilizam capacidades introduzidas na nova versão do  JavaScript no momento em que estou escrevendo  (comumente chamado de "ES6" por ser a 6ª edição do ECMAScript -- o nome oficial da especificação JS). Caso aconteça de você estar utilizando um navegador antigo, pre-ES6, o código pode não funcionar. Uma versão atualizada de um navegador moderno (como Chrome, Firefox, or IE) deverá ser usada.
 
-## Valores e Tipos
+## Valores & Tipos
 
 Como definimos no Capítulo 1, JavaScript tem valores tipados, não variáveis tipadas. Os seguintes tipos nativos estão disponíveis:
 

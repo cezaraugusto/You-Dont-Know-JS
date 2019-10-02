@@ -9,7 +9,7 @@ A série *You Don't Know JS* (*YDKJS*) está em contraste gritante com as aborda
 
 Vou usar este capítulo final para resumir o que esperar do resto dos livros da série, e como ir de forma mais eficaz sobre a construção de uma base de aprendizagem de JavaScript em cima da *YDKJS*.
 
-## Escopo & Encerramentos
+## Escopos & Clausuras
 
 Talvez uma das coisas mais fundamentais que você precisa aprender, é como o escopo de variáveis realmente funciona em JavaScript. Isso não é o suficiente para ter *opiniões* vagas sobre escopo.
 
@@ -17,9 +17,9 @@ O título *Escopos & Clausuras* começa por desmascarar o equívoco comum que JS
 
 O motor de JS compila seu código logo antes (e às vezes durante!) a execução. Então, faremos uso de uma abordagem mais profunda do compilador para o nosso código, para entender como ele encontra e lida com declarações de variáveis e funções. Ao longo do caminho, vemos a típica metáfora para gerenciamento de escopo de variáveis em JS, *"Hoisting"* (Elevação).
 
-É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Encerramento* para o último capítulo do livro. Talvez *Encerramento* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Encerramento* provavelmente permanecerá fora do seu alcance.
+É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Clausura* para o último capítulo do livro. Talvez *Clausura* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Clausura* provavelmente permanecerá fora do seu alcance.
 
-Uma aplicação importante de *Encerramento* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso deve ser uma de suas maiores prioridades.
+Uma aplicação importante de *Clausura* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso deve ser uma de suas maiores prioridades.
 
 ## this & Prototipagem de Objetos
 
@@ -39,7 +39,7 @@ As afirmações que faço sobre delegação contra herança vem não de uma anti
 
 Mas o caso que eu faço a respeito de protótipos e a delegação é muito mais do que o que eu vou falar aqui. Se você está pronto para reconsiderar tudo o que você pensa que sabe sobre as "classes" e "heranças" em JavaScript, eu lhe ofereço a oportunidade para "tomar a pílula vermelha" (*Matrix* 1999) e conferir os capítulos 4-6 do título *this & Prototipagem de Objetos* desta série.
 
-## Tipos e Gramática
+## Tipos & Gramática
 
 O terceiro título desta série tem foco principalmente em combater ainda outro tópico altamente controverso: a coerção de tipos. Provavelmente nenhum tópico causa mais frustração entre os desenvolvedores JS que quando você fala sobre as confusões acerca da coerção implícita.
 
