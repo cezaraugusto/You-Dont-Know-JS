@@ -5,7 +5,7 @@ No capítulo anterior, fiz uma introdução básica sobre os blocos construtores
 
 Iremos introduzir alguns conceitos neste capítulo que não serão totalmente explorados até a sequência dos próximos livros desta série. Você pode pensar nesse capítulo como uma visão geral dos tópicos que serão abordados ao longo dos outros livros.
 
-Especialmente se você for novo ao JavaScript, você pode esperar utilizar boa parte do seu tempo revisando por diversas vezes os conceitos e exemplos de código abordados. Toda boa fundação é feita de tijolo em tijolo, então não espere entender de imediato a medida que for progredindo em sua leitura.
+Especialmente se você for novo ao JavaScript, você pode esperar utilizar boa parte do seu tempo revisando por diversas vezes os conceitos e exemplos de códigos abordados. Toda boa fundação é feita de tijolo em tijolo, então não espere entender de imediato a medida que for progredindo em sua leitura.
 
 Sua jornada para entender a fundo JavaScript começa aqui.
 
@@ -51,7 +51,7 @@ O valor que é retornado pelo operador `typeof`é sempre um dos seis (sete com o
 
 Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valor, e apesar de parecer, `typeof a` não está perguntando pelo "tipo de `a`", mas sim pelo "tipo de valor atualmente armazenado em `a`." Apenas valores possuem tipos em JavaScript; variáveis são apenas _containers_ para esses valores.
 
-`typeof null` é um caso interessante, porque erradamente retorna um `"objeto"`, enquanto você espera que ele retorne `"null"`.
+`typeof null` é um caso interessante, porque erradamente retorna um `"object"`, enquanto você espera que ele retorne `"null"`.
 
 **Atenção:** Esse é um bug antigo em JS, mas um do tipo que é provável de nunca ser consertado. Muitos códigos na Web dependem desse bug e portanto consertá-lo iria trazer ainda mais bugs!
 
@@ -170,7 +170,7 @@ a.toUpperCase();        // "HELLO WORLD"
 b.toFixed(4);           // "3.1416"
 ```
 
-é mais complicado do que apenas o método existente em um valor.
+É mais complicado do que apenas o método existente em um valor.
 
 Resumidamente, existe uma forma agregadora do objeto `String` (`S` maiúsculo), que pareia com o tipo primitivo `string`. É esse objeto agregador que define o método `toUpperCase()` em seu protótipo.
 
@@ -296,7 +296,7 @@ Os operadores `<`, `>`, `<=`, e `>=` são usados para representar uma desigualda
 
 Mas em JavaScript, valores `string` também podem ser comparados para desigualdade, usando regras alfabéticas (`"bar" < "foo"`).
 
-E como fica a coerção: Regras similares à comparação `==` (apesar de não serem idênticas!) aplicam-se aos operadores de desigualdade. Uma nota importante, é que não existe um operador de "desigualdade estrita" que possa desabilitar a coerção da mesma forma que a "igualdade estrita" `===` faz.
+E como fica a coerção: regras similares à comparação `==` (apesar de não serem idênticas!) aplicam-se aos operadores de desigualdade. Uma nota importante, é que não existe um operador de "desigualdade estrita" que possa desabilitar a coerção da mesma forma que a "igualdade estrita" `===` faz.
 
 Considere:
 
@@ -334,7 +334,7 @@ Em JavaScript, nome de variáveis (incluindo nomes de funções) precisam ter *i
 
 Um identificador precisa começar com `a`-`z`, `A`-`Z`, `$`, ou `_`. Ele pode conter qualquer um desses caracteres e incluem também numerais `0`-`9`.
 
-Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como para nomear uma propriedade. Entretanto, algumas palavras não podem ser usadas para nomear variáveis, mas não tem impedimento para nomear propriedades. Essas palavras são denominadas "palavras reservadasˆ(reserved words), e incluem as palavras-chave (`for`, `in`, `if`, etc.) assim como `null`, `true`, e `false`.
+Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como para nomear uma propriedade. Entretanto, algumas palavras não podem ser usadas para nomear variáveis, mas não tem impedimento para nomear propriedades. Essas palavras são denominadas "palavras reservadas"(reserved words), e incluem as palavras-chave (`for`, `in`, `if`, etc.) assim como `null`, `true`, e `false`.
 
 **Nota:** Para mais informações sobre palavas reservadas, veja o Apêndice A do título desta série *Tipos & Gramática*.
 
@@ -368,7 +368,7 @@ function foo() {
 console.log( a );   // 2
 ```
 
-**Atenção:** não é comum nem uma boa ideia confiar no hoisting de variáveis para utilizar uma determinada variável dentro do seu escopo antes de sua declaração aparecer no código; pode ficar um tanto confuso. É muito mais comum e aceito utilizar funções que sofreram hoisting em sua declaração, assim como fazemos com a chamada para foo() que aparece antes de sua declaração formal.
+**Atenção:** não é comum nem uma boa ideia confiar no hoisting de variáveis para utilizar uma determinada variável dentro do seu escopo antes de sua declaração aparecer no código; pode ficar um tanto confuso. É muito mais comum e aceito utilizar funções que sofreram hoisting em sua declaração, assim como fazemos com a chamada para `foo()` que aparece antes de sua declaração formal.
 
 #### Escopos Aninhados
 

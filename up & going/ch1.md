@@ -7,7 +7,7 @@ Bem vindo à série *You Don't Know JS* (*YDKJS*).
 
 Esse livro começa explicando os princípios básicos de programação em uma camada mais alta. É mais indicado se você está começando *YDKJS* com pouca ou nenhuma experiência anterior com programação, e está procurando nesses livros uma ajuda para começar na longa jornada de entender como programar através da visão do JavaScript.
 
-O Capítulo 1 deve ser abordado como uma visão geral de coisas que você irá querer aprender e praticar mais para *iniciar na programação*.Existem também outros recursos para entender melhor essa introdução à programação e eu encorajo você a aprender através deles em adição à este capítulo.
+O Capítulo 1 deve ser abordado como uma visão geral de coisas que você irá querer aprender e praticar mais para *iniciar na programação*. Existem também outros recursos para entender melhor essa introdução à programação e eu encorajo você a aprender através deles em adição à este capítulo.
 
 Uma vez que você se sentir confortável com os conceitos básicos da programação, o Capítulo 2 irá te familiarizar com o modo de programar com JavaScript. O Capítulo 2 faz uma introdução sobre do que o JavaScript é capaz, mas novamente, ele não é um guia compreensivo -- esse é a finalidade do resto da série *YDKJS*!
 
@@ -168,7 +168,7 @@ O operador `*` realiza uma multiplicação matemática. Simples o suficiente, n�
 
 O operador de igualdade `=` é usado para *atribuir* -- primeiro calculamos o valor do *lado da mão direita* (valor original) do `=` e então o colocamos em uma variável que especificamos no *lado da mão esquerda* (variável de destino).
 
-**Atenção:** Essa pode parecer uma ordem reversa estranha de especificar um atribuição. Ao invés de `a = 42`, algumas pessoas preferem inverter a ordem do valor original na esquerda e a variável de destino na direita, algo como `42 -> a` (isso não é JavaScript valido!). Infelizmente, a forma ordenada `a = 42` e variações similares,prevalece em linguagens de programação modernas. Caso pareça uma forma não-natural, tome algum tempo assimilando essa forma na sua cabeça até se sentir acostumado.
+**Atenção:** Essa pode parecer uma ordem reversa estranha de especificar uma atribuição. Ao invés de `a = 42`, algumas pessoas preferem inverter a ordem do valor original na esquerda e a variável de destino na direita, algo como `42 -> a` (isso não é JavaScript valido!). Infelizmente, a forma ordenada `a = 42` e variações similares, prevalece em linguagens de programação modernas. Caso pareça uma forma não-natural, tome algum tempo assimilando essa forma na sua cabeça até se sentir acostumado.
 
 Considere:
 
@@ -215,7 +215,7 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
 
 ## Valores & Tipos
 
-Se você abordar uma vendedora de uma loja de celulares e perguntar quanto um certo modelo custa, e ela disser "noventa e nove e noventa e nove" ($99.99), ele está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
+Se você abordar uma vendedora de uma loja de celulares e perguntar quanto um certo modelo custa, e ela disser "noventa e nove e noventa e nove" ($99.99), ela está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
 
 Se a vendedora pegar outro aparelho similar e disser "é grátis", ela não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
 
@@ -247,7 +247,7 @@ Além de tipos como `string`/`number`/`boolean`, é comum para linguagens de pro
 
 ### Coerções entre Tipos
 
-Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript isso é chamado de "coerção." De maneira similar, se alguém insere uma série de caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um numero(`number`).
+Se você tem um número(`number`) mas precisa imprimí-lo na tela, você precisará converter o valor para uma `string`, e em JavaScript isso é chamado de "coerção." De maneira similar, se alguém insere uma série de caracteres numéricos em um formulário de uma página de ecommerce, isso é uma `string`, mas se você precisar usar esse valor para fazer operações matemáticas, você vai precisar *converter* para um número(`number`).
 
 O JavaScript fornece diversas facilidades para forçar a coerção entre *tipos*. Por exemplo:
 
@@ -377,7 +377,7 @@ De qualquer forma, você irá notar que `amount` armazena um valor corrente que 
 
 Em outras palavras, *estado* é o acompanhamento das mudanças dos valores conforme seu programa está rodando.
 
-Outro exemplo comum de como usar uma variável é quando você deseja definir as opçoes de valores. Isso é geralmente chamado de *constante*, quando você declara uma variável com um valor e deseja que o valor *não mude* ao longo do programa.
+Outro exemplo comum de como usar uma variável é quando você deseja definir as opções de valores. Isso é geralmente chamado de *constante*, quando você declara uma variável com um valor e deseja que o valor *não mude* ao longo do programa.
 
 Você declara essas *constantes* geralmente no início do programa, de forma a se tornar um lugar conveniente de se visitar caso deseje alterar algum valor. Por convenção, variáveis definidas como constantes em JavaSscript são geralmente capitalizadas e separadas por um sublinhado.
 
@@ -433,7 +433,7 @@ var amount = 99.99;
 }
 ```
 
-Essa forma de formatação do bloco`{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `ìf` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo:
+Essa forma de formatação do bloco`{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `if` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo:
 
 ```js
 var amount = 99.99;
@@ -571,7 +571,7 @@ for (var i = 0; i <= 9; i = i + 1) {
 
 Como você pôde ver, nos dois casos a condicional `i <= 9` foi verdadeira(`true`) para as 10 primeiras iterações (`i` para os valores de `0` até `9`) em ambas as formas do loop, mas se torna falsa(`false`) uma vez que o valor de `i` chega a `10`.
 
-O loop `for` tem três instruções: uma atribuição inicial (`var i=0`), um teste condicional (`i <= 9`), e uma atualização (`i = i + 1`). Sendo assim, se o que você pretende fazer com a iteração é uma contagem, `for` é a forma mais compacta e em geral mais fácil de entender e escrever.
+O loop `for` tem três instruções: uma atribuição inicial (`var i = 0`), um teste condicional (`i <= 9`), e uma atualização (`i = i + 1`). Sendo assim, se o que você pretende fazer com a iteração é uma contagem, `for` é a forma mais compacta e em geral mais fácil de entender e escrever.
 
 Existem outros loops especializados que são designados a iterar sobre valores específicos, como propriedades de um objeto (veja o Capítulo 2) onde a aplicação do teste condicional é saber se todas as propriedades foram processadas. O conceito de "iterar até determinada condição falhar" permanece independentemente do formato do loop.
 

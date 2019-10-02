@@ -63,7 +63,7 @@ Em seguida, passamos a examinar os callbacks como o principal método à possibi
 
 Para tratar dessas duas importantes deficiências, o ES6 introduz dois novos mecanismos (e, na verdade, padrões): promises e generators.
 
-Promessas (promises) são um agregador independente, sobre um "valor futuro", que permite você pensar sobre ele e compô-los independentemente do valor estar pronto ou ainda não. Além disso, elas efetivamente resolvem os problemas de confiança na IoC roteando os callbacks através de um confiável e composto mecanismo de promise.
+Promessas (Promises) são um agregador independente, sobre um "valor futuro", que permite você pensar sobre ele e compô-los independentemente do valor estar pronto ou ainda não. Além disso, elas efetivamente resolvem os problemas de confiança na IoC roteando os callbacks através de um confiável e composto mecanismo de promise.
 
 Os Geradores (Generators) introduzem um novo modo de execução para as funções JS, visto que o gerador pode ser pausado em pontos de `yield` e depois continuar de forma assíncrona. A capacidade de pausa-e-continua permite o síncrono, consequentemente, procura código no gerador para ser processado assincronamente nos bastidores. Ao fazer isso, nós abordamos as confusões não-linear, não-saltos-locais de callbacks, e assim, tornar nosso código assíncrono síncrono, procurando um modo de ser mais razoável.
 
