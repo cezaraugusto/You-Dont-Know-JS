@@ -1,4 +1,4 @@
-# You Don't Know JS: Up & Going
+# You Don't Know JS: Iniciando
 # Capítulo 3: Dentro do YDKJS
 
 Sobre o que é essa série? Simplificando, trata-se de levar a sério a tarefa de aprender *todas as partes do JavaScript*, e não apenas um subconjunto da linguagem que alguns chamam de "as partes boas", e também não apenas o mínimo que você precisa fazer para terminar o seu trabalho.

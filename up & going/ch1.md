@@ -1,4 +1,4 @@
-# You Don't Know JS: Up & Going
+# You Don't Know JS: Iniciando
 # Capítulo 1: Iniciando
 
 Bem vindo à série *You Don't Know JS* (*YDKJS*).
