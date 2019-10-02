@@ -13,7 +13,7 @@ Vou usar este capítulo final para resumir o que esperar do resto dos livros da 
 
 Talvez uma das coisas mais fundamentais que você precisa aprender, é como o escopo de variáveis realmente funciona em JavaScript. Isso não é o suficiente para ter *opiniões* vagas sobre escopo.
 
-O título *Escopo & Encerramentos* começa por desmascarar o equívoco comum que JS é uma "linguagem interpretada" e, portanto, não compilado. Não.
+O título *Escopos & Clausuras* começa por desmascarar o equívoco comum que JS é uma "linguagem interpretada" e, portanto, não compilado. Não.
 
 O motor de JS compila seu código logo antes (e às vezes durante!) a execução. Então, faremos uso de uma abordagem mais profunda do compilador para o nosso código, para entender como ele encontra e lida com declarações de variáveis e funções. Ao longo do caminho, vemos a típica metáfora para gerenciamento de escopo de variáveis em JS, *"Hoisting"* (Elevação).
 
@@ -37,7 +37,7 @@ Então isso é mais sobre preferência sintática. A delegação é um sistema t
 
 As afirmações que faço sobre delegação contra herança vem não de uma antipatia da linguagem e da sua sintaxe, mas a partir do desejo de ver a verdadeira capacidade da linguagem adequadamente aproveitada, e, a confusão sem fim e frustração indo embora.
 
-Mas o caso que eu faço a respeito de protótipos e a delegação é muito mais do que o que eu vou falar aqui. Se você está pronto para reconsiderar tudo o que você pensa que sabe sobre as "classes" e "heranças" em JavaScript, eu lhe ofereço a oportunidade para "tomar a pílula vermelha" (*Matrix* 1999) e conferir os capítulos 4-6 do título *this & Protótipo de Objetos* desta série.
+Mas o caso que eu faço a respeito de protótipos e a delegação é muito mais do que o que eu vou falar aqui. Se você está pronto para reconsiderar tudo o que você pensa que sabe sobre as "classes" e "heranças" em JavaScript, eu lhe ofereço a oportunidade para "tomar a pílula vermelha" (*Matrix* 1999) e conferir os capítulos 4-6 do título *this & Prototipagem de Objetos* desta série.
 
 ## Tipos e Gramática
 
@@ -75,7 +75,7 @@ O Capítulo 5 explora temas como o paralelismo de programa com o Web Workers e p
 
 Escrever JavaScript efetivamente significa escrever código que pode quebrar as barreiras de restrição do que está sendo executado de forma dinâmica em uma ampla gama de navegadores e outros ambientes. Isso exige muito esforço e um planejamento complexo e detalhado da nossa parte, para levar um programa de "isso funciona" para "isso funciona bem".
 
-O título *Assíncrono & Desempenho* (*Async & Performance*) é feito para te dar todas as ferramentas e habilidades que você precisa para escrever código JavaScript sensato e performático.
+O título *Async & Performance* é feito para te dar todas as ferramentas e habilidades que você precisa para escrever código JavaScript sensato e performático.
 
 ## ES6 & Além
 

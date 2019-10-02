@@ -178,7 +178,7 @@ Quando você usa um valor primitivo, como "hello world", como um `object` refere
 
 Um valor `string` pode ser englobado por um objeto `String`, um `number` pode ser englobado por um objeto `Number`, e um `boolean` pode ser englobado por um objeto `Boolean`. Para a maioria dos casos, você não precisa se preocupar sobre isso ou usar diretamente essas formas de agregar os valores do objeto -- preferindo a forma de valores primitivos em todos os casos que puder e o JavaScript vai cuidar do resto pra você.
 
-**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
+**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos & Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Prototipagem de Objetos*.
 
 ### Comparando Valores
 
@@ -192,7 +192,7 @@ A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coer�
 
 Você provavelmente ouviu coisas como "coerção é do mal", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
-Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
+Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos & Gramática* desta série cobre bem essa parte.
 
 Aqui temos um exemplo de coerção *explícita*:
 
@@ -326,7 +326,7 @@ Espera, como podem as três comparações serem `false`? Porque o valor de `b` �
 
 A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
-**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos e Grámaticas* dessa série.
+**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos & Grámatica* dessa série.
 
 ## Variáveis
 
@@ -666,7 +666,7 @@ O valor `42` é retornado da função nomeada `IIFE`, e depois designada à vari
 
 ### Clausura
 
-A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos e Clausuras*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
+A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos & Clausuras*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
 
 Você pode pensar em uma clausura como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
 
@@ -762,7 +762,7 @@ Neste ponto, a função externa `User()` já terminou de ser executada. Normalme
 
 Existe uma boa chance que com apenas este resumo breve sobre clausuras e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
-Daqui, vá para o título desta série *Escopos e Clausuras* para uma exploração do assunto muito mais profunda.
+Daqui, vá para o título desta série *Escopos & Clausuras* para uma exploração do assunto muito mais profunda.
 
 ## Identificador `this`
 

@@ -86,7 +86,7 @@ Para outras linguagens, a tradução é feita em tempos distintos, chamado *comp
 
 Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, a *engine* do JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
 
-**Nota:** Para mais informações sobre compilação em JavaScript, veja os dois primeiros capítulos do livro desta série *Escopos & Encerramentos*.
+**Nota:** Para mais informações sobre compilação em JavaScript, veja os dois primeiros capítulos do livro desta série *Escopos & Clausuras*.
 
 ## Tente você mesmo
 
@@ -415,7 +415,7 @@ Constantes são tão úteis quanto variáveis de valores imutáveis, exceto que 
 
 Falando nisso, o tipo de "proteção" contra acidentes é similar ao de linguagens com tipagem estática, assim você vê como a tipagem estática em outras linguagens pode ser bem atrativa!
 
-**Nota:** Para mais informações sobre os diferentes valores em variáveis que podem ser usados em seus programas, veja o título *Tipagem & Gramática* dessa série.
+**Nota:** Para mais informações sobre os diferentes valores em variáveis que podem ser usados em seus programas, veja o título *Tipos & Gramática* dessa série.
 
 ## Blocos
 
@@ -712,7 +712,7 @@ function calculateFinalPurchaseAmount(amt) {
 
 A constante `TAX_RATE` (variável) é acessível dentro da função `calculateFinalPurchaseAmount(..)`, mesmo se não passarmos por ela, por conta do escopo léxico.
 
-**Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série *Escopos & Encerramentos*.
+**Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série *Escopos & Clausuras*.
 
 ## Pratique
 
