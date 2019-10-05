@@ -4,31 +4,31 @@
 
 * Introdução
 * Prefácio
-* Capítulo 1: Sobre Programação
+* Capítulo 1: Iniciando
 	* Código
 	* Tente você mesmo
 	* Operadores
 	* Valores & Tipos
-	* Comentários de código
+	* Comentários do Código
 	* Variáveis
 	* Blocos
 	* Condicionais
 	* Loops
 	* Funções
-	* Prática
-* Capítulo 2: Sobre JavaScript
+	* Pratique
+* Capítulo 2: Por dentro do JavaScript
 	* Valores & Tipos
 	* Variáveis
 	* Condicionais
 	* Modo Estrito (Strict Mode)
 	* Funções como Valores
-	* Palavra-chave `this`
-	* Protótipos
+	* Identificador `this`
+	* Prototipagem
 	* Velho & Novo
 	* Não-JavaScript
-* Capítulo 3: Sobre YDKJS
-	* Escopos & Encerramentos
-	* this & Prototipagem de objetos
+* Capítulo 3: Dentro do YDKJS
+	* Escopos & Clausuras
+	* this & Prototipagem de Objetos
 	* Tipos & Gramática
 	* Async & Performance
 	* ES6 & Além

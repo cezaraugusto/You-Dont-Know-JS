@@ -5,13 +5,13 @@ No capítulo anterior, fiz uma introdução básica sobre os blocos construtores
 
 Iremos introduzir alguns conceitos neste capítulo que não serão totalmente explorados até a sequência dos próximos livros desta série. Você pode pensar nesse capítulo como uma visão geral dos tópicos que serão abordados ao longo dos outros livros.
 
-Especialmente se você for novo ao JavaScript, você pode esperar utilizar boa parte do seu tempo revisando por diversas vezes os conceitos e exemplos de código abordados. Toda boa fundação é feita de tijolo em tijolo, então não espere entender de imediato a medida que for progredindo em sua leitura.
+Especialmente se você for novo ao JavaScript, você pode esperar utilizar boa parte do seu tempo revisando por diversas vezes os conceitos e exemplos de códigos abordados. Toda boa fundação é feita de tijolo em tijolo, então não espere entender de imediato a medida que for progredindo em sua leitura.
 
 Sua jornada para entender a fundo JavaScript começa aqui.
 
 **Nota:** Como havia dito no Capítulo 1, você deve definitivamente testar por conta própria todos os códigos apresentados enquanto você estiver lendo através do capítulo. Tome nota que alguns dos códigos escritos aqui utilizam capacidades introduzidas na nova versão do  JavaScript no momento em que estou escrevendo  (comumente chamado de "ES6" por ser a 6ª edição do ECMAScript -- o nome oficial da especificação JS). Caso aconteça de você estar utilizando um navegador antigo, pre-ES6, o código pode não funcionar. Uma versão atualizada de um navegador moderno (como Chrome, Firefox, or IE) deverá ser usada.
 
-## Valores e Tipos
+## Valores & Tipos
 
 Como definimos no Capítulo 1, JavaScript tem valores tipados, não variáveis tipadas. Os seguintes tipos nativos estão disponíveis:
 
@@ -51,7 +51,7 @@ O valor que é retornado pelo operador `typeof`é sempre um dos seis (sete com o
 
 Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valor, e apesar de parecer, `typeof a` não está perguntando pelo "tipo de `a`", mas sim pelo "tipo de valor atualmente armazenado em `a`." Apenas valores possuem tipos em JavaScript; variáveis são apenas _containers_ para esses valores.
 
-`typeof null` é um caso interessante, porque erradamente retorna um `"objeto"`, enquanto você espera que ele retorne `"null"`.
+`typeof null` é um caso interessante, porque erradamente retorna um `"object"`, enquanto você espera que ele retorne `"null"`.
 
 **Atenção:** Esse é um bug antigo em JS, mas um do tipo que é provável de nunca ser consertado. Muitos códigos na Web dependem desse bug e portanto consertá-lo iria trazer ainda mais bugs!
 
@@ -170,7 +170,7 @@ a.toUpperCase();        // "HELLO WORLD"
 b.toFixed(4);           // "3.1416"
 ```
 
-é mais complicado do que apenas o método existente em um valor.
+É mais complicado do que apenas o método existente em um valor.
 
 Resumidamente, existe uma forma agregadora do objeto `String` (`S` maiúsculo), que pareia com o tipo primitivo `string`. É esse objeto agregador que define o método `toUpperCase()` em seu protótipo.
 
@@ -178,7 +178,7 @@ Quando você usa um valor primitivo, como "hello world", como um `object` refere
 
 Um valor `string` pode ser englobado por um objeto `String`, um `number` pode ser englobado por um objeto `Number`, e um `boolean` pode ser englobado por um objeto `Boolean`. Para a maioria dos casos, você não precisa se preocupar sobre isso ou usar diretamente essas formas de agregar os valores do objeto -- preferindo a forma de valores primitivos em todos os casos que puder e o JavaScript vai cuidar do resto pra você.
 
-**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos e Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Object Prototypes*.
+**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos & Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Prototipagem de Objetos*.
 
 ### Comparando Valores
 
@@ -192,7 +192,7 @@ A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coer�
 
 Você provavelmente ouviu coisas como "coerção é do mal", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
-Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos e Gramática* desta série cobre bem essa parte.
+Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos & Gramática* desta série cobre bem essa parte.
 
 Aqui temos um exemplo de coerção *explícita*:
 
@@ -296,7 +296,7 @@ Os operadores `<`, `>`, `<=`, e `>=` são usados para representar uma desigualda
 
 Mas em JavaScript, valores `string` também podem ser comparados para desigualdade, usando regras alfabéticas (`"bar" < "foo"`).
 
-E como fica a coerção: Regras similares à comparação `==` (apesar de não serem idênticas!) aplicam-se aos operadores de desigualdade. Uma nota importante, é que não existe um operador de "desigualdade estrita" que possa desabilitar a coerção da mesma forma que a "igualdade estrita" `===` faz.
+E como fica a coerção: regras similares à comparação `==` (apesar de não serem idênticas!) aplicam-se aos operadores de desigualdade. Uma nota importante, é que não existe um operador de "desigualdade estrita" que possa desabilitar a coerção da mesma forma que a "igualdade estrita" `===` faz.
 
 Considere:
 
@@ -326,7 +326,7 @@ Espera, como podem as três comparações serem `false`? Porque o valor de `b` �
 
 A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
-**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos e Grámaticas* dessa série.
+**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos & Grámatica* dessa série.
 
 ## Variáveis
 
@@ -334,7 +334,7 @@ Em JavaScript, nome de variáveis (incluindo nomes de funções) precisam ter *i
 
 Um identificador precisa começar com `a`-`z`, `A`-`Z`, `$`, ou `_`. Ele pode conter qualquer um desses caracteres e incluem também numerais `0`-`9`.
 
-Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como para nomear uma propriedade. Entretanto, algumas palavras não podem ser usadas para nomear variáveis, mas não tem impedimento para nomear propriedades. Essas palavras são denominadas "palavras reservadasˆ(reserved words), e incluem as palavras-chave (`for`, `in`, `if`, etc.) assim como `null`, `true`, e `false`.
+Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como para nomear uma propriedade. Entretanto, algumas palavras não podem ser usadas para nomear variáveis, mas não tem impedimento para nomear propriedades. Essas palavras são denominadas "palavras reservadas"(reserved words), e incluem as palavras-chave (`for`, `in`, `if`, etc.) assim como `null`, `true`, e `false`.
 
 **Nota:** Para mais informações sobre palavas reservadas, veja o Apêndice A do título desta série *Tipos & Gramática*.
 
@@ -368,7 +368,7 @@ function foo() {
 console.log( a );   // 2
 ```
 
-**Atenção:** não é comum nem uma boa ideia confiar no hoisting de variáveis para utilizar uma determinada variável dentro do seu escopo antes de sua declaração aparecer no código; pode ficar um tanto confuso. É muito mais comum e aceito utilizar funções que sofreram hoisting em sua declaração, assim como fazemos com a chamada para foo() que aparece antes de sua declaração formal.
+**Atenção:** não é comum nem uma boa ideia confiar no hoisting de variáveis para utilizar uma determinada variável dentro do seu escopo antes de sua declaração aparecer no código; pode ficar um tanto confuso. É muito mais comum e aceito utilizar funções que sofreram hoisting em sua declaração, assim como fazemos com a chamada para `foo()` que aparece antes de sua declaração formal.
 
 #### Escopos Aninhados
 
@@ -666,7 +666,7 @@ O valor `42` é retornado da função nomeada `IIFE`, e depois designada à vari
 
 ### Clausura
 
-A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos e Clausuras*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
+A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos & Clausuras*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
 
 Você pode pensar em uma clausura como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
 
@@ -762,7 +762,7 @@ Neste ponto, a função externa `User()` já terminou de ser executada. Normalme
 
 Existe uma boa chance que com apenas este resumo breve sobre clausuras e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
-Daqui, vá para o título desta série *Escopos e Clausuras* para uma exploração do assunto muito mais profunda.
+Daqui, vá para o título desta série *Escopos & Clausuras* para uma exploração do assunto muito mais profunda.
 
 ## Identificador `this`
 
