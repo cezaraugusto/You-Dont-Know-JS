@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos e Encerramentos
+# You Don't Know JS: Escopos & Clausuras
 # Apêndice C: Lexical-this
 
 Embora este título não aborde o mecanismo `this` em seus detalhes, existe um tópico que se refere ao scopo lexico `this` de forma significativa, que vamos examinar rapidamente.

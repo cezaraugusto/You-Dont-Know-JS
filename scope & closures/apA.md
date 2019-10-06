@@ -1,9 +1,9 @@
-# You Don't Know JS: Escopos & Encerramentos
+# You Don't Know JS: Escopos & Clausuras
 # Apêndice A: Escopo Dinâmico
 
 No Capítulo 2, falamos sobre "Escopo Dinâmico" como um contraste ao modelo de "Escopo Léxico", que é como os escopos funcionam em JavaScript (e, de fato, na maioria das linguagens).
 
-Iremos brevemente examinar o escopo dinâmico, para reforçar o contraste entre eles. Porém, algo bem mais importante, o escopo dinâmico é na verdade um primo próximo de outro mecanismo (`this`) em JavaScript, que cobrimos no título "*This & Prototipagem de Objetos*" desta série.
+Iremos brevemente examinar o escopo dinâmico, para reforçar o contraste entre eles. Porém, algo bem mais importante, o escopo dinâmico é na verdade um primo próximo de outro mecanismo (`this`) em JavaScript, que cobrimos no título "*this & Prototipagem de Objetos*" desta série.
 
 Como vimos no Capítulo 2, o escopo léxico é um grupo de regras sobre como a *Engrenagem* pode verificar uma variável e onde ela irá encontrá-lo. As características-chave do escopo léxico é que ela é definida no tempo do autor (author-time), quando o código é escrito (assumindo que você não trapaceie com `eval()` ou `with`).
 

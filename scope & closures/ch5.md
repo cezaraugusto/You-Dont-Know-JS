@@ -1,5 +1,5 @@
-# You Don't Know JS: Escopos e Closures
 # Capítulo 5: Scope Closure
+# You Don't Know JS: Escopos & Clausuras
 
 Com esperança, até este ponto nós já alcançamos uma compreensão sólida e muito saudável de como escopo funciona.
 

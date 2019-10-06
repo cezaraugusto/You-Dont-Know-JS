@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Encerramentos
+# You Don't Know JS: Escopos & Clausuras
 
 ## Índice
 

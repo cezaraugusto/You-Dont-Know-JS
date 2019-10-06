@@ -1,5 +1,5 @@
-# You Don't Know JS: Escopos e Clausuras
 # Capítulo 4: Elevação (Hoisting)
+# You Don't Know JS: Escopos & Clausuras
 
 A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes níveis de escopo  dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada ele.
 
