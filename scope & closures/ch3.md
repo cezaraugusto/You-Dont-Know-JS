@@ -427,7 +427,7 @@ Criando blocos explícitos para os blocos de escopo, podemos chamar a atenção 
 var foo = true;
 
 if (foo) {
-    { // <-- explicit block
+    { // <-- bloco explícito
         let bar = foo * 2;
         bar = something( bar );
         console.log( bar );
