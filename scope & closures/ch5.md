@@ -77,7 +77,7 @@ Depois de executarmos `foo()`, nós atribuímos o valor retornado (nossa funçã
 
 `bar()` é executada, com certeza. Mas, nesse caso, é executada *fora* do seu escopo léxico declarado.
 
-Após a execução de `foo()`, normalmente nós esperamos que todo o escopo interno de `foo()` vá embora, porque nós sabemos que a *Engine* usa um *Coletor de Lixo* que vem paralelamente e libera a memória uma vez que não está mais em uso. Já que o conteúdo de `foo()` parece não está mais em uso, é natural que ele deve ser considerado *passado*.
+Após a execução de `foo()`, normalmente nós esperamos que todo o escopo interno de `foo()` vá embora, porque nós sabemos que o *Motor* usa um *Coletor de Lixo* que vem paralelamente e libera a memória uma vez que não está mais em uso. Já que o conteúdo de `foo()` parece não está mais em uso, é natural que ele deve ser considerado *passado*.
 
 Mas a "mágica" das closures não permite que isso aconteça. Esse escopo interno, de fato, *ainda* está "em uso" e, portanto, ele não desaparece. Quem está usando? **A função `bar()`**.
 
@@ -155,7 +155,7 @@ Tomamos uma função interna (chamada `timer`) e passamos ela para o `setTimeout
 
 Mil milésimos de segundo depois de executarmos `wait(..)`, e seu escopo interno deveria ter sido extinto há muito tempo, a tal função interna `timer` ainda tem uma closure sobre esse escopo.
 
-Lá no fundo, nas entranhas da *Engine*, o utilitário embutido `setTimeout(..)` faz uma referência por algum parâmetro, provavelmente chamado `fn`, ou `func`, ou alguma coisa do tipo. A *Engine* vai invocar essa função, que está invocando nossa função interna `timer`, e a referência do escopo léxico ainda está intacta.
+Lá no fundo, nas entranhas do *Motor*, o utilitário embutido `setTimeout(..)` faz uma referência por algum parâmetro, provavelmente chamado `fn`, ou `func`, ou alguma coisa do tipo. O *Motor* vai invocar essa função, que está invocando nossa função interna `timer`, e a referência do escopo léxico ainda está intacta.
 
 **Closure.**
 

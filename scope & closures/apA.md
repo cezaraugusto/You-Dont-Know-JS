@@ -26,7 +26,7 @@ bar();
 
 O escopo léxico mantém que a referência RHS para `a` em `foo()` será resolvida para a variável global `a`, que irá resultar no valor `2`.
 
-O escopo dinâmico, por contraste, não se importa em como e onde funções e escopos são declarados, mas sim com **de onde eles são chamados**. Em outras palavras, a cadeia do escopo é baseada no agrupamento de chamadas (call-stack), não no aninhamento de escopos no código.
+O escopo dinâmico, por contraste, não se importa em como e onde funções e escopos são declarados, mas sim com **de onde eles são chamados**. Em outras palavras, a cadeia do escopo é baseada na pilha de chamadas (call-stack), não no aninhamento de escopos no código.
 
 Sendo assim, se o JavaScript tem um escopo dinâmico, quando `foo()` é executado, **teoricamente** o código abaixo deveria resultar em `3` como resultado.
 
@@ -45,7 +45,7 @@ var a = 2;
 bar();
 ```
 
-Como pode ser assim? Por conta de `foo()` não poder resolver a referência da variável para `a`, ao invés de passar para a cadeia de escopo aninhada (léxico), ele percorre o agrupamento de chamadas (call-stack), para achar *de onde* `foo()` *foi chamado*. Já que `foo()` foi chamado pelo `bar()`, ele verifica as variáveis no escopo de `bar()`, e encontra um `a` com o valor `3`.
+Como pode ser assim? Por conta de `foo()` não poder resolver a referência da variável para `a`, ao invés de passar para a cadeia de escopo aninhada (léxico), ele percorre a pilha de chamadas (call-stack), para achar *de onde* `foo()` *foi chamado*. Já que `foo()` foi chamado pelo `bar()`, ele verifica as variáveis no escopo de `bar()`, e encontra um `a` com o valor `3`.
 
 Estranho? Você deve estar pensando, no momento.
 
