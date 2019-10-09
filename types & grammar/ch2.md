@@ -573,17 +573,17 @@ if (!APP.ready) {
 
 Em geral, se houver algum lugar onde exista um valor (de alguma expressão) e você ache útil que o valor seja `undefined`, use o operador` void`. Isso provavelmente não será muito comum em seus programas, mas nos casos raros que você precisar, pode ser bastante útil.
 
-### Special Numbers
+### Números Especiais
 
-The `number` type includes several special values. We'll take a look at each in detail.
+O tipo `number` inclui vários valores especiais. Vamos dar uma olhada em cada um, em detalhes.
 
-#### The Not Number, Number
+#### O não número, Number
 
-Any mathematic operation you perform without both operands being `number`s (or values that can be interpreted as regular `number`s in base 10 or base 16) will result in the operation failing to produce a valid `number`, in which case you will get the `NaN` value.
+Qualquer operação matemática que você execute sem que os dois operandos sejam `number`s (ou valores que possam ser interpretados como `number`s regulares na base 10 ou base 16) resultará na falha da operação em produzir um `number` válido; nesse caso, você receberá o valor de `NaN`.
 
-`NaN` literally stands for "not a `number`", though this label/description is very poor and misleading, as we'll see shortly. It would be much more accurate to think of `NaN` as being "invalid number," "failed number," or even "bad number," than to think of it as "not a number."
+`NaN` significa literalmente "não um `number`", embora este rótulo/descrição seja muito ruim e enganoso, como veremos em breve. Seria muito mais preciso pensar em `NaN` como "número inválido", "número com falha" ou até "número ruim" do que em "não um número".
 
-For example:
+Por exemplo:
 
 ```js
 var a = 2 / "foo";		// NaN
@@ -591,11 +591,11 @@ var a = 2 / "foo";		// NaN
 typeof a === "number";	// true
 ```
 
-In other words: "the type of not-a-number is 'number'!" Hooray for confusing names and semantics.
+Em outras palavras: "o tipo de não-número é 'número'!" Um viva para confundir nomes e semânticas.
 
-`NaN` is a kind of "sentinel value" (an otherwise normal value that's assigned a special meaning) that represents a special kind of error condition within the `number` set. The error condition is, in essence: "I tried to perform a mathematic operation but failed, so here's the failed `number` result instead."
+`NaN` é um tipo de "valor sentinela" (um valor teoricamente normal, mas que recebe um significado especial) que representa um tipo especial de condição de erro dentro do conjunto de `number`. A condição de erro é, em essência: "Tentei executar uma operação matemática, mas falhei, então aqui está o resultado do 'número' com falha".
 
-So, if you have a value in some variable and want to test to see if it's this special failed-number `NaN`, you might think you could directly compare to `NaN` itself, as you can with any other value, like `null` or `undefined`. Nope.
+Portanto, se você tem um valor em alguma variável e deseja testar para ver se é esse número especial com falha `NaN`, você pode pensar em comparar diretamente com o próprio `NaN`, como pode com qualquer outro valor, como `null` ou `undefined`. Não.
 
 ```js
 var a = 2 / "foo";
@@ -604,9 +604,9 @@ a == NaN;	// false
 a === NaN;	// false
 ```
 
-`NaN` is a very special value in that it's never equal to another `NaN` value (i.e., it's never equal to itself). It's the only value, in fact, that is not reflexive (without the Identity characteristic `x === x`). So, `NaN !== NaN`. A bit strange, huh?
+`NaN` é um valor muito especial, pois nunca é igual a outro valor `NaN` (ou seja, nunca é igual a si mesmo). Na verdade, é o único valor que não é reflexivo (sem a característica de identidade `x === x`). Então, `NaN !== NaN`. Um pouco estranho, né?
 
-So how *do* we test for it, if we can't compare to `NaN` (since that comparison would always fail)?
+Então, *como* testamos isso, se não podemos comparar com `NaN` (já que essa comparação sempre falha)?
 
 ```js
 var a = 2 / "foo";
@@ -614,11 +614,11 @@ var a = 2 / "foo";
 isNaN( a ); // true
 ```
 
-Easy enough, right? We use the built-in global utility called `isNaN(..)` and it tells us if the value is `NaN` or not. Problem solved!
+Fácil o suficiente, certo? Usamos o utilitário global interno chamado `isNaN (..)` e ele diz se o valor é `NaN` ou não. Problema resolvido!
 
-Not so fast.
+Não tão rápido.
 
-The `isNaN(..)` utility has a fatal flaw. It appears it tried to take the meaning of `NaN` ("Not a Number") too literally -- that its job is basically: "test if the thing passed in is either not a `number` or is a `number`." But that's not quite accurate.
+O utilitário `isNaN (..)` tem uma falha fatal. Parece que ele tentou levar o significado de `NaN` ("Não é um número") tão literalmente -- que seu trabalho é basicamente: "testar se a coisa passada não é um `number` ou é um` number`." Mas isso não é tão preciso.
 
 ```js
 var a = 2 / "foo";
@@ -628,12 +628,12 @@ a; // NaN
 b; // "foo"
 
 window.isNaN( a ); // true
-window.isNaN( b ); // true -- ouch!
+window.isNaN( b ); // true -- eita!
 ```
 
-Clearly, `"foo"` is literally *not a `number`*, but it's definitely not the `NaN` value either! This bug has been in JS since the very beginning (over 19 years of *ouch*).
+Claramente, `"foo"` é literalmente *não um `number`*, mas definitivamente também não é `NaN`! Esse bug está no JS desde o início (mais de 19 anos de *eita*).
 
-As of ES6, finally a replacement utility has been provided: `Number.isNaN(..)`. A simple polyfill for it so that you can safely check `NaN` values *now* even in pre-ES6 browsers is:
+A partir do ES6, finalmente, um utilitário de substituição foi fornecido: `Number.isNaN (..)`. Um polyfill simples para que você possa verificar com segurança os valores `NaN` *agora*, mesmo nos navegadores anteriores ao ES6:
 
 ```js
 if (!Number.isNaN) {
@@ -649,12 +649,12 @@ var a = 2 / "foo";
 var b = "foo";
 
 Number.isNaN( a ); // true
-Number.isNaN( b ); // false -- phew!
+Number.isNaN( b ); // false -- ufa!
 ```
 
-Actually, we can implement a `Number.isNaN(..)` polyfill even easier, by taking advantage of that peculiar fact that `NaN` isn't equal to itself. `NaN` is the *only* value in the whole language where that's true; every other value is always **equal to itself**.
+Na verdade, podemos implementar um polyfill `Number.isNaN (..)` ainda mais fácil, aproveitando esse fato peculiar de que `NaN` não é igual a si mesmo. `NaN` é o *único* valor em todo o idioma em que isso é verdade; todo outro valor é sempre **igual a si mesmo**.
 
-So:
+Assim:
 
 ```js
 if (!Number.isNaN) {
@@ -664,30 +664,30 @@ if (!Number.isNaN) {
 }
 ```
 
-Weird, huh? But it works!
+Estranho, né? Mas funciona!
 
-`NaN`s are probably a reality in a lot of real-world JS programs, either on purpose or by accident. It's a really good idea to use a reliable test, like `Number.isNaN(..)` as provided (or polyfilled), to recognize them properly.
+`NaN`s provavelmente são uma realidade em muitos programas JS do mundo real, de propósito ou por acidente. É realmente uma boa idéia usar um teste confiável, como `Number.isNaN (..)` como fornecido (ou preenchido com polyfill), para reconhecê-los adequadamente.
 
-If you're currently using just `isNaN(..)` in a program, the sad reality is your program *has a bug*, even if you haven't been bitten by it yet!
+Se atualmente você está usando apenas `isNaN (..)` em um programa, a triste realidade é que seu programa *possui um bug*, mesmo que você não tenha sido mordido por ele ainda!
 
-#### Infinities
+#### Infinitos
 
-Developers from traditional compiled languages like C are probably used to seeing either a compiler error or runtime exception, like "Divide by zero," for an operation like:
+Os desenvolvedores de linguagens compiladas tradicionais como C, provavelmente estão acostumados a ver um erro do compilador ou uma exceção de tempo de execução, como "Dividir por zero", para uma operação como:
 
 ```js
 var a = 1 / 0;
 ```
-
-However, in JS, this operation is well-defined and results in the value `Infinity` (aka `Number.POSITIVE_INFINITY`). Unsurprisingly:
+No entanto, em JS, esta operação é bem definida e resulta no valor `Infinity` (também conhecido como `Number.POSITIVE_INFINITY`). Como esperado:
 
 ```js
 var a = 1 / 0;	// Infinity
 var b = -1 / 0;	// -Infinity
 ```
+Como você pode ver, `-Infinity` (também conhecido como `Number.NEGATIVE_INFINITY`) resulta de uma divisão por zero, onde qualquer um dos dois (mas não ambos!) dos operandos de divisão é negativo.
 
-As you can see, `-Infinity` (aka `Number.NEGATIVE_INFINITY`) results from a divide-by-zero where either (but not both!) of the divide operands is negative.
+JS usa representações numéricas finitas (ponto flutuante IEEE 754, que abordamos anteriormente), portanto, ao contrário da matemática pura, parece que *é* possível transbordar (overflow) mesmo com uma operação como adição ou subtração; nesse caso, você obterá `Infinity` ou `-Infinity`.
 
-JS uses finite numeric representations (IEEE 754 floating-point, which we covered earlier), so contrary to pure mathematics, it seems it *is* possible to overflow even with an operation like addition or subtraction, in which case you'd get `Infinity` or `-Infinity`.
+Por exemplo:
 
 For example:
 
@@ -697,50 +697,47 @@ a + a;						// Infinity
 a + Math.pow( 2, 970 );		// Infinity
 a + Math.pow( 2, 969 );		// 1.7976931348623157e+308
 ```
+De acordo com a especificação, se uma operação como adição resultar em um valor grande demais para ser representado, o modo IEEE 754 "arredondar para o mais próximo" especificará qual deve ser o resultado. Portanto, em um sentido grosseiro, `Number.MAX_VALUE + Math.pow (2, 969)` está mais próximo de `Number.MAX_VALUE` do que com `Infinity`, então "arredonda para baixo", enquanto `Number.MAX_VALUE + Math. pow (2, 970)` está mais próximo de `Infinity`, de modo que "arredonda para cima".
 
-According to the specification, if an operation like addition results in a value that's too big to represent, the IEEE 754 "round-to-nearest" mode specifies what the result should be. So, in a crude sense, `Number.MAX_VALUE + Math.pow( 2, 969 )` is closer to `Number.MAX_VALUE` than to `Infinity`, so it "rounds down," whereas `Number.MAX_VALUE + Math.pow( 2, 970 )` is closer to `Infinity` so it "rounds up".
+Se você pensar muito sobre isso, vai doer sua cabeça. Então não. Sério, pare!
 
-If you think too much about that, it's going to make your head hurt. So don't. Seriously, stop!
+Depois que você transborda (overflow) para qualquer um dos *infinitos*, no entanto, não há como voltar atrás. Em outras palavras, em um sentido quase poético, você pode ir do finito ao infinito, mas não do infinito de volta ao finito.
 
-Once you overflow to either one of the *infinities*, however, there's no going back. In other words, in an almost poetic sense, you can go from finite to infinite but not from infinite back to finite.
+É quase filosófico perguntar: "O que é o infinito dividido pelo infinito". Nossos cérebros ingênuos provavelmente diriam "1" ou talvez "infinito". Acontece que nenhuma das respostas estão certas. Nem Matematicamente e nem em JavaScript, `Infinity / Infinity` não é uma operação definida. Em JS, isso resulta em `NaN`.
 
-It's almost philosophical to ask: "What is infinity divided by infinity". Our naive brains would likely say "1" or maybe "infinity." Turns out neither is true. Both mathematically and in JavaScript, `Infinity / Infinity` is not a defined operation. In JS, this results in `NaN`.
-
-But what about any positive finite `number` divided by `Infinity`? That's easy! `0`. And what about a negative finite `number` divided by `Infinity`? Keep reading!
+Mas e quanto a qualquer `number` finito positivo dividido por `Infinity`? Isso é fácil! `0`. E o que dizer de um `number` finito negativo dividido por `Infinity`? Continue lendo!
 
 #### Zeros
 
-While it may confuse the mathematics-minded reader, JavaScript has both a normal zero `0` (otherwise known as a positive zero `+0`) *and* a negative zero `-0`. Before we explain why the `-0` exists, we should examine how JS handles it, because it can be quite confusing.
+Embora possa confundir um leitor mais matemático, o JavaScript tem tanto um zero normal `0` (também conhecido como zero positivo `+ 0`) *e* um zero negativo `-0`. Antes de explicar por que o `-0` existe, devemos examinar como o JS lida com isso, porque pode ser bastante confuso.
 
-Besides being specified literally as `-0`, negative zero also results from certain mathematic operations. For example:
+Além de ser especificado literalmente como `-0`, o zero negativo também resulta de certas operações matemáticas. Por exemplo:
 
 ```js
 var a = 0 / -3; // -0
 var b = 0 * -3; // -0
 ```
+Adição e subtração não podem resultar em zero negativo.
 
-Addition and subtraction cannot result in a negative zero.
+Um zero negativo quando examinado no console do desenvolvedor geralmente revela `-0`, embora esse não fosse o caso comum até bem recentemente, portanto, alguns navegadores mais antigos que você encontrar, ainda podem reportá-lo como `0`.
 
-A negative zero when examined in the developer console will usually reveal `-0`, though that was not the common case until fairly recently, so some older browsers you encounter may still report it as `0`.
-
-However, if you try to stringify a negative zero value, it will always be reported as `"0"`, according to the spec.
+No entanto, se você tentar transformar em string um valor zero negativo, ele sempre será relatado como `"0"`, de acordo com a especificação.
 
 ```js
 var a = 0 / -3;
 
-// (some browser) consoles at least get it right
+// (de alguns navegadores) consoles pelos menos acertam
 a;							// -0
 
-// but the spec insists on lying to you!
+// mas a especificação insiste em mentir para você!
 a.toString();				// "0"
 a + "";						// "0"
 String( a );				// "0"
 
-// strangely, even JSON gets in on the deception
+// estranhamente, até JSON tenta te enganar
 JSON.stringify( a );		// "0"
 ```
-
-Interestingly, the reverse operations (going from `string` to `number`) don't lie:
+Curiosamente, as operações reversas (passando de `string` para` number`) não mentem:
 
 ```js
 +"-0";				// -0
@@ -748,9 +745,9 @@ Number( "-0" );		// -0
 JSON.parse( "-0" );	// -0
 ```
 
-**Warning:** The `JSON.stringify( -0 )` behavior of `"0"` is particularly strange when you observe that it's inconsistent with the reverse: `JSON.parse( "-0" )` reports `-0` as you'd correctly expect.
+**Atenção:** O comportamento do `JSON.stringify( -0 )` de `"0"` é particularmente estranho quando você observa que é inconsistente com o inverso: `JSON.parse (" -0 ")` que reporta `- 0` como você esperaria corretamente.
 
-In addition to stringification of negative zero being deceptive to hide its true value, the comparison operators are also (intentionally) configured to *lie*.
+Além de a stringificação do zero negativo ser enganosa por ocultar seu valor verdadeiro, os operadores de comparação também são (intencionalmente) configurados para *mentir*.
 
 ```js
 var a = 0;
@@ -765,8 +762,7 @@ a === b;	// true
 0 > -0;		// false
 a > b;		// false
 ```
-
-Clearly, if you want to distinguish a `-0` from a `0` in your code, you can't just rely on what the developer console outputs, so you're going to have to be a bit more clever:
+Claramente, se você deseja distinguir um `-0` de um` 0` no seu código, você não pode confiar apenas no que o console do desenvolvedor produz, então você terá que ser um pouco mais inteligente:
 
 ```js
 function isNegZero(n) {
@@ -779,11 +775,11 @@ isNegZero( 0 / -3 );	// true
 isNegZero( 0 );			// false
 ```
 
-Now, why do we need a negative zero, besides academic trivia?
+Agora, por que precisamos de um zero negativo, além de pegadinhas acadêmicas?
 
-There are certain applications where developers use the magnitude of a value to represent one piece of information (like speed of movement per animation frame) and the sign of that `number` to represent another piece of information (like the direction of that movement).
+Existem certas aplicações em que os desenvolvedores usam a magnitude de um valor para representar uma informação (como velocidade do movimento por quadro de animação) e o sinal desse `number` para representar outra informação (como a direção desse movimento).
 
-In those applications, as one example, if a variable arrives at zero and it loses its sign, then you would lose the information of what direction it was moving in before it arrived at zero. Preserving the sign of the zero prevents potentially unwanted information loss.
+Nessas aplicações, como um exemplo, se uma variável chega a zero e perde seu sinal, você perderia a informação de qual direção estava seguindo antes de chegar a zero. Preservar o sinal do zero evita a perda potencial de informações indesejadas.
 
 ### Special Equality
 
