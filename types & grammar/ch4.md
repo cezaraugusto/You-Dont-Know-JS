@@ -1101,7 +1101,7 @@ Nós primeiro usamos `!!arguments[i]` para forçar a coerção dos valores para 
 
 Uma vez que temos certeza que é um `boolean`, nós fazemos outra coerção *explícita* com `Number(..)` para ter certeza que os valores são `0` ou `1`.
 
-As formas de coerção *explícita* dessa utilidade são "melhores"? Ela evita o `NaN` como explicado nos comentários do código. Mas, utimamente, isso depende da sua necessidade. Eu pessoalmente acho que a forma anterior, confiando em coerção *implícita* é mais elegante (se você não tiver passando `undefined` ou `NaN`), e a versão *explícita* é desnecessariamente mais verbosa.
+As formas de coerção *explícita* desse utilitário são "melhores"? Ela evita o `NaN` como explicado nos comentários do código. Mas, ultimamente, isso depende da sua necessidade. Eu pessoalmente acho que a forma anterior, confiando em coerção *implícita* é mais elegante (se você não tiver passando `undefined` ou `NaN`), e a versão *explícita* é desnecessariamente mais verbosa.
 
 Mas assim como tudo o que discutimos aqui, é uma escolha.
 
@@ -1185,7 +1185,7 @@ Ambos operadores, `||` e `&&` fazem um teste `boolean` no **primeiro operando** 
 
 Para o operador `||`, se o teste é `true`, a expressão `||` resulta no valor do *primeiro operando* (`a` ou `c`). Se o teste é `false`, a expressão `||` resulta no valor do *segundo operando* (`b`).
 
-Iversamente, para o operador `&&`, se o teste é `true`, a expressão `&&` resulta no valor do *segundo operando* (`b`) . Se o teste é `false`, a expressão `&&` resulta no valor do *primeiro operando* (`a` ou `c`).
+Inversamente, para o operador `&&`, se o teste é `true`, a expressão `&&` resulta no valor do *segundo operando* (`b`) . Se o teste é `false`, a expressão `&&` resulta no valor do *primeiro operando* (`a` ou `c`).
 
 O resultado das expressões `||` ou `&&` é sempre o valor de um dos operandos, **não** o resultado (possivelmente convertido) do teste. Em `c && b`, `c` é `null`, e portanto falso. Mas a própria expressão `&&` resulta em `null` (o valor em `c`), não no `false` convertido usado no teste.
 
@@ -1239,7 +1239,7 @@ Essa *atribuição de valor padrão* é tão comum (e útil!) que até mesmo aqu
 
 E o `&&`?
 
-Esse é outra linguagem que é bem menso comum, mas que é usanda por minificadores JS frequentemente. O operador `&&` "seleciona" o segundo operando se, e apenas se, o primeiro teste  do operando for verdadeiro, e esse uso é chamado algumas vezes de "operador guarda" (veja também "Circuito curto" no capítulo 5) -- o primeiro teste de expressão "guarda" a segunda expressão:
+Esse é outra linguagem que é bem menos comum, mas que é usada por minificadores JS frequentemente. O operador `&&` "seleciona" o segundo operando se, e apenas se, o primeiro teste  do operando for verdadeiro, e esse uso é chamado algumas vezes de "operador guarda" (veja também "Curto-circuito" no capítulo 5) -- o primeiro teste de expressão "guarda" a segunda expressão:
 
 ```js
 function foo() {
@@ -1251,15 +1251,15 @@ var a = 42;
 a && foo(); // 42
 ```
 
-`foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa declaração de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "circuito curto" -- e nunca chamar `foo()`.
+`foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa declaração de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "curto-circuito" -- e nunca chamar `foo()`.
 
 De novo, não é muito comum que as pessoas criem essas coisas. Normalmente, elas fazem `if (a) { foo(); }` no lugar. Mas os minificadores JS escolhem `a && foo()` porque é muito mais curto. Então, agora, se você alguma vez tiver que decifrar tal código, você saberá o que ele está fazendo e porque.
 
 Ok, então `||` e `&&` têm alguns truques na manga, com tanto que você queira permitir a coerção *implícita* nessa mistura.
 
-**Observação** Ambos, `a = b || "something"` e `a && b()` referen-se ao comportamento de circuitos curtos, que nos abordamos com mais detalhes no capítulo 5.
+**Observação** Ambos, `a = b || "something"` e `a && b()` referem-se ao comportamento de circuitos curtos, que nos abordamos com mais detalhes no capítulo 5.
 
-O fato desses operadores. na verdade, não resultarem em `true` e `false` possivelmente mexerá um pouco com a sua cabeça agora. Você provavelmente está se perguntando como todos suas declarações `if` e seus loops `for` funcionavam, se eles inclíram expressões lógicas compostas como `a && (b || c)`.
+O fato desses operadores. na verdade, não resultarem em `true` e `false` possivelmente mexerá um pouco com a sua cabeça agora. Você provavelmente está se perguntando como todos suas declarações `if` e seus loops `for` funcionavam, se eles incluíram expressões lógicas compostas como `a && (b || c)`.
 
 Não se preocupe! o céu não está desabando. Seu código está (provavelmente) bem. É que você provavelmente nunca percebeu antes que havia uma coerção *implícita* para `boolean` acontecendo **depois** que a expresão composta era analisada.
 
@@ -1289,11 +1289,11 @@ if (!!a && (!!b || !!c)) {
 
 Boa sorte com isso! ... Desculpe, apenas provocando.
 
-### Coerção de symbols
+### Coerção de Symbols
 
 Até esse ponto, não houve quase nenhuma diferença de resultado observável entre coerção *explícita* e *implícita* -- apenas a legibilidade do código está em jogo.
 
-Mas símbolos do ES6 introduzem uma pegadinha no sistema de coerção que nśo precisamos discutir brevemente. Por razões que vão bem além do escopo do que nós vamos discutir nesse livro, coerção *explícita* de um `symbol` para uma `string` é permitida, mas coerção *implícita* do mesmo não é permitida e lançará um erro.
+Mas os Symbols do ES6 introduzem uma pegadinha no sistema de coerção que nós precisamos discutir brevemente. Por razões que vão bem além do escopo do que nós vamos discutir nesse livro, coerção *explícita* de um `symbol` para uma `string` é permitida, mas coerção *implícita* do mesmo não é permitida e lançará um erro.
 
 Considere:
 
