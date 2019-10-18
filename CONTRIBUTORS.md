@@ -86,6 +86,7 @@
     <td align="center"><a href="https://github.com/garboso"><img src="https://avatars0.githubusercontent.com/u/50976118?v=4" width="100px;" alt="christopher a."/><br /><sub><b>christopher a.</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=garboso" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/victorpothin"><img src="https://avatars1.githubusercontent.com/u/24586471?v=4" width="100px;" alt="Victor Pothin"/><br /><sub><b>Victor Pothin</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=victorpothin" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/gustavofabro"><img src="https://avatars1.githubusercontent.com/u/14109186?v=4" width="100px;" alt="Gustavo Fabro"/><br /><sub><b>Gustavo Fabro</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=gustavofabro" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/Ilivanilton"><img src="https://avatars2.githubusercontent.com/u/684073?v=4" width="100px;" alt="Ilivanilton"/><br /><sub><b>Ilivanilton</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=Ilivanilton" title="Documentation">📖</a></td>
   </tr>
 </table>
 
