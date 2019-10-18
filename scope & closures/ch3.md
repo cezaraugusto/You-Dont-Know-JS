@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos e Clausuras
+# You Don't Know JS: Escopos & Clausuras
 # Capítulo 3: Escopo de função vs. Bloco de escopo
 
 Conforme exploramos no Capítulo 2, o escopo consiste em uma série de "bolhas" que atuam como recipientes nos quais identificadores (variáveis, funções) são declarados. Estas bolhas aninham-se umas às outras de forma muito organizada, e este aninhamento é definido durante a escrita do código.
@@ -427,7 +427,7 @@ Criando blocos explícitos para os blocos de escopo, podemos chamar a atenção 
 var foo = true;
 
 if (foo) {
-    { // <-- explicit block
+    { // <-- bloco explícito
         let bar = foo * 2;
         bar = something( bar );
         console.log( bar );

@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Encerramentos
+# You Don't Know JS: Escopos & Clausuras
 # Apêndice D: Agradecimentos
 
 Primeiro, preciso agradecer à minha esposa Christen Simpson e meus dois filhos Ethan e Emily, por aturar a ausência do papai enquanto eu estava no computador. Mesmo quando não estava escrevendo os livros, minha obsessão com o JavaScript grudava meus olhos na tela muito mais do que deveria. O tempo que eu comprometi junto à minha família é o motivo destes livros serem tão profunda e competamente explicados à você, leitor. Devo tudo à minha família.

@@ -1,9 +1,9 @@
-# You Don't Know JS: Escopos & Encerramentos
+# You Don't Know JS: Escopos & Clausuras
 # Apêndice A: Escopo Dinâmico
 
 No Capítulo 2, falamos sobre "Escopo Dinâmico" como um contraste ao modelo de "Escopo Léxico", que é como os escopos funcionam em JavaScript (e, de fato, na maioria das linguagens).
 
-Iremos brevemente examinar o escopo dinâmico, para reforçar o contraste entre eles. Porém, algo bem mais importante, o escopo dinâmico é na verdade um primo próximo de outro mecanismo (`this`) em JavaScript, que cobrimos no título "*This & Prototipagem de Objetos*" desta série.
+Iremos brevemente examinar o escopo dinâmico, para reforçar o contraste entre eles. Porém, algo bem mais importante, o escopo dinâmico é na verdade um primo próximo de outro mecanismo (`this`) em JavaScript, que cobrimos no título "*this & Prototipagem de Objetos*" desta série.
 
 Como vimos no Capítulo 2, o escopo léxico é um grupo de regras sobre como a *Engrenagem* pode verificar uma variável e onde ela irá encontrá-lo. As características-chave do escopo léxico é que ela é definida no tempo do autor (author-time), quando o código é escrito (assumindo que você não trapaceie com `eval()` ou `with`).
 
@@ -26,7 +26,7 @@ bar();
 
 O escopo léxico mantém que a referência RHS para `a` em `foo()` será resolvida para a variável global `a`, que irá resultar no valor `2`.
 
-O escopo dinâmico, por contraste, não se importa em como e onde funções e escopos são declarados, mas sim com **de onde eles são chamados**. Em outras palavras, a cadeia do escopo é baseada no agrupamento de chamadas (call-stack), não no aninhamento de escopos no código.
+O escopo dinâmico, por contraste, não se importa em como e onde funções e escopos são declarados, mas sim com **de onde eles são chamados**. Em outras palavras, a cadeia do escopo é baseada na pilha de chamadas (call-stack), não no aninhamento de escopos no código.
 
 Sendo assim, se o JavaScript tem um escopo dinâmico, quando `foo()` é executado, **teoricamente** o código abaixo deveria resultar em `3` como resultado.
 
@@ -45,7 +45,7 @@ var a = 2;
 bar();
 ```
 
-Como pode ser assim? Por conta de `foo()` não poder resolver a referência da variável para `a`, ao invés de passar para a cadeia de escopo aninhada (léxico), ele percorre o agrupamento de chamadas (call-stack), para achar *de onde* `foo()` *foi chamado*. Já que `foo()` foi chamado pelo `bar()`, ele verifica as variáveis no escopo de `bar()`, e encontra um `a` com o valor `3`.
+Como pode ser assim? Por conta de `foo()` não poder resolver a referência da variável para `a`, ao invés de passar para a cadeia de escopo aninhada (léxico), ele percorre a pilha de chamadas (call-stack), para achar *de onde* `foo()` *foi chamado*. Já que `foo()` foi chamado pelo `bar()`, ele verifica as variáveis no escopo de `bar()`, e encontra um `a` com o valor `3`.
 
 Estranho? Você deve estar pensando, no momento.
 
