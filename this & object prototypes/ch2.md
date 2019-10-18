@@ -813,9 +813,6 @@ var obj = {
 foo.call( obj ); // 2
 ```
 
-While arrow-functions provide an alternative to using `bind(..)` on a function to ensure its `this`, which can seem attractive, it's important to note that they essentially are disabling the traditional `this` mechanism in favor of more widely-understood lexical scoping. Pre-ES6, we already have a fairly common pattern for doing so, which is basically almost indistinguishable from the spirit of ES6 arrow-functions:
-
-
 Enquanto arrow-functions fornecem uma alternativa ao uso de `bind(..)` em uma função para assegurar seu `this`, que pode parecer atraente, é importante notar que elas estão essencialmente desativando o tradicional mecanismo `this` em favor de mais escopo léxico amplamente compreendido. Antes do ES6, já temos um padrão bastante comum para isso, que é basicamente quase indistinguível da essência das arrow-functions do ES6:
 
 ```js
