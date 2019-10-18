@@ -88,6 +88,9 @@
     <td align="center"><a href="https://github.com/gustavofabro"><img src="https://avatars1.githubusercontent.com/u/14109186?v=4" width="100px;" alt="Gustavo Fabro"/><br /><sub><b>Gustavo Fabro</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=gustavofabro" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/Ilivanilton"><img src="https://avatars2.githubusercontent.com/u/684073?v=4" width="100px;" alt="Ilivanilton"/><br /><sub><b>Ilivanilton</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=Ilivanilton" title="Documentation">📖</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/imsantosrodrigo"><img src="https://avatars3.githubusercontent.com/u/23555768?v=4" width="100px;" alt="Rodrigo Santos"/><br /><sub><b>Rodrigo Santos</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=imsantosrodrigo" title="Documentation">📖</a></td>
+  </tr>
 </table>
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
