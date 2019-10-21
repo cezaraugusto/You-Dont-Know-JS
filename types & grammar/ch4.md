@@ -907,7 +907,7 @@ SomeType x = SomeType( AnotherType( y ) )
 
 Nesse exemplo, eu tenho tenho um tipo de valor arbitrário em `y` que eu quero converter para o tipo `SomeType`. O problema é, essa linguagem não pode ir diretamente de qualquer coisa que `y` é pra `SomeType`. Ele precisa de um passo intermediário, onde ele primeiro converte para `AnotherType`, e então de `AnotherType` para `SomeType`.
 
-Agora, e se a linguagem (ou definição que você mesmo pode criar com a linguagem) *deixasse* você dizer:
+Agora, e se a linguagem (ou definição que você mesmo pode criar com a linguagem) deixasse você *dizer*:
 
 ```js
 SomeType x = SomeType( y )
