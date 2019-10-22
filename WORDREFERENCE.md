@@ -38,11 +38,11 @@
 
 * You Don't Know JS: Título deve ser mantido como o original
 * Up & Going: Iniciando
-* Scope & Closures: Escopos e Clausuras
+* Scope & Closures: Escopos & Clausuras
 * this & object prototypes: this & Prototipagem de Objetos
-* Types & Grammar: Tipos e Gramática
-* Async & Performance: Async e Performance
-* ES6 & Beyond: ES6 e além
+* Types & Grammar: Tipos & Gramática
+* Async & Performance: Async & Performance
+* ES6 & Beyond: ES6 & além
 
 
 ## README's
@@ -74,7 +74,7 @@
 
 #### C
 
-* Closure: Closure (vide [(#91](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/91#issuecomment-222319503))
+* Closure: Closure (vide [#91](https://github.com/cezaraugusto/You-Dont-Know-JS/issues/91#issuecomment-222319503))
 * Coercion: Coerção
 * Compound Assignment: Atribuição com Operação
 * Compound Conditionals: Instrução Condicional
@@ -113,7 +113,7 @@
 
 #### H
 
-* Hoisting:
+* Hoisting: Hoisting (vide [#138](https://github.com/cezaraugusto/You-Dont-Know-JS/pull/138#discussion_r89699863))
 
 
 #### I

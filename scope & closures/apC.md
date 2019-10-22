@@ -1,7 +1,7 @@
-# You Don't Know JS: Escopos e Encerramentos
+# You Don't Know JS: Escopos & Clausuras
 # Apêndice C: Lexical-this
 
-Embora este título não aborde o mecanismo `this` em seus detalhes, existe um tópico que se refere ao scopo lexico `this` de forma significativa, que vamos examinar rapidamente.
+Embora este título não aborde o mecanismo `this` em seus detalhes, existe um tópico que se refere ao escopo léxico `this` de forma significativa, que vamos examinar rapidamente.
 
 ES6 adiciona uma declaração especial de função chamada "arrow function". Que se parece com isto:
 
@@ -57,7 +57,7 @@ var obj = {
 obj.cool(); // awesome?
 ```
 
-Sem entrar em muitos detalhes aqui, a solução `var self = this` apenas dispensa todo o problema de compreensão e uso correto do vínculo `this` ao inves de tentarmos algo que talvez seja mais confortável como: `escopo lexico`. O `self` torna-se apenas um identificador que pode ser resolvido através de escopo e encerramento, e não se preocupa com o que aconteceu com o vínculo `this` ao longo do caminho.
+Sem entrar em muitos detalhes aqui, a solução `var self = this` apenas dispensa todo o problema de compreensão e uso correto do vínculo `this` ao inves de tentarmos algo que talvez seja mais confortável como: `escopo léxico`. O `self` torna-se apenas um identificador que pode ser resolvido através de escopo e encerramento, e não se preocupa com o que aconteceu com o vínculo `this` ao longo do caminho.
 
 As pessoas não gostam de escrever coisas detalhadas, especialmente quando eles fazem frequentemente.
 Assim, a motivação do ES6 é para ajudar a aliviar estes cenários, e de fato, *corrigir* problemas idiomáticos comuns, como este.
@@ -112,4 +112,4 @@ Independentemente se você prefere o novo comportamento `lexical-this` das arrow
 
 Elas têm uma diferença de comportamento intencional (ou se preferir: importância diferente) que devemos entender e aprender.
 
-Agora que entendemos plenamente escopo lexico (e encerramento!), entender `lexical-this` deve ser uma brisa!
+Agora que entendemos plenamente escopo lexico (e closure!), entender `lexical-this` deve ser uma brisa!

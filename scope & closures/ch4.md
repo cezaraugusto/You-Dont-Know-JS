@@ -1,5 +1,5 @@
-# You Don't Know JS: Escopos e Clausuras
-# Capítulo 4: Elevação (Hoisting)
+# You Don't Know JS: Escopos & Clausuras
+# Capítulo 4: Hoisting
 
 A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes níveis de escopo  dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada ele.
 
@@ -39,7 +39,7 @@ Infelizmente, os dois palpites estão errados. `undefined` é a saída.
 
 ## O Compilador ataca novamente
 
-Para responder essa pergunta, precisamos voltar ao capítulo 1 com a discussão sobre compiladores. Relembre que o *Engine* irá, na verdade, compilar seu código JavaScript antes de interpretá-lo. Parte da fase de compilação era encontrar e associar todas as declarações com seus escopos corretos. Vimos no capítulo 2 que isso é o coração do Escopo Léxico.
+Para responder essa pergunta, precisamos voltar ao capítulo 1 com a discussão sobre compiladores. Relembre que o *Motor* irá, na verdade, compilar seu código JavaScript antes de interpretá-lo. Parte da fase de compilação era encontrar e associar todas as declarações com seus escopos corretos. Vimos no capítulo 2 que isso é o coração do Escopo Léxico.
 
 Então, a melhor forma de pensar sobre como as coisas funcionam é que todas as declarações, tanto variáveis quanto funções, são processadas primeiro, antes que qualquer parte do nosso código seja executado.
 
@@ -69,11 +69,11 @@ console.log( a );
 a = 2;
 ```
 
-Portanto, uma maneira de pensar, meio que metaforicamente, a respeito desse processo, é que declarações de variável e função são "movidas" de onde elas aparecem, no fluxo do código, para o topo do código. Este processo dá origem ao termo "Elevação" (Hoisting).
+Portanto, uma maneira de pensar, meio que metaforicamente, a respeito desse processo, é que declarações de variável e função são "movidas" de onde elas aparecem, no fluxo do código, para o topo do código. Este processo dá origem ao termo Hoisting.
 
 Em outras palavras, **o ovo (declaração) vem primeiro que a galinha (atribuição)**.
 
-**Lembrete:** Apenas as próprias declarações são "elevadas", enquanto qualquer atribuição ou lógica executável são deixadas *no lugar*. Se "Elevação" (Hoisting) reorganizasse a lógica executável do nosso código, isso poderia causar estragos.
+**Lembrete:** Apenas as próprias declarações são "elevadas", enquanto qualquer atribuição ou lógica executável são deixadas *no lugar*. Se Hoisting reorganizasse a lógica executável do nosso código, isso poderia causar estragos.
 
 ```js
 foo();
@@ -87,7 +87,7 @@ function foo() {
 
 A declaração da função `foo` (na qual nesse caso *inclui* o seu valor implícito como uma função real) é "elevada", de maneira que a chamada da primeira linha está pronta para ser executada.
 
-Também é importante entender que "elevação" (hoisting) é **por escopo**. Portanto, enquanto nossos trechos de código anterior eram simplificados nesse ponto, eles apenas incluíam o escopo global, a própria função `foo(...)` que estamos examinando agora, mostra que `var a` é "elevada" para o topo de `foo(...)` (não para o topo do programa, obviamente). Desde modo, o programa pode ser interpretado mais precisamente dessa forma:
+Também é importante entender que hoisting é **por escopo**. Portanto, enquanto nossos trechos de código anterior eram simplificados nesse ponto, eles apenas incluíam o escopo global, a própria função `foo(...)` que estamos examinando agora, mostra que `var a` é "elevada" para o topo de `foo(...)` (não para o topo do programa, obviamente). Desde modo, o programa pode ser interpretado mais precisamente dessa forma:
 
 ```js
 function foo() {
@@ -159,7 +159,7 @@ foo = function() {
 };
 ```
 
-`1` é impresso em vez de `2`! Esse trecho é interpretado pelo *Engine* como:
+`1` é impresso em vez de `2`! Esse trecho é interpretado pelo *Motor* como:
 
 ```js
 function foo() {
@@ -213,9 +213,9 @@ Entretanto, é importante entender que esse comportamento não é confiável e e
 
 ## Revisão (TL;DR)
 
-Podemos ser tentados a olhar para `var a = 2;` como sendo uma instrução, mas o *Engine* do JavaScript não vê dessa maneira. Ele vê `var a` e `a = 2` como duas instruções separadas, a primeira como uma tarefa da fase de compilação e a segunda como tarefa da fase de execução.
+Podemos ser tentados a olhar para `var a = 2;` como sendo uma instrução, mas o *Motor* do JavaScript não vê dessa maneira. Ele vê `var a` e `a = 2` como duas instruções separadas, a primeira como uma tarefa da fase de compilação e a segunda como tarefa da fase de execução.
 
-Isso nos leva à concluir que todas as declarações em um escopo, independente de onde elas aparecerem, são processadas *primeiro* antes do próprio código ser executado. Você pode entender esse processo como declarações sendo "movidas" para o topo de seus respectivos escopos, o qual nós chamamos de "elevação" (hoisting).
+Isso nos leva à concluir que todas as declarações em um escopo, independente de onde elas aparecerem, são processadas *primeiro* antes do próprio código ser executado. Você pode entender esse processo como declarações sendo "movidas" para o topo de seus respectivos escopos, o qual nós chamamos de hoisting.
 
 As próprias declarações são "elevadas", mas atribuições, mesmo atribuições de expressões de função, *não* são "elevadas".
 
