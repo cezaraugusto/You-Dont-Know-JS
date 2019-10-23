@@ -71,7 +71,7 @@ Mas como mostrado anteriormente, se um objeto tem seu próprio método `toString
 
 **Observação:** A forma que um objeto é convertido em uma `string` tecnicamente passa através da operação abstrata `toPrimitive` (seção 9.1 da especificação ES5), mas essas nuances serão abordadas com mais detalhes na seção `ToNumber`, mais tarde nesse capítulo, então vamos pulá-lo aqui.
 
-Arrays têm um padrão `toString()` substitutível que stringfica a (string) concatenação de todos esses valores (cada um stringficando a si mesmo), com `","` entre cada valor:
+Arrays têm um padrão `toString()` substituído que stringfica a (string) concatenação de todos esses valores (cada um stringficando a si mesmo), com `","` entre cada valor:
 
 ```js
 var a = [1,2,3];
