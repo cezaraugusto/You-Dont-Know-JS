@@ -87,7 +87,7 @@ function foo() {
 
 A declaração da função `foo` (na qual nesse caso *inclui* o seu valor implícito como uma função real) é "elevada", de maneira que a chamada da primeira linha está pronta para ser executada.
 
-Também é importante entender que hoisting é **por escopo**. Portanto, enquanto nossos trechos de código anterior eram simplificados nesse ponto, eles apenas incluíam o escopo global, a própria função `foo(...)` que estamos examinando agora, mostra que `var a` é "elevada" para o topo de `foo(...)` (não para o topo do programa, obviamente). Desde modo, o programa pode ser interpretado mais precisamente dessa forma:
+Também é importante entender que hoisting é **por escopo**. Portanto, enquanto nossos trechos de código anterior eram simplificados nesse ponto, eles apenas incluíam o escopo global, a própria função `foo(...)` que estamos examinando agora, mostra que `var a` é "elevada" para o topo de `foo(...)` (não para o topo do programa, obviamente). Deste modo, o programa pode ser interpretado mais precisamente dessa forma:
 
 ```js
 function foo() {
