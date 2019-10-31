@@ -1,15 +1,15 @@
 # You Don't Know JS: Async & Performance
 # Appendix B: Advanced Async Patterns
 
-Appendix A introduced the *asynquence* library for sequence-oriented async flow control, primarily based on Promises and generators.
+O apêndice A introduziu a biblioteca *asynquence* para controle de fluxo assíncrono sequencial primariamente baseada em Promises e generators.
+  
+Agora exploraremos outros padrões assíncronos avançados construidos a partir desta compreensão e funcionalidade existente, e veremos como *asynquence* torna técnicas de assíncronismo sofisticadas facilmente combináveis com nossos programas sem a necessidade de diversas bibliotecas diferentes.
 
-Now we'll explore other advanced asynchronous patterns built on top of that existing understanding and functionality, and see how *asynquence* makes those sophisticated async techniques easy to mix and match in our programs without needing lots of separate libraries.
+## sequências iteráveis
 
-## Iterable Sequences
+Nós introduzimos sequências iteráveis no *asynquence** no apêndice anterior, mas queremos revisitá-lo em mais detalhes.
 
-We introduced *asynquence*'s iterable sequences in the previous appendix, but we want to revisit them in more detail.
-
-To refresh, recall:
+Para relembrar:
 
 ```js
 var domready = ASQ.iterable();
@@ -25,7 +25,7 @@ domready.val( function(){
 document.addEventListener( "DOMContentLoaded", domready.next );
 ```
 
-Now, let's define a sequence of multiple steps as an iterable sequence:
+Agora vamos definir uma sequência de múltiplos passos como uma sequência iterável:
 
 ```js
 var steps = ASQ.iterable();
@@ -47,7 +47,8 @@ steps.next( 19 ).value;	// 76
 steps.next().done;		// true
 ```
 
-As you can see, an iterable sequence is a standard-compliant *iterator* (see Chapter 4). So, it can be iterated with an ES6 `for..of` loop, just like a generator (or any other *iterable*) can:
+Como podemos ver, uma sequência iterável é um *iterator* compátivel com padrões (Veja capitulo 4).
+Portanto pode ser iterado com o loop `for..of` da ES6, assim como um generator (ou qualquer outro *iterável*) pode:
 
 ```js
 var steps = ASQ.iterable();
@@ -65,9 +66,9 @@ for (var v of steps) {
 // 2 4 6 8 10
 ```
 
-Beyond the event triggering example shown in the previous appendix, iterable sequences are interesting because in essence they can be seen as a stand-in for generators or Promise chains, but with even more flexibility.
+Além do exemplo de encadear eventos mostrada do apêndice anterior, sequências iteráveis são interessantes porque em essência podem ser vistas como substituto para generators ou encadeamentos de Promises, mas com ainda mais flexibilidade
 
-Consider a multiple Ajax request example -- we've seen the same scenario in Chapters 3 and 4, both as a Promise chain and as a generator, respectively -- expressed as an iterable sequence:
+Considere um exemplo de uma requisição múltipla Ajax -- Nós já vimos o mesmo cenário no capitulo 3 e 4, tanto com encadeamento de promises quanto como generators sendo expressados como uma sequência iterável
 
 ```js
 // sequence-aware ajax
@@ -96,15 +97,15 @@ ASQ( "http://some.url.1" )
 } );
 ```
 
-The iterable sequence expresses a sequential series of (sync or async) steps that looks awfully similar to a Promise chain -- in other words, it's much cleaner looking than just plain nested callbacks, but not quite as nice as the `yield`-based sequential syntax of generators.
+A sequência iterável expressa uma série sequêncial de passos (síncronos ou assíncronos) que aparentam ser extremamente similares a um encadeamento de Promises, em outras palavras, são muito mais limpos que apenas callbacks puramente aninhados, mas não tão bons como a sintaxe sequêncial de `yield`s de generators.
 
-But we pass the iterable sequence into `ASQ#runner(..)`, which runs it to completion the same as if it was a generator. The fact that an iterable sequence behaves essentially the same as a generator is notable for a couple of reasons.
+Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua complitude igual aos generators. O fato de que uma sequência iterável se comporta essêncialmente da mesma forma que generators e chamam atenção por uma série de razões.
 
-First, iterable sequences are kind of a pre-ES6 equivalent to a certain subset of ES6 generators, which means you can either author them directly (to run anywhere), or you can author ES6 generators and transpile/convert them to iterable sequences (or Promise chains for that matter!).
+Primeiro, sequências iteráveis sao meio similares a um pre-ES6 equivalentes a um certo sub-conjunto de ES6 generators, o que significa que voce pode tanto author them diretamente (rodar em qualquer lugar), ou pode author ES6 genrator para transpilar/converter em sequências iteráveis (Ou encadeamento de Promise for that matter!).
 
-Thinking of an async-run-to-completion generator as just syntactic sugar for a Promise chain is an important recognition of their isomorphic relationship.
+Pensar em um async-run-to-completion generator como apenas um açucar sintático para um encadeamento de Promise é importante para reconhecer seu relacionamento isomórfico.
 
-Before we move on, we should note that the previous snippet could have been expressed in *asynquence* as:
+Antes de irmos em frente, devemos notar que poderiamos ter expressado o trecho de código anterior em *asynquence* como:
 
 ```js
 ASQ( "http://some.url.1" )
@@ -121,7 +122,7 @@ ASQ( "http://some.url.1" )
 } );
 ```
 
-Moreover, step 2 could have even been expressed as:
+Alem disso, o passo 2 pode ser expressado como:
 
 ```js
 .gate(
@@ -136,9 +137,9 @@ Moreover, step 2 could have even been expressed as:
 )
 ```
 
-So, why would we go to the trouble of expressing our flow control as an iterable sequence in a `ASQ#runner(..)` step, when it seems like a simpler/flatter *asyquence* chain does the job well?
+Então porque passamos pelo problema de expressar nosso controle de fluxo como uma sequência iterável em um passo de `ASQ#runner(..)` quando um encadeamento de *asynquence* aparenta muito mais simples e plano faz o trabalho bem?
 
-Because the iterable sequence form has an important trick up its sleeve that gives us more capability. Read on.
+Pois a forma da sequência iterável tem uma carta na manga que nos dá ainda mais capacidade. Leia mais.
 
 ### Extending Iterable Sequences
 
