@@ -450,6 +450,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "Keony1",
+      "name": "Keony Willian Schröer",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/30664147?v=4",
+      "profile": "https://keony1.github.io/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
