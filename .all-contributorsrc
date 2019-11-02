@@ -432,6 +432,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "tdias25",
+      "name": "Thiago Dias",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5600287?v=4",
+      "profile": "http://tthiago.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
