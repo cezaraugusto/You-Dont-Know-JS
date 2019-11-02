@@ -69,9 +69,9 @@ Para objetos regulares, a menos que você mesmo especifique, o padrão `toString
 
 Mas como mostrado anteriormente, se um objeto tem seu próprio método `toString()`, e se você usa esse objeto em um tipo `string`, o `toString()` é o que será chamado automaticamente, e o resultado da `string` dessa chamada é o que vai ser usado no lugar.
 
-**Observação** A forma que um objeto é convertido em uma `string` tecnicamente passa através da operação abstrata `toPrimitive` (seção 9.1 da especificação ES5), mas essas nuances serão abordadas com mais detalhes na seção `ToNumber`, mais tarde nesse capítulo, então vamos pulá-lo aqui.
+**Observação:** A forma que um objeto é convertido em uma `string` tecnicamente passa através da operação abstrata `toPrimitive` (seção 9.1 da especificação ES5), mas essas nuances serão abordadas com mais detalhes na seção `ToNumber`, mais tarde nesse capítulo, então vamos pulá-lo aqui.
 
-Arrays têm um padrão `toString()` substitutível que stringfica a (string) concatenação de todos esses valores (cada um stringficando a si mesmo), com `","` entre cada valor:
+Arrays têm um padrão `toString()` substituído que stringfica a (string) concatenação de todos esses valores (cada um stringficando a si mesmo), com `","` entre cada valor:
 
 ```js
 var a = [1,2,3];
@@ -327,7 +327,7 @@ O que isso possivelmente pode significar?
 
 Você deve estar tentado a pensar que isso significa um *object wrapper* (veja o capítulo 3) em torno de um valor falso (como `""`, `0` ou `false`). Mas não caia nessa *armadilha*.
 
-**Observação:** 
+**Observação** 
 
 Wait a minute, that section title even sounds contradictory. I literally *just said* the spec calls all objects truthy, right? There should be no such thing as a "falsy object."
 
@@ -355,7 +355,7 @@ d; // true
 
 Então, todos os três se comportam como `true`, como essa é a única maneira de `d` acabar como `true`.
 
-**Dica** Note que o wrapped `Boolean(..)` está em torno da expressão `a && b && c` -- você deve estar se perguntando porque isso está ali. Nós vamos voltar mais tarde nesse capítulo, então faça um nota mental disso. Para um pequeno exercício, procure por si mesmo o que `d` será se você apenas fizer `d = a && b && c` sem a chamada `Boolean(..)`!
+**Dica:** Note que o wrapped `Boolean(..)` está em torno da expressão `a && b && c` -- você deve estar se perguntando porque isso está ali. Nós vamos voltar mais tarde nesse capítulo, então faça um nota mental disso. Para um pequeno exercício, procure por si mesmo o que `d` será se você apenas fizer `d = a && b && c` sem a chamada `Boolean(..)`!
 
 Então, se "objetos falsos" **não são apenas objetos embrulhados em torno de valores falsos**, o que diabos eles são?
 
@@ -481,7 +481,7 @@ Aqui o `+c` esta mostrando o *operador unário* (operador com somente um operand
 
 `c+` é uma coerção explícita? Depende da sua experiêcnia e perspectiva. Se você sabe (e voce, agora, sabe!) que o unário `+` é explicitamente destinado para uma coerção `number`, então é bem explícito e óbvio. Porém, se você nunca viu isso antes, isso pode ser terrivelmente confuso, implícito, com efeitos colaterais ocultos, etc.
 
-**Observação** A perspectiva geralmente aceita na comunidade open source JS pe que o unário `+` é uma forma aceita de coerção *explícita*.
+**Observação:** A perspectiva geralmente aceita na comunidade open source JS pe que o unário `+` é uma forma aceita de coerção *explícita*.
 
 Mesmo se você realmente goste da forma `+c`, há, definitivamente, alguns lugares onde isso pode parecer terrivelmente confuso, Considere:
 
@@ -502,7 +502,7 @@ Você provavelmente pode inventar todo o tipo de combinações horríveis de ope
 
 Você deve considerar fortemente evitar corção unária com `+` (ou `-`) quando ela é imediatamentamenta adjacente de outro operador. Enquando o de cima funciona, é quase que universalmente considerado uma má ideia. Mesmo `d = +c` (ou `d =+ c` também!) pode muito facilmente ser confudido com `d += c`, o que é inteiramente diferente!
 
-**Observação** Outro lugar extremamente confuso para usar o unário `+` é adjacente à outro operador que pode ser, `++` operador de incremento e `--` operador de decremento. Por exemplo: `a +++b`, `a + ++b`, and `a + + +b`. Veja "Efeitos colaterais de expressões" no Capítulo 5 para mais sobre `++`.
+**Observação:** Outro lugar extremamente confuso para usar o unário `+` é adjacente à outro operador que pode ser, `++` operador de incremento e `--` operador de decremento. Por exemplo: `a +++b`, `a + ++b`, and `a + + +b`. Veja "Efeitos colaterais de expressões" no Capítulo 5 para mais sobre `++`.
 
 Lembre-se, nós estamos tentando ser explícitos e **reduzir** a confusão, não torná-la muito pior!
 
@@ -575,7 +575,7 @@ Esse números especiais não são representações 32-bit (desde que eles venham
 
 Então vamos voltar nossa atenção para o `~`. O operador `~` primeiro faz a "coerção" para um valor `number` de 32-bit , e então realiza uma negativa bit a bit (lançando a paridade de cada bit).
 
-**Observação** Isso é bem similar em como `!` não apenas faz a coerção de seus valores para `boolean` mas também lança sua paridade (veja a discussão dos "unários `!`" depois).
+**Observação:** Isso é bem similar em como `!` não apenas faz a coerção de seus valores para `boolean` mas também lança sua paridade (veja a discussão dos "unários `!`" depois).
 
 Mas...o quê!? Porquê nos importamos com bits sendo lançados? Isso é algo bem específico, algo com muitas nuances. É bem raro que os desenvolvedores JS precisem raciocinar sobre bits individuais.
 
@@ -640,7 +640,7 @@ if (!~a.indexOf( "ol" )) {	// true
 
 `~` pega o valor retornado de `indexOf(..)` e o transforma: em caso de "falha" `-1` nós teremos o falso `0`, e todo outro valor é verdadeiro.
 
-**Observação** O pseudo-algoritmo `-(x+1)` para `~` implicaria que `~-1` é `-0`, mas na verdade ele produz `0` porque a operação subjacente é na verdade bit a bit, não matemática.
+**Observação:** O pseudo-algoritmo `-(x+1)` para `~` implicaria que `~-1` é `-0`, mas na verdade ele produz `0` porque a operação subjacente é na verdade bit a bit, não matemática.
 
 Tecnicamente, `if (~a.indexOf(..))` ainda está confiando na coerção *implícita* da resultante `0` para `false` ou diferente de zero para `true`. Mas no geral, `~` ainda me parece mais como um mecanismo de coerção *explícita*, desde que você saiba o que pretende fazer nessa linguagem.
 
@@ -652,7 +652,7 @@ Há mais um lugar que `~` pode aparecer em um código: alguns desenvolvedores us
 
 Como `~~` funciona, é que o primeiro `~` aplica a coerção `ToInt32` e faz o lançamento do bit e, em seguida, o segundo` ~ `faz outro lançamento de bit a bit, folheando todos os bits de volta para o estado original. O resultado final é apenas a "coerção" `ToInt32` (também conhecida como truncamento).
 
-**Observação** O lançamento bit a bit duplo de `~~` é muito parecido com o comportamento de paridade da negativa dupla `!!`, explicada mais tarde na seção "Explicitamente: * --> Boolean.
+**Observação:** O lançamento bit a bit duplo de `~~` é muito parecido com o comportamento de paridade da negativa dupla `!!`, explicada mais tarde na seção "Explicitamente: * --> Boolean.
 
 Porém, `~~` precisa de algum cuidado/esclarecimento. Primeiro, ele apenas funciona dependente de valores em 32-bit. Mas, mais importante, ele não funciona da mesma forma em números negativos como o `Math.floor(..)` faz!
 
@@ -676,7 +676,7 @@ Assim como todos os outros conselhos aqui, use `~` e `~~`` como mecanismos expl�
 
 ### Explicitamente: Parseando strings numéricas
 
-Um resultado semelhante para coagir uma `string` para um` number` pode ser conseguido parseando um `number` de um conteúdo de caracteres de uma `string`.
+Um resultado semelhante para coagir uma `string` para um` number` pode ser conseguido parseando um `number` de um conteúdo de caracteres de uma `string`. Há no entanto, diferenças distintas entre esse parseamento e a conversão de tipo que examinamos acima. 
 
 Considere:
 
@@ -693,9 +693,9 @@ parseInt( b );	// 42
 
 Parsear um valor numérico de uma string é *tolerante* para caracteres não numéricos -- isso apenas para de parsear da esquerda para a direita quando encontrado -- enquanto a coerção é *não tolerante* e falha, resultando no valor 'NaN`.
 
-Parseamento não deve ser visto como um substituto para coerção. Essas duas tarefas, mesmo similares, têm propósitos diferentes. Parsear uma `string` como um `number` quando você não sabe/se importa qual ordem caracteres não-numéricos podem estar no lado da mão-direita. Fazer a coerção de um `string` (para um `number`) quando os únicos valores aceitáveis são numéricos e algo como "42px" deve ser rejeitado como um `number`.
+Parseamento não deve ser visto como um substituto para coerção. Essas duas tarefas, mesmo similares, têm propósitos diferentes. Realize o parser de uma `string` como um `number` quando você não sabe/se importa com outros caracteres não numéricos que possam existir no lado direito. Fazer a coerção de um `string` (para um `number`) quando os únicos valores aceitáveis são numéricos e algo como "42px" deve ser rejeitado como um `number`.
 
-**Dica** `parseInt(..)` tem um irmão gêmeo, `parseFloat(..)`, que (como parece) tira um número de ponto flutuante de uma string.
+**Dica:** `parseInt(..)` tem um irmão gêmeo, `parseFloat(..)`, que (como parece) tira um número de ponto flutuante de uma string.
 
 Não esqueça que `parseInt(..)` opera em valores `string`. Não faz absolutamente nenhum sentido passar um valor `number` para `parseInt(..)`. Nem faria sentido passar nenhum outro tipo de valor, como `true`, `function(){..}` ou `[1,2,3]`.
 
@@ -885,9 +885,11 @@ Enquanto está claro qual é o objetivo de coerção *explícita* (tornar o cód
 
 Confiar de olhos fechados, acredito que é aí que grande parte da raiva de coerções vêm. A maioria das reclamações sobre "coerções JavaScript" têm, na verdade, como alvo (eles percebendo ou não) coerções *implícitas*.
 
-**Observação** Douglas Crockford, autor de *"JavaScript: The Good Parts"*, afirmou em muitas palestras de conferências e artigos que coerção JavaScript deve ser evitada. Mas o que ele pareceu falar é que coerção *implícita* é ruim (na opnião dele). Porém, se você ler seu próprio código, você irá achar muitos exemplos de coerção, ambas *implícita* e *explícita*! Na verdade, a raiva dele parece ser primeiramente destinada para a operação `==`, mas você verá nesse capítulo, essa é apenas uma parte do mecanismo de coerção.
+**Observação:** Douglas Crockford, autor de *"JavaScript: The Good Parts"*, afirmou em muitas palestras de conferências e artigos que coerção JavaScript deve ser evitada. Mas o que ele pareceu falar é que coerção *implícita* é ruim (na opnião dele). Porém, se você ler seu próprio código, você irá achar muitos exemplos de coerção, ambas *implícita* e *explícita*! Na verdade, a raiva dele parece ser primeiramente destinada para a operação `==`, mas você verá nesse capítulo, essa é apenas uma parte do mecanismo de coerção.
 
 Então, a **coerção implícita é** maligna? Ela é perigosa? É uma falha no design do JavaScript? Nós devemos evitá-la a todo custo?
+
+Aposto que a maioria de vocês, leitores, está inclinada a torcer com entusiasmo, "Sim!"
 
 **Não tão rápido**. Me dê ouvidos.
 
@@ -905,7 +907,7 @@ SomeType x = SomeType( AnotherType( y ) )
 
 Nesse exemplo, eu tenho tenho um tipo de valor arbitrário em `y` que eu quero converter para o tipo `SomeType`. O problema é, essa linguagem não pode ir diretamente de qualquer coisa que `y` é pra `SomeType`. Ele precisa de um passo intermediário, onde ele primeiro converte para `AnotherType`, e então de `AnotherType` para `SomeType`.
 
-Agora, e se a linguagem (ou definição que você mesmo pode criar com a linguagem) *fez*, digamos:
+Agora, e se a linguagem (ou definição que você mesmo pode criar com a linguagem) deixasse você *dizer*:
 
 ```js
 SomeType x = SomeType( y )
@@ -980,7 +982,7 @@ var b = a + "";
 b; // "42"
 ```
 
-**Dica** Adições numéricas com o operador `+` é comutativa, o que significa que `2 + 3` é o mesmo que `3 + 2`. Concatenação de String com `+` obviamente não é comutativa geralmente, **mas** com o caso específico do `""`, ela é efetivamente comutativa, assim como `a + ""` e `"" + a` irão produzir o mesmo resultado.
+**Dica:** Adições numéricas com o operador `+` é comutativa, o que significa que `2 + 3` é o mesmo que `3 + 2`. Concatenação de String com `+` obviamente não é comutativa geralmente, **mas** com o caso específico do `""`, ela é efetivamente comutativa, assim como `a + ""` e `"" + a` irão produzir o mesmo resultado.
 
 É extremamente comum/idiomático fazer a coerção (*implicitamente*) de `number` para `string` com uma operação `+""`. De fato, é interessante que, mesmo alguns dos maiores críticos da coerção *implícita* ainda usam essa abordagem em seu próprio código, em vez de uma das suas alternativas *explícitas*.
 
@@ -1003,7 +1005,7 @@ a + "";			// "42"
 String( a );	// "4"
 ```
 
-Geralmente, esse tipo de pegadinha não vai te pegar a menos que você realmente esteja tentando criar estruturas de dados e operações confusas, mas você deve ter cuidado se você está definindo métodos próprios `valueOf()` e `toString()` para algum `object`, como a forma de fazer a coerção pode afetar o resultado.
+Geralmente, esse tipo de pegadinha não vai te pegar a menos que você realmente esteja tentando criar estruturas de dados e operações confusas, mas você deve ter cuidado se você está definindo métodos próprios `valueOf()` e `toString()` para algum `object`, pois a forma de fazer a coerção pode afetar o resultado.
 
 E a outra direção? Como podemos fazer a *coerção implícita* de `string` para `number`?
 
@@ -1081,7 +1083,7 @@ onlyOne( b, b );				// false
 onlyOne( b, a, b, b, b, a );	// false
 ```
 
-**Obeservação** Claro, em vez do loop `for` em `onlyOne(..)`, você pode usar a tarefa do ES5 `reduce(..)`, mas eu não queria obscurecer os conceitos.
+**Obeservação:** Claro, em vez do loop `for` em `onlyOne(..)`, você pode usar a tarefa do ES5 `reduce(..)`, mas eu não queria obscurecer os conceitos.
 
 O que estamos fazendo aqui é relacionado com coerção de `1` para `true`/verdadeiro, e adionando todos numericamente. `sum += arguments[i]` usa coerção *implícita* para fazer isso acontecer. Se um e apenas um valor na lista de `arguments` é `true`, então a soma numérica vai ser `1`, do contrário a soma não será `1` e portanto a condição desejada não será atendida.
 
@@ -1105,7 +1107,7 @@ As formas de coerção *explícita* desse utilitário são "melhores"? Ela evita
 
 Mas assim como tudo o que discutimos aqui, é uma escolha.
 
-**Observação** Independentemente de abordagem *implícita* ou *explícita*, você pode facilmente fazer variações `onlyTwo(..)` ou `onlyFive(..)` simplismente mudando a comparação final de `1`, para `2` ou `5`, respectivamente. Isso é drasticamente mais fácil do que adicionar um monte de expressões `&&` e `||`. Então, geralmente, coerção é muito útil nesse caso.
+**Observação:** Independentemente de abordagem *implícita* ou *explícita*, você pode facilmente fazer variações `onlyTwo(..)` ou `onlyFive(..)` simplismente mudando a comparação final de `1`, para `2` ou `5`, respectivamente. Isso é drasticamente mais fácil do que adicionar um monte de expressões `&&` e `||`. Então, geralmente, coerção é muito útil nesse caso.
 
 ### Implicitamente: * --> Boolean
 
@@ -1203,7 +1205,7 @@ a && b;
 a ? b : a;
 ```
 
-**Observação** Eu chamo `a || b` de "aproximadamente equivalente" à `a ? a : b` porque a saída é idêntica, mas há uma diferença de nuance. Em `a ? a : b`, se `a` era uma expressão mais complexa (como por exemplo uma que pode ter efeitos colaterais como chamar uma `function`, etc..), então a expressão `a` vai possivelmente ser avaliada duas vezes (se a primeira avaliação for verdadeira). Por contraste, para `a || b`, a expressão `a` é avalidada apenas uma vez, e esse valor é usado tanto para o teste coercivo como para o valor do resultado (se apropriado). A mesma nuance se aplica para as expressões `a && b` and `a ? b : a`.
+**Observação:** Eu chamo `a || b` de "aproximadamente equivalente" à `a ? a : b` porque a saída é idêntica, mas há uma diferença de nuance. Em `a ? a : b`, se `a` era uma expressão mais complexa (como por exemplo uma que pode ter efeitos colaterais como chamar uma `function`, etc..), então a expressão `a` vai possivelmente ser avaliada duas vezes (se a primeira avaliação for verdadeira). Por contraste, para `a || b`, a expressão `a` é avalidada apenas uma vez, e esse valor é usado tanto para o teste coercivo como para o valor do resultado (se apropriado). A mesma nuance se aplica para as expressões `a && b` and `a ? b : a`.
 
 Um uso extremamente comum e útil desse comportamento, em que há uma grande chance de você já ter usado isso antes e não entendido completamente é:
 
@@ -1219,13 +1221,9 @@ foo();					// "hello world"
 foo( "yeah", "yeah!" );	// "yeah yeah!"
 ```
 
-O idioma `a = a || "hello"` () testa `a` e se ele não tem valor (ou apenas um valor falso indesejável), provê um valor padrão de backup (`"hello"`).
+O idioma `a = a || "hello"` (às vezes se diz que é a versão do JavaScript do "null coalescing operator" do C#) testa `a` e se ele não tem valor (ou apenas um valor falso indesejável), provê um valor padrão de backup (`"hello"`).
 
 No entanto, **tenha cuidado!**
-
-The `a = a || "hello"` idiom (sometimes said to be JavaScript's version of the C# "null coalescing operator") acts to test `a` and if it has no value (or only an undesired falsy value), provides a backup default value (`"hello"`).
-
-**Be careful**, though!
 
 ```js
 foo( "That's it!", "" ); // "That's it! world" <-- Opa!
@@ -1253,11 +1251,11 @@ a && foo(); // 42
 
 `foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa declaração de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "curto-circuito" -- e nunca chamar `foo()`.
 
-De novo, não é muito comum que as pessoas criem essas coisas. Normalmente, elas fazem `if (a) { foo(); }` no lugar. Mas os minificadores JS escolhem `a && foo()` porque é muito mais curto. Então, agora, se você alguma vez tiver que decifrar tal código, você saberá o que ele está fazendo e porque.
+De novo, não é muito comum que as pessoas criem essas coisas. Normalmente, elas fazem `if (a) { foo(); }` no lugar. Mas os minificadores JS escolhem `a && foo()` porque é muito mais curto. Então, agora, se você alguma vez tiver que decifrar tal código, você saberá o que ele está fazendo e por quê.
 
 Ok, então `||` e `&&` têm alguns truques na manga, com tanto que você queira permitir a coerção *implícita* nessa mistura.
 
-**Observação** Ambos, `a = b || "something"` e `a && b()` referem-se ao comportamento de circuitos curtos, que nos abordamos com mais detalhes no capítulo 5.
+**Observação:** Ambos, `a = b || "something"` e `a && b()` referem-se ao comportamento de circuitos curtos, que nos abordamos com mais detalhes no capítulo 5.
 
 O fato desses operadores. na verdade, não resultarem em `true` e `false` possivelmente mexerá um pouco com a sua cabeça agora. Você provavelmente está se perguntando como todos suas declarações `if` e seus loops `for` funcionavam, se eles incluíram expressões lógicas compostas como `a && (b || c)`.
 
@@ -1315,7 +1313,7 @@ A boa notícia: provavelmente será extremamente raro você precisar fazer coer�
 
 Igualdade ampla é o operador `==`, e igualdade estrita é o operador `===`. Ambos operadores são usados para comparar dois valores para "igualdade", mas o "amplo" vs. "estrito" indica uma diferença de comportamento **muito importante** entre os dois, especificamente em como eles decidem a "igualdade".
 
-Um equívico muito comum sobre esses dois operadores é: `==` verifica igualdade de valores e `===` verifica igualdade de ambos, valores e tipos. Enquanto isso parece sensato, é impreciso. Incontáveis livros, bem respeitados, de JavaScript e blogs disseram exatamente isso, mas infelizmente eles estão todos *errados*.
+Um equívico muito comum sobre esses dois operadores é: `==` verifica igualdade de valores e `===` verifica igualdade de ambos, valores e tipos. Enquanto isso parece sensato, é impreciso. Incontáveis livros bem respeitados de JavaScript e blogs disseram exatamente isso, mas infelizmente eles estão todos *errados*.
 
 A descrição correta é: "`==` permite coerção na comparação da igualdade e `===` não permite."
 
@@ -1323,7 +1321,7 @@ A descrição correta é: "`==` permite coerção na comparação da igualdade e
 
 Pare e pense sobre a diferença entre a primeira explicação (imprecisa) e esta segunda (precisa).
 
-Na primeira explicação, parece óbvio que `===` está *fazendo mais trabalho* que `==`, porque ele precisa *também* verificar o tipo. Na segunda explicação, `==` é a que está *fazendo mais trabalho* porque ele precisa seguir através dos passos da coerção se os tipos são diferentes.
+Na primeira explicação, parece óbvio que `===` está *fazendo mais trabalho* que `==`, porque ele precisa *também* verificar o tipo. Na segunda explicação, `==` é o que está *fazendo mais trabalho* porque ele precisa seguir através dos passos da coerção se os tipos são diferentes.
 
 Não caia na armadilha, como muitos fazem, de pensar que isso tem alguma coisa a ver com performance, como se `==` fosse ser mais lento que `===` de qualquer maneira relevante. Embora seja mensurável que a coerção tome *um pouco mais* de tempo de processamento, são meros microsegundos (sim, isso é um milionésimo de segundo!).
 
@@ -1333,13 +1331,13 @@ Se você está comparando dois valores de tipos diferentes, a performance não �
 
 Se você quer a coerção, use `==` igualdade ampla, mas se você não quer coerção, use `===` igualdade estrita.
 
-**Observação** a implicação aqui é que ambos `==` e `===` verifiquem os tipos dos seus operandos. A diferença é em como eles irão responder se os tipos não coincidem.
+**Observação:** a implicação aqui é que ambos `==` e `===` verifiquem os tipos dos seus operandos. A diferença é em como eles irão responder se os tipos não coincidem.
 
 ### Igualdade abstrata
 
 O comportamento do operador `==` é definido como "O algoritmo de comparação de igualdade abstrata" na seção 11.9.3 da especificação ES5. O que está listado lá é um algoritmo abrangente, mas simples, que declara explicitamente todas as combinações possíveis de tipos, e como as coerções (se necessárias) devem acontecer para cada combinação.
 
-**Atenção** Quando (*implicitamente*) a coerção é vista como sendo muito complicada e também defeituosa para ser uma *boa parte útil*, são essas regras de "igualdade abstrata" que estão sendo condenadas. Geralmente, elas são ditas como muito complexas e não intuitivas para desenvolvedores aprenderem e usá-las na prática, e que elas mais causam bugs nos programas JS do que provêm grande legibilidade do código. Eu acredito que essa é uma premissa defeituosa -- que vocês leitores são desenvolvedores competentes que escrevem (e leêm e entendem!) algoritmos (códigos) durante todo o dia. Então o que se segue é uma plano de exposição das "igualdades abstratas" em termos simples. Mas eu imploro para que você também leia a seção 11.9.3 da especificação ES5. Eu acho qe você ficará surpreso do quão sensata ela é.
+**Atenção:** Quando (*implicitamente*) a coerção é vista como sendo muito complicada e também defeituosa para ser uma *boa parte útil*, são essas regras de "igualdade abstrata" que estão sendo condenadas. Geralmente, elas são ditas como muito complexas e não intuitivas para desenvolvedores aprenderem e usá-las na prática, e que elas mais causam bugs nos programas JS do que provêm grande legibilidade do código. Eu acredito que essa é uma premissa defeituosa -- que vocês leitores são desenvolvedores competentes que escrevem (e leêm e entendem!) algoritmos (códigos) durante todo o dia. Então o que se segue é uma plano de exposição das "igualdades abstratas" em termos simples. Mas eu imploro para que você também leia a seção 11.9.3 da especificação ES5. Eu acho qe você ficará surpreso do quão sensata ela é.
 
 Basicamente, a primeira cláusula (11.9.3.1) diz, se os dois valores que estão sendo comparados são do mesmo tipo, eles são simplesmente e naturalmente comparados via identidade como você esperava. Por exemplo, `42` só é igual a `42`, e `"abc"` é apenas igual à `"abc"`.
 
@@ -1348,13 +1346,13 @@ Algumas pequenas exceções à expectativa normal para estar ciente são:
 * `NaN` nunca é igual a ela mesma (veja Capítulo 2)
 * `+0` e `-0` são iguais entre si (veja Capítulo 2)
 
-A última provisão na cláusula 11.9.3.1 é para comparação de igualdade ampla `==` com `object`s (incluindo `function`s e `array`s). Tais valores são apenas *iguais* se ambos referências para *exatamente o mesmo valor*. Não ocorre coerção aqui.
+A última provisão na cláusula 11.9.3.1 é para comparação de igualdade ampla `==` com `object`s (incluindo `function`s e `array`s). Tais valores são apenas *iguais* se ambos referenciam para *exatamente o mesmo valor*. Não ocorre coerção aqui.
 
-**Observação** A comparação de igualdade estrita `===` é definida identicamente para 11.9.3.1, incluindo a provisão sobre dois valores de `objects`. É um fato pouco conhecido que **`==` e `===` se comportam de forma idêntica** no caso inde dois `objects`s estão sendo comparados.
+**Observação:** A comparação de igualdade estrita `===` é definida identicamente para 11.9.3.1, incluindo a provisão sobre dois valores de `objects`. É um fato pouco conhecido que **`==` e `===` se comportam de forma idêntica** no caso inde dois `objects`s estão sendo comparados.
 
 O resto do algoritmo em 11.9.3. especifica qur se você usar igualdade ampla `==` para comparar dois valores de tipos diferentes, um ou ambos os valores precisarão sofrer coerção *implícita*. Essa coerção acontece para que ambos valores eventualmente terminem com o mesmo tipo, no qual possam ser comparados pela igualdade usando valores de identidade simples.
 
-**Observação** A operação de não-igualdade ampla `!=` é definida exatamente como você esprava, na medida em que é literalmente a comparação da operação `==` realizada na sua totalidade, e então a negação do resultado. O mesmo vale para a operação de não-igualdade estrita `!==`.
+**Observação:** A operação de não-igualdade ampla `!=` é definida exatamente como você esperava, na medida em que é literalmente a comparação da operação `==` realizada na sua totalidade, e então a negação do resultado. O mesmo vale para a operação de não-igualdade estrita `!==`.
 
 #### Comparando: `string`s com `number`s
 
@@ -1370,7 +1368,7 @@ a == b;		// true
 
 Como esperávamos, `a===b` falha, porque nenhuma coerção é permitida, e de fato, os valores `42` e `"42"` são diferentes.
 
-No entanto, a segunda comparação `a == b` usa igualdade ampla, que significa que se acontecer dos tipos serem diferentes, a comparação do algoritmo vai fazer uma coerção *implícita* em um ou ambos valores.
+No entanto, a segunda comparação `a == b` usa igualdade ampla, que significa que se acontecer dos tipos serem diferentes, a comparação do algoritmo vai fazer uma coerção *implícita* em um ou ambos os valores.
 
 Mas qual, exatamente, é o tipo de coerção que acontece aqui? O valor `a` de `42` torna-se uma `string`, ou o valor `b` de `"42"` torna-se um `number`?
 
@@ -1381,13 +1379,13 @@ Na cláusula 11.9.3.4-5 da especificação ES5 diz:
 > 5. Se o Type(x) é uma String e Type(y) ié um Number,
 >    retorna o resultado da comparação ToNumber(x) == y.
 
-**Atenção** A especificação usa `Number` e `String` como nomes formais para os tipos, enquanto esse livro prefere `number` e `string` para tipos primitivos. Não deixe a capitalização de `Number` na especificação te confundir com o a função nativa `Number()`. Para nossos propósitos, a capitalização do nome do tipo é irrelevante -- eles têm, basicamente, o mesmo significado.
+**Atenção:** A especificação usa `Number` e `String` como nomes formais para os tipos, enquanto esse livro prefere `number` e `string` para tipos primitivos. Não deixe a capitalização de `Number` na especificação te confundir com a função nativa `Number()`. Para nossos propósitos, a capitalização do nome do tipo é irrelevante -- eles têm, basicamente, o mesmo significado.
 
 Claramente, a especificação diz que o valor `"42"` sofre coerção para um `number` na comparação. O *como* dessa coerção já foi abordada anteriormente, especificamente com a operação abstrata `ToNumber`. Nesse caso, é bem óbvio que os dois valores `42` resultantes são iguais.
 
 #### Comparando: qualquer coisa com `boolean`
 
-Uma das maiores pegadinhas com a coerção *implícita* da igualdade ampla `==` aparecem quando você tenta compara um valor diretamente com `true` ou `false`.
+Uma das maiores pegadinhas com a coerção *implícita* da igualdade ampla `==` aparecem quando você tenta comparar um valor diretamente com `true` ou `false`.
 
 Considere:
 
@@ -1400,9 +1398,9 @@ a == b;	// falso
 
 Espera, o que aconteceu aqui? Nós sabemos que `"42"` é um valor verdadeiro/*thruthy* (veja anteriormente neste capítulo). Então, como ele não é `==`, igualdade ampla à `true`?
 
-A razão é simples e enganosamente complicada. É tão fácil de cometer um equívico, muitos desenvolvedores JS nunca prestam atenção suficiente para compreende-la.
+A razão é simples e enganosamente complicada. É tão fácil de cometer um equívico, muitos desenvolvedores JS nunca prestam atenção suficiente para compreendê-la.
 
-Vamos citar novemente a especificação, cláusula 11.9.3.6-7:
+Vamos citar novamente a especificação, cláusula 11.9.3.6-7:
 
 > 6. Se Type(x) é Boolean,
 >    retorna o valor da comparação ToNumber(x) == y.
@@ -1429,9 +1427,9 @@ var y = false;
 x == y; // false
 ```
 
-O `Type(y) é `Boolean` dessa vez, então `ToNumber(y)` custa `0`. `"42" == 0` recursivamente torna-se `42 == 0`, que claro, é `false`.
+O `Type(y)` é `Boolean` dessa vez, então `ToNumber(y)` custa `0`. `"42" == 0` recursivamente torna-se `42 == 0`, que claro, é `false`.
 
-Em outras palavras, **o valor`"42"` não é nem `== true` nem `== false`.** Primeiramente, essa declaração pode parecer loucura. Como pode um valor não ser nem verdadeiro nem falso?
+Em outras palavras, **o valor `"42"` não é nem `== true` nem `== false`.** Primeiramente, essa declaração pode parecer loucura. Como pode um valor não ser nem verdadeiro nem falso?
 
 Mas esse é o problema! Você está fazendo a pergunta, totalmente errada. Não é sua culpa, de verdade. Seu cérebro está te enganando.
 
@@ -1441,7 +1439,7 @@ Quer nos agrade ou não, `ToBoolean` nem está envolvido aqui, então a verdade 
 
 O que *é* relevante, é entender como o algoritmo de comparação `==` se comporta com todas as diferentes combinações. No que se refere à um valor `boolean` de qualquer lado do `==`, um `boolean` sempre sofre coerção para um `number` *primeiro*.
 
-Se isso parece estranho para você, você não está sozinho. Eu pessoalmente reconmendaria à nunca, nunca mesmo, em nenhuma circunstância, usar `== true` ou `== false`. Nunca.
+Se isso parece estranho para você, você não está sozinho. Eu pessoalmente recomendaria à nunca, nunca mesmo, em nenhuma circunstância, usar `== true` ou `== false`. Nunca.
 
 Mas lembre-se, eu estou falando somente do `==` aqui. `=== true` e `=== false` não permitirá a coerção, então você está seguro dessa coerção `ToNumber` oculta.
 
@@ -1505,7 +1503,7 @@ a == 0;		// false
 b == 0;		// false
 ```
 
-A coerção entre `null` e `undefined` é segura e previsível e nenhum outro valor pode dar falsos positivos em tal teste. Eu recomendo usar essa coerção para permitir que `null` e `undefined` sejam indistinguíveis e assim tratadis como o mesmo valor.
+A coerção entre `null` e `undefined` é segura e previsível e nenhum outro valor pode dar falsos positivos em tal teste. Eu recomendo usar essa coerção para permitir que `null` e `undefined` sejam indistinguíveis e assim tratados como o mesmo valor.
 
 Por exemplo:
 
@@ -1519,7 +1517,7 @@ if (a == null) {
 
 A verificação `a == null` vai passar somente se `doSomething()` retornar ambos, `null` ou `undefined`, e vai falhar com qualquer outro valor, mesmo outro valor falso como `0`, `false` e `""`.
 
-A forma de verificação *explícita*, que não permite nenhum tipo de coerção, é (eu acho) desnecessáriamente muito mais feia (e talvez um pouco menos performática!):
+A forma de verificação *explícita*, que não permite nenhum tipo de coerção, é (eu acho) desnecessariamente muito mais feia (e talvez um pouco menos performática!):
 
 ```js
 var a = doSomething();
@@ -1529,7 +1527,7 @@ if (a === undefined || a === null) {
 }
 ```
 
-na minha opinião, a forma `a == null` é ainda outro exemplo de onde a coerção *implícita* melhora a legibilidade do código, mas faz isso de uma maneira confiável e segura.
+Na minha opinião, a forma `a == null` é ainda outro exemplo de onde a coerção *implícita* melhora a legibilidade do código, mas faz isso de uma maneira confiável e segura.
 
 #### Comparando: `object`s com não-`object`s
 
@@ -1540,7 +1538,7 @@ Se um `object`/`function`/`array` é comparado com um escalar primitivo simples 
 > 9. Se Type(x) é um Object e Type(y) tanto uma String ou um Number,
 >    retorna o resultado da comparação ToPrimitive(x) == y.
 
-**Observação** Você pode notar que essas cláusulas apenas mencionam `String` e `Number`, mas não `Boolean`. Isso porque, como dito antes, a clásula 11.9.3.6-7 trata da coerção de qualquer operando `Boolean` apresentado para um `Number` primeiro.
+**Observação:** Você pode notar que essas cláusulas apenas mencionam `String` e `Number`, mas não `Boolean`. Isso porque, como dito antes, a clásula 11.9.3.6-7 trata da coerção de qualquer operando `Boolean` apresentado para um `Number` primeiro.
 
 Considere:
 
@@ -1553,9 +1551,9 @@ a == b;	// true
 
 O valor `[42]` tem sua operação abstrata `ToPrimitive` chamada (veja a seção anterior "Valores de operações abstratas"), que resulta no valor `"42"`. Daqui em diante, é apenas `42 == "42"`, que como já abordamos, torna-se `42 == 42`, então `a` e `b` são coercitivamente iguais.
 
-**Dica** Todos os quirks da operação abstrata `ToPimitive` que nós discutimos anteriormente nesse capítulo (`toString()`, `valueOf()`) aplicados aqui como nós esperávamos. Isso pode ser bem útil se você tiver uma estrutura de dados complexa que você quer definir um método personalizado em `valueOf()`, para fornecer uma valor simples para propósitos de comparação de igualdade.
+**Dica:** Todos os quirks da operação abstrata `ToPimitive` que nós discutimos anteriormente nesse capítulo (`toString()`, `valueOf()`) são aplicados aqui como nós esperávamos. Isso pode ser bem útil se você tiver uma estrutura de dados complexa que você quer definir um método personalizado em `valueOf()`, para fornecer uma valor simples para propósitos de comparação de igualdade.
 
-No capítulo 3, nós abordamos "unboxing", onde um `object` wrapper em trono de uma vlor primitivo (como de `new String("abc"), por exemplo) é desencapsulado, e o valor primitivo adjacente ("abc") é retornado. Esse comportamento é relacionado para a coerção `ToPrimitive` no algoritmo `==` :
+No capítulo 3, nós abordamos "unboxing", onde um `object` wrapper em torno de uma valor primitivo (como de `new String("abc")`, por exemplo) é desencapsulado, e o valor primitivo subjacente ("abc") é retornado. Esse comportamento está relacionado à coerção `ToPrimitive` no algoritmo `==` :
 
 ```js
 var a = "abc";
@@ -1564,7 +1562,7 @@ var b = Object( a );	// Mesmo que `new String( a )`
 a === b;				// false
 a == b;					// true
 ```
-`a == b` é `true` porque `b` sofre coerção (ou "unboxed", desncapsulada) via `ToPrimitive` para seu "abc" seu valor escalar primitivo adjacente, que é o mesmo que o valor em `a`.
+`a == b` é `true` porque `b` sofre coerção (ou "unboxed", desencapsulado) via `ToPrimitive` para seu valor escalar primitivo "abc" subjacente, que é o mesmo que o valor em `a`.
 
 Há alguns valores onde isso não é o caso, por conta de outras regras primárias do algoritmo de `==`. Considere:
 
@@ -1582,9 +1580,9 @@ var f = Object( e );	// Mesmo que `new Number( e )`
 e == f;					// false
 ```
 
-Os valores `null` e `undefined` não podem ser encapsulados(*boxed*) -- eles não tem um object wrapper equivalente -- Então o `Object(null)` é como o `Object()` em que ambos apenas produzem um objeto normal.
+Os valores `null` e `undefined` não podem ser encapsulados (*boxed*) -- eles não tem um object wrapper equivalente -- Então o `Object(null)` é como o `Object()` em que ambos apenas produzem um objeto normal.
 
-`NaN` pode ser ancapsulado no seu object wrapper `Number` equivalente, mas quando `==` causa uma desencapsulameto, a comparação `NaN == NaN` falha porque `NaN` nunca é igual a si mesmo (veja o capítulo 2).
+`NaN` pode ser encapsulado no seu object wrapper `Number` equivalente, mas quando `==` causa uma desencapsulamento, a comparação `NaN == NaN` falha porque `NaN` nunca é igual a si mesmo (veja o capítulo 2).
 
 ### Casos à parte
 
@@ -1602,7 +1600,7 @@ Number.prototype.valueOf = function() {
 new Number( 2 ) == 3;	// true
 ```
 
-**Atenção** `2 == 3` não teria caído nessa armadilha, porque nem `2` nem `3` teria invocado o método nativo `Number.prototype.valueOf()` porque ambos já são valores primitivos `number` e podem ser comparados diretamente. No entanto, `new Number(2)` deve passar pela coerção `ToPrimitive`, e por isso ivocar `valueOf()`.
+**Atenção:** `2 == 3` não teria caído nessa armadilha, porque nem `2` nem `3` teria invocado o método nativo `Number.prototype.valueOf()` porque ambos já são valores primitivos `number` e podem ser comparados diretamente. No entanto, `new Number(2)` deve passar pela coerção `ToPrimitive`, e por isso invocar `valueOf()`.
 
 Maldade né? É claro que é. Ninguém nunca deveria fazer algo assim. O fato de que você *pode* fazer isso é usado como crítica da coerção e `==`. Mas isso é uma frustação mal direcionada. JavaScript não é *ruim* por que você pode fazer tais coisas, um desenvolvedor é *ruim* **se eles fizerem tais coisas**. Não caia na falácia "minha linguagem de programação deveria me proteger de mim mesmo".
 
@@ -1632,13 +1630,13 @@ if (a == 2 && a == 3) {
 }
 ```
 
-De novo, esses são truques maldosos. Não faça-os. Mas também não os use como queixas contra a coerção. Abusos potenciais dos mecaniscmos não são evidências suficientes para condenar o mecanismo. Apenas evite esses truques malucos, e mantenha-se com o uso válido e apropriado da coerção.
+De novo, esses são truques maldosos. Não faça-os. Mas também não os use como queixas contra a coerção. Abusos potenciais dos mecanismos não são evidências suficientes para condenar o mecanismo. Apenas evite esses truques malucos, e mantenha-se com o uso válido e apropriado da coerção.
 
 #### Comparações False-y
 
 A queixa mais comum contra coerção *implícita* na comparação `==` ver de quão surpreendentes os valores *falsy* se comportam quando comparados entre si.
 
-Para ilustrar, vamos olha para a lista de casos à parte sobre comparação de valores *falsy*, para ver quais são os razoáveis e os problemáticos:
+Para ilustrar, vamos olhar para a lista de casos à parte sobre comparação de valores *falsy*, para ver quais são os razoáveis e os problemáticos:
 
 ```js
 "0" == null;			// false
@@ -1672,7 +1670,7 @@ false == {};			// false
 
 Nessa lista de 24 comparações, 17 delas são bem razoáveis e previsíveis. Por exemplo, nós sabemos que `""` e `NaN` não são valores iguais, e mesmo eles não sofrem coerção para serem igualdades amplas, considerando que `"0"` e `0` são razoavelmente igualáveis e *vão* sofrer coerção como igualdade ampla.
 
-No entanto, sete destas comparaçãoes estão marcadas com "UH OH!" porque como falsos positivos, eles mais provavelmente são pegadinhas que podem te enganar. `""` e `0` são definitivamente distitilvelmente valores diferentes, e é raro que você queira tratá-los como iguais, então a coerção mútua é problemática. Note que não há nenhum falso negativo aqui.
+No entanto, sete destas comparaçãoes estão marcadas com "UH OH!" porque como falsos positivos, elas mais provavelmente são pegadinhas que podem te enganar. `""` e `0` são valores definitivamente distintos, e é raro que você queira tratá-los como iguais, então a coerção mútua é problemática. Note que não há nenhum falso negativo aqui.
 
 #### Os Loucos 
 
@@ -1684,7 +1682,7 @@ No entanto, nós não temos que parar aqui. Nós podemos continuar procurando po
 
 Oooo, isso parece estar em um nível mais alto de loucura, certo!? Seu cérebro pode estar te enganando que você está comparando um valor verdadeiro com falso, então o resultado `true` é surpreendente, como nós *sabemos*, um valor nunca pode ser verdadeiro e falso ao mesmo tempo!
 
-Mas, na verdade, não é isso que está acontecendo. Vamos destrinchar isso. O que sabemos sobre o opeardor unário `!`? Ele aplica a coerção explícita para um `boolean` usando as regras de `ToBoolean` (e também troca a paridade). Então antes de `[] == ![]` sequer ser processado, ele já traduziu para `[] == false`. Nós já vimos essa forma em nossa lista acima (`false == []`), então seu resultado surpreendente *não é novo* para nós.
+Mas, na verdade, não é isso que está acontecendo. Vamos destrinchar isso. O que sabemos sobre o operador unário `!`? Ele aplica a coerção explícita para um `boolean` usando as regras de `ToBoolean` (e também troca a paridade). Então antes de `[] == ![]` sequer ser processado, ele já traduziu para `[] == false`. Nós já vimos essa forma em nossa lista acima (`false == []`), então seu resultado surpreendente *não é novo* para nós.
 
 E sobre esses outros casos?
 
@@ -1701,7 +1699,7 @@ Então, `2 == 2` e `"" ==""` são completamente compreensíveis.
 
 Se seu instinto é continuar desgostando destes resultados, sua frustação, na verdade, não é com a coerção, como provavelmente você pensa que é. É na verdade uma queixa contra o comportamento padrão de valores `array` `ToPrimitive` de uma coerção de `[2]` e então `"2"`, exceto talvez `"[2]"` -- mais isso pode ser muito estranho em outros contextos!
 
-Você poderia certamente azer o caso em que `String(null)` torna-se `"null"`, então `String([null])` deverá também tornar-se `"null"`. Issa é uma aformação razoável. Então, esse é o verdadeiro culpado.
+Você poderia justificar que, desde que `String(null)` torna-se `"null"`, então `String([null])` deverá também tornar-se `"null"`. Essa é uma afirmação razoável. Então, esse é o verdadeiro culpado.
 
 Coerção *implícita* por si só não é a vilã aqui. Até mesmo uma coerção *explícita* de `[null]` para uma `string` resulta em `""`. O que está em contradição é se é sensato para um valor `array` stringficar para um equivalente de seu conteúdo, e exatamente como isso acontece. Então, direcione sua frustação para as regras de `String( [..] )`, porque é de onde a loucura vem. Talvez não deva mesmo acontecer a stringficação de um `array`? Mas isso teria muitas outras desvantagens em outras partes da linguagem.
 
@@ -1717,7 +1715,7 @@ Realmente o único outro `number` razoável no qual strings vazias ou espaços e
 
 As chances de que um programa JS real falhe porque `0 == "\n"` são terrivelmente raras, e tais casos podem facilmente ser evitados.
 
-Conversões de tipo **sempre** tem casos à parte, em qualquer linguagem -- nada especificamente para coerção. Os problemas aqui são sobre adivinhar um certo conjunto de casos à parte (e , talvez, corretamente!), mas esse não pe um argumento saliente contra o mecanismo geral de coerção.
+Conversões de tipo **sempre** tem casos à parte, em qualquer linguagem -- nada especificamente para coerção. Os problemas aqui são sobre adivinhar um certo conjunto de casos à parte (e, talvez, corretamente!), mas esse não pe um argumento saliente contra o mecanismo geral de coerção.
 
 Quase qualquer coerção louca entre *valores normais* que você provavelmente irá encontrar (além de hacks intencionalmente complicados `valueOf()` or `toString()` como anteriores) se resumirão a esta lista curta de sete coerções que nós identificamos acima.
 
@@ -1742,7 +1740,7 @@ Mas vamos voltar um passo e fazer um teste de sanidade.
 
 Para fins de comparações de magnitude, nós temos *uma lista* de sete pegadinhas de coerção problemáticas, mas nós temos *outra lista* de (ao menos 17, mas atualmente infinita) coerções que são totalmente sensatas e explicáveis.
 
-Se você está buscando por um exemplo de texto para "matar uma mosca com um canhão", é isto: discartando a totalidade da coerção (a infinitamente larga lista de comportamentos seguros e úteis) por causa de uma lista de, literalmente, sete pegadinhas.
+Se você está buscando por um exemplo de texto para "matar uma mosca com um canhão", é isto: descartando a totalidade da coerção (a infinitamente larga lista de comportamentos seguros e úteis) por causa de uma lista de, literalmente, sete pegadinhas.
 
 A reação mais prudente seria perguntar, "como eu posso usar incontáveis *partes boas* da coerção, mas evitar as poucas *partes ruins*?
 
@@ -1758,7 +1756,7 @@ false == [];			// true -- UH OH!
 0 == [];				// true -- UH OH!
 ```
 
-Quatro dos sete itens dessa lista envolvem a comparação `== false`, que nós dissemos anteriormente que você deve **sempre, sempre** evitar. Essa é uma regra bem fácil de lembrar.
+Quatro dos sete itens dessa lista envolvem a comparação `== false`, que nós dissemos anteriormente que você deve **sempre**, **sempre** evitar. Essa é uma regra bem fácil de lembrar.
 
 Agora a lista caiu para três.
 
@@ -1794,7 +1792,7 @@ function doSomething(a,b) {
 Novamente, isso pode quebrar se você fizesse algo como `doSomething("",0)` ou `doSomething([],"")`.
 
 
-Então, enquanto as situações *podem* existir onde essas coerções vão te pegar, você provavelmente vai querer ter cuidado com elas, elas provavelmente não são super comuns em toda sua base de código.
+Então, embora *possam* existir situações em que essas coerções vão te pegar, e você provavelmente vai querer ter cuidado com elas, elas provavelmente não são super comuns em toda sua base de código.
 
 #### Usando coerção implícita com segurança
 
@@ -1812,9 +1810,9 @@ A questão de `==` vs. `===` é apropriadamente enquadrada como: você deve perm
 
 Há muitos casos que tal coerção pode ser útil, permitindo que você expresse mais tersamente alguma lógica de comparação (como com `null` e `undefined`, por exemplo).
 
-No geral, há relativamente poucos casos onde coerção *implícita* é verdadeiramente perigosa. Mas nesses lugares, por segurança, deifnitivamente use `===`
+No geral, há relativamente poucos casos onde coerção *implícita* é verdadeiramente perigosa. Mas nesses lugares, por segurança, definitivamente use `===`
 
-**Dica** Outro lugar onde é garatido que a coerção não te prejudique é com o operador `typeof`. `typeof` sempre irá te retornar uma de sete strings (veja o Capítulo 1), e nenhuma delas serão strings vazias `""`. Sendo assim, não há nenhum caso onde checar o tipo de algum valor irá executar uma coerção *implícita*. `typeof x == "function"` é 100% tão seguro quanto `typeof x === "function"`. Literalmente, a especificação diz que o algoritmo será idêntico nesse caso. Então, não use `===` cegamente em todo lugar porque aquilo é o que as ferramentas do seu código dizem para fazer, ou (pior ainda) porque você viu em algum livro para **não pensar nisso**. A qualidade do seu código é sua.
+**Dica:** Outro lugar onde é garatido que a coerção não te prejudique é com o operador `typeof`. `typeof` sempre irá te retornar uma de sete strings (veja o Capítulo 1), e nenhuma delas serão strings vazias `""`. Sendo assim, não há nenhum caso onde checar o tipo de algum valor irá executar uma coerção *implícita*. `typeof x == "function"` é 100% tão seguro quanto `typeof x === "function"`. Literalmente, a especificação diz que o algoritmo será idêntico nesse caso. Então, não use `===` cegamente em todo lugar porque aquilo é o que as ferramentas do seu código dizem para fazer, ou (pior ainda) porque você viu em algum livro para **não pensar nisso**. A qualidade do seu código é sua.
 
 A coerção *implícita* é maligna e perigosa? Em alguns casos, sim, mas geralmente, não.
 
@@ -1830,9 +1828,9 @@ Source: https://github.com/dorey/JavaScript-Equality-Table
 
 Enquanto essa parte da coerção implícita geralmente recebe bem menos atenção, é importante pensar no que acontece com comparações `a < b` (similar à `a == b` que já examinamos em profundidade).
 
-O algoritmo da "Comparação relacional abstrata" na seção 11.8.5 do ES5 essencialmente se divide em duas partes: o que fazer se a comparação involve ambos valores `string` (segunda metade), ou qualquer outra coisa (primeira metade).
+O algoritmo da "Comparação relacional abstrata" na seção 11.8.5 do ES5 essencialmente se divide em duas partes: o que fazer se a comparação envolve ambos valores `string` (segunda metade), ou qualquer outra coisa (primeira metade).
 
-**Observação** O algoritmo é apenas definido por  `a < b`. Então, `a > b` é manipulado como `b < a`.
+**Observação:** O algoritmo é apenas definido por  `a < b`. Então, `a > b` é manipulado como `b < a`.
 
 O algoritmo primeiro chama a coerção `ToPrimitive` de ambos os valores, e se o resultado de qualquer uma das chamadas não for uma `string`, então ambos valores são convertidos para valores `number` usando as regras de operação `ToNumber`, e comparado numericamente.
 
@@ -1846,7 +1844,7 @@ a < b;	// true
 b < a;	// false
 ```
 
-**Observação** As ressalvas semelhantes para `-0` e `NaN` aplicam-se aqui como feitas no algoritmo `==` discutido anteriormente.
+**Observação:** As ressalvas semelhantes para `-0` e `NaN` aplicam-se aqui como feitas no algoritmo `==` discutido anteriormente.
 
 Entretanto, se ambos os valores são `string` para a comparação `<`, a comparação lexográfica simples (alfabético natural) é performada nos caracteres:
 
@@ -1857,7 +1855,7 @@ var b = [ "043" ];
 a < b;	// false
 ```
 
-`a` e `b` não são convertidos para `number`, porque ambos terminam como `string` depois da conversão `ToPrimitive` nos dois `array`s. Então, `"42"` é comparado caractere por caractere com `"043"`, começando com os primeiros caracteres `"4"` e `"0"`, respectivamente. Desde que `"0"` seja lexicograficamente *menor que* `"4"`, a comparação retorna `false`.
+`a` e `b` não são convertidos para `number`, porque ambos terminam como `string` depois da conversão `ToPrimitive` nos dois `array`s. Então, `"42"` é comparado caractere por caractere com `"043"`, começando com os primeiros caracteres `"4"` e `"0"`, respectivamente. Como `"0"` é lexicograficamente *menor que* `"4"`, a comparação retorna `false`.
 
 Exatamente o mesmo comportamento e objetivo acontece para:
 
@@ -1868,7 +1866,7 @@ var b = [ 0, 4, 3 ];
 a < b;	// false
 ```
 
-Aqui, `a` torna-se `"4,2"` e `b` torna-se `"0,4,3"`, e aqueles que se relacionam lexicograficamente de forma idêntica ao trecho anterior.
+Aqui, `a` torna-se `"4,2"` e `b` torna-se `"0,4,3"`, e esses se comparam lexicograficamente de forma idêntica ao trecho anterior.
 
 E sobre:
 
@@ -1895,7 +1893,7 @@ a <= b;	// true
 a >= b;	// true
 ```
 
-Porque `a == b` não é `true`? Eles são o mesmo valor de `string` (`"[object Object]"`), então parece que eles deveriam ser iguais, certo? Não. Relembre a discussão anterior sobre como `==` funciona com referêcias de `object`.
+Por que `a == b` não é `true`? Eles são o mesmo valor de `string` (`"[object Object]"`), então parece que eles deveriam ser iguais, certo? Não. Relembre a discussão anterior sobre como `==` funciona com referêcias de `object`.
 
 Mas então como `a <= b` e `a >= b` resultam em `true`, se `a < b` **e** `a == b` **e** `a > b` são todos `false`?
 
@@ -1919,10 +1917,10 @@ Number( a ) < Number( b );	// true -- comparação de number!
 
 Nesse capítulo, nós voltamos nossa atenção para como as conversões de tipos acontecem no JavaScript, chamadas **coerção**, na qual pode ser caracterizada como *explícita* ou *implícita*.
 
-Coerção tem uma má reputação, mas ela é na verdade bastante útil em muitos casos. Uma tarefa importante para um desenvolvedor JavaScript responsável é tirar um tempo para aprender todas as entradas e saídas da coerção para decidir quais partes irão ajudar a melhorar seu código, e quais partes ele realmente devem ser evitadas.
+Coerção tem uma má reputação, mas ela é na verdade bastante útil em muitos casos. Uma tarefa importante para um desenvolvedor JavaScript responsável é tirar um tempo para aprender todas as entradas e saídas da coerção para decidir quais partes irão ajudar a melhorar seu código, e quais partes ele realmente deve evitar.
 
-Coerção *explícita* é o código que a intenção é converter um valor de um tipo para outro é obvia. O benefício é melhora na legibilidade e manutenabilidade do código reduzindo a confusão.
+Coerção *explícita* é o código que é óbvio que a intenção é converter um valor de um tipo para outro. O benefício é a melhora na legibilidade e manutenabilidade do código reduzindo a confusão.
 
 Coerção *implícita* é a coerção que está "escondida" como um efeito colateral de alguma outra operação, onde não é tão óbvio o tipo de conversão que vai acontecer. Enquanto parece que a coerção *implícita* é o oposto da *explícita*, e portanto, é ruim (e de fato, muitos pensam que sim!), na verdade, coerção *implícita* é também sobre melhorar a legibilidade do código.
 
-Especialmente para *implícita*, coerção deve ser usada com responsabilidade e conscientemente. Saber porque você esté escrevendo o código que está escrevendo, e como ele funciona. Esforce-se para escrever códigos que outros facilmente possam aprender e entender também.
+Especialmente para *implícita*, coerção deve ser usada com responsabilidade e conscientemente. Saber por que você está escrevendo o código que está escrevendo, e como ele funciona. Esforce-se para escrever códigos que outros facilmente possam aprender e entender também.
