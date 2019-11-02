@@ -1,13 +1,13 @@
-# You Don't Know JS: *this* & Object Prototypes
-# Appendix A: ES6 `class`
+# You Don't Know JS: *this* & Prototipagem de Objetos
+# Apêndice A: ES6 `class`
 
-If there's any take-away message from the second half of this book (Chapters 4-6), it's that classes are an optional design pattern for code (not a necessary given), and that furthermore they are often quite awkward to implement in a `[[Prototype]]` language like JavaScript.
+Se há uma mensagem a ser guardada da segunda metade deste livro (Capítulos 4-6), é que classes são um padrão de design opcional para códigos (não uma regra necessária), e que elas são normalmente um pouco estranhas de se implementar em uma linguagem `[[Prototype]]` como JavaScript.
 
-This awkwardness is *not* just about syntax, although that's a big part of it. Chapters 4 and 5 examined quite a bit of syntactic ugliness, from verbosity of `.prototype` references cluttering the code, to *explicit pseudo-polymorphism* (see Chapter 4) when you give methods the same name at different levels of the chain and try to implement a polymorphic reference from a lower-level method to a higher-level method. `.constructor` being wrongly interpreted as "was constructed by" and yet being unreliable for that definition is yet another syntactic ugly.
+Essa estranheza *não* ocorre apenas na sintaxe, embora ela tenha grande parte nisso. Os Capítulos 4 e 5 examinaram uma boa quantidade de horrores sintáticos, desde a verbosidade de referências `.prototype` poluindo o código, até o *pseudo-polimorfismo explicito* (veja o Capítulo 4) onde você dá o mesmo nome a métodos em diferentes níveis da cadeia e tenta implementar uma referência polimórfica de um método de baixo nível para outro de nível maior. `.constructor` ser erroneamente interpretado como "foi construído por" e ainda ser incerto para essa definição é mais um horror sintático.
 
-But the problems with class design are much deeper. Chapter 4 points out that classes in traditional class-oriented languages actually produce a *copy* action from parent to child to instance, whereas in `[[Prototype]]`, the action is **not** a copy, but rather the opposite -- a delegation link.
+Mas os problemas com design de classes são muito mais profundos. O Capítulo 4 mostra que, em linguagens tradicionais orientadas a classe, as classes na verdade produzem uma *cópia* da ação de pai para filho para instância, enquanto em `[[Prototype]]` essa ação **não** é uma cópia, mas sim o contrário -- um link de delegação.
 
-When compared to the simplicity of OLOO-style code and behavior delegation (see Chapter 6), which embrace `[[Prototype]]` rather than hide from it, classes stand out as a sore thumb in JS.
+Quando comparadas à simplicidade de código no estilo OLOO e delegação de comportamentos (veja Capítulo 6), que abraçam o `[[Prototype]]` ao invés de se esconderem dele, as classes parecem um peixe fora da água em JS.
 
 ## `class`
 
