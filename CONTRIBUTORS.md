@@ -91,6 +91,7 @@
   <tr>
     <td align="center"><a href="https://github.com/imsantosrodrigo"><img src="https://avatars3.githubusercontent.com/u/23555768?v=4" width="100px;" alt="Rodrigo Santos"/><br /><sub><b>Rodrigo Santos</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=imsantosrodrigo" title="Documentation">📖</a></td>
     <td align="center"><a href="http://tthiago.com"><img src="https://avatars2.githubusercontent.com/u/5600287?v=4" width="100px;" alt="Thiago Dias"/><br /><sub><b>Thiago Dias</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=tdias25" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/laiseaquino"><img src="https://avatars0.githubusercontent.com/u/6940966?v=4" width="100px;" alt="laiseaquino"/><br /><sub><b>laiseaquino</b></sub></a><br /><a href="#translation-laiseaquino" title="Translation">🌍</a></td>
   </tr>
 </table>
 
