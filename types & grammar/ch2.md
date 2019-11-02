@@ -726,7 +726,7 @@ No entanto, se você tentar transformar em string um valor zero negativo, ele se
 ```js
 var a = 0 / -3;
 
-// (de alguns navegadores) consoles pelos menos acertam
+// os consoles (de alguns navegadores) pelos menos acertam
 a;							// -0
 
 // mas a especificação insiste em mentir para você!
