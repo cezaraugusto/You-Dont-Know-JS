@@ -595,7 +595,7 @@ Em outras palavras: "o tipo de não-número é 'número'!" Um viva para confundi
 
 `NaN` é um tipo de "valor sentinela" (um valor teoricamente normal, mas que recebe um significado especial) que representa um tipo especial de condição de erro dentro do conjunto de `number`. A condição de erro é, em essência: "Tentei executar uma operação matemática, mas falhei, então aqui está o resultado do 'número' com falha".
 
-Portanto, se você tem um valor em alguma variável e deseja testar para ver se é esse número especial com falha `NaN`, você pode pensar em comparar diretamente com o próprio `NaN`, como pode com qualquer outro valor, como `null` ou `undefined`. Não.
+Portanto, se você tem um valor em alguma variável e deseja testar para ver se é esse número especial com falha `NaN`, você pode pensar em comparar diretamente com o próprio `NaN`, como pode com qualquer outro valor, como `null` ou `undefined`. Só que não.
 
 ```js
 var a = 2 / "foo";
