@@ -5,12 +5,12 @@
 
 ## Nesse Documento
 
-* [Referências](#referencias)
+* [Referências](#referências)
 * [To-Do](#to-do)
 * [Global](#global)
-* [Títulos](#titulos)
+* [Títulos](#títulos)
 * [README's](#readmes)
-* [Jargões de Programação](#jargoes-de-programacao)
+* [Jargões de Programação](#jargões-de-programação)
 
 
 ## Referências
