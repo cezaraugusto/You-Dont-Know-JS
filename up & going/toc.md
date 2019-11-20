@@ -27,7 +27,7 @@
 	* Velho & Novo
 	* Não-JavaScript
 * [Capítulo 3: Dentro do YDKJS](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md)
-	* Escopos & Clausuras
+	* [Escopos & Clausuras](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)
 	* this & Prototipagem de Objetos
 	* Tipos & Gramática
 	* Async & Performance
