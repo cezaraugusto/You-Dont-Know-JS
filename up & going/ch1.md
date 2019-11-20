@@ -66,7 +66,7 @@ b * 2;
 
 Esse tipo de instrução de expressão não é muito comum ou útil, como geralmente a instrução não afeta o desenvolvimento do programa -- ela apenas pega o valor armazenado por `b` e multiplica por `2`, sem realizar nenhuma ação com esse resultado.
 
-Uma instrução de expressão mais comum é chamada instrução de *expressão de chamada* (veja ["Funções"]9https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#fun%C3%A7%C3%B5es)), sendo a própria chamada da função uma instrução completa:
+Uma instrução de expressão mais comum é chamada instrução de *expressão de chamada* (veja ["Funções"](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#fun%C3%A7%C3%B5es)), sendo a própria chamada da função uma instrução completa:
 
 ```js
 alert( a );
