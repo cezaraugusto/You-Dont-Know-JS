@@ -713,7 +713,7 @@ function calculateFinalPurchaseAmount(amt) {
 
 A constante `TAX_RATE` (variável) é acessível dentro da função `calculateFinalPurchaseAmount(..)`, mesmo se não passarmos por ela, por conta do escopo léxico.
 
-**Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série *Escopos & Clausuras*.
+**Nota:** Para mais informações sobre o escopo léxico, veja os primeiros três capítulos dos títulos dessa série [*Escopos & Clausuras*](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras).
 
 ## Pratique
 
