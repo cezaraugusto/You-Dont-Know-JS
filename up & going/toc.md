@@ -32,4 +32,4 @@
 	* Tipos & Gramática
 	* Async & Performance
 	* ES6 & Além
-* Apêndice A: Agradecimentos
+* [Apêndice A: Agradecimentos](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/apA.md)
