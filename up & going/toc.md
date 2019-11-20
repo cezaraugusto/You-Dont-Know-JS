@@ -16,7 +16,7 @@
 	* [Loops](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#loops)
 	* [Funções](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#fun%C3%A7%C3%B5es)
 	* [Pratique](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#pratique)
-* Capítulo 2: Por dentro do JavaScript
+* [Capítulo 2: Por dentro do JavaScript](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md)
 	* Valores & Tipos
 	* Variáveis
 	* Condicionais
@@ -26,7 +26,7 @@
 	* Prototipagem
 	* Velho & Novo
 	* Não-JavaScript
-* Capítulo 3: Dentro do YDKJS
+* [Capítulo 3: Dentro do YDKJS](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md)
 	* Escopos & Clausuras
 	* this & Prototipagem de Objetos
 	* Tipos & Gramática
