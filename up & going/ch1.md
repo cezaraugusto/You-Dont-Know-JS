@@ -29,7 +29,7 @@ Em linguagens de computação, um grupo de palavras, números e operadores que r
 a = b * 2;
 ```
 
-Os caracteres `a` e `b` são chamados *variáveis* [(veja "Variáveis")](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md#vari%C3%A1veis), que são recipientes em que você pode armazenar qualquer coisa dentro. Em programas, variáveis detém valores (como o número `42`) que serão utilizados pelo programa. Pense neles como nomes simbólicos para chamarmos os valores.
+Os caracteres `a` e `b` são chamados *variáveis* (veja ["Variáveis"](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md#vari%C3%A1veis)), que são recipientes em que você pode armazenar qualquer coisa dentro. Em programas, variáveis detém valores (como o número `42`) que serão utilizados pelo programa. Pense neles como nomes simbólicos para chamarmos os valores.
 
 Em contrapartida, o `2` é apenas um valor, chamado *valor literal*, por que é apresentado sozinho, sem estar armazenado em uma variável.
 
@@ -179,7 +179,7 @@ b = a + 1;
 
 Aqui, atribuimos o valor`2` à variável `a`. Assim, pegamos o valor da variável `a` (ainda `2`), adicionamos `1` a ele, resultando no valor `3`, então armazenamos esse valor na variável `b`.
 
-Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em cada programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis [(veja "Variáveis")](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md#vari%C3%A1veis).
+Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em cada programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja ["Variáveis"](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md#vari%C3%A1veis)).
 
 Você sempre deve declarar a variável por nome antes de usá-la. Mas você precisa declarar a variável apenas uma vez para cada *escopo* (veja "Escopo"); ela pode ser usada depois quantas vezes forem necessárias. Por exemplo:
 
@@ -283,7 +283,7 @@ Uma das lições mais importantes que você pode aprender sobre códigos é que 
 
 Seu computador se importa apenas com código de máquina, uma série de binários, 0s e 1s, que vem da *compilação*. Existe uma infinidade de programas que você pode escrever que produzem as mesmas séries de 0s e 1s. As escolhas que você faz sobre como programar importam -- não apenas para você, mas para toda a equipe que você está trabalhando e até para você mesmo no futuro.
 
-Você deve se empenhar não apenas em escrever programas que funcionam corretamente, mas programas que fazem sentido ao serem examinados. Você pode percorrer uma boa parte desse caminho começando por escolher bons nomes para variáveis [(veja "Variáveis")](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md#vari%C3%A1veis) e funções (veja "Funções").
+Você deve se empenhar não apenas em escrever programas que funcionam corretamente, mas programas que fazem sentido ao serem examinados. Você pode percorrer uma boa parte desse caminho começando por escolher bons nomes para variáveis (veja ["Variáveis"](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md#vari%C3%A1veis)) e funções (veja "Funções").
 
 Uma parte importante do nosso código são os comentários. Eles são blocos de texto no seu programa que são inseridos com o propósito único de explicar coisas a um humano. O interpretador/compilador sempre irá ignorar esses comentários.
 
