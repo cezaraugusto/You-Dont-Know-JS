@@ -99,11 +99,11 @@ ASQ( "http://some.url.1" )
 
 A sequência iterável expressa uma série sequêncial de passos (síncronos ou assíncronos) que aparentam ser extremamente similares a um encadeamento de Promises, em outras palavras, são muito mais limpos que apenas callbacks puramente aninhados, mas não tão bons como a sintaxe sequêncial de `yield`s de generators.
 
-Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua complitude igual aos generators. O fato de que uma sequência iterável se comporta essêncialmente da mesma forma que generators e chamam atenção por uma série de razões.
+Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua complitude, da mesma forma como seria com generators. O fato de que uma sequência iterável se comporta essêncialmente da mesma forma que generators e chamam atenção por uma série de razões.
 
-Primeiro, sequências iteráveis sao meio similares a um pre-ES6 equivalentes a um certo sub-conjunto de ES6 generators, o que significa que voce pode tanto author them diretamente (rodar em qualquer lugar), ou pode author ES6 genrator para transpilar/converter em sequências iteráveis (Ou encadeamento de Promise for that matter!).
+Primeiro, sequências iteráveis são meio que um equivalente pré-ES6 a um certo sub-conjunto de generators ES6, o que significa que você pode tanto criá-los diretamente (para rodar em qualquer lugar), ou pode criá-los como generators do ES6 para então transpilar/converter em sequências iteráveis (ou como encadeamento de Promise com essa finalidade!).
 
-Pensar em um async-run-to-completion generator como apenas um açucar sintático para um encadeamento de Promise é importante para reconhecer seu relacionamento isomórfico.
+Pensar em um generator async-roda-até-completar como apenas um _syntatic sugar_ para um encadeamento de Promise é importante para reconhecer sua relação isomórfica.
 
 Antes de irmos em frente, devemos notar que poderiamos ter expressado o trecho de código anterior em *asynquence* como:
 
