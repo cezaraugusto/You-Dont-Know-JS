@@ -66,9 +66,9 @@ for (var v of steps) {
 // 2 4 6 8 10
 ```
 
-Além do exemplo de encadear eventos mostrada do apêndice anterior, sequências iteráveis são interessantes porque em essência podem ser vistas como substituto para generators ou encadeamentos de Promises, mas com ainda mais flexibilidade
+Além do exemplo de encadear eventos mostrada no apêndice anterior, sequências iteráveis são interessantes porque em essência podem ser vistas como substituto para generators ou encadeamentos de Promises, mas com ainda mais flexibilidade
 
-Considere um exemplo de uma requisição múltipla Ajax -- Nós já vimos o mesmo cenário no capitulo 3 e 4, tanto com encadeamento de promises quanto como generators sendo expressados como uma sequência iterável
+Considere o exemplo de uma requisição múltipla Ajax -- Nós já vimos o mesmo cenário no capitulo 3 e 4, tanto com encadeamento de promises quanto como generators sendo expressados como uma sequência iterável
 
 ```js
 // sequence-aware ajax
