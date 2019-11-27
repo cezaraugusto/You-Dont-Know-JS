@@ -18,7 +18,7 @@
 	* [Pratique](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#pratique)
 * [Capítulo 2: Por dentro do JavaScript](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md)
 	* [Valores & Tipos](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#valores--tipos)
-	* [Variáveis](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#vari%C3%A1veis
+	* [Variáveis](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#vari%C3%A1veis)
 	* [Condicionais](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#condicionais)
 	* [Modo Estrito (Strict Mode)](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#modo-estrito-strict-mode)
 	* [Funções como Valores](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#fun%C3%A7%C3%B5es-como-valores)
