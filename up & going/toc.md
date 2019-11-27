@@ -17,15 +17,15 @@
 	* [Funções](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#fun%C3%A7%C3%B5es)
 	* [Pratique](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20&%20going/ch1.md#pratique)
 * [Capítulo 2: Por dentro do JavaScript](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md)
-	* Valores & Tipos
-	* Variáveis
-	* Condicionais
-	* Modo Estrito (Strict Mode)
-	* Funções como Valores
-	* Identificador `this`
-	* Prototipagem
-	* Velho & Novo
-	* Não-JavaScript
+	* [Valores & Tipos](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#valores--tipos)
+	* [Variáveis](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#vari%C3%A1veis
+	* [Condicionais](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#condicionais)
+	* [Modo Estrito (Strict Mode)](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#modo-estrito-strict-mode)
+	* [Funções como Valores](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#fun%C3%A7%C3%B5es-como-valores)
+	* [Identificador `this`](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#identificador-this)
+	* [Prototipagem](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#prototipagem)
+	* [Velho & Novo](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#velho--novo)
+	* [Não-JavaScript](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#n%C3%A3o-javascript)
 * [Capítulo 3: Dentro do YDKJS](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md)
 	* [Escopos & Clausuras](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)
 	* this & Prototipagem de Objetos
