@@ -67,7 +67,7 @@ Promessas (Promises) são um agregador independente, sobre um "valor futuro", qu
 
 Os Geradores (Generators) introduzem um novo modo de execução para as funções JS, visto que o gerador pode ser pausado em pontos de `yield` e depois continuar de forma assíncrona. A capacidade de pausa-e-continua permite o síncrono, consequentemente, procura código no gerador para ser processado assincronamente nos bastidores. Ao fazer isso, nós abordamos as confusões não-linear, não-saltos-locais de callbacks, e assim, tornar nosso código assíncrono síncrono, procurando um modo de ser mais razoável.
 
-Mas é essa combinação de promessas e geradores que "produz" nosso mais eficaz padrão de codificação assíncrona, até hoje, em JavaScript. De fato, muito do futuro da sofisticação assíncrona está por vir no ES7 e depois certamente será contruída sobre esse fundamento. Para ser sério sobre programação de modo eficaz em um mundo assíncrono, você deverá se acostumar com a combinação de promessas e geradores.
+Mas é essa combinação de promessas e geradores que "produz" nosso mais eficaz padrão de codificação assíncrona, até hoje, em JavaScript. De fato, muito do futuro da sofisticação assíncrona está por vir no ES7 e depois certamente será construída sobre esse fundamento. Para ser sério sobre programação de modo eficaz em um mundo assíncrono, você deverá se acostumar com a combinação de promessas e geradores.
 
 Se promessas e geradores representam a expressão de padrões que permitem nossos programas rodarem ao mesmo tempo, e assim, obter mais processamento realizado em um período menor, o JS tem muitas outras facetas de desempenho que vale a pena explorar.
 
