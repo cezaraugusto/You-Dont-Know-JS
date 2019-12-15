@@ -484,7 +484,15 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/5215968?v=4",
       "profile": "https://github.com/Erick2280",
       "contributions": [
-        "doc",
+        "doc"
+      ]
+    },
+    {
+      "login": "Henriquepb22",
+      "name": "Henrique",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/14242059?v=4",
+      "profile": "https://github.com/Henriquepb22",
+      "contributions": [
         "review"
       ]
     }
