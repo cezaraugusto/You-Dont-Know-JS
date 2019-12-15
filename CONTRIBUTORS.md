@@ -96,8 +96,11 @@
     <td align="center"><a href="https://keony1.github.io/"><img src="https://avatars1.githubusercontent.com/u/30664147?v=4" width="100px;" alt=""/><br /><sub><b>Keony Willian Schröer</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=Keony1" title="Documentation">📖</a></td>
     <td align="center"><a href="https://anabastos.me"><img src="https://avatars1.githubusercontent.com/u/10088900?v=4" width="100px;" alt=""/><br /><sub><b>Ana Luiza Portello Bastos</b></sub></a><br /><a href="#translation-anabastos" title="Translation">🌍</a></td>
     <td align="center"><a href="https://www.linkedin.com/in/wfrsilva/"><img src="https://avatars3.githubusercontent.com/u/8933834?v=4" width="100px;" alt=""/><br /><sub><b>Wendel Fabiano Ribeiro da Silva</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=wfrsilva" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/Erick2280"><img src="https://avatars0.githubusercontent.com/u/5215968?v=4" width="100px;" alt=""/><br /><sub><b>Erick Almeida</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=Erick2280" title="Documentation">📖</a> <a href="https://github.com/cezaraugusto/You-Dont-Know-JS/pulls?q=is%3Apr+reviewed-by%3AErick2280" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="https://github.com/Erick2280"><img src="https://avatars0.githubusercontent.com/u/5215968?v=4" width="100px;" alt=""/><br /><sub><b>Erick Almeida</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=Erick2280" title="Documentation">📖</a></td>
+  </tr>
+  <tr>
     <td align="center"><a href="https://github.com/Henriquepb22"><img src="https://avatars3.githubusercontent.com/u/14242059?v=4" width="100px;" alt=""/><br /><sub><b>Henrique</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/pulls?q=is%3Apr+reviewed-by%3AHenriquepb22" title="Reviewed Pull Requests">👀</a></td>
+    <td align="center"><a href="http://caio.codes"><img src="https://avatars3.githubusercontent.com/u/25808346?v=4" width="100px;" alt=""/><br /><sub><b>Caio Reis</b></sub></a><br /><a href="#translation-caioreis123" title="Translation">🌍</a></td>
   </tr>
 </table>
 
