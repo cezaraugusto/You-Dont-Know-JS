@@ -468,6 +468,15 @@
       "contributions": [
         "translation"
       ]
+    },
+    {
+      "login": "wfrsilva",
+      "name": "Wendel Fabiano Ribeiro da Silva",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/8933834?v=4",
+      "profile": "https://www.linkedin.com/in/wfrsilva/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
