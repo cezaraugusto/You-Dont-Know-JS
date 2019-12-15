@@ -477,6 +477,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "Erick2280",
+      "name": "Erick Almeida",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5215968?v=4",
+      "profile": "https://github.com/Erick2280",
+      "contributions": [
+        "doc",
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
