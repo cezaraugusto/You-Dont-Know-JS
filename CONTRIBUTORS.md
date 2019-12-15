@@ -95,6 +95,7 @@
     <td align="center"><a href="https://github.com/laiseaquino"><img src="https://avatars0.githubusercontent.com/u/6940966?v=4" width="100px;" alt=""/><br /><sub><b>laiseaquino</b></sub></a><br /><a href="#translation-laiseaquino" title="Translation">🌍</a></td>
     <td align="center"><a href="https://keony1.github.io/"><img src="https://avatars1.githubusercontent.com/u/30664147?v=4" width="100px;" alt=""/><br /><sub><b>Keony Willian Schröer</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=Keony1" title="Documentation">📖</a></td>
     <td align="center"><a href="https://anabastos.me"><img src="https://avatars1.githubusercontent.com/u/10088900?v=4" width="100px;" alt=""/><br /><sub><b>Ana Luiza Portello Bastos</b></sub></a><br /><a href="#translation-anabastos" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://www.linkedin.com/in/wfrsilva/"><img src="https://avatars3.githubusercontent.com/u/8933834?v=4" width="100px;" alt=""/><br /><sub><b>Wendel Fabiano Ribeiro da Silva</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/commits?author=wfrsilva" title="Documentation">📖</a></td>
   </tr>
 </table>
 
