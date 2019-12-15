@@ -459,11 +459,21 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "anabastos",
+      "name": "Ana Luiza Portello Bastos",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/10088900?v=4",
+      "profile": "https://anabastos.me",
+      "contributions": [
+        "translation"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "You-Dont-Know-JS",
   "projectOwner": "cezaraugusto",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
