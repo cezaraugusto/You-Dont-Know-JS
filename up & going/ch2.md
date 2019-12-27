@@ -437,11 +437,11 @@ foo();
 
 Por usarmos `let` ao invés de `var`, `b` irá pertencer apenas à instrução `if` e não para todo o escopo da função `foo()`. De maneira similar, `c` pertence somente ao loop `while`. Escopamentos de bloco são muito úteis para controlar seus escopos de variáveis, usando uma maneira requintada, o que faz seu código muito mais fácil de manter ao longo do tempo.
 
-**Nota:** Para mais informações sobre escopos, veja o título desta série *Escopos & Clausuras*. Veja o título *ES6 & Além* para mais informações sobre o bloco de escopo `let`.
+**Nota:** Para mais informações sobre escopos, veja o título desta série *[Escopos & Clausuras](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)*. Veja o título *[ES6 & Além](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#es6--al%C3%A9m)* para mais informações sobre o bloco de escopo `let`.
 
 ## Condicionais
 
-Em adição à instrução condicional `if` que introduzimos brevemente no Capítulo 1, o JavaScript nos fornece alguns outros mecanismos de condicionais que devemos saber.
+Em adição à instrução condicional `if` que introduzimos brevemente no [Capítulo 1](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md), o JavaScript nos fornece alguns outros mecanismos de condicionais que devemos saber.
 
 Por vezes você se encontrará escrevendo uma série de instruções `if..else..if` como estas:
 
@@ -517,7 +517,7 @@ Se a expressão teste (`a > 41` aqui) for avaliada como `true`, a primeira cláu
 
 O operador condicional não precisa necessariamente ser usado em uma atribuição, mas é definitivamente a forma mais comum de usá-lo.
 
-**Nota:** Para mais informações sobre testes de condições e outros padrões para `switch` e `? :`, veja o título desta série *Tipos & Gramática*.
+**Nota:** Para mais informações sobre testes de condições e outros padrões para `switch` e `? :`, veja o título desta série *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#tipos--gram%C3%A1tica)*.
 
 ## Modo Estrito (Strict Mode)
 
@@ -570,7 +570,7 @@ Se você habilitar o modo estrito em seu código, e você receber erros, ou o c�
 
 O modo estrito não irá apenas deixar seu código em um caminho mais seguro, também deixará seu código mais otimizável e também representando o futuro da linguagem. É mais fácil se acostumar com o modo estrito agora do que deixá-lo de lado -- vai ser mais difícil se converter a ele mais tarde!
 
-**Nota:** Para mais informações sobre o modo estrito, veja o Capítulo 5 do título desta série *Tipos & Gramática*.
+**Nota:** Para mais informações sobre o modo estrito, veja o Capítulo 5 do título desta série *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#tipos--gram%C3%A1tica)*.
 
 ## Funções como Valores
 
@@ -604,7 +604,7 @@ A primeira expressão da função designada para a variável `foo` é chamada de
 
 A segunda expressão da função é *nomeada* (`bar`), mesmo que ela tenha sido referenciada para a variável `x`. *Expressões de Funções Nomeadas* são geralmente preferidas, apesar de *expressões de funções anônimas* serem extremamente comuns.
 
-Para mais informações, veja o título desta série *Escopos & Clausuras*.
+Para mais informações, veja o título desta série *[Escopos & Clausuras](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)*.
 
 ### Expressões de Função Invocadas Imediatamente (IIFEs)
 
@@ -666,7 +666,7 @@ O valor `42` é retornado da função nomeada `IIFE`, e depois designada à vari
 
 ### Clausura
 
-A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos & Clausuras*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
+A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *[Escopos & Clausuras](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
 
 Você pode pensar em uma clausura como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
 
@@ -762,7 +762,7 @@ Neste ponto, a função externa `User()` já terminou de ser executada. Normalme
 
 Existe uma boa chance que com apenas este resumo breve sobre clausuras e o padrão módulo (module pattern), alguma coisa sobre o assunto ainda pareça confuso. Está tudo bem! Precisa de alguma prática para seu cérebro passar a entendê-los.
 
-Daqui, vá para o título desta série *Escopos & Clausuras* para uma exploração do assunto muito mais profunda.
+Daqui, vá para o título desta série *[Escopos & Clausuras](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)* para uma exploração do assunto muito mais profunda.
 
 ## Identificador `this`
 
@@ -809,11 +809,11 @@ Existem quatro regras de como `this` é definido, e como ele é apresentado ness
 
 Fim da linha: para entender o que `this` aponta, você precisa examinar como a função em questão é chamada. Ela será uma das quatro formas demonstradas, e assim você irá ter a resposta do que é `this`.
 
-**Nota:** Para mais informações sobre `this`, veja os Capítulos 1 e 2 do título desta série *this & Prototipagem de Objetos*.
+**Nota:** Para mais informações sobre `this`, veja os Capítulos [1](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch1.md) e [2](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch2.md) do título desta série *[this & Prototipagem de Objetos](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/this%20%26%20object%20prototypes)*.
 
 ## Prototipagem
 
-O mecanismo de protótipos em JavaScript é bem complicado. Aqui vamos só vê-lo de relance. Você irá precisar de algum tempo revisando os Capítulos 4-6 do título desta série *this & Prototipagem de Objetos* para saber todos os detalhes.
+O mecanismo de protótipos em JavaScript é bem complicado. Aqui vamos só vê-lo de relance. Você irá precisar de algum tempo revisando os Capítulos [4](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch4.md)-[5](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch5.md)-[6](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch6.md) do título desta série *[this & Prototipagem de Objetos](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/this%20%26%20object%20prototypes)* para saber todos os detalhes.
 
 Quando você referencia uma propriedade em um objeto, se essa propriedade não existir, o JavaScript irá automaticamente usar aquela referência ao protótipo interno do objeto para achar outro objeto procurando pela propriedade em si. Você pode pensar nisso como um fallback para o caso da propriedade estar faltando.
 
@@ -845,7 +845,7 @@ Essa *linkagem* (associação) pode parecer uma funcionalidade estranha na lingu
 
 Mas uma forma mais natural de aplicar prototipagens é em um padrão chamado "delegação de comportamento", onde você intencionalmente desenha as associações de seus objetos para serem habilitadas a *delegar* de uma a outra parte do comportamento desejado.
 
-**Nota:** Para mais informações sobre prototipagens e delegação de comportamentos, veja os Capítulos 4-6 do título desta série *this & Prototipagem de Objetos*.
+**Nota:** Para mais informações sobre prototipagens e delegação de comportamentos, veja os Capítulos [4](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch4.md)-[5](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch5.md)-[6](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch6.md) do título desta série *[this & Prototipagem de Objetos](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/this%20%26%20object%20prototypes)*.
 
 ## Velho & Novo
 
