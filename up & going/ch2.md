@@ -153,7 +153,7 @@ typeof foo.bar;     // "string"
 
 Novamente, funções são um subtipo de `objects` -- o `typeof` retorna `"function"`, que indica que `function` é um tipo padrão -- e por isso pode ter propriedades. Entretanto, é provável que você use as propriedades do objeto de `function` (como `foo.bar`) apenas em alguns casos.
 
-**Nota:** Para mais informações sobre valores em JS e seus tipos, veja os primeiros dois capítulos do título *Tipos & Gramática*, desta série.
+**Nota:** Para mais informações sobre valores em JS e seus tipos, veja os primeiros dois capítulos do título *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/types%20%26%20grammar)*, desta série.
 
 ### Métodos de Tipos Nativos
 
@@ -178,7 +178,7 @@ Quando você usa um valor primitivo, como "hello world", como um `object` refere
 
 Um valor `string` pode ser englobado por um objeto `String`, um `number` pode ser englobado por um objeto `Number`, e um `boolean` pode ser englobado por um objeto `Boolean`. Para a maioria dos casos, você não precisa se preocupar sobre isso ou usar diretamente essas formas de agregar os valores do objeto -- preferindo a forma de valores primitivos em todos os casos que puder e o JavaScript vai cuidar do resto pra você.
 
-**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o Capítulo 3 do título deste livro *Tipos & Gramática*. Para melhor entendimento dos protótipos de um objeto, veja o Capítulo 5 do título *this & Prototipagem de Objetos*.
+**Nota:** Para mais informações em nativos em JS e formas de "encaixotar", veja o [Capítulo 3](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/types%20%26%20grammar/ch3.md) do título deste livro *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/types%20%26%20grammar)*. Para melhor entendimento dos protótipos de um objeto, veja o [Capítulo 5](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch5.md) do título *[this & Prototipagem de Objetos](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/this%20%26%20object%20prototypes)*.
 
 ### Comparando Valores
 
@@ -186,13 +186,13 @@ Existem dois tipos principais de comparação de valores que você irá precisar
 
 #### Coerção
 
-Falamos brevemente sobre coerção no Capítulo 1, mas vamos revisitá-lo aqui.
+Falamos brevemente sobre coerção no [Capítulo 1](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch1.md), mas vamos revisitá-lo aqui.
 
 A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coerção explícita é a forma que você pode, obviamente, através do código, que uma conversão de um tipo para o outro vai acontecer, e a coerção implícita é quando o tipo de conversão ocorre como um efeito paralelo, não tão óbvio, de alguma outra operação.
 
 Você provavelmente ouviu coisas como "coerção é do mal", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
-Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O Capítulo 4 do título *Tipos & Gramática* desta série cobre bem essa parte.
+Coerções não são do mal, nem mesmo devem ser surpreendentes. De fato, a maioria dos casos que você pode construir com a coerção de tipos são bem sensíveis e entendíveis, e podem até mesmo serem usados como maneira de *melhorar* a legibilidade do código. Mas não iremos entrar muito nesse debate -- O [Capítulo 4](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/types%20%26%20grammar/ch4.md) do título *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/types%20%26%20grammar)* desta série cobre bem essa parte.
 
 Aqui temos um exemplo de coerção *explícita*:
 
@@ -288,7 +288,7 @@ b == c;     // true
 a == b;     // false
 ```
 
-**Nota:** Para mais informações sobre as regras de comparação de igualdade `==`, veja a especificação do ES5 (seção 11.9.3) e também consulte o Capítulo  4 do título desta série *Tipos & Gramática*; veja o Capítulo 2 sobre mais informações sobre valores versus referências.
+**Nota:** Para mais informações sobre as regras de comparação de igualdade `==`, veja a especificação do ES5 ([seção 11.9.3](https://www.ecma-international.org/ecma-262/5.1/#sec-11.9.3)) e também consulte o [Capítulo  4](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/types%20%26%20grammar/ch4.md) do título desta série *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/types%20%26%20grammar)*; veja o [Capítulo 2](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/types%20%26%20grammar/ch2.md) sobre mais informações sobre valores versus referências.
 
 #### Desigualdade
 
@@ -309,7 +309,7 @@ a < b;      // true
 b < c;      // true
 ```
 
-O que acontece aqui: Na seção 11.8.5, da especificação do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palavras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coagidos para serem `number`s, e uma comparação típica de números acontece.
+O que acontece aqui: Na [seção 11.8.5](https://www.ecma-international.org/ecma-262/5.1/#sec-11.8.5), da especificação do ES5, ela diz que ambos os valores na comparação `<` são `string`s, assim como em `b < c`, a comparação é feita lexicograficamente (em outras palavras: alfabeticamente, como um dicionário). Mas se um ou ambos os valores não forem uma `string`, como acontece em `a < b`, então ambos os valores são coagidos para serem `number`s, e uma comparação típica de números acontece.
 
 A maior pegadinha que você pode encontrar aqui é em comparações entre diferentes tipos de valores -- lembrando, não existem formas de usar uma "desigualdade estrita" -- é quando um dos valores não pode ser transformado em um número válido, como por exemplo:
 
@@ -326,7 +326,7 @@ Espera, como podem as três comparações serem `false`? Porque o valor de `b` �
 
 A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
 
-**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos & Grámatica* dessa série.
+**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a [seção 11.8.5](https://www.ecma-international.org/ecma-262/5.1/#sec-11.8.5) da especificação ES5 e também consulte o [Capítulo 4](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/types%20%26%20grammar/ch4.md) de *[Tipos & Grámatica](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/types%20%26%20grammar)* dessa série.
 
 ## Variáveis
 
@@ -336,7 +336,7 @@ Um identificador precisa começar com `a`-`z`, `A`-`Z`, `$`, ou `_`. Ele pode co
 
 Em geral, as mesmas regras que se aplicam tanto para identificar variáveis como para nomear uma propriedade. Entretanto, algumas palavras não podem ser usadas para nomear variáveis, mas não tem impedimento para nomear propriedades. Essas palavras são denominadas "palavras reservadas"(reserved words), e incluem as palavras-chave (`for`, `in`, `if`, etc.) assim como `null`, `true`, e `false`.
 
-**Nota:** Para mais informações sobre palavas reservadas, veja o Apêndice A do título desta série *Tipos & Gramática*.
+**Nota:** Para mais informações sobre palavas reservadas, veja o [Apêndice A](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/types%20%26%20grammar/apA.md) do título desta série *[Tipos & Gramática](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/types%20%26%20grammar)*.
 
 ### Escopos de Função
 
@@ -413,7 +413,7 @@ a;          // 1 -- oops, você acaba de criar uma variável global automática 
 
 Esta é uma prática muito ruim. Não faça isso! Sempre declare suas variáveis formalmente.
 
-Além de criarmos declarações de variáveis no mesmo nível da função, o ES6 *deixa* (let) você criar variáveis que irão pertencer a blocos individuais (pares de `{ .. }`), usando a palavra-chave `let`. Apesar de suas nuances e detalhes, as regras do escopo terão o comportamento bem parecido com o que vimos em funções.
+Além de criarmos declarações de variáveis no mesmo nível da função, o [ES6](http://www.ecma-international.org/ecma-262/6.0/) *deixa* (let) você criar variáveis que irão pertencer a blocos individuais (pares de `{ .. }`), usando a palavra-chave `let`. Apesar de suas nuances e detalhes, as regras do escopo terão o comportamento bem parecido com o que vimos em funções.
 
 ```js
 function foo() {
