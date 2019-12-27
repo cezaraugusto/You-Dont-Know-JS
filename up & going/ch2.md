@@ -100,7 +100,7 @@ obj[b];         // "hello world"
 obj["b"];       // 42
 ```
 
-**Nota:** Para mais informação sobre objetos (`objects`) em JavaScript, veja o título desta série *this & Prototipagem de Objetos*, especificamente o Capítulo 3.
+**Nota:** Para mais informação sobre objetos (`objects`) em JavaScript, veja o título desta série *[this & Prototipagem de Objetos](https://github.com/wfrsilva/You-Dont-Know-JS/tree/portuguese-translation/this%20%26%20object%20prototypes)*, especificamente o [Capítulo 3](https://github.com/wfrsilva/You-Dont-Know-JS/blob/portuguese-translation/this%20%26%20object%20prototypes/ch3.md).
 
 Existem outros tipos de valores que você pode facilmente interagir com programas em JavaScript: *array* e *function*. Mas ao invés de serem tipos nativos (built-in), eles devem ser vistos mais como sub-tipos -- versões especializadas do tipo `object`.
 
