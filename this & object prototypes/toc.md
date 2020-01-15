@@ -8,29 +8,29 @@
 	* Porque `this`?
 	* Confusões
 	* O que é `this`?
-* Capítulo 2: `this` Tudo Faz Sentido Agora!
+* Capítulo 2: `this` Agora tudo faz sentido!
 	* Call-site
 	* Nada além de Regras
 	* Tudo em Ordem
-	* Excessões de Binding
+	* Exceções de Binding
 	* `this` Léxico
 * Capítulo 3: Objetos
 	* Sintaxe
-	* Tipe
-	* Conteúdo
+	* Tipo
+	* Conteúdos
 	* Iteração
-* Capítulo 4: Misturando (todos) os Objetos "Class"
-	* Teoria do Class
-	* Mecânica do Class 
-	* Herança de Class
+* Capítulo 4: Confundindo Objetos com "Classes"
+	* Teoria do Classes
+	* Mecânica do Classes
+	* Heranças de Classe
 	* Mixins
 * Capítulo 5: Protótipos
 	* `[[Prototype]]`
-	* "Class"
-	* "Herança (Prototipada)"
-	* Links de Objetos
+	* "Classes"
+	* "Herança (Prototípica)"
+	* Ligações de Objeto
 * Capítulo 6: Delegação de Comportamentos
-	* Sobre Design Orientado à Delegação
+	* Em Direção ao Design Orientado à Delegação
 	* Classes vs. Objetos
 	* Design Simplificado
 	* Sintaxe Melhorada
