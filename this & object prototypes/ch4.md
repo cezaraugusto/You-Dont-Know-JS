@@ -1,5 +1,5 @@
 # You Don't Know JS: *this* & Prototipagem de Objetos
-# Chapter 4: Confundindo Objetos com "Classes"
+# Capítulo 4: Confundindo Objetos com "Classes"
 
 Continuando com nossa exploração de objetos do capítulo anterior, é natural que agora nós demos atenção a "programação orientada a objetos (OO)", com "classes". Nós primeiro iremos olhar para "orientação à classes" como um padrão de projeto, antes de examinar as mecânicas de "classes": "instanciação", "herança" e "polimorfismo (relativo)".
 
@@ -423,7 +423,7 @@ myCar.drive();
 
 Como você pode ver, nós inicialmente fizemos uma cópia da definição da "classe pai" `Vehicle` (objeto), então misturamos nossa definição da "classe filha" (objeto) (preservando as referências especiais da classe pai conforme necessário), e passamos esse objeto composto `car` como nossa instância filha.
 
-**Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e garbage-collection do objeto.
+**Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e coletor de lixo do objeto.
 
 ### Mixins Implícitos
 
@@ -461,7 +461,7 @@ Então, é dito que nós "misturamos" o comportamento de `Something` com (ou em)
 
 Enquanto esse tipo de técnica parece tirar proveito da funcionalidade de re-ligação do `this`, é na frágil chamada `Something.cool.call( this )`, que não pode ser transformada em uma referência relativa (e então, mais flexível), que você deve **prestar atenção com cuidado**. Geralmente, **evite tais construções sempre que possível** para manter um código mais limpo e mais sustentável.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
 Classes são um design pattern. Muitas linguagens disponibilizam una sintaxe que permite um design de software orientado a classes natural. JS também tem uma sintaxe semelhante, mas ela funciona **muito diferente** do que você está acostumado com as classes nessas outras linguagens.
 

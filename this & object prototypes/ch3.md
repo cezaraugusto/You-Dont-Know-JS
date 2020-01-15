@@ -634,7 +634,7 @@ Se a propriedade ainda não estiver presente no objeto em questão, a operação
 
 As operações padrão `[[Put]]` e `[[Get]]` de objetos controlam como valores são definidos em propriedades novas ou já existentes, ou obtidos de propriedades existentes, respectivamente.
 
-**Nota:** Utilizando futuros/avançados recursos da linguagem, pode ser possível sobrescrever as operações padrão `[[Get]]` or `[[Put]]` para um objeto inteiro (não apenas por propriedade). Isso está além do escopo da nossa discussão nesse livro, mas será abordado depois nas séries "You Don't Know JS".
+**Nota:** Utilizando futuros/avançados recursos da linguagem, pode ser possível sobrescrever as operações padrão `[[Get]]` ou `[[Put]]` para um objeto inteiro (não apenas por propriedade). Isso está além do escopo da nossa discussão nesse livro, mas será abordado depois nas séries "You Don't Know JS".
 
 ES5 introduziu uma forma de sobrescrever parte dessas operações, não no nível de objeto mas no nível por-propriedade, através do uso de _getters_ e _setters_. Getters são propriedades que, na verdade, chamam uma função oculta para recuperar um valor. Setters são propriedades que chamam uma função oculta para estabelecer um valor.
 
@@ -944,7 +944,7 @@ Esse iterador gerará números randômicos "para sempre", por isso tivemos cuida
 
 Objetos em JS possuem uma forma literal (tal como `var a = { .. }`) e uma forma construída (tal como `var a = new Array(..)`). A forma literal é quase sempre preferível, mas a forma construída oferece, em alguns casos, mais opções de criação.
 
-Muitas pessoas alegam erradamente que "tudo em JavaScript é um objeto", mas essa afirmação é incorreta. Objetos são um dos 6 (or 7, dependendo de sua perspectiva) tipos primitivos. Objetos têm subtipos, incluindo `function`, e também podem ser comportamento-especializado, como `[object Array]`, rótulo interno representando o subtipo de objeto de array.
+Muitas pessoas alegam erradamente que "tudo em JavaScript é um objeto", mas essa afirmação é incorreta. Objetos são um dos 6 (ou 7, dependendo de sua perspectiva) tipos primitivos. Objetos têm subtipos, incluindo `function`, e também podem ser comportamento-especializado, como `[object Array]`, rótulo interno representando o subtipo de objeto de array.
 
 Objetos são coleções de pares chave/valor. Os valores podem ser acessados como propriedades, via sintaxe `.propName` ou `["propName"]`. A qualquer momento que uma propriedade é acessada, o motor JS, na verdade, invoca a operação interna `[[Get]]` padrão (e `[[Put]]` para definir valores), que não só procura pela propriedade diretamente no objeto, mas irá percorrer a cadeia de `[[Prototype]]` se não for encontrada.
 

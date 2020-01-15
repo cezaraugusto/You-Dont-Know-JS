@@ -123,7 +123,7 @@ var obj = {
 obj.foo(); // 2
 ```
 
-Primeiramente, note a maneira como `foo()` é declarado e depois adicionado como uma propriedade de referência em `obj`. Independentemente se `foo()` é inicialmente declarado *no* `obj`, ou se é adicionado como uma referência depois (como o snippet mostra), em nenhum dos casos essa **função** realmente é "possuida" ou está "contida" pelo objeto `obj`.
+Primeiramente, note a maneira como `foo()` é declarado e depois adicionado como uma propriedade de referência em `obj`. Independentemente se `foo()` é inicialmente declarado *no* `obj`, ou se é adicionado como uma referência depois (como o trecho mostra), em nenhum dos casos essa **função** realmente é "possuída" ou está "contida" pelo objeto `obj`.
 
 Entretanto, a call-site *usa* o contexto do `obj` para **referenciar** a função, então você *poderia* dizer que o objeto `obj` é "dono" ou "contém" a **função de referência** no momento que a função é chamada.
 
