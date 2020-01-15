@@ -242,9 +242,9 @@ Javascript é mais simples: ele não fornece um mecanismo nativo para "herança 
 
 O mecânismo objeto do Javascript não executa *automaticamente* o comportamento de uma cópia quando você "herda" ou "instancia". Obviamente, não há classes no Javascript que serão instanciadas, apenas objetos. E objetos não são cópiados para outros objetos, eles são *linkados juntos* (mais sobre isso no capítulo 5).
 
-Como comportamentos de classes observados em outras linguagens implicam em cópias, vamos examinar como desenvolvedores JS **falsificam** o comportamento de cópia *ausente* no mecânismo de classes JavaScript: Mixins. Vamos ver dois tipos de "mixin": **explicito** e **implicito**.
+Como comportamentos de classes observados em outras linguagens implicam em cópias, vamos examinar como desenvolvedores JS **falsificam** o comportamento de cópia *ausente* no mecânismo de classes JavaScript: Mixins. Vamos ver dois tipos de "mixin": **explícito** e **implícito**.
 
-### Mixin Explicito
+### Mixin Explícito
 
 Vamos revisitar nosso exemplo anterior sobre `Vehicle` e `Car`. Como o JavaScript não irá copiar automaticamente o comportamento de `Vehicle` para `Car`, podemos criar um utilitário que copie manualmente. Tal utilidade é frequentemente chamada de `extend(..)` por muitas bibliotecas/frameworks, mas aqui vamos chamar isso de `mixin(..)` por motivos ilustrativos.
 
@@ -292,19 +292,19 @@ var Car = mixin( Vehicle, {
 
 #### "Polimorfismo" revisado
 
-Vamos examinar essa instrução: `Vehicle.drive.call(this)`. Isso é o que eu chamo de "pseudo-polimorfismo explicito". Lembre-se que no nosso pseudo-código anterior, essa linha era `inherited:drive()`, que nós chamamos de "polimorfismo relativo".
+Vamos examinar essa instrução: `Vehicle.drive.call(this)`. Isso é o que eu chamo de "pseudo-polimorfismo explícito". Lembre-se que no nosso pseudo-código anterior, essa linha era `inherited:drive()`, que nós chamamos de "polimorfismo relativo".
 
 O JavaScript não tem (antes do ES6; veja apêndice A) um utilitário para o polimorfismo relativo. Então, **já que `Car` e `Vehicle` tinahm uma função com o mesmo nome: `drive()`**, para distinguir uma chamada de um ou outra, temos de fazer uma referência absoluta (não relativa). Nós explicitamente especificamos o objeto `Vehicle` pelo nome, e chamamos a função `drive()` nele.
 
 Mas se dissermos `Vehicle.drive`, o binding do `this` para essa função será o objeto `Vehicle` em vez do objeto `Car` (veja o capítulo 2), o que não é o que queremos. Então, em vez disso usamos `.call( this )`(capítulo 2) para garantir que `drive()` seja executado no contexto do objeto `Car`.
 
-**Nota:** Se o identificador da função para `Car.drive()` não tinha se sobreposto com (também conhecido como "sombreado"; veja capítulo 5) `Vehicle.drive()`, não teríamos exercido o "polimorfismo de método". Então, uma referência para `Vehicle.drive()` teria sido copiada pela chamada `mixin(..)`, e nós poderiamos tê-la acessado diretamente através de `this.drive()`. O identificador escolhido se sobrepondo ao sombreamento é o porque de termos de usar uma abordagem mais complexa de *pseudo-polimorfismo explicito*.
+**Nota:** Se o identificador da função para `Car.drive()` não tinha se sobreposto com (também conhecido como "sombreado"; veja capítulo 5) `Vehicle.drive()`, não teríamos exercido o "polimorfismo de método". Então, uma referência para `Vehicle.drive()` teria sido copiada pela chamada `mixin(..)`, e nós poderiamos tê-la acessado diretamente através de `this.drive()`. O identificador escolhido se sobrepondo ao sombreamento é o porque de termos de usar uma abordagem mais complexa de *pseudo-polimorfismo explícito*.
 
 Em linguagens orientadas a classes, que possuem polimorfismo relativo, a linkagem entre `Car` e `Vehicle` é estabelecida uma vez, no topo da definição da classe, o que faz apenas um lugar para manter esses tais relacionamentos.
 
-Mas por causa das peculiaridades do JavaScript, o pseudo-polimorfismo explicito (por causa do sombreamento!) cria vinculação manual/explicita frágil **em cada função onde você precisa de uma referência (pseudo) polimórfica.** Isso pode aumentar muito o custo de manutenção. Além disso, enquanto o pseudo-polimorfismo explícito pode emular o comportamento de "herança múltipla", ele apenas aumenta a complexidade e fragilidade.
+Mas por causa das peculiaridades do JavaScript, o pseudo-polimorfismo explícito (por causa do sombreamento!) cria vinculação manual/explícita frágil **em cada função onde você precisa de uma referência (pseudo) polimórfica.** Isso pode aumentar muito o custo de manutenção. Além disso, enquanto o pseudo-polimorfismo explícito pode emular o comportamento de "herança múltipla", ele apenas aumenta a complexidade e fragilidade.
 
-O resultado dessas abordagens é normalmente um código mais complexo, difícil de ler, *e* difícil de manter. **Pseudo polimorfismo explicito deve ser evitado sempre que possivel**, porque o custo supera o benefício na maioria dos aspectos.
+O resultado dessas abordagens é normalmente um código mais complexo, difícil de ler, *e* difícil de manter. **Pseudo polimorfismo explícito deve ser evitado sempre que possivel**, porque o custo supera o benefício na maioria dos aspectos.
 
 #### Mesclando cópias
 
@@ -364,15 +364,15 @@ Como resultado da operação, `Car` irá operar de forma pouco separada de `Vehi
 
 Como os dois objetos também compartilham referências para as suas funções comuns, isso significa que **mesmo copias manuais de funções (também conhecidos como mixins) de um objeto para outro *não emulam* a duplicação real de classe para a instância que ocorre em linguagens orientadas a classes**.
 
-Funções JavaScript não podem ser duplicadas (de uma maneira padrão e confiável), então, o que você acaba fazendo é ma referência duplicada ao mesmo objeto de função compartilhada (funções são objetos; veja capítulo 3). Se você modificar uma das **funções objetos** compartilhadas (como `ignition()`) adicionando propriedades sobre elas, por exemplo, tanto `Vehicle` quanto `Car` seriam "afetados" por meio da referência compartilhada.
+Funções JavaScript não podem ser duplicadas (de uma maneira padrão e confiável), então, o que você acaba fazendo é má referência duplicada ao mesmo objeto de função compartilhada (funções são objetos; veja capítulo 3). Se você modificar uma das **funções objetos** compartilhadas (como `ignition()`) adicionando propriedades sobre elas, por exemplo, tanto `Vehicle` quanto `Car` seriam "afetados" por meio da referência compartilhada.
 
 Mixins explícitos são um ótimo mecânismo em JavaScript. Mas eles parecem ser mais fortes que realmente são. Poucos benefícios são realmente derivados da cópia de uma propriedade para outra, ao invés de apenas definir as propriedades duas vezes, uma vez em cada objeto. E isso é especialmente verdadeiro, dada a nuance de referência de objeto de função que acabamos de citar.
 
-Se você *mixar* dois ou mais objetos dentro de um objeto alvo, você pode **emular parcialmente** o comportamento de "herança multipla", mas não há uma forma direta de lidarcom colisões se o mesmo método ou propriedade está sendo copiado de mais de uma origem. Alguns desenvolvedores e bibliotecas surgiram com técnicas de "binding tardio" e outras abordagens exóticas, mas fundamentalmente esses "truques" são *geralmente* mais trabalhosos (e têm desempenho menor) do que o resultado.
+Se você *mixar* dois ou mais objetos dentro de um objeto alvo, você pode **emular parcialmente** o comportamento de "herança multipla", mas não há uma forma direta de lidar com colisões se o mesmo método ou propriedade está sendo copiado de mais de uma origem. Alguns desenvolvedores e bibliotecas surgiram com técnicas de "binding tardio" e outras abordagens exóticas, mas fundamentalmente esses "truques" são *geralmente* mais trabalhosos (e têm desempenho menor) do que o resultado.
 
-Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar o código mais legível, e evite esse padrão sempre que você achar que ele está tornando o código mais difícil de rastrear, ou se achar que ele cria dependencias desnecessáriasou difíceis de manipular entre objetos.
+Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar o código mais legível, e evite esse padrão sempre que você achar que ele está tornando o código mais difícil de rastrear, ou se achar que ele cria dependencias desnecessárias ou difíceis de manipular entre objetos.
 
-**Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma bilioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
+**Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma biblioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
 
 #### Herança Parasita
 

@@ -199,7 +199,7 @@ var a = "oops, global"; // `a` também é propriedade do objeto global
 doFoo( obj.foo ); // "oops, global"
 ```
 
-Passagem de parâmetros é apenas uma atribuição implicita, e já que estamos passando uma função, é uma atribuição por referência implícita, então o resultado final é o mesmo que no snippet anterior.
+Passagem de parâmetros é apenas uma atribuição implícita, e já que estamos passando uma função, é uma atribuição por referência implícita, então o resultado final é o mesmo que no trecho anterior.
 
 Mas e se a função que você estiver passando como callback não for sua, mas nativa da linguagem? Sem diferenças, o resultado é o mesmo.
 
@@ -396,7 +396,7 @@ Por exemplo, a função `Number(..)` atua como um construtor, citação da espec
 
 > 15.7.2 O Construtor Number
 >
-> Quando Number é chamado como parte de uma expressão ele é um construtor: ele inicializa o novos objetos criados.
+> Quando Number é chamado como parte de uma expressão ele é um construtor: ele inicializa os novos objetos criados.
 
 Então, praticamente qualquer função, incluindo funções de objetos nativos como `Number(..)` (Veja o capítulo 3) podem ser chamadas com `new` à frente, e isso faz dessa chamada uma *chamada de construtor*. Essa é uma importante mas sútil diferença: não existem "funções construtoras" mas sim *chamadas construtoras* de funções.
 
@@ -480,7 +480,7 @@ console.log( bar.a ); // 4
 
 OK, o *new binding* tem maior precedência que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedêcia sobre o *binding explícito*?
 
-**Nota** `new` e `call`/`apply` não podem ser usados juntos, então `new foo.call(obj1)` não é permitido, para testar o *new binding* diretamente contra o *binding explícito*. Mas nós ainda podemos usar o *hard binding* para testar a precedência entre as duas regras.
+**Nota:** `new` e `call`/`apply` não podem ser usados juntos, então `new foo.call(obj1)` não é permitido, para testar o *new binding* diretamente contra o *binding explícito*. Mas nós ainda podemos usar o *hard binding* para testar a precedência entre as duas regras.
 
 Antes de explorarmos isso em uma listagem de código, pense em como o *hard binding* funciona fisicamente, `Function.prototype.bind(..)` cria uma nova função de encapsulamento que é codificada para ignorar seu próprio binding `this` (qualquer que seja), e usar um que fornecemos manualmente.
 
@@ -553,7 +553,7 @@ if (!Function.prototype.bind) {
 }
 ```
 
-**Nota** o polyfill de `bind(..)` mostrado acima difere do `bind(..)` nativo no ES5 com respeito à funções com hard binding que serão usadas com `new` (veja abaixo porque isso é útil). Porque o polyfill não pode criar uma função sem um `prototype` como as funcionalidades nativas fazem, há uma aproximação suavemente indireta para o mesmo comportamento. Tenha cuidado se você planeja usar `new` com uma função hard binding e você confia nesse polyfill.
+**Nota:** o polyfill de `bind(..)` mostrado acima difere do `bind(..)` nativo no ES5 com respeito à funções com hard binding que serão usadas com `new` (veja abaixo porque isso é útil). Porque o polyfill não pode criar uma função sem um `prototype` como as funcionalidades nativas fazem, há uma aproximação suavemente indireta para o mesmo comportamento. Tenha cuidado se você planeja usar `new` com uma função hard binding e você confia nesse polyfill.
 
 A parte que está permitindo a substituição do `new` é:
 
