@@ -5,7 +5,7 @@ Um dos assuntos mais importantes e ainda assim muitas vezes mal interpretado ao 
 
 Isso não significa saber o que acontece entre início e o fim de um loop `for`, o que, é claro, leva *algum tempo* (microsegundos à milisegundos) para completar. Assincronia diz mais a respeito do que acontece quando parte do seu programa é executada *agora*, e outra parte do seu programa é executada *depois*  -- existe um vão entre *agora* e *depois* onde seu programa não está sendo executado ativamente.
 
-Praticamente todos os programas não-triviais (especialmente em JS) precisam lidar com esse vão de alguma forma, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar o estado através do vão ao longo do tempo. Assim como uma frase recorrente em Londres diz (em relação ao espaço entre o vagão do trem metropolitano e a plataforma de embarque): "cuidado com vão".
+Praticamente todos os programas não-triviais (especialmente em JS) precisam lidar com esse vão de alguma forma, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar o estado através do vão ao longo do tempo. Assim como uma frase recorrente em Londres diz (em relação ao espaço entre o vagão do trem metropolitano e a plataforma de embarque): "cuidado com o vão".
 
 Na verdade, o relacionamento entre as partes *agora* e *depois* do seu programa estão no coração da programação assíncrona.
 
@@ -96,7 +96,7 @@ Toda vez que você encapsula uma porção de código numa `função` e especific
 
 Não existe especificação ou grupo de requerimentos sobre como os métodos `console.*` funcionam -- eles não são parte oficial do JavaScript, mas, ao invés disso, são adicionados ao JS pelo *ambiente hospedeiro* (veja o título *Tipos & Gramática* dessa série de livros).
 
-Sendo assim, diferentes navegadores e ambientes JS fazem da maneira que preferirem, o que às vezes pode causar comportamento confuso.
+Sendo assim, diferentes navegadores e ambientes JS fazem da maneira que preferirem, o que às vezes pode causar um comportamento confuso.
 
 Em particular, existem alguns navegadores e condições nas quais `console.log(..)` não retorna imediatamente o que é dado. O principal motivo pelo qual isso pode acontecer é por que o I/O (input/output) é uma parte lenta e bloqueante de muitos programas (não apenas JS). Então, pode ser melhor (do ponto de vista página/UI) para um navegador lidar com o I/O do `console` de maneira assíncrona no plano de fundo, sem que você talvez sequer saiba o que ocorreu.
 
@@ -230,7 +230,7 @@ Observe:
  Thread 1 (`X` e `Y` são locações temporárias de memória):
  ```
     foo():
-    a. guarda valor de `a` em `X`
+    a. carrega valor de `a` em `X`
     b. guarda `1` em `Y`
     c. soma `X` e `Y`, guarda resultado em `X`
     d. guarda valor de `X` em `a`
@@ -455,7 +455,7 @@ resposta 5
 resposta 7            <--- Processo 2 termina
 ```
 
-"Processo 1" e "Processo 2" correm concorrentemente (paralelismo em nível de tarefa), mas seus eventos individuais correm em sequência na lista do loop de eventos.
+"Processo 1" e "Processo 2" são executados simultaneamente (paralelismo em nível de tarefa), mas seus eventos individuais correm em sequência na lista do loop de eventos.
 
 Aliás, percebeu como `resposta 6` e `resposta 5` voltaram fora da ordem esperada? 
 
@@ -489,7 +489,7 @@ Esse não é um bug de "condição de corrida", pois o código vai sempre funcio
 
 ### Interação
 
-Em geral, "processos" concorrentes vão interagir por necessidade, indiretamente através do escopo e ou do DOM. Quando tal interação ocorrer, você precisa coordená-los para prevenir "condição de corrida", como descrito previamente.
+Em geral, "processos" concorrentes vão interagir por necessidade, indiretamente através do escopo e/ou do DOM. Quando tal interação ocorrer, você precisa coordená-los para prevenir "condição de corrida", como descrito previamente.
 
 Abaixo há um exemplo simples de dois "processos" concorrentes que interagem por causa da ordem implícita, que é apenas *algumas vezes quebrada*:
 
@@ -501,11 +501,11 @@ function answer(data) {
 }
 
 // ajax(..) é uma função Ajax eventual fornecida por uma biblioteca
-ajax( "http://some.url.1", answer );
-ajax( "http://some.url.2", answer );
+ajax( "http://some.url.1", response );
+ajax( "http://some.url.2", response );
 ```
 
-Os "processos" concorrentes são as duas chamadas de `answer()` que serão feitas para lidar com as respostas do Ajax. Elas podem acontecer em qualquer ordem.
+Os "processos" concorrentes são as duas chamadas de `response()` que serão feitas para lidar com as respostas do Ajax. Elas podem acontecer em qualquer ordem.
 
 Vamos presumir que o comportamento esperado é que `res[0]` possua o resultado da chamada de `"http://some.url.1"`, e `res[1]` possua o resultado da chamada de `"http://some.url.2"`. Algumas vezes a situação será assim, mas, dependendo de qual finalize primeiro, os resultados estarão em ordem inversa. Existe uma boa probabilidade de que esse indeterminismo cause um bug de "condição de corrida".
 
@@ -651,7 +651,7 @@ O condicional `if (a == undefined)` permite apenas que o primeiro entre  `foo()`
 
 ### Cooperação
 
-Outra expressão de coordenação de concorrência é chamada "concorrência cooperativa". Aqui, o foco não é tanto interagir compartilhando valores no escopo (apenas de ser obviamente permitido!). O objetivo é pegar um "processo" e quebrá-lo em passos ou lotes para que outros "processos" concorrentes tenham a chance de intercalar suas operações na fila do Loop de Eventos.
+Outra expressão de coordenação de concorrência é chamada "concorrência cooperativa". Aqui, o foco não é tanto interagir compartilhando valores no escopo (apesar disso ainda ser obviamente permitido!). O objetivo é pegar um "processo" e quebrá-lo em passos ou lotes para que outros "processos" concorrentes tenham a chance de intercalar suas operações na fila do Loop de Eventos.
 
 Por exemplo, observe uma função de callback (retorno) que precise vasculhar uma longa lista de resultados para transformar seus valores. Usaremos `Array#map` para manter o código curto:
 
@@ -723,7 +723,7 @@ Nós usaremos o `setTimeout(..0)` (hack) para agendamento assíncrono, que basic
 
 A partir do ES6, surge um novo conceito situado no topo da fila do loop de eventos chamado fila de tarefas ("job queue"). O contato mais provável que você terá com ela será com o comportamento assíncrono das Promises (veja o capítulo 3).
 
-Infelizmente, no momento é apenas um mecanismo sem a API aberta, e assim demonstrando que é um pouco mais complexo do que o habitual. Portanto, teremos que apenas descrevê-lo conceitualmente para que quando discutamos comportamento assíncrono com Promises no capítulo 3, você conseguir entender como essas ações estão sendo agendadas e processadas.
+Infelizmente, no momento é apenas um mecanismo sem a API aberta, e assim demonstrando que é um pouco mais complexo do que o habitual. Portanto, teremos que apenas descrevê-lo conceitualmente para que quando discutirmos comportamento assíncrono com Promises no capítulo 3, você conseguir entender como essas ações estão sendo agendadas e processadas.
 
 Logo, a melhor perspectiva que eu encontrei para explicar é que a "fila de tarefas" é uma fila pendurada no fim de todo tick na fila do loop de eventos. Algumas ações presumidamente implícitas que podem ocorrer durante um tick não causarão a adição de um novo evento completo na fila do loop de eventos, mas vão ao invés disso adicionar um item (também conhecido como tarefa) ao fim do tick atual na fila de tarefas.
 
@@ -759,9 +759,9 @@ No capítulo 3, veremos que os comportamentos assíncronos das Promises são bas
 
 ## Ordenamento de Instruções
 
-A ordem na qual expressamos instruções no nosso código não é necessariamente a mesma ordem da qual o motor JS vai executá-las. Pode parecer uma asserção estranha de se fazer, então vamos explorá-la rapidamente.
+A ordem na qual expressamos instruções no nosso código não é necessariamente a mesma ordem da qual o motor JS vai executá-las. Pode parecer uma asserção estranha de se fazer, então vamos explorá-la brevemente.
 
-Mas antes disso, devemos estar absolutamente claros em uma coisa: as regras/gramática da lingua (veja o título *Tipos e Gramática* dessa série de livros) dita um comportamento bastante previsível e confiável para ordenamento de instruções do ponto de vista do programa. Então o que discutiremos a seguir **não são coisas que você deveria poder observar** no seu programa JS.
+Mas antes disso, devemos estar absolutamente claros em uma coisa: as regras/gramática da linguagem (veja o título *Tipos e Gramática* dessa série de livros) dita um comportamento bastante previsível e confiável para ordenamento de instruções do ponto de vista do programa. Então o que discutiremos a seguir **não são coisas que você deveria poder observar** no seu programa JS.
 
 **Cuidado:** Se em algum momento você puder *observar* reordenamento de instruções no compilador como estamos quase ilustrando, isso seria uma clara violação da especificação, e seria inquestionavelmente em virtude de algum bug no motor JS em questão -- um que deveria ser reportado e consertado prontamente! Mas é muito mais comum que você *suspeite* que algo louco está acontecendo no motor JS, quando na verdade é só um bug (provavelmente uma "condição de corrida") no seu código -- então verifique lá primeiro, e denovo e denovo. O _debugger_ JS, usando _breakpoints_ e avançando através do código linha por linha, será sua ferramenta mais poderosa para detectar tais bugs no *seu código*.
 
