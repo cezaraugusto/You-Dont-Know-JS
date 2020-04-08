@@ -423,7 +423,7 @@ myCar.drive();
 
 Como você pode ver, nós inicialmente fizemos uma cópia da definição da "classe pai" `Vehicle` (objeto), então misturamos nossa definição da "classe filha" (objeto) (preservando as referências especiais da classe pai conforme necessário), e passamos esse objeto composto `car` como nossa instância filha.
 
-**Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e coletor de lixo do objeto.
+**Nota:** quando nós chamamos `new Car()`, um novo objeto é criado e especificado pela referência `this` de `Car` (veja o Capítulo 2). Mas uma vez que nós não usamos aquele objeto, e ao invés disso retornamos nosso próprio objeto `car`, o objeto criado inicialmente é descartado. Então, `Car()` poderia ser chamado sem a palavra-chave `new`, e o funcionamento acima seria idêntico, mas sem o desperdício da criação e coleta de lixo do objeto.
 
 ### Mixins Implícitos
 
