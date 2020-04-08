@@ -223,7 +223,7 @@ A única coisa que eles *compartilham* é um único objeto `global` (`window` no
 
 Então, se um elemento de um `script` definir uma função global `foo()`, quando um segundo `script` executar depois, ele poderá acessar e chamar `foo()` como se ele próprio tivesse definido essa função.
 
-Mas a *elevação* do escopo de variáveis globais (veja em *Escopo & Clausuras* dessa série) não ocorre através desse limite, então o código seguinte não funcionará (porque a declaração de `foo()` ainda não foi declarada), independentemente de terem (como mostrado) elementos `<script> .. </script>` inline ou arquivos carregados externamente `<script src=..></script>`:
+Mas a *elevação* do escopo de variáveis globais (veja em *Escopo & Closures* dessa série) não ocorre através desse limite, então o código seguinte não funcionará (porque a declaração de `foo()` ainda não foi declarada), independentemente de terem (como mostrado) elementos `<script> .. </script>` inline ou arquivos carregados externamente `<script src=..></script>`:
 
 ```html
 <script>foo();</script>

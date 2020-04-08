@@ -977,7 +977,7 @@ Para metaprogramar com testes de funcionalidades em torno de recursos relacionad
 
 Sua mente simplesmente pensou em usar o `eval(..)`?
 
-Não tão rápido. Veja o título *Escopo & Clausuras* dessa série para saber porque `eval(..)` é uma má ideia. Mas há outra opção com menos desvantagens: o construtor `Function(..)`.
+Não tão rápido. Veja o título *Escopo & Closures* dessa série para saber porque `eval(..)` é uma má ideia. Mas há outra opção com menos desvantagens: o construtor `Function(..)`.
 
 Considere:
 

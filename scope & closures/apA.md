@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Clausuras
+# You Don't Know JS: Escopos & Closures
 # Apêndice A: Escopo Dinâmico
 
 No Capítulo 2, falamos sobre "Escopo Dinâmico" como um contraste ao modelo de "Escopo Léxico", que é como os escopos funcionam em JavaScript (e, de fato, na maioria das linguagens).

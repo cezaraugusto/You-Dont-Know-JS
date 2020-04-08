@@ -38,7 +38,7 @@
 
 * You Don't Know JS: Título deve ser mantido como o original
 * Up & Going: Iniciando
-* Scope & Closures: Escopos & Clausuras
+* Scope & Closures: Escopos & Closures
 * this & object prototypes: this & Prototipagem de Objetos
 * Types & Grammar: Tipos & Gramática
 * Async & Performance: Async & Performance

@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Clausuras
+# You Don't Know JS: Escopos & Closures
 
 <img src="cover.jpg" width="300">
 
@@ -16,7 +16,7 @@
 * [Capítulo 2: Escopo Léxico](ch2.md)
 * [Capítulo 3: Função vs. Escopo de Bloco](ch3.md)
 * [Capítulo 4: Hoisting](ch4.md)
-* [Capítulo 5: Clausuras de Escopo](ch5.md)
+* [Capítulo 5: Closures de Escopo](ch5.md)
 * [Apêndice A: Escopo Dinâmico](apA.md)
 * [Apêndice B: Polyfilling no Escopo do Bloco](apB.md)
 * [Apêndice C: Lexical-this](apC.md)

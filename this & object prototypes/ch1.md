@@ -146,7 +146,7 @@ console.log( data.count ); // 4
 
 Embora seja verdade que essa abordagem "resolve" o problema, infelizmente ela simplesmente ignora o problema real -- a falta de entendimento do que o `this` significa e como ele funciona -- e, ao invés disso, retrocede para a zona de conforto de um mecanismo mais familiar: o escopo léxico.
 
-**Nota:** Escopo léxico é um mecanismo muito bom e útil; Eu não estou menosprezando o uso dele, de forma alguma (veja o título *"Escopos & Clausuras"* desta série de livros). Mas constantemente *adivinhar* como usar o `this`, e geralmente estar *errado*, não é uma boa razão para se voltar para o escopo léxico e nunca aprender *porquê* o `this` ilude você.
+**Nota:** Escopo léxico é um mecanismo muito bom e útil; Eu não estou menosprezando o uso dele, de forma alguma (veja o título *"Escopos & Closures"* desta série de livros). Mas constantemente *adivinhar* como usar o `this`, e geralmente estar *errado*, não é uma boa razão para se voltar para o escopo léxico e nunca aprender *porquê* o `this` ilude você.
 
 Para referenciar o objeto da função de dentro dela mesma, `this` por si só será em geral insuficiente. Normalmente você precisa de uma referência para o objeto da função por um identificador léxico (variável) que aponta para ela.
 

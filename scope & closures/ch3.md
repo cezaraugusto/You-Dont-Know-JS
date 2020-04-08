@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Clausuras
+# You Don't Know JS: Escopos & Closures
 # Capítulo 3: Escopo de função vs. Bloco de escopo
 
 Conforme exploramos no Capítulo 2, o escopo consiste em uma série de "bolhas" que atuam como recipientes nos quais identificadores (variáveis, funções) são declarados. Estas bolhas aninham-se umas às outras de forma muito organizada, e este aninhamento é definido durante a escrita do código.

@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Clausuras
+# You Don't Know JS: Escopos & Closures
 # Capítulo 1: O que é Escopo?
 
 Um dos paradigmas mais fundamentais de quase todas as linguagens de programação é a capacidade de armazenar valores em variáveis e, posteriormente, obter ou modificar esses valores. Na verdade, a habilidade de armazenar e pegar valores de variáveis é o que fornece *estado* a um programa.
