@@ -6,7 +6,7 @@ Antes de mergulhar neste livro, você deve ter uma sólida proficiência de trab
 Se você está "entrando de cara" com o JavaScript, eu recomendo que você leia os outros títulos desta série primeiro:
 
 * *Iniciando*: Você é novo em programação e JavaScript? Este é o roteiro que você precisa consultar enquanto inicia sua jornada de aprendizado.
-* *Escopos & Closures*: Você sabia que o escopo lexical do JS é baseado em uma semântica de compilador (não de intérprete)? Você pode explicar como os fechamentos são um resultado direto do escopo lexical e funções como valores?
+* *Escopos & Closures*: Você sabia que o escopo lexical do JS é baseado em uma semântica de compilador (não de intérprete)? Você pode explicar como os _closures_ são um resultado direto do escopo lexical e funções como valores?
 * *this & Prototipagem de Objetos*: Você pode recitar as quatro regras simples de como o `this` está ligado? Você tem ficado confuso com falsas "classes" em JavaScript em vez de adotar o padrão de design de "delegação de comportamento" mais simples? Já ouviu falar de *objetos ligados a outros objetos*(OLOO)?
 * *Tipos & Gramática*: Do you know the built-in types in JS, and more importantly, do you know how to properly and safely use coercion between types? How comfortable are you with the nuances of JS grammar/syntax?
 * *Async & Performance*: Você ainda está usando callbacks para gerenciar sua assincronia? Você pode explicar o que é uma promessa e por que/como ele resolve o "inferno de retorno de chamada"? Você sabe como usar geradores para melhorar a legibilidade do código assíncrono? O que exatamente constitui a otimização madura de programas JavaScript e operações individuais?
