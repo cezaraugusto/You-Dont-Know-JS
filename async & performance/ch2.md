@@ -11,9 +11,9 @@ Como você sem dúvida deve ter observado, callbacks são de longe a forma mais 
 
 Inúmeros programas JavaScript, até os muito sofisticados e complexos, têm sido escritos sobre não outra fundação assíncrona que não o callback (claro que com padrões de interação concorrentes que exploramos no Capítulo 1). A função callback é o cavalo de trabalho assíncrono para o JavaScript, e ele respeitavelmente faz seu trabalho.
 
-Except... callbacks are not without their shortcomings. Many developers are excited by the *promise* (pun intended!) of better async patterns. But it's impossible to effectively use any abstraction if you don't understand what it's abstracting, and why.
+Só que... callbacks não deixam de ter suas deficiências. Muitos desenvolvedores estão entusiasmados com a *promessa* (trocadilho!) de melhores padrões de assincronia. Mas é impossível usar efetivamente qualquer abstração se você não entender o que está abstraindo e por quê.
 
-In this chapter, we will explore a couple of those in depth, as motivation for why more sophisticated async patterns (explored in subsequent chapters of this book) are necessary and desired.
+Neste capítulo, exploraremos alguns deles em profundidade, como motivação para o porquê de mais padrões assíncronos sofisticados (explorados nos capítulos subsequentes deste livro) serem necessários e desejados.
 
 ## Continuations
 
