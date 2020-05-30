@@ -216,7 +216,7 @@ if (typeof atob === "undefined") {
 }
 ```
 
-**Nota:** Se você estiver definindo um "polyfill" para um recurso que ainda não existe, você provavelmente deseja evitar o uso de `var` para fazer a declaração de `atob`. Se você declarar `var atob` dentro da instrução `if`, esta declaração será elevada (veja o livro *Escopos & Clausuras* desta série) para o topo do escopo, mesmo se a condição `if` não passar (porque a váriavel global `atob` já existe!). Em alguns navegadores e para alguns tipos especiais de variáveis construidas globalmente (geralmente chamadas de "host objects (objetos hospedeiros)"), esta declaração duplicada pode gerar erros. Omitindo o `var` impede que essa declaração seja elevada.
+**Nota:** Se você estiver definindo um "polyfill" para um recurso que ainda não existe, você provavelmente deseja evitar o uso de `var` para fazer a declaração de `atob`. Se você declarar `var atob` dentro da instrução `if`, esta declaração será elevada (veja o livro *Escopos & Closures* desta série) para o topo do escopo, mesmo se a condição `if` não passar (porque a váriavel global `atob` já existe!). Em alguns navegadores e para alguns tipos especiais de variáveis construidas globalmente (geralmente chamadas de "host objects (objetos hospedeiros)"), esta declaração duplicada pode gerar erros. Omitindo o `var` impede que essa declaração seja elevada.
 
 Outra maneira de fazer essas verificações de variáveis globais sem utilizar a proteção de segurança do `typeof` é observar que todas essas variáveis globais são propriedades do objeto global, que no navegador é basicamente o objeto `window`. Então, as verificações acima poderiam ter sido feitas (seguramente) com:
 
@@ -252,7 +252,7 @@ function doSomethingCool() {
 
 ```js
 // uma IIFE (veja a discussão "Expressão de Função Imediatamente Invocada"
-// no livro *Escopo & Clausuras* desta série)
+// no livro *Escopo & Closures* desta série)
 (function(){
 	function FeatureXYZ() { /*.. minha função XYZ ..*/ }
 

@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Clausuras
+# You Don't Know JS: Escopos & Closures
 # Capítulo 2: Escopo Léxico
 
 No Capítulo 1, definimos "escopo" como o conjunto de regras que dita a forma com que o *Motor* poderá buscar e eventualmente localizar variáveis através de seus identificadores, tanto no *Escopo* atual quanto nos *Escopos aninhados* que este possa estar inserido.

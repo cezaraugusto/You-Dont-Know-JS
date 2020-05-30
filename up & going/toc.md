@@ -27,7 +27,7 @@
 	* [Velho & Novo](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#velho--novo)
 	* [Não-JavaScript](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#n%C3%A3o-javascript)
 * [Capítulo 3: Dentro do YDKJS](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md)
-	* [Escopos & Clausuras](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--clausuras)
+	* [Escopos & Closures](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--closures)
 	* this & Prototipagem de Objetos
 	* Tipos & Gramática
 	* Async & Performance

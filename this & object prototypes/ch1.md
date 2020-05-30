@@ -146,7 +146,7 @@ console.log( data.count ); // 4
 
 Embora seja verdade que essa abordagem "resolve" o problema, infelizmente ela simplesmente ignora o problema real -- a falta de entendimento do que o `this` significa e como ele funciona -- e, ao invés disso, retrocede para a zona de conforto de um mecanismo mais familiar: o escopo léxico.
 
-**Nota:** Escopo léxico é um mecanismo muito bom e útil; Eu não estou menosprezando o uso dele, de forma alguma (veja o título *"Escopo & Closures"* desta série de livros). Mas constantemente *adivinhar* como usar o `this`, e geralmente estar *errado*, não é uma boa razão para se voltar para o escopo léxico e nunca aprender *porquê* o `this` ilude você.
+**Nota:** Escopo léxico é um mecanismo muito bom e útil; Eu não estou menosprezando o uso dele, de forma alguma (veja o título *"Escopos & Closures"* desta série de livros). Mas constantemente *adivinhar* como usar o `this`, e geralmente estar *errado*, não é uma boa razão para se voltar para o escopo léxico e nunca aprender *porquê* o `this` ilude você.
 
 Para referenciar o objeto da função de dentro dela mesma, `this` por si só será em geral insuficiente. Normalmente você precisa de uma referência para o objeto da função por um identificador léxico (variável) que aponta para ela.
 
@@ -237,7 +237,7 @@ console.log( foo.count ); // 4
 
 O próximo equívoco mais comum sobre o significado do `this` é que ele, de alguma forma, se refere ao escopo léxico da função. É uma questão complicada, porque por um lado isso é verdade, mas pelo outro é bastante errado.
 
-Para ser claro, `this` não é, de forma alguma, uma referência para o **escopo léxico** da função. É verdade que internamente, o escopo é como um objeto com propriedades para cada um dos identificadores disponíveis. Mas o "objeto" do escopo não é acessível para o código JavaScript. É uma parte interna da implementação da *Engine*.
+Para ser claro, `this` não é, de forma alguma, uma referência para o **escopo léxico** da função. É verdade que internamente, o escopo é como um objeto com propriedades para cada um dos identificadores disponíveis. Mas o "objeto" do escopo não é acessível para o código JavaScript. É uma parte interna da implementação do *Motor*.
 
 Considere o código que tenta (e falha!) cruzar o limite e usar o `this` para, implicitamente, se referir ao escopo léxico da função:
 
@@ -268,11 +268,11 @@ Deixando de lado as várias premissas incorretas, vamos focar nossa atenção pa
 
 Mais cedo falamos que o `this` não é um vínculo do momento de escrita mas um vínculo do momento de execução. Ele é baseado nas condições do contexto da função que o chama. O vínculo `this` não tem nada a ver com onde a função foi declarada, mas em vez disso, tem tudo a ver com com a forma que a função é chamada.
 
-Quando uma função é chamada, um registro de ativação, também conhecido como contexto de execução, é criado. Esse registro contém informações sobre de onde a função foi chamada (a call-stack), *como* a função foi chamada, quais parâmetros foram passados, etc. Uma das propriedades desse registro é a referência `this`, que será usada pela duração da execução dessa função.
+Quando uma função é chamada, um registro de ativação, também conhecido como contexto de execução, é criado. Esse registro contém informações sobre de onde a função foi chamada (a pilha de chamadas), *como* a função foi chamada, quais parâmetros foram passados, etc. Uma das propriedades desse registro é a referência `this`, que será usada pela duração da execução dessa função.
 
 No próximo capítulo, nós vamos aprender a encontrar o **call-site** da função para determinar como sua execução será vinculada ao `this`.
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
 O vínculo `this` é uma constante fonte de confusão para os desenvolvedores JavaScript que não param para aprender como o mecanismo realmente funciona. Suposições, tentativa e falha, e copiar-e-colar cegamente das respostas do Stack Overflow não são maneiras eficazes ou adequadas de alavancar esse importante mecanismo `this`.
 

@@ -1,4 +1,4 @@
-# You Don't Know JS: Escopos & Clausuras
+# You Don't Know JS: Escopos & Closures
 
 ## Índice
 
@@ -21,7 +21,7 @@
 	* O Ovo ou a Galinha?
 	* O Compilador ataca novamente
 	* Primeiro as Funções
-* Capítulo 5: Clausuras de Escopo
+* Capítulo 5: Closures de Escopo
 	* Esclarecimento
 	* Nitty Gritty
 	* Agora eu posso ver
