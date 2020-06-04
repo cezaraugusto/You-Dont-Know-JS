@@ -113,13 +113,13 @@ Esse é um padrão de design *extremamente poderoso*, muito diferente da ideia d
 
 **Nota:** O uso de delegação é mais apropriado como um detalhe de implementação interno ao invés de algo exposto diretamente no desenho da interface da API. No exemplo acima, nós não necessariamente *pretendemos* com o desenho de nossa API que desenvolvedores chamem `XYZ.setID()` (embora seja possível, é claro!). Nós meio que *escondemos* a delegação como um detalhe interno de nossa API, onde `XYZ.prepareTask(..)` delega para `Task.setID(..)`. Veja a discussão de "Ligações como Fallbacks?" no Capítulo 5 para maiores detalhes.
 
-#### Mutual Delegation (Disallowed)
+#### Delegação Mútua (Não permitida)
 
-You cannot create a *cycle* where two or more objects are mutually delegated (bi-directionally) to each other. If you make `B` linked to `A`, and then try to link `A` to `B`, you will get an error.
+Você não pode criar um *ciclo* onde dois ou mais objetos estão mutualmente delegados um para o outro (bidirecionalmente). Se você fizer `B` ligado a `A`, e então tentar ligar `A` para `B`, você receberá um erro.
 
-It's a shame (not terribly surprising, but mildly annoying) that this is disallowed. If you made a reference to a property/method which didn't exist in either place, you'd have an infinite recursion on the `[[Prototype]]` loop. But if all references were strictly present, then `B` could delegate to `A`, and vice versa, and it *could* work. This would mean you could use either object to delegate to the other, for various tasks. There are a few niche use-cases where this might be helpful.
+É uma vergonha (não é terrivelmente surpreendente, mas um pouco irritante) que isso não seja permitido. Se você criasse uma referência a uma propriedade/método que não exista em nenhum lugar, você teria um loop de recursão infinita no `[[Prototype]]`. Mas se todas as referências estiverem estritamente presentes, então `B` poderia delegar para `A`, e vice-versa, e isso *poderia* funcionar. Isso significa que você poderia usar um dos objetos para delegar para o outro, para várias tarefas. Existem alguns poucos casos de uso onde isso poderia ser útil.
 
-But it's disallowed because engine implementors have observed that it's more performant to check for (and reject!) the infinite circular reference once at set-time rather than needing to have the performance hit of that guard check every time you look-up a property on an object.
+Mas isto não é permitido porque os implementadores dos motores JS observaram que é mais eficiente verificar (e rejeitar!) referências circulares infinitas uma vez na sua definição, do que precisar ter o impacto de execução dessas verificações toda vez que você procurar por uma propriedade em um objeto.
 
 #### Debugged
 
