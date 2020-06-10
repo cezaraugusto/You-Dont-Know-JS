@@ -51,9 +51,9 @@ Embora a segunda versão seja mais precisa, as duas são deficientes em explicar
 
 Assim que introduzimos uma só dessas continuações (ou várias dezenas como muitos programas fazem!) na forma de uma callback, permitimos formar uma divergência entre o funcionamento de nossos cérebros e a maneira como o código funcionará. Sempre que esses dois divergem (e longe desse ser o único lugar que isso acontece, como eu tenho certeza que você sabe!), nos deparamos com o fato inevitável de que nosso código se torna mais difícil de entender, raciocinar, depurar e manter.
 
-## Sequential Brain
+## Cérebro Sequencial
 
-I'm pretty sure most of you readers have heard someone say (even made the claim yourself), "I'm a multitasker." The effects of trying to act as a multitasker range from humorous (e.g., the silly patting-head-rubbing-stomach kids' game) to mundane (chewing gum while walking) to downright dangerous (texting while driving).
+Tenho certeza de que a maioria de vocês, leitores, já ouviram alguém dizer (até mesmo fez a afirmação): "Sou multitarefa". Os efeitos de tentar agir como uma multitarefa variam de humor (por exemplo, do jogo bobo das crianças batendo na cabeça e esfregando o estômago) ao mundano (mascar chiclete enquanto caminha) até completamente perigoso (mensagens de texto enquanto dirige).
 
 But are we multitaskers? Can we really do two conscious, intentional actions at once and think/reason about both of them at exactly the same moment? Does our highest level of brain functionality have parallel multithreading going on?
 
