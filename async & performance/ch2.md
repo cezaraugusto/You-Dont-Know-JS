@@ -55,25 +55,25 @@ Assim que introduzimos uma só dessas continuações (ou várias dezenas como mu
 
 Tenho certeza de que a maioria de vocês, leitores, já ouviram alguém dizer (até mesmo fez a afirmação): "Sou multitarefa". Os efeitos de tentar agir como uma multitarefa variam de humor (por exemplo, do jogo bobo das crianças batendo na cabeça e esfregando o estômago) ao mundano (mascar chiclete enquanto caminha) até completamente perigoso (mensagens de texto enquanto dirige).
 
-But are we multitaskers? Can we really do two conscious, intentional actions at once and think/reason about both of them at exactly the same moment? Does our highest level of brain functionality have parallel multithreading going on?
+Mas somos multitarefas? Podemos realmente realizar duas ações conscientes e intencionais ao mesmo tempo e pensar/raciocinar sobre as duas exatamente no mesmo momento? Nosso nível mais alto de funcionalidade cerebral tem multithreading paralelo?
 
-The answer may surprise you: **probably not.**
+A resposta pode surpreendê-lo: **provavelmente não.**
 
-That's just not really how our brains appear to be set up. We're much more single taskers than many of us (especially A-type personalities!) would like to admit. We can really only think about one thing at any given instant.
+Não é exatamente assim que nosso cérebro parece estar configurado. Somos muito mais monotarefas do que muitos de nós (especialmente personalidades do Tipo A!) gostaríamos de admitir. Podemos realmente pensar em apenas uma coisa no mesmo instante.
 
-I'm not talking about all our involuntary, subconscious, automatic brain functions, such as heart beating, breathing, and eyelid blinking. Those are all vital tasks to our sustained life, but we don't intentionally allocate any brain power to them. Thankfully, while we obsess about checking social network feeds for the 15th time in three minutes, our brain carries on in the background (threads!) with all those important tasks.
+Não estou falando de todas as nossas funções cerebrais involuntárias, subconscientes e automáticas, como batimentos cardíacos, respiração e pálpebras piscando. Todas essas são tarefas vitais para a nossa vida sustentável, mas não alocamos intencionalmente qualquer poder cerebral a elas. Felizmente, enquanto estamos obcecados em verificar feeds de redes sociais pela 15ª vez em três minutos, nosso cérebro continua em segundo plano (threads!) com todas essas tarefas importantes.
 
-We're instead talking about whatever task is at the forefront of our minds at the moment. For me, it's writing the text in this book right now. Am I doing any other higher level brain function at exactly this same moment? Nope, not really. I get distracted quickly and easily -- a few dozen times in these last couple of paragraphs!
+Em vez disso, estamos falando sobre qualquer tarefa que esteja na linha de frente das nossas mentes no momento. Para mim, é estar escrevendo o texto neste livro agora. Estou executando alguma outra função cerebral de nível superior exatamente neste mesmo momento? Não, na verdade não. Eu me distraio com rapidez e facilidade -- algumas dezenas de vezes nesses últimos parágrafos!
 
-When we *fake* multitasking, such as trying to type something at the same time we're talking to a friend or family member on the phone, what we're actually most likely doing is acting as fast context switchers. In other words, we switch back and forth between two or more tasks in rapid succession, *simultaneously* progressing on each task in tiny, fast little chunks. We do it so fast that to the outside world it appears as if we're doing these things *in parallel*.
+Quando *fingimos* multitarefa, como tentar digitar algo ao mesmo tempo em que conversamos com um amigo ou membro da família por telefone, o que realmente estamos fazendo é agir como rápidos alternadores de contexto. Em outras palavras, alternamos entre duas ou mais tarefas em rápida sucessão, progredindo *simultaneamente* em cada tarefa em pedaços pequenos e rápidos. Fazemos isso tão velozmente que, para o mundo exterior, parece que estamos realizando essas coisas *em paralelo*.
 
-Does that sound suspiciously like async evented concurrency (like the sort that happens in JS) to you?! If not, go back and read Chapter 1 again!
+Isso parece como concorrência assíncrona de eventos (semelhante ao que acontece em JS) para você?! Se não, volte e leia o Capítulo 1 novamente!
 
-In fact, one way of simplifying (i.e., abusing) the massively complex world of neurology into something I can remotely hope to discuss here is that our brains work kinda like the event loop queue.
+Na verdade, uma maneira de simplificar (ou seja, abusar) o mundo massivamente complexo da neurologia em algo que eu possa remotamente esperar discutir aqui é que nosso cérebro funciona como a fila de loop de eventos.
 
-If you think about every single letter (or word) I type as a single async event, in just this sentence alone there are several dozen opportunities for my brain to be interrupted by some other event, such as from my senses, or even just my random thoughts.
+Se você pensar em cada letra (ou palavra) que digito como um único evento assíncrono, apenas nesta frase existem várias dezenas de oportunidades para o meu cérebro ser interrompido por outro evento, como pelos meus sentidos, ou mesmo apenas pelos meus pensamentos aleatórios.
 
-I don't get interrupted and pulled to another "process" at every opportunity that I could be (thankfully -- or this book would never be written!). But it happens often enough that I feel my own brain is nearly constantly switching to various different contexts (aka "processes"). And that's an awful lot like how the JS engine would probably feel.
+Eu não sou interrompido e puxado para outro "processo" em todas as oportunidades que eu poderia ter (felizmente - ou esse livro nunca seria escrito!). Mas isso acontece frequente o suficiente para que eu sinta que meu próprio cérebro está quase constantemente mudando para vários contextos diferentes (também conhecidos como "processos"). E é muito parecido com o que o mecanismo JS provavelmente sentiria.
 
 ### Doing Versus Planning
 
