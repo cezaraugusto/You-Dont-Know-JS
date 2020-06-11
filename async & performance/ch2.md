@@ -11,13 +11,13 @@ Como você sem dúvida deve ter observado, callbacks são de longe a forma mais 
 
 Inúmeros programas JavaScript, até os muito sofisticados e complexos, têm sido escritos sobre não outra fundação assíncrona que não o callback (claro que com padrões de interação concorrentes que exploramos no Capítulo 1). A função callback é o cavalo de trabalho assíncrono para o JavaScript, e ele respeitavelmente faz seu trabalho.
 
-Except... callbacks are not without their shortcomings. Many developers are excited by the *promise* (pun intended!) of better async patterns. But it's impossible to effectively use any abstraction if you don't understand what it's abstracting, and why.
+Só que... callbacks não deixam de ter suas deficiências. Muitos desenvolvedores estão entusiasmados com a *promessa* (trocadilho!) de melhores padrões de assincronia. Mas é impossível usar efetivamente qualquer abstração se você não entender o que está abstraindo e por quê.
 
-In this chapter, we will explore a couple of those in depth, as motivation for why more sophisticated async patterns (explored in subsequent chapters of this book) are necessary and desired.
+Neste capítulo, exploraremos alguns deles em profundidade, como motivação para o porquê de mais padrões assíncronos sofisticados (explorados nos capítulos subsequentes deste livro) serem necessários e desejados.
 
-## Continuations
+## Continuações
 
-Let's go back to the async callback example we started with in Chapter 1, but let me slightly modify it to illustrate a point:
+Vamos voltar ao exemplo de callback assíncrono que começamos no Capítulo 1, mas deixe-me modificá-lo um pouco para ilustrar um ponto:
 
 ```js
 // A
@@ -27,11 +27,11 @@ ajax( "..", function(..){
 // B
 ```
 
-`// A` and `// B` represent the first half of the program (aka the *now*), and `// C` marks the second half of the program (aka the *later*). The first half executes right away, and then there's a "pause" of indeterminate length. At some future moment, if the Ajax call completes, then the program will pick up where it left off, and *continue* with the second half.
+`// A` e `// B` representam a primeira metade do programa (também conhecido como *agora*) e `// C` marca a segunda metade (também conhecida como *depois*). A primeira metade é executada imediatamente e, em seguida, há uma "pausa" de duração indeterminada. Em algum momento futuro, se a chamada Ajax for concluída, a execução do programa partirá de onde parou e *continuará* com a segunda metade.
 
-In other words, the callback function wraps or encapsulates the *continuation* of the program.
+Em outras palavras, a função de callback envolve ou encapsula a *continuação* do programa.
 
-Let's make the code even simpler:
+Vamos tornar o código ainda mais simples:
 
 ```js
 // A
@@ -41,19 +41,19 @@ setTimeout( function(){
 // B
 ```
 
-Stop for a moment and ask yourself how you'd describe (to someone else less informed about how JS works) the way that program behaves. Go ahead, try it out loud. It's a good exercise that will help my next points make more sense.
+Pare por um momento e pergunte a si mesmo como você descreveria (para alguém menos informado sobre como o JS funciona) o modo como este programa se comporta. Vá em frente, tente em voz alta. É um bom exercício que ajudará meus próximos pontos a fazerem mais sentido.
 
-Most readers just now probably thought or said something to the effect of: "Do A, then set up a timeout to wait 1,000 milliseconds, then once that fires, do C." How close was your rendition?
+A maioria dos leitores provavelmente pensou ou disse algo como: "Faça A e, em seguida, defina um tempo limite para esperar 1.000 milissegundos, e depois que este tempo acabar, faça C." Quão perto foi a sua interpretação?
 
-You might have caught yourself and self-edited to: "Do A, setup the timeout for 1,000 milliseconds, then do B, then after the timeout fires, do C." That's more accurate than the first version. Can you spot the difference?
+Você pode ter se pegado corrigindo automaticamente para: "Faça A, configure o tempo limite de espera para 1.000 milissegundos, em seguida faça B e depois que o tempo limite for disparado, faça C." Isso é mais preciso que a primeira versão. Você pode ver a diferença?
 
-Even though the second version is more accurate, both versions are deficient in explaining this code in a way that matches our brains to the code, and the code to the JS engine. The disconnect is both subtle and monumental, and is at the very heart of understanding the shortcomings of callbacks as async expression and management.
+Embora a segunda versão seja mais precisa, as duas são deficientes em explicar esse código de maneira a conectar nossos cérebros ao código e o código ao mecanismo JS. A desconexão é sutil e monumental e está no cerne de compreender as deficiências das callbacks como expressão e gerenciamento assíncronos.
 
-As soon as we introduce a single continuation (or several dozen as many programs do!) in the form of a callback function, we have allowed a divergence to form between how our brains work and the way the code will operate. Any time these two diverge (and this is by far not the only place that happens, as I'm sure you know!), we run into the inevitable fact that our code becomes harder to understand, reason about, debug, and maintain.
+Assim que introduzimos uma só dessas continuações (ou várias dezenas como muitos programas fazem!) na forma de uma callback, permitimos formar uma divergência entre o funcionamento de nossos cérebros e a maneira como o código funcionará. Sempre que esses dois divergem (e longe desse ser o único lugar que isso acontece, como eu tenho certeza que você sabe!), nos deparamos com o fato inevitável de que nosso código se torna mais difícil de entender, raciocinar, depurar e manter.
 
-## Sequential Brain
+## Cérebro Sequencial
 
-I'm pretty sure most of you readers have heard someone say (even made the claim yourself), "I'm a multitasker." The effects of trying to act as a multitasker range from humorous (e.g., the silly patting-head-rubbing-stomach kids' game) to mundane (chewing gum while walking) to downright dangerous (texting while driving).
+Tenho certeza de que a maioria de vocês, leitores, já ouviram alguém dizer (até mesmo fez a afirmação): "Sou multitarefa". Os efeitos de tentar agir como uma multitarefa variam de humor (por exemplo, do jogo bobo das crianças batendo na cabeça e esfregando o estômago) ao mundano (mascar chiclete enquanto caminha) até completamente perigoso (mensagens de texto enquanto dirige).
 
 But are we multitaskers? Can we really do two conscious, intentional actions at once and think/reason about both of them at exactly the same moment? Does our highest level of brain functionality have parallel multithreading going on?
 
