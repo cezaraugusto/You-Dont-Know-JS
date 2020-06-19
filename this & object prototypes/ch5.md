@@ -194,6 +194,7 @@ Nós conseguimos ter o que queremos de uma forma mais *direta*? **Sim!** o heró
 #### O que está em um nome?
 
 Em JavaScript, nós não fazemos *cópias* de um objeto ("classe") para outro ("instância"). Nós criamos *ligações* entre objetos. Para o mecanismo `[[Prototype]]`, visualmente, as setas movem da direita pra esquerda, e de baixo pra cima.
+
 <img src="fig3.png">
 
 Este mecanismo é frequentemente chamado de "herança prototípica" (nós examinaremos o código em detalhes à seguir), e é comumente considerado como a versão em linguagem dinâmica para a "herança clássica". É uma tentativa de se apoiar no entendimento comum do que "herança" significa no mundo orientado à classes, mas *ajustar* (**leia: pavimentar**) a semântica compreendida para se adequar ao script dinâmico.

@@ -196,11 +196,11 @@ Se você não usar um "constructor" para criar seus objetos, como desencorajamos
 
 **Não pense** que isso representa uma desvantagem do estilo de código OLOO. Quando você escreve código com OLOO e delegação de comportamento como seu padrão de design, *quem* "construiu" (isso é, *qual função* foi chamada com `new`?) algum objeto é um detalhe irrelevante. O rastreamento interno de "constructor name" específico do Chrome só é realmente útil se você adotar totalmente o estilo de código de "classe", mas é discutível se, no lugar, você adotar delegação de OLOO.
 
-### Mental Models Compared
+### Modelos Mentais Comparados
 
-Now that you can see a difference between "class" and "delegation" design patterns, at least theoretically, let's see the implications these design patterns have on the mental models we use to reason about our code.
+Agora que você pode ver a diferença entre os padrões de design "classe" e "delegação", pelo menos teoricamente, vamos ver as implicações que esses padrões de design tem nos modelos mentais que usamos para pensar sobre nosso código.
 
-We'll examine some more theoretical ("Foo", "Bar") code, and compare both ways (OO vs. OLOO) of implementing the code. The first snippet uses the classical ("prototypal") OO style:
+Nós vamos examinar um código mais hipotético ("Foo", "Bar"), e comparar as duas formas (OO vs. OLOO) de se implementar o código. O primeiro trecho usa o clássico estilo OO (com "prototype"):
 
 ```js
 function Foo(who) {
@@ -226,9 +226,9 @@ b1.speak();
 b2.speak();
 ```
 
-Parent class `Foo`, inherited by child class `Bar`, which is then instantiated twice as `b1` and `b2`. What we have is `b1` delegating to `Bar.prototype` which delegates to `Foo.prototype`. This should look fairly familiar to you, at this point. Nothing too ground-breaking going on.
+A classe pai `Foo`, herdada pela classe filha `Bar`, é então instanciada duas vezes como `b1` e `b2`. O que nós temos é `b1` delegando para `Bar.prototype` que delega para `Foo.prototype`. Isso deve parecer bastante familiar para você, nesse momento. Nada muito inovador acontecendo.
 
-Now, let's implement **the exact same functionality** using *OLOO* style code:
+Agora, vamos implementar **exatamente a mesma funcionalidade** usando o estilo de código *OLOO*:
 
 ```js
 var Foo = {
@@ -255,35 +255,35 @@ b1.speak();
 b2.speak();
 ```
 
-We take exactly the same advantage of `[[Prototype]]` delegation from `b1` to `Bar` to `Foo` as we did in the previous snippet between `b1`, `Bar.prototype`, and `Foo.prototype`. **We still have the same 3 objects linked together**.
+Nós pegamos exatamente as mesmas vantagens da delegação via `[[Prototype]]` de `b1` para `Bar` para `Foo` como nós fizemos no exemplo anterior entre `b1`, `Bar.prototype`, e `Foo.prototype`. **Nós ainda temos os mesmos 3 objetos ligados entre si**.
 
-But, importantly, we've greatly simplified *all the other stuff* going on, because now we just set up **objects** linked to each other, without needing all the cruft and confusion of things that look (but don't behave!) like classes, with constructors and prototypes and `new` calls.
+Mas, mais importante, nós simplificamos bastante *todas as outras coisas*, porque agora nós apenas ligamos **objetos** uns aos outros, sem precisar de toda a confusão de coisas que parecem (mas não se comportam!) como classes, com contrutores e prototypes e chamadas `new`.
 
-Ask yourself: if I can get the same functionality with OLOO style code as I do with "class" style code, but OLOO is simpler and has less things to think about, **isn't OLOO better**?
+Pergunte a si mesmo: se eu posso ter a mesma funcionalidade com código OLOO como eu tenho com código estilo "class", mas OLOO é mais simples e tem menos coisas para me preocupar, **OLOO é melhor**?
 
-Let's examine the mental models involved between these two snippets.
+Vamos examinar os modelos mentais involvidos entre esses dois exemplos.
 
-First, the class-style code snippet implies this mental model of entities and their relationships:
+Primeiro, o trecho de código no estilo de classe implica esse modelo mental de entidades e seus relacionamentos:
 
 <img src="fig4.png">
 
-Actually, that's a little unfair/misleading, because it's showing a lot of extra detail that you don't *technically* need to know at all times (though you *do* need to understand it!). One take-away is that it's quite a complex series of relationships. But another take-away: if you spend the time to follow those relationship arrows around, **there's an amazing amount of internal consistency** in JS's mechanisms.
+Na verdade, isso é um pouco desleal/ilusório, porque mostra vários detalhes extras que você *tecnicamente* não precisa saber o tempo todo (embora você *precise* entendê-los!). Um deles é que é uma série bastante complexa de relacionamentos. Mas outra coisa é: se você dedicar tempo para seguir essas setas de relacionamentos, **há uma incrível quantidade de consistência interna** nos mecanismos do JS.
 
-For instance, the ability of a JS function to access `call(..)`, `apply(..)`, and `bind(..)` (see Chapter 2) is because functions themselves are objects, and function-objects also have a `[[Prototype]]` linkage, to the `Function.prototype` object, which defines those default methods that any function-object can delegate to. JS can do those things, *and you can too!*.
+Por exemplo, a habilidade de uma função JS acessar `call(..)`, `apply(..)`, e `bind(..)` (veja o Capítulo 2) é porque funções em si são objetos, e funções-objeto também tem um vínculo de `[[Prototype]]`, para o objeto `Function.prototype`, que define esses métodos padrões que qualquer função-objeto pode usar por delegação. JS pode fazer essas coisas, *e você também pode!*.
 
-OK, let's now look at a *slightly* simplified version of that diagram which is a little more "fair" for comparison -- it shows only the *relevant* entities and relationships.
+OK, agora vamos olhar para uma versão *ligeiramente* simplificada desse diagrama que é um pouco mais "justa" para comparação -- mostra apenas as entidades e relacionamentos *relevantes*.
 
 <img src="fig5.png">
 
-Still pretty complex, eh? The dotted lines are depicting the implied relationships when you setup the "inheritance" between `Foo.prototype` and `Bar.prototype` and haven't yet *fixed* the **missing** `.constructor` property reference (see "Constructor Redux" in Chapter 5). Even with those dotted lines removed, the mental model is still an awful lot to juggle every time you work with object linkages.
+Ainda é bem complexo, né? As linhas tracejadas estão descrevendo os relacionamentos implícitos de quando você define a "herança" entre `Foo.prototype` e `Bar.prototype` e ainda não *corrigiu* a referência da propriedade `.constructor` **ausente** (veja "Constructor Redux" no Capítulo 5). Mesmo com essas linhas tracejadas removidas, o modelo mental ainda é um malabarismo muito terrível toda vez que você trabalha com vínculos de objetos.
 
-Now, let's look at the mental model for OLOO-style code:
+Agora, vamos dar uma olhada no modelo mental para código estilo OLOO:
 
 <img src="fig6.png">
 
-As you can see comparing them, it's quite obvious that OLOO-style code has *vastly less stuff* to worry about, because OLOO-style code embraces the **fact** that the only thing we ever really cared about was the **objects linked to other objects**.
+Como você pode ver comparando eles, é óbvio que o código estilo OLOO tem *muito menos coisa* para se preocupar, porque código OLOO abraça o **fato** que a única coisa que nos preocupamos foi com **objetos ligados a outros objetos**.
 
-All the other "class" cruft was a confusing and complex way of getting the same end result. Remove that stuff, and things get much simpler (without losing any capability).
+Todas as outras sujeiras de "classes" foram uma confusa e complexa forma de se conseguir o mesmo resultado. Remova essas coisas, e as coisas ficam muito mais simples (sem perder nenhuma funcionalidade).
 
 ## Classes vs. Objects
 
