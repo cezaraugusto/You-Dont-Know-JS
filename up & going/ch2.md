@@ -582,7 +582,7 @@ function foo() {
 }
 ```
 
-Apesar de não parecer óbvio por essa sintaxe, `foo` é basicamente apenas uma variável que referência um escopo por onde é feita a referência para a função (`function`) que está sendo declarada. Isso é, a `function` por si só é um valor, assim como `42` ou `[1,2,3]` podem ser.
+Apesar de não parecer óbvio por essa sintaxe, `foo` é basicamente apenas uma variável que referencia um escopo por onde é feita a referência para a função (`function`) que está sendo declarada. Isso é, a `function` por si só é um valor, assim como `42` ou `[1,2,3]` podem ser.
 
 Pode parecer um conceito estranho de primeira, então vamos tirar um tempo para ponderar. Você não apenas pode passar um valor (argumento) *para* a função, mas *a função por conta própria pode ser um valor* que pode ser designado a uma variável, ou, passado para ou retornado por, outras funções.
 
@@ -951,7 +951,7 @@ Um outro exemplo é com input/output (I/O).
 
 O favorito de todos, `alert(..)`, *pipoca* uma caixa de mensagem na janela do navegador do usuário. O `alert(..)` é provido para seu programa em JS pelo navegador, não pelo mecanismo do JS propriamente dito. O chamado que você faz envia uma mensagem para os mecanismos internos do navegador que fazem o desenho e enfim mostram a caixa de mensagem.
 
-O mesmo acontece com o `console.log(..)`; seu navegador provê os devidos mecanismos e colocam-os nas *ferramentas do desenvolvedor*.
+O mesmo acontece com o `console.log(..)`; seu navegador provê os devidos mecanismos e os colocam nas *ferramentas do desenvolvedor*.
 
 Este livro, e toda esta série, focam na linguagem JavaScript. Esse é o motivo de você não ver nenhuma cobertura substancial desses mecanismos JavaScript não-JavaScript. Independentemente, você precisa estar atento à eles, visto que eles estarão em todo programa em JS que você for escrever!
 
