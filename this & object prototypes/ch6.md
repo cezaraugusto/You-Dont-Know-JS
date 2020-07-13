@@ -285,11 +285,11 @@ Como você pode ver comparando eles, é óbvio que o código estilo OLOO tem *mu
 
 Todas as outras sujeiras de "classes" foram uma confusa e complexa forma de se conseguir o mesmo resultado. Remova essas coisas, e as coisas ficam muito mais simples (sem perder nenhuma funcionalidade).
 
-## Classes vs. Objects
+## Classes vs. Objetos
 
-We've just seen various theoretical explorations and mental models of "classes" vs. "behavior delegation". But, let's now look at more concrete code scenarios to show how'd you actually use these ideas.
+Acabamos de ver várias explorações teóricas e modelos mentais de "classes" vs. "delegação de comportamento". Mas, agora vamos analisar cenários de código mais concretos para mostrar como você realmente usa essas ideias.
 
-We'll first examine a typical scenario in front-end web dev: creating UI widgets (buttons, drop-downs, etc).
+Primeiro, examinaremos um cenário típico no desenvolvimento web front-end: criação de widgets de UI (botões, menus suspensos etc.).
 
 ### Widget "Classes"
 
