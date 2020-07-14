@@ -104,6 +104,7 @@
 
 * Features: Funcionalidades
 * Floating-point: Ponto flutuante
+* Framework: é uma abstração que une códigos comuns entre vários projetos de software provendo uma funcionalidade genérica (vide [Wikipédia](https://pt.wikipedia.org/wiki/Framework))
 
 
 #### G
