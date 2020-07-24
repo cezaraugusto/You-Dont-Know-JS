@@ -5,7 +5,7 @@ Se você vem escrevendo JS por algum tempo, é provável que a sintaxe pareça b
 
 Entretanto, o ES6 adiciona algumas formas sintáxicas que requerem algum tempo para se familiarizar. Nesse capítulo, iremos navegar através dela para encontrar o que ela nos reserva.
 
-**Dica:** No momento desta escrita, algumas funcionalidades	discutidas neste livro já foram implementadas em diversos navegadores (Firefox, Chrome, etc.), mas algumas foram apenas parcialmente implementadas e muitas outras não sequer implementadas ainda. Sua experiência pode ser diversificada ao tentar esses exemplos diretamente. Se for, tente elas utilizando transpiladores, já que a maioria dessas funcionalidades foram cobertas por essas ferramentas. O ES6Fiddle (http://www.es6fiddle.net/) é um playground ótimo, fácil de usar para testar o ES6, já que é o REPL online para o transpilador Babel. (http://babeljs.io/repl/).
+**Dica:** No momento desta escrita, algumas funcionalidades	discutidas neste livro já foram implementadas em diversos navegadores (Firefox, Chrome, etc.), mas algumas foram apenas parcialmente implementadas e muitas outras não foram sequer implementadas ainda. Sua experiência pode ser diversificada ao tentar esses exemplos diretamente. Se for, tente elas utilizando transpiladores, já que a maioria dessas funcionalidades foram cobertas por essas ferramentas. O ES6Fiddle (http://www.es6fiddle.net/) é um playground ótimo, fácil de usar para testar o ES6, já que é o REPL online para o transpilador Babel. (http://babeljs.io/repl/).
 
 ## Declarações em blocos de Escopos
 
@@ -49,7 +49,7 @@ Estéticamente falando, eu sempre prefiro usar o `let` na mesma linha do que a a
 }
 ```
 
-Agora, isso parece estranho aos olhos e é provável que não vá corresponder às recomendações dadas na maioria das literaturas sobre ES6. Maas eu tenho razões para minha loucura.
+Agora, isso parece estranho aos olhos e é provável que não vá corresponder às recomendações dadas na maioria das literaturas sobre ES6. Mas eu tenho razões para minha loucura.
 
 Existe outra forma experimental (não padronizada) de declarações `let` chamadas de `let`-block, que se parece com isso:
 
@@ -361,7 +361,7 @@ function bar() {
 bar( 0, 1, 2, 3 );					// 2 4
 ```
 
-O `...args` na declaração da função `foo(...)` reúne os argumentos, e o `...args` no `console.log(...)` chama os distribui. Essa é uma boa ilustração dos usos simétricos, mas opostos operadores `...`.
+O `...args` na declaração da função `foo(...)` reúne os argumentos, e o `...args` na chamada do `console.log(...)` os distribui. Essa é uma boa ilustração dos usos simétricos, mas opostos operadores `...`.
 
 Além do caso do `...` na declaração da função, há outro caso onde `...` é usado para reunir valores, e nós veremos isso mais adiante neste capítulo, na seção “Muitos, poucos, apenas o suficiente”.
 
@@ -383,7 +383,7 @@ foo( 5 );			// 36
 foo( null, 6 );		// 17
 ```
 
-É claro que, se você já usou este padrão antes, você sabe como isso é um tanto perigoso como útil, se por exemplo, você precisa ser capaz de transmitir em o que outro modo pode ser considerado um valor falso para um dos parâmetros. Considere:
+É claro que, se você já usou este padrão antes, você sabe como isso é um tanto perigoso como útil, se por exemplo, você precisa ser capaz de transmitir o que seria considerado um valor falso para um dos parâmetros. Considere:
 
 ```js
 foo( 0, 42 );		// 53 <-- Oops, não 42
@@ -641,7 +641,7 @@ console.log( AA, BB );				// 10 20
 
 Na linha `{x: aa, y: bb}`, `x` e` y` representam as propriedades do objeto. Na linha `{x: AA, y: BB}`, o `x` e o `y` *também* representam as propriedades do objeto.
 
-Lembre-se de como eu afirmei anteriormente que `{x, ..}` estava deixando de fora a parte `x:`? Nessas duas linhas, se você apagar as partes `x:` e `y:` nesse trecho, você ficará apenas com `aa, bb` e` AA, BB`, que na verdade - apenas conceitualmente, não atualmente - são atribuições de `aa` para` AA` e de `bb` para` BB`.
+Lembre-se de como eu afirmei anteriormente que `{x, ..}` estava deixando de fora a parte `x:`? Nessas duas linhas, se você apagar as partes `x:` e `y:` nesse trecho, você ficará apenas com `aa, bb` e` AA, BB`, que na verdade - apenas conceitualmente, não atualmente - são atribuições de `aa` para` AA` e de `bb` para `BB`.
 
 Assim, essa simetria pode ajudar a explicar por que o padrão sintático foi invertido intencionalmente para esse recurso do ES6.
 
@@ -881,7 +881,7 @@ var [ b, ...c ] = a;
 console.log( b, c );				// 2 [3,4]
 ```
 
-A atribuição de desestruturação `var [..] = a` se estende 'a' para ser atribuída ao padrão descrito em` [..] `. A primeira parte chama `b` para o primeiro valor em `a` (`2`). Mas então `...c` junta o resto dos valores (`3` e `4`) em um array chamado de `c`.
+A atribuição de desestruturação `var [..] = a` espalha o 'a' para ser atribuído ao padrão descrito em` [..] `. A primeira parte chama `b` para o primeiro valor em `a` (`2`). Mas então `...c` junta o resto dos valores (`3` e `4`) em um array chamado de `c`.
 
 **Nota:** Vimos como o `...` funciona com arrays, mas e com objetos? Não é uma funcionalidade do ES6, mas veja o Capítulo 8 para a discussão de uma possível função "além do ES6" na qual `...` trabalha com a distribuição ou agrupamento de objetos.
 
@@ -907,7 +907,7 @@ var { x, y, z, w: WW = 20 } = bar();
 console.log( x, y, z, WW );			// 4 5 6 20
 ```
 
-Tenha cuidado ao confundir-se (ou a outros desenvolvedores que leem seu código) se você usa um objeto ou array como o valor padrão em uma desestruturação. Você pode criar algum codigo realmente muito difícil de entender.
+Tenha cuidado para não se confundir (ou a outros desenvolvedores que leem seu código) se você usa um objeto ou array como o valor padrão em uma desestruturação. Você pode criar algum codigo realmente muito difícil de entender.
 
 ```js
 var x = 200, y = 300, z = 100;
@@ -918,7 +918,7 @@ var o1 = { x: { y: 42 }, z: { y: z } };
 ( { x: z = { y: x } } = o1 );
 ```
 
-Você pode dizer a partir desse trecho de cógio que valores `x`, `y`, e `z` terão no final? Leva um momento de reflexão, imagino. Eu terminarei o suspense:
+Você pode dizer a partir desse trecho de código que valores `x`, `y`, e `z` terão no final? Leva um momento de reflexão, imagino. Eu terminarei o suspense:
 
 ```js
 console.log( x.y, y.y, z.y );		// 300 100 42
