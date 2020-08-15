@@ -101,6 +101,7 @@
   <tr>
     <td align="center"><a href="https://github.com/Henriquepb22"><img src="https://avatars3.githubusercontent.com/u/14242059?v=4" width="100px;" alt=""/><br /><sub><b>Henrique</b></sub></a><br /><a href="https://github.com/cezaraugusto/You-Dont-Know-JS/pulls?q=is%3Apr+reviewed-by%3AHenriquepb22" title="Reviewed Pull Requests">👀</a></td>
     <td align="center"><a href="http://caio.codes"><img src="https://avatars3.githubusercontent.com/u/25808346?v=4" width="100px;" alt=""/><br /><sub><b>Caio Reis</b></sub></a><br /><a href="#translation-caioreis123" title="Translation">🌍</a></td>
+    <td align="center"><a href="https://github.com/nielvag"><img src="https://avatars3.githubusercontent.com/u/8723391?v=4" width="100px;" alt=""/><br /><sub><b>Nielson Vágno</b></sub></a><br /><a href="#translation-nielvag" title="Translation">🌍</a></td>
   </tr>
 </table>
 
