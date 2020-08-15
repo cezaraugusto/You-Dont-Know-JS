@@ -75,48 +75,48 @@ Se você pensar em cada letra (ou palavra) que digito como um único evento ass�
 
 Eu não sou interrompido e puxado para outro "processo" em todas as oportunidades que eu poderia ter (felizmente - ou esse livro nunca seria escrito!). Mas isso acontece frequente o suficiente para que eu sinta que meu próprio cérebro está quase constantemente mudando para vários contextos diferentes (também conhecidos como "processos"). E é muito parecido com o que o mecanismo JS provavelmente sentiria.
 
-### Doing Versus Planning
+### Fazendo Versus Planejando
 
-OK, so our brains can be thought of as operating in single-threaded event loop queue like ways, as can the JS engine. That sounds like a good match.
+OK, então nossos cérebros podem ser pensados como operando na fila do loop do eventos de thread única, assim como o mecanismo JS. Isso soa como uma boa combinação.
 
-But we need to be more nuanced than that in our analysis. There's a big, observable difference between how we plan various tasks, and how our brains actually operate those tasks.
+Mas precisamos ter mais nuances do que isso em nossa análise. Há uma grande e observável diferença entre como planejamos várias tarefas e como nosso cérebro realmente as opera.
 
-Again, back to the writing of this text as my metaphor. My rough mental outline plan here is to keep writing and writing, going sequentially through a set of points I have ordered in my thoughts. I don't plan to have any interruptions or nonlinear activity in this writing. But yet, my brain is nevertheless switching around all the time.
+Novamente, voltando à redação deste texto como minha metáfora. O esboço grosseiro do meu plano aqui é continuar escrevendo e escrevendo, passando sequencialmente por um conjunto de pontos que ordenei em meus pensamentos. Não pretendo ter nenhuma interrupção ou atividade não linear neste trabalho. Mas mesmo assim, meu cérebro está fazendo rodízio o tempo todo.
 
-Even though at an operational level our brains are async evented, we seem to plan out tasks in a sequential, synchronous way. "I need to go to the store, then buy some milk, then drop off my dry cleaning."
+Embora em um nível operacional nossos cérebros sejam assíncronos, parecemos planejar tarefas de maneira sequencial e síncrona. "Eu preciso ir à loja, comprar um pouco de leite e depois deixar minha lavagem a seco."
 
-You'll notice that this higher level thinking (planning) doesn't seem very async evented in its formulation. In fact, it's kind of rare for us to deliberately think solely in terms of events. Instead, we plan things out carefully, sequentially (A then B then C), and we assume to an extent a sort of temporal blocking that forces B to wait on A, and C to wait on B.
+Você notará que esse pensamento (planejamento) de alto nível não parece muito com eventos assíncronos em sua formulação. De fato, é meio raro pensarmos deliberadamente apenas em termos de eventos. Em vez disso, planejamos as coisas com cuidado, sequencialmente (A então B e depois C), e assumimos, de certa forma, uma espécie de bloqueio temporal que força B a esperar A e C a esperar B.
 
-When a developer writes code, they are planning out a set of actions to occur. If they're any good at being a developer, they're **carefully planning** it out. "I need to set `z` to the value of `x`, and then `x` to the value of `y`," and so forth.
+Quando desenvolvedores escrevem código, eles estão planejando a execução de um conjunto de ações. Se eles são bons em ser desenvolvedores, estão **planejando cuidadosamente**. "Eu preciso definir `z` para o valor de `x` e depois `x` para o valor de `y`," e assim por diante.
 
-When we write out synchronous code, statement by statement, it works a lot like our errands to-do list:
+Quando escrevemos código síncrono, declaração por declaração, ele funciona muito como nossa lista de tarefas a fazer:
 
 ```js
-// swap `x` and `y` (via temp variable `z`)
+// troca `x` por `y` (através da varável temporária `z`)
 z = x;
 x = y;
 y = z;
 ```
 
-These three assignment statements are synchronous, so `x = y` waits for `z = x` to finish, and `y = z` in turn waits for `x = y` to finish. Another way of saying it is that these three statements are temporally bound to execute in a certain order, one right after the other. Thankfully, we don't need to be bothered with any async evented details here. If we did, the code gets a lot more complex, quickly!
+Essas três instruções de atribuição são síncronas, portanto `x = y` espera que `z = x` termine e `y = z`, por sua vez, espera que `x = y` termine. Outra maneira de dizer é que essas três instruções são temporariamente obrigadas a executar em uma determinada ordem, uma logo após a outra. Felizmente, não precisamos nos preocupar com detalhes de eventos assíncronos aqui. Se o fizermos, o código fica muito mais complexo, rapidamente!
 
-So if synchronous brain planning maps well to synchronous code statements, how well do our brains do at planning out asynchronous code?
+Portanto, se o planejamento do cérebro síncrono mapeia bem as instruções de código síncrono, quão bem nossos cérebros se saem planejando o código assíncrono?
 
-It turns out that how we express asynchrony (with callbacks) in our code doesn't map very well at all to that synchronous brain planning behavior.
+Acontece que a maneira como expressamos assincronia (com callbacks) em nosso código não é muito boa para essa maneira de planejar do cérebro síncrono.
 
-Can you actually imagine having a line of thinking that plans out your to-do errands like this?
+Você pode realmente imaginar ter uma linha de pensamento que planeje suas tarefas assim?
 
-> "I need to go to the store, but on the way I'm sure I'll get a phone call, so 'Hi, Mom', and while she starts talking, I'll be looking up the store address on GPS, but that'll take a second to load, so I'll turn down the radio so I can hear Mom better, then I'll realize I forgot to put on a jacket and it's cold outside, but no matter, keep driving and talking to Mom, and then the seatbelt ding reminds me to buckle up, so 'Yes, Mom, I am wearing my seatbelt, I always do!'. Ah, finally the GPS got the directions, now..."
+> "Eu preciso ir à loja, mas no caminho tenho certeza de que vou receber um telefonema, então 'Oi, mãe', e enquanto ela começa a falar, procurarei o endereço da loja no GPS, mas isso levará um segundo para carregar, então eu vou desligar o rádio para ouvir melhor mamãe, depois vou perceber que esqueci de vestir uma jaqueta e está frio lá fora, mas não importa, continuo dirigindo e conversando com mamãe e, em seguida, o toque do cinto de segurança me lembra de colocá-lo, então 'Sim, mãe, estou usando meu cinto de segurança, sempre uso!'. Ah, finalmente o GPS recebeu as instruções, agora..."
 
-As ridiculous as that sounds as a formulation for how we plan our day out and think about what to do and in what order, nonetheless it's exactly how our brains operate at a functional level. Remember, that's not multitasking, it's just fast context switching.
+Por mais ridículo que pareça uma formulação de como planejamos nosso dia e pensamos sobre o que fazer e em que ordem, é exatamente dessa forma como nosso cérebro opera em um nível funcional. Lembre-se, isso não é multitarefa, é apenas uma mudança rápida de contexto.
 
-The reason it's difficult for us as developers to write async evented code, especially when all we have is the callback to do it, is that stream of consciousness thinking/planning is unnatural for most of us.
+A razão pela qual é difícil para nós, como desenvolvedores, escrever código assíncrono, especialmente quando tudo o que temos são callback, é que o fluxo de pensamento/planejamento consciente não é natural para a maioria de nós.
 
-We think in step-by-step terms, but the tools (callbacks) available to us in code are not expressed in a step-by-step fashion once we move from synchronous to asynchronous.
+Nós pensamos em termos sequenciais, mas as ferramentas disponíveis no código (callbacks) não são expressas de uma maneira sequencial uma vez que passamos de síncrono para assíncrono.
 
-And **that** is why it's so hard to accurately author and reason about async JS code with callbacks: because it's not how our brain planning works.
+E é por **isso** que é tão difícil escrever e raciocinar com precisão sobre o código JS assíncrono com callbacks: porque não é assim que o nosso planejamento cerebral funciona.
 
-**Note:** The only thing worse than not knowing why some code breaks is not knowing why it worked in the first place! It's the classic "house of cards" mentality: "it works, but not sure why, so nobody touch it!" You may have heard, "Hell is other people" (Sartre), and the programmer meme twist, "Hell is other people's code." I believe truly: "Hell is not understanding my own code." And callbacks are one main culprit.
+**Nota:** A única coisa pior do que não saber por que algum código quebra é, primeiramente, não saber por que ele funcionou! É a mentalidade clássica do "castelo de cartas": "funciona, mas não sei por quê, então ninguém toca!" Você pode ter ouvido: "O inferno são os outros" (Sartre), e o meme da reviravolta do programador: "O inferno é o código de outras pessoas". Eu acredito verdadeiramente que: "O inferno é não entender meu próprio código". E os callbacks são um dos principais culpados.
 
 ### Nested/Chained Callbacks
 
