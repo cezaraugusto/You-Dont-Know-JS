@@ -118,9 +118,9 @@ E é por **isso** que é tão difícil escrever e raciocinar com precisão sobre
 
 **Nota:** A única coisa pior do que não saber por que algum código quebra é, primeiramente, não saber por que ele funcionou! É a mentalidade clássica do "castelo de cartas": "funciona, mas não sei por quê, então ninguém toca!" Você pode ter ouvido: "O inferno são os outros" (Sartre), e o meme da reviravolta do programador: "O inferno é o código de outras pessoas". Eu acredito verdadeiramente que: "O inferno é não entender meu próprio código". E os callbacks são um dos principais culpados.
 
-### Nested/Chained Callbacks
+### Callbacks Aninhados/Encadeados
 
-Consider:
+Considere:
 
 ```js
 listen( "click", function handler(evt){
@@ -137,17 +137,17 @@ listen( "click", function handler(evt){
 } );
 ```
 
-There's a good chance code like that is recognizable to you. We've got a chain of three functions nested together, each one representing a step in an asynchronous series (task, "process").
+Há uma boa chance de um código como esse ser reconhecível por você. Temos uma cadeia de três funções aninhadas, cada uma representando uma etapa em uma série assíncrona (tarefa, "processo").
 
-This kind of code is often called "callback hell," and sometimes also referred to as the "pyramid of doom" (for its sideways-facing triangular shape due to the nested indentation).
+Esse tipo de código costuma ser chamado de "callback hell" e às vezes também conhecido como "pirâmide da desgraça" (por sua forma triangular voltada para o lado devido ao recuo aninhado).
 
-But "callback hell" actually has almost nothing to do with the nesting/indentation. It's a far deeper problem than that. We'll see how and why as we continue through the rest of this chapter.
+Mas "callback hell" na verdade não tem quase nada a ver com o aninhamento/recuo. É um problema muito mais profundo do que isso. Veremos como e porque à medida que continuarmos no restante deste capítulo.
 
-First, we're waiting for the "click" event, then we're waiting for the timer to fire, then we're waiting for the Ajax response to come back, at which point it might do it all again.
+Primeiro, aguardamos o evento de "click", depois esperamos o temporizador disparar e, em seguida, aguardamos a resposta da requisação Ajax chegar, momento em que tudo isso pode acontecer novamente.
 
-At first glance, this code may seem to map its asynchrony naturally to sequential brain planning.
+À primeira vista, esse código parece mapear sua assincronia naturalmente para o planejamento sequencial do cérebro.
 
-First (*now*), we:
+Primeiro (*agora*), nós:
 
 ```js
 listen( "..", function handler(..){
@@ -155,7 +155,7 @@ listen( "..", function handler(..){
 } );
 ```
 
-Then *later*, we:
+Depois, *mais tarde*, nós:
 
 ```js
 setTimeout( function request(..){
@@ -163,7 +163,7 @@ setTimeout( function request(..){
 }, 500) ;
 ```
 
-Then still *later*, we:
+Depois, ainda *mais tarde*, nós:
 
 ```js
 ajax( "..", function response(..){
@@ -171,7 +171,7 @@ ajax( "..", function response(..){
 } );
 ```
 
-And finally (most *later*), we:
+E finalmente (definitivamente *mais tarde*), nós:
 
 ```js
 if ( .. ) {
@@ -180,11 +180,11 @@ if ( .. ) {
 else ..
 ```
 
-But there's several problems with reasoning about this code linearly in such a fashion.
+Mas há vários problemas em raciocinar sobre esse código linearmente dessa maneira.
 
-First, it's an accident of the example that our steps are on subsequent lines (1, 2, 3, and 4...). In real async JS programs, there's often a lot more noise cluttering things up, noise that we have to deftly maneuver past in our brains as we jump from one function to the next. Understanding the async flow in such callback-laden code is not impossible, but it's certainly not natural or easy, even with lots of practice.
+Primeiramente, é um equívoco do exemplo que nossos passos estejam em linhas subsequentes (1, 2, 3 e 4...). Em programas JS assíncronos reais, geralmente há muito mais ruído bagunçando as coisas, ruído que temos que manobrar habilmente em nossos cérebros conforme saltamos de uma função para a próxima. Compreender o fluxo assíncrono em tal código carregado de callbacks não é impossível, mas certamente não é natural ou fácil, mesmo com muita prática.
 
-But also, there's something deeper wrong, which isn't evident just in that code example. Let me make up another scenario (pseudocode-ish) to illustrate it:
+Mas também, há algo pior que não está evidente apenas nesse exemplo de código. Deixe-me criar outro cenário (pseudocódigo) para ilustrá-lo:
 
 ```js
 doA( function(){
@@ -200,7 +200,7 @@ doA( function(){
 doF();
 ```
 
-While the experienced among you will correctly identify the true order of operations here, I'm betting it is more than a little confusing at first glance, and takes some concerted mental cycles to arrive at. The operations will happen in this order:
+Embora os mais experientes identificarão a verdadeira ordem das operações aqui, eu aposto que ela é mais do que uma pequena confusão à primeira vista e custa alguns ciclos mentais combinados para chegar na resposta certa. As operações acontecerão nesta ordem:
 
 * `doA()`
 * `doF()`
@@ -209,9 +209,9 @@ While the experienced among you will correctly identify the true order of operat
 * `doE()`
 * `doD()`
 
-Did you get that right the very first time you glanced at the code?
+Você acertou na primeira vez que olhou o código?
 
-OK, some of you are thinking I was unfair in my function naming, to intentionally lead you astray. I swear I was just naming in top-down appearance order. But let me try again:
+OK, alguns de vocês estão pensando que fui injusto na nomeação das minhas funções, para fazer vocês se perderem intencionalmente. Juro que estava apenas nomeando na ordem em que aparecem, de cima para baixo. Mas deixe-me tentar novamente:
 
 ```js
 doA( function(){
@@ -227,17 +227,17 @@ doA( function(){
 doB();
 ```
 
-Now, I've named them alphabetically in order of actual execution. But I still bet, even with experience now in this scenario, tracing through the `A -> B -> C -> D -> E -> F` order doesn't come natural to many if any of you readers. Certainly your eyes do an awful lot of jumping up and down the code snippet, right?
+Agora, eu as nomeei alfabeticamente em ordem de execução real. Mas eu ainda aposto, que mesmo agora com experiência nesse cenário, ordenar as operações na ordem `A -> B -> C -> D -> E -> F` não é natural para muitos ou nenhum de vocês leitores. Certamente seus olhos saltaram várias vezes para cima e para baixo no trecho de código, certo?
 
-But even if that all comes natural to you, there's still one more hazard that could wreak havoc. Can you spot what it is?
+Mas mesmo que tudo isso seja natural para você, há ainda mais um perigo que pode causar estragos. Você consegue identificar qual é?
 
-What if `doA(..)` or `doD(..)` aren't actually async, the way we obviously assumed them to be? Uh oh, now the order is different. If they're both sync (and maybe only sometimes, depending on the conditions of the program at the time), the order is now `A -> C -> D -> F -> E -> B`.
+E se `doA(..)` ou `doD(..)` não forem realmente assíncronas, da maneira que obviamente assumimos que fossem? Oh oh, agora a ordem é diferente. Se ambas forem síncronas (e talvez apenas algumas vezes, dependendo das condições do programa no momento), a ordem agora é `A -> C -> D -> F -> E -> B`.
 
-That sound you just heard faintly in the background is the sighs of thousands of JS developers who just had a face-in-hands moment.
+Esse som que você acabou de ouvir levemente ao fundo são os suspiros de milhares de desenvolvedores JS que tiveram um momento de frustração.
 
-Is nesting the problem? Is that what makes it so hard to trace the async flow? That's part of it, certainly.
+O aninhamento é o problema? É isso que torna tão difícil rastrear o fluxo assíncrono? Isso faz parte, certamente.
 
-But let me rewrite the previous nested event/timeout/Ajax example without using nesting:
+Mas deixe-me reescrever o exemplo anterior com evento/timeout/Ajax aninhados sem usar aninhamento:
 
 ```js
 listen( "click", handler );
@@ -260,25 +260,25 @@ function response(text){
 }
 ```
 
-This formulation of the code is not hardly as recognizable as having the nesting/indentation woes of its previous form, and yet it's every bit as susceptible to "callback hell." Why?
+Essa formulação do código não é tão identificável quanto aos problemas de aninhamento/indentação de sua forma anterior e, ainda assim, é tão suscetível ao "callback hell". Por quê?
 
-As we go to linearly (sequentially) reason about this code, we have to skip from one function, to the next, to the next, and bounce all around the code base to "see" the sequence flow. And remember, this is simplified code in sort of best-case fashion. We all know that real async JS program code bases are often fantastically more jumbled, which makes such reasoning orders of magnitude more difficult.
+À medida que raciocinamos linearmente (sequencialmente) sobre esse código, temos que pular de uma função para a próxima e para a próxima, saltando por toda a base do código para "ver" o fluxo da sequência. E lembre-se, esse é um código simplificado na melhor das hipóteses. Todos nós sabemos que as bases de código de programas JS assíncronos reais costumam ser fantasticamente mais confusas, o que torna essas ordens de magnitude de raciocínio mais difíceis.
 
-Another thing to notice: to get steps 2, 3, and 4 linked together so they happen in succession, the only affordance callbacks alone gives us is to hardcode step 2 into step 1, step 3 into step 2, step 4 into step 3, and so on. The hardcoding isn't necessarily a bad thing, if it really is a fixed condition that step 2 should always lead to step 3.
+Outra coisa a observar: para vincular as etapas 2, 3 e 4 a fim de que ocorram em sucessão, a única possibilidade que os callbacks nos fornecem é definir fixamente a etapa 2 na etapa 1, a etapa 3 na etapa 2, a etapa 4 na etapa 3, e assim por diante. A codificação não é necessariamente uma coisa ruim, se realmente for uma condição fixa que a etapa 2 sempre deve levar à etapa 3.
 
-But the hardcoding definitely makes the code a bit more brittle, as it doesn't account for anything going wrong that might cause a deviation in the progression of steps. For example, if step 2 fails, step 3 never gets reached, nor does step 2 retry, or move to an alternate error handling flow, and so on.
+Mas forçar o código dessa maneira definitivamente torna o código um pouco mais frágil, pois não leva em consideração nada de errado que possa causar um desvio na progressão das etapas. Por exemplo, se a etapa 2 falhar, a etapa 3 nunca será alcançada, nem a etapa 2 tentará novamente ou moverá para um fluxo alternativo de tratamento de erros e assim por diante.
 
-All of these issues are things you *can* manually hardcode into each step, but that code is often very repetitive and not reusable in other steps or in other async flows in your program.
+Todos esses problemas são coisas que você *pode* codificar manualmente em cada etapa, mas esse código costuma ser muito repetitivo e não pode ser reutilizado em outras etapas ou em outros fluxos assíncronos em seu programa.
 
-Even though our brains might plan out a series of tasks in a sequential type of way (this, then this, then this), the evented nature of our brain operation makes recovery/retry/forking of flow control almost effortless. If you're out running errands, and you realize you left a shopping list at home, it doesn't end the day because you didn't plan that ahead of time. Your brain routes around this hiccup easily: you go home, get the list, then head right back out to the store.
+Mesmo que nossos cérebros possam planejar uma série de tarefas de uma forma sequencial (isso, depois isso, então isso), a natureza de eventos da nossa operação cerebral torna a recuperação/retentativa/bifurcação do controle de fluxo quase sem esforço. Se você está fazendo compras e percebe que deixou a lista em casa, o dia não termina porque você não planejou isso com antecedência. Seu cérebro contorna esse contratempo facilmente: você vai para casa, pega a lista e volta direto para a loja.
 
-But the brittle nature of manually hardcoded callbacks (even with hardcoded error handling) is often far less graceful. Once you end up specifying (aka pre-planning) all the various eventualities/paths, the code becomes so convoluted that it's hard to ever maintain or update it.
+Mas a natureza frágil de callbacks codificados manualmente (mesmo com tratamento de erros codificados permanentemente) é com frequência muito menos elegante. Depois que você acaba especificando (também conhecido como pré-planejamento) todas as várias eventualidades/caminhos, o código se torna tão complicado que é difícil mantê-lo ou atualizá-lo.
 
-**That** is what "callback hell" is all about! The nesting/indentation are basically a side show, a red herring.
+**Isso** é o que se trata o "callback hell"! O aninhamento/indentação são basicamente um espetáculo à parte, uma pista falsa.
 
-And as if all that's not enough, we haven't even touched what happens when two or more chains of these callback continuations are happening *simultaneously*, or when the third step branches out into "parallel" callbacks with gates or latches, or... OMG, my brain hurts, how about yours!?
+E como se isso não bastasse, ainda nem tocamos no que acontece quando duas ou mais cadeias dessas continuações de callback estão acontecendo *simultaneamente*, ou quando a terceira etapa se ramifica em callbacks "paralelos" com portas ou travas, ou... oh céus!, meu cérebro dói, e o seu!?
 
-Are you catching the notion here that our sequential, blocking brain planning behaviors just don't map well onto callback-oriented async code? That's the first major deficiency to articulate about callbacks: they express asynchrony in code in ways our brains have to fight just to keep in sync with (pun intended!).
+Você está entendendo a ideia aqui de que nosso cérebro, que se comporta de maneira sequencial e bloqueante, simplesmente não mapeiam bem código assíncrono orientado a callback? Esta é a primeira grande deficiência a ressaltar sobre callbacks: eles expressam assincronia em código de maneira que nosso cérebro luta apenas para mantê-lo de forma síncrona (trocadilho intencional!).
 
 ## Trust Issues
 
