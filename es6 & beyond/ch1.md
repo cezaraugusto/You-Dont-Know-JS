@@ -108,7 +108,7 @@ Se você decidir deixar como está e esperar que todos os navegadores sem as fun
 
 ## Revisando
 
-ES6 (alguns podem tentar chamá-lo de ES2015) está apenas chegando a partir do momento em que este está sendo escrito, e tem muitas coisas novas que você precisa aprender!
+ES6 (alguns podem tentar chamá-lo de ES2015) está apenas chegando no momento em que este livro está sendo escrito, e tem muitas coisas novas que você precisa aprender!
 
 Mas é ainda mais importante mudar sua mentalidade para alinhar com a nova maneira que o JavaScript vai evoluir. Não é apenas esperar por anos para algum documento oficial obter um voto de aprovação, como muitos fizeram no passado.
 
