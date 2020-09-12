@@ -41,9 +41,9 @@ O `takeaway` é que os rótulos de versionamento deixam de ser tão importante e
 
 Agravado pela rápida evolução de funcionalidades, surge um problema para os desenvolvedores JS que desejam muito utilizar as novas funcionalidades, ao mesmo tempo que precisam enfrentar a realidade de que seus sites/aplicativos precisam ser suportados por navegadores mais antigos que não possuem suporte.
 
-A maneira que o ES5 parece ter ficado fora de moda por grande parte da indústria, o mindset típico era que a codebase esperasse adotarem o ES5 até que a maioria, se não todos, os ambientes pré-ES5 deixassem de ser suportados. Como resultado disso, muitos só recentemente (até o no momento que estou escrevendo) começaram a adotar coisas como o modo estrito (strict mode), que chegou ao ES5 há cinco anos.
+A maneira que o ES5 parece ter ficado fora de moda por grande parte da indústria, o mindset típico era que a codebase esperasse adotarem o ES5 até que a maioria, se não todos, os ambientes pré-ES5 deixassem de ser suportados. Como resultado disso, muitos só recentemente (até no momento que estou escrevendo) começaram a adotar coisas como o modo estrito (strict mode), que chegou ao ES5 há cinco anos.
 
-Em geral, é considerado uma abordagem prejudicial para o futuro do ecossistema JS esperar e seguir a especificação por muitos anos. Todos os responsáveis pela evolução da linguagem desejam que os desenvolvedores comecem a basear seus códigos nos novas funcionalidades e padrões assim que se estabilizarem em forma de especificação e os navegadores tiverem a chance de implementá-los.
+Em geral, é considerado uma abordagem prejudicial para o futuro do ecossistema JS esperar e seguir a especificação por muitos anos. Todos os responsáveis pela evolução da linguagem desejam que os desenvolvedores comecem a basear seus códigos nas novas funcionalidades e padrões assim que se estabilizarem em forma de especificação e os navegadores tiverem a chance de implementá-los.
 
 Então, como resolvemos essa aparente contradição? A resposta é tooling, especificamente uma técnica chamada *transpiling* (transformação + compilação). A grosso modo, a ideia é usar uma ferramenta especial para transformar seu código ES6 em equivalente (ou parecido!) que funcionem em ambientes ES5.
 
@@ -108,7 +108,7 @@ Se você decidir deixar como está e esperar que todos os navegadores sem as fun
 
 ## Revisando
 
-ES6 (alguns podem tentar chamá-lo de ES2015) é apenas o pouso a partir do momento em que este está sendo escrito, e tem muitas coisas novas que você precisa aprender!
+ES6 (alguns podem tentar chamá-lo de ES2015) está apenas chegando no momento em que este livro está sendo escrito, e tem muitas coisas novas que você precisa aprender!
 
 Mas é ainda mais importante mudar sua mentalidade para alinhar com a nova maneira que o JavaScript vai evoluir. Não é apenas esperar por anos para algum documento oficial obter um voto de aprovação, como muitos fizeram no passado.
 
