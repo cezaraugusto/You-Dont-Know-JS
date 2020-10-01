@@ -113,19 +113,19 @@ Esse é um padrão de design *extremamente poderoso*, muito diferente da ideia d
 
 **Nota:** O uso de delegação é mais apropriado como um detalhe de implementação interno ao invés de algo exposto diretamente no desenho da interface da API. No exemplo acima, nós não necessariamente *pretendemos* com o desenho de nossa API que desenvolvedores chamem `XYZ.setID()` (embora seja possível, é claro!). Nós meio que *escondemos* a delegação como um detalhe interno de nossa API, onde `XYZ.prepareTask(..)` delega para `Task.setID(..)`. Veja a discussão de "Ligações como Fallbacks?" no Capítulo 5 para maiores detalhes.
 
-#### Mutual Delegation (Disallowed)
+#### Delegação Mútua (Não permitida)
 
-You cannot create a *cycle* where two or more objects are mutually delegated (bi-directionally) to each other. If you make `B` linked to `A`, and then try to link `A` to `B`, you will get an error.
+Você não pode criar um *ciclo* onde dois ou mais objetos estão mutualmente delegados um para o outro (bidirecionalmente). Se você fizer `B` ligado a `A`, e então tentar ligar `A` para `B`, você receberá um erro.
 
-It's a shame (not terribly surprising, but mildly annoying) that this is disallowed. If you made a reference to a property/method which didn't exist in either place, you'd have an infinite recursion on the `[[Prototype]]` loop. But if all references were strictly present, then `B` could delegate to `A`, and vice versa, and it *could* work. This would mean you could use either object to delegate to the other, for various tasks. There are a few niche use-cases where this might be helpful.
+É uma vergonha (não é terrivelmente surpreendente, mas um pouco irritante) que isso não seja permitido. Se você criasse uma referência a uma propriedade/método que não exista em nenhum lugar, você teria um loop de recursão infinita no `[[Prototype]]`. Mas se todas as referências estiverem estritamente presentes, então `B` poderia delegar para `A`, e vice-versa, e isso *poderia* funcionar. Isso significa que você poderia usar um dos objetos para delegar para o outro, para várias tarefas. Existem alguns poucos casos de uso onde isso poderia ser útil.
 
-But it's disallowed because engine implementors have observed that it's more performant to check for (and reject!) the infinite circular reference once at set-time rather than needing to have the performance hit of that guard check every time you look-up a property on an object.
+Mas isto não é permitido porque os implementadores dos motores JS observaram que é mais eficiente verificar (e rejeitar!) referências circulares infinitas uma vez na sua definição, do que precisar ter o impacto de execução dessas verificações toda vez que você procurar por uma propriedade em um objeto.
 
-#### Debugged
+#### Depurado
 
-We'll briefly cover a subtle detail that can be confusing to developers. In general, the JS specification does not control how browser developer tools should represent specific values/structures to a developer, so each browser/engine is free to interpret such things as they see fit. As such, browsers/tools *don't always agree*. Specifically, the behavior we will now examine is currently observed only in Chrome's Developer Tools.
+Vamos abordar brevemente um detalhe sutil que pode ser confuso aos desenvolvedores. No geral, a especificação do JS não controla como as ferramentas de desenvolvimento do navegador devem apresentar valores/estruturas específicos para uma desenvolvedora, então cada navegador/motor é livre para interpretar algumas coisas como eles acharem melhor. Dessa forma, navegadores/ferramentas *nem sempre estão de acordo*. Especificamente, o comportamentos que iremos examinar é atualmente observado somente no Chrome's Developer Tools.
 
-Consider this traditional "class constructor" style JS code, as it would appear in the *console* of Chrome Developer Tools:
+Considere como esse tradicional estilo de código JS para "construtor de classe" apareceria no *console* do Chrome Developer Tools:
 
 ```js
 function Foo() {}
@@ -135,11 +135,11 @@ var a1 = new Foo();
 a1; // Foo {}
 ```
 
-Let's look at the last line of that snippet: the output of evaluating the `a1` expression, which prints `Foo {}`. If you try this same code in Firefox, you will likely see `Object {}`. Why the difference? What do these outputs mean?
+Vamos olhar para a última linha do código: o output computado da expressão `a1`, que imprime `Foo {}`. Se você tentar o mesmo código no Firefox, provavelmente verá algo como `Object {}`.  Por que a diferença? O que esses outputs significam?
 
-Chrome is essentially saying "{} is an empty object that was constructed by a function with name 'Foo'". Firefox is saying "{} is an empty object of general construction from Object". The subtle difference is that Chrome is actively tracking, as an *internal property*, the name of the actual function that did the construction, whereas other browsers don't track that additional information.
+Chrome está essencialmente dizendo "{} é um objeto vazio que foi contruído por uma função com nome 'Foo'". Firefox está dizendo "{} é um objeto vazio da construção geral de Object". A sutil diferença é que o Chrome está rastreando ativamente, como uma *propriedade interna*, o nome da função que realmente fez a construção, enquanto outros navegadores não fazem o rastreamento dessa informação adicional.
 
-It would be tempting to attempt to explain this with JavaScript mechanisms:
+Seria tentador tentar explicar isso com o funcionamento do JavaScript:
 
 ```js
 function Foo() {}
@@ -150,9 +150,9 @@ a1.constructor; // Foo(){}
 a1.constructor.name; // "Foo"
 ```
 
-So, is that how Chrome is outputting "Foo", by simply examining the object's `.constructor.name`? Confusingly, the answer is both "yes" and "no".
+Então, é assim que o Chrome está mostrando "Foo", por uma simples olhada na `.constructor.name` do objeto? Confusamente, a resposta é tanto "sim" quanto "não".
 
-Consider this code:
+Considere este código:
 
 ```js
 function Foo() {}
@@ -167,11 +167,11 @@ a1.constructor.name; // "Gotcha"
 a1; // Foo {}
 ```
 
-Even though we change `a1.constructor.name` to legitimately be something else ("Gotcha"), Chrome's console still uses the "Foo" name.
+Mesmo que nós mudemos `a1.constructor.name` para legitimamente ser alguma outra coisa ("Gotcha"), o console do Chrome ainda vai usar o nome "Foo".
 
-So, it would appear the answer to previous question (does it use `.constructor.name`?) is **no**, it must track it somewhere else, internally.
+Então, parece que a resposta da pergunta anterior (o Chrome usa `.constructor.name`?) é **não**, ele deve olhar algum outro lugar, internamente.
 
-But, Not so fast! Let's see how this kind of behavior works with OLOO-style code:
+Mas, não tão rápido! Vamos ver como esse tipo de comportamento funciona com código estilo OLOO:
 
 ```js
 var Foo = {};
@@ -188,13 +188,13 @@ Object.defineProperty( Foo, "constructor", {
 a1; // Gotcha {}
 ```
 
-Ah-ha! **Gotcha!** Here, Chrome's console **did** find and use the `.constructor.name`. Actually, while writing this book, this exact behavior was identified as a bug in Chrome, and by the time you're reading this, it may have already been fixed. So you may instead have seen the corrected `a1; // Object {}`.
+Ah-ha! **Gotcha!** Aqui, o console do Chrome **realmente** achou e usou a `.constructor.name`. Na verdade, enquanto escrevia esse livro, esse exato comportamento era identificado no Chrome como um bug, e no momento que você estiver lendo isso, ele pode ter sido corrigido. Então pode ser que você veja `a1; // Object {}` corretamente.
 
-Aside from that bug, the internal tracking (apparently only for debug output purposes) of the "constructor name" that Chrome does (shown in the earlier snippets) is an intentional Chrome-only extension of behavior beyond what the JS specification calls for.
+Deixando o bug de lado, o rastreamento interno (aparentemente somente para propósitos de depuração) de "constructor name" que o Chrome faz (mostrado nos trechos anteriores) é uma extensão intencional do Chrome, além do que a especificação do JS exige.
 
-If you don't use a "constructor" to make your objects, as we've discouraged with OLOO-style code here in this chapter, then you'll get objects that Chrome does *not* track an internal "constructor name" for, and such objects will correctly only be outputted as "Object {}", meaning "object generated from Object() construction".
+Se você não usar um "constructor" para criar seus objetos, como desencorajamos com o estilo de código OOLO aqui nesse capítulo, então você terá objetos que o Chrome *não* rastreia um "constructor name" interno, e esses objetos serão exibidos corretamente como "Object {}", significando "objeto gerado pelo construtor Object()".
 
-**Don't think** this represents a drawback of OLOO-style coding. When you code with OLOO and behavior delegation as your design pattern, *who* "constructed" (that is, *which function* was called with `new`?) some object is an irrelevant detail. Chrome's specific internal "constructor name" tracking is really only useful if you're fully embracing "class-style" coding, but is moot if you're instead embracing OLOO delegation.
+**Não pense** que isso representa uma desvantagem do estilo de código OLOO. Quando você escreve código com OLOO e delegação de comportamento como seu padrão de design, *quem* "construiu" (isso é, *qual função* foi chamada com `new`?) algum objeto é um detalhe irrelevante. O rastreamento interno de "constructor name" específico do Chrome só é realmente útil se você adotar totalmente o estilo de código de "classe", mas é discutível se, no lugar, você adotar delegação de OLOO.
 
 ### Mental Models Compared
 
