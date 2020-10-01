@@ -405,9 +405,9 @@ Apesar das melhorias sintáticas, **essas não são classes *reais***, uma vez q
 
 Se você usa a sintaxe prototípica clássica ou o novo açúcar sintático do ES6, ainda fez uma *escolha* para modelar o domínio do problema (widgets da interface do usuário) com "classes". E, como os poucos capítulos anteriores tentam demonstrar, essa *opção* no JavaScript está deixando você com dores de cabeça extras e esgotamento mental.
 
-### Delegating Widget Objects
+### Delegando Objetos Widget
 
-Here's our simpler `Widget` / `Button` example, using **OLOO style delegation**:
+Aqui está nosso simplório exemplo `Widget` / `Button`, usando **estilo de delegação OLOO**:
 
 ```js
 var Widget = {
@@ -429,14 +429,14 @@ var Widget = {
 var Button = Object.create( Widget );
 
 Button.setup = function(width,height,label){
-	// delegated call
+	// chamada de delegação
 	this.init( width, height );
 	this.label = label || "Default";
 
 	this.$elem = $( "<button>" ).text( this.label );
 };
 Button.build = function($where) {
-	// delegated call
+	// chamada de delegação
 	this.insert( $where );
 	this.$elem.click( this.onClick.bind( this ) );
 };
@@ -458,23 +458,23 @@ $( document ).ready( function(){
 } );
 ```
 
-With this OLOO-style approach, we don't think of `Widget` as a parent and `Button` as a child. Rather, `Widget` **is just an object** and is sort of a utility collection that any specific type of widget might want to delegate to, and `Button` **is also just a stand-alone object** (with a delegation link to `Widget`, of course!).
+Com essa abordagem de estilo OLOO, nós não pensamos em `Widget` como pai e `Button` como filho. Ao invés disso, `Widget` **é apenas um objeto** e é uma espécie de utilitário para o qual qualquer tipo de widget pode querer delegar comportamento, e `Button` **também é apenas um objeto independente** (com uma conexão de delegação para `Widget`, é claro!).
 
-From a design pattern perspective, we **didn't** share the same method name `render(..)` in both objects, the way classes suggest, but instead we chose different names (`insert(..)` and `build(..)`) that were more descriptive of what task each does specifically. The *initialization* methods are called `init(..)` and `setup(..)`, respectively, for the same reasons.
+De uma perspectiva de padrão de design, nós **não** compartilhamos o mesmo nome de método `render(..)` nos dois objetos, da forma que classes sugerem, mas no lugar nós escolhemos nomes diferentes (`insert(..)` e `build(..)`) que são mais descritivos para o tipo de tarefas que cada um faz. Os métodos de *inicialização* são chamados de `init(..)` e `setup(..)`, respectivamente, pelas mesmas razões.
 
-Not only does this delegation design pattern suggest different and more descriptive names (rather than shared and more generic names), but doing so with OLOO happens to avoid the ugliness of the explicit pseudo-polymorphic calls (`Widget.call` and `Widget.prototype.render.call`), as you can see by the simple, relative, delegated calls to `this.init(..)` and `this.insert(..)`.
+O padrão de design de delegação não só sugere nomes diferentes e mais descritivos (no lugar de compartilhar nomes genéricos), mas a sua utilização faz com que evitemos a feiura das chamadas pseudo-polimórficas explícitas (`Widget.call` e `Widget.prototype.render.call`), como você pode ver nas chamadas simples, relativas e delegadas para `this.init(..)` e `this.insert(..)`.
 
-Syntactically, we also don't have any constructors, `.prototype` or `new` present, as they are, in fact, just unnecessary cruft.
+Sintaticamente, nós também não temos a presença de nenhum construtor, `.prototype` ou `new`, já que eles são, de fato, apenas sujeira desnecessária.
 
-Now, if you're paying close attention, you may notice that what was previously just one call (`var btn1 = new Button(..)`) is now two calls (`var btn1 = Object.create(Button)` and `btn1.setup(..)`). Initially this may seem like a drawback (more code).
+Agora, se você está prestando bastante atenção, você deve ter notado que o que anteriormente era apenas uma chamada (`var btn1 = new Button(..)`) agora são duas chamadas (`var btn1 = Object.create(Button)` e `btn1.setup(..)`). De início isso pode parecer uma desvantagem (mais codigo).
 
-However, even this is something that's **a pro of OLOO style code** as compared to classical prototype style code. How?
+No entanto, mesmo isso é algo que é **um ponto positivo do estilo de código OLOO** em comparação ao estilo de código clássico com prototype. Como?
 
-With class constructors, you are "forced" (not really, but strongly suggested) to do both construction and initialization in the same step. However, there are many cases where being able to do these two steps separately (as you do with OLOO!) is more flexible.
+Com construtores de classes, você é forçado (não exatamente, mas fortemente sugerido) a fazer ambos, construção e inicialização, no mesmo passo. No entanto, existem vários casos onde é mais flexível ter a opção de fazer esses dois passos separadamente (como podemos fazer com OLOO!).
 
-For example, let's say you create all your instances in a pool at the beginning of your program, but you wait to initialize them with specific setup until they are pulled from the pool and used. We showed the two calls happening right next to each other, but of course they can happen at very different times and in very different parts of our code, as needed.
+Por exemplo, digamos que você crie todas as suas instâncias em um pool no início de seu programa, mas espera para inicializá-las com configuração específica até que sejam retiradas do pool e usadas. Mostramos as duas chamadas acontecendo uma ao lado da outra, mas é claro que elas podem acontecer em momentos muito diferentes e em partes muito diferentes do nosso código, conforme necessário.
 
-**OLOO** supports *better* the principle of separation of concerns, where creation and initialization are not necessarily conflated into the same operation.
+**OLOO** tem um suporte *melhor* ao princípio de separação de conceitos, onde criação e inicialização não são necessariamente associadas dentro da mesma operação.
 
 ## Simpler Design
 
