@@ -285,22 +285,22 @@ Como você pode ver comparando eles, é óbvio que o código estilo OLOO tem *mu
 
 Todas as outras sujeiras de "classes" foram uma confusa e complexa forma de se conseguir o mesmo resultado. Remova essas coisas, e as coisas ficam muito mais simples (sem perder nenhuma funcionalidade).
 
-## Classes vs. Objects
+## Classes vs. Objetos
 
-We've just seen various theoretical explorations and mental models of "classes" vs. "behavior delegation". But, let's now look at more concrete code scenarios to show how'd you actually use these ideas.
+Acabamos de ver várias explorações teóricas e modelos mentais de "classes" vs. "delegação de comportamento". Mas, agora vamos analisar cenários de código mais concretos para mostrar como você realmente usa essas ideias.
 
-We'll first examine a typical scenario in front-end web dev: creating UI widgets (buttons, drop-downs, etc).
+Primeiro, examinaremos um cenário típico no desenvolvimento web front-end: criação de widgets de UI (botões, menus suspensos etc.).
 
 ### Widget "Classes"
 
-Because you're probably still so used to the OO design pattern, you'll likely immediately think of this problem domain in terms of a parent class (perhaps called `Widget`) with all the common base widget behavior, and then child derived classes for specific widget types (like `Button`).
+Porque você provavelmente ainda está tão acostumado com o padrão de design OO, provavelmente irá pensar imediatamente no domínio deste problema em termos de uma classe pai (talvez chamada de `Widget`) com todo o comportamento do widget base comum e depois classes filhas derivadas para tipos de widget específicos (como `Button`).
 
-**Note:** We're going to use jQuery here for DOM and CSS manipulation, only because it's a detail we don't really care about for the purposes of our current discussion. None of this code cares which JS framework (jQuery, Dojo, YUI, etc), if any, you might solve such mundane tasks with.
+**Nota:** Vamos usar jQuery para manipulação de DOM e CSS aqui, apenas porque é um detalhe que realmente não importa para os propósitos de nossa discussão atual. Nenhum desses códigos se importam com qual framework JS (jQuery, Dojo, YUI, etc.), se houver, você pode resolver tarefas comuns desse tipo.
 
-Let's examine how we'd implement the "class" design in classic-style pure JS without any "class" helper library or syntax:
+Vamos examinar como implementaríamos o design "classe" no estilo clássico em JS puro sem nenhuma biblioteca ou sintaxe auxiliar de "classe":
 
 ```js
-// Parent class
+// Classe pai
 function Widget(width,height) {
 	this.width = width || 50;
 	this.height = height || 50;
@@ -316,21 +316,21 @@ Widget.prototype.render = function($where){
 	}
 };
 
-// Child class
+// Class filha
 function Button(width,height,label) {
-	// "super" constructor call
+	// chamada do construtor "super"
 	Widget.call( this, width, height );
 	this.label = label || "Default";
 
 	this.$elem = $( "<button>" ).text( this.label );
 }
 
-// make `Button` "inherit" from `Widget`
+// faz `Button` "herdar" de `Widget`
 Button.prototype = Object.create( Widget.prototype );
 
-// override base "inherited" `render(..)`
+// sobrescreve `render(..)` "herdado" 
 Button.prototype.render = function($where) {
-	// "super" call
+	// chamada "super"
 	Widget.prototype.render.call( this, $where );
 	this.$elem.click( this.onClick.bind( this ) );
 };
@@ -349,13 +349,13 @@ $( document ).ready( function(){
 } );
 ```
 
-OO design patterns tell us to declare a base `render(..)` in the parent class, then override it in our child class, but not to replace it per se, rather to augment the base functionality with button-specific behavior.
+O padrão de design OO nos diz para declarar um `render(..)` base na classe pai, e então sobrescrevê-lo na nossa classe filha, mas não necessariamente substituí-lo, preferindo aumentar a funcionalidade base com o comportamento específico de botão.
 
-Notice the ugliness of *explicit pseudo-polymorphism* (see Chapter 4) with `Widget.call` and `Widget.prototype.render.call` references for faking "super" calls from the child "class" methods back up to the "parent" class base methods. Yuck.
+Observe a feiura do *pseudo-polimorfismo explícito* (veja o Capítulo 4) com as referências `Widget.call` e `Widget.prototype.render.call` para fingir chamadas "super" a partir dos métodos da "classe" filha para os métodos base da "classe" pai. Que nojo.
 
-#### ES6 `class` sugar
+#### Açúcar Sintático ES6 `class`
 
-We cover ES6 `class` syntax sugar in detail in Appendix A, but let's briefly demonstrate how we'd implement the same code using `class`:
+Nós cobrimos o açúcar sintático `class` do ES6 em detalhes no Apêndice A, mas vamos demonstrar brevemente como nós poderíamos implementar o mesmo código usando `class`:
 
 ```js
 class Widget {
@@ -399,11 +399,11 @@ $( document ).ready( function(){
 } );
 ```
 
-Undoubtedly, a number of the syntax uglies of the previous classical approach have been smoothed over with ES6's `class`. The presence of a `super(..)` in particular seems quite nice (though when you dig into it, it's not all roses!).
+Sem dúvidas, um pouco da feia sintaxe da abordagem clássica anterior foi suavizada pela `class` do ES6. A presença do `super(..)` em particular parece bastante agradável (embora quando você cava mais fundo nisso, nem tudo são flores!).
 
-Despite syntactic improvements, **these are not *real* classes**, as they still operate on top of the `[[Prototype]]` mechanism. They suffer from all the same mental-model mismatches we explored in Chapters 4, 5 and thus far in this chapter. Appendix A will expound on the ES6 `class` syntax and its implications in detail. We'll see why solving syntax hiccups doesn't substantially solve our class confusions in JS, though it makes a valiant effort masquerading as a solution!
+Apesar das melhorias sintáticas, **essas não são classes *reais***, uma vez que elas ainda operam sobre o mecanismo do `[[Prototype]]`. Eles sofrem das mesmas discrepâncias de modelo mental que exploramos nos Capítulos 4, 5 e até agora neste capítulo. O Apêndice A irá expôr a sintaxe `class` do ES6 e suas implicações em detalhes. Nós vamos ver por que resolver contratempos de linguagem não resolve substancialmente nossas confusões com classes no JS, embora isso faça um grande esforço para se mascarar de uma solução!
 
-Whether you use the classic prototypal syntax or the new ES6 sugar, you've still made a *choice* to model the problem domain (UI widgets) with "classes". And as the previous few chapters try to demonstrate, this *choice* in JavaScript is opting you into extra headaches and mental tax.
+Se você usa a sintaxe prototípica clássica ou o novo açúcar sintático do ES6, ainda fez uma *escolha* para modelar o domínio do problema (widgets da interface do usuário) com "classes". E, como os poucos capítulos anteriores tentam demonstrar, essa *opção* no JavaScript está deixando você com dores de cabeça extras e esgotamento mental.
 
 ### Delegating Widget Objects
 
