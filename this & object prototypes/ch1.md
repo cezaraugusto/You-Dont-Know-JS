@@ -197,7 +197,7 @@ for (i=0; i<10; i++) {
 console.log( foo.count ); // 4
 ```
 
-No entanto, essa abordagem igualmente o *real* entendimento do `this` e depende inteiramente do escopo léxico da variável `foo`.
+No entanto, essa abordagem evita o *real* entendimento do `this` e depende inteiramente do escopo léxico da variável `foo`.
 
 Ainda outro modo de abordar esse problema é forçar o `this` para realmente apontar para o objeto da função `foo`:
 
