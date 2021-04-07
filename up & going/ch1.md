@@ -379,7 +379,7 @@ Em outras palavras, *estado* é o acompanhamento das mudanças dos valores confo
 
 Outro exemplo comum de como usar uma variável é quando você deseja definir as opções de valores. Isso é geralmente chamado de *constante*, quando você declara uma variável com um valor e deseja que o valor *não mude* ao longo do programa.
 
-Você declara essas *constantes* geralmente no início do programa, de forma a se tornar um lugar conveniente de se visitar caso deseje alterar algum valor. Por convenção, variáveis definidas como constantes em JavaSscript são geralmente capitalizadas e separadas por um sublinhado.
+Você declara essas *constantes* geralmente no início do programa, de forma a se tornar um lugar conveniente de se visitar caso deseje alterar algum valor. Por convenção, variáveis definidas como constantes em JavaScript são geralmente capitalizadas e separadas por um sublinhado.
 
 Abaixo um exemplo simples:
 
