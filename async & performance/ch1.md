@@ -52,39 +52,39 @@ Antes que você proteste em discordância, não, sua vontade de evitar a confus�
 Por exemplo, observe esse código:
 
 ```js
-function now() {
+function agora() {
   return 21;
 }
 
-function later() {
-  a = a * 2;
-  console.log( "Signficado da vida:", a );
+function depois() {
+  resposta = resposta * 2;
+  console.log( "Signficado da vida:", resposta );
 }
 
-var answer = now();
+var resposta = agora();
 
-setTimeout( later, 1000 ); // Signifcado da vida: 42
+setTimeout( depois, 1000 ); // Signifcado da vida: 42
 ```
 
 Existem duas partes para esse programa: o trecho que vai executar *agora* e o trecho que vai executar *depois*. É bem óbvio qual é qual, mas vamos ser super explícitos:
 
 Agora:
 ```js
-function now() {
+function agora() {
   return 21;
 }
 
-function later() { .. }
+function depois() { .. }
 
-var answer = now();
+var resposta = agora();
 
-setTimeout( later, 1000 );
+setTimeout( depois, 1000 );
 ```
 
 Depois:
 ```js
-answer = answer * 2;
-console.log( "Meaning of life:", answer );
+resposta = resposta * 2;
+console.log( "Significado da vida:", resposta );
 ```
 
 
@@ -717,7 +717,7 @@ Processamos o conjunto de dados em pedaços com um tamanho máximo de 1000 itens
 
 Nós usaremos o `setTimeout(..0)` (hack) para agendamento assíncrono, que basicamente significa apenas "coloque essa função no fim da fila atual do loop de eventos".
 
-**Nota:** `setTimeout(..0)` não é tecnicamente inserir um item diretamente dentro da da fila do loop de eventos. O temporizador vai inserir o evento na próxima oportunidade. Por exemplo, duas chamadas `setTimeout(..0)` subsequentes não serão necessariamente processadas em ordem de chamada, então *é* possível ver várias condições estilo timer onde a ordem de tais eventos não é previsível. Em Node.js, uma solução mais simples é `process.nextTick(..)`. Apesar de quão conveniente (e usualmente mais rápido) seja, não existe uma única direção (ao menos até então) através de todos os ambientes para garantir ordenamento de eventos assíncronos. Cobriremos esse tópico com mais detalhes na próxima seção.
+**Nota:** `setTimeout(..0)` não é tecnicamente inserir um item diretamente dentro da fila do loop de eventos. O temporizador vai inserir o evento na próxima oportunidade. Por exemplo, duas chamadas `setTimeout(..0)` subsequentes não serão necessariamente processadas em ordem de chamada, então *é* possível ver várias condições estilo timer onde a ordem de tais eventos não é previsível. Em Node.js, uma solução mais simples é `process.nextTick(..)`. Apesar de quão conveniente (e usualmente mais rápido) seja, não existe uma única direção (ao menos até então) através de todos os ambientes para garantir ordenamento de eventos assíncronos. Cobriremos esse tópico com mais detalhes na próxima seção.
 
 ## Fila de Tarefas
 
