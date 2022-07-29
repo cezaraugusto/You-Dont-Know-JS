@@ -298,7 +298,7 @@ Em JavaScript, existem dois tipos possíveis de comentário: uma linha simples d
 Considere:
 
 ```js
-// Esse é um comentário de linha simṕles
+// Esse é um comentário de linha simples
 
 /* Mas esse é
        um comentário
