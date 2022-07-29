@@ -327,7 +327,7 @@ Há quatro símbolos bem conhecidos que podem ser subtituídos por objetos de ex
 
 	`Symbol.match` também  é usado pela operação abstrata `isRegExp` (veja a nota em "Funções de inspeção da String" no Capítulo 6) para determinar se uma objeto tem a intenção de ser usado como uma expressão regular. Para forçar a falha dessa verificação no objeto oara que isso não seja tratado como expressão regular, defina o valor do símbolo `Symbol.match` para `false` (ou algo falseável).
 
-*`@@replace`: O valor do símbolo `Symbol.replace` de uma expressão regular é o método usado pelo `String.prototype.replace(..)` para substituir dentro de uma string uma ou todas ocorrências de sequências de caracteres que combinarem com padrão fornecido das expressões regulares.
+* `@@replace`: O valor do símbolo `Symbol.replace` de uma expressão regular é o método usado pelo `String.prototype.replace(..)` para substituir dentro de uma string uma ou todas ocorrências de sequências de caracteres que combinarem com padrão fornecido das expressões regulares.
 
 	O algoritmo padrão para substituição está explícito na seção 21.2.5.8 da especificação ES6 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-regexp.prototype-@@replace).
 
