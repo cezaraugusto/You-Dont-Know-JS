@@ -783,7 +783,7 @@ Nessas aplicações, como um exemplo, se uma variável chega a zero e perde seu 
 
 ### Igualdade Especial
 
-Como vimos acima, os valores `NaN` e `-0` possuem um comportamento especial quando se trata de uma comparação de igualdade. `NaN` nunca é igual a ele mesmo, então você precisa usar `Number.isNaN(..)` do ES6 (ou um polyfill). Similarmente, `-0` mente e finge ser igual (até `===` igual estrito -- veja o Capítulo 4) ao seu regular positivo `0`, então você precisa de alguma forma usar o utilitário `isNegZero(..)` que sugerimos acima. 
+Como vimos acima, os valores `NaN` e `-0` possuem um comportamento especial quando se trata de uma comparação de igualdade. `NaN` nunca é igual a ele mesmo, então você precisa usar `Number.isNaN(..)` do ES6 (ou um polyfill). Similarmente, `-0` mente e finge ser igual (até `===` igual estrito -- veja o Capítulo 4) ao seu normal positivo `0`, então você precisa de alguma forma usar o utilitário `isNegZero(..)` que sugerimos acima. 
 
 A partir do ES6, há um novo utilitário que pode ser usado para testar dois valores usando igualdade absoluta, sem nenhuma dessas exceções. Ele se chama `Object.is(..)`:
 
@@ -849,7 +849,7 @@ Valore simples (chamados primitivos escalares) são *sempre* atribuídos/passado
 
 Valores compostos -- `objects`s (incluindo `array`s, e todo objeto que engloba um valor primitivo -- veja o Capítulo 3) e `function`s -- *sempre* criam uma cópia da referência ao serem atribuídos ou passados.
 
-No snippet acima, como `2` é um primitivo escalar, `a` espera uma cópia inicial desse valor, e a `b` é atribuído outra *cópia* do valor. Quando mudamos `b`, não alteramos o valor de `a`.
+No trecho acima, como `2` é um primitivo escalar, `a` espera uma cópia inicial desse valor, e a `b` é atribuído outra *cópia* do valor. Quando mudamos `b`, não alteramos o valor de `a`.
 
 Mas **ambos `c` e `d`** são referências separadas para os mesmo valor compartilhado `[1,2,3]`, que é um valor composto. É importante perceber que nem `c` nem `d` *possuem* mais que o outro o valor `[1,2,3]` -- ambos são igualmente referências para o valor. Então, quando se usa qualquer referência para modificar (`.push(4)`) o atual `array` compartilhado, isso afeta o próprio valor, e ambas as referências vão referenciar o novo valor modificado `[1,2,3,4]`.
 
