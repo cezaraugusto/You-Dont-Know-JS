@@ -781,11 +781,11 @@ Existem certas aplicações em que os desenvolvedores usam a magnitude de um val
 
 Nessas aplicações, como um exemplo, se uma variável chega a zero e perde seu sinal, você perderia a informação de qual direção estava seguindo antes de chegar a zero. Preservar o sinal do zero evita a perda potencial de informações indesejadas.
 
-### Special Equality
+### Igualdade Especial
 
-As we saw above, the `NaN` value and the `-0` value have special behavior when it comes to equality comparison. `NaN` is never equal to itself, so you have to use ES6's `Number.isNaN(..)` (or a polyfill). Simlarly, `-0` lies and pretends that it's equal (even `===` strict equal -- see Chapter 4) to regular positive `0`, so you have to use the somewhat hackish `isNegZero(..)` utility we suggested above.
+Como vimos acima, os valores `NaN` e `-0` possuem um comportamento especial quando se trata de uma comparação de igualdade. `NaN` nunca é igual a ele mesmo, então você precisa usar `Number.isNaN(..)` do ES6 (ou um polyfill). Similarmente, `-0` mente e finge ser igual (até `===` igual estrito -- veja o Capítulo 4) ao seu normal positivo `0`, então você precisa de alguma forma usar o utilitário `isNegZero(..)` que sugerimos acima. 
 
-As of ES6, there's a new utility that can be used to test two values for absolute equality, without any of these exceptions. It's called `Object.is(..)`:
+A partir do ES6, há um novo utilitário que pode ser usado para testar dois valores usando igualdade absoluta, sem nenhuma dessas exceções. Ele se chama `Object.is(..)`:
 
 ```js
 var a = 2 / "foo";
@@ -797,8 +797,7 @@ Object.is( b, -0 );		// true
 Object.is( b, 0 );		// false
 ```
 
-There's a pretty simple polyfill for `Object.is(..)` for pre-ES6 environments:
-
+Existe um polyfill simples para `Object.is(..)` para ambientes pré-ES6: 
 ```js
 if (!Object.is) {
 	Object.is = function(v1, v2) {
@@ -816,21 +815,21 @@ if (!Object.is) {
 }
 ```
 
-`Object.is(..)` probably shouldn't be used in cases where `==` or `===` are known to be *safe* (see Chapter 4 "Coercion"), as the operators are likely much more efficient and certainly are more idiomatic/common. `Object.is(..)` is mostly for these special cases of equality.
+`Object.is(..)` provavelmente não deveria ser usado em casos onde `==` ou `===` são conhecidos por serem *seguros* (vaja o Capítulo 4 "Coerção"), já que esses operadores são mais eficientes e certamente mais comuns. `Object.is(..)` serve mais para esses casos especiais de igualdade. 
 
-## Value vs. Reference
+## Valor vs. Referência
 
-In many other languages, values can either be assigned/passed by value-copy or by reference-copy depending on the syntax you use.
+Em muitas outras linguagens, valores podem ser atribuídos/passados como valores-copiados ou como referências-copiadas dependendo da sintaxe usada.
 
-For example, in C++ if you want to pass a `number` variable into a function and have that variable's value updated, you can declare the function parameter like `int& myNum`, and when you pass in a variable like `x`, `myNum` will be a **reference to `x`**; references are like a special form of pointers, where you obtain a pointer to another variable (like an *alias*). If you don't declare a reference parameter, the value passed in will *always* be copied, even if it's a complex object.
+Por exemplo, em C++, se você quer passar uma variável `number` para uma função e ter o valor dessa variável atualizado, você pode declarar um parâmetro como `int& myNum`, e quando você passar uma variável como `x`, `myNum` irá ser uma **referência para `x`**; referências são como uma forma especial de ponteiros, onde você obtém um ponteiro para outra variável (como um *alias*). Se você não declara um parâmetro como referência, o valor passado *sempre* vai ser copiado, mesmo que seja um objeto complexo.
 
-In JavaScript, there are no pointers, and references work a bit differently. You cannot have a reference from one JS variable to another variable. That's just not possible.
+Em Javascript não existem ponteiros e referências funcionam um pouco diferente. Você não pode ter uma referência de uma variável JS para outra variável. Isso não é possível.
 
-A reference in JS points at a (shared) **value**, so if you have 10 different references, they are all always distinct references to a single shared value; **none of them are references/pointers to each other.**
+Uma referência em JS aponta para um **valor** (compartilhado), então você pode ter 10 diferentes referências, elas são sempre distintas para um mesmo valor compartilhado;
 
-Moreover, in JavaScript, there are no syntactic hints that control value vs. reference assignment/passing. Instead, the *type* of the value *solely* controls whether that value will be assigned by value-copy or by reference-copy.
+Além disso, em JavaScript não há dicas sintáticas que controlam atribuição/passagem de valores vs. referênicas. Ao invés disso, *exclusivamente o tipo* de um valor controla se o ele vai ser atribuído por valor-copiado ou por referência-copiada.
 
-Let's illustrate:
+Vamos ilustrar:
 
 ```js
 var a = 2;
@@ -846,15 +845,15 @@ c; // [1,2,3,4]
 d; // [1,2,3,4]
 ```
 
-Simple values (aka scalar primitives) are *always* assigned/passed by value-copy: `null`, `undefined`, `string`, `number`, `boolean`, and ES6's `symbol`.
+Valore simples (chamados primitivos escalares) são *sempre* atribuídos/passados por valor-copiado: `null`, `undefined`, `string`, `number`, `boolean`, e o `symbol` do  ES6.
 
-Compound values -- `object`s (including `array`s, and all boxed object wrappers -- see Chapter 3) and `function`s -- *always* create a copy of the reference on assignment or passing.
+Valores compostos -- `objects`s (incluindo `array`s, e todo objeto que engloba um valor primitivo -- veja o Capítulo 3) e `function`s -- *sempre* criam uma cópia da referência ao serem atribuídos ou passados.
 
-In the above snippet, because `2` is a scalar primitive, `a` holds one initial copy of that value, and `b` is assigned another *copy* of the value. When changing `b`, you are in no way changing the value in `a`.
+No trecho acima, como `2` é um primitivo escalar, `a` espera uma cópia inicial desse valor, e a `b` é atribuído outra *cópia* do valor. Quando mudamos `b`, não alteramos o valor de `a`.
 
-But **both `c` and `d`** are seperate references to the same shared value `[1,2,3]`, which is a compound value. It's important to note that neither `c` nor `d` more "owns" the `[1,2,3]` value -- both are just equal peer references to the value. So, when using either reference to modify (`.push(4)`) the actual shared `array` value itself, it's affecting just the one shared value, and both references will reference the newly modified value `[1,2,3,4]`.
+Mas **ambos `c` e `d`** são referências separadas para os mesmo valor compartilhado `[1,2,3]`, que é um valor composto. É importante perceber que nem `c` nem `d` *possuem* mais que o outro o valor `[1,2,3]` -- ambos são igualmente referências para o valor. Então, quando se usa qualquer referência para modificar (`.push(4)`) o atual `array` compartilhado, isso afeta o próprio valor, e ambas as referências vão referenciar o novo valor modificado `[1,2,3,4]`.
 
-Since references point to the values themselves and not to the variables, you cannot use one reference to change where another reference is pointed:
+Desde que referências apontem para os próprios valores e não para as variáveis, você não pode usar uma referência para mudar para onde outra referência está apontando:
 
 ```js
 var a = [1,2,3];
@@ -868,10 +867,9 @@ a; // [1,2,3]
 b; // [4,5,6]
 ```
 
-When we make the assignment `b = [4,5,6]`, we are doing absolutely nothing to affect *where* `a` is still referencing (`[1,2,3]`). To do that, `b` would have to be a pointer to `a` rather than a reference to the `array` -- but no such capability exists in JS!
+Quando fazemos essa atribuição `b = [4,5,6]`, nós estamos fazendo absolutamente nada para afetar para *onde* `a` ainda está se referindo (`[1,2,3]`). Para fazer isso, `b` deveria ser um ponteiro para `a` ao invés de uma referência para o `array` -- mas não existe essa possibilidade em JS!
 
-The most common way such confusion happens is with function parameters:
-
+O jeito mais comum de haver essa confusão ocorre com parâmetros de funções:
 ```js
 function foo(x) {
 	x.push( 4 );
@@ -890,11 +888,11 @@ foo( a );
 a; // [1,2,3,4]  not  [4,5,6,7]
 ```
 
-When we pass in the argument `a`, it assigns a copy of the `a` reference to `x`. `x` and `a` are separate references pointing at the same `[1,2,3]` value. Now, inside the function, we can use that reference to mutate the value itself (`push(4)`). But when we make the assignment `x = [4,5,6]`, this is in no way affecting where the initial reference `a` is pointing -- still points at the (now modified) `[1,2,3,4]` value.
+Quando nós passamos `a` para o argumento, é atribuída uma cópia da referência de `a` para `x`. `x` e `a` são referências separadas apontando para o mesmo valor `[1,2,3]`. Agora, dentro da função, nós podemos usar essa referência para mudar o próprio valor (`push(4)`). Mas quando fazemos a atribuição `x = [4,5,6]`, isso não está afetando para onde a referência inicial `a` está apontando -- ainda apontand para o valor (agora modificado) `[1,2,3,4]`.
 
-There is no way to use the `x` reference to change where `a` is pointing. We could only modify the contents of the shared value that both `a` and `x` are pointing to.
+Não há como usar a referência de `x` para mudar para onde `a` está apontando. Nós poderíamos apenas modificar os conteúdos do valor compartilhado para o qual `a` e `x` apontam.
 
-To accomplish changing `a` to have the `[4,5,6,7]` value contents, you can't create a new `array` and assign -- you must modify the existing `array` value:
+Para conseguir a mudança de `a` para conter o valor `[4,5,6,7]`, você não pode criar um novo `array` e atribuí-lo -- você deve modificar o valor do `array` existente:
 
 ```js
 function foo(x) {
@@ -914,19 +912,19 @@ foo( a );
 a; // [4,5,6,7]  not  [1,2,3,4]
 ```
 
-As you can see, `x.length = 0` and `x.push(4,5,6,7)` were not creating a new `array`, but modifying the existing shared `array`. So of course, `a` references the new `[4,5,6,7]` contents.
+Como você pode ver, `x.length = 0` e `x.push(4,5,6,7)` não estavam criando um novo `array`, mas modificando o `array` compartilhado. Então, é claro que `a` vai referenciar o novo conteúdo `[4,5,6,7]`.
 
-Remember: you cannot directly control/override value-copy vs. reference -- those semantics are controlled entirely by the type of the underlying value.
+Lembre-se: você não pode controlar/sobrepor diretamente o comportamento valores-copiados vs. referências -- essas semânticas são controladas inteiramente pelo tipo do valor subjacente.
 
-To effectively pass a compound value (like an `array`) by value-copy, you need to manually make a copy of it, so that the reference passed doesn't still point to the original. For example:
+Para efetivamente passar um valor composto (como um `array`) como valor-copiado, você precisa manualmente fazer uma cópia dele, então essa referência passada não apontará mais para o valor original. Por exemplo:  
 
 ```js
 foo( a.slice() );
 ```
 
-`slice(..)` with no parameters by default makes an entirely new (shallow) copy of the `array`. So, we pass in a reference only to the copied `array`, and thus `foo(..)` cannot affect the contents of `a`.
+`slice(..)` sem nenhum parâmetro por padrão faz uma nova (rasa) cópia do `array`. Então, nós passamos em uma referência apenas a cópia do `array`, e por isso `foo(..)` não pode afetar o conteúdo de `a`.
 
-To do the reverse -- pass a scalar primitive value in a way where its value updates can be seen, kinda like a reference -- you have to wrap the value in another compound value (`object`, `array`, etc) that *can* be passed by reference-copy:
+Para fazer o inverso -- passar um valor primitivo escalar de um jeito que seu valor atualizdo possa ser visto, como uma referência -- você precisa englobar o valor em outro valor composto (`object`, `array`, etc) que *pode* ser passado como referência-copiada:
 
 ```js
 function foo(wrapper) {
@@ -942,11 +940,11 @@ foo( obj );
 obj.a; // 42
 ```
 
-Here, `obj` acts as a wrapper for the scalar primitive property `a`. When passed to `foo(..)`, a copy of the `obj` reference is passed in and set to the `wrapper` parameter. We now can use the `wrapper` reference to access the shared object, and update its property. After the function finishes, `obj.a` will see the updated value `42`.
+Aqui, `obj` age como um invólucro para a propriedade primitiva escalar `a`. Quando passada para `foo(..)`, uma cópia da referência para `obj` é passada para o parâmetro `wrapper`. Agora podemos usar a referência `wrapper` para acessar o objeto compartilhado e atualizar suas propriedades. Depois que a função termina, `obj.a` terá o valor atualizado para `42`. 
 
-It may occur to you that if you wanted to pass in a reference to a scalar primitive value like `2`, you could just box the value in its `Number` object wrapper (see Chapter 3).
+Você deve pensar que se você quisesse passar em uma referência um valor primitivo escalar como `2`, você poderia apenas encaixotar o valor em um objeto `Number` (veja o Capítulo 3).
 
-It *is* true a copy of the reference to this `Number` object *will* be passed to the function, but unfortunately, having a reference to the shared object is not going to give you the ability to modify the shared primitive value, like you may expect:
+*É* verdade que uma cópia de uma referência para esse objeto `Number` *vai* ser passada para uma função, mas infelizmente, tendo uma referência para o objeto compartilhado não irá te dar a habilidade de modificar o tipo primitivo compartilhado, como você poderia esperar:
 
 ```js
 function foo(x) {
@@ -961,26 +959,26 @@ foo( b );
 console.log( b ); // 2, not 3
 ```
 
-The problem is that the underlying scalar primitive value is *not mutable* (same goes for `String` and `Boolean`). If a `Number` object holds the scalar primitive value `2`, that exact `Number` object can never be changed to hold another value; you can only create a whole new `Number` object with a different value.
+O problema é que o valor escalar primitivo subjacente é *não mutável* (o mesmo ocorre com `String` e `Boolean`). Se um objeto `Number` mantém o valor escalar primitivo `2`, esse exato objeto `Number` nunca pode ser mudado para manter outro valor; você só pode por inteiro um novo objeto `Number` com um valor diferente. 
 
-When `x` is used in the expression `x + 1`, the underlying scalar primitive value `2` is unboxed (extracted) from the `Number` object automatically, so the line `x = x + 1` very subtly changes `x` from being a shared reference to the `Number` object, to just holding the scalar primitive value `3` as a result of the addition operation `2 + 1`. Therefore, `b` on the outside still references the original unmodified/immutable `Number` object holding the value `2`.
+Quando `x` é usado na expressão `x + 1`, o valos primitivo escalar subjacente `2` é desempacotado (extraído) do objeto `Number` automaticamente, então a linha `x = x + 1` muito sutilmente muda `x` de uma referência compartilhada para o objeto `Number`, para apenas conter o valor primitivo escalar `3` como resultado da operação de adição `2 + 1`. Portanto, `b` do lado de fora ainda referencia o `Number` imodificável/imutável com o valor original `2`.
 
-You *can* add properties on top of the `Number` object (just not change its inner primitive value), so you could exchange information indirectly via those additional properties.
+Você *pode* adicionar propriedades no topo do objeto `Number` (só não mudar seu valor primitivo interno), então você poderia trocar infromações indiretamente por meio dessas propriedades adicionais.
 
-This is not all that common, however; it probably would not be considered a good practice by most developers.
+Isso não é tão comum, no entanto; isso provavelmente não deveria ser considerado uma boa prática pela maioria dos desenvolvedores.
 
-Instead of using the wrapper object `Number` in this way, it's probably much better to use the manual object wrapper (`obj`) approach in the earlier snippet. That's not to say that there's no clever uses for the boxed object wrappers like `Number` -- just that you should probably prefer the scalar primitive value form in most cases.
+Ao invés de usar o objeto `Number` desse jeito, é provavelmente melhor usar um objeto manual (`obj`) abordado no snippet mostrado anteriormente. Isso não quer dizer que não é bom usar objeto que englobam tipos primitivos como `Number` -- apenas que você provavelmente deveria preferir o valor primitivo escalar para a maioria dos casos. 
 
-References are quite powerful, but sometimes they get in your way, and sometimes you need them where they don't exist. The only control you have over reference vs. value-copy behavior is the type of the value itself, so you must indirectly influence the assignment/passing behavior by which value types you choose to use.
+Referências são bastante poderosas, mas às vezes elas ficam no seu caminho, e às vezes você precisa que elas não existam. O único controle que você possui sobre o comportamento de referências vs. valores-copiados é o tipo de valor, então você deve indiretamente influenciar o comportamento de atribuição/passagem pelo tipo de valor que você escolhe usar
 
 ## Review
 
-In JavaScript, `array`s are simply numerically indexed collections of any value-type. `string`s are somewhat "`array`-like", but they have distinct behaviors and care must be taken if you want to treat them as `array`s. Numbers in JavaScript include both "integers" and floating-point values.
+Em Javascript, `array`s são simplesmente coleções numericamente indexadas de qualquer tipo de valor. `string`s de uma certa forma "são como `array`s", mas elas possuem comportamento distinto e deve-se tomar cuidado quando se quer tratá-las como `array`s. Números em Javascript incluem os "inteiros" e os valores de ponto flutuante.
 
-Several special values are defined within the primitive types.
+Diversos valores especiais são definidos dentro dos tipos primitivos.
 
-The `null` type has just one value: `null`, and likewise the `undefined` type has just the `undefined` value. `undefined` is basically the default value in any variable or property if no other value is present. The `void` operator lets you create the `undefined` value from any other value.
+O tipo `null` só possui um valor: `null`, da mesma forma que o tipo `undefined` só possui o valor `undefined`. `undefined` é basicamente o valor padrão em qualquer variável ou propriedade se outro valor não está presente. O operador `void` permite você criar o valor `undefined` a partir de qualquer outro valor.
 
-`number`s include several special values, like `NaN` (supposedly "Not a Number", but really more appropriately "invalid number"); `+Infinity` and `-Infinity`; and `-0`.
+`number`s incluem diversos valores especiais, como `NaN` (supostamente "Not a Number", mas na verdade é  mais apropriado dizer "invalid number"); `+Infinity` e `-Infinity`; e `-0`
 
-Simple scalar primitives (`string`s, `number`s, etc.) are assigned/passed by value-copy, but compound values (`object`s, etc.) are assigned/passed by reference-copy. References are not like references/pointers in other languages -- they're never pointed at other variables/references, only at the underlying values.
+Primitivos escalares simples (`string`s, `number`s, etc.) são atribuídos/passados como valores-copiados, mas valores compostos (`object`s, etc.) são atribuídos/passados como referências-copiadas. Referências não são como referências/ponteiros em outras linguagens -- elas nunca apontam para outras variáveis/referências, apenas para valores subjacentes.
