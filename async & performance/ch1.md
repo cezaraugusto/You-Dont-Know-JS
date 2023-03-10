@@ -57,8 +57,8 @@ function now() {
 }
 
 function later() {
-  a = a * 2;
-  console.log( "Signficado da vida:", a );
+  answer = answer * 2;
+  console.log( "Signficado da vida:", answer );
 }
 
 var answer = now();
