@@ -57,7 +57,7 @@ Vamos conhecer o elenco dos personagens que interagem para processar o programa 
 
 3. *Escopo*: outro amigo do *Motor*; coleta e mantém uma lista de consultas a todos os identificadores declarados (variáveis), e impõe um rigoroso conjunto de regras sobre a maneira como estes identificadores ficam acessíveis para o código que está em execução.
 
-Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Motor* (e seus amigos) pensa, fazer as perguntas que eles fazem, e responder essas perguntas.
+Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Motor* (e seus amigos) pensam, fazer as perguntas que eles fazem, e responder essas perguntas.
 
 ### Para a frente e para trás
 
