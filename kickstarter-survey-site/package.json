@@ -20,7 +20,7 @@
 		"node-static": "~0.7.1",
 		"sha1": "~1.1.0",
 		"then-redis": "~0.3.8",
-		"uglify-js": "~2.4",
+		"uglify-js": "~2.8.29",
 		"watch": "~0.8.0"
 	}
 }
