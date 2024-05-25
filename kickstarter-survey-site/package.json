@@ -11,7 +11,7 @@
 		"cookie": "~0.1.0",
 		"forever": "~0.10.8",
 		"grips": "latest",
-		"grunt": "~1.0.3",
+		"grunt": "~1.6.1",
 		"grunt-shell": "~0.3.1",
 		"grunt-contrib-watch": "~1.0.0",
 		"grunt-contrib-compress": "~0.5.3",
