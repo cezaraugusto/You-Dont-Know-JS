@@ -9,7 +9,7 @@
 		"asynquence": "latest",
 		"asynquence-contrib": "latest",
 		"cookie": "~0.1.0",
-		"forever": "~0.10.8",
+		"forever": "~0.13.0",
 		"grips": "latest",
 		"grunt": "~1.0.3",
 		"grunt-shell": "~0.3.1",
