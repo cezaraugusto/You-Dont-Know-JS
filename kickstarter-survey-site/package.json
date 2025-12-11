@@ -16,7 +16,7 @@
 		"grunt-contrib-watch": "~1.0.0",
 		"grunt-contrib-compress": "~0.5.3",
 		"grunt-forever": "~0.4.1",
-		"nodemailer": "~0.6.0",
+		"nodemailer": "~7.0.11",
 		"node-static": "~0.7.1",
 		"sha1": "~1.1.0",
 		"then-redis": "~0.3.8",
