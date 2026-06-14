@@ -30,29 +30,29 @@ Além disso, cada uma das três linhas é uma instrução contendo expressões. 
 
 A terceira linha contém apenas a expressão `b`, que também é uma declaração por si só (embora não seja uma muito interessante!). Esse tipo, geralmente, é chamado de "declaração de expressão".
 
-### Statement Completion Values
+### Valores de Conclusão de Instruções
 
-It's a fairly little known fact that statements all have completion values (even if that value is just `undefined`).
+É um fato pouco conhecido que todas as instruções têm valores de conclusão (mesmo que esse valor seja apenas `undefined`).
 
-How would you even go about seeing the completion value of a statement?
+Como você faria para ver o valor de conclusão de uma instrução?
 
-The most obvious answer is to type the statement into your browser's developer console, because when you execute it, the console by default reports the completion value of the most recent statement it executed.
+A resposta mais óbvia é digitar a instrução no console de desenvolvedor do seu navegador, porque quando você a executa, o console por padrão reporta o valor de conclusão da instrução mais recente que executou.
 
-Let's consider `var b = a`. What's the completion value of that statement?
+Vamos considerar `var b = a`. Qual é o valor de conclusão dessa instrução?
 
-The `b = a` assignment expression results in the value that was assigned (`18` above), but the `var` statement itself results in `undefined`. Why? Because `var` statements are defined that way in the spec. If you put `var a = 42;` into your console, you'll see `undefined` reported back instead of `42`.
+A expressão de atribuição `b = a` resulta no valor que foi atribuído (`18` acima), mas a própria instrução `var` resulta em `undefined`. Por quê? Porque as instruções `var` são definidas dessa forma na especificação. Se você colocar `var a = 42;` no seu console, você verá `undefined` reportado de volta em vez de `42`.
 
-**Note:** Technically, it's a little more complex than that. In the ES5 spec, section 12.2 "Variable Statement," the `VariableDeclaration` algorithm actually *does* return a value (a `string` containing the name of the variable declared -- weird, huh!?), but that value is basically swallowed up (except for use by the `for..in` loop) by the `VariableStatement` algorithm, which forces an empty (aka `undefined`) completion value.
+**Nota:** Tecnicamente, é um pouco mais complexo do que isso. Na especificação ES5, seção 12.2 "Variable Statement," o algoritmo `VariableDeclaration` na verdade *retorna* um valor (uma `string` contendo o nome da variável declarada -- estranho, não!?), mas esse valor é basicamente engolido (exceto para uso pelo laço `for..in`) pelo algoritmo `VariableStatement`, que força um valor de conclusão vazio (também conhecido como `undefined`).
 
-In fact, if you've done much code experimenting in your console (or in a JavaScript environment REPL -- read/evaluate/print/loop tool), you've probably seen `undefined` reported after many different statements, and perhaps never realized why or what that was. Put simply, the console is just reporting the statement's completion value.
+Na verdade, se você já fez muitos experimentos de código no seu console (ou em um REPL de ambiente JavaScript -- ferramenta read/evaluate/print/loop), você provavelmente já viu `undefined` reportado após muitas instruções diferentes, e talvez nunca tenha percebido por que ou o que era aquilo. Em poucas palavras, o console está apenas reportando o valor de conclusão da instrução.
 
-But what the console prints out for the completion value isn't something we can use inside our program. So how can we capture the completion value?
+Mas o que o console imprime para o valor de conclusão não é algo que possamos usar dentro do nosso programa. Então como podemos capturar o valor de conclusão?
 
-That's a much more complicated task. Before we explain *how*, let's explore *why* would you want to do that?
+Essa é uma tarefa muito mais complicada. Antes de explicarmos *como*, vamos explorar *por que* você iria querer fazer isso?
 
-We need to consider other types of statement completion values. For example, any regular `{ .. }` block has a completion value of the completion value of its last contained statement/expression.
+Precisamos considerar outros tipos de valores de conclusão de instruções. Por exemplo, qualquer bloco regular `{ .. }` tem um valor de conclusão igual ao valor de conclusão da última instrução/expressão contida nele.
 
-Consider:
+Considere:
 
 ```js
 var b;
@@ -62,13 +62,13 @@ if (true) {
 }
 ```
 
-If you typed that into your console/REPL, you'd probably see `42` reported, since `42` is the completion value of the `if` block, which took on the completion value of its last assignment expression statement `b = 4 + 38`.
+Se você digitasse isso no seu console/REPL, provavelmente veria `42` reportado, já que `42` é o valor de conclusão do bloco `if`, que assumiu o valor de conclusão da sua última instrução de expressão de atribuição `b = 4 + 38`.
 
-In other words, the completion value of a block is like an *implicit return* of the last statement value in the block.
+Em outras palavras, o valor de conclusão de um bloco é como um *retorno implícito* do valor da última instrução no bloco.
 
-**Note:** This is conceptually familiar in languages like CoffeeScript, which have implicit `return` values from `function`s that are the same as the last statement value in the function.
+**Nota:** Isso é conceitualmente familiar em linguagens como CoffeeScript, que têm valores de `return` implícitos de `function`s que são os mesmos do valor da última instrução na função.
 
-But there's an obvious problem. This kind of code doesn't work:
+Mas há um problema óbvio. Esse tipo de código não funciona:
 
 ```js
 var a, b;
@@ -78,13 +78,13 @@ a = if (true) {
 };
 ```
 
-We can't capture the completion value of a statement and assign it into another variable in any easy syntactic/grammatical way (at least not yet!).
+Não podemos capturar o valor de conclusão de uma instrução e atribuí-lo a outra variável de nenhuma maneira sintática/gramatical fácil (pelo menos não ainda!).
 
-So, what can we do?
+Então, o que podemos fazer?
 
-**Warning**: For demo purposes only -- don't actually do the following in your real code!
+**Aviso**: Apenas para fins de demonstração -- não faça realmente o seguinte no seu código de verdade!
 
-We could use the much maligned `eval(..)` (sometimes pronounced "evil") function to capture this completion value.
+Poderíamos usar a tão difamada função `eval(..)` (às vezes pronunciada "evil", "maligna" em inglês) para capturar esse valor de conclusão.
 
 ```js
 var a, b;
@@ -94,9 +94,9 @@ a = eval( "if (true) { b = 4 + 38; }" );
 a;	// 42
 ```
 
-Yeeeaaahhhh. That's terribly ugly. But it works! And it illustrates the point that statement completion values are a real thing that can be captured not just in our console but in our programs.
+Pooooois é. Isso é terrivelmente feio. Mas funciona! E ilustra o ponto de que valores de conclusão de instruções são uma coisa real que pode ser capturada não apenas no nosso console, mas também nos nossos programas.
 
-There's a proposal for ES7 called "do expression." Here's how it might work:
+Há uma proposta para o ES7 chamada "do expression". Veja como ela poderia funcionar:
 
 ```js
 var a, b;
@@ -110,26 +110,26 @@ a = do {
 a;	// 42
 ```
 
-The `do { .. }` expression executes a block (with one or many statements in it), and the final statement completion value inside the block becomes the completion value *of* the `do` expression, which can then be assigned to `a` as shown.
+A expressão `do { .. }` executa um bloco (com uma ou várias instruções nele), e o valor de conclusão da instrução final dentro do bloco torna-se o valor de conclusão *da* expressão `do`, que pode então ser atribuído a `a` como mostrado.
 
-The general idea is to be able to treat statements as expressions -- they can show up inside other statements -- without needing to wrap them in an inline function expression and perform an explicit `return ..`.
+A ideia geral é poder tratar instruções como expressões -- elas podem aparecer dentro de outras instruções -- sem precisar envolvê-las em uma expressão de função inline e executar um `return ..` explícito.
 
-For now, statement completion values are not much more than trivia. But they're probably going to take on more significance as JS evolves, and hopefully `do { .. }` expressions will reduce the temptation to use stuff like `eval(..)`.
+Por enquanto, valores de conclusão de instruções não passam de curiosidades. Mas provavelmente vão assumir mais importância à medida que o JS evolui, e esperançosamente as expressões `do { .. }` reduzirão a tentação de usar coisas como `eval(..)`.
 
-**Warning:** Repeating my earlier admonition: avoid `eval(..)`. Seriously. See the *Scope & Closures* title of this series for more explanation.
+**Aviso:** Repetindo minha advertência anterior: evite `eval(..)`. Sério. Veja o título *Scope & Closures* desta série para mais explicações.
 
-### Expression Side Effects
+### Efeitos Colaterais de Expressões
 
-Most expressions don't have side effects. For example:
+A maioria das expressões não têm efeitos colaterais. Por exemplo:
 
 ```js
 var a = 2;
 var b = a + 3;
 ```
 
-The expression `a + 3` did not *itself* have a side effect, like for instance changing `a`. It had a result, which is `5`, and that result was assigned to `b` in the statement `b = a + 3`.
+A expressão `a + 3` não teve *em si* um efeito colateral, como por exemplo alterar `a`. Ela teve um resultado, que é `5`, e esse resultado foi atribuído a `b` na instrução `b = a + 3`.
 
-The most common example of an expression with (possible) side effects is a function call expression:
+O exemplo mais comum de uma expressão com (possíveis) efeitos colaterais é uma expressão de chamada de função:
 
 ```js
 function foo() {
@@ -137,17 +137,17 @@ function foo() {
 }
 
 var a = 1;
-foo();		// result: `undefined`, side effect: changed `a`
+foo();		// resultado: `undefined`, efeito colateral: alterou `a`
 ```
 
-There are other side-effecting expressions, though. For example:
+Há outras expressões com efeitos colaterais, porém. Por exemplo:
 
 ```js
 var a = 42;
 var b = a++;
 ```
 
-The expression `a++` has two separate behaviors. *First*, it returns the current value of `a`, which is `42` (which then gets assigned to `b`). But *next*, it changes the value of `a` itself, incrementing it by one.
+A expressão `a++` tem dois comportamentos distintos. *Primeiro*, ela retorna o valor atual de `a`, que é `42` (que então é atribuído a `b`). Mas *em seguida*, ela altera o valor de `a` em si, incrementando-o em um.
 
 ```js
 var a = 42;
@@ -157,9 +157,9 @@ a;	// 43
 b;	// 42
 ```
 
-Many developers would mistakenly believe that `b` has value `43` just like `a` does. But the confusion comes from not fully considering the *when* of the side effects of the `++` operator.
+Muitos desenvolvedores acreditariam erroneamente que `b` tem o valor `43` assim como `a` tem. Mas a confusão vem de não considerar plenamente o *quando* dos efeitos colaterais do operador `++`.
 
-The `++` increment operator and the `--` decrement operator are both unary operators (see Chapter 4), which can be used in either a postfix ("after") position or prefix ("before") position.
+O operador de incremento `++` e o operador de decremento `--` são ambos operadores unários (veja o Capítulo 4), que podem ser usados tanto na posição pós-fixa ("depois") quanto na posição pré-fixa ("antes").
 
 ```js
 var a = 42;
@@ -171,11 +171,11 @@ a;		// 43
 a;		// 44
 ```
 
-When `++` is used in the prefix position as `++a`, its side effect (incrementing `a`) happens *before* the value is returned from the expression, rather than *after* as with `a++`.
+Quando `++` é usado na posição pré-fixa como `++a`, seu efeito colateral (incrementar `a`) acontece *antes* de o valor ser retornado da expressão, em vez de *depois* como em `a++`.
 
-**Note:** Would you think `++a++` was legal syntax? If you try it, you'll get a `ReferenceError` error, but why? Because side-effecting operators **require a variable reference** to target their side effects to. For `++a++`, the `a++` part is evaluated first (because of operator precedence -- see below), which gives back the value of `a` _before_ the increment. But then it tries to evaluate `++42`, which (if you try it) gives the same `ReferenceError` error, since `++` can't have a side effect directly on a value like `42`.
+**Nota:** Você acharia que `++a++` seria sintaxe válida? Se você tentar, vai receber um erro `ReferenceError`, mas por quê? Porque operadores com efeitos colaterais **requerem uma referência a variável** para direcionar seus efeitos colaterais. Para `++a++`, a parte `a++` é avaliada primeiro (por causa da precedência de operadores -- veja abaixo), o que devolve o valor de `a` _antes_ do incremento. Mas então ele tenta avaliar `++42`, o que (se você tentar) dá o mesmo erro `ReferenceError`, já que `++` não pode ter um efeito colateral diretamente sobre um valor como `42`.
 
-It is sometimes mistakenly thought that you can encapsulate the *after* side effect of `a++` by wrapping it in a `( )` pair, like:
+Às vezes pensa-se erroneamente que você pode encapsular o efeito colateral *posterior* de `a++` envolvendo-o em um par `( )`, como:
 
 ```js
 var a = 42;
@@ -185,9 +185,9 @@ a;	// 43
 b;	// 42
 ```
 
-Unfortunately, `( )` itself doesn't define a new wrapped expression that would be evaluated *after* the *after side effect* of the `a++` expression, as we might have hoped. In fact, even if it did, `a++` returns `42` first, and unless you have another expression that reevaluates `a` after the side effect of `++`, you're not going to get `43` from that expression, so `b` will not be assigned `43`.
+Infelizmente, `( )` em si não define uma nova expressão envolvida que seria avaliada *depois* do *efeito colateral posterior* da expressão `a++`, como poderíamos ter esperado. Na verdade, mesmo que definisse, `a++` retorna `42` primeiro, e a menos que você tenha outra expressão que reavalie `a` após o efeito colateral do `++`, você não vai obter `43` dessa expressão, então `b` não será atribuído `43`.
 
-There's an option, though: the `,` statement-series comma operator. This operator allows you to string together multiple standalone expression statements into a single statement:
+Existe uma opção, porém: o operador vírgula `,` de série de instruções. Esse operador permite que você encadeie múltiplas instruções de expressão independentes em uma única instrução:
 
 ```js
 var a = 42, b;
@@ -197,11 +197,11 @@ a;	// 43
 b;	// 43
 ```
 
-**Note:** The `( .. )` around `a++, a` is required here. The reason is operator precedence, which we'll cover later in this chapter.
+**Nota:** Os `( .. )` em torno de `a++, a` são obrigatórios aqui. A razão é a precedência de operadores, que abordaremos mais adiante neste capítulo.
 
-The expression `a++, a` means that the second `a` statement expression gets evaluated *after* the *after side effects* of the first `a++` statement expression, which means it returns the `43` value for assignment to `b`.
+A expressão `a++, a` significa que a segunda instrução de expressão `a` é avaliada *depois* dos *efeitos colaterais posteriores* da primeira instrução de expressão `a++`, o que significa que ela retorna o valor `43` para atribuição a `b`.
 
-Another example of a side-effecting operator is `delete`. As we showed in Chapter 2, `delete` is used to remove a property from an `object` or a slot from an `array`. But it's usually just called as a standalone statement:
+Outro exemplo de operador com efeito colateral é `delete`. Como mostramos no Capítulo 2, `delete` é usado para remover uma propriedade de um `object` ou um slot de um `array`. Mas geralmente é apenas chamado como uma instrução independente:
 
 ```js
 var obj = {
@@ -213,13 +213,13 @@ delete obj.a;	// true
 obj.a;			// undefined
 ```
 
-The result value of the `delete` operator is `true` if the requested operation is valid/allowable, or `false` otherwise. But the side effect of the operator is that it removes the property (or array slot).
+O valor de resultado do operador `delete` é `true` se a operação solicitada for válida/permitida, ou `false` caso contrário. Mas o efeito colateral do operador é que ele remove a propriedade (ou slot do array).
 
-**Note:** What do we mean by valid/allowable? Nonexistent properties, or properties that exist and are configurable (see Chapter 3 of the *this & Object Prototypes* title of this series) will return `true` from the `delete` operator. Otherwise, the result will be `false` or an error.
+**Nota:** O que queremos dizer com válida/permitida? Propriedades inexistentes, ou propriedades que existem e são configuráveis (veja o Capítulo 3 do título *this & Object Prototypes* desta série) retornarão `true` do operador `delete`. Caso contrário, o resultado será `false` ou um erro.
 
-One last example of a side-effecting operator, which may at once be both obvious and nonobvious, is the `=` assignment operator.
+Um último exemplo de operador com efeito colateral, que pode ser ao mesmo tempo óbvio e não óbvio, é o operador de atribuição `=`.
 
-Consider:
+Considere:
 
 ```js
 var a;
@@ -228,11 +228,11 @@ a = 42;		// 42
 a;			// 42
 ```
 
-It may not seem like `=` in `a = 42` is a side-effecting operator for the expression. But if we examine the result value of the `a = 42` statement, it's the value that was just assigned (`42`), so the assignment of that same value into `a` is essentially a side effect.
+Pode não parecer que `=` em `a = 42` seja um operador com efeito colateral para a expressão. Mas se examinarmos o valor de resultado da instrução `a = 42`, é o valor que acabou de ser atribuído (`42`), então a atribuição desse mesmo valor a `a` é essencialmente um efeito colateral.
 
-**Tip:** The same reasoning about side effects goes for the compound-assignment operators like `+=`, `-=`, etc. For example, `a = b += 2` is processed first as `b += 2` (which is `b = b + 2`), and the result of *that* `=` assignment is then assigned to `a`.
+**Dica:** O mesmo raciocínio sobre efeitos colaterais vale para os operadores de atribuição composta como `+=`, `-=`, etc. Por exemplo, `a = b += 2` é processado primeiro como `b += 2` (que é `b = b + 2`), e o resultado *dessa* atribuição `=` é então atribuído a `a`.
 
-This behavior that an assignment expression (or statement) results in the assigned value is primarily useful for chained assignments, such as:
+Esse comportamento de que uma expressão (ou instrução) de atribuição resulta no valor atribuído é principalmente útil para atribuições encadeadas, como:
 
 ```js
 var a, b, c;
@@ -240,18 +240,18 @@ var a, b, c;
 a = b = c = 42;
 ```
 
-Here, `c = 42` is evaluated to `42` (with the side effect of assigning `42` to `c`), then `b = 42` is evaluated to `42` (with the side effect of assigning `42` to `b`), and finally `a = 42` is evaluated (with the side effect of assigning `42` to `a`).
+Aqui, `c = 42` é avaliado como `42` (com o efeito colateral de atribuir `42` a `c`), então `b = 42` é avaliado como `42` (com o efeito colateral de atribuir `42` a `b`), e finalmente `a = 42` é avaliado (com o efeito colateral de atribuir `42` a `a`).
 
-**Warning:** A common mistake developers make with chained assignments is like `var a = b = 42`. While this looks like the same thing, it's not. If that statement were to happen without there also being a separate `var b` (somewhere in the scope) to formally declare `b`, then `var a = b = 42` would not declare `b` directly. Depending on `strict` mode, that would either throw an error or create an accidental global (see the *Scope & Closures* title of this series).
+**Aviso:** Um erro comum que os desenvolvedores cometem com atribuições encadeadas é algo como `var a = b = 42`. Embora isso pareça a mesma coisa, não é. Se essa instrução acontecesse sem também haver um `var b` separado (em algum lugar do escopo) para declarar formalmente `b`, então `var a = b = 42` não declararia `b` diretamente. Dependendo do modo `strict`, isso ou lançaria um erro ou criaria uma global acidental (veja o título *Scope & Closures* desta série).
 
-Another scenario to consider:
+Outro cenário a considerar:
 
 ```js
 function vowels(str) {
 	var matches;
 
 	if (str) {
-		// pull out all the vowels
+		// extrai todas as vogais
 		matches = str.match( /[aeiou]/g );
 
 		if (matches) {
@@ -263,13 +263,13 @@ function vowels(str) {
 vowels( "Hello World" ); // ["e","o","o"]
 ```
 
-This works, and many developers prefer such. But using an idiom where we take advantage of the assignment side effect, we can simplify by combining the two `if` statements into one:
+Isso funciona, e muitos desenvolvedores preferem assim. Mas usando um idioma onde aproveitamos o efeito colateral da atribuição, podemos simplificar combinando as duas instruções `if` em uma só:
 
 ```js
 function vowels(str) {
 	var matches;
 
-	// pull out all the vowels
+	// extrai todas as vogais
 	if (str && (matches = str.match( /[aeiou]/g ))) {
 		return matches;
 	}
@@ -278,76 +278,76 @@ function vowels(str) {
 vowels( "Hello World" ); // ["e","o","o"]
 ```
 
-**Note:** The `( .. )` around `matches = str.match..` is required. The reason is operator precedence, which we'll cover in the "Operator Precedence" section later in this chapter.
+**Nota:** Os `( .. )` em torno de `matches = str.match..` são obrigatórios. A razão é a precedência de operadores, que abordaremos na seção "Precedência de Operadores" mais adiante neste capítulo.
 
-I prefer this shorter style, as I think it makes it clearer that the two conditionals are in fact related rather than separate. But as with most stylistic choices in JS, it's purely opinion which one is *better*.
+Eu prefiro esse estilo mais curto, pois acho que deixa mais claro que os dois condicionais estão de fato relacionados em vez de separados. Mas, como na maioria das escolhas estilísticas em JS, é puramente questão de opinião qual é *melhor*.
 
-### Contextual Rules
+### Regras Contextuais
 
-There are quite a few places in the JavaScript grammar rules where the same syntax means different things depending on where/how it's used. This kind of thing can, in isolation, cause quite a bit of confusion.
+Há vários lugares nas regras de gramática do JavaScript onde a mesma sintaxe significa coisas diferentes dependendo de onde/como é usada. Esse tipo de coisa pode, isoladamente, causar bastante confusão.
 
-We won't exhaustively list all such cases here, but just call out a few of the common ones.
+Não vamos listar exaustivamente todos esses casos aqui, mas apenas destacar alguns dos mais comuns.
 
-#### `{ .. }` Curly Braces
+#### Chaves `{ .. }`
 
-There's two main places (and more coming as JS evolves!) that a pair of `{ .. }` curly braces will show up in your code. Let's take a look at each of them.
+Há dois lugares principais (e mais virão à medida que o JS evolui!) em que um par de chaves `{ .. }` aparecerá no seu código. Vamos dar uma olhada em cada um deles.
 
-##### Object Literals
+##### Literais de Objeto
 
-First, as an `object` literal:
+Primeiro, como um literal de `object`:
 
 ```js
-// assume there's a `bar()` function defined
+// suponha que exista uma função `bar()` definida
 
 var a = {
 	foo: bar()
 };
 ```
 
-How do we know this is an `object` literal? Because the `{ .. }` pair is a value that's getting assigned to `a`.
+Como sabemos que isso é um literal de `object`? Porque o par `{ .. }` é um valor que está sendo atribuído a `a`.
 
-**Note:** The `a` reference is called an "l-value" (aka left-hand value) since it's the target of an assignment. The `{ .. }` pair is an "r-value" (aka right-hand value) since it's used *just* as a value (in this case as the source of an assignment).
+**Nota:** A referência `a` é chamada de "l-value" (também conhecido como left-hand value, valor do lado esquerdo) já que é o alvo de uma atribuição. O par `{ .. }` é um "r-value" (também conhecido como right-hand value, valor do lado direito) já que é usado *apenas* como um valor (neste caso como a origem de uma atribuição).
 
-##### Labels
+##### Rótulos
 
-What happens if we remove the `var a =` part of the above snippet?
+O que acontece se removermos a parte `var a =` do trecho acima?
 
 ```js
-// assume there's a `bar()` function defined
+// suponha que exista uma função `bar()` definida
 
 {
 	foo: bar()
 }
 ```
 
-A lot of developers assume that the `{ .. }` pair is just a standalone `object` literal that doesn't get assigned anywhere. But it's actually entirely different.
+Muitos desenvolvedores assumem que o par `{ .. }` é apenas um literal de `object` independente que não é atribuído a lugar nenhum. Mas na verdade é algo completamente diferente.
 
-Here, `{ .. }` is just a regular code block. It's not very idiomatic in JavaScript (much more so in other languages!) to have a standalone `{ .. }` block like that, but it's perfectly valid JS grammar. It can be especially helpful when combined with `let` block-scoping declarations (see the *Scope & Closures* title in this series).
+Aqui, `{ .. }` é apenas um bloco de código regular. Não é muito idiomático em JavaScript (muito mais em outras linguagens!) ter um bloco `{ .. }` independente assim, mas é gramática JS perfeitamente válida. Pode ser especialmente útil quando combinado com declarações de escopo de bloco `let` (veja o título *Scope & Closures* desta série).
 
-The `{ .. }` code block here is functionally pretty much identical to the code block being attached to some statement, like a `for`/`while` loop, `if` conditional, etc.
+O bloco de código `{ .. }` aqui é funcionalmente bem idêntico ao bloco de código que é anexado a alguma instrução, como um laço `for`/`while`, condicional `if`, etc.
 
-But if it's a normal block of code, what's that bizarre looking `foo: bar()` syntax, and how is that legal?
+Mas se é um bloco de código normal, o que é aquela sintaxe `foo: bar()` de aparência bizarra, e como isso é legal?
 
-It's because of a little known (and, frankly, discouraged) feature in JavaScript called "labeled statements." `foo` is a label for the statement `bar()` (which has omitted its trailing `;` -- see "Automatic Semicolons" later in this chapter). But what's the point of a labeled statement?
+É por causa de um recurso pouco conhecido (e, francamente, desencorajado) no JavaScript chamado "instruções rotuladas". `foo` é um rótulo para a instrução `bar()` (que omitiu seu `;` final -- veja "Ponto e Vírgula Automático" mais adiante neste capítulo). Mas qual é o propósito de uma instrução rotulada?
 
-If JavaScript had a `goto` statement, you'd theoretically be able to say `goto foo` and have execution jump to that location in code. `goto`s are usually considered terrible coding idioms as they make code much harder to understand (aka "spaghetti code"), so it's a *very good thing* that JavaScript doesn't have a general `goto`.
+Se o JavaScript tivesse uma instrução `goto`, você teoricamente poderia dizer `goto foo` e fazer a execução pular para aquela localização no código. `goto`s geralmente são considerados péssimos idiomas de programação, pois tornam o código muito mais difícil de entender (também conhecido como "código espaguete"), então é uma *coisa muito boa* que o JavaScript não tenha um `goto` geral.
 
-However, JS *does* support a limited, special form of `goto`: labeled jumps. Both the `continue` and `break` statements can optionally accept a specified label, in which case the program flow "jumps" kind of like a `goto`. Consider:
+Entretanto, o JS *suporta* uma forma limitada e especial de `goto`: saltos rotulados. Tanto a instrução `continue` quanto a `break` podem opcionalmente aceitar um rótulo especificado, caso em que o fluxo do programa "salta" mais ou menos como um `goto`. Considere:
 
 ```js
-// `foo` labeled-loop
+// laço rotulado `foo`
 foo: for (var i=0; i<4; i++) {
 	for (var j=0; j<4; j++) {
-		// whenever the loops meet, continue outer loop
+		// sempre que os laços se encontrarem, continua o laço externo
 		if (j == i) {
-			// jump to the next iteration of
-			// the `foo` labeled-loop
+			// salta para a próxima iteração do
+			// laço rotulado `foo`
 			continue foo;
 		}
 
-		// skip odd multiples
+		// pula os múltiplos ímpares
 		if ((j * i) % 2 == 1) {
-			// normal (non-labeled) `continue` of inner loop
+			// `continue` normal (não rotulado) do laço interno
 			continue;
 		}
 
@@ -361,19 +361,19 @@ foo: for (var i=0; i<4; i++) {
 // 3 2
 ```
 
-**Note:** `continue foo` does not mean "go to the 'foo' labeled position to continue", but rather, "continue the loop that is labeled 'foo' with its next iteration." So, it's not *really* an arbitrary `goto`.
+**Nota:** `continue foo` não significa "vá para a posição rotulada 'foo' para continuar", mas sim, "continue o laço que está rotulado como 'foo' com sua próxima iteração." Então, não é *realmente* um `goto` arbitrário.
 
-As you can see, we skipped over the odd-multiple `3 1` iteration, but the labeled-loop jump also skipped iterations `1 1` and `2 2`.
+Como você pode ver, pulamos a iteração de múltiplo ímpar `3 1`, mas o salto do laço rotulado também pulou as iterações `1 1` e `2 2`.
 
-Perhaps a slightly more useful form of the labeled jump is with `break __` from inside an inner loop where you want to break out of the outer loop. Without a labeled `break`, this same logic could sometimes be rather awkward to write:
+Talvez uma forma um pouco mais útil do salto rotulado seja com `break __` de dentro de um laço interno onde você quer sair do laço externo. Sem um `break` rotulado, essa mesma lógica às vezes poderia ser bem desajeitada de escrever:
 
 ```js
-// `foo` labeled-loop
+// laço rotulado `foo`
 foo: for (var i=0; i<4; i++) {
 	for (var j=0; j<4; j++) {
 		if ((i * j) >= 3) {
 			console.log( "stopping!", i, j );
-			// break out of the `foo` labeled loop
+			// sai do laço rotulado `foo`
 			break foo;
 		}
 
@@ -390,15 +390,15 @@ foo: for (var i=0; i<4; i++) {
 // stopping! 1 3
 ```
 
-**Note:** `break foo` does not mean "go to the 'foo' labeled position to continue," but rather, "break out of the loop/block that is labeled 'foo' and continue *after* it." Not exactly a `goto` in the traditional sense, huh?
+**Nota:** `break foo` não significa "vá para a posição rotulada 'foo' para continuar," mas sim, "saia do laço/bloco que está rotulado como 'foo' e continue *depois* dele." Não é exatamente um `goto` no sentido tradicional, não é?
 
-The nonlabeled `break` alternative to the above would probably need to involve one or more functions, shared scope variable access, etc. It would quite likely be more confusing than labeled `break`, so here using a labeled `break` is perhaps the better option.
+A alternativa de `break` não rotulado para o caso acima provavelmente precisaria envolver uma ou mais funções, acesso a variável de escopo compartilhado, etc. Seria bem provavelmente mais confusa do que o `break` rotulado, então aqui usar um `break` rotulado é talvez a melhor opção.
 
-A label can apply to a non-loop block, but only `break` can reference such a non-loop label. You can do a labeled `break ___` out of any labeled block, but you cannot `continue ___` a non-loop label, nor can you do a non-labeled `break` out of a block.
+Um rótulo pode se aplicar a um bloco que não seja laço, mas apenas `break` pode referenciar tal rótulo de não-laço. Você pode fazer um `break ___` rotulado para sair de qualquer bloco rotulado, mas não pode fazer `continue ___` em um rótulo de não-laço, nem pode fazer um `break` não rotulado para sair de um bloco.
 
 ```js
 function foo() {
-	// `bar` labeled-block
+	// bloco rotulado `bar`
 	bar: {
 		console.log( "Hello" );
 		break bar;
@@ -412,36 +412,36 @@ foo();
 // World
 ```
 
-Labeled loops/blocks are extremely uncommon, and often frowned upon. It's best to avoid them if possible; for example using function calls instead of the loop jumps. But there are perhaps some limited cases where they might be useful. If you're going to use a labeled jump, make sure to document what you're doing with plenty of comments!
+Laços/blocos rotulados são extremamente incomuns, e frequentemente mal vistos. É melhor evitá-los se possível; por exemplo usando chamadas de função em vez dos saltos de laço. Mas talvez haja alguns casos limitados onde possam ser úteis. Se você for usar um salto rotulado, certifique-se de documentar o que você está fazendo com muitos comentários!
 
-It's a very common belief that JSON is a proper subset of JS, so a string of JSON (like `{"a":42}` -- notice the quotes around the property name as JSON requires!) is thought to be a valid JavaScript program. **Not true!** Try putting `{"a":42}` into your JS console, and you'll get an error.
+É uma crença muito comum que JSON é um subconjunto próprio de JS, então uma string de JSON (como `{"a":42}` -- note as aspas em torno do nome da propriedade como o JSON requer!) é considerada um programa JavaScript válido. **Não é verdade!** Tente colocar `{"a":42}` no seu console JS, e você receberá um erro.
 
-That's because statement labels cannot have quotes around them, so `"a"` is not a valid label, and thus `:` can't come right after it.
+Isso acontece porque rótulos de instrução não podem ter aspas em torno deles, então `"a"` não é um rótulo válido, e portanto `:` não pode vir logo depois dele.
 
-So, JSON is truly a subset of JS syntax, but JSON is not valid JS grammar by itself.
+Então, JSON é verdadeiramente um subconjunto da sintaxe do JS, mas o JSON não é gramática JS válida por si só.
 
-One extremely common misconception along these lines is that if you were to load a JS file into a `<script src=..>` tag that only has JSON content in it (like from an API call), the data would be read as valid JavaScript but just be inaccessible to the program. JSON-P (the practice of wrapping the JSON data in a function call, like `foo({"a":42})`) is usually said to solve this inaccessibility by sending the value to one of your program's functions.
+Um equívoco extremamente comum nesse sentido é que, se você carregasse um arquivo JS em uma tag `<script src=..>` que tem apenas conteúdo JSON nele (como de uma chamada de API), os dados seriam lidos como JavaScript válido mas simplesmente inacessíveis ao programa. JSON-P (a prática de envolver os dados JSON em uma chamada de função, como `foo({"a":42})`) é geralmente dito resolver essa inacessibilidade enviando o valor para uma das funções do seu programa.
 
-**Not true!** The totally valid JSON value `{"a":42}` by itself would actually throw a JS error because it'd be interpreted as a statement block with an invalid label. But `foo({"a":42})` is valid JS because in it, `{"a":42}` is an `object` literal value being passed to `foo(..)`. So, properly said, **JSON-P makes JSON into valid JS grammar!**
+**Não é verdade!** O valor JSON totalmente válido `{"a":42}` por si só na verdade lançaria um erro JS porque seria interpretado como um bloco de instrução com um rótulo inválido. Mas `foo({"a":42})` é JS válido porque nele, `{"a":42}` é um valor de literal de `object` sendo passado para `foo(..)`. Então, dito apropriadamente, **JSON-P transforma JSON em gramática JS válida!**
 
-##### Blocks
+##### Blocos
 
-Another commonly cited JS gotcha (related to coercion -- see Chapter 4) is:
+Outra pegadinha JS comumente citada (relacionada à coerção -- veja o Capítulo 4) é:
 
 ```js
 [] + {}; // "[object Object]"
 {} + []; // 0
 ```
 
-This seems to imply the `+` operator gives different results depending on whether the first operand is the `[]` or the `{}`. But that actually has nothing to do with it!
+Isso parece sugerir que o operador `+` dá resultados diferentes dependendo de se o primeiro operando é o `[]` ou o `{}`. Mas na verdade isso não tem nada a ver com isso!
 
-On the first line, `{}` appears in the `+` operator's expression, and is therefore interpreted as an actual value (an empty `object`). Chapter 4 explained that `[]` is coerced to `""` and thus `{}` is coerced to a `string` value as well: `"[object Object]"`.
+Na primeira linha, `{}` aparece na expressão do operador `+`, e é portanto interpretado como um valor real (um `object` vazio). O Capítulo 4 explicou que `[]` é coagido para `""` e portanto `{}` também é coagido para um valor `string`: `"[object Object]"`.
 
-But on the second line, `{}` is interpreted as a standalone `{}` empty block (which does nothing). Blocks don't need semicolons to terminate them, so the lack of one here isn't a problem. Finally, `+ []` is an expression that *explicitly coerces* (see Chapter 4) the `[]` to a `number`, which is the `0` value.
+Mas na segunda linha, `{}` é interpretado como um bloco vazio `{}` independente (que não faz nada). Blocos não precisam de ponto e vírgula para terminá-los, então a falta de um aqui não é problema. Por fim, `+ []` é uma expressão que *coage explicitamente* (veja o Capítulo 4) o `[]` para um `number`, que é o valor `0`.
 
-##### Object Destructuring
+##### Desestruturação de Objeto
 
-Starting with ES6, another place that you'll see `{ .. }` pairs showing up is with "destructuring assignments" (see the *ES6 & Beyond* title of this series for more info), specifically `object` destructuring. Consider:
+A partir do ES6, outro lugar onde você verá pares `{ .. }` aparecendo é com "atribuições de desestruturação" (veja o título *ES6 & Beyond* desta série para mais informações), especificamente desestruturação de `object`. Considere:
 
 ```js
 function getData() {
@@ -457,7 +457,7 @@ var { a, b } = getData();
 console.log( a, b ); // 42 "foo"
 ```
 
-As you can probably tell, `var { a , b } = ..` is a form of ES6 destructuring assignment, which is roughly equivalent to:
+Como você provavelmente já percebeu, `var { a , b } = ..` é uma forma de atribuição de desestruturação do ES6, que é aproximadamente equivalente a:
 
 ```js
 var res = getData();
@@ -465,13 +465,13 @@ var a = res.a;
 var b = res.b;
 ```
 
-**Note:** `{ a, b }` is actually ES6 destructuring shorthand for `{ a: a, b: b }`, so either will work, but it's expected that the shorter `{ a, b }` will be become the preferred form.
+**Nota:** `{ a, b }` é na verdade uma abreviação de desestruturação do ES6 para `{ a: a, b: b }`, então qualquer uma funcionará, mas espera-se que a forma mais curta `{ a, b }` se torne a forma preferida.
 
-Object destructuring with a `{ .. }` pair can also be used for named function arguments, which is sugar for this same sort of implicit object property assignment:
+A desestruturação de objeto com um par `{ .. }` também pode ser usada para argumentos de função nomeados, que é açúcar sintático para esse mesmo tipo de atribuição implícita de propriedade de objeto:
 
 ```js
 function foo({ a, b, c }) {
-	// no need for:
+	// não há necessidade de:
 	// var a = obj.a, b = obj.b, c = obj.c
 	console.log( a, b, c );
 }
@@ -483,11 +483,11 @@ foo( {
 } );	// 42 "foo" [1, 2, 3]
 ```
 
-So, the context we use `{ .. }` pairs in entirely determines what they mean, which illustrates the difference between syntax and grammar. It's very important to understand these nuances to avoid unexpected interpretations by the JS engine.
+Então, o contexto em que usamos pares `{ .. }` determina inteiramente o que eles significam, o que ilustra a diferença entre sintaxe e gramática. É muito importante entender essas nuances para evitar interpretações inesperadas pelo motor JS.
 
-#### `else if` And Optional Blocks
+#### `else if` E Blocos Opcionais
 
-It's a common misconception that JavaScript has an `else if` clause, because you can do:
+É um equívoco comum que o JavaScript tenha uma cláusula `else if`, porque você pode fazer:
 
 ```js
 if (a) {
@@ -501,19 +501,19 @@ else {
 }
 ```
 
-But there's a hidden characteristic of the JS grammar here: there is no `else if`. But `if` and `else` statements are allowed to omit the `{ }` around their attached block if they only contain a single statement. You've seen this many times before, undoubtedly:
+Mas há uma característica oculta da gramática JS aqui: não existe `else if`. Mas as instruções `if` e `else` têm permissão para omitir os `{ }` em torno do bloco anexado se eles contiverem apenas uma única instrução. Você já viu isso muitas vezes antes, sem dúvida:
 
 ```js
 if (a) doSomething( a );
 ```
 
-Many JS style guides will insist that you always use `{ }` around a single statement block, like:
+Muitos guias de estilo JS insistirão que você sempre use `{ }` em torno de um bloco de instrução única, como:
 
 ```js
 if (a) { doSomething( a ); }
 ```
 
-However, the exact same grammar rule applies to the `else` clause, so the `else if` form you've likely always coded is *actually* parsed as:
+Entretanto, a exata mesma regra gramatical se aplica à cláusula `else`, então a forma `else if` que você provavelmente sempre codificou é *na verdade* analisada como:
 
 ```js
 if (a) {
@@ -529,13 +529,13 @@ else {
 }
 ```
 
-The `if (b) { .. } else { .. }` is a single statement that follows the `else`, so you can either put the surrounding `{ }` in or not. In other words, when you use `else if`, you're technically breaking that common style guide rule and just defining your `else` with a single `if` statement.
+O `if (b) { .. } else { .. }` é uma única instrução que segue o `else`, então você pode colocar os `{ }` envolventes ou não. Em outras palavras, quando você usa `else if`, você está tecnicamente quebrando aquela regra comum de guia de estilo e apenas definindo seu `else` com uma única instrução `if`.
 
-Of course, the `else if` idiom is extremely common and results in one less level of indentation, so it's attractive. Whichever way you do it, just call out explicitly in your own style guide/rules and don't assume things like `else if` are direct grammar rules.
+Claro, o idioma `else if` é extremamente comum e resulta em um nível a menos de indentação, então é atrativo. De qualquer forma que você faça, apenas declare explicitamente no seu próprio guia de estilo/regras e não assuma que coisas como `else if` são regras gramaticais diretas.
 
-## Operator Precedence
+## Precedência de Operadores
 
-As we covered in Chapter 4, JavaScript's version of `&&` and `||` are interesting in that they select and return one of their operands, rather than just resulting in `true` or `false`. That's easy to reason about if there are only two operands and one operator.
+Como abordamos no Capítulo 4, a versão do JavaScript de `&&` e `||` é interessante por selecionar e retornar um de seus operandos, em vez de simplesmente resultar em `true` ou `false`. Isso é fácil de raciocinar se houver apenas dois operandos e um operador.
 
 ```js
 var a = 42;
@@ -545,7 +545,7 @@ a && b;	// "foo"
 a || b;	// 42
 ```
 
-But what about when there's two operators involved, and three operands?
+Mas e quando há dois operadores envolvidos, e três operandos?
 
 ```js
 var a = 42;
@@ -556,13 +556,13 @@ a && b || c; // ???
 a || b && c; // ???
 ```
 
-To understand what those expressions result in, we're going to need to understand what rules govern how the operators are processed when there's more than one present in an expression.
+Para entender no que essas expressões resultam, vamos precisar entender quais regras governam como os operadores são processados quando há mais de um presente em uma expressão.
 
-These rules are called "operator precedence."
+Essas regras são chamadas de "precedência de operadores."
 
-I bet most readers feel they have a decent grasp on operator precedence. But as with everything else we've covered in this book series, we're going to poke and prod at that understanding to see just how solid it really is, and hopefully learn a few new things along the way.
+Aposto que a maioria dos leitores sente que tem um domínio decente sobre precedência de operadores. Mas como tudo o mais que abordamos nesta série de livros, vamos cutucar e provocar esse entendimento para ver quão sólido ele realmente é, e esperançosamente aprender algumas coisas novas ao longo do caminho.
 
-Recall the example from above:
+Relembre o exemplo de cima:
 
 ```js
 var a = 42, b;
@@ -572,7 +572,7 @@ a;	// 43
 b;	// 43
 ```
 
-But what would happen if we remove the `( )`?
+Mas o que aconteceria se removêssemos os `( )`?
 
 ```js
 var a = 42, b;
@@ -582,13 +582,13 @@ a;	// 43
 b;	// 42
 ```
 
-Wait! Why did that change the value assigned to `b`?
+Espere! Por que isso mudou o valor atribuído a `b`?
 
-Because the `,` operator has a lower precedence than the `=` operator. So, `b = a++, a` is interpreted as `(b = a++), a`. Because (as we explained earlier) `a++` has *after side effects*, the assigned value to `b` is the value `42` before the `++` changes `a`.
+Porque o operador `,` tem precedência menor do que o operador `=`. Então, `b = a++, a` é interpretado como `(b = a++), a`. Porque (como explicamos anteriormente) `a++` tem *efeitos colaterais posteriores*, o valor atribuído a `b` é o valor `42` antes de o `++` alterar `a`.
 
-This is just a simple matter of needing to understand operator precedence. If you're going to use `,` as a statement-series operator, it's important to know that it actually has the lowest precedence. Every other operator will more tightly bind than `,` will.
+Isso é apenas uma simples questão de precisar entender precedência de operadores. Se você for usar `,` como operador de série de instruções, é importante saber que ele na verdade tem a menor precedência. Todo outro operador se ligará mais firmemente do que o `,`.
 
-Now, recall this example from above:
+Agora, relembre este exemplo de cima:
 
 ```js
 if (str && (matches = str.match( /[aeiou]/g ))) {
@@ -596,11 +596,11 @@ if (str && (matches = str.match( /[aeiou]/g ))) {
 }
 ```
 
-We said the `( )` around the assignment is required, but why? Because `&&` has higher precedence than `=`, so without the `( )` to force the binding, the expression would instead be treated as `(str && matches) = str.match..`. But this would be an error, because the result of `(str && matches)` isn't going to be a variable, but instead a value (in this case `undefined`), and so it can't be the left-hand side of an `=` assignment!
+Dissemos que os `( )` em torno da atribuição são obrigatórios, mas por quê? Porque `&&` tem precedência maior do que `=`, então sem os `( )` para forçar a ligação, a expressão seria em vez disso tratada como `(str && matches) = str.match..`. Mas isso seria um erro, porque o resultado de `(str && matches)` não vai ser uma variável, mas sim um valor (neste caso `undefined`), e portanto não pode ser o lado esquerdo de uma atribuição `=`!
 
-OK, so you probably think you've got this operator precedence thing down.
+OK, então você provavelmente acha que dominou essa coisa de precedência de operadores.
 
-Let's move on to a more complex example (which we'll carry throughout the next several sections of this chapter) to *really* test your understanding:
+Vamos avançar para um exemplo mais complexo (que carregaremos ao longo das próximas várias seções deste capítulo) para *realmente* testar seu entendimento:
 
 ```js
 var a = 42;
@@ -612,56 +612,56 @@ var d = a && b || c ? c || b ? a : c && b : a;
 d;		// ??
 ```
 
-OK, evil, I admit it. No one would write a string of expressions like that, right? *Probably* not, but we're going to use it to examine various issues around chaining multiple operators together, which *is* a very common task.
+OK, maligno, eu admito. Ninguém escreveria uma cadeia de expressões como essa, certo? *Provavelmente* não, mas vamos usá-la para examinar várias questões em torno do encadeamento de múltiplos operadores juntos, o que *é* uma tarefa muito comum.
 
-The result above is `42`. But that's not nearly as interesting as how we can figure out that answer without just plugging it into a JS program to let JavaScript sort it out.
+O resultado acima é `42`. Mas isso não é nem de longe tão interessante quanto como podemos descobrir essa resposta sem simplesmente jogá-la em um programa JS para deixar o JavaScript resolvê-la.
 
-Let's dig in.
+Vamos cavar.
 
-The first question -- it may not have even occurred to you to ask -- is, does the first part (`a && b || c`) behave like `(a && b) || c` or like `a && (b || c)`? Do you know for certain? Can you even convince yourself they are actually different?
+A primeira pergunta -- pode nem ter te ocorrido perguntar -- é, a primeira parte (`a && b || c`) se comporta como `(a && b) || c` ou como `a && (b || c)`? Você sabe com certeza? Você consegue ao menos se convencer de que elas são de fato diferentes?
 
 ```js
 (false && true) || true;	// true
 false && (true || true);	// false
 ```
 
-So, there's proof they're different. But still, how does `false && true || true` behave? The answer:
+Então, há prova de que são diferentes. Mas ainda assim, como `false && true || true` se comporta? A resposta:
 
 ```js
 false && true || true;		// true
 (false && true) || true;	// true
 ```
 
-So we have our answer. The `&&` operator is evaluated first and the `||` operator is evaluated second.
+Então temos nossa resposta. O operador `&&` é avaliado primeiro e o operador `||` é avaliado em segundo.
 
-But is that just because of left-to-right processing? Let's reverse the order of operators:
+Mas isso é só por causa do processamento da esquerda para a direita? Vamos inverter a ordem dos operadores:
 
 ```js
 true || false && false;		// true
 
-(true || false) && false;	// false -- nope
-true || (false && false);	// true -- winner, winner!
+(true || false) && false;	// false -- não
+true || (false && false);	// true -- ganhador, ganhador!
 ```
 
-Now we've proved that `&&` is evaluated first and then `||`, and in this case that was actually counter to generally expected left-to-right processing.
+Agora provamos que `&&` é avaliado primeiro e depois `||`, e neste caso isso foi na verdade contrário ao processamento da esquerda para a direita geralmente esperado.
 
-So what caused the behavior? **Operator precedence**.
+Então o que causou esse comportamento? **Precedência de operadores**.
 
-Every language defines its own operator precedence list. It's dismaying, though, just how uncommon it is that JS developers have read JS's list.
+Toda linguagem define sua própria lista de precedência de operadores. É desanimador, porém, quão incomum é que desenvolvedores JS tenham lido a lista do JS.
 
-If you knew it well, the above examples wouldn't have tripped you up in the slightest, because you'd already know that `&&` is more precedent than `||`. But I bet a fair amount of readers had to think about it a little bit.
+Se você a conhecesse bem, os exemplos acima não teriam te derrubado nem um pouco, porque você já saberia que `&&` tem mais precedência que `||`. Mas aposto que uma boa quantidade de leitores teve que pensar um pouco sobre isso.
 
-**Note:** Unfortunately, the JS spec doesn't really have its operator precedence list in a convenient, single location. You have to parse through and understand all the grammar rules. So we'll try to lay out the more common and useful bits here in a more convenient format. For a complete list of operator precedence, see "Operator Precedence" on the MDN site (* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence).
+**Nota:** Infelizmente, a especificação JS não tem realmente sua lista de precedência de operadores em um único local conveniente. Você tem que analisar e entender todas as regras gramaticais. Então vamos tentar dispor as partes mais comuns e úteis aqui em um formato mais conveniente. Para uma lista completa de precedência de operadores, veja "Operator Precedence" no site da MDN (* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence).
 
-### Short Circuited
+### Curto-circuito
 
-In Chapter 4, we mentioned in a side note the "short circuiting" nature of operators like `&&` and `||`. Let's revisit that in more detail now.
+No Capítulo 4, mencionamos numa nota lateral a natureza de "curto-circuito" de operadores como `&&` e `||`. Vamos revisitar isso em mais detalhe agora.
 
-For both `&&` and `||` operators, the right-hand operand will **not be evaluated** if the left-hand operand is sufficient to determine the outcome of the operation. Hence, the name "short circuited" (in that if possible, it will take an early shortcut out).
+Para ambos os operadores `&&` e `||`, o operando do lado direito **não será avaliado** se o operando do lado esquerdo for suficiente para determinar o resultado da operação. Daí o nome "curto-circuito" (no sentido de que, se possível, ele pegará um atalho antecipado para sair).
 
-For example, with `a && b`, `b` is not evaluated if `a` is falsy, because the result of the `&&` operand is already certain, so there's no point in bothering to check `b`. Likewise, with `a || b`, if `a` is truthy, the result of the operand is already certain, so there's no reason to check `b`.
+Por exemplo, com `a && b`, `b` não é avaliado se `a` for falsy, porque o resultado do operando `&&` já é certo, então não há motivo em se incomodar em verificar `b`. Da mesma forma, com `a || b`, se `a` for truthy, o resultado do operando já é certo, então não há razão para verificar `b`.
 
-This short circuiting can be very helpful and is commonly used:
+Esse curto-circuito pode ser muito útil e é comumente usado:
 
 ```js
 function doSomething(opts) {
@@ -671,9 +671,9 @@ function doSomething(opts) {
 }
 ```
 
-The `opts` part of the `opts && opts.cool` test acts as sort of a guard, because if `opts` is unset (or is not an `object`), the expression `opts.cool` would throw an error. The `opts` test failing plus the short circuiting means that `opts.cool` won't even be evaluated, thus no error!
+A parte `opts` do teste `opts && opts.cool` atua como uma espécie de guarda, porque se `opts` não estiver definido (ou não for um `object`), a expressão `opts.cool` lançaria um erro. A falha do teste `opts` somada ao curto-circuito significa que `opts.cool` nem será avaliado, portanto nenhum erro!
 
-Similarly, you can use `||` short circuiting:
+De forma semelhante, você pode usar o curto-circuito de `||`:
 
 ```js
 function doSomething(opts) {
@@ -683,76 +683,76 @@ function doSomething(opts) {
 }
 ```
 
-Here, we're checking for `opts.cache` first, and if it's present, we don't call the `primeCache()` function, thus avoiding potentially unnecessary work.
+Aqui, estamos verificando `opts.cache` primeiro, e se ele estiver presente, não chamamos a função `primeCache()`, evitando assim trabalho potencialmente desnecessário.
 
-### Tighter Binding
+### Ligação Mais Firme
 
-But let's turn our attention back to that earlier complex statement example with all the chained operators, specifically the `? :` ternary operator parts. Does the `? :` operator have more or less precedence than the `&&` and `||` operators?
+Mas vamos voltar nossa atenção àquele exemplo de instrução complexa anterior com todos os operadores encadeados, especificamente as partes do operador ternário `? :`. O operador `? :` tem mais ou menos precedência do que os operadores `&&` e `||`?
 
 ```js
 a && b || c ? c || b ? a : c && b : a
 ```
 
-Is that more like this:
+Isso é mais parecido com isto:
 
 ```js
 a && b || (c ? c || (b ? a : c) && b : a)
 ```
 
-or this?
+ou isto?
 
 ```js
 (a && b || c) ? (c || b) ? a : (c && b) : a
 ```
 
-The answer is the second one. But why?
+A resposta é a segunda. Mas por quê?
 
-Because `&&` is more precedent than `||`, and `||` is more precedent than `? :`.
+Porque `&&` tem mais precedência que `||`, e `||` tem mais precedência que `? :`.
 
-So, the expression `(a && b || c)` is evaluated *first* before the `? :` it participates in. Another way this is commonly explained is that `&&` and `||` "bind more tightly" than `? :`. If the reverse was true, then `c ? c...` would bind more tightly, and it would behave (as the first choice) like `a && b || (c ? c..)`.
+Então, a expressão `(a && b || c)` é avaliada *primeiro* antes do `? :` do qual ela participa. Outra forma de explicar isso comumente é que `&&` e `||` "se ligam mais firmemente" do que `? :`. Se o contrário fosse verdade, então `c ? c...` se ligaria mais firmemente, e se comportaria (como a primeira escolha) como `a && b || (c ? c..)`.
 
-### Associativity
+### Associatividade
 
-So, the `&&` and `||` operators bind first, then the `? :` operator. But what about multiple operators of the same precedence? Do they always process left-to-right or right-to-left?
+Então, os operadores `&&` e `||` se ligam primeiro, depois o operador `? :`. Mas e quanto a múltiplos operadores de mesma precedência? Eles sempre processam da esquerda para a direita ou da direita para a esquerda?
 
-In general, operators are either left-associative or right-associative, referring to whether **grouping happens from the left or from the right**.
+Em geral, operadores são ou associativos à esquerda ou associativos à direita, referindo-se a se o **agrupamento acontece pela esquerda ou pela direita**.
 
-It's important to note that associativity is *not* the same thing as left-to-right or right-to-left processing.
+É importante notar que associatividade *não* é a mesma coisa que processamento da esquerda para a direita ou da direita para a esquerda.
 
-But why does it matter whether processing is left-to-right or right-to-left? Because expressions can have side effects, like for instance with function calls:
+Mas por que importa se o processamento é da esquerda para a direita ou da direita para a esquerda? Porque expressões podem ter efeitos colaterais, como por exemplo com chamadas de função:
 
 ```js
 var a = foo() && bar();
 ```
 
-Here, `foo()` is evaluated first, and then possibly `bar()` depending on the result of the `foo()` expression. That definitely could result in different program behavior than if `bar()` was called before `foo()`.
+Aqui, `foo()` é avaliado primeiro, e então possivelmente `bar()` dependendo do resultado da expressão `foo()`. Isso definitivamente poderia resultar em comportamento de programa diferente do que se `bar()` fosse chamado antes de `foo()`.
 
-But this behavior is *just* left-to-right processing (the default behavior in JavaScript!) -- it has nothing to do with the associativity of `&&`. In that example, since there's only one `&&` and thus no relevant grouping here, associativity doesn't even come into play.
+Mas esse comportamento é *apenas* processamento da esquerda para a direita (o comportamento padrão em JavaScript!) -- não tem nada a ver com a associatividade de `&&`. Naquele exemplo, já que há apenas um `&&` e portanto nenhum agrupamento relevante aqui, a associatividade nem entra em jogo.
 
-But with an expression like `a && b && c`, grouping *will* happen implicitly, meaning that either `a && b` or `b && c` will be evaluated first.
+Mas com uma expressão como `a && b && c`, o agrupamento *irá* acontecer implicitamente, significando que ou `a && b` ou `b && c` será avaliado primeiro.
 
-Technically, `a && b && c` will be handled as `(a && b) && c`, because `&&` is left-associative (so is `||`, by the way). However, the right-associative alternative `a && (b && c)` behaves observably the same way. For the same values, the same expressions are evaluated in the same order.
+Tecnicamente, `a && b && c` será tratado como `(a && b) && c`, porque `&&` é associativo à esquerda (assim como `||`, a propósito). Entretanto, a alternativa associativa à direita `a && (b && c)` se comporta de forma observável da mesma maneira. Para os mesmos valores, as mesmas expressões são avaliadas na mesma ordem.
 
-**Note:** If hypothetically `&&` was right-associative, it would be processed the same as if you manually used `( )` to create grouping like `a && (b && c)`. But that still **doesn't mean** that `c` would be processed before `b`. Right-associativity does **not** mean right-to-left evaluation, it means right-to-left **grouping**. Either way, regardless of the grouping/associativity, the strict ordering of evaluation will be `a`, then `b`, then `c` (aka left-to-right).
+**Nota:** Se hipoteticamente `&&` fosse associativo à direita, ele seria processado da mesma forma como se você manualmente usasse `( )` para criar o agrupamento como `a && (b && c)`. Mas isso ainda **não significa** que `c` seria processado antes de `b`. Associatividade à direita **não** significa avaliação da direita para a esquerda, significa **agrupamento** da direita para a esquerda. De qualquer forma, independentemente do agrupamento/associatividade, a ordem estrita de avaliação será `a`, depois `b`, depois `c` (também conhecido como da esquerda para a direita).
 
-So it doesn't really matter that much that `&&` and `||` are left-associative, other than to be accurate in how we discuss their definitions.
+Então não importa muito que `&&` e `||` sejam associativos à esquerda, exceto para ser preciso em como discutimos suas definições.
 
-But that's not always the case. Some operators would behave very differently depending on left-associativity vs. right-associativity.
+Mas nem sempre é assim. Alguns operadores se comportariam de forma muito diferente dependendo de associatividade à esquerda vs. associatividade à direita.
 
-Consider the `? :` ("ternary" or "conditional") operator:
+Considere o operador `? :` ("ternário" ou "condicional"):
 
 ```js
 a ? b : c ? d : e;
 ```
 
-`? :` is right-associative, so which grouping represents how it will be processed?
+`? :` é associativo à direita, então qual agrupamento representa como ele será processado?
 
 * `a ? b : (c ? d : e)`
 * `(a ? b : c) ? d : e`
 
-The answer is `a ? b : (c ? d : e)`. Unlike with `&&` and `||` above, the right-associativity here actually matters, as `(a ? b : c) ? d : e` *will* behave differently for some (but not all!) combinations of values.
+A resposta é `a ? b : (c ? d : e)`. Diferentemente de `&&` e `||` acima, a associatividade à direita aqui na verdade importa, já que `(a ? b : c) ? d : e` *vai* se comportar de forma diferente para algumas (mas não todas!) combinações de valores.
 
-One such example:
+Um exemplo disso:
 
 ```js
 true ? false : true ? true : true;		// false
@@ -761,7 +761,7 @@ true ? false : (true ? true : true);	// false
 (true ? false : true) ? true : true;	// true
 ```
 
-Even more nuanced differences lurk with other value combinations, even if the end result is the same. Consider:
+Diferenças ainda mais sutis se escondem com outras combinações de valores, mesmo que o resultado final seja o mesmo. Considere:
 
 ```js
 true ? false : true ? true : false;		// false
@@ -770,18 +770,18 @@ true ? false : (true ? true : false);	// false
 (true ? false : true) ? true : false;	// false
 ```
 
-From that scenario, the same end result implies that the grouping is moot. However:
+A partir desse cenário, o mesmo resultado final implica que o agrupamento é irrelevante. Entretanto:
 
 ```js
 var a = true, b = false, c = true, d = true, e = false;
 
-a ? b : (c ? d : e); // false, evaluates only `a` and `b`
-(a ? b : c) ? d : e; // false, evaluates `a`, `b` AND `e`
+a ? b : (c ? d : e); // false, avalia apenas `a` e `b`
+(a ? b : c) ? d : e; // false, avalia `a`, `b` E `e`
 ```
 
-So, we've clearly proved that `? :` is right-associative, and that it actually matters with respect to how the operator behaves if chained with itself.
+Então, provamos claramente que `? :` é associativo à direita, e que isso de fato importa em relação a como o operador se comporta se encadeado consigo mesmo.
 
-Another example of right-associativity (grouping) is the `=` operator. Recall the chained assignment example from earlier in the chapter:
+Outro exemplo de associatividade à direita (agrupamento) é o operador `=`. Relembre o exemplo de atribuição encadeada do início do capítulo:
 
 ```js
 var a, b, c;
@@ -789,9 +789,9 @@ var a, b, c;
 a = b = c = 42;
 ```
 
-We asserted earlier that `a = b = c = 42` is processed by first evaluating the `c = 42` assignment, then `b = ..`, and finally `a = ..`. Why? Because of the right-associativity, which actually treats the statement like this: `a = (b = (c = 42))`.
+Afirmamos anteriormente que `a = b = c = 42` é processado avaliando primeiro a atribuição `c = 42`, depois `b = ..`, e finalmente `a = ..`. Por quê? Por causa da associatividade à direita, que na verdade trata a instrução assim: `a = (b = (c = 42))`.
 
-Remember our running complex assignment expression example from earlier in the chapter?
+Lembra do nosso exemplo de expressão de atribuição complexa do início do capítulo?
 
 ```js
 var a = 42;
@@ -803,13 +803,13 @@ var d = a && b || c ? c || b ? a : c && b : a;
 d;		// 42
 ```
 
-Armed with our knowledge of precedence and associativity, we should now be able to break down the code into its grouping behavior like this:
+Munidos do nosso conhecimento de precedência e associatividade, devemos agora ser capazes de decompor o código em seu comportamento de agrupamento assim:
 
 ```js
 ((a && b) || c) ? ((c || b) ? a : (c && b)) : a
 ```
 
-Or, to present it indented if that's easier to understand:
+Ou, para apresentá-lo indentado se isso for mais fácil de entender:
 
 ```js
 (
@@ -829,57 +829,57 @@ Or, to present it indented if that's easier to understand:
 a
 ```
 
-Let's solve it now:
+Vamos resolvê-lo agora:
 
-1. `(a && b)` is `"foo"`.
-2. `"foo" || c` is `"foo"`.
-3. For the first `?` test, `"foo"` is truthy.
-4. `(c || b)` is `"foo"`.
-5. For the second `?` test, `"foo"` is truthy.
-6. `a` is `42`.
+1. `(a && b)` é `"foo"`.
+2. `"foo" || c` é `"foo"`.
+3. Para o primeiro teste `?`, `"foo"` é truthy.
+4. `(c || b)` é `"foo"`.
+5. Para o segundo teste `?`, `"foo"` é truthy.
+6. `a` é `42`.
 
-That's it, we're done! The answer is `42`, just as we saw earlier. That actually wasn't so hard, was it?
+É isso, terminamos! A resposta é `42`, exatamente como vimos antes. Na verdade não foi tão difícil, foi?
 
-### Disambiguation
+### Desambiguação
 
-You should now have a much better grasp on operator precedence (and associativity) and feel much more comfortable understanding how code with multiple chained operators will behave.
+Você deve agora ter um domínio muito melhor sobre precedência de operadores (e associatividade) e se sentir muito mais confortável em entender como o código com múltiplos operadores encadeados vai se comportar.
 
-But an important question remains: should we all write code understanding and perfectly relying on all the rules of operator precedence/associativity? Should we only use `( )` manual grouping when it's necessary to force a different processing binding/order?
+Mas uma pergunta importante permanece: devemos todos escrever código entendendo e confiando perfeitamente em todas as regras de precedência/associatividade de operadores? Devemos usar agrupamento manual `( )` apenas quando for necessário para forçar uma ligação/ordem de processamento diferente?
 
-Or, on the other hand, should we recognize that even though such rules *are in fact* learnable, there's enough gotchas to warrant ignoring automatic precedence/associativity? If so, should we thus always use `( )` manual grouping and remove all reliance on these automatic behaviors?
+Ou, por outro lado, devemos reconhecer que, embora tais regras *de fato sejam* aprendíveis, há pegadinhas suficientes para justificar ignorar precedência/associatividade automáticas? Se sim, devemos então sempre usar agrupamento manual `( )` e remover toda dependência desses comportamentos automáticos?
 
-This debate is highly subjective, and heavily symmetrical to the debate in Chapter 4 over *implicit* coercion. Most developers feel the same way about both debates: either they accept both behaviors and code expecting them, or they discard both behaviors and stick to manual/explicit idioms.
+Esse debate é altamente subjetivo, e fortemente simétrico ao debate do Capítulo 4 sobre coerção *implícita*. A maioria dos desenvolvedores sente o mesmo sobre ambos os debates: ou aceitam ambos os comportamentos e codificam esperando por eles, ou descartam ambos os comportamentos e se atêm a idiomas manuais/explícitos.
 
-Of course, I cannot answer this question definitively for the reader here anymore than I could in Chapter 4. But I've presented you the pros and cons, and hopefully encouraged enough deeper understanding that you can make informed rather than hype-driven decisions.
+Claro, não posso responder essa pergunta definitivamente para o leitor aqui mais do que pude no Capítulo 4. Mas apresentei a você os prós e contras, e esperançosamente encorajei entendimento profundo suficiente para que você possa tomar decisões informadas em vez de movidas por hype.
 
-In my opinion, there's an important middle ground. We should mix both operator precedence/associativity *and* `( )` manual grouping into our programs -- I argue the same way in Chapter 4 for healthy/safe usage of *implicit* coercion, but certainly don't endorse it exclusively without bounds.
+Na minha opinião, há um importante meio-termo. Devemos misturar tanto precedência/associatividade de operadores *quanto* agrupamento manual `( )` em nossos programas -- argumento da mesma forma no Capítulo 4 a favor do uso saudável/seguro da coerção *implícita*, mas certamente não a endosso exclusivamente sem limites.
 
-For example, `if (a && b && c) ..` is perfectly OK to me, and I wouldn't do `if ((a && b) && c) ..` just to explicitly call out the associativity, because I think it's overly verbose.
+Por exemplo, `if (a && b && c) ..` está perfeitamente OK para mim, e eu não faria `if ((a && b) && c) ..` apenas para destacar explicitamente a associatividade, porque acho que é excessivamente verboso.
 
-On the other hand, if I needed to chain two `? :` conditional operators together, I'd certainly use `( )` manual grouping to make it absolutely clear what my intended logic is.
+Por outro lado, se eu precisasse encadear dois operadores condicionais `? :` juntos, eu certamente usaria agrupamento manual `( )` para deixar absolutamente claro qual é a minha lógica pretendida.
 
-Thus, my advice here is similar to that of Chapter 4: **use operator precedence/associativity where it leads to shorter and cleaner code, but use `( )` manual grouping in places where it helps create clarity and reduce confusion.**
+Assim, meu conselho aqui é semelhante ao do Capítulo 4: **use precedência/associatividade de operadores onde isso leve a um código mais curto e mais limpo, mas use agrupamento manual `( )` em lugares onde ele ajude a criar clareza e reduzir confusão.**
 
-## Automatic Semicolons
+## Ponto e Vírgula Automático
 
-ASI (Automatic Semicolon Insertion) is when JavaScript assumes a `;` in certain places in your JS program even if you didn't put one there.
+ASI (Automatic Semicolon Insertion, Inserção Automática de Ponto e Vírgula) é quando o JavaScript assume um `;` em certos lugares do seu programa JS mesmo que você não tenha colocado um lá.
 
-Why would it do that? Because if you omit even a single required `;` your program would fail. Not very forgiving. ASI allows JS to be tolerant of certain places where `;` aren't commonly thought  to be necessary.
+Por que ele faria isso? Porque se você omitir até mesmo um único `;` obrigatório seu programa falharia. Não muito tolerante. O ASI permite que o JS seja tolerante em certos lugares onde `;` comumente não são considerados necessários.
 
-It's important to note that ASI will only take effect in the presence of a newline (aka line break). Semicolons are not inserted in the middle of a line.
+É importante notar que o ASI só terá efeito na presença de uma nova linha (também conhecida como quebra de linha). Pontos e vírgulas não são inseridos no meio de uma linha.
 
-Basically, if the JS parser parses a line where a parser error would occur (a missing expected `;`), and it can reasonably insert one, it does so. What's reasonable for insertion? Only if there's nothing but whitespace and/or comments between the end of some statement and that line's newline/line break.
+Basicamente, se o analisador (parser) JS analisa uma linha onde ocorreria um erro de analisador (um `;` esperado faltando), e ele pode razoavelmente inserir um, ele o faz. O que é razoável para inserção? Apenas se não houver nada além de espaço em branco e/ou comentários entre o fim de alguma instrução e a nova linha/quebra de linha daquela linha.
 
-Consider:
+Considere:
 
 ```js
 var a = 42, b
 c;
 ```
 
-Should JS treat the `c` on the next line as part of the `var` statement? It certainly would if a `,` had come anywhere (even another line) between `b` and `c`. But since there isn't one, JS assumes instead that there's an implied `;` (at the newline) after `b`. Thus, `c;` is left as a standalone expression statement.
+O JS deveria tratar o `c` na próxima linha como parte da instrução `var`? Certamente trataria se um `,` tivesse aparecido em algum lugar (mesmo em outra linha) entre `b` e `c`. Mas já que não há um, o JS assume em vez disso que há um `;` implícito (na nova linha) depois de `b`. Assim, `c;` é deixado como uma instrução de expressão independente.
 
-Similarly:
+De forma semelhante:
 
 ```js
 var a = 42, b = "foo";
@@ -888,33 +888,33 @@ a
 b	// "foo"
 ```
 
-That's still a valid program without error, because expression statements also accept ASI.
+Esse ainda é um programa válido sem erro, porque instruções de expressão também aceitam ASI.
 
-There's certain places where ASI is helpful, like for instance:
+Há certos lugares onde o ASI é útil, como por exemplo:
 
 ```js
 var a = 42;
 
 do {
 	// ..
-} while (a)	// <-- ; expected here!
+} while (a)	// <-- ; esperado aqui!
 a;
 ```
 
-The grammar requires a `;` after a `do..while` loop, but not after `while` or `for` loops. But most developers don't remember that! So, ASI helpfully steps in and inserts one.
+A gramática requer um `;` depois de um laço `do..while`, mas não depois de laços `while` ou `for`. Mas a maioria dos desenvolvedores não se lembra disso! Então, o ASI prestativamente intervém e insere um.
 
-As we said earlier in the chapter, statement blocks do not require `;` termination, so ASI isn't necessary:
+Como dissemos antes neste capítulo, blocos de instrução não requerem terminação com `;`, então o ASI não é necessário:
 
 ```js
 var a = 42;
 
 while (a) {
 	// ..
-} // <-- no ; expected here
+} // <-- nenhum ; esperado aqui
 a;
 ```
 
-The other major case where ASI kicks in is with the `break`, `continue`, `return`, and (ES6) `yield` keywords:
+O outro caso principal onde o ASI entra em ação é com as keywords `break`, `continue`, `return`, e (ES6) `yield`:
 
 ```js
 function foo(a) {
@@ -924,7 +924,7 @@ function foo(a) {
 }
 ```
 
-The `return` statement doesn't carry across the newline to the `a *= 2` expression, as ASI assumes the `;` terminating the `return` statement. Of course, `return` statements *can* easily break across multiple lines, just not when there's nothing after `return` but the newline/line break.
+A instrução `return` não atravessa a nova linha até a expressão `a *= 2`, pois o ASI assume o `;` terminando a instrução `return`. Claro, instruções `return` *podem* facilmente quebrar em múltiplas linhas, só não quando não há nada depois de `return` além da nova linha/quebra de linha.
 
 ```js
 function foo(a) {
@@ -934,72 +934,72 @@ function foo(a) {
 }
 ```
 
-Identical reasoning applies to `break`, `continue`, and `yield`.
+Raciocínio idêntico se aplica a `break`, `continue`, e `yield`.
 
-### Error Correction
+### Correção de Erro
 
-One of the most hotly contested *religious wars* in the JS community (besides tabs vs. spaces) is whether to rely heavily/exclusively on ASI or not.
+Uma das *guerras religiosas* mais acaloradas na comunidade JS (além de tabs vs. espaços) é se deve-se confiar fortemente/exclusivamente no ASI ou não.
 
-Most, but not all, semicolons are optional, but the two `;`s in the `for ( .. ) ..` loop header are required.
+A maioria, mas não todos, dos pontos e vírgulas é opcional, mas os dois `;` no cabeçalho do laço `for ( .. ) ..` são obrigatórios.
 
-On the pro side of this debate, many developers believe that ASI is a useful mechanism that allows them to write more terse (and more "beautiful") code by omitting all but the strictly required `;`s (which are very few). It is often asserted that ASI makes many `;`s optional, so a correctly written program *without them* is no different than a correctly written program *with them*.
+Do lado a favor desse debate, muitos desenvolvedores acreditam que o ASI é um mecanismo útil que lhes permite escrever código mais conciso (e mais "bonito") omitindo todos os `;` exceto os estritamente obrigatórios (que são pouquíssimos). É frequentemente afirmado que o ASI torna muitos `;` opcionais, então um programa corretamente escrito *sem eles* não é diferente de um programa corretamente escrito *com eles*.
 
-On the con side of the debate, many other developers will assert that there are *too many* places that can be accidental gotchas, especially for newer, less experienced developers, where unintended `;`s being magically inserted change the meaning. Similarly, some developers will argue that if they omit a semicolon, it's a flat-out mistake, and they want their tools (linters, etc.) to catch it before the JS engine *corrects* the mistake under the covers.
+Do lado contra do debate, muitos outros desenvolvedores afirmarão que há *lugares demais* que podem ser pegadinhas acidentais, especialmente para desenvolvedores mais novos e menos experientes, onde `;` involuntários sendo magicamente inseridos mudam o significado. De forma semelhante, alguns desenvolvedores argumentarão que se eles omitem um ponto e vírgula, é um erro descarado, e querem que suas ferramentas (linters, etc.) o detectem antes que o motor JS *corrija* o erro por baixo dos panos.
 
-Let me just share my perspective. A strict reading of the spec implies that ASI is an "error correction" routine. What kind of error, you may ask? Specifically, a **parser error**. In other words, in an attempt to have the parser fail less, ASI lets it be more tolerant.
+Deixe-me apenas compartilhar minha perspectiva. Uma leitura estrita da especificação implica que o ASI é uma rotina de "correção de erro". Que tipo de erro, você pode perguntar? Especificamente, um **erro de analisador**. Em outras palavras, numa tentativa de fazer o analisador falhar menos, o ASI deixa-o ser mais tolerante.
 
-But tolerant of what? In my view, the only way a **parser error** occurs is if it's given an incorrect/errored program to parse. So, while ASI is strictly correcting parser errors, the only way it can get such errors is if there were first program authoring errors -- omitting semicolons where the grammar rules require them.
+Mas tolerante de quê? No meu ponto de vista, a única forma de um **erro de analisador** ocorrer é se ele recebe um programa incorreto/com erro para analisar. Então, embora o ASI esteja estritamente corrigindo erros de analisador, a única forma de ele poder obter tais erros é se houvesse primeiro erros de autoria do programa -- omitir pontos e vírgulas onde as regras gramaticais os requerem.
 
-So, to put it more bluntly, when I hear someone claim that they want to omit "optional semicolons," my brain translates that claim to "I want to write the most parser-broken program I can that will still work."
+Então, para colocar de forma mais contundente, quando ouço alguém afirmar que quer omitir "pontos e vírgulas opcionais," meu cérebro traduz essa afirmação para "quero escrever o programa mais quebrado em termos de analisador que ainda funcione."
 
-I find that to be a ludicrous position to take and the arguments of saving keystrokes and having more "beautiful code" to be weak at best.
+Acho essa posição ridícula de se tomar e os argumentos de economizar digitação e ter "código mais bonito" são fracos na melhor das hipóteses.
 
-Furthermore, I don't agree that this is the same thing as the spaces vs tabs debate -- that it's purely cosmetic -- but rather I believe it's a fundamental question of writing code that adheres to grammar requirements vs. code that relies on grammar exceptions to just barely skate through.
+Além disso, não concordo que isso seja a mesma coisa que o debate de espaços vs tabs -- que seja puramente cosmético -- mas sim acredito que seja uma questão fundamental de escrever código que adere aos requisitos gramaticais vs. código que depende de exceções gramaticais para passar raspando.
 
-Another way of looking at it is that relying on ASI is essentially considering newlines to be significant "whitespace." Other languages like Python have true significant whitespace. But is it really appropriate to think of JavaScript as having significant newlines as it stands today?
+Outra forma de ver isso é que confiar no ASI é essencialmente considerar as novas linhas como "espaço em branco" significativo. Outras linguagens como Python têm espaço em branco verdadeiramente significativo. Mas é realmente apropriado pensar no JavaScript como tendo novas linhas significativas tal como ele está hoje?
 
-My take: **use semicolons wherever you know they are "required," and limit your assumptions about ASI to a minimum.**
+Minha posição: **use pontos e vírgulas onde você sabe que eles são "obrigatórios," e limite suas suposições sobre o ASI ao mínimo.**
 
-But don't just take my word for it. Back in 2012, creator of JavaScript Brendan Eich said (http://brendaneich.com/2012/04/the-infernal-semicolon/) the following:
+Mas não acredite só na minha palavra. Lá em 2012, o criador do JavaScript Brendan Eich disse (http://brendaneich.com/2012/04/the-infernal-semicolon/) o seguinte:
 
-> The moral of this story: ASI is (formally speaking) a syntactic error correction procedure. If you start to code as if it were a universal significant-newline rule, you will get into trouble.
+> A moral dessa história: o ASI é (falando formalmente) um procedimento de correção de erro sintático. Se você começar a codificar como se ele fosse uma regra universal de nova linha significativa, você vai se meter em encrenca.
 > ..
-> I wish I had made newlines more significant in JS back in those ten days in May, 1995.
+> Eu queria ter tornado as novas linhas mais significativas no JS lá naqueles dez dias de maio de 1995.
 > ..
-> Be careful not to use ASI as if it gave JS significant newlines.
+> Tenha cuidado para não usar o ASI como se ele desse ao JS novas linhas significativas.
 
-## Errors
+## Erros
 
-Not only does JavaScript have different *subtypes* of errors (`TypeError`, `ReferenceError`, `SyntaxError`, etc.), but also the grammar defines certain errors to be enforced at compile time, as compared to all other errors that happen during runtime.
+O JavaScript não só tem diferentes *subtipos* de erros (`TypeError`, `ReferenceError`, `SyntaxError`, etc.), mas também a gramática define que certos erros sejam impostos em tempo de compilação, em comparação a todos os outros erros que acontecem em tempo de execução.
 
-In particular, there have long been a number of specific conditions that should be caught and reported as "early errors" (during compilation). Any straight-up syntax error is an early error (e.g., `a = ,`), but also the grammar defines things that are syntactically valid but disallowed nonetheless.
+Em particular, há há muito tempo uma série de condições específicas que devem ser detectadas e reportadas como "erros precoces" (durante a compilação). Qualquer erro de sintaxe puro é um erro precoce (por exemplo, `a = ,`), mas também a gramática define coisas que são sintaticamente válidas mas mesmo assim proibidas.
 
-Since execution of your code has not begun yet, these errors are not catchable with `try..catch`; they will just fail the parsing/compilation of your program.
+Já que a execução do seu código ainda não começou, esses erros não são capturáveis com `try..catch`; eles simplesmente farão a análise/compilação do seu programa falhar.
 
-**Tip:** There's no requirement in the spec about exactly how browsers (and developer tools) should report errors. So you may see variations across browsers in the following error examples, in what specific subtype of error is reported or what the included error message text will be.
+**Dica:** Não há requisito na especificação sobre exatamente como os navegadores (e ferramentas de desenvolvedor) devem reportar erros. Então você pode ver variações entre navegadores nos exemplos de erro a seguir, em qual subtipo específico de erro é reportado ou qual será o texto da mensagem de erro incluída.
 
-One simple example is with syntax inside a regular expression literal. There's nothing wrong with the JS syntax here, but the invalid regex will throw an early error:
+Um exemplo simples é com a sintaxe dentro de um literal de expressão regular. Não há nada de errado com a sintaxe JS aqui, mas o regex inválido lançará um erro precoce:
 
 ```js
 var a = /+foo/;		// Error!
 ```
 
-The target of an assignment must be an identifier (or an ES6 destructuring expression that produces one or more identifiers), so a value like `42` in that position is illegal and can be reported right away:
+O alvo de uma atribuição deve ser um identificador (ou uma expressão de desestruturação ES6 que produza um ou mais identificadores), então um valor como `42` naquela posição é ilegal e pode ser reportado imediatamente:
 
 ```js
 var a;
 42 = a;		// Error!
 ```
 
-ES5's `strict` mode defines even more early errors. For example, in `strict` mode, function parameter names cannot be duplicated:
+O modo `strict` do ES5 define ainda mais erros precoces. Por exemplo, no modo `strict`, nomes de parâmetros de função não podem ser duplicados:
 
 ```js
-function foo(a,b,a) { }					// just fine
+function foo(a,b,a) { }					// tudo bem
 
 function bar(a,b,a) { "use strict"; }	// Error!
 ```
 
-Another `strict` mode early error is an object literal having more than one property of the same name:
+Outro erro precoce do modo `strict` é um literal de objeto ter mais de uma propriedade com o mesmo nome:
 
 ```js
 (function(){
@@ -1012,15 +1012,15 @@ Another `strict` mode early error is an object literal having more than one prop
 })();
 ```
 
-**Note:** Semantically speaking, such errors aren't technically *syntax* errors but more *grammar* errors -- the above snippets are syntactically valid. But since there is no `GrammarError` type, some browsers use `SyntaxError` instead.
+**Nota:** Semanticamente falando, tais erros não são tecnicamente erros de *sintaxe* mas mais erros de *gramática* -- os trechos acima são sintaticamente válidos. Mas já que não há um tipo `GrammarError`, alguns navegadores usam `SyntaxError` em vez disso.
 
-### Using Variables Too Early
+### Usando Variáveis Cedo Demais
 
-ES6 defines a (frankly confusingly named) new concept called the TDZ ("Temporal Dead Zone").
+O ES6 define um novo conceito (francamente de nome confuso) chamado TDZ ("Temporal Dead Zone", Zona Morta Temporal).
 
-The TDZ refers to places in code where a variable reference cannot yet be made, because it hasn't reached its required initialization.
+A TDZ se refere a lugares no código onde uma referência a variável ainda não pode ser feita, porque ela não atingiu sua inicialização obrigatória.
 
-The most clear example of this is with ES6 `let` block-scoping:
+O exemplo mais claro disso é com o escopo de bloco `let` do ES6:
 
 ```js
 {
@@ -1029,9 +1029,9 @@ The most clear example of this is with ES6 `let` block-scoping:
 }
 ```
 
-The assignment `a = 2` is accessing the `a` variable (which is indeed block-scoped to the `{ .. }` block) before it's been initialized by the `let a` declaration, so it's in the TDZ for `a` and throws an error.
+A atribuição `a = 2` está acessando a variável `a` (que está de fato com escopo de bloco para o bloco `{ .. }`) antes de ela ter sido inicializada pela declaração `let a`, então ela está na TDZ para `a` e lança um erro.
 
-Interestingly, while `typeof` has an exception to be safe for undeclared variables (see Chapter 1), no such safety exception is made for TDZ references:
+Interessantemente, embora `typeof` tenha uma exceção para ser seguro com variáveis não declaradas (veja o Capítulo 1), nenhuma exceção de segurança desse tipo é feita para referências da TDZ:
 
 ```js
 {
@@ -1041,9 +1041,9 @@ Interestingly, while `typeof` has an exception to be safe for undeclared variabl
 }
 ```
 
-## Function Arguments
+## Argumentos de Função
 
-Another example of a TDZ violation can be seen with ES6 default parameter values (see the *ES6 & Beyond* title of this series):
+Outro exemplo de violação da TDZ pode ser visto com valores de parâmetro padrão do ES6 (veja o título *ES6 & Beyond* desta série):
 
 ```js
 var b = 3;
@@ -1053,9 +1053,9 @@ function foo( a = 42, b = a + b + 5 ) {
 }
 ```
 
-The `b` reference in the assignment would happen in the TDZ for the parameter `b` (not pull in the outer `b` reference), so it will throw an error. However, the `a` in the assignment is fine since by that time it's past the TDZ for parameter `a`.
+A referência `b` na atribuição aconteceria na TDZ para o parâmetro `b` (não puxa a referência `b` externa), então ela lançará um erro. Entretanto, o `a` na atribuição está OK já que naquele momento ele já passou da TDZ para o parâmetro `a`.
 
-When using ES6's default parameter values, the default value is applied to the parameter if you either omit an argument, or you pass an `undefined` value in its place:
+Ao usar os valores de parâmetro padrão do ES6, o valor padrão é aplicado ao parâmetro se você ou omite um argumento, ou passa um valor `undefined` em seu lugar:
 
 ```js
 function foo( a = 42, b = a + 1 ) {
@@ -1069,9 +1069,9 @@ foo( void 0, 7 );		// 42 7
 foo( null );			// null 1
 ```
 
-**Note:** `null` is coerced to a `0` value in the `a + 1` expression. See Chapter 4 for more info.
+**Nota:** `null` é coagido para um valor `0` na expressão `a + 1`. Veja o Capítulo 4 para mais informações.
 
-From the ES6 default parameter values perspective, there's no difference between omitting an argument and passing an `undefined` value. However, there is a way to detect the difference in some cases:
+Da perspectiva dos valores de parâmetro padrão do ES6, não há diferença entre omitir um argumento e passar um valor `undefined`. Entretanto, há uma forma de detectar a diferença em alguns casos:
 
 ```js
 function foo( a = 42, b = a + 1 ) {
@@ -1087,11 +1087,11 @@ foo( 10, undefined );	// 2 10 11 10 undefined
 foo( 10, null );		// 2 10 null 10 null
 ```
 
-Even though the default parameter values are applied to the `a` and `b` parameters, if no arguments were passed in those slots, the `arguments` array will not have entries.
+Mesmo que os valores de parâmetro padrão sejam aplicados aos parâmetros `a` e `b`, se nenhum argumento foi passado naqueles slots, o array `arguments` não terá entradas.
 
-Conversely, if you pass an `undefined` argument explicitly, an entry will exist in the `arguments` array for that argument, but it will be `undefined` and not (necessarily) the same as the default value that was applied to the named parameter for that same slot.
+Inversamente, se você passa um argumento `undefined` explicitamente, uma entrada existirá no array `arguments` para aquele argumento, mas será `undefined` e não (necessariamente) a mesma que o valor padrão que foi aplicado ao parâmetro nomeado para aquele mesmo slot.
 
-While ES6 default parameter values can create divergence between the `arguments` array slot and the corresponding named parameter variable, this same disjointedness can also occur in tricky ways in ES5:
+Embora os valores de parâmetro padrão do ES6 possam criar divergência entre o slot do array `arguments` e o parâmetro nomeado correspondente, essa mesma desconexão também pode ocorrer de formas traiçoeiras no ES5:
 
 ```js
 function foo(a) {
@@ -1099,13 +1099,13 @@ function foo(a) {
 	console.log( arguments[0] );
 }
 
-foo( 2 );	// 42 (linked)
-foo();		// undefined (not linked)
+foo( 2 );	// 42 (vinculado)
+foo();		// undefined (não vinculado)
 ```
 
-If you pass an argument, the `arguments` slot and the named parameter are linked to always have the same value. If you omit the argument, no such linkage occurs.
+Se você passa um argumento, o slot de `arguments` e o parâmetro nomeado são vinculados para sempre ter o mesmo valor. Se você omite o argumento, nenhuma vinculação desse tipo ocorre.
 
-But in `strict` mode, the linkage doesn't exist regardless:
+Mas no modo `strict`, a vinculação não existe independentemente:
 
 ```js
 function foo(a) {
@@ -1114,19 +1114,19 @@ function foo(a) {
 	console.log( arguments[0] );
 }
 
-foo( 2 );	// 2 (not linked)
-foo();		// undefined (not linked)
+foo( 2 );	// 2 (não vinculado)
+foo();		// undefined (não vinculado)
 ```
 
-It's almost certainly a bad idea to ever rely on any such linkage, and in fact the linkage itself is a leaky abstraction that's exposing an underlying implementation detail of the engine, rather than a properly designed feature.
+É quase certamente uma má ideia confiar em qualquer vinculação desse tipo, e na verdade a própria vinculação é uma abstração com vazamento que está expondo um detalhe de implementação subjacente do motor, em vez de um recurso projetado apropriadamente.
 
-Use of the `arguments` array has been deprecated (especially in favor of ES6 `...` rest parameters -- see the *ES6 & Beyond* title of this series), but that doesn't mean that it's all bad.
+O uso do array `arguments` foi descontinuado (especialmente em favor dos parâmetros rest `...` do ES6 -- veja o título *ES6 & Beyond* desta série), mas isso não significa que seja tudo ruim.
 
-Prior to ES6, `arguments` is the only way to get an array of all passed arguments to pass along to other functions, which turns out to be quite useful. You can also mix named parameters with the `arguments` array and be safe, as long as you follow one simple rule: **never refer to a named parameter *and* its corresponding `arguments` slot at the same time.** If you avoid that bad practice, you'll never expose the leaky linkage behavior.
+Antes do ES6, `arguments` é a única forma de obter um array de todos os argumentos passados para repassar a outras funções, o que acaba sendo bem útil. Você também pode misturar parâmetros nomeados com o array `arguments` e estar seguro, desde que siga uma regra simples: **nunca se refira a um parâmetro nomeado *e* seu slot `arguments` correspondente ao mesmo tempo.** Se você evita essa má prática, nunca exporá o comportamento de vinculação com vazamento.
 
 ```js
 function foo(a) {
-	console.log( a + arguments[1] ); // safe!
+	console.log( a + arguments[1] ); // seguro!
 }
 
 foo( 10, 32 );	// 42
@@ -1134,11 +1134,11 @@ foo( 10, 32 );	// 42
 
 ## `try..finally`
 
-You're probably familiar with how the `try..catch` block works. But have you ever stopped to consider the `finally` clause that can be paired with it? In fact, were you aware that `try` only requires either `catch` or `finally`, though both can be present if needed.
+Você provavelmente está familiarizado com como o bloco `try..catch` funciona. Mas você já parou para considerar a cláusula `finally` que pode ser pareada com ele? Na verdade, você sabia que o `try` só requer ou `catch` ou `finally`, embora ambos possam estar presentes se necessário.
 
-The code in the `finally` clause *always* runs (no matter what), and it always runs right after the `try` (and `catch` if present) finish, before any other code runs. In one sense, you can kind of think of the code in a `finally` clause as being in a callback function that will always be called regardless of how the rest of the block behaves.
+O código na cláusula `finally` *sempre* roda (não importa o quê), e ele sempre roda logo após o `try` (e o `catch` se presente) terminarem, antes de qualquer outro código rodar. Em certo sentido, você pode mais ou menos pensar no código numa cláusula `finally` como estando numa função de callback que sempre será chamada independentemente de como o resto do bloco se comporta.
 
-So what happens if there's a `return` statement inside a `try` clause? It obviously will return a value, right? But does the calling code that receives that value run before or after the `finally`?
+Então o que acontece se houver uma instrução `return` dentro de uma cláusula `try`? Ela obviamente retornará um valor, certo? Mas o código chamador que recebe esse valor roda antes ou depois do `finally`?
 
 ```js
 function foo() {
@@ -1157,9 +1157,9 @@ console.log( foo() );
 // 42
 ```
 
-The `return 42` runs right away, which sets up the completion value from the `foo()` call. This action completes the `try` clause and the `finally` clause immediately runs next. Only then is the `foo()` function complete, so that its completion value is returned back for the `console.log(..)` statement to use.
+O `return 42` roda imediatamente, o que configura o valor de conclusão da chamada `foo()`. Essa ação completa a cláusula `try` e a cláusula `finally` roda imediatamente em seguida. Só então a função `foo()` está completa, para que seu valor de conclusão seja retornado de volta para a instrução `console.log(..)` usar.
 
-The exact same behavior is true of a `throw` inside `try`:
+O exato mesmo comportamento é verdadeiro para um `throw` dentro do `try`:
 
 ```js
  function foo() {
@@ -1178,7 +1178,7 @@ console.log( foo() );
 // Uncaught Exception: 42
 ```
 
-Now, if an exception is thrown (accidentally or intentionally) inside a `finally` clause, it will override as the primary completion of that function. If a previous `return` in the `try` block had set a completion value for the function, that value will be abandoned.
+Agora, se uma exceção é lançada (acidentalmente ou intencionalmente) dentro de uma cláusula `finally`, ela substituirá como a conclusão primária daquela função. Se um `return` anterior no bloco `try` tinha configurado um valor de conclusão para a função, esse valor será abandonado.
 
 ```js
 function foo() {
@@ -1196,7 +1196,7 @@ console.log( foo() );
 // Uncaught Exception: Oops!
 ```
 
-It shouldn't be surprising that other nonlinear control statements like `continue` and `break` exhibit similar behavior to `return` and `throw`:
+Não deveria ser surpreendente que outras instruções de controle não lineares como `continue` e `break` exibam comportamento semelhante a `return` e `throw`:
 
 ```js
 for (var i=0; i<10; i++) {
@@ -1210,11 +1210,11 @@ for (var i=0; i<10; i++) {
 // 0 1 2 3 4 5 6 7 8 9
 ```
 
-The `console.log(i)` statement runs at the end of the loop iteration, which is caused by the `continue` statement. However, it still runs before the `i++` iteration update statement, which is why the values printed are `0..9` instead of `1..10`.
+A instrução `console.log(i)` roda no fim da iteração do laço, o que é causado pela instrução `continue`. Entretanto, ela ainda roda antes da instrução de atualização da iteração `i++`, que é por isso que os valores impressos são `0..9` em vez de `1..10`.
 
-**Note:** ES6 adds a `yield` statement, in generators (see the *Async & Performance* title of this series) which in some ways can be seen as an intermediate `return` statement. However, unlike a `return`, a `yield` isn't complete until the generator is resumed, which means a `try { .. yield .. }` has not completed. So an attached `finally` clause will not run right after the `yield` like it does with `return`.
+**Nota:** O ES6 adiciona uma instrução `yield`, em geradores (veja o título *Async & Performance* desta série) que de certas formas pode ser vista como uma instrução `return` intermediária. Entretanto, diferentemente de um `return`, um `yield` não está completo até o gerador ser retomado, o que significa que um `try { .. yield .. }` não foi completado. Então uma cláusula `finally` anexada não rodará logo após o `yield` como acontece com `return`.
 
-A `return` inside a `finally` has the special ability to override a previous `return` from the `try` or `catch` clause, but only if `return` is explicitly called:
+Um `return` dentro de um `finally` tem a habilidade especial de substituir um `return` anterior do `try` ou da cláusula `catch`, mas apenas se `return` for explicitamente chamado:
 
 ```js
 function foo() {
@@ -1222,7 +1222,7 @@ function foo() {
 		return 42;
 	}
 	finally {
-		// no `return ..` here, so no override
+		// nenhum `return ..` aqui, então nenhuma substituição
 	}
 }
 
@@ -1231,7 +1231,7 @@ function bar() {
 		return 42;
 	}
 	finally {
-		// override previous `return 42`
+		// substitui o `return 42` anterior
 		return;
 	}
 }
@@ -1241,7 +1241,7 @@ function baz() {
 		return 42;
 	}
 	finally {
-		// override previous `return 42`
+		// substitui o `return 42` anterior
 		return "Hello";
 	}
 }
@@ -1251,9 +1251,9 @@ bar();	// undefined
 baz();	// "Hello"
 ```
 
-Normally, the omission of `return` in a function is the same as `return;` or even `return undefined;`, but inside a `finally` block the omission of `return` does not act like an overriding `return undefined`; it just lets the previous `return` stand.
+Normalmente, a omissão de `return` numa função é o mesmo que `return;` ou até `return undefined;`, mas dentro de um bloco `finally` a omissão de `return` não age como um `return undefined` que substitui; ela apenas deixa o `return` anterior valer.
 
-In fact, we can really up the craziness if we combine `finally` with labeled `break` (discussed earlier in the chapter):
+Na verdade, podemos realmente aumentar a loucura se combinarmos `finally` com `break` rotulado (discutido anteriormente no capítulo):
 
 ```js
 function foo() {
@@ -1262,7 +1262,7 @@ function foo() {
 			return 42;
 		}
 		finally {
-			// break out of `bar` labeled block
+			// sai do bloco rotulado `bar`
 			break bar;
 		}
 	}
@@ -1277,32 +1277,32 @@ console.log( foo() );
 // Hello
 ```
 
-But... don't do this. Seriously. Using a `finally` + labeled `break` to effectively cancel a `return` is doing your best to create the most confusing code possible. I'd wager no amount of comments will redeem this code.
+Mas... não faça isso. Sério. Usar um `finally` + `break` rotulado para efetivamente cancelar um `return` é fazer o seu melhor para criar o código mais confuso possível. Eu apostaria que nenhuma quantidade de comentários redimiria esse código.
 
 ## `switch`
 
-Let's briefly explore the `switch` statement, a sort-of syntactic shorthand for an `if..else if..else..` statement chain.
+Vamos explorar brevemente a instrução `switch`, uma espécie de abreviação sintática para uma cadeia de instruções `if..else if..else..`.
 
 ```js
 switch (a) {
 	case 2:
-		// do something
+		// faz alguma coisa
 		break;
 	case 42:
-		// do another thing
+		// faz outra coisa
 		break;
 	default:
-		// fallback to here
+		// recai aqui
 }
 ```
 
-As you can see, it evaluates `a` once, then matches the resulting value to each `case` expression (just simple value expressions here). If a match is found, execution will begin in that matched `case`, and will either go until a `break` is encountered or until the end of the `switch` block is found.
+Como você pode ver, ela avalia `a` uma vez, depois compara o valor resultante com cada expressão `case` (apenas expressões de valor simples aqui). Se uma correspondência é encontrada, a execução começará naquele `case` correspondente, e irá ou até um `break` ser encontrado ou até o fim do bloco `switch` ser alcançado.
 
-That much may not surprise you, but there are several quirks about `switch` you may not have noticed before.
+Isso pode não te surpreender, mas há vários caprichos sobre o `switch` que você pode não ter notado antes.
 
-First, the matching that occurs between the `a` expression and each `case` expression is identical to the `===` algorithm (see Chapter 4). Often times `switch`es are used with absolute values in `case` statements, as shown above, so strict matching is appropriate.
+Primeiro, a correspondência que ocorre entre a expressão `a` e cada expressão `case` é idêntica ao algoritmo `===` (veja o Capítulo 4). Muitas vezes os `switch`es são usados com valores absolutos nas instruções `case`, como mostrado acima, então a correspondência estrita é apropriada.
 
-However, you may wish to allow coercive equality (aka `==`, see Chapter 4), and to do so you'll need to sort of "hack" the `switch` statement a bit:
+Entretanto, você pode querer permitir igualdade coercitiva (também conhecida como `==`, veja o Capítulo 4), e para fazer isso você precisará meio que "hackear" um pouco a instrução `switch`:
 
 ```js
 var a = "42";
@@ -1315,14 +1315,14 @@ switch (true) {
 		console.log( "42 or '42'" );
 		break;
 	default:
-		// never gets here
+		// nunca chega aqui
 }
 // 42 or '42'
 ```
 
-This works because the `case` clause can have any expression (not just simple values), which means it will strictly match that expression's result to the test expression (`true`). Since `a == 42` results in `true` here, the match is made.
+Isso funciona porque a cláusula `case` pode ter qualquer expressão (não apenas valores simples), o que significa que ela comparará estritamente o resultado dessa expressão com a expressão de teste (`true`). Já que `a == 42` resulta em `true` aqui, a correspondência é feita.
 
-Despite `==`, the `switch` matching itself is still strict, between `true` and `true` here. If the `case` expression resulted in something that was truthy but not strictly `true` (see Chapter 4), it wouldn't work. This can bite you if you're for instance using a "logical operator" like `||` or `&&` in your expression:
+Apesar do `==`, a própria correspondência do `switch` ainda é estrita, entre `true` e `true` aqui. Se a expressão `case` resultasse em algo que fosse truthy mas não estritamente `true` (veja o Capítulo 4), não funcionaria. Isso pode te morder se você por exemplo estiver usando um "operador lógico" como `||` ou `&&` na sua expressão:
 
 ```js
 var a = "hello world";
@@ -1330,7 +1330,7 @@ var b = 10;
 
 switch (true) {
 	case (a || b == 10):
-		// never gets here
+		// nunca chega aqui
 		break;
 	default:
 		console.log( "Oops" );
@@ -1338,9 +1338,9 @@ switch (true) {
 // Oops
 ```
 
-Since the result of `(a || b == 10)` is `"hello world"` and not `true`, the strict match fails. In this case, the fix is to force the expression explicitly to be a `true` or `false`, such as `case !!(a || b == 10):` (see Chapter 4).
+Já que o resultado de `(a || b == 10)` é `"hello world"` e não `true`, a correspondência estrita falha. Neste caso, a correção é forçar a expressão explicitamente para ser um `true` ou `false`, como `case !!(a || b == 10):` (veja o Capítulo 4).
 
-Lastly, the `default` clause is optional, and it doesn't necessarily have to come at the end (although that's the strong convention). Even in the `default` clause, the same rules apply about encountering a `break` or not:
+Por fim, a cláusula `default` é opcional, e ela não tem necessariamente que vir no fim (embora essa seja a forte convenção). Mesmo na cláusula `default`, as mesmas regras se aplicam sobre encontrar um `break` ou não:
 
 ```js
 var a = 10;
@@ -1348,7 +1348,7 @@ var a = 10;
 switch (a) {
 	case 1:
 	case 2:
-		// never gets here
+		// nunca chega aqui
 	default:
 		console.log( "default" );
 	case 3:
@@ -1361,28 +1361,28 @@ switch (a) {
 // 3
 ```
 
-**Note:** As discussed previously about labeled `break`s, the `break` inside a `case` clause can also be labeled.
+**Nota:** Como discutido anteriormente sobre `break`s rotulados, o `break` dentro de uma cláusula `case` também pode ser rotulado.
 
-The way this snippet processes is that it passes through all the `case` clause matching first, finds no match, then goes back up to the `default` clause and starts executing. Since there's no `break` there, it continues executing in the already skipped over `case 3` block, before stopping once it hits that `break`.
+A forma como esse trecho processa é que ele passa por toda a correspondência das cláusulas `case` primeiro, não encontra nenhuma correspondência, depois volta para a cláusula `default` e começa a executar. Já que não há `break` ali, ele continua executando no bloco `case 3` já pulado, antes de parar ao atingir aquele `break`.
 
-While this sort of round-about logic is clearly possible in JavaScript, there's almost no chance that it's going to make for reasonable or understandable code. Be very skeptical if you find yourself wanting to create such circular logic flow, and if you really do, make sure you include plenty of code comments to explain what you're up to!
+Embora esse tipo de lógica circular seja claramente possível em JavaScript, não há quase nenhuma chance de que ela resulte em código razoável ou compreensível. Seja muito cético se você se pegar querendo criar tal fluxo de lógica circular, e se você realmente fizer, certifique-se de incluir muitos comentários de código para explicar o que você está aprontando!
 
-## Review
+## Revisão
 
-JavaScript grammar has plenty of nuance that we as developers should spend a little more time paying closer attention to than we typically do. A little bit of effort goes a long way to solidifying your deeper knowledge of the language.
+A gramática do JavaScript tem bastante nuance à qual nós, como desenvolvedores, deveríamos dedicar um pouco mais de tempo prestando atenção mais de perto do que tipicamente fazemos. Um pouquinho de esforço rende muito na solidificação do seu conhecimento mais profundo da linguagem.
 
-Statements and expressions have analogs in English language -- statements are like sentences and expressions are like phrases. Expressions can be pure/self-contained, or they can have side effects.
+Instruções e expressões têm análogos no idioma inglês -- instruções são como sentenças e expressões são como frases. Expressões podem ser puras/autocontidas, ou podem ter efeitos colaterais.
 
-The JavaScript grammar layers semantic usage rules (aka context) on top of the pure syntax. For example, `{ }` pairs used in various places in your program can mean statement blocks, `object` literals, (ES6) destructuring assignments, or (ES6) named function arguments.
+A gramática do JavaScript dispõe regras de uso semântico (também conhecidas como contexto) sobre a sintaxe pura. Por exemplo, pares `{ }` usados em vários lugares do seu programa podem significar blocos de instrução, literais de `object`, atribuições de desestruturação (ES6), ou argumentos de função nomeados (ES6).
 
-JavaScript operators all have well-defined rules for precedence (which ones bind first before others) and associativity (how multiple operator expressions are implicitly grouped). Once you learn these rules, it's up to you to decide if precedence/associativity are *too implicit* for their own good, or if they will aid in writing shorter, clearer code.
+Todos os operadores do JavaScript têm regras bem definidas para precedência (quais se ligam primeiro antes de outros) e associatividade (como múltiplas expressões de operador são implicitamente agrupadas). Uma vez que você aprenda essas regras, cabe a você decidir se precedência/associatividade são *implícitas demais* para o seu próprio bem, ou se ajudarão a escrever um código mais curto e mais claro.
 
-ASI (Automatic Semicolon Insertion) is a parser-error-correction mechanism built into the JS engine, which allows it under certain circumstances to insert an assumed `;` in places where it is required, was omitted, *and* where insertion fixes the parser error. The debate rages over whether this behavior implies that most `;` are optional (and can/should be omitted for cleaner code) or whether it means that omitting them is making mistakes that the JS engine merely cleans up for you.
+O ASI (Automatic Semicolon Insertion, Inserção Automática de Ponto e Vírgula) é um mecanismo de correção de erro de analisador embutido no motor JS, que lhe permite sob certas circunstâncias inserir um `;` assumido em lugares onde ele é obrigatório, foi omitido, *e* onde a inserção corrige o erro do analisador. O debate se acalora sobre se esse comportamento implica que a maioria dos `;` é opcional (e pode/deve ser omitida para um código mais limpo) ou se significa que omiti-los é cometer erros que o motor JS apenas limpa para você.
 
-JavaScript has several types of errors, but it's less known that it has two classifications for errors: "early" (compiler thrown, uncatchable) and "runtime" (`try..catch`able). All syntax errors are obviously early errors that stop the program before it runs, but there are others, too.
+O JavaScript tem vários tipos de erros, mas é menos conhecido que ele tem duas classificações para erros: "precoces" (lançados pelo compilador, não capturáveis) e "de tempo de execução" (capturáveis com `try..catch`). Todos os erros de sintaxe são obviamente erros precoces que param o programa antes de ele rodar, mas há outros também.
 
-Function arguments have an interesting relationship to their formal declared named parameters. Specifically, the `arguments` array has a number of gotchas of leaky abstraction behavior if you're not careful. Avoid `arguments` if you can, but if you must use it, by all means avoid using the positional slot in `arguments` at the same time as using a named parameter for that same argument.
+Argumentos de função têm uma relação interessante com seus parâmetros nomeados formalmente declarados. Especificamente, o array `arguments` tem uma série de pegadinhas de comportamento de abstração com vazamento se você não tomar cuidado. Evite `arguments` se puder, mas se precisar usá-lo, de toda forma evite usar o slot posicional em `arguments` ao mesmo tempo que usa um parâmetro nomeado para aquele mesmo argumento.
 
-The `finally` clause attached to a `try` (or `try..catch`) offers some very interesting quirks in terms of execution processing order. Some of these quirks can be helpful, but it's possible to create lots of confusion, especially if combined with labeled blocks. As always, use `finally` to make code better and clearer, not more clever or confusing.
+A cláusula `finally` anexada a um `try` (ou `try..catch`) oferece alguns caprichos muito interessantes em termos de ordem de processamento da execução. Alguns desses caprichos podem ser úteis, mas é possível criar muita confusão, especialmente se combinados com blocos rotulados. Como sempre, use `finally` para tornar o código melhor e mais claro, não mais esperto ou confuso.
 
-The `switch` offers some nice shorthand for `if..else if..` statements, but beware of many common simplifying assumptions about its behavior. There are several quirks that can trip you up if you're not careful, but there's also some neat hidden tricks that `switch` has up its sleeve!
+O `switch` oferece uma boa abreviação para instruções `if..else if..`, mas tenha cuidado com muitas suposições simplificadoras comuns sobre seu comportamento. Há vários caprichos que podem te derrubar se você não tomar cuidado, mas há também alguns truques ocultos legais que o `switch` tem na manga!
