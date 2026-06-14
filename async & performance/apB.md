@@ -1,7 +1,7 @@
 # You Don't Know JS: Async & Performance
-# Appendix B: Advanced Async Patterns
+# Apêndice B: Padrões Assíncronos Avançados
 
-O apêndice A introduziu a biblioteca *asynquence* para controle de fluxo assíncrono sequencial primariamente baseada em Promises e generators.
+O apêndice A introduziu a biblioteca *asynquence* para controle de fluxo assíncrono sequencial primariamente baseada em Promises e geradores.
   
 Agora exploraremos outros padrões assíncronos avançados construidos a partir desta compreensão e funcionalidade existente, e veremos como *asynquence* torna técnicas de assíncronismo sofisticadas facilmente combináveis com nossos programas sem a necessidade de diversas bibliotecas diferentes.
 
@@ -48,7 +48,7 @@ steps.next().done;		// true
 ```
 
 Como podemos ver, uma sequência iterável é um *iterator* compátivel com padrões (Veja capitulo 4).
-Portanto pode ser iterado com o loop `for..of` da ES6, assim como um generator (ou qualquer outro *iterável*) pode:
+Portanto pode ser iterado com o loop `for..of` da ES6, assim como um gerador (ou qualquer outro *iterável*) pode:
 
 ```js
 var steps = ASQ.iterable();
@@ -66,9 +66,9 @@ for (var v of steps) {
 // 2 4 6 8 10
 ```
 
-Além do exemplo de encadear eventos mostrada no apêndice anterior, sequências iteráveis são interessantes porque em essência podem ser vistas como substituto para generators ou encadeamentos de Promises, mas com ainda mais flexibilidade
+Além do exemplo de encadear eventos mostrada no apêndice anterior, sequências iteráveis são interessantes porque em essência podem ser vistas como substituto para geradores ou encadeamentos de Promises, mas com ainda mais flexibilidade
 
-Considere o exemplo de uma requisição múltipla Ajax -- Nós já vimos o mesmo cenário no capitulo 3 e 4, tanto com encadeamento de promises quanto como generators sendo expressados como uma sequência iterável
+Considere o exemplo de uma requisição múltipla Ajax -- Nós já vimos o mesmo cenário no capitulo 3 e 4, tanto com encadeamento de promises quanto como geradores sendo expressados como uma sequência iterável
 
 ```js
 // sequence-aware ajax
@@ -97,13 +97,13 @@ ASQ( "http://some.url.1" )
 } );
 ```
 
-A sequência iterável expressa uma série sequêncial de passos (síncronos ou assíncronos) que aparentam ser extremamente similares a um encadeamento de Promises, em outras palavras, são muito mais limpos que apenas callbacks puramente aninhados, mas não tão bons como a sintaxe sequêncial de `yield`s de generators.
+A sequência iterável expressa uma série sequêncial de passos (síncronos ou assíncronos) que aparentam ser extremamente similares a um encadeamento de Promises, em outras palavras, são muito mais limpos que apenas callbacks puramente aninhados, mas não tão bons como a sintaxe sequêncial de `yield`s de geradores.
 
-Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua complitude, da mesma forma como seria com generators. O fato de que uma sequência iterável se comporta essêncialmente da mesma forma que generators e chamam atenção por uma série de razões.
+Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua complitude, da mesma forma como seria com geradores. O fato de que uma sequência iterável se comporta essêncialmente da mesma forma que geradores e chamam atenção por uma série de razões.
 
-Primeiro, sequências iteráveis são meio que um equivalente pré-ES6 a um certo sub-conjunto de generators ES6, o que significa que você pode tanto criá-los diretamente (para rodar em qualquer lugar), ou pode criá-los como generators do ES6 para então transpilar/converter em sequências iteráveis (ou como encadeamento de Promise com essa finalidade!).
+Primeiro, sequências iteráveis são meio que um equivalente pré-ES6 a um certo sub-conjunto de geradores ES6, o que significa que você pode tanto criá-los diretamente (para rodar em qualquer lugar), ou pode criá-los como geradores do ES6 para então transpilar/converter em sequências iteráveis (ou como encadeamento de Promise com essa finalidade!).
 
-Pensar em um generator async-roda-até-completar como apenas um _syntatic sugar_ para um encadeamento de Promise é importante para reconhecer sua relação isomórfica.
+Pensar em um gerador async-roda-até-completar como apenas um _syntatic sugar_ para um encadeamento de Promise é importante para reconhecer sua relação isomórfica.
 
 Antes de irmos em frente, devemos notar que poderiamos ter expressado o trecho de código anterior em *asynquence* como:
 
@@ -141,21 +141,21 @@ Então porque passamos pelo problema de expressar nosso controle de fluxo como u
 
 Pois a forma da sequência iterável tem uma carta na manga que nos dá ainda mais capacidade. Leia mais.
 
-### Extending Iterable Sequences
+### Estendendo Sequências Iteráveis
 
-Generators, normal *asynquence* sequences, and Promise chains, are all **eagerly evaluated** -- whatever flow control is expressed initially *is* the fixed flow that will be followed.
+Geradores, sequências *asynquence* normais e encadeamentos de Promise são todos **avaliados de forma adiantada (eager)** -- qualquer controle de fluxo expressado inicialmente *é* o fluxo fixo que será seguido.
 
-However, iterable sequences are **lazily evaluated**, which means that during execution of the iterable sequence, you can extend the sequence with more steps if desired.
+Entretanto, sequências iteráveis são **avaliadas de forma preguiçosa (lazy)**, o que significa que durante a execução da sequência iterável, você pode estender a sequência com mais passos, se desejar.
 
-**Note:** You can only append to the end of an iterable sequence, not inject into the middle of the sequence.
+**Nota:** Você só pode anexar ao final de uma sequência iterável, não injetar no meio da sequência.
 
-Let's first look at a simpler (synchronous) example of that capability to get familiar with it:
+Vamos primeiro olhar um exemplo mais simples (síncrono) dessa capacidade para nos familiarizarmos com ela:
 
 ```js
 function double(x) {
 	x *= 2;
 
-	// should we keep extending?
+	// devemos continuar estendendo?
 	if (x < 500) {
 		isq.then( double );
 	}
@@ -163,7 +163,7 @@ function double(x) {
 	return x;
 }
 
-// setup single-step iterable sequence
+// configura uma sequência iterável de passo único
 var isq = ASQ.iterable().then( double );
 
 for (var v = 10, ret;
@@ -174,13 +174,13 @@ for (var v = 10, ret;
 }
 ```
 
-The iterable sequence starts out with only one defined step (`isq.then(double)`), but the sequence keeps extending itself under certain conditions (`x < 500`). Both *asynquence* sequences and Promise chains technically *can* do something similar, but we'll see in a little bit why their capability is insufficient.
+A sequência iterável começa com apenas um passo definido (`isq.then(double)`), mas a sequência continua estendendo a si mesma sob certas condições (`x < 500`). Tanto sequências *asynquence* quanto encadeamentos de Promise tecnicamente *podem* fazer algo similar, mas veremos em breve por que sua capacidade é insuficiente.
 
-Though this example is rather trivial and could otherwise be expressed with a `while` loop in a generator, we'll consider more sophisticated cases.
+Embora este exemplo seja bastante trivial e pudesse, em outras circunstâncias, ser expressado com um loop `while` em um gerador, consideraremos casos mais sofisticados.
 
-For instance, you could examine the response from an Ajax request and if it indicates that more data is needed, you conditionally insert more steps into the iterable sequence to make the additional request(s). Or you could conditionally add a value-formatting step to the end of your Ajax handling.
+Por exemplo, você poderia examinar a resposta de uma requisição Ajax e, se ela indicar que mais dados são necessários, você condicionalmente insere mais passos na sequência iterável para fazer a(s) requisição(ões) adicional(is). Ou você poderia adicionar condicionalmente um passo de formatação de valor ao final do seu tratamento de Ajax.
 
-Consider:
+Considere:
 
 ```js
 var steps = ASQ.iterable()
@@ -188,7 +188,7 @@ var steps = ASQ.iterable()
 .then( function STEP1(token){
 	var url = token.messages[0].url;
 
-	// was an additional formatting step provided?
+	// foi fornecido um passo de formatação adicional?
 	if (token.messages[0].format) {
 		steps.then( token.messages[0].format );
 	}
@@ -197,7 +197,7 @@ var steps = ASQ.iterable()
 } )
 
 .then( function STEP2(resp){
-	// add another Ajax request to the sequence?
+	// adicionar outra requisição Ajax à sequência?
 	if (/x1/.test( resp )) {
 		steps.then( function STEP5(text){
 			return request(
@@ -215,7 +215,7 @@ var steps = ASQ.iterable()
 .then( function STEP3(r1,r2){ return r1 + r2; } );
 ```
 
-You can see in two different places where we conditionally extend `steps` with `steps.then(..)`. And to run this `steps` iterable sequence, we just wire it into our main program flow with an *asynquence* sequence (called `main` here) using `ASQ#runner(..)`:
+Você pode ver em dois lugares diferentes onde estendemos `steps` condicionalmente com `steps.then(..)`. E para rodar essa sequência iterável `steps`, nós apenas a conectamos ao fluxo principal do nosso programa com uma sequência *asynquence* (chamada `main` aqui) usando `ASQ#runner(..)`:
 
 ```js
 var main = ASQ( {
@@ -230,7 +230,7 @@ var main = ASQ( {
 } );
 ```
 
-Can the flexibility (conditional behavior) of the `steps` iterable sequence be expressed with a generator? Kind of, but we have to rearrange the logic in a slightly awkward way:
+A flexibilidade (comportamento condicional) da sequência iterável `steps` pode ser expressada com um gerador? Mais ou menos, mas temos que rearranjar a lógica de uma forma um pouco esquisita:
 
 ```js
 function *steps(token) {
@@ -247,13 +247,13 @@ function *steps(token) {
 	var text = rvals[0] + rvals[1];
 
 	// **STEP 4**
-	// was an additional formatting step provided?
+	// foi fornecido um passo de formatação adicional?
 	if (token.messages[0].format) {
 		text = yield token.messages[0].format( text );
 	}
 
 	// **STEP 5**
-	// need another Ajax request added to the sequence?
+	// precisa de outra requisição Ajax adicionada à sequência?
 	if (/foobar/.test( resp )) {
 		text = yield request(
 			"http://some.url.4/?v=" + text
@@ -263,13 +263,13 @@ function *steps(token) {
 	return text;
 }
 
-// note: `*steps()` can be run by the same `ASQ` sequence
-// as `steps` was previously
+// nota: `*steps()` pode ser rodado pela mesma sequência `ASQ`
+// que `steps` foi anteriormente
 ```
 
-Setting aside the already identified benefits of the sequential, synchronous-looking syntax of generators (see Chapter 4), the `steps` logic had to be reordered in the `*steps()` generator form, to fake the dynamicism of the extendable iterable sequence `steps`.
+Deixando de lado os benefícios já identificados da sintaxe sequencial, com aparência síncrona, dos geradores (veja o Capítulo 4), a lógica de `steps` teve que ser reordenada na forma de gerador `*steps()`, para fingir o dinamismo da sequência iterável extensível `steps`.
 
-What about expressing the functionality with Promises or sequences, though? You *can* do something like this:
+Mas e quanto a expressar a funcionalidade com Promises ou sequências? Você *pode* fazer algo assim:
 
 ```js
 var steps = something( .. )
@@ -277,7 +277,7 @@ var steps = something( .. )
 .then( function(..){
 	// ..
 
-	// extending the chain, right?
+	// estendendo o encadeamento, certo?
 	steps = steps.then( .. );
 
 	// ..
@@ -285,7 +285,7 @@ var steps = something( .. )
 .then( .. );
 ```
 
-The problem is subtle but important to grasp. So, consider trying to wire up our `steps` Promise chain into our main program flow -- this time expressed with Promises instead of *asynquence*:
+O problema é sutil mas importante de compreender. Então, considere tentar conectar nosso encadeamento de Promise `steps` ao fluxo principal do nosso programa -- desta vez expressado com Promises em vez de *asynquence*:
 
 ```js
 var main = Promise.resolve( {
@@ -295,38 +295,38 @@ var main = Promise.resolve( {
 	}
 } )
 .then( function(..){
-	return steps;			// hint!
+	return steps;			// dica!
 } )
 .val( function(msg){
 	console.log( msg );
 } );
 ```
 
-Can you spot the problem now? Look closely!
+Você consegue identificar o problema agora? Olhe de perto!
 
-There's a race condition for sequence steps ordering. When you `return steps`, at that moment `steps` *might* be the originally defined promise chain, or it might now point to the extended promise chain via the `steps = steps.then(..)` call, depending on what order things happen.
+Há uma condição de corrida (race condition) na ordenação dos passos da sequência. Quando você faz `return steps`, naquele momento `steps` *pode* ser o encadeamento de promise originalmente definido, ou pode agora apontar para o encadeamento de promise estendido via a chamada `steps = steps.then(..)`, dependendo da ordem em que as coisas acontecem.
 
-Here are the two possible outcomes:
+Aqui estão os dois resultados possíveis:
 
-* If `steps` is still the original promise chain, once it's later "extended" by `steps = steps.then(..)`, that extended promise on the end of the chain is **not** considered by the `main` flow, as it's already tapped the `steps` chain. This is the unfortunately limiting **eager evaluation**.
-* If `steps` is already the extended promise chain, it works as we expect in that the extended promise is what `main` taps.
+* Se `steps` ainda for o encadeamento de promise original, uma vez que ele seja posteriormente "estendido" por `steps = steps.then(..)`, essa promise estendida no final do encadeamento **não** é considerada pelo fluxo `main`, pois ele já se conectou ao encadeamento `steps`. Esta é a infelizmente limitante **avaliação adiantada (eager evaluation)**.
+* Se `steps` já for o encadeamento de promise estendido, ele funciona como esperamos, no sentido de que a promise estendida é à qual `main` se conecta.
 
-Other than the obvious fact that a race condition is intolerable, the first case is the concern; it illustrates **eager evaluation** of the promise chain. By contrast, we easily extended the iterable sequence without such issues, because iterable sequences are **lazily evaluated**.
+Além do fato óbvio de que uma condição de corrida é intolerável, o primeiro caso é a preocupação; ele ilustra a **avaliação adiantada (eager evaluation)** do encadeamento de promise. Em contraste, nós estendemos facilmente a sequência iterável sem tais problemas, porque sequências iteráveis são **avaliadas de forma preguiçosa (lazily evaluated)**.
 
-The more dynamic you need your flow control, the more iterable sequences will shine.
+Quanto mais dinâmico você precisar que seja seu controle de fluxo, mais as sequências iteráveis brilharão.
 
-**Tip:** Check out more information and examples of iterable sequences on the *asynquence* site (https://github.com/getify/asynquence/blob/master/README.md#iterable-sequences).
+**Dica:** Confira mais informações e exemplos de sequências iteráveis no site do *asynquence* (https://github.com/getify/asynquence/blob/master/README.md#iterable-sequences).
 
 ## Event Reactive
 
-It should be obvious from (at least!) Chapter 3 that Promises are a very powerful tool in your async toolbox. But one thing that's clearly lacking is in their capability to handle streams of events, as a Promise can only be resolved once. And frankly, this exact same weakness is true of plain *asynquence* sequences, as well.
+Deveria ser óbvio (pelo menos!) a partir do Capítulo 3 que Promises são uma ferramenta muito poderosa na sua caixa de ferramentas assíncronas. Mas uma coisa que claramente falta é a capacidade delas de lidar com fluxos (streams) de eventos, já que uma Promise só pode ser resolvida uma vez. E, francamente, esta exata mesma fraqueza é verdadeira para sequências *asynquence* simples também.
 
-Consider a scenario where you want to fire off a series of steps every time a certain event is fired. A single Promise or sequence cannot represent all occurrences of that event. So, you have to create a whole new Promise chain (or sequence) for *each* event occurrence, such as:
+Considere um cenário em que você quer disparar uma série de passos toda vez que um certo evento for disparado. Uma única Promise ou sequência não pode representar todas as ocorrências daquele evento. Então, você tem que criar um encadeamento de Promise (ou sequência) inteiramente novo para *cada* ocorrência do evento, tal como:
 
 ```js
 listener.on( "foobar", function(data){
 
-	// create a new event handling promise chain
+	// cria um novo encadeamento de promise de tratamento de evento
 	new Promise( function(resolve,reject){
 		// ..
 	} )
@@ -336,41 +336,41 @@ listener.on( "foobar", function(data){
 } );
 ```
 
-The base functionality we need is present in this approach, but it's far from a desirable way to express our intended logic. There are two separate capabilities conflated in this paradigm: the event listening, and responding to the event; separation of concerns would implore us to separate out these capabilities.
+A funcionalidade básica de que precisamos está presente nesta abordagem, mas ela está longe de ser uma forma desejável de expressar nossa lógica pretendida. Há duas capacidades separadas misturadas neste paradigma: a escuta do evento e a resposta ao evento; a separação de responsabilidades nos imploraria para separar essas capacidades.
 
-The carefully observant reader will see this problem as somewhat symmetrical to the problems we detailed with callbacks in Chapter 2; it's kind of an inversion of control problem.
+O leitor cuidadosamente observador verá este problema como algo simétrico aos problemas que detalhamos com callbacks no Capítulo 2; é uma espécie de problema de inversão de controle.
 
-Imagine uninverting this paradigm, like so:
+Imagine desinverter este paradigma, assim:
 
 ```js
 var observable = listener.on( "foobar" );
 
-// later
+// depois
 observable
 .then( .. )
 .then( .. );
 
-// elsewhere
+// em outro lugar
 observable
 .then( .. )
 .then( .. );
 ```
 
-The `observable` value is not exactly a Promise, but you can *observe* it much like you can observe a Promise, so it's closely related. In fact, it can be observed many times, and it will send out notifications every time its event (`"foobar"`) occurs.
+O valor `observable` não é exatamente uma Promise, mas você pode *observá-lo* muito parecido com a forma como você pode observar uma Promise, então ele é estreitamente relacionado. De fato, ele pode ser observado muitas vezes, e enviará notificações toda vez que seu evento (`"foobar"`) ocorrer.
 
-**Tip:** This pattern I've just illustrated is a **massive simplification** of the concepts and motivations behind reactive programming (aka RP), which has been implemented/expounded upon by several great projects and languages. A variation on RP is functional reactive programming (FRP), which refers to applying functional programming techniques (immutability, referential integrity, etc.) to streams of data. "Reactive" refers to spreading this functionality out over time in response to events. The interested reader should consider studying "Reactive Observables" in the fantastic "Reactive Extensions" library ("RxJS" for JavaScript) by Microsoft (http://rxjs.codeplex.com/); it's much more sophisticated and powerful than I've just shown. Also, Andre Staltz has an excellent write-up (https://gist.github.com/staltz/868e7e9bc2a7b8c1f754) that pragmatically lays out RP in concrete examples.
+**Dica:** Este padrão que acabei de ilustrar é uma **simplificação massiva** dos conceitos e motivações por trás da programação reativa (também conhecida como RP), que tem sido implementada/expandida por vários projetos e linguagens excelentes. Uma variação da RP é a programação reativa funcional (FRP), que se refere à aplicação de técnicas de programação funcional (imutabilidade, integridade referencial, etc.) a fluxos de dados. "Reativo" refere-se a espalhar essa funcionalidade ao longo do tempo em resposta a eventos. O leitor interessado deveria considerar estudar "Reactive Observables" na fantástica biblioteca "Reactive Extensions" ("RxJS" para JavaScript) da Microsoft (http://rxjs.codeplex.com/); ela é muito mais sofisticada e poderosa do que acabei de mostrar. Além disso, Andre Staltz tem um excelente artigo (https://gist.github.com/staltz/868e7e9bc2a7b8c1f754) que expõe a RP de forma pragmática em exemplos concretos.
 
-### ES7 Observables
+### Observables do ES7
 
-At the time of this writing, there's an early ES7 proposal for a new data type called "Observable" (https://github.com/jhusain/asyncgenerator#introducing-observable), which in spirit is similar to what we've laid out here, but is definitely more sophisticated.
+No momento em que isto é escrito, há uma proposta inicial para o ES7 de um novo tipo de dado chamado "Observable" (https://github.com/jhusain/asyncgenerator#introducing-observable), que em espírito é similar ao que expusemos aqui, mas é definitivamente mais sofisticado.
 
-The notion of this kind of Observable is that the way you "subscribe" to the events from a stream is to pass in a generator -- actually the *iterator* is the interested party -- whose `next(..)` method will be called for each event.
+A noção desse tipo de Observable é que a forma como você "se inscreve" (subscribe) nos eventos de um stream é passar um gerador -- na verdade o *iterator* é a parte interessada -- cujo método `next(..)` será chamado para cada evento.
 
-You could imagine it sort of like this:
+Você poderia imaginá-lo mais ou menos assim:
 
 ```js
-// `someEventStream` is a stream of events, like from
-// mouse clicks, and the like.
+// `someEventStream` é um stream de eventos, como de
+// cliques do mouse, e coisas do tipo.
 
 var observer = new Observer( someEventStream, function*(){
 	while (var evt = yield) {
@@ -379,19 +379,19 @@ var observer = new Observer( someEventStream, function*(){
 } );
 ```
 
-The generator you pass in will `yield` pause the `while` loop waiting for the next event. The *iterator* attached to the generator instance will have its `next(..)` called each time `someEventStream` has a new event published, and so that event data will resume your generator/*iterator* with the `evt` data.
+O gerador que você passa irá fazer `yield` para pausar o loop `while` esperando o próximo evento. O *iterator* anexado à instância do gerador terá seu `next(..)` chamado toda vez que `someEventStream` tiver um novo evento publicado, e assim aqueles dados do evento irão retomar seu gerador/*iterator* com os dados `evt`.
 
-In the subscription to events functionality here, it's the *iterator* part that matters, not the generator. So conceptually you could pass in practically any iterable, including `ASQ.iterable()` iterable sequences.
+Na funcionalidade de inscrição em eventos aqui, é a parte do *iterator* que importa, não o gerador. Então, conceitualmente, você poderia passar praticamente qualquer iterável, incluindo sequências iteráveis `ASQ.iterable()`.
 
-Interestingly, there are also proposed adapters to make it easy to construct Observables from certain types of streams, such as `fromEvent(..)` for DOM events. If you look at a suggested implementation of `fromEvent(..)` in the earlier linked ES7 proposal, it looks an awful lot like the `ASQ.react(..)` we'll see in the next section.
+Curiosamente, há também adaptadores propostos para tornar fácil construir Observables a partir de certos tipos de streams, tais como `fromEvent(..)` para eventos do DOM. Se você olhar uma implementação sugerida de `fromEvent(..)` na proposta do ES7 linkada anteriormente, ela se parece muito com o `ASQ.react(..)` que veremos na próxima seção.
 
-Of course, these are all early proposals, so what shakes out may very well look/behave differently than shown here. But it's exciting to see the early alignments of concepts across different libraries and language proposals!
+Claro, essas são todas propostas iniciais, então o que sair disso pode muito bem parecer/se comportar de forma diferente do mostrado aqui. Mas é empolgante ver os alinhamentos iniciais de conceitos entre diferentes bibliotecas e propostas de linguagem!
 
-### Reactive Sequences
+### Sequências Reativas
 
-With that crazy brief summary of Observables (and F/RP) as our inspiration and motivation, I will now illustrate an adaptation of a small subset of "Reactive Observables," which I call "Reactive Sequences."
+Com aquele resumo brevíssimo e maluco de Observables (e F/RP) como nossa inspiração e motivação, agora ilustrarei uma adaptação de um pequeno subconjunto de "Reactive Observables", que eu chamo de "Sequências Reativas".
 
-First, let's start with how to create an Observable, using an *asynquence* plug-in utility called `react(..)`:
+Primeiro, vamos começar com como criar um Observable, usando um utilitário plug-in do *asynquence* chamado `react(..)`:
 
 ```js
 var observable = ASQ.react( function setup(next){
@@ -399,7 +399,7 @@ var observable = ASQ.react( function setup(next){
 } );
 ```
 
-Now, let's see how to define a sequence that "reacts" -- in F/RP, this is typically called "subscribing" -- to that `observable`:
+Agora, vamos ver como definir uma sequência que "reage" -- em F/RP, isto é tipicamente chamado de "se inscrever" (subscribing) -- àquele `observable`:
 
 ```js
 observable
@@ -408,9 +408,9 @@ observable
 .val( .. );
 ```
 
-So, you just define the sequence by chaining off the Observable. That's easy, huh?
+Então, você apenas define a sequência encadeando a partir do Observable. Isso é fácil, hein?
 
-In F/RP, the stream of events typically channels through a set of functional transforms, like `scan(..)`, `map(..)`, `reduce(..)`, and so on. With reactive sequences, each event channels through a new instance of the sequence. Let's look at a more concrete example:
+Em F/RP, o stream de eventos tipicamente passa por um conjunto de transformações funcionais, como `scan(..)`, `map(..)`, `reduce(..)`, e assim por diante. Com sequências reativas, cada evento passa por uma nova instância da sequência. Vamos olhar um exemplo mais concreto:
 
 ```js
 ASQ.react( function setup(next){
@@ -428,13 +428,13 @@ ASQ.react( function setup(next){
 } );
 ```
 
-The "reactive" portion of the reactive sequence comes from assigning one or more event handlers to invoke the event trigger (calling `next(..)`).
+A porção "reativa" da sequência reativa vem de atribuir um ou mais tratadores de evento (event handlers) para invocar o gatilho do evento (chamando `next(..)`).
 
-The "sequence" portion of the reactive sequence is exactly like the sequences we've already explored: each step can be whatever asynchronous technique makes sense, from continuation callback to Promise to generator.
+A porção "sequência" da sequência reativa é exatamente como as sequências que já exploramos: cada passo pode ser qualquer técnica assíncrona que faça sentido, de callback de continuação a Promise a gerador.
 
-Once you set up a reactive sequence, it will continue to initiate instances of the sequence as long as the events keep firing. If you want to stop a reactive sequence, you can call `stop()`.
+Uma vez que você configura uma sequência reativa, ela continuará a iniciar instâncias da sequência enquanto os eventos continuarem disparando. Se você quiser parar uma sequência reativa, você pode chamar `stop()`.
 
-If a reactive sequence is `stop()`'d, you likely want the event handler(s) to be unregistered as well; you can register a teardown handler for this purpose:
+Se uma sequência reativa for parada com `stop()`, você provavelmente vai querer que o(s) tratador(es) de evento sejam desregistrados também; você pode registrar um tratador de desmontagem (teardown) para este propósito:
 
 ```js
 var sq = ASQ.react( function setup(next,registerTeardown){
@@ -442,7 +442,7 @@ var sq = ASQ.react( function setup(next,registerTeardown){
 
 	btn.addEventListener( "click", next, false );
 
-	// will be called once `sq.stop()` is called
+	// será chamado assim que `sq.stop()` for chamado
 	registerTeardown( function(){
 		btn.removeEventListener( "click", next, false );
 	} );
@@ -451,19 +451,19 @@ var sq = ASQ.react( function setup(next,registerTeardown){
 .then( .. )
 .val( .. );
 
-// later
+// depois
 sq.stop();
 ```
 
-**Note:** The `this` binding reference inside the `setup(..)` handler is the same `sq` reactive sequence, so you can use the `this` reference to add to the reactive sequence definition, call methods like `stop()`, and so on.
+**Nota:** A referência de binding do `this` dentro do tratador `setup(..)` é a mesma sequência reativa `sq`, então você pode usar a referência `this` para adicionar à definição da sequência reativa, chamar métodos como `stop()`, e assim por diante.
 
-Here's an example from the Node.js world, using reactive sequences to handle incoming HTTP requests:
+Aqui está um exemplo do mundo do Node.js, usando sequências reativas para lidar com requisições HTTP que chegam:
 
 ```js
 var server = http.createServer();
 server.listen(8000);
 
-// reactive observer
+// observador reativo
 var request = ASQ.react( function setup(next,registerTeardown){
 	server.addListener( "request", next );
 	server.addListener( "close", this.stop );
@@ -474,27 +474,27 @@ var request = ASQ.react( function setup(next,registerTeardown){
 	} );
 });
 
-// respond to requests
+// responde às requisições
 request
 .seq( pullFromDatabase )
 .val( function(data,res){
 	res.end( data );
 } );
 
-// node teardown
+// desmontagem do node
 process.on( "SIGINT", request.stop );
 ```
 
-The `next(..)` trigger can also adapt to node streams easily, using `onStream(..)` and `unStream(..)`:
+O gatilho `next(..)` também pode se adaptar facilmente a streams do node, usando `onStream(..)` e `unStream(..)`:
 
 ```js
 ASQ.react( function setup(next){
 	var fstream = fs.createReadStream( "/some/file" );
 
-	// pipe the stream's "data" event to `next(..)`
+	// canaliza o evento "data" do stream para `next(..)`
 	next.onStream( fstream );
 
-	// listen for the end of the stream
+	// escuta o fim do stream
 	fstream.on( "end", function(){
 		next.unStream( fstream );
 	} );
@@ -504,7 +504,7 @@ ASQ.react( function setup(next){
 .val( .. );
 ```
 
-You can also use sequence combinations to compose multiple reactive sequence streams:
+Você também pode usar combinações de sequências para compor múltiplos streams de sequências reativas:
 
 ```js
 var sq1 = ASQ.react( .. ).seq( .. ).then( .. );
@@ -518,19 +518,19 @@ var sq3 = ASQ.react(..)
 .then( .. );
 ```
 
-The main takeaway is that `ASQ.react(..)` is a lightweight adaptation of F/RP concepts, enabling the wiring of an event stream to a sequence, hence the term "reactive sequence." Reactive sequences are generally capable enough for basic reactive uses.
+A principal lição é que `ASQ.react(..)` é uma adaptação leve de conceitos de F/RP, possibilitando a conexão de um stream de eventos a uma sequência, daí o termo "sequência reativa". Sequências reativas são geralmente capazes o suficiente para usos reativos básicos.
 
-**Note:** Here's an example of using `ASQ.react(..)` in managing UI state (http://jsbin.com/rozipaki/6/edit?js,output), and another example of handling HTTP request/response streams with `ASQ.react(..)` (https://gist.github.com/getify/bba5ec0de9d6047b720e).
+**Nota:** Aqui está um exemplo de uso de `ASQ.react(..)` no gerenciamento de estado de UI (http://jsbin.com/rozipaki/6/edit?js,output), e outro exemplo de tratamento de streams de requisição/resposta HTTP com `ASQ.react(..)` (https://gist.github.com/getify/bba5ec0de9d6047b720e).
 
-## Generator Coroutine
+## Corrotina de Gerador (Generator Coroutine)
 
-Hopefully Chapter 4 helped you get pretty familiar with ES6 generators. In particular, we want to revisit the "Generator Concurrency" discussion, and push it even further.
+Espero que o Capítulo 4 tenha ajudado você a ficar bem familiarizado com os geradores do ES6. Em particular, queremos revisitar a discussão sobre "Concorrência de Geradores" e levá-la ainda mais longe.
 
-We imagined a `runAll(..)` utility that could take two or more generators and run them concurrently, letting them cooperatively `yield` control from one to the next, with optional message passing.
+Nós imaginamos um utilitário `runAll(..)` que poderia receber dois ou mais geradores e rodá-los concorrentemente, permitindo que eles cooperativamente fizessem `yield` do controle de um para o próximo, com passagem opcional de mensagens.
 
-In addition to being able to run a single generator to completion, the `ASQ#runner(..)` we discussed in Appendix A is a similar implementation of the concepts of `runAll(..)`, which can run multiple generators concurrently to completion.
+Além de ser capaz de rodar um único gerador até a conclusão, o `ASQ#runner(..)` que discutimos no Apêndice A é uma implementação similar dos conceitos de `runAll(..)`, que pode rodar múltiplos geradores concorrentemente até a conclusão.
 
-So let's see how we can implement the concurrent Ajax scenario from Chapter 4:
+Então vamos ver como podemos implementar o cenário de Ajax concorrente do Capítulo 4:
 
 ```js
 ASQ(
@@ -538,17 +538,17 @@ ASQ(
 )
 .runner(
 	function*(token){
-		// transfer control
+		// transfere o controle
 		yield token;
 
 		var url1 = token.messages[0]; // "http://some.url.1"
 
-		// clear out messages to start fresh
+		// limpa as mensagens para começar do zero
 		token.messages = [];
 
 		var p1 = request( url1 );
 
-		// transfer control
+		// transfere o controle
 		yield token;
 
 		token.messages.push( yield p1 );
@@ -556,67 +556,67 @@ ASQ(
 	function*(token){
 		var url2 = token.messages[0]; // "http://some.url.2"
 
-		// message pass and transfer control
+		// passa a mensagem e transfere o controle
 		token.messages[0] = "http://some.url.1";
 		yield token;
 
 		var p2 = request( url2 );
 
-		// transfer control
+		// transfere o controle
 		yield token;
 
 		token.messages.push( yield p2 );
 
-		// pass along results to next sequence step
+		// passa adiante os resultados para o próximo passo da sequência
 		return token.messages;
 	}
 )
 .val( function(res){
-	// `res[0]` comes from "http://some.url.1"
-	// `res[1]` comes from "http://some.url.2"
+	// `res[0]` vem de "http://some.url.1"
+	// `res[1]` vem de "http://some.url.2"
 } );
 ```
 
-The main differences between `ASQ#runner(..)` and `runAll(..)` are as follows:
+As principais diferenças entre `ASQ#runner(..)` e `runAll(..)` são as seguintes:
 
-* Each generator (coroutine) is provided an argument we call `token`, which is the special value to `yield` when you want to explicitly transfer control to the next coroutine.
-* `token.messages` is an array that holds any messages passed in from the previous sequence step. It's also a data structure that you can use to share messages between coroutines.
-* `yield`ing a Promise (or sequence) value does not transfer control, but instead pauses the coroutine processing until that value is ready.
-* The last `return`ed or `yield`ed value from the coroutine processing run will be forward passed to the next step in the sequence.
+* Cada gerador (corrotina) recebe um argumento que chamamos de `token`, que é o valor especial para fazer `yield` quando você quer transferir explicitamente o controle para a próxima corrotina.
+* `token.messages` é um array que guarda quaisquer mensagens passadas do passo anterior da sequência. É também uma estrutura de dados que você pode usar para compartilhar mensagens entre corrotinas.
+* Fazer `yield` de um valor de Promise (ou sequência) não transfere o controle, mas em vez disso pausa o processamento da corrotina até que aquele valor esteja pronto.
+* O último valor `return`ado ou `yield`ado da execução de processamento da corrotina será passado adiante para o próximo passo na sequência.
 
-It's also easy to layer helpers on top of the base `ASQ#runner(..)` functionality to suit different uses.
+Também é fácil colocar camadas de helpers em cima da funcionalidade base do `ASQ#runner(..)` para se adequar a diferentes usos.
 
-### State Machines
+### Máquinas de Estado (State Machines)
 
-One example that may be familiar to many programmers is state machines. You can, with the help of a simple cosmetic utility, create an easy-to-express state machine processor.
+Um exemplo que pode ser familiar a muitos programadores são as máquinas de estado. Você pode, com a ajuda de um simples utilitário cosmético, criar um processador de máquina de estado fácil de expressar.
 
-Let's imagine such a utility. We'll call it `state(..)`, and will pass it two arguments: a state value and a generator that handles that state. `state(..)` will do the dirty work of creating and returning an adapter generator to pass to `ASQ#runner(..)`.
+Vamos imaginar tal utilitário. Vamos chamá-lo de `state(..)`, e passaremos a ele dois argumentos: um valor de estado e um gerador que trata aquele estado. `state(..)` fará o trabalho sujo de criar e retornar um gerador adaptador para passar ao `ASQ#runner(..)`.
 
-Consider:
+Considere:
 
 ```js
 function state(val,handler) {
-	// make a coroutine handler for this state
+	// cria um tratador de corrotina para este estado
 	return function*(token) {
-		// state transition handler
+		// tratador de transição de estado
 		function transition(to) {
 			token.messages[0] = to;
 		}
 
-		// set initial state (if none set yet)
+		// define o estado inicial (se nenhum foi definido ainda)
 		if (token.messages.length < 1) {
 			token.messages[0] = val;
 		}
 
-		// keep going until final state (false) is reached
+		// continua até que o estado final (false) seja alcançado
 		while (token.messages[0] !== false) {
-			// current state matches this handler?
+			// o estado atual corresponde a este tratador?
 			if (token.messages[0] === val) {
-				// delegate to state handler
+				// delega ao tratador do estado
 				yield *handler( transition );
 			}
 
-			// transfer control to another state handler?
+			// transfere o controle para outro tratador de estado?
 			if (token.messages[0] !== false) {
 				yield token;
 			}
@@ -625,100 +625,100 @@ function state(val,handler) {
 }
 ```
 
-If you look closely, you'll see that `state(..)` returns back a generator that accepts a `token`, and then it sets up a `while` loop that will run until the state machine reaches its final state (which we arbitrarily pick as the `false` value); that's exactly the kind of generator we want to pass to `ASQ#runner(..)`!
+Se você olhar de perto, verá que `state(..)` retorna um gerador que aceita um `token`, e então configura um loop `while` que vai rodar até a máquina de estado alcançar seu estado final (que arbitrariamente escolhemos como o valor `false`); é exatamente o tipo de gerador que queremos passar ao `ASQ#runner(..)`!
 
-We also arbitrarily reserve the `token.messages[0]` slot as the place where the current state of our state machine will be tracked, which means we can even seed the initial state as the value passed in from the previous step in the sequence.
+Nós também arbitrariamente reservamos o slot `token.messages[0]` como o lugar onde o estado atual da nossa máquina de estado será rastreado, o que significa que podemos até semear o estado inicial como o valor passado do passo anterior na sequência.
 
-How do we use the `state(..)` helper along with `ASQ#runner(..)`?
+Como usamos o helper `state(..)` junto com o `ASQ#runner(..)`?
 
 ```js
 var prevState;
 
 ASQ(
-	/* optional: initial state value */
+	/* opcional: valor de estado inicial */
 	2
 )
-// run our state machine
-// transitions: 2 -> 3 -> 1 -> 3 -> false
+// roda nossa máquina de estado
+// transições: 2 -> 3 -> 1 -> 3 -> false
 .runner(
-	// state `1` handler
+	// tratador do estado `1`
 	state( 1, function *stateOne(transition){
 		console.log( "in state 1" );
 
 		prevState = 1;
-		yield transition( 3 );	// goto state `3`
+		yield transition( 3 );	// vai para o estado `3`
 	} ),
 
-	// state `2` handler
+	// tratador do estado `2`
 	state( 2, function *stateTwo(transition){
 		console.log( "in state 2" );
 
 		prevState = 2;
-		yield transition( 3 );	// goto state `3`
+		yield transition( 3 );	// vai para o estado `3`
 	} ),
 
-	// state `3` handler
+	// tratador do estado `3`
 	state( 3, function *stateThree(transition){
 		console.log( "in state 3" );
 
 		if (prevState === 2) {
 			prevState = 3;
-			yield transition( 1 ); // goto state `1`
+			yield transition( 1 ); // vai para o estado `1`
 		}
-		// all done!
+		// tudo pronto!
 		else {
 			yield "That's all folks!";
 
 			prevState = 3;
-			yield transition( false ); // terminal state
+			yield transition( false ); // estado terminal
 		}
 	} )
 )
-// state machine complete, so move on
+// máquina de estado completa, então prossiga
 .val( function(msg){
 	console.log( msg );	// That's all folks!
 } );
 ```
 
-It's important to note that the `*stateOne(..)`, `*stateTwo(..)`, and `*stateThree(..)` generators themselves are reinvoked each time that state is entered, and they finish when you `transition(..)` to another value. While not shown here, of course these state generator handlers can be asynchronously paused by `yield`ing Promises/sequences/thunks.
+É importante notar que os próprios geradores `*stateOne(..)`, `*stateTwo(..)` e `*stateThree(..)` são reinvocados cada vez que aquele estado é entrado, e eles terminam quando você faz `transition(..)` para outro valor. Embora não mostrado aqui, é claro que esses tratadores de gerador de estado podem ser pausados assincronamente fazendo `yield` de Promises/sequências/thunks.
 
-The underneath hidden generators produced by the `state(..)` helper and actually passed to `ASQ#runner(..)` are the ones that continue to run concurrently for the length of the state machine, and each of them handles cooperatively `yield`ing control to the next, and so on.
+Os geradores ocultos por baixo produzidos pelo helper `state(..)` e que de fato são passados ao `ASQ#runner(..)` são os que continuam a rodar concorrentemente durante toda a duração da máquina de estado, e cada um deles trata de cooperativamente fazer `yield` do controle para o próximo, e assim por diante.
 
-**Note:** See this "ping pong" example (http://jsbin.com/qutabu/1/edit?js,output) for more illustration of using cooperative concurrency with generators driven by `ASQ#runner(..)`.
+**Nota:** Veja este exemplo de "ping pong" (http://jsbin.com/qutabu/1/edit?js,output) para mais ilustração do uso de concorrência cooperativa com geradores conduzidos pelo `ASQ#runner(..)`.
 
 ## Communicating Sequential Processes (CSP)
 
-"Communicating Sequential Processes" (CSP) was first described by C. A. R. Hoare in a 1978 academic paper (http://dl.acm.org/citation.cfm?doid=359576.359585), and later in a 1985 book (http://www.usingcsp.com/) of the same name. CSP describes a formal method for concurrent "processes" to interact (aka "communicate") during processing.
+"Communicating Sequential Processes" (CSP) foi descrito pela primeira vez por C. A. R. Hoare em um artigo acadêmico de 1978 (http://dl.acm.org/citation.cfm?doid=359576.359585), e depois em um livro de 1985 (http://www.usingcsp.com/) de mesmo nome. CSP descreve um método formal para "processos" concorrentes interagirem (ou seja, "se comunicarem") durante o processamento.
 
-You may recall that we examined concurrent "processes" back in Chapter 1, so our exploration of CSP here will build upon that understanding.
+Você deve se lembrar que examinamos "processos" concorrentes lá no Capítulo 1, então nossa exploração de CSP aqui irá se construir sobre aquele entendimento.
 
-Like most great concepts in computer science, CSP is heavily steeped in academic formalism, expressed as a process algebra. However, I suspect symbolic algebra theorems won't make much practical difference to the reader, so we will want to find some other way of wrapping our brains around CSP.
+Como a maioria dos grandes conceitos da ciência da computação, CSP está fortemente impregnado de formalismo acadêmico, expressado como uma álgebra de processos. Entretanto, suspeito que teoremas de álgebra simbólica não farão muita diferença prática para o leitor, então vamos querer encontrar alguma outra forma de envolver nossos cérebros em torno do CSP.
 
-I will leave much of the formal description and proof of CSP to Hoare's writing, and to many other fantastic writings since. Instead, we will try to just briefly explain the idea of CSP in as un-academic and hopefully intuitively understandable a way as possible.
+Deixarei grande parte da descrição formal e da prova do CSP para a escrita de Hoare, e para muitos outros escritos fantásticos desde então. Em vez disso, tentaremos apenas explicar brevemente a ideia do CSP de uma forma tão não acadêmica e, espero, intuitivamente compreensível quanto possível.
 
-### Message Passing
+### Passagem de Mensagens (Message Passing)
 
-The core principle in CSP is that all communication/interaction between otherwise independent processes must be through formal message passing. Perhaps counter to your expectations, CSP message passing is described as a synchronous action, where the sender process and the receiver process have to mutually be ready for the message to be passed.
+O princípio central no CSP é que toda comunicação/interação entre processos de outra forma independentes deve acontecer através da passagem formal de mensagens. Talvez contrário às suas expectativas, a passagem de mensagens no CSP é descrita como uma ação síncrona, onde o processo emissor e o processo receptor têm que estar mutuamente prontos para a mensagem ser passada.
 
-How could such synchronous messaging possibly be related to asynchronous programming in JavaScript?
+Como tal mensageria síncrona poderia possivelmente estar relacionada à programação assíncrona em JavaScript?
 
-The concreteness of relationship comes from the nature of how ES6 generators are used to produce synchronous-looking actions that under the covers can indeed either be synchronous or (more likely) asynchronous.
+A concretude da relação vem da natureza de como os geradores do ES6 são usados para produzir ações de aparência síncrona que, por baixo dos panos, podem de fato ser tanto síncronas quanto (mais provavelmente) assíncronas.
 
-In other words, two or more concurrently running generators can appear to synchronously message each other while preserving the fundamental asynchrony of the system because each generator's code is paused (aka "blocked") waiting on resumption of an asynchronous action.
+Em outras palavras, dois ou mais geradores rodando concorrentemente podem parecer enviar mensagens síncronas uns aos outros, ao mesmo tempo em que preservam a assincronia fundamental do sistema, porque o código de cada gerador está pausado (ou seja, "bloqueado") esperando a retomada de uma ação assíncrona.
 
-How does this work?
+Como isso funciona?
 
-Imagine a generator (aka "process") called "A" that wants to send a message to generator "B." First, "A" `yield`s the message (thus pausing "A") to be sent to "B." When "B" is ready and takes the message, "A" is then resumed (unblocked).
+Imagine um gerador (ou seja, "processo") chamado "A" que quer enviar uma mensagem para o gerador "B". Primeiro, "A" faz `yield` da mensagem (pausando assim "A") para ser enviada a "B". Quando "B" estiver pronto e pegar a mensagem, "A" é então retomado (desbloqueado).
 
-Symmetrically, imagine a generator "A" that wants a message **from** "B." "A" `yield`s its request (thus pausing "A") for the message from "B," and once "B" sends a message, "A" takes the message and is resumed.
+Simetricamente, imagine um gerador "A" que quer uma mensagem **de** "B". "A" faz `yield` da sua requisição (pausando assim "A") pela mensagem de "B", e uma vez que "B" envia uma mensagem, "A" pega a mensagem e é retomado.
 
-One of the more popular expressions of this CSP message passing theory comes from ClojureScript's core.async library, and also from the *go* language. These takes on CSP embody the described communication semantics in a conduit that is opened between processes called a "channel."
+Uma das expressões mais populares dessa teoria de passagem de mensagens do CSP vem da biblioteca core.async do ClojureScript, e também da linguagem *go*. Essas interpretações do CSP incorporam as semânticas de comunicação descritas em um conduto que é aberto entre processos chamado de "canal" (channel).
 
-**Note:** The term *channel* is used in part because there are modes in which more than one value can be sent at once into the "buffer" of the channel; this is similar to what you may think of as a stream. We won't go into depth about it here, but it can be a very powerful technique for managing streams of data.
+**Nota:** O termo *canal* é usado em parte porque há modos em que mais de um valor pode ser enviado de uma vez para dentro do "buffer" do canal; isso é similar ao que você pode pensar como um stream. Não vamos nos aprofundar nisso aqui, mas pode ser uma técnica muito poderosa para gerenciar streams de dados.
 
-In the simplest notion of CSP, a channel that we create between "A" and "B" would have a method called `take(..)` for blocking to receive a value, and a method called `put(..)` for blocking to send a value.
+Na noção mais simples de CSP, um canal que criamos entre "A" e "B" teria um método chamado `take(..)` para bloquear até receber um valor, e um método chamado `put(..)` para bloquear até enviar um valor.
 
-This might look like:
+Isso pode parecer com:
 
 ```js
 var ch = channel();
@@ -741,49 +741,49 @@ run( bar );
 // "message sent"
 ```
 
-Compare this structured, synchronous(-looking) message passing interaction to the informal and unstructured message sharing that `ASQ#runner(..)` provides through the `token.messages` array and cooperative `yield`ing. In essence, `yield put(..)` is a single operation that both sends the value and pauses execution to transfer control, whereas in earlier examples we did those as separate steps.
+Compare esta interação estruturada e de passagem de mensagens síncrona(-aparente) com o compartilhamento de mensagens informal e não estruturado que o `ASQ#runner(..)` fornece através do array `token.messages` e do `yield` cooperativo. Em essência, `yield put(..)` é uma única operação que tanto envia o valor quanto pausa a execução para transferir o controle, enquanto nos exemplos anteriores fizemos isso como passos separados.
 
-Moreover, CSP stresses that you don't really explicitly "transfer control," but rather you design your concurrent routines to block expecting either a value received from the channel, or to block expecting to try to send a message on the channel. The blocking around receiving or sending messages is how you coordinate sequencing of behavior between the coroutines.
+Além disso, o CSP enfatiza que você não realmente "transfere o controle" explicitamente, mas em vez disso você projeta suas rotinas concorrentes para bloquear esperando ou um valor recebido do canal, ou para bloquear esperando tentar enviar uma mensagem no canal. O bloqueio ao redor do recebimento ou envio de mensagens é como você coordena o sequenciamento de comportamento entre as corrotinas.
 
-**Note:** Fair warning: this pattern is very powerful but it's also a little mind twisting to get used to at first. You will want to practice this a bit to get used to this new way of thinking about coordinating your concurrency.
+**Nota:** Aviso justo: este padrão é muito poderoso, mas também é um pouco confuso mentalmente para se acostumar a princípio. Você vai querer praticar isto um pouco para se acostumar a esta nova forma de pensar sobre coordenar sua concorrência.
 
-There are several great libraries that have implemented this flavor of CSP in JavaScript, most notably "js-csp" (https://github.com/ubolonton/js-csp), which James Long (http://twitter.com/jlongster) forked (https://github.com/jlongster/js-csp) and has written extensively about (http://jlongster.com/Taming-the-Asynchronous-Beast-with-CSP-in-JavaScript). Also, it cannot be stressed enough how amazing the many writings of David Nolen (http://twitter.com/swannodette) are on the topic of adapting ClojureScript's go-style core.async CSP into JS generators (http://swannodette.github.io/2013/08/24/es6-generators-and-csp/).
+Há várias bibliotecas excelentes que implementaram este sabor de CSP em JavaScript, mais notavelmente a "js-csp" (https://github.com/ubolonton/js-csp), que James Long (http://twitter.com/jlongster) fez fork (https://github.com/jlongster/js-csp) e sobre a qual escreveu extensivamente (http://jlongster.com/Taming-the-Asynchronous-Beast-with-CSP-in-JavaScript). Além disso, não dá para enfatizar o suficiente quão incríveis são os muitos escritos de David Nolen (http://twitter.com/swannodette) sobre o tópico de adaptar o CSP estilo-go do core.async do ClojureScript para geradores do JS (http://swannodette.github.io/2013/08/24/es6-generators-and-csp/).
 
-### asynquence CSP emulation
+### Emulação de CSP no asynquence
 
-Because we've been discussing async patterns here in the context of my *asynquence* library, you might be interested to see that we can fairly easily add an emulation layer on top of `ASQ#runner(..)` generator handling as a nearly perfect porting of the CSP API and behavior. This emulation layer ships as an optional part of the "asynquence-contrib" package alongside *asynquence*.
+Como estivemos discutindo padrões assíncronos aqui no contexto da minha biblioteca *asynquence*, você pode estar interessado em ver que podemos facilmente adicionar uma camada de emulação em cima do tratamento de geradores do `ASQ#runner(..)` como uma portabilidade quase perfeita da API e comportamento do CSP. Esta camada de emulação é distribuída como uma parte opcional do pacote "asynquence-contrib" junto ao *asynquence*.
 
-Very similar to the `state(..)` helper from earlier, `ASQ.csp.go(..)` takes a generator -- in go/core.async terms, it's known as a goroutine -- and adapts it to use with `ASQ#runner(..)` by returning a new generator.
+Muito similar ao helper `state(..)` de antes, `ASQ.csp.go(..)` recebe um gerador -- em termos de go/core.async, ele é conhecido como uma goroutine -- e o adapta para uso com o `ASQ#runner(..)` retornando um novo gerador.
 
-Instead of being passed a `token`, your goroutine receives an initially created channel (`ch` below) that all goroutines in this run will share. You can create more channels (which is often quite helpful!) with `ASQ.csp.chan(..)`.
+Em vez de receber um `token`, sua goroutine recebe um canal inicialmente criado (`ch` abaixo) que todas as goroutines nesta execução irão compartilhar. Você pode criar mais canais (o que frequentemente é bem útil!) com `ASQ.csp.chan(..)`.
 
-In CSP, we model all asynchrony in terms of blocking on channel messages, rather than blocking waiting for a Promise/sequence/thunk to complete.
+No CSP, modelamos toda assincronia em termos de bloqueio em mensagens de canal, em vez de bloqueio esperando uma Promise/sequência/thunk completar.
 
-So, instead of `yield`ing the Promise returned from `request(..)`, `request(..)` should return a channel that you `take(..)` a value from. In other words, a single-value channel is roughly equivalent in this context/usage to a Promise/sequence.
+Então, em vez de fazer `yield` da Promise retornada de `request(..)`, `request(..)` deveria retornar um canal do qual você faz `take(..)` de um valor. Em outras palavras, um canal de valor único é aproximadamente equivalente, neste contexto/uso, a uma Promise/sequência.
 
-Let's first make a channel-aware version of `request(..)`:
+Vamos primeiro fazer uma versão de `request(..)` ciente de canais:
 
 ```js
 function request(url) {
 	var ch = ASQ.csp.channel();
 	ajax( url ).then( function(content){
-		// `putAsync(..)` is a version of `put(..)` that
-		// can be used outside of a generator. It returns
-		// a promise for the operation's completion. We
-		// don't use that promise here, but we could if
-		// we needed to be notified when the value had
-		// been `take(..)`n.
+		// `putAsync(..)` é uma versão de `put(..)` que
+		// pode ser usada fora de um gerador. Ela retorna
+		// uma promise para a conclusão da operação. Nós
+		// não usamos essa promise aqui, mas poderíamos se
+		// precisássemos ser notificados quando o valor
+		// tivesse sido pego com `take(..)`.
 		ASQ.csp.putAsync( ch, content );
 	} );
 	return ch;
 }
 ```
 
-From Chapter 3, "promisory" is a Promise-producing utility, "thunkory" from Chapter 4 is a thunk-producing utility, and finally, in Appendix A we invented "sequory" for a sequence-producing utility.
+Do Capítulo 3, "promisory" é um utilitário produtor de Promise, "thunkory" do Capítulo 4 é um utilitário produtor de thunk, e finalmente, no Apêndice A inventamos "sequory" para um utilitário produtor de sequência.
 
-Naturally, we need to coin a symmetric term here for a channel-producing utility. So let's unsurprisingly call it a "chanory" ("channel" + "factory"). As an exercise for the reader, try your hand at defining a `channelify(..)` utility similar to `Promise.wrap(..)`/`promisify(..)` (Chapter 3), `thunkify(..)` (Chapter 4), and `ASQ.wrap(..)` (Appendix A).
+Naturalmente, precisamos cunhar um termo simétrico aqui para um utilitário produtor de canal. Então, sem surpresa, vamos chamá-lo de "chanory" ("channel" + "factory"). Como exercício para o leitor, tente definir um utilitário `channelify(..)` similar a `Promise.wrap(..)`/`promisify(..)` (Capítulo 3), `thunkify(..)` (Capítulo 4) e `ASQ.wrap(..)` (Apêndice A).
 
-Now consider the concurrent Ajax example using *asyquence*-flavored CSP:
+Agora considere o exemplo de Ajax concorrente usando CSP no sabor *asynquence*:
 
 ```js
 ASQ()
@@ -807,28 +807,28 @@ ASQ()
 		var res2 = yield ASQ.csp.take( request( url2 ) );
 		var res1 = yield ASQ.csp.take( ch );
 
-		// pass along results to next sequence step
+		// passa adiante os resultados para o próximo passo da sequência
 		ch.buffer_size = 2;
 		ASQ.csp.put( ch, res1 );
 		ASQ.csp.put( ch, res2 );
 	} )
 )
 .val( function(res1,res2){
-	// `res1` comes from "http://some.url.1"
-	// `res2` comes from "http://some.url.2"
+	// `res1` vem de "http://some.url.1"
+	// `res2` vem de "http://some.url.2"
 } );
 ```
 
-The message passing that trades the URL strings between the two goroutines is pretty straightforward. The first goroutine makes an Ajax request to the first URL, and that response is put onto the `ch` channel. The second goroutine makes an Ajax request to the second URL, then gets the first response `res1` off the `ch` channel. At that point, both responses `res1` and `res2` are completed and ready.
+A passagem de mensagens que troca as strings de URL entre as duas goroutines é bem direta. A primeira goroutine faz uma requisição Ajax para a primeira URL, e essa resposta é colocada (put) no canal `ch`. A segunda goroutine faz uma requisição Ajax para a segunda URL, então pega a primeira resposta `res1` do canal `ch`. Naquele ponto, ambas as respostas `res1` e `res2` estão completas e prontas.
 
-If there are any remaining values in the `ch` channel at the end of the goroutine run, they will be passed along to the next step in the sequence. So, to pass out message(s) from the final goroutine, `put(..)` them into `ch`. As shown, to avoid the blocking of those final `put(..)`s, we switch `ch` into buffering mode by setting its `buffer_size` to `2` (default: `0`).
+Se houver quaisquer valores restantes no canal `ch` ao final da execução das goroutines, eles serão passados adiante para o próximo passo na sequência. Então, para passar mensagem(ns) para fora da goroutine final, faça `put(..)` delas em `ch`. Como mostrado, para evitar o bloqueio daqueles `put(..)`s finais, nós colocamos `ch` em modo de buffering definindo seu `buffer_size` como `2` (padrão: `0`).
 
-**Note:** See many more examples of using *asynquence*-flavored CSP here (https://gist.github.com/getify/e0d04f1f5aa24b1947ae).
+**Nota:** Veja muito mais exemplos de uso de CSP no sabor *asynquence* aqui (https://gist.github.com/getify/e0d04f1f5aa24b1947ae).
 
-## Review
+## Revisão
 
-Promises and generators provide the foundational building blocks upon which we can build much more sophisticated and capable asynchrony.
+Promises e geradores fornecem os blocos de construção fundamentais sobre os quais podemos construir uma assincronia muito mais sofisticada e capaz.
 
-*asynquence* has utilities for implementing *iterable sequences*, *reactive sequences* (aka "Observables"), *concurrent coroutines*, and even *CSP goroutines*.
+O *asynquence* tem utilitários para implementar *sequências iteráveis*, *sequências reativas* (ou seja, "Observables"), *corrotinas concorrentes* e até *goroutines CSP*.
 
-Those patterns, combined with the continuation-callback and Promise capabilities, gives *asynquence* a powerful mix of different asynchronous functionalities, all integrated in one clean async flow control abstraction: the sequence.
+Esses padrões, combinados com as capacidades de callback de continuação e de Promise, dão ao *asynquence* uma mistura poderosa de diferentes funcionalidades assíncronas, todas integradas em uma abstração de controle de fluxo assíncrono limpa: a sequência.

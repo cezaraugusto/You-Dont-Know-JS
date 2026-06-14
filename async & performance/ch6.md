@@ -1,253 +1,253 @@
 # You Don't Know JS: Async & Performance
-# Chapter 6: Benchmarking & Tuning
+# Capítulo 6: Benchmarking & Ajustes
 
-As the first four chapters of this book were all about performance as a coding pattern (asynchrony and concurrency), and Chapter 5 was about performance at the macro program architecture level, this chapter goes after the topic of performance at the micro level, focusing on single expressions/statements.
+Como os quatro primeiros capítulos deste livro trataram de performance como um padrão de codificação (assincronia e concorrência), e o Capítulo 5 tratou de performance no nível macro da arquitetura de programas, este capítulo aborda o tema da performance no nível micro, focando em expressões/instruções isoladas.
 
-One of the most common areas of curiosity -- indeed, some developers can get quite obsessed about it -- is in analyzing and testing various options for how to write a line or chunk of code, and which one is faster.
+Uma das áreas mais comuns de curiosidade -- de fato, alguns desenvolvedores podem ficar bastante obcecados por isso -- é analisar e testar várias opções de como escrever uma linha ou um bloco de código, e qual delas é mais rápida.
 
-We're going to look at some of these issues, but it's important to understand from the outset that this chapter is **not** about feeding the obsession of micro-performance tuning, like whether some given JS engine can run `++a` faster than `a++`. The more important goal of this chapter is to figure out what kinds of JS performance matter and which ones don't, *and how to tell the difference*.
+Vamos analisar algumas dessas questões, mas é importante entender desde o início que este capítulo **não** é sobre alimentar a obsessão pelo ajuste de microperformance, como se determinado mecanismo JS consegue executar `++a` mais rápido que `a++`. O objetivo mais importante deste capítulo é descobrir quais tipos de performance em JS importam e quais não importam, *e como diferenciá-los*.
 
-But even before we get there, we need to explore how to most accurately and reliably test JS performance, because there's tons of misconceptions and myths that have flooded our collective cult knowledge base. We've got to sift through all that junk to find some clarity.
+Mas, antes mesmo de chegarmos lá, precisamos explorar como testar a performance JS da forma mais precisa e confiável, porque há toneladas de equívocos e mitos que inundaram nossa base coletiva de conhecimento popular. Temos que peneirar toda essa porcaria para encontrar alguma clareza.
 
 ## Benchmarking
 
-OK, time to start dispelling some misconceptions. I'd wager the vast majority of JS developers, if asked to benchmark the speed (execution time) of a certain operation, would initially go about it something like this:
+OK, hora de começar a dissipar alguns equívocos. Eu apostaria que a grande maioria dos desenvolvedores JS, se solicitados a medir a velocidade (tempo de execução) de uma certa operação, inicialmente fariam algo mais ou menos assim:
 
 ```js
-var start = (new Date()).getTime();	// or `Date.now()`
+var start = (new Date()).getTime();	// ou `Date.now()`
 
-// do some operation
+// faça alguma operação
 
 var end = (new Date()).getTime();
 
 console.log( "Duration:", (end - start) );
 ```
 
-Raise your hand if that's roughly what came to your mind. Yep, I thought so. There's a lot wrong with this approach, but don't feel bad; **we've all been there.**
+Levante a mão se foi mais ou menos isso que veio à sua mente. Sim, eu imaginei. Há muita coisa errada com essa abordagem, mas não se sinta mal; **todos nós já passamos por isso.**
 
-What did that measurement tell you, exactly? Understanding what it does and doesn't say about the execution time of the operation in question is key to learning how to appropriately benchmark performance in JavaScript.
+O que exatamente essa medição lhe disse? Entender o que ela diz e o que não diz sobre o tempo de execução da operação em questão é fundamental para aprender a medir performance de forma apropriada em JavaScript.
 
-If the duration reported is `0`, you may be tempted to believe that it took less than a millisecond. But that's not very accurate. Some platforms don't have single millisecond precision, but instead only update the timer in larger increments. For example, older versions of windows (and thus IE) had only 15ms precision, which means the operation has to take at least that long for anything other than `0` to be reported!
+Se a duração reportada for `0`, você pode ser tentado a acreditar que levou menos de um milissegundo. Mas isso não é muito preciso. Algumas plataformas não têm precisão de um único milissegundo, mas em vez disso atualizam o cronômetro apenas em incrementos maiores. Por exemplo, versões mais antigas do windows (e portanto do IE) tinham apenas 15ms de precisão, o que significa que a operação tem que levar pelo menos esse tempo para que algo diferente de `0` seja reportado!
 
-Moreover, whatever duration is reported, the only thing you really know is that the operation took approximately that long on that exact single run. You have near-zero confidence that it will always run at that speed. You have no idea if the engine or system had some sort of interference at that exact moment, and that at other times the operation could run faster.
+Além disso, qualquer que seja a duração reportada, a única coisa que você realmente sabe é que a operação levou aproximadamente esse tempo naquela única execução exata. Você tem confiança próxima de zero de que ela sempre rodará nessa velocidade. Você não tem ideia se o mecanismo ou o sistema sofreram algum tipo de interferência naquele exato momento, e que em outras vezes a operação poderia rodar mais rápido.
 
-What if the duration reported is `4`? Are you more sure it took about four milliseconds? Nope. It might have taken less time, and there may have been some other delay in getting either `start` or `end` timestamps.
+E se a duração reportada for `4`? Você está mais seguro de que levou cerca de quatro milissegundos? Não. Pode ter levado menos tempo, e pode ter havido algum outro atraso em obter os timestamps de `start` ou `end`.
 
-More troublingly, you also don't know that the circumstances of this operation test aren't overly optimistic. It's possible that the JS engine figured out a way to optimize your isolated test case, but in a more real program such optimization would be diluted or impossible, such that the operation would run slower than your test.
+Mais preocupante ainda, você também não sabe se as circunstâncias deste teste de operação não são excessivamente otimistas. É possível que o mecanismo JS tenha descoberto uma forma de otimizar seu caso de teste isolado, mas em um programa mais real tal otimização seria diluída ou impossível, de modo que a operação rodaria mais devagar do que no seu teste.
 
-So... what do we know? Unfortunately, with those realizations stated, **we know very little.** Something of such low confidence isn't even remotely good enough to build your determinations on. Your "benchmark" is basically useless. And worse, it's dangerous in that it implies false confidence, not just to you but also to others who don't think critically about the conditions that led to those results.
+Então... o que sabemos? Infelizmente, com essas constatações expostas, **sabemos muito pouco.** Algo de tão baixa confiança não é nem remotamente bom o suficiente para basear suas conclusões. Seu "benchmark" é basicamente inútil. E pior, é perigoso na medida em que transmite uma falsa confiança, não apenas para você mas também para outros que não pensam criticamente sobre as condições que levaram a esses resultados.
 
-### Repetition
+### Repetição
 
-"OK," you now say, "Just put a loop around it so the whole test takes longer." If you repeat an operation 100 times, and that whole loop reportedly takes a total of 137ms, then you can just divide by 100 and get an average duration of 1.37ms for each operation, right?
+"OK," você diz agora, "Apenas coloque um loop em volta disso para que o teste inteiro demore mais." Se você repetir uma operação 100 vezes, e esse loop inteiro reportadamente leva um total de 137ms, então você pode simplesmente dividir por 100 e obter uma duração média de 1,37ms para cada operação, certo?
 
-Well, not exactly.
+Bem, não exatamente.
 
-A straight mathematical average by itself is definitely not sufficient for making judgments about performance which you plan to extrapolate to the breadth of your entire application. With a hundred iterations, even a couple of outliers (high or low) can skew the average, and then when you apply that conclusion repeatedly, you even further inflate the skew beyond credulity.
+Uma média matemática pura por si só definitivamente não é suficiente para fazer julgamentos sobre performance que você pretende extrapolar para a amplitude de toda a sua aplicação. Com uma centena de iterações, mesmo um par de valores discrepantes (altos ou baixos) pode distorcer a média, e então, quando você aplica essa conclusão repetidamente, você infla ainda mais a distorção para além da credibilidade.
 
-Instead of just running for a fixed number of iterations, you can instead choose to run the loop of tests until a certain amount of time has passed. That might be more reliable, but how do you decide how long to run? You might guess that it should be some multiple of how long your operation should take to run once. Wrong.
+Em vez de simplesmente rodar por um número fixo de iterações, você pode optar por rodar o loop de testes até que uma certa quantidade de tempo tenha passado. Isso pode ser mais confiável, mas como você decide por quanto tempo rodar? Você pode supor que deveria ser algum múltiplo de quanto tempo sua operação deveria levar para rodar uma vez. Errado.
 
-Actually, the length of time to repeat across should be based on the accuracy of the timer you're using, specifically to minimize the chances of inaccuracy. The less precise your timer, the longer you need to run to make sure you've minimized the error percentage. A 15ms timer is pretty bad for accurate benchmarking; to minimize its uncertainty (aka "error rate") to less than 1%, you need to run your each cycle of test iterations for 750ms. A 1ms timer only needs a cycle to run for 50ms to get the same confidence.
+Na verdade, a duração de tempo a repetir deveria ser baseada na precisão do cronômetro que você está usando, especificamente para minimizar as chances de imprecisão. Quanto menos preciso o seu cronômetro, mais tempo você precisa rodar para ter certeza de que minimizou o percentual de erro. Um cronômetro de 15ms é muito ruim para benchmarking preciso; para minimizar sua incerteza (também conhecida como "taxa de erro") para menos de 1%, você precisa rodar cada ciclo de iterações de teste por 750ms. Um cronômetro de 1ms só precisa de um ciclo rodando por 50ms para obter a mesma confiança.
 
-But then, that's just a single sample. To be sure you're factoring out the skew, you'll want lots of samples to average across. You'll also want to understand something about just how slow the worst sample is, how fast the best sample is, how far apart those best and worse cases were, and so on. You'll want to know not just a number that tells you how fast something ran, but also to have some quantifiable measure of how trustable that number is.
+Mas então, isso é apenas uma única amostra. Para ter certeza de que está descontando a distorção, você vai querer muitas amostras para tirar a média. Você também vai querer entender algo sobre quão lenta é a pior amostra, quão rápida é a melhor amostra, quão distantes estavam esses melhores e piores casos, e assim por diante. Você vai querer saber não apenas um número que lhe diz quão rápido algo rodou, mas também ter alguma medida quantificável de quão confiável esse número é.
 
-Also, you probably want to combine these different techniques (as well as others), so that you get the best balance of all the possible approaches.
+Além disso, você provavelmente vai querer combinar essas diferentes técnicas (assim como outras), para obter o melhor equilíbrio de todas as abordagens possíveis.
 
-That's all bare minimum just to get started. If you've been approaching performance benchmarking with anything less serious than what I just glossed over, well... "you don't know: proper benchmarking."
+Isso tudo é o mínimo necessário só para começar. Se você tem abordado o benchmarking de performance com algo menos sério do que aquilo que acabei de pincelar, bem... "you don't know: benchmarking apropriado."
 
 ### Benchmark.js
 
-Any relevant and reliable benchmark should be based on statistically sound practices. I am not going to write a chapter on statistics here, so I'll hand wave around some terms: standard deviation, variance, margin of error. If you don't know what those terms really mean -- I took a stats class back in college and I'm still a little fuzzy on them -- you are not actually qualified to write your own benchmarking logic.
+Qualquer benchmark relevante e confiável deve ser baseado em práticas estatisticamente sólidas. Não vou escrever um capítulo sobre estatística aqui, então vou só acenar de leve para alguns termos: desvio padrão, variância, margem de erro. Se você não sabe o que esses termos realmente significam -- eu fiz uma disciplina de estatística lá na faculdade e ainda estou um pouco confuso sobre eles -- você não está realmente qualificado para escrever sua própria lógica de benchmarking.
 
-Luckily, smart folks like John-David Dalton and Mathias Bynens do understand these concepts, and wrote a statistically sound benchmarking tool called Benchmark.js (http://benchmarkjs.com/). So I can end the suspense by simply saying: "just use that tool."
+Felizmente, pessoas inteligentes como John-David Dalton e Mathias Bynens de fato entendem esses conceitos, e escreveram uma ferramenta de benchmarking estatisticamente sólida chamada Benchmark.js (http://benchmarkjs.com/). Então posso acabar com o suspense simplesmente dizendo: "apenas use essa ferramenta."
 
-I won't repeat their whole documentation for how Benchmark.js works; they have fantastic API Docs (http://benchmarkjs.com/docs) you should read. Also there are some great (http://calendar.perfplanet.com/2010/bulletproof-javascript-benchmarks/) writeups (http://monsur.hossa.in/2012/12/11/benchmarkjs.html) on more of the details and methodology.
+Não vou repetir toda a documentação deles sobre como o Benchmark.js funciona; eles têm uma fantástica documentação de API (http://benchmarkjs.com/docs) que você deveria ler. Também há ótimos (http://calendar.perfplanet.com/2010/bulletproof-javascript-benchmarks/) artigos (http://monsur.hossa.in/2012/12/11/benchmarkjs.html) com mais detalhes e metodologia.
 
-But just for quick illustration purposes, here's how you could use Benchmark.js to run a quick performance test:
+Mas apenas para fins de ilustração rápida, aqui está como você poderia usar o Benchmark.js para rodar um teste rápido de performance:
 
 ```js
 function foo() {
-	// operation(s) to test
+	// operação(ões) a testar
 }
 
 var bench = new Benchmark(
-	"foo test",				// test name
-	foo,					// function to test (just contents)
+	"foo test",				// nome do teste
+	foo,					// função a testar (apenas o conteúdo)
 	{
-		// ..				// optional extra options (see docs)
+		// ..				// opções extras opcionais (veja a documentação)
 	}
 );
 
-bench.hz;					// number of operations per second
-bench.stats.moe;			// margin of error
-bench.stats.variance;		// variance across samples
+bench.hz;					// número de operações por segundo
+bench.stats.moe;			// margem de erro
+bench.stats.variance;		// variância entre as amostras
 // ..
 ```
 
-There's *lots* more to learn about using Benchmark.js besides this glance I'm including here. But the point is that it's handling all of the complexities of setting up a fair, reliable, and valid performance benchmark for a given piece of JavaScript code. If you're going to try to test and benchmark your code, this library is the first place you should turn.
+Há *muito* mais para aprender sobre o uso do Benchmark.js além dessa olhadela que estou incluindo aqui. Mas o ponto é que ele lida com toda a complexidade de configurar um benchmark de performance justo, confiável e válido para um determinado trecho de código JavaScript. Se você vai tentar testar e medir seu código, essa biblioteca é o primeiro lugar para onde você deveria recorrer.
 
-We're showing here the usage to test a single operation like X, but it's fairly common that you want to compare X to Y. This is easy to do by simply setting up two different tests in a "Suite" (a Benchmark.js organizational feature). Then, you run them head-to-head, and compare the statistics to conclude whether X or Y was faster.
+Estamos mostrando aqui o uso para testar uma única operação como X, mas é bastante comum querer comparar X com Y. Isso é fácil de fazer simplesmente configurando dois testes diferentes em uma "Suite" (um recurso organizacional do Benchmark.js). Então, você os roda lado a lado, e compara as estatísticas para concluir se X ou Y foi mais rápido.
 
-Benchmark.js can of course be used to test JavaScript in a browser (see the "jsPerf.com" section later in this chapter), but it can also run in non-browser environments (Node.js, etc.).
+O Benchmark.js pode, é claro, ser usado para testar JavaScript em um navegador (veja a seção "jsPerf.com" mais adiante neste capítulo), mas ele também pode rodar em ambientes fora do navegador (Node.js, etc.).
 
-One largely untapped potential use-case for Benchmark.js is to use it in your Dev or QA environments to run automated performance regression tests against critical path parts of your application's JavaScript. Similar to how you might run unit test suites before deployment, you can also compare the performance against previous benchmarks to monitor if you are improving or degrading application performance.
+Um caso de uso amplamente inexplorado do Benchmark.js é usá-lo em seus ambientes de Dev ou QA para rodar testes automatizados de regressão de performance contra partes do caminho crítico do JavaScript da sua aplicação. De forma semelhante a como você pode rodar suítes de testes unitários antes do deploy, você também pode comparar a performance contra benchmarks anteriores para monitorar se você está melhorando ou degradando a performance da aplicação.
 
 #### Setup/Teardown
 
-In the previous code snippet, we glossed over the "extra options" `{ .. }` object. But there are two options we should discuss: `setup` and `teardown`.
+No trecho de código anterior, passamos por cima do objeto de "opções extras" `{ .. }`. Mas há duas opções que devemos discutir: `setup` e `teardown`.
 
-These two options let you define functions to be called before and after your test case runs.
+Essas duas opções permitem definir funções a serem chamadas antes e depois da execução do seu caso de teste.
 
-It's incredibly important to understand that your `setup` and `teardown` code **does not run for each test iteration**. The best way to think about it is that there's an outer loop (repeating cycles), and an inner loop (repeating test iterations). `setup` and `teardown` are run at the beginning and end of each *outer* loop (aka cycle) iteration, but not inside the inner loop.
+É incrivelmente importante entender que seu código de `setup` e `teardown` **não roda a cada iteração do teste**. A melhor forma de pensar sobre isso é que há um loop externo (ciclos que se repetem), e um loop interno (iterações de teste que se repetem). `setup` e `teardown` são executados no começo e no fim de cada iteração do loop *externo* (também conhecido como ciclo), mas não dentro do loop interno.
 
-Why does this matter? Let's imagine you have a test case that looks like this:
+Por que isso importa? Vamos imaginar que você tenha um caso de teste parecido com isto:
 
 ```js
 a = a + "w";
 b = a.charAt( 1 );
 ```
 
-Then, you set up your test `setup` as follows:
+Então, você configura seu `setup` de teste da seguinte forma:
 
 ```js
 var a = "x";
 ```
 
-Your temptation is probably to believe that `a` is starting out as `"x"` for each test iteration.
+Sua tentação é provavelmente acreditar que `a` está começando como `"x"` a cada iteração do teste.
 
-But it's not! It's starting `a` at `"x"` for each test cycle, and then your repeated `+ "w"` concatenations will be making a larger and larger `a` value, even though you're only ever accessing the character `"w"` at the `1` position.
+Mas não está! Está começando `a` como `"x"` a cada ciclo de teste, e então suas concatenações repetidas de `+ "w"` farão um valor de `a` cada vez maior, mesmo que você só esteja acessando o caractere `"w"` na posição `1`.
 
-Where this most commonly bites you is when you make side effect changes to something like the DOM, like appending a child element. You may think your parent element is set as empty each time, but it's actually getting lots of elements added, and that can significantly sway the results of your tests.
+Onde isso mais comumente te morde é quando você faz mudanças com efeito colateral em algo como o DOM, como anexar um elemento filho. Você pode pensar que seu elemento pai está sendo configurado como vazio a cada vez, mas na verdade ele está recebendo muitos elementos adicionados, e isso pode influenciar significativamente os resultados dos seus testes.
 
-## Context Is King
+## O Contexto é Rei
 
-Don't forget to check the context of a particular performance benchmark, especially a comparison between X and Y tasks. Just because your test reveals that X is faster than Y doesn't mean that the conclusion "X is faster than Y" is actually relevant.
+Não se esqueça de checar o contexto de um determinado benchmark de performance, especialmente uma comparação entre as tarefas X e Y. Só porque seu teste revela que X é mais rápido que Y não significa que a conclusão "X é mais rápido que Y" seja de fato relevante.
 
-For example, let's say a performance test reveals that X runs 10,000,000 operations per second, and Y runs at 8,000,000 operations per second. You could claim that Y is 20% slower than X, and you'd be mathematically correct, but your assertion doesn't hold as much water as you'd think.
+Por exemplo, digamos que um teste de performance revele que X roda 10.000.000 de operações por segundo, e Y roda a 8.000.000 de operações por segundo. Você poderia afirmar que Y é 20% mais lento que X, e estaria matematicamente correto, mas sua afirmação não tem tanta sustentação quanto você pensaria.
 
-Let's think about the results more critically: 10,000,000 operations per second is 10,000 operations per millisecond, and 10 operations per microsecond. In other words, a single operation takes 0.1 microseconds, or 100 nanoseconds. It's hard to fathom just how small 100ns is, but for comparison, it's often cited that the human eye isn't generally capable of distinguishing anything less than 100ms, which is one million times slower than the 100ns speed of the X operation.
+Vamos pensar sobre os resultados de forma mais crítica: 10.000.000 de operações por segundo são 10.000 operações por milissegundo, e 10 operações por microssegundo. Em outras palavras, uma única operação leva 0,1 microssegundo, ou 100 nanossegundos. É difícil conceber quão pequeno é 100ns, mas para comparação, é frequentemente citado que o olho humano geralmente não é capaz de distinguir nada inferior a 100ms, o que é um milhão de vezes mais lento que a velocidade de 100ns da operação X.
 
-Even recent scientific studies showing that maybe the brain can process as quick as 13ms (about 8x faster than previously asserted) would mean that X is still running 125,000 times faster than the human brain can perceive a distinct thing happening. **X is going really, really fast.**
+Mesmo estudos científicos recentes mostrando que talvez o cérebro consiga processar tão rápido quanto 13ms (cerca de 8x mais rápido do que afirmado anteriormente) significariam que X ainda está rodando 125.000 vezes mais rápido do que o cérebro humano consegue perceber algo distinto acontecendo. **X está indo muito, muito rápido.**
 
-But more importantly, let's talk about the difference between X and Y, the 2,000,000 operations per second difference. If X takes 100ns, and Y takes 80ns, the difference is 20ns, which in the best case is still one 650-thousandth of the interval the human brain can perceive.
+Mas, mais importante, vamos falar sobre a diferença entre X e Y, a diferença de 2.000.000 de operações por segundo. Se X leva 100ns, e Y leva 80ns, a diferença é de 20ns, o que, no melhor caso, ainda é um 650 milésimos do intervalo que o cérebro humano consegue perceber.
 
-What's my point? **None of this performance difference matters, at all!**
+Qual é o meu ponto? **Nada dessa diferença de performance importa, em absoluto!**
 
-But wait, what if this operation is going to happen a whole bunch of times in a row? Then the difference could add up, right?
+Mas espere, e se essa operação for acontecer um monte de vezes seguidas? Então a diferença poderia se acumular, certo?
 
-OK, so what we're asking then is, how likely is it that operation X is going to be run over and over again, one right after the other, and that this has to happen 650,000 times just to get a sliver of a hope the human brain could perceive it. More likely, it'd have to happen 5,000,000 to 10,000,000 times together in a tight loop to even approach relevance.
+OK, então o que estamos perguntando, então, é: quão provável é que a operação X seja rodada repetidamente, uma logo após a outra, e que isso tenha que acontecer 650.000 vezes só para obter uma fração da esperança de que o cérebro humano consiga percebê-lo? Mais provavelmente, teria que acontecer de 5.000.000 a 10.000.000 de vezes juntas em um loop apertado para sequer se aproximar da relevância.
 
-While the computer scientist in you might protest that this is possible, the louder voice of realism in you should sanity check just how likely or unlikely that really is. Even if it is relevant in rare occasions, it's irrelevant in most situations.
+Embora o cientista da computação dentro de você possa protestar que isso é possível, a voz mais alta do realismo dentro de você deveria fazer uma verificação de sanidade sobre quão provável ou improvável isso realmente é. Mesmo que seja relevante em ocasiões raras, é irrelevante na maioria das situações.
 
-The vast majority of your benchmark results on tiny operations -- like the `++x` vs `x++` myth -- **are just totally bogus** for supporting the conclusion that X should be favored over Y on a performance basis.
+A grande maioria dos seus resultados de benchmark em operações minúsculas -- como o mito do `++x` vs `x++` -- **são simplesmente totalmente falsos** para sustentar a conclusão de que X deveria ser preferido em vez de Y com base em performance.
 
-### Engine Optimizations
+### Otimizações do Motor
 
-You simply cannot reliably extrapolate that if X was 10 microseconds faster than Y in your isolated test, that means X is always faster than Y and should always be used. That's not how performance works. It's vastly more complicated.
+Você simplesmente não pode extrapolar de forma confiável que, se X foi 10 microssegundos mais rápido que Y no seu teste isolado, isso significa que X é sempre mais rápido que Y e deveria sempre ser usado. Não é assim que a performance funciona. É muito mais complicado.
 
-For example, let's imagine (purely hypothetical) that you test some microperformance behavior such as comparing:
+Por exemplo, vamos imaginar (puramente hipotético) que você teste algum comportamento de microperformance como comparar:
 
 ```js
 var twelve = "12";
 var foo = "foo";
 
-// test 1
+// teste 1
 var X1 = parseInt( twelve );
 var X2 = parseInt( foo );
 
-// test 2
+// teste 2
 var Y1 = Number( twelve );
 var Y2 = Number( foo );
 ```
 
-If you understand what `parseInt(..)` does compared to `Number(..)`, you might intuit that `parseInt(..)` potentially has "more work" to do, especially in the `foo` case. Or you might intuit that they should have the same amount of work to do in the `foo` case, as both should be able to stop at the first character `"f"`.
+Se você entende o que `parseInt(..)` faz comparado a `Number(..)`, você pode intuir que `parseInt(..)` potencialmente tem "mais trabalho" a fazer, especialmente no caso de `foo`. Ou você pode intuir que eles deveriam ter a mesma quantidade de trabalho a fazer no caso de `foo`, já que ambos deveriam ser capazes de parar no primeiro caractere `"f"`.
 
-Which intuition is correct? I honestly don't know. But I'll make the case it doesn't matter what your intuition is. What might the results be when you test it? Again, I'm making up a pure hypothetical here, I haven't actually tried, nor do I care.
+Qual intuição está correta? Honestamente não sei. Mas vou defender que não importa qual é a sua intuição. Quais poderiam ser os resultados quando você o testa? Novamente, estou inventando uma hipótese pura aqui, não tentei de fato, nem me importo.
 
-Let's pretend the test comes back that `X` and `Y` are statistically identical. Have you then confirmed your intuition about the `"f"` character thing? Nope.
+Vamos fingir que o teste retorna que `X` e `Y` são estatisticamente idênticos. Você então confirmou sua intuição sobre a coisa do caractere `"f"`? Não.
 
-It's possible in our hypothetical that the engine might recognize that the variables `twelve` and `foo` are only being used in one place in each test, and so it might decide to inline those values. Then it may realize that `Number( "12" )` can just be replaced by `12`. And maybe it comes to the same conclusion with `parseInt(..)`, or maybe not.
+É possível, na nossa hipótese, que o mecanismo reconheça que as variáveis `twelve` e `foo` só estão sendo usadas em um lugar em cada teste, e então ele pode decidir fazer o inline desses valores. Então ele pode perceber que `Number( "12" )` pode simplesmente ser substituído por `12`. E talvez ele chegue à mesma conclusão com `parseInt(..)`, ou talvez não.
 
-Or an engine's dead-code removal heuristic could kick in, and it could realize that variables `X` and `Y` aren't being used, so declaring them is irrelevant, so it doesn't end up doing anything at all in either test.
+Ou a heurística de remoção de código morto de um mecanismo poderia entrar em ação, e ele poderia perceber que as variáveis `X` e `Y` não estão sendo usadas, então declará-las é irrelevante, então ele acaba não fazendo nada em nenhum dos testes.
 
-And all that's just made with the mindset of assumptions about a single test run. Modern engines are fantastically more complicated than what we're intuiting here. They do all sorts of tricks, like tracing and tracking how a piece of code behaves over a short period of time, or with a particularly constrained set of inputs.
+E tudo isso é apenas com a mentalidade de suposições sobre uma única execução de teste. Mecanismos modernos são fantasticamente mais complicados do que estamos intuindo aqui. Eles fazem todo tipo de truque, como rastrear e acompanhar como um trecho de código se comporta ao longo de um curto período de tempo, ou com um conjunto particularmente restrito de entradas.
 
-What if the engine optimizes a certain way because of the fixed input, but in your real program you give more varied input and the optimization decisions shake out differently (or not at all!)? Or what if the engine kicks in optimizations because it sees the code being run tens of thousands of times by the benchmarking utility, but in your real program it will only run a hundred times in near proximity, and under those conditions the engine determines the optimizations are not worth it?
+E se o mecanismo otimiza de uma certa forma por causa da entrada fixa, mas no seu programa real você dá entradas mais variadas e as decisões de otimização se resolvem de forma diferente (ou de forma alguma!)? Ou e se o mecanismo aciona otimizações porque vê o código sendo rodado dezenas de milhares de vezes pelo utilitário de benchmarking, mas no seu programa real ele só vai rodar uma centena de vezes em proximidade, e sob essas condições o mecanismo determina que as otimizações não valem a pena?
 
-And all those optimizations we just hypothesized about might happen in our constrained test but maybe the engine wouldn't do them in a more complex program (for various reasons). Or it could be reversed -- the engine might not optimize such trivial code but may be more inclined to optimize it more aggressively when the system is already more taxed by a more sophisticated program.
+E todas aquelas otimizações que acabamos de hipotetizar poderiam acontecer no nosso teste restrito, mas talvez o mecanismo não as fizesse em um programa mais complexo (por várias razões). Ou poderia ser o contrário -- o mecanismo poderia não otimizar um código tão trivial, mas poderia estar mais inclinado a otimizá-lo de forma mais agressiva quando o sistema já está mais sobrecarregado por um programa mais sofisticado.
 
-The point I'm trying to make is that you really don't know for sure exactly what's going on under the covers. All the guesses and hypothesis you can muster don't amount to hardly anything concrete for really making such decisions.
+O ponto que estou tentando defender é que você realmente não sabe ao certo exatamente o que está acontecendo por baixo dos panos. Todas as suposições e hipóteses que você consiga reunir não acrescentam quase nada de concreto para realmente tomar tais decisões.
 
-Does that mean you can't really do any useful testing? **Definitely not!**
+Isso significa que você não pode realmente fazer nenhum teste útil? **Definitivamente não!**
 
-What this boils down to is that testing *not real* code gives you *not real* results. In so much as is possible and practical, you should test actual real, non-trivial snippets of your code, and under as best of real conditions as you can actually hope to. Only then will the results you get have a chance to approximate reality.
+O que isso resume é que testar código *não real* lhe dá resultados *não reais*. Na medida do possível e do prático, você deveria testar trechos reais e não triviais do seu código, e sob as melhores condições reais que você de fato pode esperar. Só então os resultados que você obtém terão uma chance de se aproximar da realidade.
 
-Microbenchmarks like `++x` vs `x++` are so incredibly likely to be bogus, we might as well just flatly assume them as such.
+Microbenchmarks como `++x` vs `x++` são tão incrivelmente prováveis de serem falsos, que mais vale assumirmos categoricamente que são.
 
 ## jsPerf.com
 
-While Benchmark.js is useful for testing the performance of your code in whatever JS environment you're running, it cannot be stressed enough that you need to compile test results from lots of different environments (desktop browsers, mobile devices, etc.) if you want to have any hope of reliable test conclusions.
+Embora o Benchmark.js seja útil para testar a performance do seu código em qualquer ambiente JS em que você esteja rodando, não dá para enfatizar o suficiente que você precisa compilar resultados de testes de muitos ambientes diferentes (navegadores de desktop, dispositivos móveis, etc.) se quiser ter alguma esperança de conclusões de teste confiáveis.
 
-For example, Chrome on a high-end desktop machine is not likely to perform anywhere near the same as Chrome mobile on a smartphone. And a smartphone with a full battery charge is not likely to perform anywhere near the same as a smartphone with 2% battery life left, when the device is starting to power down the radio and processor.
+Por exemplo, o Chrome em uma máquina desktop de alto desempenho provavelmente não vai ter desempenho nem perto do mesmo que o Chrome mobile em um smartphone. E um smartphone com a bateria totalmente carregada provavelmente não vai ter desempenho nem perto do mesmo que um smartphone com 2% de bateria restante, quando o dispositivo está começando a desligar o rádio e o processador.
 
-If you want to make assertions like "X is faster than Y" in any reasonable sense across more than just a single environment, you're going to need to actually test as many of those real world environments as possible. Just because Chrome executes some X operation faster than Y doesn't mean that all browsers do. And of course you also probably will want to cross-reference the results of multiple browser test runs with the demographics of your users.
+Se você quiser fazer afirmações como "X é mais rápido que Y" em qualquer sentido razoável em mais do que apenas um único ambiente, você vai precisar de fato testar o maior número possível desses ambientes do mundo real. Só porque o Chrome executa alguma operação X mais rápido que Y não significa que todos os navegadores o façam. E é claro que você também provavelmente vai querer cruzar os resultados de várias execuções de teste em navegadores com a demografia dos seus usuários.
 
-There's an awesome website for this purpose called jsPerf (http://jsperf.com). It uses the Benchmark.js library we talked about earlier to run statistically accurate and reliable tests, and makes the test on an openly available URL that you can pass around to others.
+Há um site incrível para esse propósito chamado jsPerf (http://jsperf.com). Ele usa a biblioteca Benchmark.js sobre a qual falamos antes para rodar testes estatisticamente precisos e confiáveis, e disponibiliza o teste em uma URL abertamente acessível que você pode repassar a outros.
 
-Each time a test is run, the results are collected and persisted with the test, and the cumulative test results are graphed on the page for anyone to see.
+Cada vez que um teste é rodado, os resultados são coletados e persistidos junto ao teste, e os resultados cumulativos dos testes são plotados em um gráfico na página para qualquer um ver.
 
-When creating a test on the site, you start out with two test cases to fill in, but you can add as many as you need. You also have the ability to set up `setup` code that is run at the beginning of each test cycle and `teardown` code run at the end of each cycle.
+Ao criar um teste no site, você começa com dois casos de teste para preencher, mas pode adicionar quantos precisar. Você também tem a capacidade de configurar código de `setup` que roda no começo de cada ciclo de teste e código de `teardown` que roda no fim de cada ciclo.
 
-**Note:** A trick for doing just one test case (if you're benchmarking a single approach instead of a head-to-head) is to fill in the second test input boxes with placeholder text on first creation, then edit the test and leave the second test blank, which will delete it. You can always add more test cases later.
+**Nota:** Um truque para fazer apenas um caso de teste (se você está medindo uma única abordagem em vez de uma comparação direta) é preencher as caixas de entrada do segundo teste com texto de preenchimento na primeira criação, depois editar o teste e deixar o segundo em branco, o que vai apagá-lo. Você sempre pode adicionar mais casos de teste depois.
 
-You can define the initial page setup (importing libraries, defining utility helper functions, declaring variables, etc.). There are also options for defining setup and teardown behavior if needed -- consult the "Setup/Teardown" section in the Benchmark.js discussion earlier.
+Você pode definir a configuração inicial da página (importando bibliotecas, definindo funções auxiliares utilitárias, declarando variáveis, etc.). Há também opções para definir o comportamento de setup e teardown se necessário -- consulte a seção "Setup/Teardown" na discussão sobre o Benchmark.js anteriormente.
 
-### Sanity Check
+### Verificação de Sanidade
 
-jsPerf is a fantastic resource, but there's an awful lot of tests published that when you analyze them are quite flawed or bogus, for any of a variety of reasons as outlined so far in this chapter.
+O jsPerf é um recurso fantástico, mas há uma quantidade enorme de testes publicados que, quando você os analisa, são bastante falhos ou falsos, por qualquer uma de uma variedade de razões delineadas até aqui neste capítulo.
 
-Consider:
+Considere:
 
 ```js
-// Case 1
+// Caso 1
 var x = [];
 for (var i=0; i<10; i++) {
 	x[i] = "x";
 }
 
-// Case 2
+// Caso 2
 var x = [];
 for (var i=0; i<10; i++) {
 	x[x.length] = "x";
 }
 
-// Case 3
+// Caso 3
 var x = [];
 for (var i=0; i<10; i++) {
 	x.push( "x" );
 }
 ```
 
-Some observations to ponder about this test scenario:
+Algumas observações a ponderar sobre este cenário de teste:
 
-* It's extremely common for devs to put their own loops into test cases, and they forget that Benchmark.js already does all the repetition you need. There's a really strong chance that the `for` loops in these cases are totally unnecessary noise.
-* The declaring and initializing of `x` is included in each test case, possibly unnecessarily. Recall from earlier that if `x = []` were in the `setup` code, it wouldn't actually be run before each test iteration, but instead once at the beginning of each cycle. That means `x` would continue growing quite large, not just the size `10` implied by the `for` loops.
+* É extremamente comum que devs coloquem seus próprios loops dentro dos casos de teste, e eles esquecem que o Benchmark.js já faz toda a repetição de que você precisa. Há uma chance realmente forte de que os loops `for` nestes casos sejam ruído totalmente desnecessário.
+* A declaração e inicialização de `x` está incluída em cada caso de teste, possivelmente de forma desnecessária. Lembre-se de antes que, se `x = []` estivesse no código de `setup`, ele não rodaria de fato antes de cada iteração do teste, mas sim uma vez no começo de cada ciclo. Isso significa que `x` continuaria crescendo bastante, não apenas o tamanho `10` implicado pelos loops `for`.
 
-   So is the intent to make sure the tests are constrained only to how the JS engine behaves with very small arrays (size `10`)? That *could* be the intent, but if it is, you have to consider if that's not focusing far too much on nuanced internal implementation details.
+   Então a intenção é garantir que os testes fiquem restritos apenas a como o mecanismo JS se comporta com arrays muito pequenos (tamanho `10`)? Essa *poderia* ser a intenção, mas se for, você tem que considerar se isso não está focando demais em detalhes nuançados de implementação interna.
 
-   On the other hand, does the intent of the test embrace the context that the arrays will actually be growing quite large? Is the JS engines' behavior with larger arrays relevant and accurate when compared with the intended real world usage?
+   Por outro lado, a intenção do teste abraça o contexto de que os arrays de fato vão crescer bastante? O comportamento dos mecanismos JS com arrays maiores é relevante e preciso quando comparado com o uso pretendido no mundo real?
 
-* Is the intent to find out how much `x.length` or `x.push(..)` add to the performance of the operation to append to the `x` array? OK, that might be a valid thing to test. But then again, `push(..)` is a function call, so of course it's going to be slower than `[..]` access. Arguably, cases 1 and 2 are fairer than case 3.
+* A intenção é descobrir o quanto `x.length` ou `x.push(..)` adicionam à performance da operação de anexar ao array `x`? OK, isso pode ser algo válido de testar. Mas, por outro lado, `push(..)` é uma chamada de função, então é claro que vai ser mais lento que o acesso `[..]`. Pode-se argumentar que os casos 1 e 2 são mais justos que o caso 3.
 
 
-Here's another example that illustrates a common apples-to-oranges flaw:
+Aqui está outro exemplo que ilustra uma falha comum de comparar coisas incomparáveis (maçãs com laranjas):
 
 ```js
-// Case 1
+// Caso 1
 var x = ["John","Albert","Sue","Frank","Bob"];
 x.sort();
 
-// Case 2
+// Caso 2
 var x = ["John","Albert","Sue","Frank","Bob"];
 x.sort( function mySort(a,b){
 	if (a < b) return -1;
@@ -256,81 +256,81 @@ x.sort( function mySort(a,b){
 } );
 ```
 
-Here, the obvious intent is to find out how much slower the custom `mySort(..)` comparator is than the built-in default comparator. But by specifying the function `mySort(..)` as inline function expression, you've created an unfair/bogus test. Here, the second case is not only testing a custom user JS function, **but it's also testing creating a new function expression for each iteration.**
+Aqui, a intenção óbvia é descobrir o quanto o comparador customizado `mySort(..)` é mais lento que o comparador padrão embutido. Mas ao especificar a função `mySort(..)` como uma expressão de função inline, você criou um teste injusto/falso. Aqui, o segundo caso não está apenas testando uma função JS customizada do usuário, **mas também está testando a criação de uma nova expressão de função a cada iteração.**
 
-Would it surprise you to find out that if you run a similar test but update it to isolate only for creating an inline function expression versus using a pre-declared function, the inline function expression creation can be from 2% to 20% slower!?
+Te surpreenderia descobrir que, se você rodar um teste semelhante mas atualizá-lo para isolar apenas a criação de uma expressão de função inline versus o uso de uma função pré-declarada, a criação da expressão de função inline pode ser de 2% a 20% mais lenta!?
 
-Unless your intent with this test *is* to consider the inline function expression creation "cost," a better/fairer test would put `mySort(..)`'s declaration in the page setup -- don't put it in the test `setup` as that's unnecessary redeclaration for each cycle -- and simply reference it by name in the test case: `x.sort(mySort)`.
+A menos que a sua intenção com este teste *seja* considerar o "custo" da criação da expressão de função inline, um teste melhor/mais justo colocaria a declaração de `mySort(..)` no setup da página -- não a coloque no `setup` do teste, pois isso é uma redeclaração desnecessária a cada ciclo -- e simplesmente a referenciaria pelo nome no caso de teste: `x.sort(mySort)`.
 
-Building on the previous example, another pitfall is in opaquely avoiding or adding "extra work" to one test case that creates an apples-to-oranges scenario:
+Com base no exemplo anterior, outra armadilha está em, de forma opaca, evitar ou adicionar "trabalho extra" a um caso de teste, o que cria um cenário de maçãs-com-laranjas:
 
 ```js
-// Case 1
+// Caso 1
 var x = [12,-14,0,3,18,0,2.9];
 x.sort();
 
-// Case 2
+// Caso 2
 var x = [12,-14,0,3,18,0,2.9];
 x.sort( function mySort(a,b){
 	return a - b;
 } );
 ```
 
-Setting aside the previously mentioned inline function expression pitfall, the second case's `mySort(..)` works in this case because you have provided it numbers, but would have of course failed with strings. The first case doesn't throw an error, but it actually behaves differently and has a different outcome! It should be obvious, but: **a different outcome between two test cases almost certainly invalidates the entire test!**
+Deixando de lado a armadilha da expressão de função inline mencionada anteriormente, o `mySort(..)` do segundo caso funciona neste caso porque você forneceu números, mas é claro que teria falhado com strings. O primeiro caso não lança um erro, mas ele de fato se comporta de forma diferente e tem um resultado diferente! Deveria ser óbvio, mas: **um resultado diferente entre dois casos de teste quase certamente invalida o teste inteiro!**
 
-But beyond the different outcomes, in this case, the built in `sort(..)`'s comparator is actually doing "extra work" that `mySort()` does not, in that the built-in one coerces the compared values to strings and does lexicographic comparison. The first snippet results in `[-14, 0, 0, 12, 18, 2.9, 3]` while the second snippet results (likely more accurately based on intent) in `[-14, 0, 0, 2.9, 3, 12, 18]`.
+Mas, para além dos resultados diferentes, neste caso, o comparador do `sort(..)` embutido está de fato fazendo "trabalho extra" que o `mySort()` não faz, na medida em que o embutido coage os valores comparados para strings e faz comparação lexicográfica. O primeiro trecho resulta em `[-14, 0, 0, 12, 18, 2.9, 3]` enquanto o segundo trecho resulta (provavelmente de forma mais precisa com base na intenção) em `[-14, 0, 0, 2.9, 3, 12, 18]`.
 
-So that test is unfair because it's not actually doing the same task between the cases. Any results you get are bogus.
+Então esse teste é injusto porque ele não está de fato fazendo a mesma tarefa entre os casos. Quaisquer resultados que você obtenha são falsos.
 
-These same pitfalls can even be much more subtle:
+Essas mesmas armadilhas podem até ser muito mais sutis:
 
 ```js
-// Case 1
+// Caso 1
 var x = false;
 var y = x ? 1 : 2;
 
-// Case 2
+// Caso 2
 var x;
 var y = x ? 1 : 2;
 ```
 
-Here, the intent might be to test the performance impact of the coercion to a Boolean that the `? :` operator will do if the `x` expression is not already a Boolean (see the *Types & Grammar* title of this book series). So, you're apparently OK with the fact that there is extra work to do the coercion in the second case.
+Aqui, a intenção pode ser testar o impacto na performance da coerção para um Boolean que o operador `? :` vai fazer se a expressão `x` ainda não for um Boolean (veja o título *Types & Grammar* desta série de livros). Então, você aparentemente está OK com o fato de que há trabalho extra para fazer a coerção no segundo caso.
 
-The subtle problem? You're setting `x`'s value in the first case and not setting it in the other, so you're actually doing work in the first case that you're not doing in the second. To eliminate any potential (albeit minor) skew, try:
+O problema sutil? Você está definindo o valor de `x` no primeiro caso e não o definindo no outro, então você está de fato fazendo trabalho no primeiro caso que não está fazendo no segundo. Para eliminar qualquer distorção potencial (ainda que menor), tente:
 
 ```js
-// Case 1
+// Caso 1
 var x = false;
 var y = x ? 1 : 2;
 
-// Case 2
+// Caso 2
 var x = undefined;
 var y = x ? 1 : 2;
 ```
 
-Now there's an assignment in both cases, so the thing you want to test -- the coercion of `x` or not -- has likely been more accurately isolated and tested.
+Agora há uma atribuição em ambos os casos, então a coisa que você quer testar -- a coerção de `x` ou não -- provavelmente foi isolada e testada de forma mais precisa.
 
-## Writing Good Tests
+## Escrevendo Bons Testes
 
-Let me see if I can articulate the bigger point I'm trying to make here.
+Deixe-me ver se consigo articular o ponto maior que estou tentando defender aqui.
 
-Good test authoring requires careful analytical thinking about what differences exist between two test cases and whether the differences between them are *intentional* or *unintentional*.
+A boa autoria de testes requer um pensamento analítico cuidadoso sobre quais diferenças existem entre dois casos de teste e se as diferenças entre eles são *intencionais* ou *não intencionais*.
 
-Intentional differences are of course normal and OK, but it's too easy to create unintentional differences that skew your results. You have to be really, really careful to avoid that skew. Moreover, you may intend a difference but it may not be obvious to other readers of your test what your intent was, so they may doubt (or trust!) your test incorrectly. How do you fix that?
+Diferenças intencionais são, é claro, normais e OK, mas é fácil demais criar diferenças não intencionais que distorcem seus resultados. Você tem que ser muito, muito cuidadoso para evitar essa distorção. Além disso, você pode pretender uma diferença, mas ela pode não ser óbvia para outros leitores do seu teste qual era sua intenção, então eles podem duvidar (ou confiar!) no seu teste de forma incorreta. Como você corrige isso?
 
-**Write better, clearer tests.** But also, take the time to document (using the jsPerf.com "Description" field and/or code comments) exactly what the intent of your test is, even to the nuanced detail. Call out the intentional differences, which will help others and your future self to better identify unintentional differences that could be skewing the test results.
+**Escreva testes melhores e mais claros.** Mas também, dedique tempo a documentar (usando o campo "Description" do jsPerf.com e/ou comentários no código) exatamente qual é a intenção do seu teste, até o detalhe mais nuançado. Aponte as diferenças intencionais, o que ajudará os outros e o seu eu futuro a identificar melhor as diferenças não intencionais que poderiam estar distorcendo os resultados do teste.
 
-Isolate things which aren't relevant to your test by pre-declaring them in the page or test setup settings so they're outside the timed parts of the test.
+Isole as coisas que não são relevantes para o seu teste, pré-declarando-as nas configurações de setup da página ou do teste, para que fiquem fora das partes cronometradas do teste.
 
-Instead of trying to narrow in on a tiny snippet of your real code and benchmarking just that piece out of context, tests and benchmarks are better when they include a larger (while still relevant) context. Those tests also tend to run slower, which means any differences you spot are more relevant in context.
+Em vez de tentar focar em um trecho minúsculo do seu código real e medir apenas aquela parte fora de contexto, testes e benchmarks são melhores quando incluem um contexto maior (embora ainda relevante). Esses testes também tendem a rodar mais devagar, o que significa que quaisquer diferenças que você detectar são mais relevantes no contexto.
 
 ## Microperformance
 
-OK, until now we've been dancing around various microperformance issues and generally looking disfavorably upon obsessing about them. I want to take just a moment to address them directly.
+OK, até agora estivemos dançando em torno de várias questões de microperformance e geralmente olhando para elas com desfavor, em relação à obsessão por elas. Quero dedicar apenas um momento para abordá-las diretamente.
 
-The first thing you need to get more comfortable with when thinking about performance benchmarking your code is that the code you write is not always the code the engine actually runs. We briefly looked at that topic back in Chapter 1 when we discussed statement reordering by the compiler, but here we're going to suggest the compiler can sometimes decide to run different code than you wrote, not just in different orders but different in substance.
+A primeira coisa com a qual você precisa se sentir mais confortável ao pensar sobre benchmarking de performance do seu código é que o código que você escreve nem sempre é o código que o mecanismo de fato roda. Olhamos brevemente para esse tema lá no Capítulo 1 quando discutimos o reordenamento de instruções pelo compilador, mas aqui vamos sugerir que o compilador às vezes pode decidir rodar um código diferente do que você escreveu, não apenas em ordens diferentes mas diferente em substância.
 
-Let's consider this piece of code:
+Vamos considerar este trecho de código:
 
 ```js
 var foo = 41;
@@ -345,11 +345,11 @@ var foo = 41;
 })();
 ```
 
-You may think about the `foo` reference in the innermost function as needing to do a three-level scope lookup. We covered in the *Scope & Closures* title of this book series how lexical scope works, and the fact that the compiler generally caches such lookups so that referencing `foo` from different scopes doesn't really practically "cost" anything extra.
+Você pode pensar que a referência a `foo` na função mais interna precisa fazer uma busca de escopo em três níveis. Cobrimos no título *Scope & Closures* desta série de livros como o escopo léxico funciona, e o fato de que o compilador geralmente faz cache de tais buscas, de modo que referenciar `foo` a partir de escopos diferentes não realmente "custa" nada extra na prática.
 
-But there's something deeper to consider. What if the compiler realizes that `foo` isn't referenced anywhere else but that one location, and it further notices that the value never is anything except the `41` as shown?
+Mas há algo mais profundo a considerar. E se o compilador perceber que `foo` não é referenciado em nenhum outro lugar a não ser naquela única localização, e ele ainda notar que o valor nunca é nada além do `41` mostrado?
 
-Isn't it quite possible and acceptable that the JS compiler could decide to just remove the `foo` variable entirely, and *inline* the value, such as this:
+Não seria bastante possível e aceitável que o compilador JS pudesse decidir simplesmente remover a variável `foo` por completo, e fazer o *inline* do valor, como isto:
 
 ```js
 (function(){
@@ -362,11 +362,11 @@ Isn't it quite possible and acceptable that the JS compiler could decide to just
 })();
 ```
 
-**Note:** Of course, the compiler could probably also do a similar analysis and rewrite with the `baz` variable here, too.
+**Nota:** É claro que o compilador também poderia provavelmente fazer uma análise e reescrita semelhantes com a variável `baz` aqui, também.
 
-When you begin to think about your JS code as being a hint or suggestion to the engine of what to do, rather than a literal requirement, you realize that a lot of the obsession over discrete syntactic minutia is most likely unfounded.
+Quando você começa a pensar no seu código JS como sendo uma dica ou sugestão para o mecanismo sobre o que fazer, em vez de uma exigência literal, você percebe que muito da obsessão por minúcias sintáticas discretas é muito provavelmente infundada.
 
-Another example:
+Outro exemplo:
 
 ```js
 function factorial(n) {
@@ -377,11 +377,11 @@ function factorial(n) {
 factorial( 5 );		// 120
 ```
 
-Ah, the good ol' fashioned "factorial" algorithm! You might assume that the JS engine will run that code mostly as is. And to be honest, it might -- I'm not really sure.
+Ah, o bom e velho algoritmo do "fatorial"! Você pode supor que o mecanismo JS vai rodar esse código mais ou menos como está. E, para ser honesto, ele pode -- eu não tenho certeza.
 
-But as an anecdote, the same code expressed in C and compiled with advanced optimizations would result in the compiler realizing that the call `factorial(5)` can just be replaced with the constant value `120`, eliminating the function and call entirely!
+Mas, como uma anedota, o mesmo código expresso em C e compilado com otimizações avançadas resultaria no compilador percebendo que a chamada `factorial(5)` pode simplesmente ser substituída pelo valor constante `120`, eliminando a função e a chamada por completo!
 
-Moreover, some engines have a practice called "unrolling recursion," where it can realize that the recursion you've expressed can actually be done "easier" (i.e., more optimally) with a loop. It's possible the preceding code could be *rewritten* by a JS engine to run as:
+Além disso, alguns mecanismos têm uma prática chamada "desenrolamento de recursão" (unrolling recursion), na qual ele pode perceber que a recursão que você expressou pode na verdade ser feita "mais facilmente" (ou seja, de forma mais ótima) com um loop. É possível que o código anterior pudesse ser *reescrito* por um mecanismo JS para rodar como:
 
 ```js
 function factorial(n) {
@@ -397,162 +397,162 @@ function factorial(n) {
 factorial( 5 );		// 120
 ```
 
-Now, let's imagine that in the earlier snippet you had been worried about whether `n * factorial(n-1)` or `n *= factorial(--n)` runs faster. Maybe you even did a performance benchmark to try to figure out which was better. But you miss the fact that in the bigger context, the engine may not run either line of code because it may unroll the recursion!
+Agora, vamos imaginar que no trecho anterior você estivesse preocupado se `n * factorial(n-1)` ou `n *= factorial(--n)` roda mais rápido. Talvez você até tenha feito um benchmark de performance para tentar descobrir qual era melhor. Mas você perde o fato de que, no contexto maior, o mecanismo pode não rodar nenhuma das linhas de código porque ele pode desenrolar a recursão!
 
-Speaking of `--`, `--n` versus `n--` is often cited as one of those places where you can optimize by choosing the `--n` version, because theoretically it requires less effort down at the assembly level of processing.
+Falando em `--`, `--n` versus `n--` é frequentemente citado como um daqueles lugares onde você pode otimizar ao escolher a versão `--n`, porque teoricamente ela requer menos esforço lá embaixo no nível de processamento de assembly.
 
-That sort of obsession is basically nonsense in modern JavaScript. That's the kind of thing you should be letting the engine take care of. You should write the code that makes the most sense. Compare these three `for` loops:
+Esse tipo de obsessão é basicamente um disparate no JavaScript moderno. Esse é o tipo de coisa que você deveria deixar o mecanismo cuidar. Você deveria escrever o código que faz mais sentido. Compare estes três loops `for`:
 
 ```js
-// Option 1
+// Opção 1
 for (var i=0; i<10; i++) {
 	console.log( i );
 }
 
-// Option 2
+// Opção 2
 for (var i=0; i<10; ++i) {
 	console.log( i );
 }
 
-// Option 3
+// Opção 3
 for (var i=-1; ++i<10; ) {
 	console.log( i );
 }
 ```
 
-Even if you have some theory where the second or third option is more performant than the first option by a tiny bit, which is dubious at best, the third loop is more confusing because you have to start with `-1` for `i` to account for the fact that `++i` pre-increment is used. And the difference between the first and second options is really quite irrelevant.
+Mesmo que você tenha alguma teoria de que a segunda ou terceira opção é mais performática que a primeira opção por uma minúscula fração, o que é duvidoso na melhor das hipóteses, o terceiro loop é mais confuso porque você tem que começar com `-1` para `i` para levar em conta o fato de que o pré-incremento `++i` é usado. E a diferença entre a primeira e a segunda opções é realmente bastante irrelevante.
 
-It's entirely possible that a JS engine may see a place where `i++` is used and realize that it can safely replace it with the `++i` equivalent, which means your time spent deciding which one to pick was completely wasted and the outcome moot.
+É inteiramente possível que um mecanismo JS possa ver um lugar onde `i++` é usado e perceber que ele pode com segurança substituí-lo pelo equivalente `++i`, o que significa que o tempo que você gastou decidindo qual escolher foi completamente desperdiçado e o resultado é discutível.
 
-Here's another common example of silly microperformance obsession:
+Aqui está outro exemplo comum de obsessão boba por microperformance:
 
 ```js
 var x = [ .. ];
 
-// Option 1
+// Opção 1
 for (var i=0; i < x.length; i++) {
 	// ..
 }
 
-// Option 2
+// Opção 2
 for (var i=0, len = x.length; i < len; i++) {
 	// ..
 }
 ```
 
-The theory here goes that you should cache the length of the `x` array in the variable `len`, because ostensibly it doesn't change, to avoid paying the price of `x.length` being consulted for each iteration of the loop.
+A teoria aqui diz que você deveria fazer cache do tamanho do array `x` na variável `len`, porque supostamente ele não muda, para evitar pagar o preço de `x.length` ser consultado a cada iteração do loop.
 
-If you run performance benchmarks around `x.length` usage compared to caching it in a `len` variable, you'll find that while the theory sounds nice, in practice any measured differences are statistically completely irrelevant.
+Se você rodar benchmarks de performance em torno do uso de `x.length` comparado a fazer cache dele em uma variável `len`, você vai descobrir que, embora a teoria pareça boa, na prática quaisquer diferenças medidas são estatisticamente completamente irrelevantes.
 
-In fact, in some engines like v8, it can be shown (http://mrale.ph/blog/2014/12/24/array-length-caching.html) that you could make things slightly worse by pre-caching the length instead of letting the engine figure it out for you. Don't try to outsmart your JavaScript engine, you'll probably lose when it comes to performance optimizations.
+De fato, em alguns mecanismos como o v8, pode-se demonstrar (http://mrale.ph/blog/2014/12/24/array-length-caching.html) que você poderia tornar as coisas ligeiramente piores ao fazer o pré-cache do tamanho em vez de deixar o mecanismo descobrir isso por você. Não tente ser mais esperto que o seu mecanismo JavaScript, você provavelmente vai perder quando o assunto é otimizações de performance.
 
-### Not All Engines Are Alike
+### Nem Todos os Motores São Iguais
 
-The different JS engines in various browsers can all be "spec compliant" while having radically different ways of handling code. The JS specification doesn't require anything performance related -- well, except ES6's "Tail Call Optimization" covered later in this chapter.
+Os diferentes mecanismos JS em vários navegadores podem todos estar "em conformidade com a spec" enquanto têm formas radicalmente diferentes de lidar com o código. A especificação JS não exige nada relacionado a performance -- bem, exceto a "Tail Call Optimization" do ES6 abordada mais adiante neste capítulo.
 
-The engines are free to decide that one operation will receive its attention to optimize, perhaps trading off for lesser performance on another operation. It can be very tenuous to find an approach for an operation that always runs faster in all browsers.
+Os mecanismos são livres para decidir que uma operação receberá sua atenção para ser otimizada, talvez trocando isso por menor performance em outra operação. Pode ser muito tênue encontrar uma abordagem para uma operação que sempre roda mais rápido em todos os navegadores.
 
-There's a movement among some in the JS dev community, especially those who work with Node.js, to analyze the specific internal implementation details of the v8 JavaScript engine and make decisions about writing JS code that is tailored to take best advantage of how v8 works. You can actually achieve a surprisingly high degree of performance optimization with such endeavors, so the payoff for the effort can be quite high.
+Há um movimento entre alguns na comunidade de devs JS, especialmente aqueles que trabalham com Node.js, de analisar os detalhes específicos de implementação interna do mecanismo JavaScript v8 e tomar decisões sobre escrever código JS que é adaptado para tirar o melhor proveito de como o v8 funciona. Você pode de fato alcançar um grau surpreendentemente alto de otimização de performance com tais empreitadas, então o retorno pelo esforço pode ser bastante alto.
 
-Some commonly cited examples (https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) for v8:
+Alguns exemplos comumente citados (https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) para o v8:
 
-* Don't pass the `arguments` variable from one function to any other function, as such "leakage" slows down the function implementation.
-* Isolate a `try..catch` in its own function. Browsers struggle with optimizing any function with a `try..catch` in it, so moving that construct to its own function means you contain the de-optimization harm while letting the surrounding code be optimizable.
+* Não passe a variável `arguments` de uma função para qualquer outra função, pois tal "vazamento" deixa a implementação da função mais lenta.
+* Isole um `try..catch` em sua própria função. Navegadores têm dificuldade em otimizar qualquer função com um `try..catch` dentro dela, então mover essa construção para sua própria função significa que você contém o dano da des-otimização enquanto deixa o código ao redor ser otimizável.
 
-But rather than focus on those tips specifically, let's sanity check the v8-only optimization approach in a general sense.
+Mas em vez de focar nessas dicas especificamente, vamos fazer uma verificação de sanidade da abordagem de otimização específica do v8 em um sentido geral.
 
-Are you genuinely writing code that only needs to run in one JS engine? Even if your code is entirely intended for Node.js *right now*, is the assumption that v8 will *always* be the used JS engine reliable? Is it possible that someday a few years from now, there's another server-side JS platform besides Node.js that you choose to run your code on? What if what you optimized for before is now a much slower way of doing that operation on the new engine?
+Você está genuinamente escrevendo código que só precisa rodar em um único mecanismo JS? Mesmo que seu código seja inteiramente destinado ao Node.js *agora*, a suposição de que o v8 *sempre* será o mecanismo JS usado é confiável? É possível que algum dia, daqui a alguns anos, haja outra plataforma JS do lado do servidor além do Node.js na qual você escolha rodar seu código? E se aquilo para o qual você otimizou antes for agora uma forma muito mais lenta de fazer aquela operação no novo mecanismo?
 
-Or what if your code always stays running on v8 from here on out, but v8 decides at some point to change the way some set of operations works such that what used to be fast is now slow, and vice versa?
+Ou e se o seu código sempre continuar rodando no v8 daqui em diante, mas o v8 decidir em algum ponto mudar a forma como algum conjunto de operações funciona, de modo que o que costumava ser rápido agora é lento, e vice-versa?
 
-These scenarios aren't just theoretical, either. It used to be that it was faster to put multiple string values into an array and then call `join("")` on the array to concatenate the values than to just use `+` concatenation directly with the values. The historical reason for this is nuanced, but it has to do with internal implementation details about how string values were stored and managed in memory.
+Esses cenários também não são apenas teóricos. Costumava ser que era mais rápido colocar múltiplos valores de string em um array e então chamar `join("")` no array para concatenar os valores do que simplesmente usar concatenação com `+` diretamente com os valores. A razão histórica para isso é nuançada, mas tem a ver com detalhes de implementação interna sobre como valores de string eram armazenados e gerenciados na memória.
 
-As a result, "best practice" advice at the time disseminated across the industry suggesting developers always use the array `join(..)` approach. And many followed.
+Como resultado, o conselho de "boa prática" da época se disseminou por toda a indústria sugerindo que os desenvolvedores sempre usassem a abordagem do `join(..)` de array. E muitos seguiram.
 
-Except, somewhere along the way, the JS engines changed approaches for internally managing strings, and specifically put in optimizations for `+` concatenation. They didn't slow down `join(..)` per se, but they put more effort into helping `+` usage, as it was still quite a bit more widespread.
+Só que, em algum ponto do caminho, os mecanismos JS mudaram as abordagens para gerenciar strings internamente, e especificamente colocaram otimizações para a concatenação com `+`. Eles não deixaram o `join(..)` mais lento, por si só, mas colocaram mais esforço em ajudar o uso do `+`, já que ele ainda era bastante mais difundido.
 
-**Note:** The practice of standardizing or optimizing some particular approach based mostly on its existing widespread usage is often called (metaphorically) "paving the cowpath."
+**Nota:** A prática de padronizar ou otimizar alguma abordagem particular baseando-se principalmente em seu uso já difundido é frequentemente chamada (metaforicamente) de "pavimentar o caminho do gado" (paving the cowpath).
 
-Once that new approach to handling strings and concatenation took hold, unfortunately all the code out in the wild that was using array `join(..)` to concatenate strings was then sub-optimal.
+Uma vez que essa nova abordagem para lidar com strings e concatenação se firmou, infelizmente todo o código por aí que estava usando `join(..)` de array para concatenar strings ficou então sub-ótimo.
 
-Another example: at one time, the Opera browser differed from other browsers in how it handled the boxing/unboxing of primitive wrapper objects (see the *Types & Grammar* title of this book series). As such, their advice to developers was to use a `String` object instead of the primitive `string` value if properties like `length` or methods like `charAt(..)` needed to be accessed. This advice may have been correct for Opera at the time, but it was literally completely opposite for other major contemporary browsers, as they had optimizations specifically for the `string` primitives and not their object wrapper counterparts.
+Outro exemplo: certa vez, o navegador Opera diferia de outros navegadores na forma como lidava com o boxing/unboxing de objetos wrapper de primitivos (veja o título *Types & Grammar* desta série de livros). Como tal, o conselho deles para desenvolvedores era usar um objeto `String` em vez do valor primitivo `string` se propriedades como `length` ou métodos como `charAt(..)` precisassem ser acessados. Esse conselho pode ter sido correto para o Opera na época, mas era literalmente o completo oposto para outros grandes navegadores contemporâneos, já que eles tinham otimizações especificamente para os primitivos `string` e não para seus contrapartes wrapper de objeto.
 
-I think these various gotchas are at least possible, if not likely, for code even today. So I'm very cautious about making wide ranging performance optimizations in my JS code based purely on engine implementation details, **especially if those details are only true of a single engine**.
+Eu acho que essas várias pegadinhas são pelo menos possíveis, se não prováveis, para código até mesmo hoje. Então sou muito cauteloso em fazer otimizações de performance de amplo alcance no meu código JS baseando-me puramente em detalhes de implementação de mecanismos, **especialmente se esses detalhes só forem verdadeiros para um único mecanismo**.
 
-The reverse is also something to be wary of: you shouldn't necessarily change a piece of code to work around one engine's difficulty with running a piece of code in an acceptably performant way.
+O inverso também é algo a ter cautela: você não deveria necessariamente mudar um trecho de código para contornar a dificuldade de um mecanismo em rodar um trecho de código de uma forma aceitavelmente performática.
 
-Historically, IE has been the brunt of many such frustrations, given that there have been plenty of scenarios in older IE versions where it struggled with some performance aspect that other major browsers of the time seemed not to have much trouble with. The string concatenation discussion we just had was actually a real concern back in the IE6 and IE7 days, where it was possible to get better performance out of `join(..)` than `+`.
+Historicamente, o IE tem sido o alvo de muitas dessas frustrações, dado que houve muitos cenários em versões mais antigas do IE em que ele tinha dificuldade com algum aspecto de performance com o qual outros grandes navegadores da época pareciam não ter muito problema. A discussão sobre concatenação de strings que acabamos de ter era de fato uma preocupação real lá nos dias do IE6 e IE7, quando era possível obter melhor performance com `join(..)` do que com `+`.
 
-But it's troublesome to suggest that just one browser's trouble with performance is justification for using a code approach that quite possibly could be sub-optimal in all other browsers. Even if the browser in question has a large market share for your site's audience, it may be more practical to write the proper code and rely on the browser to update itself with better optimizations eventually.
+Mas é problemático sugerir que o problema de performance de apenas um navegador seja justificativa para usar uma abordagem de código que muito possivelmente poderia ser sub-ótima em todos os outros navegadores. Mesmo que o navegador em questão tenha uma grande participação de mercado para o público do seu site, pode ser mais prático escrever o código apropriado e confiar que o navegador se atualizará com melhores otimizações eventualmente.
 
-"There is nothing more permanent than a temporary hack." Chances are, the code you write now to work around some performance bug will probably outlive the performance bug in the browser itself.
+"Não há nada mais permanente do que um hack temporário." É provável que o código que você escreve agora para contornar algum bug de performance vá sobreviver ao próprio bug de performance no navegador.
 
-In the days when a browser only updated once every five years, that was a tougher call to make. But as it stands now, browsers across the board are updating at a much more rapid interval (though obviously the mobile world still lags), and they're all competing to optimize web features better and better.
+Nos dias em que um navegador só se atualizava uma vez a cada cinco anos, essa era uma decisão mais difícil de tomar. Mas como estão as coisas agora, os navegadores em geral estão se atualizando em um intervalo muito mais rápido (embora obviamente o mundo mobile ainda fique para trás), e todos eles estão competindo para otimizar recursos da web cada vez melhor.
 
-If you run across a case where a browser *does* have a performance wart that others don't suffer from, make sure to report it to them through whatever means you have available. Most browsers have open public bug trackers suitable for this purpose.
+Se você se deparar com um caso em que um navegador *de fato* tem uma verruga de performance que outros não sofrem, certifique-se de reportá-la a eles através de quaisquer meios que você tenha disponíveis. A maioria dos navegadores tem rastreadores de bugs públicos e abertos, adequados para esse propósito.
 
-**Tip:** I'd only suggest working around a performance issue in a browser if it was a really drastic show-stopper, not just an annoyance or frustration. And I'd be very careful to check that the performance hack didn't have noticeable negative side effects in another browser.
+**Dica:** Eu só sugeriria contornar um problema de performance em um navegador se ele fosse um impedimento realmente drástico, não apenas um incômodo ou frustração. E eu seria muito cuidadoso em verificar que o hack de performance não tivesse efeitos colaterais negativos perceptíveis em outro navegador.
 
-### Big Picture
+### O Panorama Geral
 
-Instead of worrying about all these microperformance nuances, we should instead be looking at big-picture types of optimizations.
+Em vez de nos preocuparmos com todas essas nuances de microperformance, deveríamos em vez disso olhar para tipos de otimizações de visão ampla.
 
-How do you know what's big picture or not? You have to first understand if your code is running on a critical path or not. If it's not on the critical path, chances are your optimizations are not worth much.
+Como você sabe o que é visão ampla ou não? Você tem que primeiro entender se o seu código está rodando em um caminho crítico ou não. Se não estiver no caminho crítico, é provável que suas otimizações não valham muito.
 
-Ever heard the admonition, "that's premature optimization!"? It comes from a famous quote from Donald Knuth: "premature optimization is the root of all evil.". Many developers cite this quote to suggest that most optimizations are "premature" and are thus a waste of effort. The truth is, as usual, more nuanced.
+Já ouviu a admoestação, "isso é otimização prematura!"? Ela vem de uma famosa citação de Donald Knuth: "otimização prematura é a raiz de todo o mal.". Muitos desenvolvedores citam essa frase para sugerir que a maioria das otimizações são "prematuras" e portanto são um desperdício de esforço. A verdade é, como de costume, mais nuançada.
 
-Here is Knuth's quote, in context:
+Aqui está a citação de Knuth, em contexto:
 
-> Programmers waste enormous amounts of time thinking about, or worrying about, the speed of **noncritical** parts of their programs, and these attempts at efficiency actually have a strong negative impact when debugging and maintenance are considered. We should forget about small efficiencies, say about 97% of the time: premature optimization is the root of all evil. Yet we should not pass up our opportunities in that **critical** 3%. [emphasis added]
+> Programadores desperdiçam enormes quantidades de tempo pensando, ou se preocupando, com a velocidade de partes **não críticas** de seus programas, e essas tentativas de eficiência na verdade têm um forte impacto negativo quando a depuração e a manutenção são consideradas. Deveríamos esquecer pequenas eficiências, digamos cerca de 97% do tempo: otimização prematura é a raiz de todo o mal. Ainda assim, não deveríamos deixar passar nossas oportunidades naqueles **críticos** 3%. [ênfase adicionada]
 
 (http://web.archive.org/web/20130731202547/http://pplab.snu.ac.kr/courses/adv_pl05/papers/p261-knuth.pdf, Computing Surveys, Vol 6, No 4, December 1974)
 
-I believe it's a fair paraphrasing to say that Knuth *meant*: "non-critical path optimization is the root of all evil." So the key is to figure out if your code is on the critical path -- you should optimize it! -- or not.
+Acredito que é uma paráfrase justa dizer que Knuth *quis dizer*: "otimização de caminho não crítico é a raiz de todo o mal." Então a chave é descobrir se o seu código está no caminho crítico -- você deveria otimizá-lo! -- ou não.
 
-I'd even go so far as to say this: no amount of time spent optimizing critical paths is wasted, no matter how little is saved; but no amount of optimization on noncritical paths is justified, no matter how much is saved.
+Eu iria até tão longe a ponto de dizer isto: nenhuma quantidade de tempo gasta otimizando caminhos críticos é desperdiçada, não importa quão pouco seja economizado; mas nenhuma quantidade de otimização em caminhos não críticos é justificada, não importa quanto seja economizado.
 
-If your code is on the critical path, such as a "hot" piece of code that's going to be run over and over again, or in UX critical places where users will notice, like an animation loop or CSS style updates, then you should spare no effort in trying to employ relevant, measurably significant optimizations.
+Se o seu código está no caminho crítico, como um trecho de código "quente" (hot) que vai ser rodado repetidas vezes, ou em lugares críticos de UX onde os usuários vão notar, como um loop de animação ou atualizações de estilo CSS, então você não deveria poupar esforços em tentar empregar otimizações relevantes e mensuravelmente significativas.
 
-For example, consider a critical path animation loop that needs to coerce a string value to a number. There are of course multiple ways to do that (see the *Types & Grammar* title of this book series), but which one if any is the fastest?
+Por exemplo, considere um loop de animação de caminho crítico que precisa coagir um valor de string para um número. Há, é claro, múltiplas formas de fazer isso (veja o título *Types & Grammar* desta série de livros), mas qual delas, se alguma, é a mais rápida?
 
 ```js
-var x = "42";	// need number `42`
+var x = "42";	// precisa do número `42`
 
-// Option 1: let implicit coercion automatically happen
+// Opção 1: deixar a coerção implícita acontecer automaticamente
 var y = x / 2;
 
-// Option 2: use `parseInt(..)`
+// Opção 2: usar `parseInt(..)`
 var y = parseInt( x, 0 ) / 2;
 
-// Option 3: use `Number(..)`
+// Opção 3: usar `Number(..)`
 var y = Number( x ) / 2;
 
-// Option 4: use `+` unary operator
+// Opção 4: usar o operador unário `+`
 var y = +x / 2;
 
-// Option 5: use `|` unary operator
+// Opção 5: usar o operador unário `|`
 var y = (x | 0) / 2;
 ```
 
-**Note:** I will leave it as an exercise to the reader to set up a test if you're interested in examining the minute differences in performance among these options.
+**Nota:** Vou deixar como exercício para o leitor configurar um teste se você estiver interessado em examinar as diferenças minúsculas de performance entre essas opções.
 
-When considering these different options, as they say, "One of these things is not like the others." `parseInt(..)` does the job, but it also does a lot more -- it parses the string rather than just coercing. You can probably guess, correctly, that `parseInt(..)` is a slower option, and you should probably avoid it.
+Ao considerar essas diferentes opções, como dizem, "uma dessas coisas não é como as outras." `parseInt(..)` faz o trabalho, mas também faz muito mais -- ele faz o parsing da string em vez de apenas coagir. Você provavelmente consegue adivinhar, corretamente, que `parseInt(..)` é uma opção mais lenta, e você provavelmente deveria evitá-la.
 
-Of course, if `x` can ever be a value that **needs parsing**, such as `"42px"` (like from a CSS style lookup), then `parseInt(..)` really is the only suitable option!
+É claro que, se `x` puder ser um valor que **precisa de parsing**, como `"42px"` (como de uma busca de estilo CSS), então `parseInt(..)` realmente é a única opção adequada!
 
-`Number(..)` is also a function call. From a behavioral perspective, it's identical to the `+` unary operator option, but it may in fact be a little slower, requiring more machinery to execute the function. Of course, it's also possible that the JS engine recognizes this behavioral symmetry and just handles the inlining of `Number(..)`'s behavior (aka `+x`) for you!
+`Number(..)` também é uma chamada de função. De uma perspectiva comportamental, ele é idêntico à opção do operador unário `+`, mas pode de fato ser um pouco mais lento, requerendo mais maquinário para executar a função. É claro que também é possível que o mecanismo JS reconheça essa simetria comportamental e simplesmente faça o inline do comportamento de `Number(..)` (também conhecido como `+x`) para você!
 
-But remember, obsessing about `+x` versus `x | 0` is in most cases likely a waste of effort. This is a microperformance issue, and one that you shouldn't let dictate/degrade the readability of your program.
+Mas lembre-se, obcecar-se por `+x` versus `x | 0` é na maioria dos casos provavelmente um desperdício de esforço. Essa é uma questão de microperformance, e uma que você não deveria deixar ditar/degradar a legibilidade do seu programa.
 
-While performance is very important in critical paths of your program, it's not the only factor. Among several options that are roughly similar in performance, readability should be another important concern.
+Embora a performance seja muito importante em caminhos críticos do seu programa, ela não é o único fator. Entre várias opções que são aproximadamente semelhantes em performance, a legibilidade deveria ser outra preocupação importante.
 
-## Tail Call Optimization (TCO)
+## Otimização de Chamada de Cauda (TCO)
 
-As we briefly mentioned earlier, ES6 includes a specific requirement that ventures into the world of performance. It's related to a specific form of optimization that can occur with function calls: *tail call optimization*.
+Como mencionamos brevemente antes, o ES6 inclui uma exigência específica que se aventura no mundo da performance. Ela está relacionada a uma forma específica de otimização que pode ocorrer com chamadas de função: a *tail call optimization*.
 
-Briefly, a "tail call" is a function call that appears at the "tail" of another function, such that after the call finishes, there's nothing left to do (except perhaps return its result value).
+Em resumo, uma "tail call" é uma chamada de função que aparece na "cauda" (tail) de outra função, de modo que, depois que a chamada termina, não há mais nada a fazer (exceto talvez retornar seu valor de resultado).
 
-For example, here's a non-recursive setup with tail calls:
+Por exemplo, aqui está uma configuração não recursiva com tail calls:
 
 ```js
 function foo(x) {
@@ -564,23 +564,23 @@ function bar(y) {
 }
 
 function baz() {
-	return 1 + bar( 40 );	// not tail call
+	return 1 + bar( 40 );	// não é tail call
 }
 
 baz();						// 42
 ```
 
-`foo(y+1)` is a tail call in `bar(..)` because after `foo(..)` finishes, `bar(..)` is also finished except in this case returning the result of the `foo(..)` call. However, `bar(40)` is *not* a tail call because after it completes, its result value must be added to `1` before `baz()` can return it.
+`foo(y+1)` é uma tail call em `bar(..)` porque, depois que `foo(..)` termina, `bar(..)` também está terminada, exceto, neste caso, por retornar o resultado da chamada `foo(..)`. No entanto, `bar(40)` *não* é uma tail call porque, depois que ela se completa, seu valor de resultado deve ser somado a `1` antes que `baz()` possa retorná-lo.
 
-Without getting into too much nitty-gritty detail, calling a new function requires an extra amount of reserved memory to manage the call stack, called a "stack frame." So the preceding snippet would generally require a stack frame for each of `baz()`, `bar(..)`, and `foo(..)` all at the same time.
+Sem entrar em detalhes minuciosos demais, chamar uma nova função requer uma quantidade extra de memória reservada para gerenciar a pilha de chamadas, chamada de "stack frame" (quadro de pilha). Então o trecho anterior geralmente exigiria um stack frame para cada um de `baz()`, `bar(..)` e `foo(..)` todos ao mesmo tempo.
 
-However, if a TCO-capable engine can realize that the `foo(y+1)` call is in *tail position* meaning `bar(..)` is basically complete, then when calling `foo(..)`, it doesn't need to create a new stack frame, but can instead reuse the existing stack frame from `bar(..)`. That's not only faster, but it also uses less memory.
+No entanto, se um mecanismo com capacidade de TCO conseguir perceber que a chamada `foo(y+1)` está em *posição de cauda* (tail position), o que significa que `bar(..)` está basicamente completa, então, ao chamar `foo(..)`, ele não precisa criar um novo stack frame, mas pode em vez disso reutilizar o stack frame existente de `bar(..)`. Isso não é apenas mais rápido, mas também usa menos memória.
 
-That sort of optimization isn't a big deal in a simple snippet, but it becomes a *much bigger deal* when dealing with recursion, especially if the recursion could have resulted in hundreds or thousands of stack frames. With TCO the engine can perform all those calls with a single stack frame!
+Esse tipo de otimização não é grande coisa em um trecho simples, mas se torna *uma coisa muito mais importante* ao lidar com recursão, especialmente se a recursão pudesse ter resultado em centenas ou milhares de stack frames. Com TCO o mecanismo pode realizar todas essas chamadas com um único stack frame!
 
-Recursion is a hairy topic in JS because without TCO, engines have had to implement arbitrary (and different!) limits to how deep they will let the recursion stack get before they stop it, to prevent running out of memory. With TCO, recursive functions with *tail position* calls can essentially run unbounded, because there's never any extra usage of memory!
+A recursão é um tema cabeludo em JS porque, sem TCO, os mecanismos têm tido que implementar limites arbitrários (e diferentes!) para quão fundo eles deixam a pilha de recursão chegar antes de pará-la, para evitar ficar sem memória. Com TCO, funções recursivas com chamadas em *posição de cauda* podem essencialmente rodar de forma ilimitada, porque nunca há nenhum uso extra de memória!
 
-Consider that recursive `factorial(..)` from before, but rewritten to make it TCO friendly:
+Considere aquele `factorial(..)` recursivo de antes, mas reescrito para torná-lo amigável a TCO:
 
 ```js
 function factorial(n) {
@@ -596,24 +596,24 @@ function factorial(n) {
 factorial( 5 );		// 120
 ```
 
-This version of `factorial(..)` is still recursive, but it's also optimizable with TCO, because both inner `fact(..)` calls are in *tail position*.
+Esta versão de `factorial(..)` ainda é recursiva, mas também é otimizável com TCO, porque ambas as chamadas internas de `fact(..)` estão em *posição de cauda*.
 
-**Note:** It's important to note that TCO only applies if there's actually a tail call. If you write recursive functions without tail calls, the performance will still fall back to normal stack frame allocation, and the engines' limits on such recursive call stacks will still apply. Many recursive functions can be rewritten as we just showed with `factorial(..)`, but it takes careful attention to detail.
+**Nota:** É importante notar que TCO só se aplica se realmente houver uma tail call. Se você escrever funções recursivas sem tail calls, a performance ainda vai recair na alocação normal de stack frames, e os limites dos mecanismos sobre tais pilhas de chamadas recursivas ainda vão se aplicar. Muitas funções recursivas podem ser reescritas como acabamos de mostrar com `factorial(..)`, mas isso requer atenção cuidadosa aos detalhes.
 
-One reason that ES6 requires engines to implement TCO rather than leaving it up to their discretion is because the *lack of TCO* actually tends to reduce the chances that certain algorithms will be implemented in JS using recursion, for fear of the call stack limits.
+Uma razão pela qual o ES6 exige que os mecanismos implementem TCO, em vez de deixar a critério deles, é porque a *falta de TCO* na verdade tende a reduzir as chances de que certos algoritmos sejam implementados em JS usando recursão, por medo dos limites da pilha de chamadas.
 
-If the lack of TCO in the engine would just gracefully degrade to slower performance in all cases, it wouldn't probably have been something that ES6 needed to *require*. But because the lack of TCO can actually make certain programs impractical, it's more an important feature of the language than just a hidden implementation detail.
+Se a falta de TCO no mecanismo apenas degradasse graciosamente para uma performance mais lenta em todos os casos, provavelmente não teria sido algo que o ES6 precisasse *exigir*. Mas como a falta de TCO pode de fato tornar certos programas impraticáveis, é mais um recurso importante da linguagem do que apenas um detalhe de implementação oculto.
 
-ES6 guarantees that from now on, JS developers will be able to rely on this optimization across all ES6+ compliant browsers. That's a win for JS performance!
+O ES6 garante que, de agora em diante, os desenvolvedores JS poderão confiar nesta otimização em todos os navegadores compatíveis com ES6+. Isso é uma vitória para a performance JS!
 
-## Review
+## Revisão
 
-Effectively benchmarking performance of a piece of code, especially to compare it to another option for that same code to see which approach is faster, requires careful attention to detail.
+Medir efetivamente a performance de um trecho de código, especialmente para compará-lo a outra opção para aquele mesmo código a fim de ver qual abordagem é mais rápida, requer atenção cuidadosa aos detalhes.
 
-Rather than rolling your own statistically valid benchmarking logic, just use the Benchmark.js library, which does that for you. But be careful about how you author tests, because it's far too easy to construct a test that seems valid but that's actually flawed -- even tiny differences can skew the results to be completely unreliable.
+Em vez de criar sua própria lógica de benchmarking estatisticamente válida, apenas use a biblioteca Benchmark.js, que faz isso por você. Mas tenha cuidado com a forma como você escreve os testes, porque é fácil demais construir um teste que parece válido mas que na verdade é falho -- até mesmo diferenças minúsculas podem distorcer os resultados a ponto de torná-los completamente não confiáveis.
 
-It's important to get as many test results from as many different environments as possible to eliminate hardware/device bias. jsPerf.com is a fantastic website for crowdsourcing performance benchmark test runs.
+É importante obter o máximo de resultados de teste do maior número possível de ambientes diferentes para eliminar o viés de hardware/dispositivo. O jsPerf.com é um site fantástico para fazer crowdsourcing de execuções de benchmark de performance.
 
-Many common performance tests unfortunately obsess about irrelevant microperformance details like `x++` versus `++x`. Writing good tests means understanding how to focus on big picture concerns, like optimizing on the critical path, and avoiding falling into traps like different JS engines' implementation details.
+Muitos testes de performance comuns infelizmente se obcecam por detalhes irrelevantes de microperformance, como `x++` versus `++x`. Escrever bons testes significa entender como focar em preocupações de visão ampla, como otimizar no caminho crítico, e evitar cair em armadilhas como os detalhes de implementação de diferentes mecanismos JS.
 
-Tail call optimization (TCO) is a required optimization as of ES6 that will make some recursive patterns practical in JS where they would have been impossible otherwise. TCO allows a function call in the *tail position* of another function to execute without needing any extra resources, which means the engine no longer needs to place arbitrary restrictions on call stack depth for recursive algorithms.
+A tail call optimization (TCO) é uma otimização exigida a partir do ES6 que tornará alguns padrões recursivos práticos em JS onde eles teriam sido impossíveis de outra forma. A TCO permite que uma chamada de função na *posição de cauda* de outra função seja executada sem precisar de nenhum recurso extra, o que significa que o mecanismo não precisa mais impor restrições arbitrárias sobre a profundidade da pilha de chamadas para algoritmos recursivos.

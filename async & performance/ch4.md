@@ -37,19 +37,19 @@ Nesse exemplo, nós temos certeza de que `bar()` roda entre `x++` e `console.log
 
 Agora vamos brincar com o nosso cérebro. E se `bar()` não estivesse ali, mas ainda pudesse rodar entre `x++` e `console.log(x)`? Como isso seria possível?
 
-Em linguagens de programação **paralelas** multi-tarefas, seria essencialmente possível que `bar()` "interrompesse" e rodasse exatamente entre esses dois pedaços de código. But JS is not preemptive, nor is it (currently) multithreaded. And yet, a **cooperative** form of this "interruption" (concurrency) is possible, if `foo()` itself could somehow indicate a "pause" at that part in the code.
+Em linguagens de programação **preemptivas** multi-tarefas, seria essencialmente possível que `bar()` "interrompesse" e rodasse exatamente entre esses dois pedaços de código. Mas JS não é preemptivo, nem é (atualmente) multithread. E, ainda assim, uma forma **cooperativa** dessa "interrupção" (concorrência) é possível, se `foo()` em si pudesse de alguma forma indicar uma "pausa" naquela parte do código.
 
 
-**Note:** I use the word "cooperative" not only because of the connection to classical concurrency terminology (see Chapter 1), but because as you'll see in the next snippet, the ES6 syntax for indicating a pause point in code is `yield` -- suggesting a politely *cooperative* yielding of control.
+**Nota:** Eu uso a palavra "cooperativa" não apenas por causa da conexão com a terminologia clássica de concorrência (veja o capítulo 1), mas porque, como você verá no próximo trecho, a sintaxe do ES6 para indicar um ponto de pausa no código é `yield` -- sugerindo uma cessão (yielding) de controle de forma educadamente *cooperativa*.
 
-Here's the ES6 code to accomplish such cooperative concurrency:
+Aqui está o código ES6 para realizar essa concorrência cooperativa:
 
 ```js
 var x = 1;
 
 function *foo() {
 	x++;
-	yield; // pause!
+	yield; // pausa!
 	console.log( "x:", x );
 }
 
@@ -58,15 +58,15 @@ function bar() {
 }
 ```
 
-**Note:** You will likely see most other JS documentation/code that will format a generator declaration as `function* foo() { .. }` instead of as I've done here with `function *foo() { .. }` -- the only difference being the stylistic positioning of the `*`. The two forms are functionally/syntactically identical, as is a third `function*foo() { .. }` (no space) form. There are arguments for both styles, but I basically prefer `function *foo..` because it then matches when I reference a generator in writing with `*foo()`. If I said only `foo()`, you wouldn't know as clearly if I was talking about a generator or a regular function. It's purely a stylistic preference.
+**Nota:** Você provavelmente verá a maioria das outras documentações/códigos JS formatarem uma declaração de gerador como `function* foo() { .. }` em vez de como eu fiz aqui com `function *foo() { .. }` -- a única diferença sendo o posicionamento estilístico do `*`. As duas formas são funcional/sintaticamente idênticas, assim como uma terceira forma `function*foo() { .. }` (sem espaço). Há argumentos para os dois estilos, mas eu basicamente prefiro `function *foo..` porque assim ele combina quando eu referencio um gerador na escrita com `*foo()`. Se eu dissesse apenas `foo()`, você não saberia tão claramente se eu estava falando de um gerador ou de uma função comum. É puramente uma preferência estilística.
 
-Now, how can we run the code in that previous snippet such that `bar()` executes at the point of the `yield` inside of `*foo()`?
+Agora, como podemos rodar o código no trecho anterior de forma que `bar()` execute no ponto do `yield` dentro de `*foo()`?
 
 ```js
-// construct an iterator `it` to control the generator
+// constrói um iterator `it` para controlar o gerador
 var it = foo();
 
-// start `foo()` here!
+// inicie `foo()` aqui!
 it.next();
 x;						// 2
 bar();
@@ -74,23 +74,23 @@ x;						// 3
 it.next();				// x: 3
 ```
 
-OK, there's quite a bit of new and potentially confusing stuff in those two code snippets, so we've got plenty to wade through. But before we explain the different mechanics/syntax with ES6 generators, let's walk through the behavior flow:
+OK, há bastante coisa nova e potencialmente confusa nesses dois trechos de código, então temos muito o que examinar. Mas antes de explicarmos a mecânica/sintaxe diferente com geradores do ES6, vamos percorrer o fluxo de comportamento:
 
-1. The `it = foo()` operation does *not* execute the `*foo()` generator yet, but it merely constructs an *iterator* that will control its execution. More on *iterators* in a bit.
-2. The first `it.next()` starts the `*foo()` generator, and runs the `x++` on the first line of `*foo()`.
-3. `*foo()` pauses at the `yield` statement, at which point that first `it.next()` call finishes. At the moment, `*foo()` is still running and active, but it's in a paused state.
-4. We inspect the value of `x`, and it's now `2`.
-5. We call `bar()`, which increments `x` again with `x++`.
-6. We inspect the value of `x` again, and it's now `3`.
-7. The final `it.next()` call resumes the `*foo()` generator from where it was paused, and runs the `console.log(..)` statement, which uses the current value of `x` of `3`.
+1. A operação `it = foo()` *não* executa o gerador `*foo()` ainda, ela apenas constrói um *iterator* que controlará sua execução. Mais sobre *iterators* daqui a pouco.
+2. O primeiro `it.next()` inicia o gerador `*foo()`, e roda o `x++` na primeira linha de `*foo()`.
+3. `*foo()` pausa na instrução `yield`, ponto no qual a primeira chamada `it.next()` termina. Neste momento, `*foo()` ainda está rodando e ativo, mas está em um estado pausado.
+4. Nós inspecionamos o valor de `x`, e agora ele é `2`.
+5. Nós chamamos `bar()`, que incrementa `x` novamente com `x++`.
+6. Nós inspecionamos o valor de `x` novamente, e agora ele é `3`.
+7. A chamada final `it.next()` retoma o gerador `*foo()` de onde ele havia pausado, e roda a instrução `console.log(..)`, que usa o valor atual de `x` que é `3`.
 
-Clearly, `*foo()` started, but did *not* run-to-completion -- it paused at the `yield`. We resumed `*foo()` later, and let it finish, but that wasn't even required.
+Claramente, `*foo()` iniciou, mas *não* rodou até acabar -- ele pausou no `yield`. Nós retomamos `*foo()` depois, e o deixamos terminar, mas isso nem sequer era necessário.
 
-So, a generator is a special kind of function that can start and stop one or more times, and doesn't necessarily ever have to finish. While it won't be terribly obvious yet why that's so powerful, as we go throughout the rest of this chapter, that will be one of the fundamental building blocks we use to construct generators-as-async-flow-control as a pattern for our code.
+Então, um gerador é um tipo especial de função que pode iniciar e parar uma ou mais vezes, e não necessariamente precisa terminar algum dia. Embora ainda não vá ficar terrivelmente óbvio por que isso é tão poderoso, à medida que avançarmos pelo restante deste capítulo, esse será um dos blocos fundamentais que usamos para construir geradores-como-controle-de-fluxo-assíncrono como um padrão para o nosso código.
 
-### Input and Output
+### Entrada e Saída
 
-A generator function is a special function with the new processing model we just alluded to. But it's still a function, which means it still has some basic tenets that haven't changed -- namely, that it still accepts arguments (aka "input"), and that it can still return a value (aka "output"):
+Uma função geradora é uma função especial com o novo modelo de processamento que acabamos de mencionar. Mas ela ainda é uma função, o que significa que ela ainda tem alguns princípios básicos que não mudaram -- a saber, que ela ainda aceita argumentos (também conhecidos como "entrada"), e que ela ainda pode retornar um valor (também conhecido como "saída"):
 
 ```js
 function *foo(x,y) {
@@ -104,21 +104,21 @@ var res = it.next();
 res.value;		// 42
 ```
 
-We pass in the arguments `6` and `7` to `*foo(..)` as the parameters `x` and `y`, respectively. And `*foo(..)` returns the value `42` back to the calling code.
+Nós passamos os argumentos `6` e `7` para `*foo(..)` como os parâmetros `x` e `y`, respectivamente. E `*foo(..)` retorna o valor `42` de volta para o código chamador.
 
-We now see a difference with how the generator is invoked compared to a normal function. `foo(6,7)` obviously looks familiar. But subtly, the `*foo(..)` generator hasn't actually run yet as it would have with a function.
+Agora vemos uma diferença em como o gerador é invocado comparado a uma função normal. `foo(6,7)` obviamente parece familiar. Mas, sutilmente, o gerador `*foo(..)` na verdade ainda não rodou como teria acontecido com uma função.
 
-Instead, we're just creating an *iterator* object, which we assign to the variable `it`, to control the `*foo(..)` generator. Then we call `it.next()`, which instructs the `*foo(..)` generator to advance from its current location, stopping either at the next `yield` or end of the generator.
+Em vez disso, estamos apenas criando um objeto *iterator*, que atribuímos à variável `it`, para controlar o gerador `*foo(..)`. Então chamamos `it.next()`, que instrui o gerador `*foo(..)` a avançar de sua localização atual, parando ou no próximo `yield` ou no fim do gerador.
 
-The result of that `next(..)` call is an object with a `value` property on it holding whatever value (if anything) was returned from `*foo(..)`. In other words, `yield` caused a value to be sent out from the generator during the middle of its execution, kind of like an intermediate `return`.
+O resultado dessa chamada `next(..)` é um objeto com uma propriedade `value` que contém qualquer que seja o valor (se houver algum) que foi retornado de `*foo(..)`. Em outras palavras, `yield` fez com que um valor fosse enviado para fora do gerador no meio de sua execução, mais ou menos como um `return` intermediário.
 
-Again, it won't be obvious yet why we need this whole indirect *iterator* object to control the generator. We'll get there, I *promise*.
+Novamente, ainda não vai ficar óbvio por que precisamos de todo esse objeto *iterator* indireto para controlar o gerador. Nós chegaremos lá, eu *prometo*.
 
-#### Iteration Messaging
+#### Mensageria de Iteração
 
-In addition to generators accepting arguments and having return values, there's even more powerful and compelling input/output messaging capability built into them, via `yield` and `next(..)`.
+Além de geradores aceitarem argumentos e terem valores de retorno, há uma capacidade de mensageria de entrada/saída ainda mais poderosa e atraente embutida neles, via `yield` e `next(..)`.
 
-Consider:
+Observe:
 
 ```js
 function *foo(x) {
@@ -128,7 +128,7 @@ function *foo(x) {
 
 var it = foo( 6 );
 
-// start `foo(..)`
+// inicia `foo(..)`
 it.next();
 
 var res = it.next( 7 );
@@ -136,87 +136,87 @@ var res = it.next( 7 );
 res.value;		// 42
 ```
 
-First, we pass in `6` as the parameter `x`. Then we call `it.next()`, and it starts up `*foo(..)`.
+Primeiro, nós passamos `6` como o parâmetro `x`. Então chamamos `it.next()`, e ele inicia `*foo(..)`.
 
-Inside `*foo(..)`, the `var y = x ..` statement starts to be processed, but then it runs across a `yield` expression. At that point, it pauses `*foo(..)` (in the middle of the assignment statement!), and essentially requests the calling code to provide a result value for the `yield` expression. Next, we call `it.next( 7 )`, which is passing the `7` value back in to *be* that result of the paused `yield` expression.
+Dentro de `*foo(..)`, a instrução `var y = x ..` começa a ser processada, mas então ela esbarra em uma expressão `yield`. Nesse ponto, ela pausa `*foo(..)` (no meio da instrução de atribuição!), e essencialmente requisita ao código chamador que forneça um valor de resultado para a expressão `yield`. Em seguida, chamamos `it.next( 7 )`, que está passando o valor `7` de volta para *ser* esse resultado da expressão `yield` pausada.
 
-So, at this point, the assignment statement is essentially `var y = 6 * 7`. Now, `return y` returns that `42` value back as the result of the `it.next( 7 )` call.
+Então, neste ponto, a instrução de atribuição é essencialmente `var y = 6 * 7`. Agora, `return y` retorna esse valor `42` de volta como o resultado da chamada `it.next( 7 )`.
 
-Notice something very important but also easily confusing, even to seasoned JS developers: depending on your perspective, there's a mismatch between the `yield` and the `next(..)` call. In general, you're going to have one more `next(..)` call than you have `yield` statements -- the preceding snippet has one `yield` and two `next(..)` calls.
+Note algo muito importante, mas também facilmente confuso, mesmo para desenvolvedores JS experientes: dependendo da sua perspectiva, há um descompasso entre o `yield` e a chamada `next(..)`. Em geral, você vai ter uma chamada `next(..)` a mais do que instruções `yield` -- o trecho anterior tem um `yield` e duas chamadas `next(..)`.
 
-Why the mismatch?
+Por que o descompasso?
 
-Because the first `next(..)` always starts a generator, and runs to the first `yield`. But it's the second `next(..)` call that fulfills the first paused `yield` expression, and the third `next(..)` would fulfill the second `yield`, and so on.
+Porque o primeiro `next(..)` sempre inicia um gerador, e roda até o primeiro `yield`. Mas é a segunda chamada `next(..)` que satisfaz a primeira expressão `yield` pausada, e o terceiro `next(..)` satisfaria o segundo `yield`, e assim por diante.
 
-##### Tale of Two Questions
+##### A História de Duas Perguntas
 
-Actually, which code you're thinking about primarily will affect whether there's a perceived mismatch or not.
+Na verdade, em qual código você está pensando primariamente vai afetar se há ou não um descompasso percebido.
 
-Consider only the generator code:
+Considere apenas o código do gerador:
 
 ```js
 var y = x * (yield);
 return y;
 ```
 
-This **first** `yield` is basically *asking a question*: "What value should I insert here?"
+Esse **primeiro** `yield` está basicamente *fazendo uma pergunta*: "Qual valor devo inserir aqui?"
 
-Who's going to answer that question? Well, the **first** `next()` has already run to get the generator up to this point, so obviously *it* can't answer the question. So, the **second** `next(..)` call must answer the question *posed* by the **first** `yield`.
+Quem vai responder a essa pergunta? Bem, o **primeiro** `next()` já rodou para levar o gerador até esse ponto, então obviamente *ele* não pode responder a pergunta. Portanto, a **segunda** chamada `next(..)` deve responder a pergunta *colocada* pelo **primeiro** `yield`.
 
-See the mismatch -- second-to-first?
+Vê o descompasso -- segunda-para-primeira?
 
-But let's flip our perspective. Let's look at it not from the generator's point of view, but from the iterator's point of view.
+Mas vamos inverter a nossa perspectiva. Vamos olhar para isso não do ponto de vista do gerador, mas do ponto de vista do iterator.
 
-To properly illustrate this perspective, we also need to explain that messages can go in both directions -- `yield ..` as an expression can send out messages in response to `next(..)` calls, and `next(..)` can send values to a paused `yield` expression. Consider this slightly adjusted code:
+Para ilustrar adequadamente essa perspectiva, também precisamos explicar que as mensagens podem ir em ambas as direções -- `yield ..` como uma expressão pode enviar mensagens para fora em resposta a chamadas `next(..)`, e `next(..)` pode enviar valores para uma expressão `yield` pausada. Considere este código ligeiramente ajustado:
 
 ```js
 function *foo(x) {
-	var y = x * (yield "Hello");	// <-- yield a value!
+	var y = x * (yield "Hello");	// <-- yield de um valor!
 	return y;
 }
 
 var it = foo( 6 );
 
-var res = it.next();	// first `next()`, don't pass anything
+var res = it.next();	// primeiro `next()`, não passa nada
 res.value;				// "Hello"
 
-res = it.next( 7 );		// pass `7` to waiting `yield`
+res = it.next( 7 );		// passa `7` para o `yield` que está esperando
 res.value;				// 42
 ```
 
-`yield ..` and `next(..)` pair together as a two-way message passing system **during the execution of the generator**.
+`yield ..` e `next(..)` se emparelham como um sistema de passagem de mensagens em duas vias **durante a execução do gerador**.
 
-So, looking only at the *iterator* code:
+Então, olhando apenas para o código do *iterator*:
 
 ```js
-var res = it.next();	// first `next()`, don't pass anything
+var res = it.next();	// primeiro `next()`, não passa nada
 res.value;				// "Hello"
 
-res = it.next( 7 );		// pass `7` to waiting `yield`
+res = it.next( 7 );		// passa `7` para o `yield` que está esperando
 res.value;				// 42
 ```
 
-**Note:** We don't pass a value to the first `next()` call, and that's on purpose. Only a paused `yield` could accept such a value passed by a `next(..)`, and at the beginning of the generator when we call the first `next()`, there **is no paused `yield`** to accept such a value. The specification and all compliant browsers just silently **discard** anything passed to the first `next()`. It's still a bad idea to pass a value, as you're just creating silently "failing" code that's confusing. So, always start a generator with an argument-free `next()`.
+**Nota:** Nós não passamos um valor para a primeira chamada `next()`, e isso é de propósito. Apenas um `yield` pausado poderia aceitar tal valor passado por um `next(..)`, e no começo do gerador, quando chamamos o primeiro `next()`, **não há um `yield` pausado** para aceitar tal valor. A especificação e todos os navegadores compatíveis simplesmente **descartam** silenciosamente qualquer coisa passada para o primeiro `next()`. Ainda é uma má ideia passar um valor, pois você está apenas criando código que "falha" silenciosamente e que é confuso. Então, sempre inicie um gerador com um `next()` sem argumentos.
 
-The first `next()` call (with nothing passed to it) is basically *asking a question*: "What *next* value does the `*foo(..)` generator have to give me?" And who answers this question? The first `yield "hello"` expression.
+A primeira chamada `next()` (sem nada passado para ela) está basicamente *fazendo uma pergunta*: "Qual *próximo* valor o gerador `*foo(..)` tem para me dar?" E quem responde a essa pergunta? A primeira expressão `yield "hello"`.
 
-See? No mismatch there.
+Viu? Sem descompasso aí.
 
-Depending on *who* you think about asking the question, there is either a mismatch between the `yield` and `next(..)` calls, or not.
+Dependendo de *quem* você acha que está fazendo a pergunta, há ou não um descompasso entre as chamadas `yield` e `next(..)`.
 
-But wait! There's still an extra `next()` compared to the number of `yield` statements. So, that final `it.next(7)` call is again asking the question about what *next* value the generator will produce. But there's no more `yield` statements left to answer, is there? So who answers?
+Mas espere! Ainda há um `next()` extra comparado ao número de instruções `yield`. Então, aquela chamada final `it.next(7)` está novamente fazendo a pergunta sobre qual *próximo* valor o gerador vai produzir. Mas não há mais instruções `yield` restantes para responder, há? Então quem responde?
 
-The `return` statement answers the question!
+A instrução `return` responde a pergunta!
 
-And if there **is no `return`** in your generator -- `return` is certainly not any more required in generators than in regular functions -- there's always an assumed/implicit `return;` (aka `return undefined;`), which serves the purpose of default answering the question *posed* by the final `it.next(7)` call.
+E se **não houver `return`** no seu gerador -- `return` certamente não é mais obrigatório em geradores do que em funções comuns -- há sempre um `return;` (também conhecido como `return undefined;`) assumido/implícito, que serve ao propósito de responder por padrão a pergunta *colocada* pela chamada final `it.next(7)`.
 
-These questions and answers -- the two-way message passing with `yield` and `next(..)` -- are quite powerful, but it's not obvious at all how these mechanisms are connected to async flow control. We're getting there!
+Essas perguntas e respostas -- a passagem de mensagens em duas vias com `yield` e `next(..)` -- são bastante poderosas, mas não é nada óbvio como esses mecanismos estão conectados ao controle de fluxo assíncrono. Nós estamos chegando lá!
 
-### Multiple Iterators
+### Múltiplos Iterators
 
-It may appear from the syntactic usage that when you use an *iterator* to control a generator, you're controlling the declared generator function itself. But there's a subtlety that's easy to miss: each time you construct an *iterator*, you are implicitly constructing an instance of the generator which that *iterator* will control.
+Pode parecer, pelo uso sintático, que quando você usa um *iterator* para controlar um gerador, você está controlando a própria função geradora declarada. Mas há uma sutileza fácil de não perceber: cada vez que você constrói um *iterator*, você está implicitamente construindo uma instância do gerador que esse *iterator* vai controlar.
 
-You can have multiple instances of the same generator running at the same time, and they can even interact:
+Você pode ter múltiplas instâncias do mesmo gerador rodando ao mesmo tempo, e elas podem até interagir:
 
 ```js
 function *foo() {
@@ -243,21 +243,21 @@ it2.next( val1 / 4 );					// y:10
 										// 200 10 3
 ```
 
-**Warning:** The most common usage of multiple instances of the same generator running concurrently is not such interactions, but when the generator is producing its own values without input, perhaps from some independently connected resource. We'll talk more about value production in the next section.
+**Atenção:** O uso mais comum de múltiplas instâncias do mesmo gerador rodando concorrentemente não são essas interações, mas sim quando o gerador está produzindo seus próprios valores sem entrada, talvez a partir de algum recurso conectado independentemente. Nós falaremos mais sobre produção de valores na próxima seção.
 
-Let's briefly walk through the processing:
+Vamos percorrer brevemente o processamento:
 
-1. Both instances of `*foo()` are started at the same time, and both `next()` calls reveal a `value` of `2` from the `yield 2` statements, respectively.
-2. `val2 * 10` is `2 * 10`, which is sent into the first generator instance `it1`, so that `x` gets value `20`. `z` is incremented from `1` to `2`, and then `20 * 2` is `yield`ed out, setting `val1` to `40`.
-3. `val1 * 5` is `40 * 5`, which is sent into the second generator instance `it2`, so that `x` gets value `200`. `z` is incremented again, from `2` to `3`, and then `200 * 3` is `yield`ed out, setting `val2` to `600`.
-4. `val2 / 2` is `600 / 2`, which is sent into the first generator instance `it1`, so that `y` gets value `300`, then printing out `20 300 3` for its `x y z` values, respectively.
-5. `val1 / 4` is `40 / 4`, which is sent into the second generator instance `it2`, so that `y` gets value `10`, then printing out `200 10 3` for its `x y z` values, respectively.
+1. Ambas as instâncias de `*foo()` são iniciadas ao mesmo tempo, e ambas as chamadas `next()` revelam um `value` de `2` das instruções `yield 2`, respectivamente.
+2. `val2 * 10` é `2 * 10`, que é enviado para a primeira instância do gerador `it1`, de forma que `x` recebe o valor `20`. `z` é incrementado de `1` para `2`, e então `20 * 2` é cedido (`yield`) para fora, definindo `val1` para `40`.
+3. `val1 * 5` é `40 * 5`, que é enviado para a segunda instância do gerador `it2`, de forma que `x` recebe o valor `200`. `z` é incrementado novamente, de `2` para `3`, e então `200 * 3` é cedido (`yield`) para fora, definindo `val2` para `600`.
+4. `val2 / 2` é `600 / 2`, que é enviado para a primeira instância do gerador `it1`, de forma que `y` recebe o valor `300`, então imprimindo `20 300 3` para seus valores `x y z`, respectivamente.
+5. `val1 / 4` é `40 / 4`, que é enviado para a segunda instância do gerador `it2`, de forma que `y` recebe o valor `10`, então imprimindo `200 10 3` para seus valores `x y z`, respectivamente.
 
-That's a "fun" example to run through in your mind. Did you keep it straight?
+Esse é um exemplo "divertido" de se percorrer mentalmente. Você conseguiu mantê-lo organizado?
 
-#### Interleaving
+#### Intercalando
 
-Recall this scenario from the "Run-to-completion" section of Chapter 1:
+Relembre este cenário da seção "Rodar-até-acabar" do capítulo 1:
 
 ```js
 var a = 1;
@@ -276,9 +276,9 @@ function bar() {
 }
 ```
 
-With normal JS functions, of course either `foo()` can run completely first, or `bar()` can run completely first, but `foo()` cannot interleave its individual statements with `bar()`. So, there are only two possible outcomes to the preceding program.
+Com funções JS normais, é claro que ou `foo()` pode rodar completamente primeiro, ou `bar()` pode rodar completamente primeiro, mas `foo()` não pode intercalar suas instruções individuais com `bar()`. Então, há apenas dois resultados possíveis para o programa anterior.
 
-However, with generators, clearly interleaving (even in the middle of statements!) is possible:
+No entanto, com geradores, claramente intercalar (até mesmo no meio das instruções!) é possível:
 
 ```js
 var a = 1;
@@ -299,9 +299,9 @@ function *bar() {
 }
 ```
 
-Depending on what respective order the *iterators* controlling `*foo()` and `*bar()` are called, the preceding program could produce several different results. In other words, we can actually illustrate (in a sort of fake-ish way) the theoretical "threaded race conditions" circumstances discussed in Chapter 1, by interleaving the two generator interations over the same shared variables.
+Dependendo de qual ordem respectiva os *iterators* que controlam `*foo()` e `*bar()` são chamados, o programa anterior poderia produzir vários resultados diferentes. Em outras palavras, podemos de fato ilustrar (de uma forma meio fingida) as circunstâncias teóricas de "condições de corrida com threads" discutidas no capítulo 1, intercalando as iterações dos dois geradores sobre as mesmas variáveis compartilhadas.
 
-First, let's make a helper called `step(..)` that controls an *iterator*:
+Primeiro, vamos fazer uma função auxiliar chamada `step(..)` que controla um *iterator*:
 
 ```js
 function step(gen) {
@@ -309,31 +309,31 @@ function step(gen) {
 	var last;
 
 	return function() {
-		// whatever is `yield`ed out, just
-		// send it right back in the next time!
+		// o que quer que seja cedido (`yield`) para fora,
+		// apenas envie de volta na próxima vez!
 		last = it.next( last ).value;
 	};
 }
 ```
 
-`step(..)` initializes a generator to create its `it` *iterator*, then returns a function which, when called, advances the *iterator* by one step. Additionally, the previously `yield`ed out value is sent right back in at the *next* step. So, `yield 8` will just become `8` and `yield b` will just be `b` (whatever it was at the time of `yield`).
+`step(..)` inicializa um gerador para criar seu *iterator* `it`, então retorna uma função que, quando chamada, avança o *iterator* em um passo. Adicionalmente, o valor previamente cedido (`yield`) para fora é enviado de volta no *próximo* passo. Então, `yield 8` simplesmente se tornará `8` e `yield b` simplesmente será `b` (qualquer que fosse seu valor no momento do `yield`).
 
-Now, just for fun, let's experiment to see the effects of interleaving these different chunks of `*foo()` and `*bar()`. We'll start with the boring base case, making sure `*foo()` totally finishes before `*bar()` (just like we did in Chapter 1):
+Agora, só por diversão, vamos experimentar para ver os efeitos de intercalar esses diferentes pedaços de `*foo()` e `*bar()`. Vamos começar com o caso base entediante, garantindo que `*foo()` termine totalmente antes de `*bar()` (assim como fizemos no capítulo 1):
 
 ```js
-// make sure to reset `a` and `b`
+// certifique-se de resetar `a` e `b`
 a = 1;
 b = 2;
 
 var s1 = step( foo );
 var s2 = step( bar );
 
-// run `*foo()` completely first
+// roda `*foo()` completamente primeiro
 s1();
 s1();
 s1();
 
-// now run `*bar()`
+// agora roda `*bar()`
 s2();
 s2();
 s2();
@@ -342,10 +342,10 @@ s2();
 console.log( a, b );	// 11 22
 ```
 
-The end result is `11` and `22`, just as it was in the Chapter 1 version. Now let's mix up the interleaving ordering and see how it changes the final values of `a` and `b`:
+O resultado final é `11` e `22`, exatamente como era na versão do capítulo 1. Agora vamos misturar a ordem de intercalação e ver como isso muda os valores finais de `a` e `b`:
 
 ```js
-// make sure to reset `a` and `b`
+// certifique-se de resetar `a` e `b`
 a = 1;
 b = 2;
 
@@ -363,29 +363,29 @@ s1();		// a = b + 3;
 s2();		// b = a * 2;
 ```
 
-Before I tell you the results, can you figure out what `a` and `b` are after the preceding program? No cheating!
+Antes de eu te dizer os resultados, você consegue descobrir quais são `a` e `b` depois do programa anterior? Sem trapacear!
 
 ```js
 console.log( a, b );	// 12 18
 ```
 
-**Note:** As an exercise for the reader, try to see how many other combinations of results you can get back rearranging the order of the `s1()` and `s2()` calls. Don't forget you'll always need three `s1()` calls and four `s2()` calls. Recall the discussion earlier about matching `next()` with `yield` for the reasons why.
+**Nota:** Como um exercício para o leitor, tente ver quantas outras combinações de resultados você consegue obter rearranjando a ordem das chamadas `s1()` e `s2()`. Não esqueça que você sempre precisará de três chamadas `s1()` e quatro chamadas `s2()`. Relembre a discussão anterior sobre combinar `next()` com `yield` para entender os motivos.
 
-You almost certainly won't want to intentionally create *this* level of interleaving confusion, as it creates incredibly difficult to understand code. But the exercise is interesting and instructive to understand more about how multiple generators can run concurrently in the same shared scope, because there will be places where this capability is quite useful.
+Você quase certamente não vai querer criar intencionalmente *este* nível de confusão de intercalação, pois ele cria um código incrivelmente difícil de entender. Mas o exercício é interessante e instrutivo para entender mais sobre como múltiplos geradores podem rodar concorrentemente no mesmo escopo compartilhado, porque haverá lugares onde essa capacidade é bem útil.
 
-We'll discuss generator concurrency in more detail at the end of this chapter.
+Nós discutiremos a concorrência de geradores em mais detalhes no fim deste capítulo.
 
-## Generator'ing Values
+## Gerando Valores
 
-In the previous section, we mentioned an interesting use for generators, as a way to produce values. This is **not** the main focus in this chapter, but we'd be remiss if we didn't cover the basics, especially because this use case is essentially the origin of the name: generators.
+Na seção anterior, mencionamos um uso interessante para geradores, como uma forma de produzir valores. Este **não** é o foco principal neste capítulo, mas seríamos negligentes se não cobríssemos o básico, especialmente porque esse caso de uso é essencialmente a origem do nome: geradores (generators).
 
-We're going to take a slight diversion into the topic of *iterators* for a bit, but we'll circle back to how they relate to generators and using a generator to *generate* values.
+Nós vamos fazer um leve desvio para o tópico de *iterators* por um tempo, mas voltaremos a como eles se relacionam com geradores e a usar um gerador para *gerar* valores.
 
-### Producers and Iterators
+### Produtores e Iterators
 
-Imagine you're producing a series of values where each value has a definable relationship to the previous value. To do this, you're going to need a stateful producer that remembers the last value it gave out.
+Imagine que você está produzindo uma série de valores onde cada valor tem uma relação definível com o valor anterior. Para fazer isso, você vai precisar de um produtor com estado que lembra o último valor que deu.
 
-You can implement something like that straightforwardly using a function closure (see the *Scope & Closures* title of this series):
+Você pode implementar algo assim de forma direta usando um closure de função (veja o título *Escopos & Closures* desta série):
 
 ```js
 var gimmeSomething = (function(){
@@ -409,23 +409,23 @@ gimmeSomething();		// 33
 gimmeSomething();		// 105
 ```
 
-**Note:** The `nextVal` computation logic here could have been simplified, but conceptually, we don't want to calculate the *next value* (aka `nextVal`) until the *next* `gimmeSomething()` call happens, because in general that could be a resource-leaky design for producers of more persistent or resource-limited values than simple `number`s.
+**Nota:** A lógica de cálculo do `nextVal` aqui poderia ter sido simplificada, mas conceitualmente, não queremos calcular o *próximo valor* (também conhecido como `nextVal`) até que a *próxima* chamada `gimmeSomething()` aconteça, porque, em geral, isso poderia ser um design propenso a vazamento de recursos para produtores de valores mais persistentes ou limitados em recursos do que simples `number`s.
 
-Generating an arbitrary number series isn't a terribly realistic example. But what if you were generating records from a data source? You could imagine much the same code.
+Gerar uma série numérica arbitrária não é um exemplo terrivelmente realista. Mas e se você estivesse gerando registros de uma fonte de dados? Você poderia imaginar praticamente o mesmo código.
 
-In fact, this task is a very common design pattern, usually solved by iterators. An *iterator* is a well-defined interface for stepping through a series of values from a producer. The JS interface for iterators, as it is in most languages, is to call `next()` each time you want the next value from the producer.
+De fato, essa tarefa é um padrão de design muito comum, geralmente resolvido por iterators. Um *iterator* é uma interface bem definida para percorrer uma série de valores de um produtor. A interface JS para iterators, como é na maioria das linguagens, é chamar `next()` toda vez que você quer o próximo valor do produtor.
 
-We could implement the standard *iterator* interface for our number series producer:
+Nós poderíamos implementar a interface padrão de *iterator* para nosso produtor de série numérica:
 
 ```js
 var something = (function(){
 	var nextVal;
 
 	return {
-		// needed for `for..of` loops
+		// necessário para loops `for..of`
 		[Symbol.iterator]: function(){ return this; },
 
-		// standard iterator interface method
+		// método padrão da interface de iterator
 		next: function(){
 			if (nextVal === undefined) {
 				nextVal = 1;
@@ -445,17 +445,17 @@ something.next().value;		// 33
 something.next().value;		// 105
 ```
 
-**Note:** We'll explain why we need the `[Symbol.iterator]: ..` part of this code snippet in the "Iterables" section. Syntactically though, two ES6 features are at play. First, the `[ .. ]` syntax is called a *computed property name* (see the *this & Object Prototypes* title of this series). It's a way in an object literal definition to specify an expression and use the result of that expression as the name for the property. Next, `Symbol.iterator` is one of ES6's predefined special `Symbol` values (see the *ES6 & Beyond* title of this book series).
+**Nota:** Nós explicaremos por que precisamos da parte `[Symbol.iterator]: ..` deste trecho de código na seção "Iterables". Sintaticamente, porém, dois recursos do ES6 estão em jogo. Primeiro, a sintaxe `[ .. ]` é chamada de *nome de propriedade computado* (veja o título *this & Object Prototypes* desta série). É uma forma, em uma definição de objeto literal, de especificar uma expressão e usar o resultado dessa expressão como o nome da propriedade. Em seguida, `Symbol.iterator` é um dos valores `Symbol` especiais predefinidos do ES6 (veja o título *ES6 & Além* desta série de livros).
 
-The `next()` call returns an object with two properties: `done` is a `boolean` value signaling the *iterator's* complete status; `value` holds the iteration value.
+A chamada `next()` retorna um objeto com duas propriedades: `done` é um valor `boolean` sinalizando o status de conclusão do *iterator*; `value` contém o valor da iteração.
 
-ES6 also adds the `for..of` loop, which means that a standard *iterator* can automatically be consumed with native loop syntax:
+ES6 também adiciona o loop `for..of`, o que significa que um *iterator* padrão pode ser automaticamente consumido com a sintaxe nativa de loop:
 
 ```js
 for (var v of something) {
 	console.log( v );
 
-	// don't let the loop run forever!
+	// não deixe o loop rodar para sempre!
 	if (v > 500) {
 		break;
 	}
@@ -463,11 +463,11 @@ for (var v of something) {
 // 1 9 33 105 321 969
 ```
 
-**Note:** Because our `something` *iterator* always returns `done:false`, this `for..of` loop would run forever, which is why we put the `break` conditional in. It's totally OK for iterators to be never-ending, but there are also cases where the *iterator* will run over a finite set of values and eventually return a `done:true`.
+**Nota:** Como nosso *iterator* `something` sempre retorna `done:false`, este loop `for..of` rodaria para sempre, e é por isso que colocamos o condicional `break`. É totalmente aceitável para iterators serem infinitos, mas há também casos onde o *iterator* vai percorrer um conjunto finito de valores e eventualmente retornar um `done:true`.
 
-The `for..of` loop automatically calls `next()` for each iteration -- it doesn't pass any values in to the `next()` -- and it will automatically terminate on receiving a `done:true`. It's quite handy for looping over a set of data.
+O loop `for..of` automaticamente chama `next()` para cada iteração -- ele não passa nenhum valor para o `next()` -- e ele vai automaticamente terminar ao receber um `done:true`. É bem prático para fazer loop sobre um conjunto de dados.
 
-Of course, you could manually loop over iterators, calling `next()` and checking for the `done:true` condition to know when to stop:
+Claro, você poderia fazer loop manualmente sobre iterators, chamando `next()` e verificando a condição `done:true` para saber quando parar:
 
 ```js
 for (
@@ -476,7 +476,7 @@ for (
 ) {
 	console.log( ret.value );
 
-	// don't let the loop run forever!
+	// não deixe o loop rodar para sempre!
 	if (ret.value > 500) {
 		break;
 	}
@@ -484,9 +484,9 @@ for (
 // 1 9 33 105 321 969
 ```
 
-**Note:** This manual `for` approach is certainly uglier than the ES6 `for..of` loop syntax, but its advantage is that it affords you the opportunity to pass in values to the `next(..)` calls if necessary.
+**Nota:** Essa abordagem manual com `for` é certamente mais feia do que a sintaxe do loop `for..of` do ES6, mas sua vantagem é que ela te dá a oportunidade de passar valores para as chamadas `next(..)` se necessário.
 
-In addition to making your own *iterators*, many built-in data structures in JS (as of ES6), like `array`s, also have default *iterators*:
+Além de criar seus próprios *iterators*, muitas estruturas de dados embutidas em JS (a partir do ES6), como `array`s, também têm *iterators* padrão:
 
 ```js
 var a = [1,3,5,7,9];
@@ -497,17 +497,17 @@ for (var v of a) {
 // 1 3 5 7 9
 ```
 
-The `for..of` loop asks `a` for its *iterator*, and automatically uses it to iterate over `a`'s values.
+O loop `for..of` pede a `a` por seu *iterator*, e automaticamente o usa para iterar sobre os valores de `a`.
 
-**Note:** It may seem a strange omission by ES6, but regular `object`s intentionally do not come with a default *iterator* the way `array`s do. The reasons go deeper than we will cover here. If all you want is to iterate over the properties of an object (with no particular guarantee of ordering), `Object.keys(..)` returns an `array`, which can then be used like `for (var k of Object.keys(obj)) { ..`. Such a `for..of` loop over an object's keys would be similar to a `for..in` loop, except that `Object.keys(..)` does not include properties from the `[[Prototype]]` chain while `for..in` does (see the *this & Object Prototypes* title of this series).
+**Nota:** Pode parecer uma omissão estranha do ES6, mas `object`s comuns intencionalmente não vêm com um *iterator* padrão do jeito que `array`s vêm. As razões são mais profundas do que cobriremos aqui. Se tudo o que você quer é iterar sobre as propriedades de um objeto (sem nenhuma garantia particular de ordenação), `Object.keys(..)` retorna um `array`, que pode então ser usado como `for (var k of Object.keys(obj)) { ..`. Um loop `for..of` desse tipo sobre as chaves de um objeto seria similar a um loop `for..in`, exceto que `Object.keys(..)` não inclui propriedades da cadeia `[[Prototype]]` enquanto `for..in` inclui (veja o título *this & Object Prototypes* desta série).
 
 ### Iterables
 
-The `something` object in our running example is called an *iterator*, as it has the `next()` method on its interface. But a closely related term is *iterable*, which is an `object` that **contains** an *iterator* that can iterate over its values.
+O objeto `something` em nosso exemplo corrente é chamado de *iterator*, pois ele tem o método `next()` em sua interface. Mas um termo intimamente relacionado é *iterable*, que é um `object` que **contém** um *iterator* capaz de iterar sobre seus valores.
 
-As of ES6, the way to retrieve an *iterator* from an *iterable* is that the *iterable* must have a function on it, with the name being the special ES6 symbol value `Symbol.iterator`. When this function is called, it returns an *iterator*. Though not required, generally each call should return a fresh new *iterator*.
+A partir do ES6, a forma de recuperar um *iterator* de um *iterable* é que o *iterable* deve ter uma função nele, com o nome sendo o valor especial de símbolo do ES6 `Symbol.iterator`. Quando essa função é chamada, ela retorna um *iterator*. Embora não seja obrigatório, geralmente cada chamada deve retornar um *iterator* novinho em folha.
 
-`a` in the previous snippet is an *iterable*. The `for..of` loop automatically calls its `Symbol.iterator` function to construct an *iterator*. But we could of course call the function manually, and use the *iterator* it returns:
+`a` no trecho anterior é um *iterable*. O loop `for..of` automaticamente chama sua função `Symbol.iterator` para construir um *iterator*. Mas nós poderíamos, é claro, chamar a função manualmente, e usar o *iterator* que ela retorna:
 
 ```js
 var a = [1,3,5,7,9];
@@ -520,13 +520,13 @@ it.next().value;	// 5
 ..
 ```
 
-In the previous code listing that defined `something`, you may have noticed this line:
+Na listagem de código anterior que definiu `something`, você pode ter notado esta linha:
 
 ```js
 [Symbol.iterator]: function(){ return this; }
 ```
 
-That little bit of confusing code is making the `something` value -- the interface of the `something` *iterator* -- also an *iterable*; it's now both an *iterable* and an *iterator*. Then, we pass `something` to the `for..of` loop:
+Esse pedacinho de código confuso está fazendo o valor `something` -- a interface do *iterator* `something` -- ser também um *iterable*; ele agora é tanto um *iterable* quanto um *iterator*. Então, passamos `something` para o loop `for..of`:
 
 ```js
 for (var v of something) {
@@ -534,13 +534,13 @@ for (var v of something) {
 }
 ```
 
-The `for..of` loop expects `something` to be an *iterable*, so it looks for and calls its `Symbol.iterator` function. We defined that function to simply `return this`, so it just gives itself back, and the `for..of` loop is none the wiser.
+O loop `for..of` espera que `something` seja um *iterable*, então ele procura e chama sua função `Symbol.iterator`. Nós definimos essa função para simplesmente fazer `return this`, então ela apenas devolve a si mesma, e o loop `for..of` nem percebe a diferença.
 
-### Generator Iterator
+### Iterator de Gerador
 
-Let's turn our attention back to generators, in the context of *iterators*. A generator can be treated as a producer of values that we extract one at a time through an *iterator* interface's `next()` calls.
+Vamos voltar nossa atenção para os geradores, no contexto de *iterators*. Um gerador pode ser tratado como um produtor de valores que extraímos um de cada vez através das chamadas `next()` de uma interface de *iterator*.
 
-So, a generator itself is not technically an *iterable*, though it's very similar -- when you execute the generator, you get an *iterator* back:
+Então, um gerador em si não é tecnicamente um *iterable*, embora seja bem similar -- quando você executa o gerador, você recebe um *iterator* de volta:
 
 ```js
 function *foo(){ .. }
@@ -548,7 +548,7 @@ function *foo(){ .. }
 var it = foo();
 ```
 
-We can implement the `something` infinite number series producer from earlier with a generator, like this:
+Nós podemos implementar o produtor de série numérica infinita `something` de antes com um gerador, assim:
 
 ```js
 function *something() {
@@ -567,19 +567,19 @@ function *something() {
 }
 ```
 
-**Note:** A `while..true` loop would normally be a very bad thing to include in a real JS program, at least if it doesn't have a `break` or `return` in it, as it would likely run forever, synchronously, and block/lock-up the browser UI. However, in a generator, such a loop is generally totally OK if it has a `yield` in it, as the generator will pause at each iteration, `yield`ing back to the main program and/or to the event loop queue. To put it glibly, "generators put the `while..true` back in JS programming!"
+**Nota:** Um loop `while..true` normalmente seria uma coisa muito ruim de se incluir em um programa JS real, ao menos se ele não tiver um `break` ou `return` nele, pois ele provavelmente rodaria para sempre, de forma síncrona, e travaria/bloquearia a UI do navegador. No entanto, em um gerador, tal loop é geralmente totalmente aceitável se tiver um `yield` nele, já que o gerador vai pausar a cada iteração, cedendo (`yield`) de volta ao programa principal e/ou à fila do loop de eventos. Para colocar de forma jocosa, "geradores trouxeram o `while..true` de volta para a programação JS!"
 
-That's a fair bit cleaner and simpler, right? Because the generator pauses at each `yield`, the state (scope) of the function `*something()` is kept around, meaning there's no need for the closure boilerplate to preserve variable state across calls.
+Isso é bem mais limpo e simples, certo? Porque o gerador pausa a cada `yield`, o estado (escopo) da função `*something()` é mantido por perto, o que significa que não há necessidade do boilerplate de closure para preservar o estado das variáveis entre as chamadas.
 
-Not only is it simpler code -- we don't have to make our own *iterator* interface -- it actually is more reason-able code, because it more clearly expresses the intent. For example, the `while..true` loop tells us the generator is intended to run forever -- to keep *generating* values as long as we keep asking for them.
+Não só é um código mais simples -- não precisamos fazer nossa própria interface de *iterator* -- ele na verdade é um código mais sensato (reason-able), porque ele expressa mais claramente a intenção. Por exemplo, o loop `while..true` nos diz que o gerador foi feito para rodar para sempre -- para continuar *gerando* valores enquanto continuarmos pedindo por eles.
 
-And now we can use our shiny new `*something()` generator with a `for..of` loop, and you'll see it works basically identically:
+E agora podemos usar nosso novinho gerador `*something()` com um loop `for..of`, e você verá que ele funciona basicamente de forma idêntica:
 
 ```js
 for (var v of something()) {
 	console.log( v );
 
-	// don't let the loop run forever!
+	// não deixe o loop rodar para sempre!
 	if (v > 500) {
 		break;
 	}
@@ -587,24 +587,24 @@ for (var v of something()) {
 // 1 9 33 105 321 969
 ```
 
-But don't skip over `for (var v of something()) ..`! We didn't just reference `something` as a value like in earlier examples, but instead called the `*something()` generator to get its *iterator* for the `for..of` loop to use.
+Mas não pule por cima do `for (var v of something()) ..`! Nós não apenas referenciamos `something` como um valor, como nos exemplos anteriores, mas em vez disso chamamos o gerador `*something()` para obter seu *iterator* para o loop `for..of` usar.
 
-If you're paying close attention, two questions may arise from this interaction between the generator and the loop:
+Se você estiver prestando bastante atenção, duas perguntas podem surgir dessa interação entre o gerador e o loop:
 
-* Why couldn't we say `for (var v of something) ..`? Because `something` here is a generator, which is not an *iterable*. We have to call `something()` to construct a producer for the `for..of` loop to iterate over.
-* The `something()` call produces an *iterator*, but the `for..of` loop wants an *iterable*, right? Yep. The generator's *iterator* also has a `Symbol.iterator` function on it, which basically does a `return this`, just like the `something` *iterable* we defined earlier. In other words, a generator's *iterator* is also an *iterable*!
+* Por que não pudemos dizer `for (var v of something) ..`? Porque `something` aqui é um gerador, que não é um *iterable*. Nós temos que chamar `something()` para construir um produtor para o loop `for..of` iterar.
+* A chamada `something()` produz um *iterator*, mas o loop `for..of` quer um *iterable*, certo? Sim. O *iterator* do gerador também tem uma função `Symbol.iterator` nele, que basicamente faz um `return this`, exatamente como o *iterable* `something` que definimos antes. Em outras palavras, o *iterator* de um gerador também é um *iterable*!
 
-#### Stopping the Generator
+#### Parando o Gerador
 
-In the previous example, it would appear the *iterator* instance for the `*something()` generator was basically left in a suspended state forever after the `break` in the loop was called.
+No exemplo anterior, pareceria que a instância do *iterator* para o gerador `*something()` ficou basicamente deixada em um estado suspenso para sempre depois que o `break` no loop foi chamado.
 
-But there's a hidden behavior that takes care of that for you. "Abnormal completion" (i.e., "early termination") of the `for..of` loop -- generally caused by a `break`, `return`, or an uncaught exception -- sends a signal to the generator's *iterator* for it to terminate.
+Mas há um comportamento oculto que cuida disso para você. A "conclusão anormal" (ou seja, "terminação precoce") do loop `for..of` -- geralmente causada por um `break`, `return`, ou uma exceção não capturada -- envia um sinal para o *iterator* do gerador para que ele termine.
 
-**Note:** Technically, the `for..of` loop also sends this signal to the *iterator* at the normal completion of the loop. For a generator, that's essentially a moot operation, as the generator's *iterator* had to complete first so the `for..of` loop completed. However, custom *iterators* might desire to receive this additional signal from `for..of` loop consumers.
+**Nota:** Tecnicamente, o loop `for..of` também envia esse sinal para o *iterator* na conclusão normal do loop. Para um gerador, isso é essencialmente uma operação irrelevante, pois o *iterator* do gerador teve que terminar primeiro para que o loop `for..of` terminasse. No entanto, *iterators* customizados podem desejar receber esse sinal adicional dos consumidores do loop `for..of`.
 
-While a `for..of` loop will automatically send this signal, you may wish to send the signal manually to an *iterator*; you do this by calling `return(..)`.
+Embora um loop `for..of` vá automaticamente enviar esse sinal, você pode desejar enviar o sinal manualmente para um *iterator*; você faz isso chamando `return(..)`.
 
-If you specify a `try..finally` clause inside the generator, it will always be run even when the generator is externally completed. This is useful if you need to clean up resources (database connections, etc.):
+Se você especificar uma cláusula `try..finally` dentro do gerador, ela sempre será rodada mesmo quando o gerador for concluído externamente. Isso é útil se você precisar limpar recursos (conexões de banco de dados, etc.):
 
 ```js
 function *something() {
@@ -622,27 +622,27 @@ function *something() {
 			yield nextVal;
 		}
 	}
-	// cleanup clause
+	// cláusula de limpeza
 	finally {
 		console.log( "cleaning up!" );
 	}
 }
 ```
 
-The earlier example with `break` in the `for..of` loop will trigger the `finally` clause. But you could instead manually terminate the generator's *iterator* instance from the outside with `return(..)`:
+O exemplo anterior com `break` no loop `for..of` vai disparar a cláusula `finally`. Mas você poderia, em vez disso, terminar manualmente a instância do *iterator* do gerador de fora com `return(..)`:
 
 ```js
 var it = something();
 for (var v of it) {
 	console.log( v );
 
-	// don't let the loop run forever!
+	// não deixe o loop rodar para sempre!
 	if (v > 500) {
 		console.log(
-			// complete the generator's iterator
+			// conclui o iterator do gerador
 			it.return( "Hello World" ).value
 		);
-		// no `break` needed here
+		// nenhum `break` necessário aqui
 	}
 }
 // 1 9 33 105 321 969
@@ -650,17 +650,17 @@ for (var v of it) {
 // Hello World
 ```
 
-When we call `it.return(..)`, it immediately terminates the generator, which of course runs the `finally` clause. Also, it sets the returned `value` to whatever you passed in to `return(..)`, which is how `"Hello World"` comes right back out. We also don't need to include a `break` now because the generator's *iterator* is set to `done:true`, so the `for..of` loop will terminate on its next iteration.
+Quando chamamos `it.return(..)`, ele imediatamente termina o gerador, o que, claro, roda a cláusula `finally`. Além disso, ele define o `value` retornado para o que quer que você tenha passado para `return(..)`, que é como `"Hello World"` volta logo em seguida. Nós também não precisamos incluir um `break` agora, porque o *iterator* do gerador é definido para `done:true`, então o loop `for..of` vai terminar em sua próxima iteração.
 
-Generators owe their namesake mostly to this *consuming produced values* use. But again, that's just one of the uses for generators, and frankly not even the main one we're concerned with in the context of this book.
+Geradores devem seu nome principalmente a este uso de *consumir valores produzidos*. Mas, novamente, esse é apenas um dos usos para geradores, e francamente nem mesmo o principal com o qual nos preocupamos no contexto deste livro.
 
-But now that we more fully understand some of the mechanics of how they work, we can *next* turn our attention to how generators apply to async concurrency.
+Mas agora que entendemos mais plenamente algumas das mecânicas de como eles funcionam, podemos *a seguir* voltar nossa atenção para como geradores se aplicam à concorrência assíncrona.
 
-## Iterating Generators Asynchronously
+## Iterando Geradores Assincronamente
 
-What do generators have to do with async coding patterns, fixing problems with callbacks, and the like? Let's get to answering that important question.
+O que geradores têm a ver com padrões de codificação assíncrona, com corrigir problemas com callbacks, e coisas assim? Vamos chegar à resposta dessa pergunta importante.
 
-We should revisit one of our scenarios from Chapter 3. Let's recall the callback approach:
+Devemos revisitar um dos nossos cenários do capítulo 3. Vamos relembrar a abordagem com callback:
 
 ```js
 function foo(x,y,cb) {
@@ -680,7 +680,7 @@ foo( 11, 31, function(err,text) {
 } );
 ```
 
-If we wanted to express this same task flow control with a generator, we could do:
+Se quiséssemos expressar esse mesmo controle de fluxo de tarefa com um gerador, poderíamos fazer:
 
 ```js
 function foo(x,y) {
@@ -688,11 +688,11 @@ function foo(x,y) {
 		"http://some.url.1/?x=" + x + "&y=" + y,
 		function(err,data){
 			if (err) {
-				// throw an error into `*main()`
+				// lança um erro para dentro de `*main()`
 				it.throw( err );
 			}
 			else {
-				// resume `*main()` with received `data`
+				// retoma `*main()` com os `data` recebidos
 				it.next( data );
 			}
 		}
@@ -711,59 +711,59 @@ function *main() {
 
 var it = main();
 
-// start it all up!
+// inicie tudo!
 it.next();
 ```
 
-At first glance, this snippet is longer, and perhaps a little more complex looking, than the callback snippet before it. But don't let that impression get you off track. The generator snippet is actually **much** better! But there's a lot going on for us to explain.
+À primeira vista, este trecho é mais longo, e talvez com uma aparência um pouco mais complexa, do que o trecho com callback anterior a ele. Mas não deixe essa impressão te desviar. O trecho com gerador é na verdade **muito** melhor! Mas há muita coisa acontecendo para nós explicarmos.
 
-First, let's look at this part of the code, which is the most important:
+Primeiro, vamos olhar para esta parte do código, que é a mais importante:
 
 ```js
 var text = yield foo( 11, 31 );
 console.log( text );
 ```
 
-Think about how that code works for a moment. We're calling a normal function `foo(..)` and we're apparently able to get back the `text` from the Ajax call, even though it's asynchronous.
+Pense por um momento em como esse código funciona. Estamos chamando uma função normal `foo(..)` e aparentemente conseguimos obter de volta o `text` da chamada Ajax, mesmo sendo assíncrono.
 
-How is that possible? If you recall the beginning of Chapter 1, we had almost identical code:
+Como isso é possível? Se você relembrar o começo do capítulo 1, nós tínhamos um código quase idêntico:
 
 ```js
 var data = ajax( "..url 1.." );
 console.log( data );
 ```
 
-And that code didn't work! Can you spot the difference? It's the `yield` used in a generator.
+E aquele código não funcionava! Você consegue identificar a diferença? É o `yield` usado em um gerador.
 
-That's the magic! That's what allows us to have what appears to be blocking, synchronous code, but it doesn't actually block the whole program; it only pauses/blocks the code in the generator itself.
+Essa é a mágica! É isso que nos permite ter o que parece ser código bloqueante, síncrono, mas que na verdade não bloqueia o programa inteiro; ele apenas pausa/bloqueia o código dentro do próprio gerador.
 
-In `yield foo(11,31)`, first the `foo(11,31)` call is made, which returns nothing (aka `undefined`), so we're making a call to request data, but we're actually then doing `yield undefined`. That's OK, because the code is not currently relying on a `yield`ed value to do anything interesting. We'll revisit this point later in the chapter.
+Em `yield foo(11,31)`, primeiro a chamada `foo(11,31)` é feita, que não retorna nada (ou seja, `undefined`), então estamos fazendo uma chamada para requisitar dados, mas na verdade estamos então fazendo `yield undefined`. Isso é OK, porque o código não está atualmente dependendo de um valor cedido (`yield`) para fazer algo interessante. Nós revisitaremos esse ponto mais adiante no capítulo.
 
-We're not using `yield` in a message passing sense here, only in a flow control sense to pause/block. Actually, it will have message passing, but only in one direction, after the generator is resumed.
+Não estamos usando `yield` num sentido de passagem de mensagens aqui, apenas num sentido de controle de fluxo para pausar/bloquear. Na verdade, ele vai ter passagem de mensagens, mas apenas em uma direção, depois que o gerador for retomado.
 
-So, the generator pauses at the `yield`, essentially asking the question, "what value should I return to assign to the variable `text`?" Who's going to answer that question?
+Então, o gerador pausa no `yield`, essencialmente fazendo a pergunta: "qual valor eu devo retornar para atribuir à variável `text`?" Quem vai responder a essa pergunta?
 
-Look at `foo(..)`. If the Ajax request is successful, we call:
+Olhe para `foo(..)`. Se a requisição Ajax for bem-sucedida, nós chamamos:
 
 ```js
 it.next( data );
 ```
 
-That's resuming the generator with the response data, which means that our paused `yield` expression receives that value directly, and then as it restarts the generator code, that value gets assigned to the local variable `text`.
+Isso está retomando o gerador com os dados de resposta, o que significa que nossa expressão `yield` pausada recebe esse valor diretamente, e então, ao reiniciar o código do gerador, esse valor é atribuído à variável local `text`.
 
-Pretty cool, huh?
+Bem legal, né?
 
-Take a step back and consider the implications. We have totally synchronous-looking code inside the generator (other than the `yield` keyword itself), but hidden behind the scenes, inside of `foo(..)`, the operations can complete asynchronously.
+Dê um passo atrás e considere as implicações. Nós temos um código que parece totalmente síncrono dentro do gerador (além da própria palavra-chave `yield`), mas escondido nos bastidores, dentro de `foo(..)`, as operações podem ser concluídas de forma assíncrona.
 
-**That's huge!** That's a nearly perfect solution to our previously stated problem with callbacks not being able to express asynchrony in a sequential, synchronous fashion that our brains can relate to.
+**Isso é enorme!** Essa é uma solução quase perfeita para o nosso problema declarado anteriormente de que callbacks não conseguem expressar assincronia de uma forma sequencial, síncrona, com a qual nossos cérebros conseguem se relacionar.
 
-In essence, we are abstracting the asynchrony away as an implementation detail, so that we can reason synchronously/sequentially about our flow control: "Make an Ajax request, and when it finishes print out the response." And of course, we just expressed two steps in the flow control, but this same capability extends without bounds, to let us express however many steps we need to.
+Em essência, estamos abstraindo a assincronia para longe, como um detalhe de implementação, de forma que possamos raciocinar de maneira síncrona/sequencial sobre nosso controle de fluxo: "Faça uma requisição Ajax, e quando ela terminar, imprima a resposta." E, claro, nós apenas expressamos dois passos no controle de fluxo, mas essa mesma capacidade se estende sem limites, para nos deixar expressar quantos passos precisarmos.
 
-**Tip:** This is such an important realization, just go back and read the last three paragraphs again to let it sink in!
+**Dica:** Essa é uma percepção tão importante, simplesmente volte e leia os três últimos parágrafos novamente para que ela seja absorvida!
 
-### Synchronous Error Handling
+### Tratamento Síncrono de Erros
 
-But the preceding generator code has even more goodness to *yield* to us. Let's turn our attention to the `try..catch` inside the generator:
+Mas o código do gerador anterior tem ainda mais bondade para nos *ceder* (yield). Vamos voltar nossa atenção para o `try..catch` dentro do gerador:
 
 ```js
 try {
@@ -775,26 +775,26 @@ catch (err) {
 }
 ```
 
-How does this work? The `foo(..)` call is asynchronously completing, and doesn't `try..catch` fail to catch asynchronous errors, as we looked at in Chapter 3?
+Como isso funciona? A chamada `foo(..)` está sendo concluída de forma assíncrona, e o `try..catch` não falha em capturar erros assíncronos, como vimos no capítulo 3?
 
-We already saw how the `yield` lets the assignment statement pause to wait for `foo(..)` to finish, so that the completed response can be assigned to `text`. The awesome part is that this `yield` pausing *also* allows the generator to `catch` an error. We throw that error into the generator with this part of the earlier code listing:
+Nós já vimos como o `yield` deixa a instrução de atribuição pausar para esperar `foo(..)` terminar, de forma que a resposta concluída possa ser atribuída a `text`. A parte incrível é que essa pausa do `yield` *também* permite que o gerador `catch` (capture) um erro. Nós lançamos esse erro para dentro do gerador com esta parte da listagem de código anterior:
 
 ```js
 if (err) {
-	// throw an error into `*main()`
+	// lança um erro para dentro de `*main()`
 	it.throw( err );
 }
 ```
 
-The `yield`-pause nature of generators means that not only do we get synchronous-looking `return` values from async function calls, but we can also synchronously `catch` errors from those async function calls!
+A natureza de pausa-no-`yield` dos geradores significa que não só obtemos valores de `return` com aparência síncrona de chamadas de função assíncronas, mas também podemos `catch` (capturar) erros dessas chamadas de função assíncronas de forma síncrona!
 
-So we've seen we can throw errors *into* a generator, but what about throwing errors *out of* a generator? Exactly as you'd expect:
+Então vimos que podemos lançar erros *para dentro* de um gerador, mas e quanto a lançar erros *para fora* de um gerador? Exatamente como você esperaria:
 
 ```js
 function *main() {
 	var x = yield "Hello World";
 
-	yield x.toLowerCase();	// cause an exception!
+	yield x.toLowerCase();	// causa uma exceção!
 }
 
 var it = main();
@@ -809,15 +809,15 @@ catch (err) {
 }
 ```
 
-Of course, we could have manually thrown an error with `throw ..` instead of causing an exception.
+Claro, poderíamos ter lançado um erro manualmente com `throw ..` em vez de causar uma exceção.
 
-We can even `catch` the same error that we `throw(..)` into the generator, essentially giving the generator a chance to handle it but if it doesn't, the *iterator* code must handle it:
+Podemos até `catch` (capturar) o mesmo erro que nós `throw(..)` (lançamos) para dentro do gerador, essencialmente dando ao gerador uma chance de tratá-lo, mas se ele não tratar, o código do *iterator* deve tratá-lo:
 
 ```js
 function *main() {
 	var x = yield "Hello World";
 
-	// never gets here
+	// nunca chega aqui
 	console.log( x );
 }
 
@@ -826,26 +826,26 @@ var it = main();
 it.next();
 
 try {
-	// will `*main()` handle this error? we'll see!
+	// será que `*main()` vai tratar esse erro? vamos ver!
 	it.throw( "Oops" );
 }
 catch (err) {
-	// nope, didn't handle it!
+	// não, não tratou!
 	console.error( err );			// Oops
 }
 ```
 
-Synchronous-looking error handling (via `try..catch`) with async code is a huge win for readability and reason-ability.
+Tratamento de erros com aparência síncrona (via `try..catch`) com código assíncrono é uma grande vitória para a legibilidade e a sensatez (reason-ability).
 
 ## Generators + Promises
 
-In our previous discussion, we showed how generators can be iterated asynchronously, which is a huge step forward in sequential reason-ability over the spaghetti mess of callbacks. But we lost something very important: the trustability and composability of Promises (see Chapter 3)!
+Em nossa discussão anterior, mostramos como geradores podem ser iterados assincronamente, o que é um enorme passo adiante em sensatez sequencial em relação à bagunça de espaguete dos callbacks. Mas nós perdemos algo muito importante: a confiabilidade e a composibilidade das Promises (veja o capítulo 3)!
 
-Don't worry -- we can get that back. The best of all worlds in ES6 is to combine generators (synchronous-looking async code) with Promises (trustable and composable).
+Não se preocupe -- nós podemos recuperar isso. O melhor de todos os mundos no ES6 é combinar geradores (código assíncrono com aparência síncrona) com Promises (confiáveis e combináveis).
 
-But how?
+Mas como?
 
-Recall from Chapter 3 the Promise-based approach to our running Ajax example:
+Relembre do capítulo 3 a abordagem baseada em Promises para o nosso exemplo corrente de Ajax:
 
 ```js
 function foo(x,y) {
@@ -865,17 +865,17 @@ foo( 11, 31 )
 );
 ```
 
-In our earlier generator code for the running Ajax example, `foo(..)` returned nothing (`undefined`), and our *iterator* control code didn't care about that `yield`ed value.
+Em nosso código de gerador anterior para o exemplo corrente de Ajax, `foo(..)` não retornava nada (`undefined`), e nosso código de controle do *iterator* não se importava com esse valor cedido (`yield`).
 
-But here the Promise-aware `foo(..)` returns a promise after making the Ajax call. That suggests that we could construct a promise with `foo(..)` and then `yield` it from the generator, and then the *iterator* control code would receive that promise.
+Mas aqui o `foo(..)` ciente de Promises retorna uma promise depois de fazer a chamada Ajax. Isso sugere que poderíamos construir uma promise com `foo(..)` e então cedê-la (`yield`) do gerador, e então o código de controle do *iterator* receberia essa promise.
 
-But what should the *iterator* do with the promise?
+Mas o que o *iterator* deveria fazer com a promise?
 
-It should listen for the promise to resolve (fulfillment or rejection), and then either resume the generator with the fulfillment message or throw an error into the generator with the rejection reason.
+Ele deveria escutar a promise se resolver (fulfillment ou rejection), e então ou retomar o gerador com a mensagem de fulfillment, ou lançar um erro para dentro do gerador com a razão da rejection.
 
-Let me repeat that, because it's so important. The natural way to get the most out of Promises and generators is **to `yield` a Promise**, and wire that Promise to control the generator's *iterator*.
+Deixe-me repetir isso, pois é muito importante. A forma natural de tirar o máximo proveito de Promises e geradores é **ceder (`yield`) uma Promise**, e conectar essa Promise para controlar o *iterator* do gerador.
 
-Let's give it a try! First, we'll put the Promise-aware `foo(..)` together with the generator `*main()`:
+Vamos tentar! Primeiro, juntaremos o `foo(..)` ciente de Promises com o gerador `*main()`:
 
 ```js
 function foo(x,y) {
@@ -895,16 +895,16 @@ function *main() {
 }
 ```
 
-The most powerful revelation in this refactor is that the code inside `*main()` **did not have to change at all!** Inside the generator, whatever values are `yield`ed out is just an opaque implementation detail, so we're not even aware it's happening, nor do we need to worry about it.
+A revelação mais poderosa nesse refatoramento é que o código dentro de `*main()` **não precisou mudar nada!** Dentro do gerador, quaisquer que sejam os valores cedidos (`yield`) para fora, é apenas um detalhe de implementação opaco, então nem sequer estamos cientes de que isso está acontecendo, nem precisamos nos preocupar com isso.
 
-But how are we going to run `*main()` now? We still have some of the implementation plumbing work to do, to receive and wire up the `yield`ed promise so that it resumes the generator upon resolution. We'll start by trying that manually:
+Mas como vamos rodar `*main()` agora? Ainda temos algum trabalho de encanamento de implementação a fazer, para receber e conectar a promise cedida (`yield`) de forma que ela retome o gerador na resolução. Vamos começar tentando isso manualmente:
 
 ```js
 var it = main();
 
 var p = it.next().value;
 
-// wait for the `p` promise to resolve
+// espera a promise `p` se resolver
 p.then(
 	function(text){
 		it.next( text );
@@ -915,57 +915,57 @@ p.then(
 );
 ```
 
-Actually, that wasn't so painful at all, was it?
+Na verdade, isso não foi tão doloroso, foi?
 
-This snippet should look very similar to what we did earlier with the manually wired generator controlled by the error-first callback. Instead of an `if (err) { it.throw..`, the promise already splits fulfillment (success) and rejection (failure) for us, but otherwise the *iterator* control is identical.
+Esse trecho deve parecer muito similar ao que fizemos antes com o gerador conectado manualmente, controlado pelo callback error-first. Em vez de um `if (err) { it.throw..`, a promise já separa fulfillment (sucesso) e rejection (falha) para nós, mas, fora isso, o controle do *iterator* é idêntico.
 
-Now, we've glossed over some important details.
+Agora, nós passamos por cima de alguns detalhes importantes.
 
-Most importantly, we took advantage of the fact that we knew that `*main()` only had one Promise-aware step in it. What if we wanted to be able to Promise-drive a generator no matter how many steps it has? We certainly don't want to manually write out the Promise chain differently for each generator! What would be much nicer is if there was a way to repeat (aka "loop" over) the iteration control, and each time a Promise comes out, wait on its resolution before continuing.
+Mais importante, tiramos proveito do fato de que sabíamos que `*main()` tinha apenas um passo ciente de Promises nele. E se quiséssemos ser capazes de dirigir por Promise um gerador não importa quantos passos ele tenha? Nós certamente não queremos escrever manualmente a cadeia de Promises de forma diferente para cada gerador! O que seria muito melhor seria se houvesse uma forma de repetir (ou seja, fazer "loop") sobre o controle de iteração, e cada vez que uma Promise saísse, esperar pela sua resolução antes de continuar.
 
-Also, what if the generator throws out an error (intentionally or accidentally) during the `it.next(..)` call? Should we quit, or should we `catch` it and send it right back in? Similarly, what if we `it.throw(..)` a Promise rejection into the generator, but it's not handled, and comes right back out?
+Além disso, e se o gerador lançar um erro (intencionalmente ou acidentalmente) durante a chamada `it.next(..)`? Devemos desistir, ou devemos `catch` (capturar) e enviá-lo de volta para dentro? Da mesma forma, e se nós `it.throw(..)` (lançarmos) uma rejection de Promise para dentro do gerador, mas ela não for tratada, e voltar logo em seguida?
 
-### Promise-Aware Generator Runner
+### Executor de Geradores Ciente de Promises
 
-The more you start to explore this path, the more you realize, "wow, it'd be great if there was just some utility to do it for me." And you're absolutely correct. This is such an important pattern, and you don't want to get it wrong (or exhaust yourself repeating it over and over), so your best bet is to use a utility that is specifically designed to *run* Promise-`yield`ing generators in the manner we've illustrated.
+Quanto mais você começa a explorar esse caminho, mais você percebe: "uau, seria ótimo se existisse algum utilitário para fazer isso por mim." E você está absolutamente correto. Esse é um padrão tão importante, e você não quer errá-lo (ou se exaurir repetindo-o vez após vez), então sua melhor aposta é usar um utilitário que seja especificamente projetado para *executar* geradores que cedem (`yield`) Promises da maneira que ilustramos.
 
-Several Promise abstraction libraries provide just such a utility, including my *asynquence* library and its `runner(..)`, which will be discussed in Appendix A of this book.
+Várias bibliotecas de abstração de Promises fornecem justamente tal utilitário, incluindo minha biblioteca *asynquence* e seu `runner(..)`, que será discutido no Apêndice A deste livro.
 
-But for the sake of learning and illustration, let's just define our own standalone utility that we'll call `run(..)`:
+Mas, por uma questão de aprendizado e ilustração, vamos apenas definir nosso próprio utilitário independente que chamaremos de `run(..)`:
 
 ```js
-// thanks to Benjamin Gruenbaum (@benjamingr on GitHub) for
-// big improvements here!
+// obrigado a Benjamin Gruenbaum (@benjamingr no GitHub) por
+// grandes melhorias aqui!
 function run(gen) {
 	var args = [].slice.call( arguments, 1), it;
 
-	// initialize the generator in the current context
+	// inicializa o gerador no contexto atual
 	it = gen.apply( this, args );
 
-	// return a promise for the generator completing
+	// retorna uma promise para a conclusão do gerador
 	return Promise.resolve()
 		.then( function handleNext(value){
-			// run to the next yielded value
+			// roda até o próximo valor cedido (yield)
 			var next = it.next( value );
 
 			return (function handleResult(next){
-				// generator has completed running?
+				// o gerador terminou de rodar?
 				if (next.done) {
 					return next.value;
 				}
-				// otherwise keep going
+				// caso contrário, continue
 				else {
 					return Promise.resolve( next.value )
 						.then(
-							// resume the async loop on
-							// success, sending the resolved
-							// value back into the generator
+							// retoma o loop assíncrono no
+							// sucesso, enviando o valor resolvido
+							// de volta para dentro do gerador
 							handleNext,
 
-							// if `value` is a rejected
-							// promise, propagate error back
-							// into the generator for its own
-							// error handling
+							// se `value` for uma promise
+							// rejeitada, propaga o erro de volta
+							// para dentro do gerador para seu próprio
+							// tratamento de erro
 							function handleErr(err) {
 								return Promise.resolve(
 									it.throw( err )
@@ -979,9 +979,9 @@ function run(gen) {
 }
 ```
 
-As you can see, it's a quite a bit more complex than you'd probably want to author yourself, and you especially wouldn't want to repeat this code for each generator you use. So, a utility/library helper is definitely the way to go. Nevertheless, I encourage you to spend a few minutes studying that code listing to get a better sense of how to manage the generator+Promise negotiation.
+Como você pode ver, ele é um bom tanto mais complexo do que você provavelmente gostaria de escrever você mesmo, e você especialmente não gostaria de repetir esse código para cada gerador que usar. Então, um utilitário/biblioteca auxiliar é definitivamente o caminho a seguir. Mesmo assim, eu te encorajo a passar alguns minutos estudando essa listagem de código para ter uma melhor noção de como gerenciar a negociação gerador+Promise.
 
-How would you use `run(..)` with `*main()` in our *running* Ajax example?
+Como você usaria `run(..)` com `*main()` em nosso exemplo *corrente* de Ajax?
 
 ```js
 function *main() {
@@ -991,15 +991,15 @@ function *main() {
 run( main );
 ```
 
-That's it! The way we wired `run(..)`, it will automatically advance the generator you pass to it, asynchronously until completion.
+É isso! Da forma que conectamos `run(..)`, ele vai automaticamente avançar o gerador que você passa para ele, assincronamente até a conclusão.
 
-**Note:** The `run(..)` we defined returns a promise which is wired to resolve once the generator is complete, or receive an uncaught exception if the generator doesn't handle it. We don't show that capability here, but we'll come back to it later in the chapter.
+**Nota:** O `run(..)` que definimos retorna uma promise que está conectada para se resolver assim que o gerador estiver completo, ou para receber uma exceção não capturada se o gerador não a tratar. Nós não mostramos essa capacidade aqui, mas voltaremos a ela mais adiante no capítulo.
 
-#### ES7: `async` and `await`?
+#### ES7: `async` e `await`?
 
-The preceding pattern -- generators yielding Promises that then control the generator's *iterator* to advance it to completion -- is such a powerful and useful approach, it would be nicer if we could do it without the clutter of the library utility helper (aka `run(..)`).
+O padrão anterior -- geradores cedendo (`yield`) Promises que então controlam o *iterator* do gerador para avançá-lo até a conclusão -- é uma abordagem tão poderosa e útil, que seria melhor se pudéssemos fazê-la sem a desordem do auxiliar utilitário da biblioteca (ou seja, `run(..)`).
 
-There's probably good news on that front. At the time of this writing, there's early but strong support for a proposal for more syntactic addition in this realm for the post-ES6, ES7-ish timeframe. Obviously, it's too early to guarantee the details, but there's a pretty decent chance it will shake out similar to the following:
+Provavelmente há boas notícias nessa frente. No momento em que isto é escrito, há um suporte inicial mas forte para uma proposta de mais adição sintática nesse domínio para o período pós-ES6, mais ou menos do ES7. Obviamente, é cedo demais para garantir os detalhes, mas há uma chance bem decente de que ela se concretize de forma similar ao seguinte:
 
 ```js
 function foo(x,y) {
@@ -1021,25 +1021,25 @@ async function main() {
 main();
 ```
 
-As you can see, there's no `run(..)` call (meaning no need for a library utility!) to invoke and drive `main()` -- it's just called as a normal function. Also, `main()` isn't declared as a generator function anymore; it's a new kind of function: `async function`. And finally, instead of `yield`ing a Promise, we `await` for it to resolve.
+Como você pode ver, não há chamada `run(..)` (o que significa que não há necessidade de um utilitário de biblioteca!) para invocar e dirigir `main()` -- ele é apenas chamado como uma função normal. Além disso, `main()` não é mais declarado como uma função geradora; é um novo tipo de função: `async function`. E, finalmente, em vez de ceder (`yield`) uma Promise, nós `await` (aguardamos) que ela se resolva.
 
-The `async function` automatically knows what to do if you `await` a Promise -- it will pause the function (just like with generators) until the Promise resolves. We didn't illustrate it in this snippet, but calling an async function like `main()` automatically returns a promise that's resolved whenever the function finishes completely.
+A `async function` automaticamente sabe o que fazer se você `await` uma Promise -- ela vai pausar a função (assim como com geradores) até a Promise se resolver. Nós não ilustramos isso neste trecho, mas chamar uma função async como `main()` automaticamente retorna uma promise que é resolvida sempre que a função terminar completamente.
 
-**Tip:** The `async` / `await` syntax should look very familiar to readers with  experience in C#, because it's basically identical.
+**Dica:** A sintaxe `async` / `await` deve parecer muito familiar para leitores com experiência em C#, pois ela é basicamente idêntica.
 
-The proposal essentially codifies support for the pattern we've already derived, into a syntactic mechanism: combining Promises with sync-looking flow control code. That's the best of both worlds combined, to effectively address practically all of the major concerns we outlined with callbacks.
+A proposta essencialmente codifica suporte para o padrão que já derivamos, em um mecanismo sintático: combinar Promises com código de controle de fluxo com aparência síncrona. Esse é o melhor de ambos os mundos combinado, para efetivamente lidar com praticamente todas as principais preocupações que delineamos com callbacks.
 
-The mere fact that such a ES7-ish proposal already exists and has early support and enthusiasm is a major vote of confidence in the future importance of this async pattern.
+O mero fato de que tal proposta mais ou menos do ES7 já exista e tenha suporte e entusiasmo iniciais é um grande voto de confiança na importância futura desse padrão assíncrono.
 
-### Promise Concurrency in Generators
+### Concorrência de Promises em Geradores
 
-So far, all we've demonstrated is a single-step async flow with Promises+generators. But real-world code will often have many async steps.
+Até aqui, tudo o que demonstramos foi um fluxo assíncrono de passo único com Promises+geradores. Mas o código do mundo real frequentemente terá muitos passos assíncronos.
 
-If you're not careful, the sync-looking style of generators may lull you into complacency with how you structure your async concurrency, leading to suboptimal performance patterns. So we want to spend a little time exploring the options.
+Se você não tomar cuidado, o estilo de aparência síncrona dos geradores pode te embalar numa complacência sobre como você estrutura sua concorrência assíncrona, levando a padrões de desempenho subótimos. Então queremos passar um pouco de tempo explorando as opções.
 
-Imagine a scenario where you need to fetch data from two different sources, then combine those responses to make a third request, and finally print out the last response. We explored a similar scenario with Promises in Chapter 3, but let's reconsider it in the context of generators.
+Imagine um cenário onde você precisa buscar dados de duas fontes diferentes, depois combinar essas respostas para fazer uma terceira requisição, e finalmente imprimir a última resposta. Nós exploramos um cenário similar com Promises no capítulo 3, mas vamos reconsiderá-lo no contexto de geradores.
 
-Your first instinct might be something like:
+Seu primeiro instinto pode ser algo como:
 
 ```js
 function *foo() {
@@ -1053,27 +1053,27 @@ function *foo() {
 	console.log( r3 );
 }
 
-// use previously defined `run(..)` utility
+// usa o utilitário `run(..)` definido anteriormente
 run( foo );
 ```
 
-This code will work, but in the specifics of our scenario, it's not optimal. Can you spot why?
+Esse código vai funcionar, mas, nas especificidades do nosso cenário, ele não é ótimo. Você consegue identificar por quê?
 
-Because the `r1` and `r2` requests can -- and for performance reasons, *should* -- run concurrently, but in this code they will run sequentially; the `"http://some.url.2"` URL isn't Ajax fetched until after the `"http://some.url.1"` request is finished. These two requests are independent, so the better performance approach would likely be to have them run at the same time.
+Porque as requisições `r1` e `r2` podem -- e, por razões de desempenho, *deveriam* -- rodar concorrentemente, mas neste código elas vão rodar sequencialmente; a URL `"http://some.url.2"` não é buscada via Ajax até depois que a requisição `"http://some.url.1"` terminar. Essas duas requisições são independentes, então a abordagem de melhor desempenho seria provavelmente tê-las rodando ao mesmo tempo.
 
-But how exactly would you do that with a generator and `yield`? We know that `yield` is only a single pause point in the code, so you can't really do two pauses at the same time.
+Mas como exatamente você faria isso com um gerador e `yield`? Sabemos que `yield` é apenas um único ponto de pausa no código, então você não pode realmente fazer duas pausas ao mesmo tempo.
 
-The most natural and effective answer is to base the async flow on Promises, specifically on their capability to manage state in a time-independent fashion (see "Future Value" in Chapter 3).
+A resposta mais natural e efetiva é basear o fluxo assíncrono em Promises, especificamente em sua capacidade de gerenciar estado de uma forma independente do tempo (veja "Valor Futuro" no capítulo 3).
 
-The simplest approach:
+A abordagem mais simples:
 
 ```js
 function *foo() {
-	// make both requests "in parallel"
+	// faz ambas as requisições "em paralelo"
 	var p1 = request( "http://some.url.1" );
 	var p2 = request( "http://some.url.2" );
 
-	// wait until both promises resolve
+	// espera até que ambas as promises se resolvam
 	var r1 = yield p1;
 	var r2 = yield p2;
 
@@ -1084,22 +1084,22 @@ function *foo() {
 	console.log( r3 );
 }
 
-// use previously defined `run(..)` utility
+// usa o utilitário `run(..)` definido anteriormente
 run( foo );
 ```
 
-Why is this different from the previous snippet? Look at where the `yield` is and is not. `p1` and `p2` are promises for Ajax requests made concurrently (aka "in parallel"). It doesn't matter which one finishes first, because promises will hold onto their resolved state for as long as necessary.
+Por que isso é diferente do trecho anterior? Olhe onde o `yield` está e onde não está. `p1` e `p2` são promises para requisições Ajax feitas concorrentemente (ou seja, "em paralelo"). Não importa qual delas termina primeiro, porque promises vão segurar seu estado resolvido por quanto tempo for necessário.
 
-Then we use two subsequent `yield` statements to wait for and retrieve the resolutions from the promises (into `r1` and `r2`, respectively). If `p1` resolves first, the `yield p1` resumes first then waits on the `yield p2` to resume. If `p2` resolves first, it will just patiently hold onto that resolution value until asked, but the `yield p1` will hold on first, until `p1` resolves.
+Então usamos duas instruções `yield` subsequentes para esperar por e recuperar as resoluções das promises (para `r1` e `r2`, respectivamente). Se `p1` se resolver primeiro, o `yield p1` retoma primeiro e então espera no `yield p2` para retomar. Se `p2` se resolver primeiro, ela vai apenas segurar pacientemente esse valor de resolução até ser solicitada, mas o `yield p1` vai segurar primeiro, até `p1` se resolver.
 
-Either way, both `p1` and `p2` will run concurrently, and both have to finish, in either order, before the `r3 = yield request..` Ajax request will be made.
+De qualquer forma, tanto `p1` quanto `p2` vão rodar concorrentemente, e ambas têm que terminar, em qualquer ordem, antes que a requisição Ajax `r3 = yield request..` seja feita.
 
-If that flow control processing model sounds familiar, it's basically the same as what we identified in Chapter 3 as the "gate" pattern, enabled by the `Promise.all([ .. ])` utility. So, we could also express the flow control like this:
+Se esse modelo de processamento de controle de fluxo soa familiar, é basicamente o mesmo que identificamos no capítulo 3 como o padrão "portão" (gate), habilitado pelo utilitário `Promise.all([ .. ])`. Então, poderíamos também expressar o controle de fluxo assim:
 
 ```js
 function *foo() {
-	// make both requests "in parallel," and
-	// wait until both promises resolve
+	// faz ambas as requisições "em paralelo," e
+	// espera até que ambas as promises se resolvam
 	var results = yield Promise.all( [
 		request( "http://some.url.1" ),
 		request( "http://some.url.2" )
@@ -1115,22 +1115,22 @@ function *foo() {
 	console.log( r3 );
 }
 
-// use previously defined `run(..)` utility
+// usa o utilitário `run(..)` definido anteriormente
 run( foo );
 ```
 
-**Note:** As we discussed in Chapter 3, we can even use ES6 destructuring assignment to simplify the `var r1 = .. var r2 = ..` assignments, with `var [r1,r2] = results`.
+**Nota:** Como discutimos no capítulo 3, podemos até usar a atribuição via desestruturação (destructuring) do ES6 para simplificar as atribuições `var r1 = .. var r2 = ..`, com `var [r1,r2] = results`.
 
-In other words, all of the concurrency capabilities of Promises are available to us in the generator+Promise approach. So in any place where you need more than sequential this-then-that async flow control steps, Promises are likely your best bet.
+Em outras palavras, todas as capacidades de concorrência das Promises estão disponíveis para nós na abordagem gerador+Promise. Então, em qualquer lugar onde você precise de mais do que passos sequenciais de controle de fluxo assíncrono este-então-aquele, Promises são provavelmente sua melhor aposta.
 
-#### Promises, Hidden
+#### Promises, Escondidas
 
-As a word of stylistic caution, be careful about how much Promise logic you include **inside your generators**. The whole point of using generators for asynchrony in the way we've described is to create simple, sequential, sync-looking code, and to hide as much of the details of asynchrony away from that code as possible.
+Como uma palavra de cautela estilística, tenha cuidado com quanta lógica de Promise você inclui **dentro dos seus geradores**. O objetivo todo de usar geradores para assincronia da forma que descrevemos é criar código simples, sequencial, com aparência síncrona, e esconder o máximo possível dos detalhes de assincronia para longe desse código.
 
-For example, this might be a cleaner approach:
+Por exemplo, esta poderia ser uma abordagem mais limpa:
 
 ```js
-// note: normal function, not generator
+// nota: função normal, não gerador
 function bar(url1,url2) {
 	return Promise.all( [
 		request( url1 ),
@@ -1139,8 +1139,8 @@ function bar(url1,url2) {
 }
 
 function *foo() {
-	// hide the Promise-based concurrency details
-	// inside `bar(..)`
+	// esconde os detalhes de concorrência baseada em Promise
+	// dentro de `bar(..)`
 	var results = yield bar(
 		"http://some.url.1",
 		"http://some.url.2"
@@ -1156,15 +1156,15 @@ function *foo() {
 	console.log( r3 );
 }
 
-// use previously defined `run(..)` utility
+// usa o utilitário `run(..)` definido anteriormente
 run( foo );
 ```
 
-Inside `*foo()`, it's cleaner and clearer that all we're doing is just asking `bar(..)` to get us some `results`, and we'll `yield`-wait on that to happen. We don't have to care that under the covers a `Promise.all([ .. ])` Promise composition will be used to make that happen.
+Dentro de `*foo()`, está mais limpo e claro que tudo o que estamos fazendo é apenas pedir a `bar(..)` para nos obter alguns `results`, e nós vamos esperar via `yield` que isso aconteça. Nós não temos que nos importar que, por baixo dos panos, uma composição de Promise `Promise.all([ .. ])` será usada para fazer isso acontecer.
 
-**We treat asynchrony, and indeed Promises, as an implementation detail.**
+**Nós tratamos a assincronia, e de fato as Promises, como um detalhe de implementação.**
 
-Hiding your Promise logic inside a function that you merely call from your generator is especially useful if you're going to do a sophisticated series flow-control. For example:
+Esconder sua lógica de Promise dentro de uma função que você apenas chama do seu gerador é especialmente útil se você vai fazer um controle de fluxo em série sofisticado. Por exemplo:
 
 ```js
 function bar() {
@@ -1177,17 +1177,17 @@ function bar() {
 }
 ```
 
-That kind of logic is sometimes required, and if you dump it directly inside your generator(s), you've defeated most of the reason why you would want to use generators in the first place. We *should* intentionally abstract such details away from our generator code so that they don't clutter up the higher level task expression.
+Esse tipo de lógica às vezes é necessário, e se você o despejar diretamente dentro do(s) seu(s) gerador(es), você derrotou a maior parte da razão pela qual você gostaria de usar geradores em primeiro lugar. Nós *deveríamos* intencionalmente abstrair tais detalhes para longe do nosso código de gerador, de forma que eles não atravanquem a expressão de tarefa de mais alto nível.
 
-Beyond creating code that is both functional and performant, you should also strive to make code that is as reason-able and maintainable as possible.
+Além de criar código que seja tanto funcional quanto performático, você também deveria se esforçar para fazer código que seja o mais sensato (reason-able) e manutenível possível.
 
-**Note:** Abstraction is not *always* a healthy thing for programming -- many times it can increase complexity in exchange for terseness. But in this case, I believe it's much healthier for your generator+Promise async code than the alternatives. As with all such advice, though, pay attention to your specific situations and make proper decisions for you and your team.
+**Nota:** Abstração nem *sempre* é uma coisa saudável para programação -- muitas vezes ela pode aumentar a complexidade em troca de concisão. Mas, neste caso, eu acredito que ela é muito mais saudável para o seu código assíncrono gerador+Promise do que as alternativas. Como com todo conselho desse tipo, porém, preste atenção às suas situações específicas e tome as decisões adequadas para você e seu time.
 
-## Generator Delegation
+## Delegação de Geradores
 
-In the previous section, we showed calling regular functions from inside a generator, and how that remains a useful technique for abstracting away implementation details (like async Promise flow). But the main drawback of using a normal function for this task is that it has to behave by the normal function rules, which means it cannot pause itself with `yield` like a generator can.
+Na seção anterior, mostramos como chamar funções comuns de dentro de um gerador, e como isso continua sendo uma técnica útil para abstrair detalhes de implementação (como o fluxo assíncrono de Promise). Mas a principal desvantagem de usar uma função normal para essa tarefa é que ela tem que se comportar pelas regras de função normal, o que significa que ela não pode pausar a si mesma com `yield` como um gerador pode.
 
-It may then occur to you that you might try to call one generator from another generator, using our `run(..)` helper, such as:
+Pode então te ocorrer que você poderia tentar chamar um gerador de dentro de outro gerador, usando nosso auxiliar `run(..)`, como:
 
 ```js
 function *foo() {
@@ -1200,7 +1200,7 @@ function *foo() {
 function *bar() {
 	var r1 = yield request( "http://some.url.1" );
 
-	// "delegating" to `*foo()` via `run(..)`
+	// "delegando" para `*foo()` via `run(..)`
 	var r3 = yield run( foo );
 
 	console.log( r3 );
@@ -1209,9 +1209,9 @@ function *bar() {
 run( bar );
 ```
 
-We run `*foo()` inside of `*bar()` by using our `run(..)` utility again. We take advantage here of the fact that the `run(..)` we defined earlier returns a promise which is resolved when its generator is run to completion (or errors out), so if we `yield` out to a `run(..)` instance the promise from another `run(..)` call, it automatically pauses `*bar()` until `*foo()` finishes.
+Nós rodamos `*foo()` dentro de `*bar()` usando nosso utilitário `run(..)` novamente. Tiramos proveito aqui do fato de que o `run(..)` que definimos anteriormente retorna uma promise que é resolvida quando seu gerador roda até a conclusão (ou dá erro), então se nós cedermos (`yield`) para fora, para uma instância de `run(..)`, a promise de outra chamada `run(..)`, ela automaticamente pausa `*bar()` até `*foo()` terminar.
 
-But there's an even better way to integrate calling `*foo()` into `*bar()`, and it's called `yield`-delegation. The special syntax for `yield`-delegation is: `yield * __` (notice the extra `*`). Before we see it work in our previous example, let's look at a simpler scenario:
+Mas há uma forma ainda melhor de integrar a chamada de `*foo()` em `*bar()`, e ela é chamada de delegação de `yield`. A sintaxe especial para delegação de `yield` é: `yield * __` (note o `*` extra). Antes de vermos isso funcionar em nosso exemplo anterior, vamos olhar para um cenário mais simples:
 
 ```js
 function *foo() {
@@ -1224,7 +1224,7 @@ function *foo() {
 function *bar() {
 	yield 1;
 	yield 2;
-	yield *foo();	// `yield`-delegation!
+	yield *foo();	// delegação de `yield`!
 	yield 5;
 }
 
@@ -1239,17 +1239,17 @@ it.next().value;	// `*foo()` finished
 					// 5
 ```
 
-**Note:** Similar to a note earlier in the chapter where I explained why I prefer `function *foo() ..` instead of `function* foo() ..`, I also prefer -- differing from most other documentation on the topic -- to say `yield *foo()` instead of `yield* foo()`. The placement of the `*` is purely stylistic and up to your best judgment. But I find the consistency of styling attractive.
+**Nota:** De forma similar a uma nota anterior no capítulo onde expliquei por que prefiro `function *foo() ..` em vez de `function* foo() ..`, eu também prefiro -- diferindo da maioria das outras documentações sobre o tópico -- dizer `yield *foo()` em vez de `yield* foo()`. O posicionamento do `*` é puramente estilístico e fica a seu melhor critério. Mas eu acho a consistência do estilo atraente.
 
-How does the `yield *foo()` delegation work?
+Como funciona a delegação `yield *foo()`?
 
-First, calling `foo()` creates an *iterator* exactly as we've already seen. Then, `yield *` delegates/transfers the *iterator* instance control (of the present `*bar()` generator) over to this other `*foo()` *iterator*.
+Primeiro, chamar `foo()` cria um *iterator* exatamente como já vimos. Então, `yield *` delega/transfere o controle da instância do *iterator* (do presente gerador `*bar()`) para esse outro *iterator* de `*foo()`.
 
-So, the first two `it.next()` calls are controlling `*bar()`, but when we make the third `it.next()` call, now `*foo()` starts up, and now we're controlling `*foo()` instead of `*bar()`. That's why it's called delegation -- `*bar()` delegated its iteration control to `*foo()`.
+Então, as duas primeiras chamadas `it.next()` estão controlando `*bar()`, mas quando fazemos a terceira chamada `it.next()`, agora `*foo()` inicia, e agora estamos controlando `*foo()` em vez de `*bar()`. É por isso que se chama delegação -- `*bar()` delegou seu controle de iteração para `*foo()`.
 
-As soon as the `it` *iterator* control exhausts the entire `*foo()` *iterator*, it automatically returns to controlling `*bar()`.
+Assim que o controle do *iterator* `it` esgota inteiramente o *iterator* de `*foo()`, ele automaticamente volta a controlar `*bar()`.
 
-So now back to the previous example with the three sequential Ajax requests:
+Então, agora de volta ao exemplo anterior com as três requisições Ajax sequenciais:
 
 ```js
 function *foo() {
@@ -1262,7 +1262,7 @@ function *foo() {
 function *bar() {
 	var r1 = yield request( "http://some.url.1" );
 
-	// "delegating" to `*foo()` via `yield*`
+	// "delegando" para `*foo()` via `yield*`
 	var r3 = yield *foo();
 
 	console.log( r3 );
@@ -1271,23 +1271,23 @@ function *bar() {
 run( bar );
 ```
 
-The only difference between this snippet and the version used earlier is the use of `yield *foo()` instead of the previous `yield run(foo)`.
+A única diferença entre este trecho e a versão usada anteriormente é o uso de `yield *foo()` em vez do `yield run(foo)` anterior.
 
-**Note:** `yield *` yields iteration control, not generator control; when you invoke the `*foo()` generator, you're now `yield`-delegating to its *iterator*. But you can actually `yield`-delegate to any *iterable*; `yield *[1,2,3]` would consume the default *iterator* for the `[1,2,3]` array value.
+**Nota:** `yield *` cede controle de iteração, não controle de gerador; quando você invoca o gerador `*foo()`, você está agora delegando via `yield` para o *iterator* dele. Mas você pode na verdade delegar via `yield` para qualquer *iterable*; `yield *[1,2,3]` consumiria o *iterator* padrão para o valor de array `[1,2,3]`.
 
-### Why Delegation?
+### Por que Delegação?
 
-The purpose of `yield`-delegation is mostly code organization, and in that way is symmetrical with normal function calling.
+O propósito da delegação de `yield` é principalmente a organização de código, e nesse sentido ela é simétrica com a chamada normal de função.
 
-Imagine two modules that respectively provide methods `foo()` and `bar()`, where `bar()` calls `foo()`. The reason the two are separate is generally because the proper organization of code for the program calls for them to be in separate functions. For example, there may be cases where `foo()` is called standalone, and other places where `bar()` calls `foo()`.
+Imagine dois módulos que respectivamente fornecem os métodos `foo()` e `bar()`, onde `bar()` chama `foo()`. A razão de os dois serem separados é geralmente porque a organização adequada do código para o programa pede que eles estejam em funções separadas. Por exemplo, pode haver casos onde `foo()` é chamado de forma autônoma, e outros lugares onde `bar()` chama `foo()`.
 
-For all these exact same reasons, keeping generators separate aids in program readability, maintenance, and debuggability. In that respect, `yield *` is a syntactic shortcut for manually iterating over the steps of `*foo()` while inside of `*bar()`.
+Por todas essas exatas mesmas razões, manter geradores separados ajuda na legibilidade, manutenção e depurabilidade do programa. Nesse aspecto, `yield *` é um atalho sintático para iterar manualmente sobre os passos de `*foo()` enquanto se está dentro de `*bar()`.
 
-Such manual approach would be especially complex if the steps in `*foo()` were asynchronous, which is why you'd probably need to use that `run(..)` utility to do it. And as we've shown, `yield *foo()` eliminates the need for a sub-instance of the `run(..)` utility (like `run(foo)`).
+Tal abordagem manual seria especialmente complexa se os passos em `*foo()` fossem assíncronos, e é por isso que você provavelmente precisaria usar aquele utilitário `run(..)` para fazê-lo. E, como mostramos, `yield *foo()` elimina a necessidade de uma subinstância do utilitário `run(..)` (como `run(foo)`).
 
-### Delegating Messages
+### Delegando Mensagens
 
-You may wonder how this `yield`-delegation works not just with *iterator* control but with the two-way message passing. Carefully follow the flow of messages in and out, through the `yield`-delegation:
+Você pode se perguntar como essa delegação de `yield` funciona não apenas com o controle do *iterator*, mas com a passagem de mensagens em duas vias. Acompanhe cuidadosamente o fluxo de mensagens para dentro e para fora, através da delegação de `yield`:
 
 ```js
 function *foo() {
@@ -1301,7 +1301,7 @@ function *foo() {
 function *bar() {
 	console.log( "inside `*bar()`:", yield "A" );
 
-	// `yield`-delegation!
+	// delegação de `yield`!
 	console.log( "inside `*bar()`:", yield *foo() );
 
 	console.log( "inside `*bar()`:", yield "E" );
@@ -1332,22 +1332,22 @@ console.log( "outside:", it.next( 4 ).value );
 // outside: F
 ```
 
-Pay particular attention to the processing steps after the `it.next(3)` call:
+Preste atenção particular aos passos de processamento depois da chamada `it.next(3)`:
 
-1. The `3` value is passed (through the `yield`-delegation in `*bar()`) into the waiting `yield "C"` expression inside of `*foo()`.
-2. `*foo()` then calls `return "D"`, but this value doesn't get returned all the way back to the outside `it.next(3)` call.
-3. Instead, the `"D"` value is sent as the result of the waiting `yield *foo()` expression inside of `*bar()` -- this `yield`-delegation expression has essentially been paused while all of `*foo()` was exhausted. So `"D"` ends up inside of `*bar()` for it to print out.
-4. `yield "E"` is called inside of `*bar()`, and the `"E"` value is yielded to the outside as the result of the `it.next(3)` call.
+1. O valor `3` é passado (através da delegação de `yield` em `*bar()`) para a expressão `yield "C"` que está esperando dentro de `*foo()`.
+2. `*foo()` então chama `return "D"`, mas esse valor não é retornado todo o caminho de volta até a chamada externa `it.next(3)`.
+3. Em vez disso, o valor `"D"` é enviado como o resultado da expressão `yield *foo()` que está esperando dentro de `*bar()` -- essa expressão de delegação de `yield` esteve essencialmente pausada enquanto todo o `*foo()` era esgotado. Então `"D"` acaba dentro de `*bar()` para que ele o imprima.
+4. `yield "E"` é chamado dentro de `*bar()`, e o valor `"E"` é cedido (`yield`) para fora como o resultado da chamada `it.next(3)`.
 
-From the perspective of the external *iterator* (`it`), it doesn't appear any differently between controlling the initial generator or a delegated one.
+Da perspectiva do *iterator* externo (`it`), não parece haver nenhuma diferença entre controlar o gerador inicial ou um delegado.
 
-In fact, `yield`-delegation doesn't even have to be directed to another generator; it can just be directed to a non-generator, general *iterable*. For example:
+De fato, a delegação de `yield` nem precisa ser direcionada para outro gerador; ela pode ser direcionada apenas para um *iterable* geral, não gerador. Por exemplo:
 
 ```js
 function *bar() {
 	console.log( "inside `*bar()`:", yield "A" );
 
-	// `yield`-delegation to a non-generator!
+	// delegação de `yield` para um não-gerador!
 	console.log( "inside `*bar()`:", yield *[ "B", "C", "D" ] );
 
 	console.log( "inside `*bar()`:", yield "E" );
@@ -1379,13 +1379,13 @@ console.log( "outside:", it.next( 5 ).value );
 // outside: F
 ```
 
-Notice the differences in where the messages were received/reported between this example and the one previous.
+Note as diferenças em onde as mensagens foram recebidas/reportadas entre este exemplo e o anterior.
 
-Most strikingly, the default `array` *iterator* doesn't care about any messages sent in via `next(..)` calls, so the values `2`, `3`, and `4` are essentially ignored. Also, because that *iterator* has no explicit `return` value (unlike the previously used `*foo()`), the `yield *` expression gets an `undefined` when it finishes.
+De forma mais marcante, o *iterator* padrão de `array` não se importa com nenhuma mensagem enviada via chamadas `next(..)`, então os valores `2`, `3` e `4` são essencialmente ignorados. Além disso, como esse *iterator* não tem nenhum valor de `return` explícito (diferentemente do `*foo()` usado anteriormente), a expressão `yield *` recebe um `undefined` quando termina.
 
-#### Exceptions Delegated, Too!
+#### Exceções Delegadas, Também!
 
-In the same way that `yield`-delegation transparently passes messages through in both directions, errors/exceptions also pass in both directions:
+Da mesma forma que a delegação de `yield` passa mensagens de forma transparente em ambas as direções, erros/exceções também passam em ambas as direções:
 
 ```js
 function *foo() {
@@ -1415,7 +1415,7 @@ function *bar() {
 
 	yield *baz();
 
-	// note: can't get here!
+	// nota: não dá pra chegar aqui!
 	yield "G";
 }
 
@@ -1448,15 +1448,15 @@ catch (err) {
 // error caught outside: F
 ```
 
-Some things to note from this snippet:
+Algumas coisas a notar deste trecho:
 
-1. When we call `it.throw(2)`, it sends the error message `2` into `*bar()`, which delegates that to `*foo()`, which then `catch`es it and handles it gracefully. Then, the `yield "C"` sends `"C"` back out as the return `value` from the `it.throw(2)` call.
-2. The `"D"` value that's next `throw`n from inside `*foo()` propagates out to `*bar()`, which `catch`es it and handles it gracefully. Then the `yield "E"` sends `"E"` back out as the return `value` from the `it.next(3)` call.
-3. Next, the exception `throw`n from `*baz()` isn't caught in `*bar()` -- though we did `catch` it outside -- so both `*baz()` and `*bar()` are set to a completed state. After this snippet, you would not be able to get the `"G"` value out with any subsequent `next(..)` call(s) -- they will just return `undefined` for `value`.
+1. Quando chamamos `it.throw(2)`, ele envia a mensagem de erro `2` para dentro de `*bar()`, que delega isso para `*foo()`, que então `catch` (captura) e trata graciosamente. Então, o `yield "C"` envia `"C"` de volta para fora como o `value` de retorno da chamada `it.throw(2)`.
+2. O valor `"D"` que é lançado (`throw`) em seguida de dentro de `*foo()` se propaga para fora, até `*bar()`, que o `catch` (captura) e trata graciosamente. Então o `yield "E"` envia `"E"` de volta para fora como o `value` de retorno da chamada `it.next(3)`.
+3. A seguir, a exceção lançada (`throw`) de `*baz()` não é capturada em `*bar()` -- embora tenhamos feito o `catch` dela do lado de fora -- então tanto `*baz()` quanto `*bar()` são definidos para um estado concluído. Depois deste trecho, você não conseguiria obter o valor `"G"` com qualquer chamada `next(..)` subsequente -- elas vão apenas retornar `undefined` para `value`.
 
-### Delegating Asynchrony
+### Delegando Assincronia
 
-Let's finally get back to our earlier `yield`-delegation example with the multiple sequential Ajax requests:
+Vamos finalmente voltar ao nosso exemplo anterior de delegação de `yield` com as múltiplas requisições Ajax sequenciais:
 
 ```js
 function *foo() {
@@ -1477,20 +1477,20 @@ function *bar() {
 run( bar );
 ```
 
-Instead of calling `yield run(foo)` inside of `*bar()`, we just call `yield *foo()`.
+Em vez de chamar `yield run(foo)` dentro de `*bar()`, nós apenas chamamos `yield *foo()`.
 
-In the previous version of this example, the Promise mechanism (controlled by `run(..)`) was used to transport the value from `return r3` in `*foo()` to the local variable `r3` inside `*bar()`. Now, that value is just returned back directly via the `yield *` mechanics.
+Na versão anterior deste exemplo, o mecanismo de Promise (controlado por `run(..)`) foi usado para transportar o valor de `return r3` em `*foo()` para a variável local `r3` dentro de `*bar()`. Agora, esse valor é apenas retornado diretamente via a mecânica do `yield *`.
 
-Otherwise, the behavior is pretty much identical.
+Fora isso, o comportamento é praticamente idêntico.
 
-### Delegating "Recursion"
+### Delegando "Recursão"
 
-Of course, `yield`-delegation can keep following as many delegation steps as you wire up. You could even use `yield`-delegation for async-capable generator "recursion" -- a generator `yield`-delegating to itself:
+Claro, a delegação de `yield` pode continuar seguindo quantos passos de delegação você conectar. Você poderia até usar a delegação de `yield` para "recursão" de geradores com capacidade assíncrona -- um gerador delegando via `yield` para si mesmo:
 
 ```js
 function *foo(val) {
 	if (val > 1) {
-		// generator recursion
+		// recursão de gerador
 		val = yield *foo( val - 1 );
 	}
 
@@ -1505,31 +1505,31 @@ function *bar() {
 run( bar );
 ```
 
-**Note:** Our `run(..)` utility could have been called with `run( foo, 3 )`, because it supports additional parameters being passed along to the initialization of the generator. However, we used a parameter-free `*bar()` here to highlight the flexibility of `yield *`.
+**Nota:** Nosso utilitário `run(..)` poderia ter sido chamado com `run( foo, 3 )`, porque ele suporta parâmetros adicionais sendo passados adiante para a inicialização do gerador. No entanto, usamos um `*bar()` sem parâmetros aqui para destacar a flexibilidade do `yield *`.
 
-What processing steps follow from that code? Hang on, this is going to be quite intricate to describe in detail:
+Quais passos de processamento decorrem desse código? Segura aí, isso vai ser bem intrincado de descrever em detalhe:
 
-1. `run(bar)` starts up the `*bar()` generator.
-2. `foo(3)` creates an *iterator* for `*foo(..)` and passes `3` as its `val` parameter.
-3. Because `3 > 1`, `foo(2)` creates another *iterator* and passes in `2` as its `val` parameter.
-4. Because `2 > 1`, `foo(1)` creates yet another *iterator* and passes in `1` as its `val` parameter.
-5. `1 > 1` is `false`, so we next call `request(..)` with the `1` value, and get a promise back for that first Ajax call.
-6. That promise is `yield`ed out, which comes back to the `*foo(2)` generator instance.
-7. The `yield *` passes that promise back out to the `*foo(3)` generator instance. Another `yield *` passes the promise out to the `*bar()` generator instance. And yet again another `yield *` passes the promise out to the `run(..)` utility, which will wait on that promise (for the first Ajax request) to proceed.
-8. When the promise resolves, its fulfillment message is sent to resume `*bar()`, which passes through the `yield *` into the `*foo(3)` instance, which then passes through the `yield *` to the `*foo(2)` generator instance, which then passes through the `yield *` to the normal `yield` that's waiting in the `*foo(3)` generator instance.
-9. That first call's Ajax response is now immediately `return`ed from the `*foo(3)` generator instance, which sends that value back as the result of the `yield *` expression in the `*foo(2)` instance, and assigned to its local `val` variable.
-10. Inside `*foo(2)`, a second Ajax request is made with `request(..)`, whose promise is `yield`ed back to the `*foo(1)` instance, and then `yield *` propagates all the way out to `run(..)` (step 7 again). When the promise resolves, the second Ajax response propagates all the way back into the `*foo(2)` generator instance, and is assigned to its local `val` variable.
-11. Finally, the third Ajax request is made with `request(..)`, its promise goes out to `run(..)`, and then its resolution value comes all the way back, which is then `return`ed so that it comes back to the waiting `yield *` expression in `*bar()`.
+1. `run(bar)` inicia o gerador `*bar()`.
+2. `foo(3)` cria um *iterator* para `*foo(..)` e passa `3` como seu parâmetro `val`.
+3. Porque `3 > 1`, `foo(2)` cria outro *iterator* e passa `2` como seu parâmetro `val`.
+4. Porque `2 > 1`, `foo(1)` cria ainda outro *iterator* e passa `1` como seu parâmetro `val`.
+5. `1 > 1` é `false`, então a seguir chamamos `request(..)` com o valor `1`, e recebemos de volta uma promise para essa primeira chamada Ajax.
+6. Essa promise é cedida (`yield`) para fora, o que volta para a instância do gerador `*foo(2)`.
+7. O `yield *` passa essa promise de volta para fora, para a instância do gerador `*foo(3)`. Outro `yield *` passa a promise para fora, para a instância do gerador `*bar()`. E mais uma vez outro `yield *` passa a promise para fora, para o utilitário `run(..)`, que vai esperar nessa promise (da primeira requisição Ajax) para prosseguir.
+8. Quando a promise se resolve, sua mensagem de fulfillment é enviada para retomar `*bar()`, que passa através do `yield *` para a instância `*foo(3)`, que então passa através do `yield *` para a instância do gerador `*foo(2)`, que então passa através do `yield *` para o `yield` normal que está esperando na instância do gerador `*foo(3)`.
+9. A resposta Ajax daquela primeira chamada é agora imediatamente retornada (`return`) da instância do gerador `*foo(3)`, que envia esse valor de volta como o resultado da expressão `yield *` na instância `*foo(2)`, e atribuído à sua variável local `val`.
+10. Dentro de `*foo(2)`, uma segunda requisição Ajax é feita com `request(..)`, cuja promise é cedida (`yield`) de volta para a instância `*foo(1)`, e então `yield *` propaga todo o caminho para fora, até `run(..)` (passo 7 novamente). Quando a promise se resolve, a segunda resposta Ajax propaga todo o caminho de volta para dentro da instância do gerador `*foo(2)`, e é atribuída à sua variável local `val`.
+11. Finalmente, a terceira requisição Ajax é feita com `request(..)`, sua promise vai para `run(..)`, e então seu valor de resolução vem todo o caminho de volta, que é então retornado (`return`) de forma que ele volta para a expressão `yield *` que está esperando em `*bar()`.
 
-Phew! A lot of crazy mental juggling, huh? You might want to read through that a few more times, and then go grab a snack to clear your head!
+Ufa! Um monte de malabarismo mental maluco, hein? Você talvez queira ler isso mais algumas vezes, e depois ir pegar um lanche para clarear a cabeça!
 
-## Generator Concurrency
+## Concorrência de Geradores
 
-As we discussed in both Chapter 1 and earlier in this chapter, two simultaneously running "processes" can cooperatively interleave their operations, and many times this can *yield* (pun intended) very powerful asynchrony expressions.
+Como discutimos tanto no capítulo 1 quanto anteriormente neste capítulo, dois "processos" rodando simultaneamente podem intercalar suas operações cooperativamente, e muitas vezes isso pode *ceder* (yield) (trocadilho intencional) expressões de assincronia bem poderosas.
 
-Frankly, our earlier examples of concurrency interleaving of multiple generators showed how to make it really confusing. But we hinted that there's places where this capability is quite useful.
+Francamente, nossos exemplos anteriores de intercalação de concorrência de múltiplos geradores mostraram como deixá-la realmente confusa. Mas insinuamos que há lugares onde essa capacidade é bem útil.
 
-Recall a scenario we looked at in Chapter 1, where two different simultaneous Ajax response handlers needed to coordinate with each other to make sure that the data communication was not a race condition. We slotted the responses into the `res` array like this:
+Relembre um cenário que vimos no capítulo 1, onde dois manipuladores de resposta Ajax simultâneos diferentes precisavam coordenar entre si para garantir que a comunicação de dados não fosse uma condição de corrida. Nós encaixamos as respostas no array `res` assim:
 
 ```js
 function response(data) {
@@ -1542,10 +1542,10 @@ function response(data) {
 }
 ```
 
-But how can we use multiple generators concurrently for this scenario?
+Mas como podemos usar múltiplos geradores concorrentemente para este cenário?
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 var res = [];
 
@@ -1556,11 +1556,11 @@ function *reqData(url) {
 }
 ```
 
-**Note:** We're going to use two instances of the `*reqData(..)` generator here, but there's no difference to running a single instance of two different generators; both approaches are reasoned about identically. We'll see two different generators coordinating in just a bit.
+**Nota:** Nós vamos usar duas instâncias do gerador `*reqData(..)` aqui, mas não há diferença em rodar uma única instância de dois geradores diferentes; ambas as abordagens são raciocinadas de forma idêntica. Veremos dois geradores diferentes coordenando daqui a pouco.
 
-Instead of having to manually sort out `res[0]` and `res[1]` assignments, we'll use coordinated ordering so that `res.push(..)` properly slots the values in the expected and predictable order. The expressed logic thus should feel a bit cleaner.
+Em vez de ter que organizar manualmente as atribuições de `res[0]` e `res[1]`, usaremos ordenação coordenada para que `res.push(..)` encaixe adequadamente os valores na ordem esperada e previsível. A lógica expressa, portanto, deve parecer um pouco mais limpa.
 
-But how will we actually orchestrate this interaction? First, let's just do it manually, with Promises:
+Mas como vamos de fato orquestrar essa interação? Primeiro, vamos apenas fazê-la manualmente, com Promises:
 
 ```js
 var it1 = reqData( "http://some.url.1" );
@@ -1579,19 +1579,19 @@ p1
 } );
 ```
 
-`*reqData(..)`'s two instances are both started to make their Ajax requests, then paused with `yield`. Then we choose to resume the first instance when `p1` resolves, and then `p2`'s resolution will restart the second instance. In this way, we use Promise orchestration to ensure that `res[0]` will have the first response and `res[1]` will have the second response.
+As duas instâncias de `*reqData(..)` são ambas iniciadas para fazer suas requisições Ajax, e então pausadas com `yield`. Então escolhemos retomar a primeira instância quando `p1` se resolver, e então a resolução de `p2` vai reiniciar a segunda instância. Dessa forma, usamos a orquestração de Promise para garantir que `res[0]` terá a primeira resposta e `res[1]` terá a segunda resposta.
 
-But frankly, this is awfully manual, and it doesn't really let the generators orchestrate themselves, which is where the true power can lie. Let's try it a different way:
+Mas, francamente, isso é terrivelmente manual, e na verdade não deixa os geradores se orquestrarem por si mesmos, que é onde o verdadeiro poder pode residir. Vamos tentar de uma forma diferente:
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 var res = [];
 
 function *reqData(url) {
 	var data = yield request( url );
 
-	// transfer control
+	// transfere o controle
 	yield;
 
 	res.push( data );
@@ -1618,14 +1618,14 @@ Promise.all( [p1,p2] )
 } );
 ```
 
-OK, this is a bit better (though still manual!), because now the two instances of `*reqData(..)` run truly concurrently, and (at least for the first part) independently.
+OK, isto está um pouco melhor (embora ainda manual!), porque agora as duas instâncias de `*reqData(..)` rodam verdadeiramente concorrentes, e (ao menos na primeira parte) independentemente.
 
-In the previous snippet, the second instance was not given its data until after the first instance was totally finished. But here, both instances receive their data as soon as their respective responses come back, and then each instance does another `yield` for control transfer purposes. We then choose what order to resume them in the `Promise.all([ .. ])` handler.
+No trecho anterior, a segunda instância não recebia seus dados até depois que a primeira instância estivesse totalmente terminada. Mas aqui, ambas as instâncias recebem seus dados assim que suas respectivas respostas voltam, e então cada instância faz outro `yield` para fins de transferência de controle. Nós então escolhemos em que ordem retomá-las no manipulador `Promise.all([ .. ])`.
 
-What may not be as obvious is that this approach hints at an easier form for a reusable utility, because of the symmetry. We can do even better. Let's imagine using a utility called `runAll(..)`:
+O que pode não ser tão óbvio é que essa abordagem insinua uma forma mais fácil para um utilitário reutilizável, por causa da simetria. Podemos fazer ainda melhor. Vamos imaginar usar um utilitário chamado `runAll(..)`:
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 var res = [];
 
@@ -1633,7 +1633,7 @@ runAll(
 	function*(){
 		var p1 = request( "http://some.url.1" );
 
-		// transfer control
+		// transfere o controle
 		yield;
 
 		res.push( yield p1 );
@@ -1641,7 +1641,7 @@ runAll(
 	function*(){
 		var p2 = request( "http://some.url.2" );
 
-		// transfer control
+		// transfere o controle
 		yield;
 
 		res.push( yield p2 );
@@ -1649,45 +1649,45 @@ runAll(
 );
 ```
 
-**Note:** We're not including a code listing for `runAll(..)` as it is not only long enough to bog down the text, but is an extension of the logic we've already implemented in `run(..)` earlier. So, as a good supplementary exercise for the reader, try your hand at evolving the code from `run(..)` to work like the imagined `runAll(..)`. Also, my *asynquence* library provides a previously mentioned `runner(..)` utility with this kind of capability already built in, and will be discussed in Appendix A of this book.
+**Nota:** Nós não estamos incluindo uma listagem de código para `runAll(..)`, pois ela não só é longa o bastante para atravancar o texto, mas é uma extensão da lógica que já implementamos em `run(..)` anteriormente. Então, como um bom exercício suplementar para o leitor, tente a sua mão em evoluir o código de `run(..)` para funcionar como o imaginado `runAll(..)`. Além disso, minha biblioteca *asynquence* fornece um utilitário `runner(..)` mencionado anteriormente com esse tipo de capacidade já embutido, e será discutido no Apêndice A deste livro.
 
-Here's how the processing inside `runAll(..)` would operate:
+Aqui está como o processamento dentro de `runAll(..)` operaria:
 
-1. The first generator gets a promise for the first Ajax response from `"http://some.url.1"`, then `yield`s control back to the `runAll(..)` utility.
-2. The second generator runs and does the same for `"http://some.url.2"`, `yield`ing control back to the `runAll(..)` utility.
-3. The first generator resumes, and then `yield`s out its promise `p1`. The `runAll(..)` utility does the same in this case as our previous `run(..)`, in that it waits on that promise to resolve, then resumes the same generator (no control transfer!). When `p1` resolves, `runAll(..)` resumes the first generator again with that resolution value, and then `res[0]` is given its value. When the first generator then finishes, that's an implicit transfer of control.
-4. The second generator resumes, `yield`s out its promise `p2`, and waits for it to resolve. Once it does, `runAll(..)` resumes the second generator with that value, and `res[1]` is set.
+1. O primeiro gerador obtém uma promise para a primeira resposta Ajax de `"http://some.url.1"`, então cede (`yield`) o controle de volta para o utilitário `runAll(..)`.
+2. O segundo gerador roda e faz o mesmo para `"http://some.url.2"`, cedendo (`yield`) o controle de volta para o utilitário `runAll(..)`.
+3. O primeiro gerador retoma, e então cede (`yield`) para fora sua promise `p1`. O utilitário `runAll(..)` faz o mesmo, neste caso, que nosso `run(..)` anterior, em que ele espera nessa promise se resolver, e então retoma o mesmo gerador (sem transferência de controle!). Quando `p1` se resolve, `runAll(..)` retoma o primeiro gerador novamente com esse valor de resolução, e então `res[0]` recebe seu valor. Quando o primeiro gerador então termina, isso é uma transferência implícita de controle.
+4. O segundo gerador retoma, cede (`yield`) para fora sua promise `p2`, e espera por ela se resolver. Assim que ela se resolve, `runAll(..)` retoma o segundo gerador com esse valor, e `res[1]` é definido.
 
-In this running example, we use an outer variable called `res` to store the results of the two different Ajax responses -- that's our concurrency coordination making that possible.
+Neste exemplo corrente, usamos uma variável externa chamada `res` para armazenar os resultados das duas respostas Ajax diferentes -- essa é a nossa coordenação de concorrência tornando isso possível.
 
-But it might be quite helpful to further extend `runAll(..)` to provide an inner variable space for the multiple generator instances to *share*, such as an empty object we'll call `data` below. Also, it could take non-Promise values that are `yield`ed and hand them off to the next generator.
+Mas pode ser bastante útil estender ainda mais `runAll(..)` para fornecer um espaço de variável interno para as múltiplas instâncias de gerador *compartilharem*, como um objeto vazio que chamaremos de `data` abaixo. Além disso, ele poderia receber valores não-Promise que são cedidos (`yield`) e entregá-los ao próximo gerador.
 
-Consider:
+Observe:
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 runAll(
 	function*(data){
 		data.res = [];
 
-		// transfer control (and message pass)
+		// transfere o controle (e passa mensagem)
 		var url1 = yield "http://some.url.2";
 
 		var p1 = request( url1 ); // "http://some.url.1"
 
-		// transfer control
+		// transfere o controle
 		yield;
 
 		data.res.push( yield p1 );
 	},
 	function*(data){
-		// transfer control (and message pass)
+		// transfere o controle (e passa mensagem)
 		var url2 = yield "http://some.url.1";
 
 		var p2 = request( url2 ); // "http://some.url.2"
 
-		// transfer control
+		// transfere o controle
 		yield;
 
 		data.res.push( yield p2 );
@@ -1695,21 +1695,21 @@ runAll(
 );
 ```
 
-In this formulation, the two generators are not just coordinating control transfer, but actually communicating with each other, both through `data.res` and the `yield`ed messages that trade `url1` and `url2` values. That's incredibly powerful!
+Nesta formulação, os dois geradores não estão apenas coordenando a transferência de controle, mas na verdade comunicando-se um com o outro, tanto através de `data.res` quanto das mensagens cedidas (`yield`) que trocam os valores `url1` e `url2`. Isso é incrivelmente poderoso!
 
-Such realization also serves as a conceptual base for a more sophisticated asynchrony technique called CSP (Communicating Sequential Processes), which we will cover in Appendix B of this book.
+Tal percepção também serve como uma base conceitual para uma técnica de assincronia mais sofisticada chamada CSP (Communicating Sequential Processes), que cobriremos no Apêndice B deste livro.
 
 ## Thunks
 
-So far, we've made the assumption that `yield`ing a Promise from a generator -- and having that Promise resume the generator via a helper utility like `run(..)` -- was the best possible way to manage asynchrony with generators. To be clear, it is.
+Até aqui, fizemos a suposição de que ceder (`yield`) uma Promise de um gerador -- e fazer essa Promise retomar o gerador via um utilitário auxiliar como `run(..)` -- era a melhor forma possível de gerenciar assincronia com geradores. Para deixar claro, é.
 
-But we skipped over another pattern that has some mildly widespread adoption, so in the interest of completeness we'll take a brief look at it.
+Mas pulamos por cima de outro padrão que tem alguma adoção moderadamente difundida, então, no interesse da completude, daremos uma breve olhada nele.
 
-In general computer science, there's an old pre-JS concept called a "thunk." Without getting bogged down in the historical nature, a narrow expression of a thunk in JS is a function that -- without any parameters -- is wired to call another function.
+Na ciência da computação geral, há um conceito antigo, anterior ao JS, chamado de "thunk". Sem se atolar na natureza histórica, uma expressão estrita de um thunk em JS é uma função que -- sem nenhum parâmetro -- está conectada para chamar outra função.
 
-In other words, you wrap a function definition around function call -- with any parameters it needs -- to *defer* the execution of that call, and that wrapping function is a thunk. When you later execute the thunk, you end up calling the original function.
+Em outras palavras, você embrulha uma definição de função em torno de uma chamada de função -- com quaisquer parâmetros que ela precise -- para *adiar* a execução dessa chamada, e essa função que embrulha é um thunk. Quando você mais tarde executa o thunk, você acaba chamando a função original.
 
-For example:
+Por exemplo:
 
 ```js
 function foo(x,y) {
@@ -1720,14 +1720,14 @@ function fooThunk() {
 	return foo( 3, 4 );
 }
 
-// later
+// mais tarde
 
 console.log( fooThunk() );	// 7
 ```
 
-So, a synchronous thunk is pretty straightforward. But what about an async thunk? We can essentially extend the narrow thunk definition to include it receiving a callback.
+Então, um thunk síncrono é bem direto. Mas e quanto a um thunk assíncrono? Podemos essencialmente estender a definição estrita de thunk para incluir o recebimento de um callback.
 
-Consider:
+Observe:
 
 ```js
 function foo(x,y,cb) {
@@ -1740,18 +1740,18 @@ function fooThunk(cb) {
 	foo( 3, 4, cb );
 }
 
-// later
+// mais tarde
 
 fooThunk( function(sum){
 	console.log( sum );		// 7
 } );
 ```
 
-As you can see, `fooThunk(..)` only expects a `cb(..)` parameter, as it already has values `3` and `4` (for `x` and `y`, respectively) pre-specified and ready to pass to `foo(..)`. A thunk is just waiting around patiently for the last piece it needs to do its job: the callback.
+Como você pode ver, `fooThunk(..)` espera apenas um parâmetro `cb(..)`, pois ele já tem os valores `3` e `4` (para `x` e `y`, respectivamente) pré-especificados e prontos para passar a `foo(..)`. Um thunk está apenas esperando pacientemente pela última peça de que precisa para fazer seu trabalho: o callback.
 
-You don't want to make thunks manually, though. So, let's invent a utility that does this wrapping for us.
+Você não quer fazer thunks manualmente, porém. Então, vamos inventar um utilitário que faz esse embrulho para nós.
 
-Consider:
+Observe:
 
 ```js
 function thunkify(fn) {
@@ -1764,22 +1764,22 @@ function thunkify(fn) {
 
 var fooThunk = thunkify( foo, 3, 4 );
 
-// later
+// mais tarde
 
 fooThunk( function(sum) {
 	console.log( sum );		// 7
 } );
 ```
 
-**Tip:** Here we assume that the original (`foo(..)`) function signature expects its callback in the last position, with any other parameters coming before it. This is a pretty ubiquitous "standard" for async JS function standards. You might call it "callback-last style." If for some reason you had a need to handle "callback-first style" signatures, you would just make a utility that used `args.unshift(..)` instead of `args.push(..)`.
+**Dica:** Aqui assumimos que a assinatura da função original (`foo(..)`) espera seu callback na última posição, com quaisquer outros parâmetros vindo antes dele. Esse é um "padrão" bastante ubíquo para padrões de função assíncrona em JS. Você poderia chamá-lo de "estilo callback-por-último." Se por alguma razão você tivesse a necessidade de lidar com assinaturas de "estilo callback-primeiro," você apenas faria um utilitário que usasse `args.unshift(..)` em vez de `args.push(..)`.
 
-The preceding formulation of `thunkify(..)` takes both the `foo(..)` function reference, and any parameters it needs, and returns back the thunk itself (`fooThunk(..)`). However, that's not the typical approach you'll find to thunks in JS.
+A formulação anterior de `thunkify(..)` recebe tanto a referência da função `foo(..)` quanto quaisquer parâmetros de que ela precise, e retorna o próprio thunk (`fooThunk(..)`). No entanto, essa não é a abordagem típica que você encontrará para thunks em JS.
 
-Instead of `thunkify(..)` making the thunk itself, typically -- if not perplexingly -- the `thunkify(..)` utility would produce a function that produces thunks.
+Em vez de `thunkify(..)` fazer o thunk em si, tipicamente -- se não de forma perplexa -- o utilitário `thunkify(..)` produziria uma função que produz thunks.
 
-Uhhhh... yeah.
+Uhhhh... pois é.
 
-Consider:
+Observe:
 
 ```js
 function thunkify(fn) {
@@ -1793,23 +1793,23 @@ function thunkify(fn) {
 }
 ```
 
-The main difference here is the extra `return function() { .. }` layer. Here's how its usage differs:
+A principal diferença aqui é a camada extra `return function() { .. }`. Aqui está como seu uso difere:
 
 ```js
 var whatIsThis = thunkify( foo );
 
 var fooThunk = whatIsThis( 3, 4 );
 
-// later
+// mais tarde
 
 fooThunk( function(sum) {
 	console.log( sum );		// 7
 } );
 ```
 
-Obviously, the big question this snippet implies is what is `whatIsThis` properly called? It's not the thunk, it's the thing that will produce thunks from `foo(..)` calls. It's kind of like a "factory" for "thunks." There doesn't seem to be any kind of standard agreement for naming such a thing.
+Obviamente, a grande questão que este trecho implica é como `whatIsThis` é propriamente chamado? Ele não é o thunk, ele é a coisa que vai produzir thunks a partir de chamadas `foo(..)`. É meio como uma "fábrica" de "thunks." Não parece haver nenhum tipo de acordo padrão para nomear tal coisa.
 
-So, my proposal is "thunkory" ("thunk" + "factory").  So, `thunkify(..)` produces a thunkory, and a thunkory produces thunks. That reasoning is symmetric to my proposal for "promisory" in Chapter 3:
+Então, minha proposta é "thunkory" ("thunk" + "factory"). Então, `thunkify(..)` produz um thunkory, e um thunkory produz thunks. Esse raciocínio é simétrico à minha proposta de "promisory" no capítulo 3:
 
 ```js
 var fooThunkory = thunkify( foo );
@@ -1817,7 +1817,7 @@ var fooThunkory = thunkify( foo );
 var fooThunk1 = fooThunkory( 3, 4 );
 var fooThunk2 = fooThunkory( 5, 6 );
 
-// later
+// mais tarde
 
 fooThunk1( function(sum) {
 	console.log( sum );		// 7
@@ -1828,59 +1828,59 @@ fooThunk2( function(sum) {
 } );
 ```
 
-**Note:** The running `foo(..)` example expects a style of callback that's not "error-first style." Of course, "error-first style" is much more common. If `foo(..)` had some sort of legitimate error-producing expectation, we could change it to expect and use an error-first callback. None of the subsequent `thunkify(..)` machinery cares what style of callback is assumed. The only difference in usage would be `fooThunk1(function(err,sum){..`.
+**Nota:** O exemplo corrente `foo(..)` espera um estilo de callback que não é "estilo error-first." Claro, "estilo error-first" é muito mais comum. Se `foo(..)` tivesse algum tipo de expectativa legítima de produzir erro, poderíamos mudá-lo para esperar e usar um callback error-first. Nenhuma da maquinaria subsequente de `thunkify(..)` se importa com qual estilo de callback é assumido. A única diferença no uso seria `fooThunk1(function(err,sum){..`.
 
-Exposing the thunkory method -- instead of how the earlier `thunkify(..)` hides this intermediary step -- may seem like unnecessary complication. But in general, it's quite useful to make thunkories at the beginning of your program to wrap existing API methods, and then be able to pass around and call those thunkories when you need thunks. The two distinct steps preserve a cleaner separation of capability.
+Expor o método thunkory -- em vez de como o `thunkify(..)` anterior esconde esse passo intermediário -- pode parecer uma complicação desnecessária. Mas, em geral, é bastante útil fazer thunkories no começo do seu programa para embrulhar métodos de API existentes, e então ser capaz de passar adiante e chamar esses thunkories quando você precisar de thunks. Os dois passos distintos preservam uma separação de capacidade mais limpa.
 
-To illustrate:
+Para ilustrar:
 
 ```js
-// cleaner:
+// mais limpo:
 var fooThunkory = thunkify( foo );
 
 var fooThunk1 = fooThunkory( 3, 4 );
 var fooThunk2 = fooThunkory( 5, 6 );
 
-// instead of:
+// em vez de:
 var fooThunk1 = thunkify( foo, 3, 4 );
 var fooThunk2 = thunkify( foo, 5, 6 );
 ```
 
-Regardless of whether you like to deal with the thunkories explicitly or not, the usage of thunks `fooThunk1(..)` and `fooThunk2(..)` remains the same.
+Independentemente de você gostar de lidar com os thunkories explicitamente ou não, o uso dos thunks `fooThunk1(..)` e `fooThunk2(..)` permanece o mesmo.
 
 ### s/promise/thunk/
 
-So what's all this thunk stuff have to do with generators?
+Então, o que toda essa coisa de thunk tem a ver com geradores?
 
-Comparing thunks to promises generally: they're not directly interchangable as they're not equivalent in behavior. Promises are vastly more capable and trustable than bare thunks.
+Comparando thunks com promises de forma geral: eles não são diretamente intercambiáveis, pois não são equivalentes em comportamento. Promises são vastamente mais capazes e confiáveis do que thunks puros.
 
-But in another sense, they both can be seen as a request for a value, which may be async in its answering.
+Mas, em outro sentido, ambos podem ser vistos como uma requisição por um valor, que pode ser assíncrona em sua resposta.
 
-Recall from Chapter 3 we defined a utility for promisifying a function, which we called `Promise.wrap(..)` -- we could have called it `promisify(..)`, too! This Promise-wrapping utility doesn't produce Promises; it produces promisories that in turn produce Promises. This is completely symmetric to the thunkories and thunks presently being discussed.
+Relembre que, do capítulo 3, definimos um utilitário para "promisificar" uma função, que chamamos de `Promise.wrap(..)` -- poderíamos tê-lo chamado de `promisify(..)`, também! Esse utilitário de embrulho de Promise não produz Promises; ele produz promisories que por sua vez produzem Promises. Isso é completamente simétrico aos thunkories e thunks que estão sendo discutidos no momento.
 
-To illustrate the symmetry, let's first alter the running `foo(..)` example from earlier to assume an "error-first style" callback:
+Para ilustrar a simetria, vamos primeiro alterar o exemplo corrente `foo(..)` de antes para assumir um callback "estilo error-first":
 
 ```js
 function foo(x,y,cb) {
 	setTimeout( function(){
-		// assume `cb(..)` as "error-first style"
+		// assume `cb(..)` como "estilo error-first"
 		cb( null, x + y );
 	}, 1000 );
 }
 ```
 
-Now, we'll compare using `thunkify(..)` and `promisify(..)` (aka `Promise.wrap(..)` from Chapter 3):
+Agora, vamos comparar o uso de `thunkify(..)` e `promisify(..)` (ou seja, `Promise.wrap(..)` do capítulo 3):
 
 ```js
-// symmetrical: constructing the question asker
+// simétrico: construindo o questionador
 var fooThunkory = thunkify( foo );
 var fooPromisory = promisify( foo );
 
-// symmetrical: asking the question
+// simétrico: fazendo a pergunta
 var fooThunk = fooThunkory( 3, 4 );
 var fooPromise = fooPromisory( 3, 4 );
 
-// get the thunk answer
+// obtém a resposta do thunk
 fooThunk( function(err,sum){
 	if (err) {
 		console.error( err );
@@ -1890,7 +1890,7 @@ fooThunk( function(err,sum){
 	}
 } );
 
-// get the promise answer
+// obtém a resposta da promise
 fooPromise
 .then(
 	function(sum){
@@ -1902,11 +1902,11 @@ fooPromise
 );
 ```
 
-Both the thunkory and the promisory are essentially asking a question (for a value), and respectively the thunk `fooThunk` and promise `fooPromise` represent the future answers to that question. Presented in that light, the symmetry is clear.
+Tanto o thunkory quanto o promisory estão essencialmente fazendo uma pergunta (por um valor), e respectivamente o thunk `fooThunk` e a promise `fooPromise` representam as respostas futuras a essa pergunta. Apresentado sob essa luz, a simetria é clara.
 
-With that perspective in mind, we can see that generators which `yield` Promises for asynchrony could instead `yield` thunks for asynchrony. All we'd need is a smarter `run(..)` utility (like from before) that can not only look for and wire up to a `yield`ed Promise but also to provide a callback to a `yield`ed thunk.
+Com essa perspectiva em mente, podemos ver que geradores que cedem (`yield`) Promises para assincronia poderiam em vez disso ceder (`yield`) thunks para assincronia. Tudo de que precisaríamos é de um utilitário `run(..)` mais inteligente (como o de antes) que possa não só procurar e conectar-se a uma Promise cedida (`yield`), mas também fornecer um callback a um thunk cedido (`yield`).
 
-Consider:
+Observe:
 
 ```js
 function *foo() {
@@ -1917,12 +1917,12 @@ function *foo() {
 run( foo );
 ```
 
-In this example, `request(..)` could either be a promisory that returns a promise, or a thunkory that returns a thunk. From the perspective of what's going on inside the generator code logic, we don't care about that implementation detail, which is quite powerful!
+Neste exemplo, `request(..)` poderia ser tanto um promisory que retorna uma promise, quanto um thunkory que retorna um thunk. Da perspectiva do que está acontecendo dentro da lógica do código do gerador, não nos importamos com esse detalhe de implementação, o que é bem poderoso!
 
-So, `request(..)` could be either:
+Então, `request(..)` poderia ser tanto:
 
 ```js
-// promisory `request(..)` (see Chapter 3)
+// promisory `request(..)` (veja o capítulo 3)
 var request = Promise.wrap( ajax );
 
 // vs.
@@ -1931,14 +1931,14 @@ var request = Promise.wrap( ajax );
 var request = thunkify( ajax );
 ```
 
-Finally, as a thunk-aware patch to our earlier `run(..)` utility, we would need logic like this:
+Finalmente, como um patch ciente de thunk para o nosso utilitário `run(..)` anterior, precisaríamos de uma lógica assim:
 
 ```js
 // ..
-// did we receive a thunk back?
+// recebemos um thunk de volta?
 else if (typeof next.value == "function") {
 	return new Promise( function(resolve,reject){
-		// call the thunk with an error-first callback
+		// chama o thunk com um callback error-first
 		next.value( function(err,msg) {
 			if (err) {
 				reject( err );
@@ -1960,32 +1960,32 @@ else if (typeof next.value == "function") {
 }
 ```
 
-Now, our generators can either call promisories to `yield` Promises, or call thunkories to `yield` thunks, and in either case, `run(..)` would handle that value and use it to wait for the completion to resume the generator.
+Agora, nossos geradores podem ou chamar promisories para ceder (`yield`) Promises, ou chamar thunkories para ceder (`yield`) thunks, e, em qualquer caso, `run(..)` lidaria com esse valor e o usaria para esperar pela conclusão para retomar o gerador.
 
-Symmetry wise, these two approaches look identical. However, we should point out that's true only from the perspective of Promises or thunks representing the future value continuation of a generator.
+Em termos de simetria, essas duas abordagens parecem idênticas. No entanto, devemos apontar que isso é verdade apenas da perspectiva de Promises ou thunks representando a continuação de valor futuro de um gerador.
 
-From the larger perspective, thunks do not in and of themselves have hardly any of the trustability or composability guarantees that Promises are designed with. Using a thunk as a stand-in for a Promise in this particular generator asynchrony pattern is workable but should be seen as less than ideal when compared to all the benefits that Promises offer (see Chapter 3).
+Da perspectiva mais ampla, thunks não têm em si e por si mesmos quase nenhuma das garantias de confiabilidade ou composibilidade com as quais Promises são projetadas. Usar um thunk como substituto para uma Promise neste padrão particular de assincronia de gerador é viável, mas deveria ser visto como menos do que ideal quando comparado a todos os benefícios que Promises oferecem (veja o capítulo 3).
 
-If you have the option, prefer `yield pr` rather than `yield th`. But there's nothing wrong with having a `run(..)` utility which can handle both value types.
+Se você tiver a opção, prefira `yield pr` em vez de `yield th`. Mas não há nada de errado em ter um utilitário `run(..)` que possa lidar com ambos os tipos de valor.
 
-**Note:** The `runner(..)` utility in my *asynquence* library, which will be discussed in Appendix A, handles `yield`s of Promises, thunks and *asynquence* sequences.
+**Nota:** O utilitário `runner(..)` em minha biblioteca *asynquence*, que será discutido no Apêndice A, lida com `yield`s de Promises, thunks e sequências *asynquence*.
 
-## Pre-ES6 Generators
+## Geradores Pré-ES6
 
-You're hopefully convinced now that generators are a very important addition to the async programming toolbox. But it's a new syntax in ES6, which means you can't just polyfill generators like you can Promises (which are just a new API). So what can we do to bring generators to our browser JS if we don't have the luxury of ignoring pre-ES6 browsers?
+Você está esperançosamente convencido agora de que geradores são uma adição muito importante à caixa de ferramentas de programação assíncrona. Mas é uma nova sintaxe no ES6, o que significa que você não pode simplesmente fazer polyfill de geradores como você pode com Promises (que são apenas uma nova API). Então, o que podemos fazer para trazer geradores para o nosso JS de navegador se não temos o luxo de ignorar navegadores pré-ES6?
 
-For all new syntax extensions in ES6, there are tools -- the most common term for them is transpilers, for trans-compilers -- which can take your ES6 syntax and transform it into equivalent (but obviously uglier!) pre-ES6 code. So, generators can be transpiled into code that will have the same behavior but work in ES5 and below.
+Para todas as novas extensões de sintaxe no ES6, há ferramentas -- o termo mais comum para elas é transpiladores, de trans-compiladores -- que podem pegar sua sintaxe ES6 e transformá-la em código pré-ES6 equivalente (mas obviamente mais feio!). Então, geradores podem ser transpilados em código que terá o mesmo comportamento, mas funcionará no ES5 e abaixo.
 
-But how? The "magic" of `yield` doesn't obviously sound like code that's easy to transpile. We actually hinted at a solution in our earlier discussion of closure-based *iterators*.
+Mas como? A "mágica" do `yield` não parece obviamente um código fácil de transpilar. Nós na verdade insinuamos uma solução em nossa discussão anterior sobre *iterators* baseados em closure.
 
-### Manual Transformation
+### Transformação Manual
 
-Before we discuss the transpilers, let's derive how manual transpilation would work in the case of generators. This isn't just an academic exercise, because doing so will actually help further reinforce how they work.
+Antes de discutirmos os transpiladores, vamos derivar como a transpilação manual funcionaria no caso de geradores. Isso não é apenas um exercício acadêmico, porque fazer isso na verdade vai ajudar a reforçar ainda mais como eles funcionam.
 
-Consider:
+Observe:
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 function *foo(url) {
 	try {
@@ -2002,14 +2002,14 @@ function *foo(url) {
 var it = foo( "http://some.url.1" );
 ```
 
-The first thing to observe is that we'll still need a normal `foo()` function that can be called, and it will still need to return an *iterator*. So, let's sketch out the non-generator transformation:
+A primeira coisa a observar é que ainda precisaremos de uma função `foo()` normal que possa ser chamada, e ela ainda precisará retornar um *iterator*. Então, vamos esboçar a transformação não-geradora:
 
 ```js
 function foo(url) {
 
 	// ..
 
-	// make and return an iterator
+	// faz e retorna um iterator
 	return {
 		next: function(v) {
 			// ..
@@ -2023,55 +2023,55 @@ function foo(url) {
 var it = foo( "http://some.url.1" );
 ```
 
-The next thing to observe is that a generator does its "magic" by suspending its scope/state, but we can emulate that with function closure (see the *Scope & Closures* title of this series). To understand how to write such code, we'll first annotate different parts of our generator with state values:
+A próxima coisa a observar é que um gerador faz sua "mágica" suspendendo seu escopo/estado, mas podemos emular isso com closure de função (veja o título *Escopos & Closures* desta série). Para entender como escrever tal código, vamos primeiro anotar diferentes partes do nosso gerador com valores de estado:
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 function *foo(url) {
-	// STATE *1*
+	// ESTADO *1*
 
 	try {
 		console.log( "requesting:", url );
 		var TMP1 = request( url );
 
-		// STATE *2*
+		// ESTADO *2*
 		var val = yield TMP1;
 		console.log( val );
 	}
 	catch (err) {
-		// STATE *3*
+		// ESTADO *3*
 		console.log( "Oops:", err );
 		return false;
 	}
 }
 ```
 
-**Note:** For more accurate illustration, we split up the `val = yield request..` statement into two parts, using the temporary `TMP1` variable. `request(..)` happens in state `*1*`, and the assignment of its completion value to `val` happens in state `*2*`. We'll get rid of that intermediate `TMP1` when we convert the code to its non-generator equivalent.
+**Nota:** Para uma ilustração mais precisa, dividimos a instrução `val = yield request..` em duas partes, usando a variável temporária `TMP1`. `request(..)` acontece no estado `*1*`, e a atribuição de seu valor de conclusão a `val` acontece no estado `*2*`. Nós nos livraremos desse `TMP1` intermediário quando convertermos o código para seu equivalente não-gerador.
 
-In other words, `*1*` is the beginning state, `*2*` is the state if the `request(..)` succeeds, and `*3*` is the state if the `request(..)` fails. You can probably imagine how any extra `yield` steps would just be encoded as extra states.
+Em outras palavras, `*1*` é o estado inicial, `*2*` é o estado se o `request(..)` for bem-sucedido, e `*3*` é o estado se o `request(..)` falhar. Você provavelmente consegue imaginar como quaisquer passos `yield` extras seriam apenas codificados como estados extras.
 
-Back to our transpiled generator, let's define a variable `state` in the closure we can use to keep track of the state:
+De volta ao nosso gerador transpilado, vamos definir uma variável `state` no closure que podemos usar para acompanhar o estado:
 
 ```js
 function foo(url) {
-	// manage generator state
+	// gerencia o estado do gerador
 	var state;
 
 	// ..
 }
 ```
 
-Now, let's define an inner function called `process(..)` inside the closure which handles each state, using a `switch` statement:
+Agora, vamos definir uma função interna chamada `process(..)` dentro do closure, que lida com cada estado, usando uma instrução `switch`:
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 function foo(url) {
-	// manage generator state
+	// gerencia o estado do gerador
 	var state;
 
-	// generator-wide variable declarations
+	// declarações de variáveis de todo o gerador
 	var val;
 
 	function process(v) {
@@ -2094,20 +2094,20 @@ function foo(url) {
 }
 ```
 
-Each state in our generator is represented by its own `case` in the `switch` statement. `process(..)` will be called each time we need to process a new state. We'll come back to how that works in just a moment.
+Cada estado em nosso gerador é representado por seu próprio `case` na instrução `switch`. `process(..)` será chamado cada vez que precisarmos processar um novo estado. Voltaremos a como isso funciona em apenas um momento.
 
-For any generator-wide variable declarations (`val`), we move those to a `var` declaration outside of `process(..)` so they can survive multiple calls to `process(..)`. But the "block scoped" `err` variable is only needed for the `*3*` state, so we leave it in place.
+Para quaisquer declarações de variáveis de todo o gerador (`val`), nós movemos essas para uma declaração `var` fora de `process(..)` para que elas possam sobreviver a múltiplas chamadas a `process(..)`. Mas a variável `err` com "escopo de bloco" só é necessária para o estado `*3*`, então a deixamos no lugar.
 
-In state `*1*`, instead of `yield request(..)`, we did `return request(..)`. In terminal state `*2*`, there was no explicit `return`, so we just do a `return;` which is the same as `return undefined`. In terminal state `*3*`, there was a `return false`, so we preserve that.
+No estado `*1*`, em vez de `yield request(..)`, fizemos `return request(..)`. No estado terminal `*2*`, não havia `return` explícito, então apenas fazemos um `return;` que é o mesmo que `return undefined`. No estado terminal `*3*`, havia um `return false`, então preservamos isso.
 
-Now we need to define the code in the *iterator* functions so they call `process(..)` appropriately:
+Agora precisamos definir o código nas funções do *iterator* para que elas chamem `process(..)` apropriadamente:
 
 ```js
 function foo(url) {
-	// manage generator state
+	// gerencia o estado do gerador
 	var state;
 
-	// generator-wide variable declarations
+	// declarações de variáveis de todo o gerador
 	var val;
 
 	function process(v) {
@@ -2126,10 +2126,10 @@ function foo(url) {
 		}
 	}
 
-	// make and return an iterator
+	// faz e retorna um iterator
 	return {
 		next: function(v) {
-			// initial state
+			// estado inicial
 			if (!state) {
 				state = 1;
 				return {
@@ -2137,7 +2137,7 @@ function foo(url) {
 					value: process()
 				};
 			}
-			// yield resumed successfully
+			// yield retomado com sucesso
 			else if (state == 1) {
 				state = 2;
 				return {
@@ -2145,7 +2145,7 @@ function foo(url) {
 					value: process( v )
 				};
 			}
-			// generator already completed
+			// gerador já concluído
 			else {
 				return {
 					done: true,
@@ -2154,8 +2154,8 @@ function foo(url) {
 			}
 		},
 		"throw": function(e) {
-			// the only explicit error handling is in
-			// state *1*
+			// o único tratamento de erro explícito está no
+			// estado *1*
 			if (state == 1) {
 				state = 3;
 				return {
@@ -2163,8 +2163,8 @@ function foo(url) {
 					value: process( e )
 				};
 			}
-			// otherwise, an error won't be handled,
-			// so just throw it right back out
+			// caso contrário, um erro não será tratado,
+			// então apenas o lança de volta para fora
 			else {
 				throw e;
 			}
@@ -2173,28 +2173,28 @@ function foo(url) {
 }
 ```
 
-How does this code work?
+Como esse código funciona?
 
-1. The first call to the *iterator*'s `next()` call would move the generator from the uninitialized state to state `1`, and then call `process()` to handle that state. The return value from `request(..)`, which is the promise for the Ajax response, is returned back as the `value` property from the `next()` call.
-2. If the Ajax request succeeds, the second call to `next(..)` should send in the Ajax response value, which moves our state to `2`. `process(..)` is again called (this time with the passed in Ajax response value), and the `value` property returned from `next(..)` will be `undefined`.
-3. However, if the Ajax request fails, `throw(..)` should be called with the error, which would move the state from `1` to `3` (instead of `2`). Again `process(..)` is called, this time with the error value. That `case` returns `false`, which is set as the `value` property returned from the `throw(..)` call.
+1. A primeira chamada ao `next()` do *iterator* moveria o gerador do estado não inicializado para o estado `1`, e então chamaria `process()` para lidar com esse estado. O valor de retorno de `request(..)`, que é a promise para a resposta Ajax, é retornado de volta como a propriedade `value` da chamada `next()`.
+2. Se a requisição Ajax for bem-sucedida, a segunda chamada a `next(..)` deve enviar o valor de resposta Ajax, o que move nosso estado para `2`. `process(..)` é novamente chamado (desta vez com o valor de resposta Ajax passado), e a propriedade `value` retornada de `next(..)` será `undefined`.
+3. No entanto, se a requisição Ajax falhar, `throw(..)` deve ser chamado com o erro, o que moveria o estado de `1` para `3` (em vez de `2`). Novamente `process(..)` é chamado, desta vez com o valor de erro. Esse `case` retorna `false`, que é definido como a propriedade `value` retornada da chamada `throw(..)`.
 
-From the outside -- that is, interacting only with the *iterator* -- this `foo(..)` normal function works pretty much the same as the `*foo(..)` generator would have worked. So we've effectively "transpiled" our ES6 generator to pre-ES6 compatibility!
+De fora -- isto é, interagindo apenas com o *iterator* -- essa função normal `foo(..)` funciona praticamente da mesma forma que o gerador `*foo(..)` teria funcionado. Então, efetivamente "transpilamos" nosso gerador ES6 para compatibilidade pré-ES6!
 
-We could then manually instantiate our generator and control its iterator -- calling `var it = foo("..")` and `it.next(..)` and such -- or better, we could pass it to our previously defined `run(..)` utility as `run(foo,"..")`.
+Poderíamos então instanciar manualmente nosso gerador e controlar seu iterator -- chamando `var it = foo("..")` e `it.next(..)` e coisas assim -- ou, melhor, poderíamos passá-lo para o nosso utilitário `run(..)` definido anteriormente como `run(foo,"..")`.
 
-### Automatic Transpilation
+### Transpilação Automática
 
-The preceding exercise of manually deriving a transformation of our ES6 generator to pre-ES6 equivalent teaches us how generators work conceptually. But that transformation was really intricate and very non-portable to other generators in our code. It would be quite impractical to do this work by hand, and would completely obviate all the benefit of generators.
+O exercício anterior de derivar manualmente uma transformação do nosso gerador ES6 para o equivalente pré-ES6 nos ensina como geradores funcionam conceitualmente. Mas essa transformação foi realmente intrincada e muito pouco portável para outros geradores no nosso código. Seria bem impraticável fazer esse trabalho à mão, e obviaria completamente todo o benefício dos geradores.
 
-But luckily, several tools already exist that can automatically convert ES6 generators to things like what we derived in the previous section. Not only do they do the heavy lifting work for us, but they also handle several complications that we glossed over.
+Mas, felizmente, várias ferramentas já existem que podem converter automaticamente geradores ES6 em coisas como o que derivamos na seção anterior. Não só elas fazem o trabalho pesado por nós, mas elas também lidam com várias complicações que passamos por cima.
 
-One such tool is regenerator (https://facebook.github.io/regenerator/), from the smart folks at Facebook.
+Uma dessas ferramentas é o regenerator (https://facebook.github.io/regenerator/), do pessoal inteligente do Facebook.
 
-If we use regenerator to transpile our previous generator, here's the code produced (at the time of this writing):
+Se usarmos o regenerator para transpilar nosso gerador anterior, aqui está o código produzido (no momento em que isto é escrito):
 
 ```js
-// `request(..)` is a Promise-aware Ajax utility
+// `request(..)` é um utilitário Ajax ciente de Promises
 
 var foo = regeneratorRuntime.mark(function foo(url) {
     var val;
@@ -2224,24 +2224,24 @@ var foo = regeneratorRuntime.mark(function foo(url) {
 });
 ```
 
-There's some obvious similarities here to our manual derivation, such as the `switch` / `case` statements, and we even see `val` pulled out of the closure just as we did.
+Há algumas semelhanças óbvias aqui com nossa derivação manual, como as instruções `switch` / `case`, e até vemos `val` puxado para fora do closure exatamente como fizemos.
 
-Of course, one trade-off is that regenerator's transpilation requires a helper library `regeneratorRuntime` that holds all the reusable logic for managing a general generator / *iterator*. A lot of that boilerplate looks different than our version, but even then, the concepts can be seen, like with `context$1$0.next = 4` keeping track of the next state for the generator.
+Claro, uma desvantagem é que a transpilação do regenerator requer uma biblioteca auxiliar `regeneratorRuntime` que contém toda a lógica reutilizável para gerenciar um gerador / *iterator* geral. Bastante desse boilerplate parece diferente da nossa versão, mas, mesmo assim, os conceitos podem ser vistos, como com `context$1$0.next = 4` acompanhando o próximo estado para o gerador.
 
-The main takeaway is that generators are not restricted to only being useful in ES6+ environments. Once you understand the concepts, you can employ them throughout your code, and use tools to transform the code to be compatible with older environments.
+A principal lição é que geradores não estão restritos a serem úteis apenas em ambientes ES6+. Uma vez que você entende os conceitos, você pode empregá-los por todo o seu código, e usar ferramentas para transformar o código para ser compatível com ambientes mais antigos.
 
-This is more work than just using a `Promise` API polyfill for pre-ES6 Promises, but the effort is totally worth it, because generators are so much better at expressing async flow control in a reason-able, sensible, synchronous-looking, sequential fashion.
+Isso é mais trabalho do que apenas usar um polyfill de API `Promise` para Promises pré-ES6, mas o esforço vale totalmente a pena, porque geradores são muito melhores em expressar controle de fluxo assíncrono de uma forma sensata, sensível, com aparência síncrona e sequencial.
 
-Once you get hooked on generators, you'll never want to go back to the hell of async spaghetti callbacks!
+Uma vez que você fica viciado em geradores, você nunca vai querer voltar para o inferno do espaguete de callbacks assíncronos!
 
-## Review
+## Revisão
 
-Generators are a new ES6 function type that does not run-to-completion like normal functions. Instead, the generator can be paused in mid-completion (entirely preserving its state), and it can later be resumed from where it left off.
+Geradores são um novo tipo de função do ES6 que não roda até acabar como funções normais. Em vez disso, o gerador pode ser pausado no meio da conclusão (preservando inteiramente seu estado), e ele pode mais tarde ser retomado de onde parou.
 
-This pause/resume interchange is cooperative rather than preemptive, which means that the generator has the sole capability to pause itself, using the `yield` keyword, and yet the *iterator* that controls the generator has the sole capability (via `next(..)`) to resume the generator.
+Essa troca de pausa/retomada é cooperativa em vez de preemptiva, o que significa que o gerador tem a única capacidade de pausar a si mesmo, usando a palavra-chave `yield`, e ainda assim o *iterator* que controla o gerador tem a única capacidade (via `next(..)`) de retomar o gerador.
 
-The `yield` / `next(..)` duality is not just a control mechanism, it's actually a two-way message passing mechanism. A `yield ..` expression essentially pauses waiting for a value, and the next `next(..)` call passes a value (or implicit `undefined`) back to that paused `yield` expression.
+A dualidade `yield` / `next(..)` não é apenas um mecanismo de controle, ela é na verdade um mecanismo de passagem de mensagens em duas vias. Uma expressão `yield ..` essencialmente pausa esperando por um valor, e a próxima chamada `next(..)` passa um valor (ou `undefined` implícito) de volta para essa expressão `yield` pausada.
 
-The key benefit of generators related to async flow control is that the code inside a generator expresses a sequence of steps for the task in a naturally sync/sequential fashion. The trick is that we essentially hide potential asynchrony behind the `yield` keyword -- moving the asynchrony to the code where the generator's *iterator* is controlled.
+O principal benefício dos geradores relacionado ao controle de fluxo assíncrono é que o código dentro de um gerador expressa uma sequência de passos para a tarefa de uma forma naturalmente síncrona/sequencial. O truque é que essencialmente escondemos a potencial assincronia atrás da palavra-chave `yield` -- movendo a assincronia para o código onde o *iterator* do gerador é controlado.
 
-In other words, generators preserve a sequential, synchronous, blocking code pattern for async code, which lets our brains reason about the code much more naturally, addressing one of the two key drawbacks of callback-based async.
+Em outras palavras, geradores preservam um padrão de código sequencial, síncrono e bloqueante para código assíncrono, o que deixa nossos cérebros raciocinarem sobre o código muito mais naturalmente, abordando uma das duas principais desvantagens da assincronia baseada em callbacks.

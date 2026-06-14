@@ -1,55 +1,55 @@
 # You Don't Know JS: Async & Performance
-# Chapter 5: Program Performance
+# Capítulo 5: Desempenho de Programas
 
-This book so far has been all about how to leverage asynchrony patterns more effectively. But we haven't directly addressed why asynchrony really matters to JS. The most obvious explicit reason is **performance**.
+Até aqui, este livro tratou inteiramente de como aproveitar os padrões de assincronia de forma mais eficaz. Mas não abordamos diretamente por que a assincronia realmente importa para o JS. A razão explícita mais óbvia é **performance**.
 
-For example, if you have two Ajax requests to make, and they're independent, but you need to wait on them both to finish before doing the next task, you have two options for modeling that interaction: serial and concurrent.
+Por exemplo, se você tem duas requisições Ajax a fazer, e elas são independentes, mas você precisa esperar que ambas terminem antes de executar a próxima tarefa, você tem duas opções para modelar essa interação: serial e concorrente.
 
-You could make the first request and wait to start the second request until the first finishes. Or, as we've seen both with promises and generators, you could make both requests "in parallel," and express the "gate" to wait on both of them before moving on.
+Você poderia fazer a primeira requisição e esperar para iniciar a segunda até que a primeira termine. Ou, como vimos tanto com promises quanto com geradores, você poderia fazer ambas as requisições "em paralelo", e expressar o "portão" para esperar por ambas antes de seguir em frente.
 
-Clearly, the latter is usually going to be more performant than the former. And better performance generally leads to better user experience.
+Claramente, a última geralmente será mais performática que a primeira. E uma performance melhor geralmente leva a uma experiência de usuário melhor.
 
-It's even possible that asynchrony (interleaved concurrency) can improve just the perception of performance, even if the overall program still takes the same amount of time to complete. User perception of performance is every bit -- if not more! -- as important as actual measurable performance.
+É até possível que a assincronia (concorrência intercalada) possa melhorar apenas a percepção de performance, mesmo que o programa como um todo ainda leve a mesma quantidade de tempo para ser concluído. A percepção de performance pelo usuário é tão importante quanto -- se não mais! -- a performance real mensurável.
 
-We want to now move beyond localized asynchrony patterns to talk about some bigger picture performance details at the program level.
+Queremos agora ir além dos padrões de assincronia localizados para falar sobre alguns detalhes de performance de visão mais ampla, no nível do programa.
 
-**Note:** You may be wondering about micro-performance issues like if `a++` or `++a` is faster. We'll look at those sorts of performance details in the next chapter on "Benchmarking & Tuning."
+**Nota:** Você pode estar se perguntando sobre questões de micro-performance, como se `a++` ou `++a` é mais rápido. Veremos esses tipos de detalhes de performance no próximo capítulo sobre "Benchmarking & Tuning".
 
 ## Web Workers
 
-If you have processing-intensive tasks but you don't want them to run on the main thread (which may slow down the browser/UI), you might have wished that JavaScript could operate in a multithreaded manner.
+Se você tem tarefas intensivas em processamento, mas não quer que elas rodem na thread principal (o que pode deixar o navegador/UI mais lento), talvez já tenha desejado que o JavaScript pudesse operar de maneira multithreaded.
 
-In Chapter 1, we talked in detail about how JavaScript is single threaded. And that's still true. But a single thread isn't the only way to organize the execution of your program.
+No Capítulo 1, falamos em detalhes sobre como o JavaScript é single threaded. E isso ainda é verdade. Mas uma única thread não é a única forma de organizar a execução do seu programa.
 
-Imagine splitting your program into two pieces, and running one of those pieces on the main UI thread, and running the other piece on an entirely separate thread.
+Imagine dividir seu programa em duas partes, e rodar uma dessas partes na thread principal de UI, e rodar a outra parte em uma thread inteiramente separada.
 
-What kinds of concerns would such an architecture bring up?
+Que tipos de preocupações uma arquitetura assim levantaria?
 
-For one, you'd want to know if running on a separate thread meant that it ran in parallel (on systems with multiple CPUs/cores) such that a long-running process on that second thread would **not** block the main program thread. Otherwise, "virtual threading" wouldn't be of much benefit over what we already have in JS with async concurrency.
+Para começar, você gostaria de saber se rodar em uma thread separada significaria que ela rodaria em paralelo (em sistemas com múltiplas CPUs/cores), de tal forma que um processo de longa duração nessa segunda thread **não** bloquearia a thread principal do programa. Caso contrário, "threading virtual" não traria muito benefício em relação ao que já temos no JS com concorrência assíncrona.
 
-And you'd want to know if these two pieces of the program have access to the same shared scope/resources. If they do, then you have all the questions that multithreaded languages (Java, C++, etc.) deal with, such as needing cooperative or preemptive locking (mutexes, etc.). That's a lot of extra work, and shouldn't be undertaken lightly.
+E você gostaria de saber se essas duas partes do programa têm acesso ao mesmo escopo/recursos compartilhados. Se tiverem, então você tem todas as questões com que as linguagens multithreaded (Java, C++, etc.) lidam, como a necessidade de travamento cooperativo ou preemptivo (mutexes, etc.). Isso é muito trabalho extra, e não deve ser empreendido levianamente.
 
-Alternatively, you'd want to know how these two pieces could "communicate" if they couldn't share scope/resources.
+Alternativamente, você gostaria de saber como essas duas partes poderiam "se comunicar" caso não pudessem compartilhar escopo/recursos.
 
-All these are great questions to consider as we explore a feature added to the web platform circa HTML5 called "Web Workers." This is a feature of the browser (aka host environment) and actually has almost nothing to do with the JS language itself. That is, JavaScript does not *currently* have any features that support threaded execution.
+Todas essas são ótimas questões a considerar enquanto exploramos um recurso adicionado à plataforma web por volta do HTML5 chamado "Web Workers". Este é um recurso do navegador (também conhecido como ambiente hospedeiro) e na verdade quase não tem nada a ver com a linguagem JS em si. Ou seja, o JavaScript não tem *atualmente* nenhum recurso que dê suporte à execução em threads.
 
-But an environment like your browser can easily provide multiple instances of the JavaScript engine, each on its own thread, and let you run a different program in each thread. Each of those separate threaded pieces of your program is called a "(Web) Worker." This type of parallelism is called "task parallelism," as the emphasis is on splitting up chunks of your program to run in parallel.
+Mas um ambiente como o seu navegador pode facilmente fornecer múltiplas instâncias do motor JavaScript, cada uma em sua própria thread, e permitir que você rode um programa diferente em cada thread. Cada uma dessas partes do seu programa, separadas em threads, é chamada de "(Web) Worker". Esse tipo de paralelismo é chamado de "paralelismo de tarefas", já que a ênfase está em dividir pedaços do seu programa para rodar em paralelo.
 
-From your main JS program (or another Worker), you instantiate a Worker like so:
+A partir do seu programa JS principal (ou de outro Worker), você instancia um Worker assim:
 
 ```js
 var w1 = new Worker( "http://some.url.1/mycoolworker.js" );
 ```
 
-The URL should point to the location of a JS file (not an HTML page!) which is intended to be loaded into a Worker. The browser will then spin up a separate thread and let that file run as an independent program in that thread.
+A URL deve apontar para a localização de um arquivo JS (não uma página HTML!) que se destina a ser carregado em um Worker. O navegador então iniciará uma thread separada e deixará esse arquivo rodar como um programa independente naquela thread.
 
-**Note:** The kind of Worker created with such a URL is called a "Dedicated Worker." But instead of providing a URL to an external file, you can also create an "Inline Worker" by providing a Blob URL (another HTML5 feature); essentially it's an inline file stored in a single (binary) value. However, Blobs are beyond the scope of what we'll discuss here.
+**Nota:** O tipo de Worker criado com tal URL é chamado de "Dedicated Worker". Mas, em vez de fornecer uma URL para um arquivo externo, você também pode criar um "Inline Worker" fornecendo uma Blob URL (outro recurso do HTML5); essencialmente é um arquivo inline armazenado em um único valor (binário). Entretanto, Blobs estão além do escopo do que discutiremos aqui.
 
-Workers do not share any scope or resources with each other or the main program -- that would bring all the nightmares of threaded programming to the forefront -- but instead have a basic event messaging mechanism connecting them.
+Workers não compartilham nenhum escopo ou recurso entre si nem com o programa principal -- isso traria todos os pesadelos da programação com threads para o primeiro plano -- mas, em vez disso, têm um mecanismo básico de mensagens por eventos conectando-os.
 
-The `w1` Worker object is an event listener and trigger, which lets you subscribe to events sent by the Worker as well as send events to the Worker.
+O objeto Worker `w1` é um event listener e disparador, que permite que você se inscreva em eventos enviados pelo Worker, bem como envie eventos para o Worker.
 
-Here's how to listen for events (actually, the fixed `"message"` event):
+Veja como escutar eventos (na verdade, o evento fixo `"message"`):
 
 ```js
 w1.addEventListener( "message", function(evt){
@@ -57,13 +57,13 @@ w1.addEventListener( "message", function(evt){
 } );
 ```
 
-And you can send the `"message"` event to the Worker:
+E você pode enviar o evento `"message"` para o Worker:
 
 ```js
 w1.postMessage( "something cool to say" );
 ```
 
-Inside the Worker, the messaging is totally symmetrical:
+Dentro do Worker, as mensagens são totalmente simétricas:
 
 ```js
 // "mycoolworker.js"
@@ -75,79 +75,79 @@ addEventListener( "message", function(evt){
 postMessage( "a really cool reply" );
 ```
 
-Notice that a dedicated Worker is in a one-to-one relationship with the program that created it. That is, the `"message"` event doesn't need any disambiguation here, because we're sure that it could only have come from this one-to-one relationship -- either it came from the Worker or the main page.
+Note que um dedicated Worker tem uma relação de um-para-um com o programa que o criou. Ou seja, o evento `"message"` não precisa de nenhuma desambiguação aqui, porque temos certeza de que ele só poderia ter vindo dessa relação de um-para-um -- ou veio do Worker ou da página principal.
 
-Usually the main page application creates the Workers, but a Worker can instantiate its own child Worker(s) -- known as subworkers -- as necessary. Sometimes this is useful to delegate such details to a sort of "master" Worker that spawns other Workers to process parts of a task. Unfortunately, at the time of this writing, Chrome still does not support subworkers, while Firefox does.
+Normalmente, a aplicação da página principal cria os Workers, mas um Worker pode instanciar seu(s) próprio(s) Worker(s) filho(s) -- conhecidos como subworkers -- conforme necessário. Às vezes é útil delegar tais detalhes a uma espécie de Worker "mestre" que gera outros Workers para processar partes de uma tarefa. Infelizmente, no momento em que isto é escrito, o Chrome ainda não dá suporte a subworkers, enquanto o Firefox dá.
 
-To kill a Worker immediately from the program that created it, call `terminate()` on the Worker object (like `w1` in the previous snippets). Abruptly terminating a Worker thread does not give it any chance to finish up its work or clean up any resources. It's akin to you closing a browser tab to kill a page.
+Para matar um Worker imediatamente a partir do programa que o criou, chame `terminate()` no objeto Worker (como `w1` nos trechos anteriores). Encerrar abruptamente uma thread de Worker não lhe dá nenhuma chance de finalizar seu trabalho ou limpar quaisquer recursos. É semelhante a você fechar uma aba do navegador para matar uma página.
 
-If you have two or more pages (or multiple tabs with the same page!) in the browser that try to create a Worker from the same file URL, those will actually end up as completely separate Workers. Shortly, we'll discuss a way to "share" a Worker.
+Se você tiver duas ou mais páginas (ou múltiplas abas com a mesma página!) no navegador que tentem criar um Worker a partir da mesma URL de arquivo, esses na verdade acabarão sendo Workers completamente separados. Em breve, discutiremos uma forma de "compartilhar" um Worker.
 
-**Note:** It may seem like a malicious or ignorant JS program could easily perform a denial-of-service attack on a system by spawning hundreds of Workers, seemingly each with their own thread. While it's true that it's somewhat of a guarantee that a Worker will end up on a separate thread, this guarantee is not unlimited. The system is free to decide how many actual threads/CPUs/cores it really wants to create. There's no way to predict or guarantee how many you'll have access to, though many people assume it's at least as many as the number of CPUs/cores available. I think the safest assumption is that there's at least one other thread besides the main UI thread, but that's about it.
+**Nota:** Pode parecer que um programa JS malicioso ou ignorante poderia facilmente realizar um ataque de negação de serviço em um sistema gerando centenas de Workers, aparentemente cada um com sua própria thread. Embora seja verdade que existe uma espécie de garantia de que um Worker acabará em uma thread separada, essa garantia não é ilimitada. O sistema é livre para decidir quantas threads/CPUs/cores realmente quer criar. Não há como prever ou garantir quantos você terá acesso, embora muitas pessoas presumam que seja pelo menos tantos quanto o número de CPUs/cores disponíveis. Acho que a suposição mais segura é que existe pelo menos uma outra thread além da thread principal de UI, mas é mais ou menos isso.
 
-### Worker Environment
+### Ambiente do Worker
 
-Inside the Worker, you do not have access to any of the main program's resources. That means you cannot access any of its global variables, nor can you access the page's DOM or other resources. Remember: it's a totally separate thread.
+Dentro do Worker, você não tem acesso a nenhum dos recursos do programa principal. Isso significa que você não pode acessar nenhuma de suas variáveis globais, nem pode acessar o DOM da página ou outros recursos. Lembre-se: é uma thread totalmente separada.
 
-You can, however, perform network operations (Ajax, WebSockets) and set timers. Also, the Worker has access to its own copy of several important global variables/features, including `navigator`, `location`, `JSON`, and `applicationCache`.
+Você pode, entretanto, realizar operações de rede (Ajax, WebSockets) e definir temporizadores. Além disso, o Worker tem acesso à sua própria cópia de várias variáveis/recursos globais importantes, incluindo `navigator`, `location`, `JSON` e `applicationCache`.
 
-You can also load extra JS scripts into your Worker, using `importScripts(..)`:
+Você também pode carregar scripts JS extras no seu Worker, usando `importScripts(..)`:
 
 ```js
-// inside the Worker
+// dentro do Worker
 importScripts( "foo.js", "bar.js" );
 ```
 
-These scripts are loaded synchronously, which means the `importScripts(..)` call will block the rest of the Worker's execution until the file(s) are finished loading and executing.
+Esses scripts são carregados de forma síncrona, o que significa que a chamada `importScripts(..)` bloqueará o restante da execução do Worker até que o(s) arquivo(s) terminem de carregar e executar.
 
-**Note:** There have also been some discussions about exposing the `<canvas>` API to Workers, which combined with having canvases be Transferables (see the "Data Transfer" section), would allow Workers to perform more sophisticated off-thread graphics processing, which can be useful for high-performance gaming (WebGL) and other similar applications. Although this doesn't exist yet in any browsers, it's likely to happen in the near future.
+**Nota:** Houve também algumas discussões sobre expor a API `<canvas>` aos Workers, o que, combinado com o fato de os canvases serem Transferables (veja a seção "Data Transfer"), permitiria aos Workers realizar processamento gráfico off-thread mais sofisticado, o que pode ser útil para jogos de alta performance (WebGL) e outras aplicações similares. Embora isso ainda não exista em nenhum navegador, é provável que aconteça em um futuro próximo.
 
-What are some common uses for Web Workers?
+Quais são alguns usos comuns para Web Workers?
 
-* Processing intensive math calculations
-* Sorting large data sets
-* Data operations (compression, audio analysis, image pixel manipulations, etc.)
-* High-traffic network communications
+* Cálculos matemáticos intensivos em processamento
+* Ordenação de grandes conjuntos de dados
+* Operações de dados (compressão, análise de áudio, manipulações de pixels de imagens, etc.)
+* Comunicações de rede de alto tráfego
 
-### Data Transfer
+### Transferência de Dados
 
-You may notice a common characteristic of most of those uses, which is that they require a large amount of information to be transferred across the barrier between threads using the event mechanism, perhaps in both directions.
+Você pode notar uma característica comum à maioria desses usos, que é o fato de exigirem que uma grande quantidade de informação seja transferida através da barreira entre as threads usando o mecanismo de eventos, talvez em ambas as direções.
 
-In the early days of Workers, serializing all data to a string value was the only option. In addition to the speed penalty of the two-way serializations, the other major negative was that the data was being copied, which meant a doubling of memory usage (and the subsequent churn of garbage collection).
+Nos primeiros dias dos Workers, serializar todos os dados em um valor string era a única opção. Além da penalidade de velocidade das serializações em duas vias, o outro grande aspecto negativo era que os dados estavam sendo copiados, o que significava uma duplicação do uso de memória (e o subsequente churn da coleta de lixo).
 
-Thankfully, we now have a few better options.
+Felizmente, agora temos algumas opções melhores.
 
-If you pass an object, a so-called "Structured Cloning Algorithm" (https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/The_structured_clone_algorithm) is used to copy/duplicate the object on the other side. This algorithm is fairly sophisticated and can even handle duplicating objects with circular references. The to-string/from-string performance penalty is not paid, but we still have duplication of memory using this approach. There is support for this in IE10 and above, as well as all the other major browsers.
+Se você passa um objeto, um chamado "Structured Cloning Algorithm" (https://developer.mozilla.org/en-US/docs/Web/Guide/API/DOM/The_structured_clone_algorithm) é usado para copiar/duplicar o objeto do outro lado. Esse algoritmo é bastante sofisticado e pode até lidar com a duplicação de objetos com referências circulares. A penalidade de performance de to-string/from-string não é paga, mas ainda temos duplicação de memória usando essa abordagem. Há suporte para isso no IE10 e acima, bem como em todos os outros navegadores principais.
 
-An even better option, especially for larger data sets, is "Transferable Objects" (http://updates.html5rocks.com/2011/12/Transferable-Objects-Lightning-Fast). What happens is that the object's "ownership" is transferred, but the data itself is not moved. Once you transfer away an object to a Worker, it's empty or inaccessible in the originating location -- that eliminates the hazards of threaded programming over a shared scope. Of course, transfer of ownership can go in both directions.
+Uma opção ainda melhor, especialmente para conjuntos de dados maiores, são os "Transferable Objects" (http://updates.html5rocks.com/2011/12/Transferable-Objects-Lightning-Fast). O que acontece é que a "propriedade" do objeto é transferida, mas os dados em si não são movidos. Uma vez que você transfere um objeto para um Worker, ele fica vazio ou inacessível no local de origem -- isso elimina os perigos da programação com threads sobre um escopo compartilhado. Claro, a transferência de propriedade pode ocorrer em ambas as direções.
 
-There really isn't much you need to do to opt into a Transferable Object; any data structure that implements the Transferable interface (https://developer.mozilla.org/en-US/docs/Web/API/Transferable) will automatically be transferred this way (support Firefox & Chrome).
+Na verdade, não há muito que você precise fazer para optar por um Transferable Object; qualquer estrutura de dados que implemente a interface Transferable (https://developer.mozilla.org/en-US/docs/Web/API/Transferable) será automaticamente transferida dessa forma (suporte Firefox & Chrome).
 
-For example, typed arrays like `Uint8Array` (see the *ES6 & Beyond* title of this series) are "Transferables." This is how you'd send a Transferable Object using `postMessage(..)`:
+Por exemplo, typed arrays como `Uint8Array` (veja o título *ES6 & Beyond* desta série) são "Transferables". Veja como você enviaria um Transferable Object usando `postMessage(..)`:
 
 ```js
-// `foo` is a `Uint8Array` for instance
+// `foo` é um `Uint8Array`, por exemplo
 
 postMessage( foo.buffer, [ foo.buffer ] );
 ```
 
-The first parameter is the raw buffer and the second parameter is a list of what to transfer.
+O primeiro parâmetro é o buffer bruto e o segundo parâmetro é uma lista do que transferir.
 
-Browsers that don't support Transferable Objects simply degrade to structured cloning, which means performance reduction rather than outright feature breakage.
+Navegadores que não dão suporte a Transferable Objects simplesmente degradam para clonagem estruturada, o que significa redução de performance em vez de quebra total do recurso.
 
 ### Shared Workers
 
-If your site or app allows for loading multiple tabs of the same page (a common feature), you may very well want to reduce the resource usage of their system by preventing duplicate dedicated Workers; the most common limited resource in this respect is a socket network connection, as browsers limit the number of simultaneous connections to a single host. Of course, limiting multiple connections from a client also eases your server resource requirements.
+Se o seu site ou app permite o carregamento de múltiplas abas da mesma página (um recurso comum), você pode muito bem querer reduzir o uso de recursos do sistema impedindo dedicated Workers duplicados; o recurso limitado mais comum nesse aspecto é uma conexão de rede via socket, já que os navegadores limitam o número de conexões simultâneas a um único host. Claro, limitar múltiplas conexões a partir de um cliente também alivia as exigências de recursos do seu servidor.
 
-In this case, creating a single centralized Worker that all the page instances of your site or app can *share* is quite useful.
+Nesse caso, criar um único Worker centralizado que todas as instâncias de página do seu site ou app possam *compartilhar* é bastante útil.
 
-That's called a `SharedWorker`, which you create like so (support for this is limited to Firefox and Chrome):
+Isso é chamado de `SharedWorker`, que você cria assim (o suporte para isso é limitado a Firefox e Chrome):
 
 ```js
 var w1 = new SharedWorker( "http://some.url.1/mycoolworker.js" );
 ```
 
-Because a shared Worker can be connected to or from more than one program instance or page on your site, the Worker needs a way to know which program a message comes from. This unique identification is called a "port" -- think network socket ports. So the calling program must use the `port` object of the Worker for communication:
+Como um shared Worker pode estar conectado a, ou a partir de, mais de uma instância de programa ou página do seu site, o Worker precisa de uma forma de saber de qual programa uma mensagem vem. Essa identificação única é chamada de "port" -- pense em portas de socket de rede. Então o programa chamador deve usar o objeto `port` do Worker para a comunicação:
 
 ```js
 w1.port.addEventListener( "message", handleMessages );
@@ -157,18 +157,18 @@ w1.port.addEventListener( "message", handleMessages );
 w1.port.postMessage( "something cool" );
 ```
 
-Also, the port connection must be initialized, as:
+Além disso, a conexão da port deve ser inicializada, assim:
 
 ```js
 w1.port.start();
 ```
 
-Inside the shared Worker, an extra event must be handled: `"connect"`. This event provides the port `object` for that particular connection. The most convenient way to keep multiple connections separate is to use closure (see *Scope & Closures* title of this series) over the `port`, as shown next, with the event listening and transmitting for that connection defined inside the handler for the `"connect"` event:
+Dentro do shared Worker, um evento extra deve ser tratado: `"connect"`. Esse evento fornece o `object` port para aquela conexão específica. A forma mais conveniente de manter múltiplas conexões separadas é usar closure (veja o título *Scope & Closures* desta série) sobre a `port`, como mostrado a seguir, com a escuta e transmissão de eventos para aquela conexão definidas dentro do handler para o evento `"connect"`:
 
 ```js
-// inside the shared Worker
+// dentro do shared Worker
 addEventListener( "connect", function(evt){
-	// the assigned port for this connection
+	// a port atribuída para esta conexão
 	var port = evt.ports[0];
 
 	port.addEventListener( "message", function(evt){
@@ -179,40 +179,40 @@ addEventListener( "connect", function(evt){
 		// ..
 	} );
 
-	// initialize the port connection
+	// inicializa a conexão da port
 	port.start();
 } );
 ```
 
-Other than that difference, shared and dedicated Workers have the same capabilities and semantics.
+Fora essa diferença, shared e dedicated Workers têm as mesmas capacidades e semânticas.
 
-**Note:** Shared Workers survive the termination of a port connection if other port connections are still alive, whereas dedicated Workers are terminated whenever the connection to their initiating program is terminated.
+**Nota:** Shared Workers sobrevivem ao encerramento de uma conexão de port se outras conexões de port ainda estiverem ativas, ao passo que dedicated Workers são encerrados sempre que a conexão com o programa que os iniciou é encerrada.
 
-### Polyfilling Web Workers
+### Polyfill de Web Workers
 
-Web Workers are very attractive performance-wise for running JS programs in parallel. However, you may be in a position where your code needs to run in older browsers that lack support. Because Workers are an API and not a syntax, they can be polyfilled, to an extent.
+Web Workers são muito atraentes em termos de performance para rodar programas JS em paralelo. No entanto, você pode estar em uma posição em que seu código precisa rodar em navegadores mais antigos que não têm suporte. Como Workers são uma API e não uma sintaxe, eles podem ser polyfilled, até certo ponto.
 
-If a browser doesn't support Workers, there's simply no way to fake multithreading from the performance perspective. Iframes are commonly thought of to provide a parallel environment, but in all modern browsers they actually run on the same thread as the main page, so they're not sufficient for faking parallelism.
+Se um navegador não dá suporte a Workers, simplesmente não há maneira de simular multithreading do ponto de vista de performance. Comumente se pensa que iframes fornecem um ambiente paralelo, mas em todos os navegadores modernos eles na verdade rodam na mesma thread que a página principal, então não são suficientes para simular paralelismo.
 
-As we detailed in Chapter 1, JS's asynchronicity (not parallelism) comes from the event loop queue, so you can force faked Workers to be asynchronous using timers (`setTimeout(..)`, etc.). Then you just need to provide a polyfill for the Worker API. There are some listed here (https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills#web-workers), but frankly none of them look great.
+Como detalhamos no Capítulo 1, a assincronicidade do JS (não o paralelismo) vem da fila de loop de eventos, então você pode forçar Workers simulados a serem assíncronos usando temporizadores (`setTimeout(..)`, etc.). Daí você só precisa fornecer um polyfill para a API do Worker. Há alguns listados aqui (https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills#web-workers), mas, francamente, nenhum deles parece ótimo.
 
-I've written a sketch of a polyfill for `Worker` here (https://gist.github.com/getify/1b26accb1a09aa53ad25). It's basic, but it should get the job done for simple `Worker` support, given that the two-way messaging works correctly as well as `"onerror"` handling. You could probably also extend it with more features, such as `terminate()` or faked Shared Workers, as you see fit.
+Escrevi um esboço de um polyfill para `Worker` aqui (https://gist.github.com/getify/1b26accb1a09aa53ad25). É básico, mas deve dar conta do recado para suporte simples a `Worker`, dado que as mensagens em duas vias funcionam corretamente, bem como o tratamento de `"onerror"`. Você provavelmente também poderia estendê-lo com mais recursos, como `terminate()` ou Shared Workers simulados, conforme achar conveniente.
 
-**Note:** You can't fake synchronous blocking, so this polyfill just disallows use of `importScripts(..)`. Another option might have been to parse and transform the Worker's code (once Ajax loaded) to handle rewriting to some asynchronous form of an `importScripts(..)` polyfill, perhaps with a promise-aware interface.
+**Nota:** Você não pode simular bloqueio síncrono, então este polyfill simplesmente proíbe o uso de `importScripts(..)`. Outra opção poderia ter sido analisar e transformar o código do Worker (uma vez carregado por Ajax) para lidar com a reescrita para alguma forma assíncrona de um polyfill de `importScripts(..)`, talvez com uma interface que reconheça promises.
 
 ## SIMD
 
-Single instruction, multiple data (SIMD) is a form of "data parallelism," as contrasted to "task parallelism" with Web Workers, because the emphasis is not really on program logic chunks being parallelized, but rather multiple bits of data being processed in parallel.
+Single instruction, multiple data (SIMD) é uma forma de "paralelismo de dados", em contraste com o "paralelismo de tarefas" dos Web Workers, porque a ênfase não está realmente em paralelizar pedaços da lógica do programa, mas sim em múltiplos bits de dados sendo processados em paralelo.
 
-With SIMD, threads don't provide the parallelism. Instead, modern CPUs provide SIMD capability with "vectors" of numbers -- think: type specialized arrays -- as well as instructions that can operate in parallel across all the numbers; these are low-level operations leveraging instruction-level parallelism.
+Com SIMD, threads não fornecem o paralelismo. Em vez disso, CPUs modernas fornecem capacidade SIMD com "vetores" de números -- pense: arrays especializados em tipos -- bem como instruções que podem operar em paralelo sobre todos os números; essas são operações de baixo nível que aproveitam o paralelismo no nível de instrução.
 
-The effort to expose SIMD capability to JavaScript is primarily spearheaded by Intel (https://01.org/node/1495), namely by Mohammad Haghighat (at the time of this writing), in cooperation with Firefox and Chrome teams. SIMD is on an early standards track with a good chance of making it into a future revision of JavaScript, likely in the ES7 timeframe.
+O esforço para expor a capacidade SIMD ao JavaScript é liderado principalmente pela Intel (https://01.org/node/1495), a saber, por Mohammad Haghighat (no momento em que isto é escrito), em cooperação com as equipes do Firefox e do Chrome. SIMD está em uma trilha de padronização inicial com uma boa chance de entrar em uma futura revisão do JavaScript, provavelmente no período do ES7.
 
-SIMD JavaScript proposes to expose short vector types and APIs to JS code, which on those SIMD-enabled systems would map the operations directly through to the CPU equivalents, with fallback to non-parallelized operation "shims" on non-SIMD systems.
+O SIMD JavaScript propõe expor tipos de vetores curtos e APIs ao código JS, que, nesses sistemas habilitados para SIMD, mapeariam as operações diretamente para os equivalentes da CPU, com fallback para "shims" de operação não paralelizada em sistemas sem SIMD.
 
-The performance benefits for data-intensive applications (signal analysis, matrix operations on graphics, etc.) with such parallel math processing are quite obvious!
+Os benefícios de performance para aplicações intensivas em dados (análise de sinais, operações com matrizes em gráficos, etc.) com tal processamento matemático paralelo são bastante óbvios!
 
-Early proposal forms of the SIMD API at the time of this writing look like this:
+As formas iniciais da proposta da API SIMD, no momento em que isto é escrito, são assim:
 
 ```js
 var v1 = SIMD.float32x4( 3.14159, 21.0, 32.3, 55.55 );
@@ -225,31 +225,31 @@ SIMD.float32x4.mul( v1, v2 );	// [ 6.597339, 67.2, 138.89, 299.97 ]
 SIMD.int32x4.add( v3, v4 );		// [ 20, 121, 1031, 10041 ]
 ```
 
-Shown here are two different vector data types, 32-bit floating-point numbers and 32-bit integer numbers. You can see that these vectors are sized exactly to four 32-bit elements, as this matches the SIMD vector sizes (128-bit) available in most modern CPUs. It's also possible we may see an `x8` (or larger!) version of these APIs in the future.
+Mostrados aqui estão dois tipos de dados de vetor diferentes, números de ponto flutuante de 32 bits e números inteiros de 32 bits. Você pode ver que esses vetores são dimensionados exatamente para quatro elementos de 32 bits, já que isso corresponde aos tamanhos de vetor SIMD (128 bits) disponíveis na maioria das CPUs modernas. Também é possível que vejamos uma versão `x8` (ou maior!) dessas APIs no futuro.
 
-Besides `mul()` and `add()`, many other operations are likely to be included, such as `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, `reciprocal()`, `reciprocalSqrt()` (arithmetic), `shuffle()` (rearrange vector elements), `and()`, `or()`, `xor()`, `not()` (logical), `equal()`, `greaterThan()`, `lessThan()` (comparison), `shiftLeft()`, `shiftRightLogical()`, `shiftRightArithmetic()` (shifts), `fromFloat32x4()`, and `fromInt32x4()` (conversions).
+Além de `mul()` e `add()`, muitas outras operações provavelmente serão incluídas, como `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, `reciprocal()`, `reciprocalSqrt()` (aritméticas), `shuffle()` (rearranjar elementos do vetor), `and()`, `or()`, `xor()`, `not()` (lógicas), `equal()`, `greaterThan()`, `lessThan()` (comparação), `shiftLeft()`, `shiftRightLogical()`, `shiftRightArithmetic()` (deslocamentos), `fromFloat32x4()` e `fromInt32x4()` (conversões).
 
-**Note:** There's an official "prollyfill" (hopeful, expectant, future-leaning polyfill) for the SIMD functionality available (https://github.com/johnmccutchan/ecmascript_simd), which illustrates a lot more of the planned SIMD capability than we've illustrated in this section.
+**Nota:** Existe um "prollyfill" oficial (um polyfill esperançoso, expectante, voltado para o futuro) para a funcionalidade SIMD disponível (https://github.com/johnmccutchan/ecmascript_simd), que ilustra muito mais da capacidade SIMD planejada do que ilustramos nesta seção.
 
 ## asm.js
 
-"asm.js" (http://asmjs.org/) is a label for a highly optimizable subset of the JavaScript language. By carefully avoiding certain mechanisms and patterns that are *hard* to optimize (garbage collection, coercion, etc.), asm.js-styled code can be recognized by the JS engine and given special attention with aggressive low-level optimizations.
+"asm.js" (http://asmjs.org/) é um rótulo para um subconjunto altamente otimizável da linguagem JavaScript. Ao evitar cuidadosamente certos mecanismos e padrões que são *difíceis* de otimizar (coleta de lixo, coerção, etc.), código no estilo asm.js pode ser reconhecido pelo motor JS e receber atenção especial com otimizações agressivas de baixo nível.
 
-Distinct from other program performance mechanisms discussed in this chapter, asm.js isn't necessarily something that needs to be adopted into the JS language specification. There *is* an asm.js specification (http://asmjs.org/spec/latest/), but it's mostly for tracking an agreed upon set of candidate inferences for optimization rather than a set of requirements of JS engines.
+Diferentemente de outros mecanismos de performance de programa discutidos neste capítulo, asm.js não é necessariamente algo que precisa ser adotado na especificação da linguagem JS. *Existe* uma especificação asm.js (http://asmjs.org/spec/latest/), mas ela serve principalmente para rastrear um conjunto acordado de inferências candidatas para otimização, e não um conjunto de requisitos para os motores JS.
 
-There's not currently any new syntax being proposed. Instead, asm.js suggests ways to recognize existing standard JS syntax that conforms to the rules of asm.js and let engines implement their own optimizations accordingly.
+Atualmente, não há nenhuma nova sintaxe sendo proposta. Em vez disso, asm.js sugere maneiras de reconhecer a sintaxe JS padrão existente que esteja em conformidade com as regras do asm.js e deixar os motores implementarem suas próprias otimizações de acordo.
 
-There's been some disagreement between browser vendors over exactly how asm.js should be activated in a program. Early versions of the asm.js experiment required a `"use asm";` pragma (similar to strict mode's `"use strict";`) to help clue the JS engine to be looking for asm.js optimization opportunities and hints. Others have asserted that asm.js should just be a set of heuristics that engines automatically recognize without the author having to do anything extra, meaning that existing programs could theoretically benefit from asm.js-style optimizations without doing anything special.
+Houve alguma discordância entre os fornecedores de navegadores sobre exatamente como o asm.js deveria ser ativado em um programa. Versões iniciais do experimento asm.js exigiam um pragma `"use asm";` (similar ao `"use strict";` do strict mode) para ajudar a dar a pista ao motor JS de que ele deveria procurar oportunidades e dicas de otimização asm.js. Outros afirmaram que asm.js deveria ser apenas um conjunto de heurísticas que os motores reconhecem automaticamente sem que o autor tenha que fazer nada extra, o que significa que programas existentes poderiam teoricamente se beneficiar de otimizações no estilo asm.js sem fazer nada de especial.
 
-### How to Optimize with asm.js
+### Como Otimizar com asm.js
 
-The first thing to understand about asm.js optimizations is around types and coercion (see the *Types & Grammar* title of this series). If the JS engine has to track multiple different types of values in a variable through various operations, so that it can handle coercions between types as necessary, that's a lot of extra work that keeps the program optimization suboptimal.
+A primeira coisa a entender sobre as otimizações asm.js gira em torno de tipos e coerção (veja o título *Types & Grammar* desta série). Se o motor JS tem que rastrear múltiplos tipos diferentes de valores em uma variável através de várias operações, de modo a poder lidar com coerções entre tipos conforme necessário, isso é muito trabalho extra que mantém a otimização do programa abaixo do ideal.
 
-**Note:** We're going to use asm.js-style code here for illustration purposes, but be aware that it's not commonly expected that you'll author such code by hand. asm.js is more intended to a compilation target from other tools, such as Emscripten (https://github.com/kripken/emscripten/wiki). It's of course possible to write your own asm.js code, but that's usually a bad idea because the code is very low level and managing it can be very time consuming and error prone. Nevertheless, there may be cases where you'd want to hand tweak your code for asm.js optimization purposes.
+**Nota:** Vamos usar código no estilo asm.js aqui para fins de ilustração, mas esteja ciente de que normalmente não se espera que você escreva tal código à mão. asm.js destina-se mais a ser um alvo de compilação a partir de outras ferramentas, como o Emscripten (https://github.com/kripken/emscripten/wiki). É claro que é possível escrever seu próprio código asm.js, mas isso normalmente é uma má ideia porque o código é de muito baixo nível e gerenciá-lo pode ser muito demorado e propenso a erros. Mesmo assim, pode haver casos em que você queira ajustar manualmente seu código para fins de otimização asm.js.
 
-There are some "tricks" you can use to hint to an asm.js-aware JS engine what the intended type is for variables/operations, so that it can skip these coercion tracking steps.
+Existem alguns "truques" que você pode usar para dar a dica a um motor JS que reconhece asm.js sobre qual é o tipo pretendido para variáveis/operações, de modo que ele possa pular essas etapas de rastreamento de coerção.
 
-For example:
+Por exemplo:
 
 ```js
 var a = 42;
@@ -259,7 +259,7 @@ var a = 42;
 var b = a;
 ```
 
-In that program, the `b = a` assignment leaves the door open for type divergence in variables. However, it could instead be written as:
+Nesse programa, a atribuição `b = a` deixa a porta aberta para divergência de tipos nas variáveis. No entanto, ela poderia, em vez disso, ser escrita como:
 
 ```js
 var a = 42;
@@ -269,37 +269,37 @@ var a = 42;
 var b = a | 0;
 ```
 
-Here, we've used the `|` ("binary OR") with value `0`, which has no effect on the value other than to make sure it's a 32-bit integer. That code run in a normal JS engine works just fine, but when run in an asm.js-aware JS engine it *can* signal that `b` should always be treated as a 32-bit integer, so the coercion tracking can be skipped.
+Aqui, usamos o `|` ("OR binário") com o valor `0`, o que não tem efeito sobre o valor além de garantir que ele seja um inteiro de 32 bits. Esse código, rodado em um motor JS normal, funciona perfeitamente, mas, quando rodado em um motor JS que reconhece asm.js, ele *pode* sinalizar que `b` deve sempre ser tratado como um inteiro de 32 bits, de modo que o rastreamento de coerção possa ser pulado.
 
-Similarly, the addition operation between two variables can be restricted to a more performant integer addition (instead of floating point):
+De forma similar, a operação de adição entre duas variáveis pode ser restrita a uma adição de inteiros mais performática (em vez de ponto flutuante):
 
 ```js
 (a + b) | 0
 ```
 
-Again, the asm.js-aware JS engine can see that hint and infer that the `+` operation should be 32-bit integer addition because the end result of the whole expression would automatically be 32-bit integer conformed anyway.
+Novamente, o motor JS que reconhece asm.js pode ver essa dica e inferir que a operação `+` deve ser uma adição de inteiros de 32 bits porque o resultado final de toda a expressão seria, de qualquer forma, automaticamente conformado a um inteiro de 32 bits.
 
-### asm.js Modules
+### Módulos asm.js
 
-One of the biggest detractors to performance in JS is around memory allocation, garbage collection, and scope access. asm.js suggests one of the ways around these issues is to declare a more formalized asm.js "module" -- do not confuse these with ES6 modules; see the *ES6 & Beyond* title of this series.
+Um dos maiores detratores da performance em JS gira em torno da alocação de memória, da coleta de lixo e do acesso a escopo. asm.js sugere que uma das formas de contornar essas questões é declarar um "módulo" asm.js mais formalizado -- não confunda esses com módulos ES6; veja o título *ES6 & Beyond* desta série.
 
-For an asm.js module, you need to explicitly pass in a tightly conformed namespace -- this is referred to in the spec as `stdlib`, as it should represent standard libraries needed -- to import necessary symbols, rather than just using globals via lexical scope. In the base case, the `window` object is an acceptable `stdlib` object for asm.js module purposes, but you could and perhaps should construct an even more restricted one.
+Para um módulo asm.js, você precisa passar explicitamente um namespace estritamente conformado -- isso é referido na especificação como `stdlib`, já que deve representar as bibliotecas padrão necessárias -- para importar os símbolos necessários, em vez de apenas usar globais via escopo léxico. No caso base, o objeto `window` é um objeto `stdlib` aceitável para fins de módulo asm.js, mas você poderia, e talvez devesse, construir um ainda mais restrito.
 
-You also must declare a "heap" -- which is just a fancy term for a reserved spot in memory where variables can already be used without asking for more memory or releasing previously used memory -- and pass that in, so that the asm.js module won't need to do anything that would cause memory churn; it can just use the pre-reserved space.
+Você também deve declarar um "heap" -- que é apenas um termo elegante para um local reservado na memória onde variáveis já podem ser usadas sem pedir mais memória ou liberar memória previamente usada -- e passá-lo, de modo que o módulo asm.js não precise fazer nada que cause churn de memória; ele pode apenas usar o espaço pré-reservado.
 
-A "heap" is likely a typed `ArrayBuffer`, such as:
+Um "heap" é provavelmente um `ArrayBuffer` tipado, como:
 
 ```js
-var heap = new ArrayBuffer( 0x10000 );	// 64k heap
+var heap = new ArrayBuffer( 0x10000 );	// heap de 64k
 ```
 
-Using that pre-reserved 64k of binary space, an asm.js module can store and retrieve values in that buffer without any memory allocation or garbage collection penalties. For example, the `heap` buffer could be used inside the module to back an array of 64-bit float values like this:
+Usando esse espaço binário de 64k pré-reservado, um módulo asm.js pode armazenar e recuperar valores nesse buffer sem nenhuma penalidade de alocação de memória ou de coleta de lixo. Por exemplo, o buffer `heap` poderia ser usado dentro do módulo para dar suporte a um array de valores float de 64 bits assim:
 
 ```js
 var arr = new Float64Array( heap );
 ```
 
-OK, so let's make a quick, silly example of an asm.js-styled module to illustrate how these pieces fit together. We'll define a `foo(..)` that takes a start (`x`) and end (`y`) integer for a range, and calculates all the inner adjacent multiplications of the values in the range, and then finally averages those values together:
+OK, então vamos fazer um exemplo rápido e bobo de um módulo no estilo asm.js para ilustrar como essas peças se encaixam. Vamos definir um `foo(..)` que recebe um inteiro de início (`x`) e fim (`y`) para um intervalo, e calcula todas as multiplicações internas adjacentes dos valores no intervalo, e então, finalmente, calcula a média desses valores:
 
 ```js
 function fooASM(stdlib,foreign,heap) {
@@ -316,16 +316,16 @@ function fooASM(stdlib,foreign,heap) {
 		var sum = 0;
 		var count = ((y|0) - (x|0)) | 0;
 
-		// calculate all the inner adjacent multiplications
+		// calcula todas as multiplicações internas adjacentes
 		for (i = x | 0;
 			(i | 0) < (y | 0);
 			p = (p + 8) | 0, i = (i + 1) | 0
 		) {
-			// store result
+			// armazena o resultado
 			arr[ p >> 3 ] = (i * (i + 1)) | 0;
 		}
 
-		// calculate average of all intermediate values
+		// calcula a média de todos os valores intermediários
 		for (i = 0, p = 0;
 			(i | 0) < (count | 0);
 			p = (p + 8) | 0, i = (i + 1) | 0
@@ -347,22 +347,22 @@ var foo = fooASM( window, null, heap ).foo;
 foo( 10, 20 );		// 233
 ```
 
-**Note:** This asm.js example is hand authored for illustration purposes, so it doesn't represent the same code that would be produced from a compilation tool targeting asm.js. But it does show the typical nature of asm.js code, especially the type hinting and use of the `heap` buffer for temporary variable storage.
+**Nota:** Este exemplo asm.js é escrito à mão para fins de ilustração, então não representa o mesmo código que seria produzido por uma ferramenta de compilação que tem asm.js como alvo. Mas ele de fato mostra a natureza típica do código asm.js, especialmente as dicas de tipo e o uso do buffer `heap` para armazenamento temporário de variáveis.
 
-The first call to `fooASM(..)` is what sets up our asm.js module with its `heap` allocation. The result is a `foo(..)` function we can call as many times as necessary. Those `foo(..)` calls should be specially optimized by an asm.js-aware JS engine. Importantly, the preceding code is completely standard JS and would run just fine (without special optimization) in a non-asm.js engine.
+A primeira chamada a `fooASM(..)` é o que configura nosso módulo asm.js com sua alocação de `heap`. O resultado é uma função `foo(..)` que podemos chamar quantas vezes forem necessárias. Essas chamadas a `foo(..)` deveriam ser especialmente otimizadas por um motor JS que reconhece asm.js. É importante notar que o código anterior é JS completamente padrão e rodaria perfeitamente bem (sem otimização especial) em um motor que não reconhece asm.js.
 
-Obviously, the nature of restrictions that make asm.js code so optimizable reduces the possible uses for such code significantly. asm.js won't necessarily be a general optimization set for any given JS program. Instead, it's intended to provide an optimized way of handling specialized tasks such as intensive math operations (e.g., those used in graphics processing for games).
+Obviamente, a natureza das restrições que tornam o código asm.js tão otimizável reduz significativamente os usos possíveis para tal código. asm.js não será necessariamente um conjunto de otimizações de uso geral para qualquer programa JS dado. Em vez disso, ele se destina a fornecer uma forma otimizada de lidar com tarefas especializadas, como operações matemáticas intensivas (por exemplo, aquelas usadas no processamento gráfico de jogos).
 
-## Review
+## Revisão
 
-The first four chapters of this book are based on the premise that async coding patterns give you the ability to write more performant code, which is generally a very important improvement. But async behavior only gets you so far, because it's still fundamentally bound to a single event loop thread.
+Os quatro primeiros capítulos deste livro baseiam-se na premissa de que padrões de codificação assíncrona lhe dão a capacidade de escrever código mais performático, o que geralmente é uma melhoria muito importante. Mas o comportamento assíncrono só leva você até certo ponto, porque ele ainda está fundamentalmente vinculado a uma única thread de loop de eventos.
 
-So in this chapter we've covered several program-level mechanisms for improving performance even further.
+Então, neste capítulo, cobrimos vários mecanismos no nível do programa para melhorar a performance ainda mais.
 
-Web Workers let you run a JS file (aka program) in a separate thread using async events to message between the threads. They're wonderful for offloading long-running or resource-intensive tasks to a different thread, leaving the main UI thread more responsive.
+Web Workers permitem que você rode um arquivo JS (também conhecido como programa) em uma thread separada, usando eventos assíncronos para trocar mensagens entre as threads. Eles são maravilhosos para descarregar tarefas de longa duração ou intensivas em recursos para uma thread diferente, deixando a thread principal de UI mais responsiva.
 
-SIMD proposes to map CPU-level parallel math operations to JavaScript APIs for high-performance data-parallel operations, like number processing on large data sets.
+SIMD propõe mapear operações matemáticas paralelas no nível da CPU para APIs JavaScript, para operações de paralelismo de dados de alta performance, como processamento de números em grandes conjuntos de dados.
 
-Finally, asm.js describes a small subset of JavaScript that avoids the hard-to-optimize parts of JS (like garbage collection and coercion) and lets the JS engine recognize and run such code through aggressive optimizations. asm.js could be hand authored, but that's extremely tedious and error prone, akin to hand authoring assembly language (hence the name). Instead, the main intent is that asm.js would be a good target for cross-compilation from other highly optimized program languages -- for example, Emscripten (https://github.com/kripken/emscripten/wiki) transpiling C/C++ to JavaScript.
+Por fim, asm.js descreve um pequeno subconjunto do JavaScript que evita as partes difíceis de otimizar do JS (como coleta de lixo e coerção) e permite que o motor JS reconheça e rode tal código através de otimizações agressivas. asm.js poderia ser escrito à mão, mas isso é extremamente tedioso e propenso a erros, semelhante a escrever linguagem assembly à mão (daí o nome). Em vez disso, a principal intenção é que asm.js seja um bom alvo para compilação cruzada a partir de outras linguagens de programação altamente otimizadas -- por exemplo, o Emscripten (https://github.com/kripken/emscripten/wiki) transpilando C/C++ para JavaScript.
 
-While not covered explicitly in this chapter, there are even more radical ideas under very early discussion for JavaScript, including approximations of direct threaded functionality (not just hidden behind data structure APIs). Whether that happens explicitly, or we just see more parallelism creep into JS behind the scenes, the future of more optimized program-level performance in JS looks really *promising*.
+Embora não coberto explicitamente neste capítulo, há ideias ainda mais radicais sob discussão muito inicial para o JavaScript, incluindo aproximações de funcionalidade direta de threads (não apenas escondida atrás de APIs de estruturas de dados). Quer isso aconteça explicitamente, quer apenas vejamos mais paralelismo se infiltrando no JS nos bastidores, o futuro de uma performance de programa mais otimizada no JS parece realmente *promissor*.
