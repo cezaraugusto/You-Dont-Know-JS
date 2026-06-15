@@ -1,7 +1,7 @@
 # You Don't Know JS: Iniciando
 # Capítulo 1: Iniciando
 
-Bem vindo à série *You Don't Know JS* (*YDKJS*).
+Bem-vindo à série *You Don't Know JS* (*YDKJS*).
 
 *Iniciando* é uma introdução à diversos conceitos básicos de programação -- claro que inclinado ao uso do JavaScript (muitas vezes abreviado como JS) especificamente -- e como abordar e entender o resto dos títulos nessa série. Especialmente se você está começando em programação ou JavaScript, esse livro irá, de forma breve, explorar tudo que você precisa saber para *iniciar*.
 
@@ -19,7 +19,7 @@ Vamos *começar do começo*.
 
 Um programa, também conhecido como *código fonte* ou apenas *código*, é um conjunto de instruções especializadas para dizer ao computador quais tarefas ele deve realizar. Geralmente, códigos são salvos em arquivos de texto, apesar de que, em JavaScript, você também pode escrever códigos direto no developer console do navegador, o qual iremos cobrir em breve.
 
-As regras para formatos e combinações de instruções é chamado *linguagem de computação*, e algumas vezes é referenciado como *sintaxe*, bem parecido como a lingua Portuguesa diz à você a forma de pronunciar palavras e de como criar sentenças válidas usando palavras e pontuações.
+As regras para formatos e combinações de instruções é chamado *linguagem de computação*, e algumas vezes é referenciado como *sintaxe*, bem parecido como a língua portuguesa diz a você a forma de pronunciar palavras e de como criar sentenças válidas usando palavras e pontuações.
 
 ### Instruções
 
@@ -84,7 +84,7 @@ Para algumas linguagens, essa tradução dos comandos é típicamente feita de c
 Para outras linguagens, a tradução é feita em tempos distintos, chamado *compilamento* do código. Dessa forma, o programa *roda* depois, ou seja: o que está rodando são as instruções prontas, já compiladas.
 **NT** *Definem uma linguagem compilada.*
 
-Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, a *engine* do JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
+Tipicamente, afirma-se que o JavaScript é uma linguagem *interpretada*, porque o código é processado a cada vez que roda. Essa afirmação não é totalmente verdadeira. Na verdade, o *motor* do JavaScript *compila* o programa no mesmo instante e imediatamente roda o código compilado.
 
 **Nota:** Para mais informações sobre compilação em JavaScript, veja os dois primeiros capítulos do livro desta série *Escopos & Closures*.
 
@@ -118,11 +118,11 @@ Vá em frente, tente também! A melhor forma de aprender programação é produz
 
 No exemplo anterior, usamos o `console.log(..)`. Vamos, superficialmente, entender o que essa linha de código faz.
 
-Você deve ter suspeitado: essa é exatamente a forma como imprimimos texto (também conhecido como *output*) no *console* do desenvolvedor.
+Você deve ter suspeitado: essa é exatamente a forma como imprimimos texto (também conhecido como *output*) no *console* do desenvolvedor. Existem duas características dessa instrução que devemos explicar.
 
 Primeiro, a parte do `log( b )` é usada como uma função de chamada (veja "Funções"). O que está acontecendo é que estamos usando a variável `b` na função para pegar seu valor e imprimir no console.
 
-Depois, a parte do `console.` é uma referência ao objeto onde a função `log(..)`está localizada. Iremos cobrir objetos e suas propriedades com mais detalhes no Capítulo 2.
+Depois, a parte do `console.` é uma referência ao objeto onde a função `log(..)` está localizada. Iremos cobrir objetos e suas propriedades com mais detalhes no Capítulo 2.
 
 Outra forma de criar um output que você possa visualizar é rodar a instrução `alert(..)`. Por exemplo:
 
@@ -166,7 +166,7 @@ Operadores são como realizar uma ação em variáveis e valores. Nós já vimos
 
 O operador `*` realiza uma multiplicação matemática. Simples o suficiente, não?
 
-O operador de igualdade `=` é usado para *atribuir* -- primeiro calculamos o valor do *lado da mão direita* (valor original) do `=` e então o colocamos em uma variável que especificamos no *lado da mão esquerda* (variável de destino).
+O operador de igualdade `=` é usado para *atribuir* -- primeiro calculamos o valor do *lado direito* (valor original) do `=` e então o colocamos em uma variável que especificamos no *lado esquerdo* (variável de destino).
 
 **Atenção:** Essa pode parecer uma ordem reversa estranha de especificar uma atribuição. Ao invés de `a = 42`, algumas pessoas preferem inverter a ordem do valor original na esquerda e a variável de destino na direita, algo como `42 -> a` (isso não é JavaScript valido!). Infelizmente, a forma ordenada `a = 42` e variações similares, prevalece em linguagens de programação modernas. Caso pareça uma forma não-natural, tome algum tempo assimilando essa forma na sua cabeça até se sentir acostumado.
 
@@ -177,7 +177,7 @@ a = 2;
 b = a + 1;
 ```
 
-Aqui, atribuimos o valor`2` à variável `a`. Assim, pegamos o valor da variável `a` (ainda `2`), adicionamos `1` a ele, resultando no valor `3`, então armazenamos esse valor na variável `b`.
+Aqui, atribuímos o valor `2` à variável `a`. Assim, pegamos o valor da variável `a` (ainda `2`), adicionamos `1` a ele, resultando no valor `3`, então armazenamos esse valor na variável `b`.
 
 Apesar de não ser tecnicamente um operador, você irá precisar da palavra-chave `var` em cada programa, por ser o primeiro modo de *declarar* (conhecido como *criar*) *var*iáveis (veja "Variáveis").
 
@@ -215,7 +215,7 @@ Aqui encontram-se os operadores mais comuns em JavaScript:
 
 ## Valores & Tipos
 
-Se você abordar uma vendedora de uma loja de celulares e perguntar quanto um certo modelo custa, e ela disser "noventa e nove e noventa e nove" ($99.99), ela está fornecendo um valor numérico que representa quanto você vai precisar pagar para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
+Se você abordar uma vendedora de uma loja de celulares e perguntar quanto um certo modelo custa, e ela disser "noventa e nove e noventa e nove" ($99.99), ela está fornecendo um valor numérico que representa quanto você vai precisar pagar (mais impostos) para comprar o aparelho. Se você quiser levar dois desses celulares, você pode facilmente fazer uma conta mental e dobrar o valor para encontrar o valor $199,98.
 
 Se a vendedora pegar outro aparelho similar e disser "é grátis", ela não está te fornecendo um valor numérico, mas está fazendo um outro tipo de representação de um valor que é esperado ($0.00) -- a palavra "grátis."
 
@@ -263,11 +263,11 @@ Usando `Number(..)` (uma função nativa) como demonstrado, estamos realizando u
 
 Um tópico controverso acontece quando você tenta comparar dois valores que ainda não são do mesmo tipo, que requer uma coerção *implícita*.
 
-Quando comparada a string `"99.99"` com o número `99.99`, muitos concordam que elas sejam equivalentes. Mas ele não são exatamente iguais, são? É o mesmo valor em duas representações diferentes, dois *tipos* diferentes. Você poderia dizer que eles são "igualdade nao-estrita", não poderia?
+Quando comparada a string `"99.99"` com o número `99.99`, muitos concordam que elas sejam equivalentes. Mas eles não são exatamente iguais, são? É o mesmo valor em duas representações diferentes, dois *tipos* diferentes. Você poderia dizer que eles são "igualdade nao-estrita", não poderia?
 
 Para te ajudar nessas situações, o JavaScript irá, em alguns casos, *implicitamente* converter os valores para os tipos certos.
 
-Sendo assim, se você usar o operador de igualdade não-estrita `==`  para fazer uma comparação entre `"99.99" == 99.99`, o JavaScript vai converter o lado da mão esquerda `"99.99"` para seu número(`number`) equivalente `99.99`. A comparação então se torna `99.99 == 99.99`, que é claro, é verdadeira (`true`).
+Sendo assim, se você usar o operador de igualdade não-estrita `==`  para fazer uma comparação entre `"99.99" == 99.99`, o JavaScript vai converter o lado esquerdo `"99.99"` para seu número(`number`) equivalente `99.99`. A comparação então se torna `99.99 == 99.99`, que é claro, é verdadeira (`true`).
 
 Apesar de ter sido feito para te ajudar, coerções implícitas geram confusão se você não teve tempo de aprender as regras que regem seu comportamento. A maioria dos desenvolvedores de JS nunca tiveram, então o sentimento geral é que coerções implícitas são confusas e deixam os programas com bugs inesperados, e os mesmos devem ser evitados. Em alguns casos até o design da linguagem é considerado falho.
 
@@ -333,7 +333,7 @@ var a = /* valor arbitrário */ 42;
 console.log( a );	// 42
 ```
 
-Porém a única coisa que não pode aparecer dentro de um comentário multi-linhas é um`*/`, porque seria interpretado como final do comentário.
+Porém a única coisa que não pode aparecer dentro de um comentário multi-linhas é um `*/`, porque seria interpretado como final do comentário.
 
 Você definitivamente irá querer começar seu aprendizado na programação com o hábito de comentar seu código. Através desse capítulo, você verá que uso comentários para explicar coisas, então faça isso com suas práticas. Confie em mim, todos que irão ler seu código vão agradecer!
 
@@ -396,7 +396,7 @@ console.log( amount );				// 215.9784
 console.log( amount.toFixed( 2 ) );	// "215.98"
 ```
 
-**Nota:** Assim como `console.log(..)` tem a função `log(..)` acessada como uma propriedade do valor do objeto de `console`, `toFixed(..)`é uma função que pode ser acessada para valores `number`. O `number` em JavaScript não é automaticamente formatado para ser o valor de uma moeda -- o sistema não sabe o que se pretende fazer e não existe um tipo específico para moedas. `toFixed(..)` nos deixa especificar quantos valores decimais gostaríamos que o `number` fosse arredondado, e ele produz a `string` como necessário.
+**Nota:** Assim como `console.log(..)` tem a função `log(..)` acessada como uma propriedade do valor do objeto de `console`, `toFixed(..)` é uma função que pode ser acessada para valores `number`. O `number` em JavaScript não é automaticamente formatado para ser o valor de uma moeda -- o sistema não sabe o que se pretende fazer e não existe um tipo específico para moedas. `toFixed(..)` nos deixa especificar quantos valores decimais gostaríamos que o `number` fosse arredondado, e ele produz a `string` como necessário.
 
 A variável `TAX_RATE` só é uma *constante* por convenção -- não existe nada especial nesse programa que não permita que ela seja alterada. Mas se a cidade aumentar o valor das taxas para 9%, nós ainda poderemos atualizar o valor de `TAX_RATE` para `0.09` no mesmo lugar, ao invés de procurar diversas ocorrências do valor `0.08` ao longo do programa e ter que atualizá-los um por um.
 
@@ -433,7 +433,7 @@ var amount = 99.99;
 }
 ```
 
-Essa forma de formatação do bloco`{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `if` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo:
+Essa forma de formatação do bloco `{ .. }` é válida, mas não é muito comum de se ver em programas em JS. Tipicamente, blocos são anexados a outros tipos de controle, como dentro de uma condicional `if` (veja "Condicionais") ou em um laço (veja "Loops"). Por exemplo:
 
 ```js
 var amount = 99.99;
@@ -445,7 +445,7 @@ if (amount > 10) {			// <-- bloco anexado ao `if`
 }
 ```
 
-Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, o bloco `{ .. }`com suas duas instruções é anexado ao `if (amount > 10)`; as instruções dentro do bloco só irão ser processadas se a condicional for aceita.
+Iremos explicar condicionais `if` na próxima seção, mas como você pode ver, o bloco `{ .. }` com suas duas instruções é anexado ao `if (amount > 10)`; as instruções dentro do bloco só irão ser processadas se a condicional for aceita.
 
 **Nota:** Ao contrário da maioria das instruções como `console.log(amount);`, uma instrução de bloco não precisa de um ponto-e-vírgula (`;`) para ser concluída.
 
@@ -490,9 +490,9 @@ else {
 
 Aqui, se `amount < bank_balance` for `true`, iremos imprimir `"Vou levar este acessório!"` e adicionar `9.99` para a nossa variável `amount`. Ou senão pudermos, a cláusula `else` diz que podemos responder, polidamente, `"Não, obrigado."` e deixar o `amount` inalterado.
 
-Como discutimos em "Valores & Tipos" anteriormente, valores que não são de algum tipo anteriormente definido, geralmente é coergido para o novo tipo. Se a condicional `if` esperar um tipo `boolean`, mas o argumento que você passou for de algum tipo que não seja `boolean`, uma coerção irá acontecer.
+Como discutimos em "Valores & Tipos" anteriormente, valores que não são de algum tipo anteriormente definido, geralmente são coagidos para o novo tipo. Se a condicional `if` esperar um tipo `boolean`, mas o argumento que você passou for de algum tipo que não seja `boolean`, uma coerção irá acontecer.
 
-O JavaScript define uma lista de valores específicos que são considerados "falsinhos" porque quando coergido para `boolean`, eles se tornam `false` -- esses valores incluem `0` e `""`. Qualquer outro valor não incluído na lista de  "falsinhos" será automaticamente definido como "verdadeirinho" -- quando coergidos para `boolean` se tornam `true`. Valores verdadeirinhos incluem coisas como `99.99` e `"free"`. Veja "Verdadeirinhos & Falsinhos" no Capítulo 2 para mais informaçoes.
+O JavaScript define uma lista de valores específicos que são considerados "falsinhos" porque quando coagidos para `boolean`, eles se tornam `false` -- esses valores incluem `0` e `""`. Qualquer outro valor não incluído na lista de  "falsinhos" será automaticamente definido como "verdadeirinho" -- quando coagidos para `boolean` se tornam `true`. Valores verdadeirinhos incluem coisas como `99.99` e `"free"`. Veja "Verdadeirinhos & Falsinhos" no Capítulo 2 para mais informaçoes.
 
 *Condicionais* existem em outras formas além do `if`. Por exemplo, a instrução `switch` pode ser usada como um atalho para uma série de instruções `if..else` (veja o Capítulo 2). Os Loops (veja "Loops") usam uma *condicional* para determinar se um loop deve prosseguir rodando ou parar.
 
@@ -538,7 +538,7 @@ De qualquer forma, se o teste da condicional retorna falso (`false`), a próxima
 
 A condicional é testada em cada iteração, mesmo se existir uma condicional `if` dentro do loop.
 
-Podemos usar a instrução `break`para parar um loop. Além disso, podemos observar que é terrivelmente fácil criar um loop que pode rodar para sempre sem um mecanismo que o faça parar.
+Podemos usar a instrução `break` para parar um loop. Além disso, podemos observar que é terrivelmente fácil criar um loop que pode rodar para sempre sem um mecanismo que o faça parar.
 
 Vamos ilustrar isso:
 
@@ -725,7 +725,7 @@ Com isso em mente, vamos tentar praticar alguns conceitos que aprendemos neste c
 * Por fim, verifique o total gasto em sua conta bancária para saber se você pode comprar ou não.
 * Você deve definir algumas constantes para a "taxa de imposto", "preço do telefone", "preço do acessório", e "limite de gastos", assim como variáveis para o seu "saldo bancário".
 * Você deve definir funções para calcular a taxa e para formatar o preço com um "$" e arredondá-lo para duas casas decimais.
-* **Desafio Extra:** Tente incorporar um input para esse programa, talvez com o`prompt(..)` que abordamos anteriormente em "Input". Você pode definir um prompt para o usuário para definir o saldo de sua conta bancária, por exemplo. Divirta-se e seja criativo!
+* **Desafio Extra:** Tente incorporar um input para esse programa, talvez com o `prompt(..)` que abordamos anteriormente em "Input". Você pode definir um prompt para o usuário para definir o saldo de sua conta bancária, por exemplo. Divirta-se e seja criativo!
 
 Certo, vá em frente. Tente. Não venha ver o resultado do código que fiz enquanto você não tentar por conta própria!
 
@@ -782,7 +782,7 @@ if (amount > bank_balance) {
 
 Como você foi? Não dói se você tentar de novo agora que viu meu código. Brinque um pouco alterando algumas constantes e veja como o programa roda com valores diferentes.
 
-## Recapitulando
+## Revisão
 
 Aprender a programar não precisa ser um processo complexo e cansativo. Existem apenas alguns conceitos que você precisa entender para as coisas começarem a fazer sentido.
 

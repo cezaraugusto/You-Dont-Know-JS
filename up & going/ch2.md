@@ -22,7 +22,7 @@ Como definimos no Capítulo 1, JavaScript tem valores tipados, não variáveis t
 * `object`
 * `symbol` (novidade do ES6)
 
-O JavaScript dispõe de um operador `typeof`que pode examinar um valor e dizer a você qual é o tipo informado:
+O JavaScript dispõe de um operador `typeof` que pode examinar um valor e dizer a você qual é o tipo informado:
 
 ```js
 var a;
@@ -47,7 +47,7 @@ a = { b: "c" };
 typeof a;               // "object"
 ```
 
-O valor que é retornado pelo operador `typeof`é sempre um dos seis (sete com o ES6!) valores em string. Isso é, `typeof "abc"` retorna `"string"`, não `string`.
+O valor que é retornado pelo operador `typeof` é sempre um dos seis (sete com o ES6!) valores em string. Isso é, `typeof "abc"` retorna `"string"`, não `string`.
 
 Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valor, e apesar de parecer, `typeof a` não está perguntando pelo "tipo de `a`", mas sim pelo "tipo de valor atualmente armazenado em `a`." Apenas valores possuem tipos em JavaScript; variáveis são apenas _containers_ para esses valores.
 
@@ -55,7 +55,7 @@ Note como nesse snippet a variável `a` contém cada tipo diferente tipo de valo
 
 **Atenção:** Esse é um bug antigo em JS, mas um do tipo que é provável de nunca ser consertado. Muitos códigos na Web dependem desse bug e portanto consertá-lo iria trazer ainda mais bugs!
 
-Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o valor `undefined`, mas a forma com que se comporta não é diferente de uma variável que não tem valor definido, como a linha `var a;`no topo do snippet. Uma variável pode chegar a esse valor "undefined" de diversas maneiras, incluindo funções que não retornam valores e o uso do operador`void`.
+Além disso, note que `a = undefined`. Nós explicitamente indicamos `a` para o valor `undefined`, mas a forma com que se comporta não é diferente de uma variável que não tem valor definido, como a linha `var a;` no topo do snippet. Uma variável pode chegar a esse valor "undefined" de diversas maneiras, incluindo funções que não retornam valores e o uso do operador `void`.
 
 ### Objetos
 
@@ -151,7 +151,7 @@ typeof foo();       // "number"
 typeof foo.bar;     // "string"
 ```
 
-Novamente, funções são um subtipo de `objects` -- o `typeof` retorna `"function"`, que indica que `function` é um tipo padrão -- e por isso pode ter propriedades. Entretanto, é provável que você use as propriedades do objeto de `function` (como `foo.bar`) apenas em alguns casos.
+Novamente, funções são um subtipo de `objects` -- o `typeof` retorna `"function"`, que indica que `function` é um tipo principal -- e por isso pode ter propriedades. Entretanto, é provável que você use as propriedades do objeto de `function` (como `foo.bar`) apenas em alguns casos.
 
 **Nota:** Para mais informações sobre valores em JS e seus tipos, veja os primeiros dois capítulos do título *Tipos & Gramática*, desta série.
 
@@ -188,7 +188,7 @@ Existem dois tipos principais de comparação de valores que você irá precisar
 
 Falamos brevemente sobre coerção no Capítulo 1, mas vamos revisitá-lo aqui.
 
-A coerção vem em duas formas em JavaScript: *explicita* e *implicita*. A coerção explícita é a forma que você pode, obviamente, através do código, que uma conversão de um tipo para o outro vai acontecer, e a coerção implícita é quando o tipo de conversão ocorre como um efeito paralelo, não tão óbvio, de alguma outra operação.
+A coerção vem em duas formas em JavaScript: *explícita* e *implícita*. A coerção explícita é quando você consegue ver claramente, a partir do código, que uma conversão de um tipo para o outro vai acontecer, enquanto a coerção implícita é quando a conversão de tipo ocorre como um efeito colateral, não tão óbvio, de alguma outra operação.
 
 Você provavelmente ouviu coisas como "coerção é do mal", por conta da surpresa nos resultados que algumas situações específicas podem causar. Talvez nenhuma outra situação frustre mais um desenvolvedor do que quando a linguagem o surpreende.
 
@@ -256,7 +256,7 @@ a === b;        // false
 
 Na comparação `a == b`, o JS percebe que os tipos não combinam, então ele segue uma sequência de etapas para coagir um ou ambos os valores para um tipo diferente até que os tipos combinem, de forma que um valor de igualdade simples possa ser considerado.
 
-Se você pensar sobre isso, não existem dois modos possíveis onde `a == b` possa dar `true` por coerção. Ou a comparação por se dar por `42 == 42` ou ela pode ser `"42" == "42"`. Sendo assim, qual das duas é a correta?
+Se você pensar sobre isso, existem dois modos possíveis onde `a == b` possa dar `true` por coerção. Ou a comparação por se dar por `42 == 42` ou ela pode ser `"42" == "42"`. Sendo assim, qual das duas é a correta?
 
 Resposta: `"42"` se torna `42`, para fazer a comparação `42 == 42`. Nesse exemplo simples, não parece importante saber qual processo será, no final o resultado é o mesmo. Existem casos mais complexos onde não apenas importa qual é o resultado final *como* foi possível chegar lá.
 
@@ -272,11 +272,11 @@ Para resumir um monte de detalhes em passos bem simples e ajudar você a decidir
 
 O que essas regras fazem é obrigar você a pensar criticamente sobre seu código e quais tipos de valor podem aparecer através de variáveis que são comparadas pela igualdade. Se você estiver certo desses valores, e `==` é seguro, use-o! Se você não pode estar certo dos resultados, use `===`. É simples assim.
 
-A não igualdade `!=`forma um par com `==`, e sua forma `!==` forma um par com `===`. Todas as regras e observações que discutimos até aqui funcionam de maneira simétrica para essas comparações de não-igualdade.
+A não igualdade `!=` forma um par com `==`, e sua forma `!==` forma um par com `===`. Todas as regras e observações que discutimos até aqui funcionam de maneira simétrica para essas comparações de não-igualdade.
 
 Você deve ter uma atenção especial sobre as regras de comparação de `==` e `===` se você estiver comparando dois valores não-primitivos, como `object`s (incluíndo `function` e `array`). Por estes valores serem regidos por suas referências, ambas as comparações `==` e `===` irão apenas verificar se suas referências são compatíveis, e não irá comparar nada sobre seus valores subjacentes.
 
-Por exemplo, `array`s são por padrão convertidas para`string`s por simplesmente se juntarem todos os valores com vírgulas (`,`) entre elas. Você pode pensar que duas `array`s com o mesmo conteúdo são iguais `==`, quando na verdade não são:
+Por exemplo, `array`s são por padrão convertidas para `string`s por simplesmente se juntarem todos os valores com vírgulas (`,`) entre elas. Você pode pensar que duas `array`s com o mesmo conteúdo são iguais `==`, quando na verdade não são:
 
 ```js
 var a = [1,2,3];
@@ -324,9 +324,9 @@ a == b;     // false
 
 Espera, como podem as três comparações serem `false`? Porque o valor de `b` é coagido para um "valor numérico inválido" (`NaN`) nas comparações `<` e `>`, e a especificação diz que `NaN` não é nem maior nem menor do que qualquer valor.
 
-A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos anteriormente.
+A comparação `==` falha por uma razão diferente. `a == b` pode falhar se for interpretada tanto como `42 == NaN` ou como `"42" == "foo"` -- como explicamos antes, é o primeiro caso que ocorre.
 
-**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos & Grámatica* dessa série.
+**Nota:** Para mais informações sobre as regras de comparação de desigualdade, veja a seção 11.8.5 da especificação ES5 e também consulte o Capítulo 4 de *Tipos & Gramática* dessa série.
 
 ## Variáveis
 
@@ -400,7 +400,7 @@ foo();
 
 Note que `c` não está disponível dentro de `bar()`, porque está declarado dentro do escopo de `baz()`, e o `b` não está disponível para `foo()` pelo mesmo motivo.
 
-Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar setar uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro (caso tenha declarado "strict mode", **veja "Strict Mode"**). Vamos dar uma olhada:
+Se você tentar acessar o valor da variável dentro de um escopo onde ela não está disponível, você irá receber um erro de `ReferenceError`. Se você tentar definir uma variável que ainda não foi declarada, ou você terminará criando uma variável no escopo global (ruim!) ou irá gerar um erro (caso tenha declarado "strict mode", **veja "Strict Mode"**). Vamos dar uma olhada:
 
 ```js
 function foo() {
@@ -478,7 +478,7 @@ switch (a) {
 }
 ```
 
-O `break` é importante se você quiser que apenas uma instrução seja executada em cada`case`. Se você omitir o `break` de um `case`, e esse `case` for aceito ou rodar, a execução irá continuar pelos próximos `case`'s independente do `case` que foi aceito. Esse então chamado "fall through" é por vezes útil/proposital:
+O `break` é importante se você quiser que apenas uma instrução seja executada em cada `case`. Se você omitir o `break` de um `case`, e esse `case` for aceito ou rodar, a execução irá continuar pelos próximos `case`'s independente do `case` que foi aceito. Esse então chamado "fall through" é por vezes útil/proposital:
 
 ```js
 switch (a) {
@@ -521,7 +521,7 @@ O operador condicional não precisa necessariamente ser usado em uma atribuiçã
 
 ## Modo Estrito (Strict Mode)
 
-O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito, em geral, seu código será melhor otimizado pelo *Motor*. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
+O ES5 adicionou o "strict mode" para a linguagem, que determina regras mais rígidas para certos comportamentos. Geralmente essas restrições são vistas como algo que faz o código se tornar mais seguro e com padrões melhor definidos. Além disso, aderindo ao modo estrito, em geral, seu código será melhor otimizado pelo motor. O *strict mode* é uma grande vitória para o código, e você deveria usá-lo em todos os seus programas.
 
 Você pode optar pelo modo estrito em uma função individualmente, ou em todo um arquivo, dependendo de onde você determinar o pragma do modo estrito:
 
@@ -664,11 +664,11 @@ x;  // 42
 
 O valor `42` é retornado da função nomeada `IIFE`, e depois designada à variável `x`.
 
-### Clausura
+### Closure
 
-A *Clausura* (Closure) é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos & Closures*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
+A *closure* é um dos mais importantes, e muitas vezes incompreendido, conceitos em JavaScript. Eu não irei cobri-lo em detalhes aqui, deixando para fazer uma melhor referência no título desta série *Escopos & Closures*. Porém, gostaria de dizer algumas coisas relacionadas a ele para que você possa ter uma visão geral do conceito. Esta será uma das habilidades mais importantes do seu vocabulário em JS.
 
-Você pode pensar em uma clausura como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já estiver terminado de rodar.
+Você pode pensar em uma closure como uma forma de "lembrar" e continuar acessando o escopo de uma função (e suas variáveis) mesmo se a função já tiver terminado de rodar.
 
 Considere:
 
@@ -677,7 +677,7 @@ function makeAdder(x) {
     // parâmetro `x` é uma variável interna
 
     // função interna `add()` usa `x`, então
-    // ele tem uma "clausura" que o envolve
+    // ela tem uma "closure" que a envolve
     function add(y) {
         return y + x;
     };
@@ -686,17 +686,17 @@ function makeAdder(x) {
 }
 ```
 
-A referêcia para a função interna `add(..)`, que faz um retorno com cada chamada para sua função externa `makeAdder(..)` é apta a se lembrar sempre que o valor `x` for passado para `makeAdder(..)`. Agora, vamos usar o  `makeAdder(..)`:
+A referência para a função interna `add(..)`, que faz um retorno com cada chamada para sua função externa `makeAdder(..)` é apta a se lembrar sempre que o valor `x` for passado para `makeAdder(..)`. Agora, vamos usar o  `makeAdder(..)`:
 
 ```js
-// `plusOne` pega a referência para a função interna add(..)`
-// função com clausura sobre o parâmetro `x` da
+// `plusOne` pega a referência para a função interna `add(..)`
+// função com closure sobre o parâmetro `x` da
 // função externa `makeAdder(..)`
 var plusOne = makeAdder( 1 );
 
 // `plusTen` pega a referência para a função interna `add(..)`
-// função com clausura sobre o parâmetro `x` da
-// função externa `makeAdder(..
+// função com closure sobre o parâmetro `x` da
+// função externa `makeAdder(..)`
 var plusTen = makeAdder( 10 );
 
 plusOne( 3 );       // 4  <-- 1 + 3
@@ -718,7 +718,7 @@ Mas acredite em mim, uma vez que conseguir entender, vai perceber que é uma das
 
 #### Módulos
 
-A forma de uso mais comum de um clausura (closure) em JavaScript é o padrão módulo (module pattern). Módulos deixam você definir detalhes privados de implementação (variáveis, funções) que estarão escondidas do mundo externo, assim como uma API pública que *é* acessível *de fora*.
+A forma de uso mais comum de uma closure em JavaScript é o padrão módulo (module pattern). Módulos deixam você definir detalhes privados de implementação (variáveis, funções) que estarão escondidas do mundo externo, assim como uma API pública que *é* acessível *de fora*.
 
 Considere:
 
@@ -740,7 +740,7 @@ function User(){
     return publicAPI;
 }
 
-// cria uma instãncia do módulo`User`
+// cria uma instância do módulo `User`
 var fred = User();
 
 fred.login( "fred", "12Battery34!" );
@@ -752,11 +752,11 @@ A função `User()` serve como um escopo externo que mantém as variáveis `user
 
 Executar `User()` cria uma *instância* do módulo `User` -- todo um novo escopo é criado, e assim toda uma nova cópia de cada uma das variáveis/funções internas. Nós designamos essa instância para `fred`. Se nós rodarmos `User()` novamente, teríamos uma nova instância completamente separada do `fred`.
 
-A função interna `doLogin()` tem uma clausura sobre `username` e `password`, significando que ela iria reter seus acessos à eles mesmo após a função `User()` terminar.
+A função interna `doLogin()` tem uma closure sobre `username` e `password`, significando que ela iria reter seus acessos à eles mesmo após a função `User()` terminar.
 
 `publicAPI` é um objeto com uma propriedade/método nela, o `login`, que é uma referência à função interna `doLogin()`. Quando nós retornamos `publicAPI` de `User()`, ele se torna a instância que chamamos de `fred`.
 
-Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe uma clausura (closure) na função `login()` que os mantém vivos.
+Neste ponto, a função externa `User()` já terminou de ser executada. Normalmente, você pensaria que variáveis internas como `username` e `password` teriam se perdido. Mas não estão, porque existe uma closure na função `login()` que os mantém vivos.
 
 É por isso que chamamos `fred.login(..)` -- o mesmo que chamar a função interna `doLogin(..)` -- e ela ainda assim pode acessar as variáveis internas `username` e `password`.
 
@@ -766,13 +766,13 @@ Daqui, vá para o título desta série *Escopos & Closures* para uma exploraçã
 
 ## Identificador `this`
 
-Outro conceito comumente incompreendido em JavaScript é o identificador`this`. Novamente, existem um bocado de capítulos sobre ele no título desta série *this & Prototipagem de Objetos*, então aqui iremos introduzir apenas superficialmente o conceito.
+Outro conceito comumente incompreendido em JavaScript é o identificador `this`. Novamente, existem um bocado de capítulos sobre ele no título desta série *this & Prototipagem de Objetos*, então aqui iremos introduzir apenas superficialmente o conceito.
 
 Enquanto geralmente possa parecer que `this` está relacionado aos padrões de orientação à objetos, em JS o `this` é um mecanismo diferente.
 
 Se uma função tiver uma referência ao `this` dentro dela, esse `this` geralmente aponta para um `object`. Mas qual objeto que this aponta irá depender de como a função é chamada.
 
-É importante entender que`this` *não* se refere à função propriamente dita, visto que essa é a parte mais comumente confundida.
+É importante entender que `this` *não* se refere à função propriamente dita, visto que essa é a parte mais comumente confundida.
 
 Aqui uma ilustração rápida:
 
@@ -805,7 +805,7 @@ Existem quatro regras de como `this` é definido, e como ele é apresentado ness
 1. `foo()` termina definindo `this` para o objeto global em modo não-estrito -- no modo estrito (strict mode), `this` seria `undefined` e você receberia um erro ao acessar a propriedade `bar` -- então `"global"` é o valor encontrado para `this.bar`.
 2. `obj1.foo()` define `this` para o objeto `obj1`.
 3. `foo.call(obj2)` define `this` para o objeto `obj2`.
-4. `new foo()` define `this` para um objeto completamente novo.
+4. `new foo()` define `this` para um objeto completamente novo e vazio.
 
 Fim da linha: para entender o que `this` aponta, você precisa examinar como a função em questão é chamada. Ela será uma das quatro formas demonstradas, e assim você irá ter a resposta do que é `this`.
 
@@ -883,9 +883,9 @@ Ou melhor ainda, use um vetado grupo de polyfills que você pode confiar, como o
 
 ### Transpiling
 
-Não existe nenhuma forma de *polyfillar* uma nova sintaxe, que ainda não foi incluída na linguagem. A nova sintaxe iria retornar um erro no mecanismo do JS como não reconhecida/inválida.
+Não existe nenhuma forma de *polyfillar* uma nova sintaxe, que ainda não foi incluída na linguagem. A nova sintaxe iria retornar um erro no motor do JS como não reconhecida/inválida.
 
-Sendo assim a melhor opção é usar uma ferramenta que converte seu código novo em um código antigo equivalente. Esse processo é comumente chamado "transpiling".
+Sendo assim a melhor opção é usar uma ferramenta que converte seu código novo em um código antigo equivalente. Esse processo é comumente chamado "transpiling" (transformar + compilar).
 
 Essencialmente, seu código fonte é feito com o formato da nova sintaxe, mas quando você faz o deploy para o navegador ele aparece como um código *transpilado* com o formato da sintaxe velha. Tipicamente você insere o *transpilador* no seu processo de *build*, similar ao seu *linter* ou *minifier*.
 
@@ -909,7 +909,7 @@ foo();      // 2
 foo( 42 );  // 42
 ```
 
-Simples, não? Útil, também! Mas é uma nova sintaxe que é inválida em mecanismos pre-ES6. Então o que faria um transpilador para esse código rodar em ambientes mais antigos?
+Simples, não? Útil, também! Mas é uma nova sintaxe que é inválida em motores pre-ES6. Então o que faria um transpilador para esse código rodar em ambientes mais antigos?
 
 ```js
 function foo() {
@@ -943,13 +943,13 @@ A forma mais comum de JavaScript não-JavaScript que você vai encontrar é o DO
 var el = document.getElementById( "foo" );
 ```
 
-A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo mecanismo do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, mas não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
+A variável `document` existe como uma variável global quando seu código está rodando em um navegador. Ele não é provido pelo motor do JS nem mesmo é particularmente controlado pela especificação do JavaScript. Ele tem a forma de algo que parece terrivelmente parecido com um `object`, mas não é exatamente assim. Ele é um `object` especial, muitas vezes chamado de "host object."
 
 Além disso, o método `getElementById(..)` em `document` parece uma função normal em JS, mas é apenas uma pequena interface exposta a um método nativo provido pelo DOM através do seu navegador. Em alguns (nova geração) navegadores, essa camada pode também ser em JS, mas tradicionalmente o DOM e seus comportamentos são implementados em algo mais parecido com C/C++.
 
 Um outro exemplo é com input/output (I/O).
 
-O favorito de todos, `alert(..)`, *pipoca* uma caixa de mensagem na janela do navegador do usuário. O `alert(..)` é provido para seu programa em JS pelo navegador, não pelo mecanismo do JS propriamente dito. O chamado que você faz envia uma mensagem para os mecanismos internos do navegador que fazem o desenho e enfim mostram a caixa de mensagem.
+O favorito de todos, `alert(..)`, *pipoca* uma caixa de mensagem na janela do navegador do usuário. O `alert(..)` é provido para seu programa em JS pelo navegador, não pelo motor do JS propriamente dito. O chamado que você faz envia uma mensagem para os mecanismos internos do navegador que fazem o desenho e enfim mostram a caixa de mensagem.
 
 O mesmo acontece com o `console.log(..)`; seu navegador provê os devidos mecanismos e os colocam nas *ferramentas do desenvolvedor*.
 

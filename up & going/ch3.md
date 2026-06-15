@@ -17,9 +17,9 @@ O título *Escopos & Closures* começa por desmascarar o equívoco comum que JS 
 
 O motor de JS compila seu código logo antes (e às vezes durante!) a execução. Então, faremos uso de uma abordagem mais profunda do compilador para o nosso código, para entender como ele encontra e lida com declarações de variáveis e funções. Ao longo do caminho, vemos a típica metáfora para gerenciamento de escopo de variáveis em JS, *"Hoisting"* (Elevação).
 
-É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *Clausura* para o último capítulo do livro. Talvez *Clausura* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *Clausura* provavelmente permanecerá fora do seu alcance.
+É nesta compreensão crítica do "escopo léxico" que nós iremos basear a nossa exploração de *closure* para o último capítulo do livro. Talvez *closure* seja o conceito mais importante em toda a linguagem JavaScript, mas se você primeiramente não entender firmemente como o escopo funciona, *closure* provavelmente permanecerá fora do seu alcance.
 
-Uma aplicação importante de *Clausura* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso deve ser uma de suas maiores prioridades.
+Uma aplicação importante de *closure* é o *module pattern*, como nós introduzimos brevemente neste livro, no Capítulo 2. O *module pattern* é, talvez, o padrão de organização de código que mais prevalece em todos JavaScript; a profunda compreensão disso deve ser uma de suas maiores prioridades.
 
 ## this & Prototipagem de Objetos
 
@@ -65,7 +65,7 @@ Para tratar dessas duas importantes deficiências, o ES6 introduz dois novos mec
 
 Promessas (Promises) são um agregador independente, sobre um "valor futuro", que permite você pensar sobre ele e compô-los independentemente do valor estar pronto ou ainda não. Além disso, elas efetivamente resolvem os problemas de confiança na IoC roteando os callbacks através de um confiável e composto mecanismo de promise.
 
-Os Geradores (Generators) introduzem um novo modo de execução para as funções JS, visto que o gerador pode ser pausado em pontos de `yield` e depois continuar de forma assíncrona. A capacidade de pausa-e-continua permite o síncrono, consequentemente, procura código no gerador para ser processado assincronamente nos bastidores. Ao fazer isso, nós abordamos as confusões não-linear, não-saltos-locais de callbacks, e assim, tornar nosso código assíncrono síncrono, procurando um modo de ser mais razoável.
+Os Geradores (Generators) introduzem um novo modo de execução para as funções JS, visto que o gerador pode ser pausado em pontos de `yield` e depois continuar de forma assíncrona. A capacidade de pausar-e-continuar permite que um código de aparência síncrona e sequencial no gerador seja processado assincronamente nos bastidores. Ao fazer isso, nós abordamos as confusões não-lineares e de saltos não-locais dos callbacks e, assim, tornamos nosso código assíncrono com aparência síncrona, de modo a ser mais fácil de raciocinar sobre ele.
 
 Mas é essa combinação de promessas e geradores que "produz" nosso mais eficaz padrão de codificação assíncrona, até hoje, em JavaScript. De fato, muito do futuro da sofisticação assíncrona está por vir no ES7 e depois certamente será construída sobre esse fundamento. Para ser sério sobre programação de modo eficaz em um mundo assíncrono, você deverá se acostumar com a combinação de promessas e geradores.
 
@@ -85,7 +85,7 @@ Este título é dedicado tanto para visões de curto e médio prazo para onde a 
 
 Enquanto todos os títulos desta série compreendem o estado do JavaScript do momento em que foram escritos, que está na metade do caminho para a adoção do ES6, o foco primário desta série tem sido mais no ES5. Agora, nós queremos voltar nossa atenção para o ES6, ES7, e...
 
-Já que o ES6 está quase completo, no momento da redação deste texto, *ES6 & Além* começa dividindo o matérial sólido da paisagem do ES6 em diversas categorias chave, incluindo a nova sintaxe, as novas (coleções de) estruturas de dados, e a nova capacidade de processamento e APIs. Nós cobriremos cada uma dessas novas características do ES6, em diferentes níveis de detalhe, incluindo a revisão de detalhes que já foram citados em outros livros desta série.
+Já que o ES6 está quase completo, no momento da redação deste texto, *ES6 & Além* começa dividindo o material sólido da paisagem do ES6 em diversas categorias chave, incluindo a nova sintaxe, as novas (coleções de) estruturas de dados, e a nova capacidade de processamento e APIs. Nós cobriremos cada uma dessas novas características do ES6, em diferentes níveis de detalhe, incluindo a revisão de detalhes que já foram citados em outros livros desta série.
 
 Algumas coisas interessantes do ES6 para acompanhar e ler sobre: desestruturação, parâmetros com valores padrão, símbolos, métodos concisos, propriedades calculadas, arrow functions, bloco de escopo, promessas, geradores, iterators, módulos, proxies, weakmaps, e mais, muito mais! Ufa, o ES6 tem muito poder!
 
@@ -93,7 +93,7 @@ A primeira parte do livro é um roteiro para todas as coisas que você precisa a
 
 A última parte do livro volta e foca rapidamente nas coisas que nós provavelmente podemos esperar ver no futuro do JavaScript. A realização mais importante aqui é o pós-ES6, o JS provavelmente vai evoluir funcionalidade por funcionalidade a cada versão, o que significa que podemos esperar para ver coisas num futuro próximo vindo mais cedo do que você pode imaginar.
 
-O futuro para o JavaScript é brilhante. Não é a hora de começarmos a aprendê-lo!?
+O futuro para o JavaScript é brilhante. Não está na hora de começarmos a aprendê-lo!?
 
 ## Revisão
 
