@@ -1,14 +1,14 @@
-# You Don't Know JS: Types & Grammar
+# You Don't Know JS: Tipos & Gramática
 
 # Capítulo 2: Valores
 
-`array`s, `strings`s e `number`s são os componentes básicos de qualquer programa, mas em JavaScript esses tipos tem algumas características únicas que podem frustar ou animar você.
+`array`s, `strings`s e `number`s são os componentes básicos de qualquer programa, mas em JavaScript esses tipos têm algumas características únicas que podem frustrar ou animar você.
 
 Vamos examinar vários tipos de valores nativos em JS e explorar como podemos entendê-los de forma completa e usar seus comportamentos corretamente.
 
 ## Arrays
 
-Em comparação com outras linguagens fortemente tipadas, os `arary`s em JavaScript são apenas caixas para qualquer tipo de valor, como `string`, `number`, `object` e até outros `array` (neste caso, tem-se `array`s multidimensionais).
+Em comparação com outras linguagens fortemente tipadas, os `array`s em JavaScript são apenas caixas para qualquer tipo de valor, como `string`, `number`, `object` e até outros `array`s (neste caso, tem-se `array`s multidimensionais).
 
 ```javascript
 var a = [ 1, "2", [3] ];
@@ -148,7 +148,7 @@ a; // "foo"
 b; // ["f","O","o"]
 ```
 
-`String`s em JavaScript são imutáveis, enquanto `arrays` são bastante mutáveis. Além do mais, a forma de acesso da posição de caractere `a[1]` nem sempre foi amplamente aceita em JavaScript. Antigas versões do IE não permitiam esta sintaxe (atualmente, elas aceitam). Em vez disso, a forma _correta_ tem sido `a.chartAt(1)`.
+`String`s em JavaScript são imutáveis, enquanto `arrays` são bastante mutáveis. Além do mais, a forma de acesso da posição de caractere `a[1]` nem sempre foi amplamente aceita em JavaScript. Antigas versões do IE não permitiam esta sintaxe (atualmente, elas aceitam). Em vez disso, a forma _correta_ tem sido `a.charAt(1)`.
 
 Outra consequência da imutabilidade de `string`s é que nenhum método que altera seu conteúdo pode ser feito localmente, mas sim gera-se uma nova `string`, que é retornada. Em contraste, muitos método que mudam o conteúdo de `array`s modificam localmente.
 
@@ -371,7 +371,7 @@ Matematicamente, sabemos que essa afirmação deveria ser `true`. Por que é `fa
 
 Simplificando, as representações para `0.1` e `0.2` em ponto flutuante binário não são exatas, então, quando elas são somadas, o resultado não é exatamnte `0.3`. Ele é **realmente** próximo: `0.30000000000000004`, mas se sua comparação falhar, "próximo" é irrelevante.
 
-**Nota:** O JavaScript deveria alterar para uma implementação diferente de `number` que tenha representações exatas de todos os valores? Alguns pensam que sim. Houveram muitas alternativas apresentadas ao longo dos anos. Nenhuma delas foi aceita, e talvez nunca seja. Por mais fácil que pareça apenas acenar e dizer, "corrija esse erro já!", Não é tão fácil. Se fosse, definitivamente teria sido alterado há muito tempo.
+**Nota:** O JavaScript deveria alterar para uma implementação diferente de `number` que tenha representações exatas de todos os valores? Alguns pensam que sim. Houve muitas alternativas apresentadas ao longo dos anos. Nenhuma delas foi aceita, e talvez nunca seja. Por mais fácil que pareça apenas acenar e dizer, "corrija esse erro já!", Não é tão fácil. Se fosse, definitivamente teria sido alterado há muito tempo.
 
 Agora a questão é, se alguns `number`s (números) não podem ser *confiáveis* para serem exatos, isso significa que não podemos usar `number`s (números)? **Claro que não.**
 
@@ -458,7 +458,7 @@ if (!Number.isSafeInteger) {
 
 ### Números Inteiros de 32-bit (Sinalizado)
 
-Enquanto números inteiros podem variar até 9 quatrilhões de forma segura (53 bits), exitem algumas operações numéricas (como os operadores bit a bit) que são definidas apenas para `number`s de 32 bits, portanto, o "intervalo seguro" para `number`s usados dessa maneira deve ser muito menor.
+Enquanto números inteiros podem variar até 9 quatrilhões de forma segura (53 bits), existem algumas operações numéricas (como os operadores bit a bit) que são definidas apenas para `number`s de 32 bits, portanto, o "intervalo seguro" para `number`s usados dessa maneira deve ser muito menor.
 
 O intervalo é então `Math.pow(-2,31)` (`-2147483648`, cerca de -2.1 bilhões) até `Math.pow(2,31)-1` (`2147483647`, cerca de +2.1 bilhões).
 
@@ -479,7 +479,7 @@ Ambos `undefined` e `null` são frequentemente considerados como intercambiávei
 * `null` é um valor vazio
 * `undefined` é um valor inexistente
 
-Or:
+Ou:
 
 * `undefined` ainda não teve um valor
 * `null` tinha um valor e não tem mais
@@ -492,7 +492,7 @@ No modo não-`strict`, é realmente possível (embora incrivelmente imprudente!)
 
 ```js
 function foo() {
-	undefined = 2; // péssima idéia!
+	undefined = 2; // péssima ideia!
 }
 
 foo();
@@ -507,7 +507,7 @@ function foo() {
 foo();
 ```
 
-No modo não-`strict` e no modo `strict`, no entanto, você pode criar uma variável local com o nome `undefined`. Mas, novamente, esta é uma idéia terrível!
+No modo não-`strict` e no modo `strict`, no entanto, você pode criar uma variável local com o nome `undefined`. Mas, novamente, esta é uma ideia terrível!
 
 ```js
 function foo() {
@@ -559,7 +559,7 @@ if (doSomething()) {
 }
 ```
 
-Aqui, a função `setTimeout(..)` retorna um valor numérico (o único indentificador do intervalo de tempo, se você quiser cancelá-lo), mas não queremos o `void` esvazie-o para que então o valor retornado da nossa função não dê um falso positivo com a declaração `if`.
+Aqui, a função `setTimeout(..)` retorna um valor numérico (o único indentificador do intervalo de tempo, se você quiser cancelá-lo), mas não queremos o `void` esvazie-o para que então o valor retornado da nossa função não dê um falso positivo com a instrução `if`.
 
 Muitos devs preferem apenas fazer essas ações separadamente, o que funciona da mesma forma mas não usa o operador `void`:
 
@@ -666,7 +666,7 @@ if (!Number.isNaN) {
 
 Estranho, né? Mas funciona!
 
-`NaN`s provavelmente são uma realidade em muitos programas JS do mundo real, de propósito ou por acidente. É realmente uma boa idéia usar um teste confiável, como `Number.isNaN (..)` como fornecido (ou preenchido com polyfill), para reconhecê-los adequadamente.
+`NaN`s provavelmente são uma realidade em muitos programas JS do mundo real, de propósito ou por acidente. É realmente uma boa ideia usar um teste confiável, como `Number.isNaN (..)` como fornecido (ou preenchido com polyfill), para reconhecê-los adequadamente.
 
 Se atualmente você está usando apenas `isNaN (..)` em um programa, a triste realidade é que seu programa *possui um bug*, mesmo que você não tenha sido mordido por ele ainda!
 
@@ -688,8 +688,6 @@ Como você pode ver, `-Infinity` (também conhecido como `Number.NEGATIVE_INFINI
 JS usa representações numéricas finitas (ponto flutuante IEEE 754, que abordamos anteriormente), portanto, ao contrário da matemática pura, parece que *é* possível transbordar (overflow) mesmo com uma operação como adição ou subtração; nesse caso, você obterá `Infinity` ou `-Infinity`.
 
 Por exemplo:
-
-For example:
 
 ```js
 var a = Number.MAX_VALUE;	// 1.7976931348623157e+308
@@ -801,15 +799,15 @@ Existe um polyfill simples para `Object.is(..)` para ambientes pré-ES6:
 ```js
 if (!Object.is) {
 	Object.is = function(v1, v2) {
-		// test for `-0`
+		// testa para `-0`
 		if (v1 === 0 && v2 === 0) {
 			return 1 / v1 === 1 / v2;
 		}
-		// test for `NaN`
+		// testa para `NaN`
 		if (v1 !== v1) {
 			return v2 !== v2;
 		}
-		// everything else
+		// todo o resto
 		return v1 === v2;
 	};
 }
@@ -833,13 +831,13 @@ Vamos ilustrar:
 
 ```js
 var a = 2;
-var b = a; // `b` is always a copy of the value in `a`
+var b = a; // `b` é sempre uma cópia do valor em `a`
 b++;
 a; // 2
 b; // 3
 
 var c = [1,2,3];
-var d = c; // `d` is a reference to the shared `[1,2,3]` value
+var d = c; // `d` é uma referência ao valor `[1,2,3]` compartilhado
 d.push( 4 );
 c; // [1,2,3,4]
 d; // [1,2,3,4]
@@ -861,7 +859,7 @@ var b = a;
 a; // [1,2,3]
 b; // [1,2,3]
 
-// later
+// depois
 b = [4,5,6];
 a; // [1,2,3]
 b; // [4,5,6]
@@ -875,7 +873,7 @@ function foo(x) {
 	x.push( 4 );
 	x; // [1,2,3,4]
 
-	// later
+	// depois
 	x = [4,5,6];
 	x.push( 7 );
 	x; // [4,5,6,7]
@@ -899,8 +897,8 @@ function foo(x) {
 	x.push( 4 );
 	x; // [1,2,3,4]
 
-	// later
-	x.length = 0; // empty existing array in-place
+	// depois
+	x.length = 0; // esvazia o array existente localmente
 	x.push( 4, 5, 6, 7 );
 	x; // [4,5,6,7]
 }
@@ -971,7 +969,7 @@ Ao invés de usar o objeto `Number` desse jeito, é provavelmente melhor usar um
 
 Referências são bastante poderosas, mas às vezes elas ficam no seu caminho, e às vezes você precisa que elas não existam. O único controle que você possui sobre o comportamento de referências vs. valores-copiados é o tipo de valor, então você deve indiretamente influenciar o comportamento de atribuição/passagem pelo tipo de valor que você escolhe usar
 
-## Review
+## Revisão
 
 Em Javascript, `array`s são simplesmente coleções numericamente indexadas de qualquer tipo de valor. `string`s de uma certa forma "são como `array`s", mas elas possuem comportamento distinto e deve-se tomar cuidado quando se quer tratá-las como `array`s. Números em Javascript incluem os "inteiros" e os valores de ponto flutuante.
 

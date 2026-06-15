@@ -15,10 +15,10 @@
 	* Valores Especiais
 	* Valor vs Referência
 * Capítulo 3: Nativos
-	* Internos `[[Class]]`
-	* Encaixotando Agregadores (Boxing Wrappers)
-	* Desencaixotando (Unboxing)
-	* Natives as Constructors
+	* `[[Class]]` interno
+	* Boxing Wrappers
+	* Unboxing
+	* Nativos como Construtores
 * Capítulo 4: Coerção
 	* Convertendo Valores
 	* Operações com Valores Abstratos
@@ -29,7 +29,7 @@
 * Capítulo 5: Gramática
 	* Instruções & Expressões
 	* Precedência de Operadores
-	* Ponto e Vírgula Automàtico
+	* Ponto e Vírgula Automático
 	* Erros
 	* Argumentos de Funções
 	* `try..finally`

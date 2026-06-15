@@ -1,5 +1,5 @@
-# You Don't Know JS: Tipos e Gramática
-# Capitulo 4: Coerção
+# You Don't Know JS: Tipos & Gramática
+# Capítulo 4: Coerção
 
 Agora que nós entendemos melhor os tipos e valores do JavaScript, vamos voltar nossa atenção para um tópico muito controverso: coerção.
 
@@ -15,11 +15,11 @@ Converter um valor de um tipo para outro é geralmente chamado de "type casting"
 
 **Nota:** Pode não ser óbvio, mas as coerções do JavaScript sempre resultam em um dos primitivos escalares (veja Capítulo 2), como `string`, `number`, ou `boolean`. Não existe coerção que resulte em um valor complexo como `object` ou `function`. O Capítulo 3 aborda "boxing", que envolve os valores primitivos em seus `object` homólogos, mas isso não é realmente coerção em seu sentido correto.
 
-Pode-se distinguir esses de ainda outra maneira: "type casting" (ou coversão de tipos) ocorrem em tempo de compilação em linguagem staticamente tipadas, enquanto "coerção" é uma conversão que ocorre em tempo de execução em linguagens dinamicamente tipadas.
+Pode-se distinguir esses de ainda outra maneira: "type casting" (ou conversão de tipos) ocorrem em tempo de compilação em linguagens estaticamente tipadas, enquanto "coerção" é uma conversão que ocorre em tempo de execução em linguagens dinamicamente tipadas.
 
 Entretanto, em JavaScript, a maioria das pessoas chamam todos esse tipos de *coerção*, por isso a maneira que prefiro chamar de "coerção implícita" vs. "coerção explícita".
 
-A diferença deve ser óbvia: "coerção explícita" é quando consegue-se olhar para o código e ver que a coversão de tipos está ocorrendo intencionalmente, enquanto que a "coerção implícita" é quando o conversão de tipos ocorre de maneira óbvia como um efeito colateral de outra operação intencional.
+A diferença deve ser óbvia: "coerção explícita" é quando consegue-se olhar para o código e ver que a conversão de tipos está ocorrendo intencionalmente, enquanto que a "coerção implícita" é quando a conversão de tipos ocorre de maneira menos óbvia como um efeito colateral de outra operação intencional.
 
 Por exemplo, considere essas duas abordagens de coerção:
 
@@ -41,7 +41,7 @@ As duas abordagens têm o mesmo efeito: `42` vira `"42"`. Mas é o *como* que é
 
 Os termos "explícito" e "implícito", ou "óbvio" e "efeito colateral oculto", são *relativos*.
 
-Se você sabe exatamente o que `a + ""` está fazendo e você está intencionalmente convertendo o valor para uma `string`, você pode achar a operção suficientemente "explícita". Por outro lado, se você nunca viu a função `String(..)` usada para coerção de strings, o seu comportamento pode parecer oculto o suficiente para ser "implícito" para você.
+Se você sabe exatamente o que `a + ""` está fazendo e você está intencionalmente convertendo o valor para uma `string`, você pode achar a operação suficientemente "explícita". Por outro lado, se você nunca viu a função `String(..)` usada para coerção de strings, o seu comportamento pode parecer oculto o suficiente para ser "implícito" para você.
 
 Mas nós estamos discutindo "explícito" vs. "implícito" baseados nas prováveis opiniões de um desenvolvedor *mediano, razoavelmente informado, mas não especialista ou devoto pela especificação do JS*. Se você se encaixa de alguma forma nesse grupo, você terá de ajustar a sua perspectiva para estar de acordo com as nossas observações.
 
@@ -85,7 +85,7 @@ Novamente, `toString()` pode tanto ser chamada explicitamente, ou ela vai ser ch
 
 Outra tarefa que parece terrível relacionada a `ToString` é quando você usa a funcionalidade  `JSON.stringify(..)` para serializar um valor para um valor `string` compatível com JSON.
 
-É importante notar que essa stringficação não é exatamente a mesma que a coerção. Mas como ela é relacionada às regras de `ToString` acima, nós faremos uma leve diversificação para abordar os comportamentos de stringficação JSON aqui.
+É importante notar que essa stringficação não é exatamente a mesma que a coerção. Mas como ela é relacionada às regras de `ToString` acima, nós faremos uma leve digressão para abordar os comportamentos de stringficação JSON aqui.
 
 Por mais simples que sejam o valores, a stringficação JSON se comporta basicamente da mesma forma que conversões `toString()`, exceto que a serialização resulta *sempre como uma `string`*:
 
@@ -201,9 +201,9 @@ JSON.stringify( a, function(k,v){
 // "{"b":42,"d":[1,2,3]}"
 ```
 
-**Observação:** No caso do *substituto* da `function`, o argumento chave `k` é `undefined` na primeira chamada (onde o próprio objeto `a` está sendo passado). A declaração `if` **filtra** a propriedade nomeada de `"c"`. Stringficação é recursiva, então o array `[1,2,3]` tem cada um dos seus valores (`1`, `2`, e `3`) passados como `v` para o *substituto*, com índices (`0`, `1`, and `2`) como `k`.
+**Observação:** No caso do *substituto* da `function`, o argumento chave `k` é `undefined` na primeira chamada (onde o próprio objeto `a` está sendo passado). A instrução `if` **filtra** a propriedade nomeada de `"c"`. Stringficação é recursiva, então o array `[1,2,3]` tem cada um dos seus valores (`1`, `2`, e `3`) passados como `v` para o *substituto*, com índices (`0`, `1`, e `2`) como `k`.
 
-Um terceiro argumento opcional também pode ser passado para `JSON.stringify(..)`, chamado *espaço (space)*, no qual é usado como indentação para deixar a saída mais bonita e amigável. *espaço* pode ser um intermediador positivo para indicar quantos espaços de caracteres devem ser usados em cada nível de identação. Ou, *espaço* pode ser uma `string`, que nesse caso até os primeiros dez caracteres do seu valor serão usados para cada nível de identação.
+Um terceiro argumento opcional também pode ser passado para `JSON.stringify(..)`, chamado *espaço (space)*, no qual é usado como indentação para deixar a saída mais bonita e amigável. *espaço* pode ser um inteiro positivo para indicar quantos espaços de caracteres devem ser usados em cada nível de identação. Ou, *espaço* pode ser uma `string`, que nesse caso até os primeiros dez caracteres do seu valor serão usados para cada nível de identação.
 
 ```js
 var a = {
@@ -315,27 +315,19 @@ A partir dessa tabela, obtemos o seguinte da chamada lista de valores "falsos":
 * `+0`, `-0`, e `NaN`
 * `""`
 
-É isso. Se um valor não está nessa lista, é um valor "falso" (falsy), e ele não vai ser convertido para `false` se você forçar uma coerção `boolean` nele.
+É isso. Se um valor está nessa lista, é um valor "falso" (falsy), e ele vai ser convertido para `false` se você forçar uma coerção `boolean` nele.
 
 Por conclusão lógica, se um valor *não* está nessa lista, ele deve estar em *outra lista*, na qual nós chamamos de lista de valores "verdadeiros". Mas o JS realmente não define uma lista de valores "verdadeiros" por si só. Ele dá alguns exemplos, assim como dizemos explicitamente que todos os objetos são verdadeiros, mas principalmente a especificação apenas implica que: **qualquer coisa que não esteja explicitamente na lista falsa, é portanto, verdadeira.**
 
 #### Objetos Falsos (Falsy Objects)
 
-Espere um minuto, aquele títulos de seção soa até contraditório. Eu *apenas disse* literalmente que a especificação chama todos os objetos de verdadeiro, certo? Não deveria existir tal coisa como um "objeto falso".
+Espere um minuto, aquele título de seção soa até contraditório. Eu *apenas disse* literalmente que a especificação chama todos os objetos de verdadeiro, certo? Não deveria existir tal coisa como um "objeto falso".
 
 O que isso possivelmente pode significar?
 
 Você deve estar tentado a pensar que isso significa um *object wrapper* (veja o capítulo 3) em torno de um valor falso (como `""`, `0` ou `false`). Mas não caia nessa *armadilha*.
 
-**Observação** 
-
-Wait a minute, that section title even sounds contradictory. I literally *just said* the spec calls all objects truthy, right? There should be no such thing as a "falsy object."
-
-What could that possibly even mean?
-
-You might be tempted to think it means an object wrapper (see Chapter 3) around a falsy value (such as `""`, `0` or `false`). But don't fall into that *trap*.
-
-Essa é uma piada de especificação sutil que alguns de vocês podem ter sacado.
+**Nota:** Essa é uma piada de especificação sutil que alguns de vocês podem ter sacado.
 
 Considere:
 
@@ -481,7 +473,7 @@ Aqui o `+c` esta mostrando o *operador unário* (operador com somente um operand
 
 `c+` é uma coerção explícita? Depende da sua experiêcnia e perspectiva. Se você sabe (e voce, agora, sabe!) que o unário `+` é explicitamente destinado para uma coerção `number`, então é bem explícito e óbvio. Porém, se você nunca viu isso antes, isso pode ser terrivelmente confuso, implícito, com efeitos colaterais ocultos, etc.
 
-**Observação:** A perspectiva geralmente aceita na comunidade open source JS pe que o unário `+` é uma forma aceita de coerção *explícita*.
+**Observação:** A perspectiva geralmente aceita na comunidade open source JS é que o unário `+` é uma forma aceita de coerção *explícita*.
 
 Mesmo se você realmente goste da forma `+c`, há, definitivamente, alguns lugares onde isso pode parecer terrivelmente confuso, Considere:
 
@@ -500,7 +492,7 @@ Você provavelmente pode inventar todo o tipo de combinações horríveis de ope
 1 + - + + + - + 1;	// 2
 ```
 
-Você deve considerar fortemente evitar corção unária com `+` (ou `-`) quando ela é imediatamentamenta adjacente de outro operador. Enquando o de cima funciona, é quase que universalmente considerado uma má ideia. Mesmo `d = +c` (ou `d =+ c` também!) pode muito facilmente ser confudido com `d += c`, o que é inteiramente diferente!
+Você deve considerar fortemente evitar corção unária com `+` (ou `-`) quando ela é imediatamente adjacente de outro operador. Enquanto o de cima funciona, é quase que universalmente considerado uma má ideia. Mesmo `d = +c` (ou `d =+ c` também!) pode muito facilmente ser confundido com `d += c`, o que é inteiramente diferente!
 
 **Observação:** Outro lugar extremamente confuso para usar o unário `+` é adjacente à outro operador que pode ser, `++` operador de incremento e `--` operador de decremento. Por exemplo: `a +++b`, `a + ++b`, and `a + + +b`. Veja "Efeitos colaterais de expressões" no Capítulo 5 para mais sobre `++`.
 
@@ -835,7 +827,7 @@ var g;
 !!g;	// false
 ```
 
-Qualquer uma dessas coerções `ToBoolean` podem acontecer *implicitamente* sem o `Boolean(..)` ou `!!`, se usado em um contexto `boolean` assim como uma declaração `if(..) ..`. Mas o objetivo é forçar explicitamente o valor para um `boolean` para deixar claro que a coerção `ToBoolean` é intencional.
+Qualquer uma dessas coerções `ToBoolean` podem acontecer *implicitamente* sem o `Boolean(..)` ou `!!`, se usado em um contexto `boolean` assim como uma instrução `if(..) ..`. Mas o objetivo é forçar explicitamente o valor para um `boolean` para deixar claro que a coerção `ToBoolean` é intencional.
 
 Outro caso de uso para coerção explícita `ToBoolean` é se você quer forçar uma coerção de valor `true`/`false` em uma serialização JSON de uma estrutura de dados:
 
@@ -905,7 +897,7 @@ Antes até de nós chegarmos ao JavaScript, deixe-me sugerir algum pseudo-códig
 SomeType x = SomeType( AnotherType( y ) )
 ```
 
-Nesse exemplo, eu tenho tenho um tipo de valor arbitrário em `y` que eu quero converter para o tipo `SomeType`. O problema é, essa linguagem não pode ir diretamente de qualquer coisa que `y` é pra `SomeType`. Ele precisa de um passo intermediário, onde ele primeiro converte para `AnotherType`, e então de `AnotherType` para `SomeType`.
+Nesse exemplo, eu tenho um tipo de valor arbitrário em `y` que eu quero converter para o tipo `SomeType`. O problema é, essa linguagem não pode ir diretamente de qualquer coisa que `y` é pra `SomeType`. Ele precisa de um passo intermediário, onde ele primeiro converte para `AnotherType`, e então de `AnotherType` para `SomeType`.
 
 Agora, e se a linguagem (ou definição que você mesmo pode criar com a linguagem) deixasse você *dizer*:
 
@@ -915,13 +907,13 @@ SomeType x = SomeType( y )
 
 Você não concorda que nós simplificamos o tipo de conversão aqui para reduzir o "ruído" desnecessário do passo de conversão intermediária? Quero dizer, isso é *realmente* tão importante, aqui mesmo nesse ponto do código, para ver e lidar com o fato que `y` vai primeiro para `AnotherType` antes e então vai para `SomeType`?
 
-Alguns argumentariam, pelo menos em algumas circunstâncias, sim. Mas eu acho que um argumento equivalente pode ser feito de várias outras cinscunstâncias que aqui, a simplificação **na verdade ajuda na legibilidade do código** absorvendo ou escondendo tais detalhes, tanto na própria linguagem ou nas suas próprias abstrações.
+Alguns argumentariam, pelo menos em algumas circunstâncias, sim. Mas eu acho que um argumento equivalente pode ser feito de várias outras circunstâncias que aqui, a simplificação **na verdade ajuda na legibilidade do código** absorvendo ou escondendo tais detalhes, tanto na própria linguagem ou nas suas próprias abstrações.
 
 Sem dúvidas, nos bastidores, em algum lugar, a conversão intermediária continua acontecendo. Mas se esse detalhe é oculto da view, nós apenas podemos raciocinar sobre pegar `y` para o tipo `SomeType` como uma operação genérica e enconder os detalhes bangunçados.
 
 Embora não seja uma analogia perfeita, o que eu vou argumentar em todo o resto desse capítulo é que coerção *implícita* JS pode ser considerada como fornecedora de uma ajuda similar para seu código.
 
-Mas, **e isso é muito importante**, essa não é uma declaração absoluta e ilimitada. Há definitivamente uma abundância de *males* que espreitam a coerção *implícita*, que prejudicará seu código muito mais do que qualquer potencial melhoria de legibilidade. Claramente, nós teremos que aprender como evitar certas construções para que não envenenemos nosso código com todas as formas de bugs.
+Mas, **e isso é muito importante**, essa não é uma afirmação absoluta e ilimitada. Há definitivamente uma abundância de *males* que espreitam a coerção *implícita*, que prejudicará seu código muito mais do que qualquer potencial melhoria de legibilidade. Claramente, nós teremos que aprender como evitar certas construções para que não envenenemos nosso código com todas as formas de bugs.
 
 Muitos desenvolvedores acreditam que se um mecanismo pode fazer algo últil **A** mas também pode ser abusado ou mal usado para fazer algo terrível **Z**, então nós devemos descartar completamente esse mecanismo, apenas por segurança.
 
@@ -1083,11 +1075,11 @@ onlyOne( b, b );				// false
 onlyOne( b, a, b, b, b, a );	// false
 ```
 
-**Obeservação:** Claro, em vez do loop `for` em `onlyOne(..)`, você pode usar a tarefa do ES5 `reduce(..)`, mas eu não queria obscurecer os conceitos.
+**Observação:** Claro, em vez do loop `for` em `onlyOne(..)`, você pode usar a tarefa do ES5 `reduce(..)`, mas eu não queria obscurecer os conceitos.
 
 O que estamos fazendo aqui é relacionado com coerção de `1` para `true`/verdadeiro, e adionando todos numericamente. `sum += arguments[i]` usa coerção *implícita* para fazer isso acontecer. Se um e apenas um valor na lista de `arguments` é `true`, então a soma numérica vai ser `1`, do contrário a soma não será `1` e portanto a condição desejada não será atendida.
 
-Nós podemos claro fazer isso com coerção *implícita* no lugar:
+Nós podemos claro fazer isso com coerção *explícita* no lugar:
 
 ```js
 function onlyOne() {
@@ -1117,7 +1109,7 @@ Lembre-se, coerção *implícita* é o que entra quando você usa um valor de ta
 
 Mas, que tipo de expressões de operação requerem/forçam (*implicitamente*) uma coerção `boolean`?
 
-1. A expressão test em uma declaração `if(..)`.
+1. A expressão test em uma instrução `if(..)`.
 2. A expressão test (segunda cláusula) em um header `for ( .. ; .. ; .. )`.
 3. A expressão test em loops `while (..)` e `do..while(..)`.
 4. A expressão test (primeira cláusula) em expressões ternárias `? :`.
@@ -1165,7 +1157,7 @@ Então qual o *resultado* deles? Eles retornam o valor de um (e apenas um) de se
 
 Citação da seção 11.11 da especificação ES5:
 
-> O valor produzido pelo operador && ou || não pe necessariamente do tipo Boolean. O valor prodizido sempre será o valor de uma das duas empressões de operandos.
+> O valor produzido pelo operador && ou || não é necessariamente do tipo Boolean. O valor produzido sempre será o valor de uma das duas expressões de operandos.
 
 Vamos ilustrar:
 
@@ -1231,7 +1223,7 @@ foo( "That's it!", "" ); // "That's it! world" <-- Opa!
 
 Viu o problema? `""` como segundo argumento é uma valor falso (veja `ToBoolean` anteriormente nesse capítulo), então o teste `b = b || "world"` falha, e o valor padrão `"world"` é substituído, mesmo quando a intenção era, provavelmente, passar explicitamente que `""` seja o valor atribuído para `b`.
 
-Essa linguagem `||` é extremamente comum, e bem útil, mas você tem que usá-la somente em casos onde *todos os valores falsos* devem ser ignorados. Do contrário, você precisará ser mais explícito no seu teste, e provalmente usar um ternário `? :` no lugar.
+Essa linguagem `||` é extremamente comum, e bem útil, mas você tem que usá-la somente em casos onde *todos os valores falsos* devem ser ignorados. Do contrário, você precisará ser mais explícito no seu teste, e provavelmente usar um ternário `? :` no lugar.
 
 Essa *atribuição de valor padrão* é tão comum (e útil!) que até mesmo aqueles que veementemente e publicamente condenam a coerção JavaScript, freuqnetemente a utilizam em seu pŕoprio código!
 
@@ -1249,7 +1241,7 @@ var a = 42;
 a && foo(); // 42
 ```
 
-`foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa declaração de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "curto-circuito" -- e nunca chamar `foo()`.
+`foo()` é chamada apenas porque o teste de `a` é verdadeiro. Se esse teste falha, essa instrução de expressão `a && foo()` vai apenas parar silenciosamente -- isso é conhecido como "curto-circuito" -- e nunca chamar `foo()`.
 
 De novo, não é muito comum que as pessoas criem essas coisas. Normalmente, elas fazem `if (a) { foo(); }` no lugar. Mas os minificadores JS escolhem `a && foo()` porque é muito mais curto. Então, agora, se você alguma vez tiver que decifrar tal código, você saberá o que ele está fazendo e por quê.
 
@@ -1273,7 +1265,7 @@ if (a && (b || c)) {
 }
 ```
 
-Esse código continua funcionando da forma que você sempre achou que funcionava, exceto por um detalhe sutil. A expressão `a && (b || c)` *na verdade* resulta em `"foo"`, não `true`. Portanto, a declaração `if` *então* força o valor `"foo"` a sofrer coerção para `boolean`, o que é claro será `true`.
+Esse código continua funcionando da forma que você sempre achou que funcionava, exceto por um detalhe sutil. A expressão `a && (b || c)` *na verdade* resulta em `"foo"`, não `true`. Portanto, a instrução `if` *então* força o valor `"foo"` a sofrer coerção para `boolean`, o que é claro será `true`.
 
 Viu? não há razão para entrar em pânico. Seu código, provavelmente, está à salvo. Mas agora você sabe mais sobre como isso faz o que faz.
 
@@ -1429,7 +1421,7 @@ x == y; // false
 
 O `Type(y)` é `Boolean` dessa vez, então `ToNumber(y)` custa `0`. `"42" == 0` recursivamente torna-se `42 == 0`, que claro, é `false`.
 
-Em outras palavras, **o valor `"42"` não é nem `== true` nem `== false`.** Primeiramente, essa declaração pode parecer loucura. Como pode um valor não ser nem verdadeiro nem falso?
+Em outras palavras, **o valor `"42"` não é nem `== true` nem `== false`.** Primeiramente, essa afirmação pode parecer loucura. Como pode um valor não ser nem verdadeiro nem falso?
 
 Mas esse é o problema! Você está fazendo a pergunta, totalmente errada. Não é sua culpa, de verdade. Seu cérebro está te enganando.
 
@@ -1483,7 +1475,7 @@ Outro exemplo de coerção *implícita* pode ser visto com `==` igualdade ampla 
 > 2. Se x é null e y é undefined, retorna true.
 > 3. Se x é undefined e y é null, retorna true.
 
-`null` e `undefined` quando comparados com `==` igualdade ampla, equipararm-se (fazem coerção) uns nos outros (assim como neles próprios, obviamente), e nenhum outro valor em toda a linguagem.
+`null` e `undefined` quando comparados com `==` igualdade ampla, equiparam-se (fazem coerção) uns nos outros (assim como neles próprios, obviamente), e nenhum outro valor em toda a linguagem.
 
 Isso significa que `null` e `undefined` podem ser tratados sem distinção para propósitos de comparação, se você usar o operador `==` igualdade ampla para permitir coerção *implícita* mútua.
 
@@ -1602,7 +1594,7 @@ new Number( 2 ) == 3;	// true
 
 **Atenção:** `2 == 3` não teria caído nessa armadilha, porque nem `2` nem `3` teria invocado o método nativo `Number.prototype.valueOf()` porque ambos já são valores primitivos `number` e podem ser comparados diretamente. No entanto, `new Number(2)` deve passar pela coerção `ToPrimitive`, e por isso invocar `valueOf()`.
 
-Maldade né? É claro que é. Ninguém nunca deveria fazer algo assim. O fato de que você *pode* fazer isso é usado como crítica da coerção e `==`. Mas isso é uma frustação mal direcionada. JavaScript não é *ruim* por que você pode fazer tais coisas, um desenvolvedor é *ruim* **se eles fizerem tais coisas**. Não caia na falácia "minha linguagem de programação deveria me proteger de mim mesmo".
+Maldade né? É claro que é. Ninguém nunca deveria fazer algo assim. O fato de que você *pode* fazer isso é usado como crítica da coerção e `==`. Mas isso é uma frustração mal direcionada. JavaScript não é *ruim* por que você pode fazer tais coisas, um desenvolvedor é *ruim* **se eles fizerem tais coisas**. Não caia na falácia "minha linguagem de programação deveria me proteger de mim mesmo".
 
 Próximo vamos considerar outro exemplo complicado, o que leva a maldade do exemplo anterior para outro nível:
 
@@ -1701,7 +1693,7 @@ Se seu instinto é continuar desgostando destes resultados, sua frustação, na 
 
 Você poderia justificar que, desde que `String(null)` torna-se `"null"`, então `String([null])` deverá também tornar-se `"null"`. Essa é uma afirmação razoável. Então, esse é o verdadeiro culpado.
 
-Coerção *implícita* por si só não é a vilã aqui. Até mesmo uma coerção *explícita* de `[null]` para uma `string` resulta em `""`. O que está em contradição é se é sensato para um valor `array` stringficar para um equivalente de seu conteúdo, e exatamente como isso acontece. Então, direcione sua frustação para as regras de `String( [..] )`, porque é de onde a loucura vem. Talvez não deva mesmo acontecer a stringficação de um `array`? Mas isso teria muitas outras desvantagens em outras partes da linguagem.
+Coerção *implícita* por si só não é a vilã aqui. Até mesmo uma coerção *explícita* de `[null]` para uma `string` resulta em `""`. O que está em contradição é se é sensato para um valor `array` stringficar para um equivalente de seu conteúdo, e exatamente como isso acontece. Então, direcione sua frustração para as regras de `String( [..] )`, porque é de onde a loucura vem. Talvez não deva mesmo acontecer a stringficação de um `array`? Mas isso teria muitas outras desvantagens em outras partes da linguagem.
 
 Outra pegadinha famosa citada:
 
@@ -1715,7 +1707,7 @@ Realmente o único outro `number` razoável no qual strings vazias ou espaços e
 
 As chances de que um programa JS real falhe porque `0 == "\n"` são terrivelmente raras, e tais casos podem facilmente ser evitados.
 
-Conversões de tipo **sempre** tem casos à parte, em qualquer linguagem -- nada especificamente para coerção. Os problemas aqui são sobre adivinhar um certo conjunto de casos à parte (e, talvez, corretamente!), mas esse não pe um argumento saliente contra o mecanismo geral de coerção.
+Conversões de tipo **sempre** tem casos à parte, em qualquer linguagem -- nada especificamente para coerção. Os problemas aqui são sobre adivinhar um certo conjunto de casos à parte (e, talvez, corretamente!), mas esse não é um argumento saliente contra o mecanismo geral de coerção.
 
 Quase qualquer coerção louca entre *valores normais* que você provavelmente irá encontrar (além de hacks intencionalmente complicados `valueOf()` or `toString()` como anteriores) se resumirão a esta lista curta de sete coerções que nós identificamos acima.
 

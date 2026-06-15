@@ -1,10 +1,10 @@
-# You Don't Know JS: Types & Grammar
+# You Don't Know JS: Tipos & Gramática
 # Capítulo 5: Gramática
 
 O último tópico a ser abordado é a sintaxe do JavaScript (também conhecida como sendo sua gramática). Você pode pensar que sabe escrever JS, mas há muitas nuances em sua gramática que levam ao equívoco, então queremos nos aprofundar nessas partes e esclarecê-las.
 
 **Nota:** O termo "gramática" pode ser um pouco menos familiar do que o termo "sintaxe". De muitas formas, eles são termos semelhantes, e descrevem as *regras* de como a linguagem funciona.
-Exitem diferenças sutis entre os dois termos, porém, na maioria das vezes, não há contribuição para a discussão. A gramática do JS é uma maneira estruturada de descrever como a sintaxe (operadores, keywords, etc.) se encaixam para formar programas estruturados. Em outras palavras, discutir a sintaxe sem gramática deixaria de fora muitos detalhes importantes. Portanto, o foco da nossa discussão é a *gramática*, mesmo sendo a sintaxe da linguagem o que os desenvolvedores interagem diretamente.
+Existem diferenças sutis entre os dois termos, porém, na maioria das vezes, não há contribuição para a discussão. A gramática do JS é uma maneira estruturada de descrever como a sintaxe (operadores, keywords, etc.) se encaixam para formar programas estruturados. Em outras palavras, discutir a sintaxe sem gramática deixaria de fora muitos detalhes importantes. Portanto, o foco da nossa discussão é a *gramática*, mesmo sendo a sintaxe da linguagem o que os desenvolvedores interagem diretamente.
 
 ## Instruções & Expressões
 
@@ -12,7 +12,7 @@ Exitem diferenças sutis entre os dois termos, porém, na maioria das vezes, nã
 
 Para exemplificar essa distinção, usaremos a terminologia com a qual você pode estar mais familiarizado: O idioma inglês.
 
-Uma "sentença" é uma junção de palavras que expressa um pensamento. É composta por uma ou mais "frases", cada uma das quais pode ser conectada com sinais de pontuação ou por palavras de conjunção ("e", "ou", etc). Uma frase pode ser composta por frases menores. Algumas delas são incompletas e não tem muito sentido por si só, enquanto outras podem se sustentar sozinhas. Esse conjunto de regras é chamado de *gramática* da lingua inglesa.
+Uma "sentença" é uma junção de palavras que expressa um pensamento. É composta por uma ou mais "frases", cada uma das quais pode ser conectada com sinais de pontuação ou por palavras de conjunção ("e", "ou", etc). Uma frase pode ser composta por frases menores. Algumas delas são incompletas e não tem muito sentido por si só, enquanto outras podem se sustentar sozinhas. Esse conjunto de regras é chamado de *gramática* da língua inglesa.
 
 E assim acontece com a gramática de JavaScript. Instruções são sentenças, expressões são frases e operadores são conjuções e pontuações.
 
@@ -28,7 +28,7 @@ Nesse trecho, `3 * 6` é uma expressão (avaliada no valor `18`). Mas `a` na seg
 
 Além disso, cada uma das três linhas é uma instrução contendo expressões. `var a = 3 * 6` e `var b = a` são chamados de 'instruções de declaração', pois cada uma declara uma variável ( e opcionalmente atribui um valor a elas). As atribuições `a = 3 * 6` e `b = a` são chamadas de expressões de atribuições.
 
-A terceira linha contém apenas a expressão `b`, que também é uma declaração por si só (embora não seja uma muito interessante!). Esse tipo, geralmente, é chamado de "declaração de expressão".
+A terceira linha contém apenas a expressão `b`, que também é uma instrução por si só (embora não seja uma muito interessante!). Esse tipo, geralmente, é chamado de "instrução de expressão".
 
 ### Valores de Conclusão de Instruções
 
@@ -263,7 +263,7 @@ function vowels(str) {
 vowels( "Hello World" ); // ["e","o","o"]
 ```
 
-Isso funciona, e muitos desenvolvedores preferem assim. Mas usando um idioma onde aproveitamos o efeito colateral da atribuição, podemos simplificar combinando as duas instruções `if` em uma só:
+Isso funciona, e muitos desenvolvedores preferem assim. Mas usando uma expressão idiomática onde aproveitamos o efeito colateral da atribuição, podemos simplificar combinando as duas instruções `if` em uma só:
 
 ```js
 function vowels(str) {
@@ -330,7 +330,7 @@ Mas se é um bloco de código normal, o que é aquela sintaxe `foo: bar()` de ap
 
 É por causa de um recurso pouco conhecido (e, francamente, desencorajado) no JavaScript chamado "instruções rotuladas". `foo` é um rótulo para a instrução `bar()` (que omitiu seu `;` final -- veja "Ponto e Vírgula Automático" mais adiante neste capítulo). Mas qual é o propósito de uma instrução rotulada?
 
-Se o JavaScript tivesse uma instrução `goto`, você teoricamente poderia dizer `goto foo` e fazer a execução pular para aquela localização no código. `goto`s geralmente são considerados péssimos idiomas de programação, pois tornam o código muito mais difícil de entender (também conhecido como "código espaguete"), então é uma *coisa muito boa* que o JavaScript não tenha um `goto` geral.
+Se o JavaScript tivesse uma instrução `goto`, você teoricamente poderia dizer `goto foo` e fazer a execução pular para aquela localização no código. `goto`s geralmente são considerados péssimas práticas de programação, pois tornam o código muito mais difícil de entender (também conhecido como "código espaguete"), então é uma *coisa muito boa* que o JavaScript não tenha um `goto` geral.
 
 Entretanto, o JS *suporta* uma forma limitada e especial de `goto`: saltos rotulados. Tanto a instrução `continue` quanto a `break` podem opcionalmente aceitar um rótulo especificado, caso em que o fluxo do programa "salta" mais ou menos como um `goto`. Considere:
 
@@ -531,7 +531,7 @@ else {
 
 O `if (b) { .. } else { .. }` é uma única instrução que segue o `else`, então você pode colocar os `{ }` envolventes ou não. Em outras palavras, quando você usa `else if`, você está tecnicamente quebrando aquela regra comum de guia de estilo e apenas definindo seu `else` com uma única instrução `if`.
 
-Claro, o idioma `else if` é extremamente comum e resulta em um nível a menos de indentação, então é atrativo. De qualquer forma que você faça, apenas declare explicitamente no seu próprio guia de estilo/regras e não assuma que coisas como `else if` são regras gramaticais diretas.
+Claro, a expressão idiomática `else if` é extremamente comum e resulta em um nível a menos de indentação, então é atrativo. De qualquer forma que você faça, apenas declare explicitamente no seu próprio guia de estilo/regras e não assuma que coisas como `else if` são regras gramaticais diretas.
 
 ## Precedência de Operadores
 
@@ -972,7 +972,7 @@ Mas não acredite só na minha palavra. Lá em 2012, o criador do JavaScript Bre
 
 O JavaScript não só tem diferentes *subtipos* de erros (`TypeError`, `ReferenceError`, `SyntaxError`, etc.), mas também a gramática define que certos erros sejam impostos em tempo de compilação, em comparação a todos os outros erros que acontecem em tempo de execução.
 
-Em particular, há há muito tempo uma série de condições específicas que devem ser detectadas e reportadas como "erros precoces" (durante a compilação). Qualquer erro de sintaxe puro é um erro precoce (por exemplo, `a = ,`), mas também a gramática define coisas que são sintaticamente válidas mas mesmo assim proibidas.
+Em particular, há muito tempo uma série de condições específicas que devem ser detectadas e reportadas como "erros precoces" (durante a compilação). Qualquer erro de sintaxe puro é um erro precoce (por exemplo, `a = ,`), mas também a gramática define coisas que são sintaticamente válidas mas mesmo assim proibidas.
 
 Já que a execução do seu código ainda não começou, esses erros não são capturáveis com `try..catch`; eles simplesmente farão a análise/compilação do seu programa falhar.
 

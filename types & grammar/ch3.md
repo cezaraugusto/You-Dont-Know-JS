@@ -1,7 +1,7 @@
-# You Don't Know JS: Tipos e Gramática
+# You Don't Know JS: Tipos & Gramática
 # Capítulo 3: Nativos
 
-Várias vezes nos Capítulos 1 e 2, nós aludimos à vários nativos, como `String` e `Number`. Vamos examiná-los em detalhes agora.
+Várias vezes nos Capítulos 1 e 2, nós aludimos a vários nativos, como `String` e `Number`. Vamos examiná-los em detalhes agora.
 
 Aqui está uma lista dos nativos mais comumente usados:
 
@@ -48,9 +48,9 @@ Esse objeto envoltório pode ainda ser observado com:
 console.log( a );
 ```
 
-A saída dessa declaração varia dependendo do seu navegador, como os consoles são livres para escolher como eles acharem apropriado para serializar o objeto para a inspeção do desenvolvedor.
+A saída dessa instrução varia dependendo do seu navegador, como os consoles são livres para escolher como eles acharem apropriado para serializar o objeto para a inspeção do desenvolvedor.
 
-**Nota:** No momento da escrita, a última versão do Chrome imprime algo assim: `String {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}`. Mas versões antigas do Chrome costumavam imprimir apenas isso: `String {0: "a", 1: "b", 2: "c"}`. A última versão do Firefox imprime atualmente `String ["a","b","c"]`, mas costumava imprimir `"abc"` em itálico, que era clicável para abrir o inspetor de objetos. Claro que esse resultados estão sujeitos à rápida mudança e sua experiência pode variar.
+**Nota:** No momento da escrita, a última versão do Chrome imprime algo assim: `String {0: "a", 1: "b", 2: "c", length: 3, [[PrimitiveValue]]: "abc"}`. Mas versões antigas do Chrome costumavam imprimir apenas isso: `String {0: "a", 1: "b", 2: "c"}`. A última versão do Firefox imprime atualmente `String ["a","b","c"]`, mas costumava imprimir `"abc"` em itálico, que era clicável para abrir o inspetor de objetos. Claro que esses resultados estão sujeitos a rápida mudança e sua experiência pode variar.
 
 O ponto é, `new String("abc")` cria a um objeto string ao redor de `"abc"`, não apenas o próprio valor primitivo `"abc"`.
 
@@ -85,7 +85,7 @@ Object.prototype.toString.call( true );		// "[object Boolean]"
 
 Nesse trecho de código, cada um dos tipos primitivos simples são automaticamente encaixotados em seus respectivos objetos que os envolvem, é por isso que `"String"`, `"Number"`, e `"Boolean"` são revelados como seus respectivos valores `[[Class]]` internos.
 
-**Nota:** O comportamento de `toString()` e `[[Class]]` ilustrado aqui mudou um pouco do ES5 para o ES6, mas nós cobrimos esses detalhos no título *ES6 & Além* dessa série.
+**Nota:** O comportamento de `toString()` e `[[Class]]` ilustrado aqui mudou um pouco do ES5 para o ES6, mas nós cobrimos esses detalhes no título *ES6 & Além* dessa série.
 
 ## Boxing Wrappers
 
@@ -220,7 +220,7 @@ c;
 
 **Nota:** Como você pode ver com o `c` deste exemplo, posições vazias no array podem acontecer após a criação do array. Mudando o `length` de um array para um valor acima do número de slots definidos, você implicitamente introduz posições vazias. Na verdade, você poderia até chamar `delete b[1]` no trecho de código acima, o que introduziria uma posição vazia no meio de `b`.
 
-Para `b` (no Chrome, atualmente), você vai encontrar `[ undefined, undefined, undefined ]` como serializalção, ao contrário de `[ undefined x 3 ]` para `a` e `c`. Confuso? Sim, assim como todo mundo.
+Para `b` (no Chrome, atualmente), você vai encontrar `[ undefined, undefined, undefined ]` como serialização, ao contrário de `[ undefined x 3 ]` para `a` e `c`. Confuso? Sim, assim como todo mundo.
 
 Pior do que isso, no momento da escrita, Firefox imprime `[ , , , ]` para `a` e `c`. Você percebeu por que isso é tão confuso? Olhe mais de perto. Três vírgulas implica quatro slots, e não três slots como esperávamos.
 
@@ -359,7 +359,7 @@ function foo(x) {
 
 Os objetos de error geralmente tem pelo menos uma propriedade `message`, e as vezes outras propriedades (que você deve tratar como somente leitura), como `type`. No entanto, além de inspecionar a propriedade `stack` mencionada acima, normalmente é melhor chamar `toString()` no objeto de erro (explicitamente ou implicitamente através da coerção -- veja o Capítulo 4) para uma mensagem de erro formatada de maneira amigável.
 
-**Dica:** Técnicamente, em adição ao nativo `Error(..)` geral, há vários outros nativos para erros específicos: `EvalError(..)`, `RangeError(..)`, `ReferenceError(..)`, `SyntaxError(..)`, `TypeError(..)`, e `URIError(..)`. Mas é bem raro usar manualmente esse nativos de erros específicos. Eles são automaticamente usados se o seu programa sofre com um erro real (como referenciar uma variável que não foi declarado e receber um `ReferenceError`).
+**Dica:** Tecnicamente, em adição ao nativo `Error(..)` geral, há vários outros nativos para erros específicos: `EvalError(..)`, `RangeError(..)`, `ReferenceError(..)`, `SyntaxError(..)`, `TypeError(..)`, e `URIError(..)`. Mas é bem raro usar manualmente esse nativos de erros específicos. Eles são automaticamente usados se o seu programa sofre com um erro real (como referenciar uma variável que não foi declarado e receber um `ReferenceError`).
 
 ### `Symbol(..)`
 
@@ -373,7 +373,7 @@ Há vários symbols pré-definidos no ES6, acessados como propriedades estática
 obj[Symbol.iterator] = function(){ /*..*/ };
 ```
 
-Para definir os seus próprios symbols customizados, use o nativo `Symbol(..)`. O "construtor" nativo ``Symbol(..)` é único porque você não pode usar `new` com ele, se você fizer isso um erro será gerado.
+Para definir os seus próprios symbols customizados, use o nativo `Symbol(..)`. O "construtor" nativo `Symbol(..)` é único porque você não pode usar `new` com ele, se você fizer isso um erro será gerado.
 
 ```js
 var mysym = Symbol( "my own symbol" );
@@ -410,7 +410,7 @@ Por exemplo, todos os objetos strings, e por extensão (via boxing) `string` pri
 
 Nenhum desses métodos modifica a string *existente*. Modificações (como conversão de caixa ou remoção de espaços) criam um novo valor a partir do valor existente.
 
-Em virtudade da delegação de prototype (veja o título *this & Prototipagem de Objetos* nesta série), qualquer string pode acessar esses métodos.
+Em virtude da delegação de prototype (veja o título *this & Prototipagem de Objetos* nesta série), qualquer string pode acessar esses métodos.
 
 ```js
 var a = " abc ";
