@@ -5,9 +5,9 @@ No Capítulo 2, falamos sobre "Escopo Dinâmico" como um contraste ao modelo de 
 
 Iremos brevemente examinar o escopo dinâmico, para reforçar o contraste entre eles. Porém, algo bem mais importante, o escopo dinâmico é na verdade um primo próximo de outro mecanismo (`this`) em JavaScript, que cobrimos no título "*this & Prototipagem de Objetos*" desta série.
 
-Como vimos no Capítulo 2, o escopo léxico é um grupo de regras sobre como a *Engrenagem* pode verificar uma variável e onde ela irá encontrá-lo. As características-chave do escopo léxico é que ela é definida no tempo do autor (author-time), quando o código é escrito (assumindo que você não trapaceie com `eval()` ou `with`).
+Como vimos no Capítulo 2, o escopo léxico é um grupo de regras sobre como o *Motor* pode verificar uma variável e onde ele irá encontrá-la. A característica-chave do escopo léxico é que ele é definido no tempo do autor (author-time), quando o código é escrito (assumindo que você não trapaceie com `eval()` ou `with`).
 
-Escopos dinâmicos parecem deduzir, por uma boa causa, que existe um modelo pelo qual o escopo pode ser determinado dinamicamente no tempo de execução (*runtime*), ao invés de estaticamente no momento que o código é escrito (author-time). Este é de fato o caso. Vamos ilustrar por código:
+Escopos dinâmicos parecem sugerir, por uma boa causa, que existe um modelo pelo qual o escopo pode ser determinado dinamicamente no tempo de execução (*runtime*), ao invés de estaticamente no momento que o código é escrito (author-time). Este é de fato o caso. Vamos ilustrar por código:
 
 ```js
 function foo() {
@@ -49,10 +49,10 @@ Como pode ser assim? Por conta de `foo()` não poder resolver a referência da v
 
 Estranho? Você deve estar pensando, no momento.
 
-Mas isso apenas porque você provavelmentes só trabalhou (ou pelo menos considerou profundamente) em códigos que são lexicamente escopados. Por isso o escopo dinâmico parece estranho. Se você só escreveu códigos em uma linguagem de escopo dinâmico, isso te pareceu bem natural, e o escopo léxico seria a parte estranha.
+Mas isso apenas porque você provavelmente só trabalhou (ou pelo menos considerou profundamente) em códigos que são lexicamente escopados. Por isso o escopo dinâmico parece estranho. Se você só escreveu códigos em uma linguagem de escopo dinâmico, isso te pareceu bem natural, e o escopo léxico seria a parte estranha.
 
 Para ser claro, o JavaScript **não tem, de fato, um escopo dinâmico**. Ele tem escopo léxico. Pleno e simples. Mas o mecanismo de `this` é meio que parecido com o escopo dinâmico.
 
-O contraste chave **escopo léxico rodam no tempo de escrita (write-time), e o escopo dinâmico (e `this`!) ocorrem no tempo de execução (runtime)**. Escopo léxico se importa com a questão *de onde a função foi declarada*, mas o escopo dinâmico se importa com a questão *de onde ela foi chamada*.
+O contraste chave: **o escopo léxico roda no tempo de escrita (write-time), enquanto o escopo dinâmico (e `this`!) ocorrem no tempo de execução (runtime)**. Escopo léxico se importa com a questão *de onde a função foi declarada*, mas o escopo dinâmico se importa com a questão *de onde ela foi chamada*.
 
 Finalmente, `this` se importa com *como a função foi chamada*, o que mostra o quão próxima é a relação do mecanismo `this` com a ideia do escopo dinâmico. Para saber mais sobre `this`, leia o título *this & Prototipagem de Objetos*.

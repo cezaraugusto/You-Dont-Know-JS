@@ -9,13 +9,13 @@ Escopo Dinâmico é tratado no Apêndice A. Menciono esta informação aqui apen
 
 ## Hora do léxico
 
-Conforme discutimos no Capítulo 1, a primeira etapa da compilação de linguagens tradicionais é chamada de Análise Léxica (ou Tokenização). Caso não se lembre, o processo de Análise Léxica examina uma sequência de caractéres do código fonte e atribui um significado semântico para estes símbolos (tokens) como resultado de uma análise stateful.
+Conforme discutimos no Capítulo 1, a primeira etapa da compilação de linguagens tradicionais é chamada de Análise Léxica (ou Tokenização). Caso não se lembre, o processo de Análise Léxica examina uma sequência de caracteres do código fonte e atribui um significado semântico para estes símbolos (tokens) como resultado de uma análise stateful.
 
 Este é o conceito que provê as bases para compreensão do que é o Escopo Léxico e a origem do seu nome.
 
 Para uma definição de certa forma redundante, o Escopo Léxico é o escopo definido durante a etapa de Análise Léxica. Em outras palavras, o Escopo Léxico baseia-se no local onde variáveis e blocos de escopo são criados por você durante a escrita do código, portanto (normalmente) já definidos no momento que o analisador léxico processa seu código.
 
-**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa pratica tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código.
+**Nota:** Veremos em alguns instantes que existem formas de enganar o Escopo Léxico, e assim sendo modificá-lo após sua passagem pelo analisador léxico, mas isso é, de certa forma, mal visto. É considerado boa prática tratar o escopo léxico como, de fato, léxico, e portanto inteiramente associado ao momento em que foi definido pelo autor do código.
 
 Consideremos o seguinte bloco de código:
 
@@ -70,7 +70,7 @@ Esta técnica garante o acesso a uma variável global que não poderia ser acess
 
 Não importa o *local* onde uma função é invocada, ou até mesmo *como* é invocada, seu escopo léxico será definido **apenas** pelo local onde a função foi declarada.
 
-O processo de consulta ao escopo léxico ocorre *apenas* em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso à propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
+O processo de consulta ao escopo léxico ocorre *apenas* em identificadores de primeira classe, como `a`, `b` e `c`. Se você tivesse uma referência para `foo.bar.baz` em um trecho de código, ocorreria uma consulta ao escopo léxico para localizar o identificador `foo`, mas no momento que esta variável é localizada, regras de acesso a propriedades de objetos assumem o comando para resolução das propriedades `bar` e `baz`, respectivamente.
 
 ## Trapaceando o Léxico
 
@@ -105,11 +105,11 @@ A string `"var b = 3;"` é tratada, naquele ponto onde `eval(..)` é chamado, co
 
 Quando a chamada para `console.log(..)` ocorre, são encontradas tanto `a` quanto `b` no escopo de `foo(..)`, e portanto nunca a variável `b` externa. Sendo assim, imprimimos "1, 3" em vez de "1, 2" como normalmente ocorreria.
 
-**Nota:** Neste exemplo, por questões de simplificação, a string de "código" que interpretamos possui um valor fixo, mas poderia facilmente ter sido gerada dinamicamente a partir de fragmentos obtidos pela lógica do seu programa. `eval(..)`é normalmente utilizada para executar código gerado dinamicamente, afinal não há qualquer benefício em interpretar dinamicamente um trecho de código estático a partir de uma string se você pode adicionar este mesmo trecho no momento da escrita do código.
+**Nota:** Neste exemplo, por questões de simplificação, a string de "código" que interpretamos possui um valor fixo, mas poderia facilmente ter sido gerada dinamicamente a partir de fragmentos obtidos pela lógica do seu programa. `eval(..)` é normalmente utilizada para executar código gerado dinamicamente, afinal não há qualquer benefício em interpretar dinamicamente um trecho de código estático a partir de uma string se você pode adicionar este mesmo trecho no momento da escrita do código.
 
 Por padrão, se uma string de código executada via `eval(..)` possui uma ou mais declarações (seja de variáveis ou funções), esta ação modifica o escopo léxico no qual esta chamada para `eval(..)` se encontra. Tecnicamente, `eval(..)` pode ser invocada "indiretamente" por meio de vários truques (os quais vão além da nossa discussão), o que faz com que seja executada no contexto do escopo global, e assim sendo, modificando-o. Mas de qualquer maneira, `eval(..)` pode em tempo de execução modificar um escopo léxico definido durante a escrita do código.
 
-**Note:** Quando utilizada em um programa em Modo estrito (strict mode), `eval(..)` opera em seu próprio escopo léxico, o que significa que as declarações efetuadas dentro de `eval()` não modificam o escopo superior.
+**Nota:** Quando utilizada em um programa em Modo estrito (strict mode), `eval(..)` opera em seu próprio escopo léxico, o que significa que as declarações efetuadas dentro de `eval()` não modificam o escopo superior.
 
 ```js
 function foo(str) {
@@ -121,7 +121,7 @@ function foo(str) {
 foo( "var a = 2" );
 ```
 
-Javascript provê outras maneiras de se obter resultados similares aos de `eval(..)`. `setTimeout(..)` e `setInterval(..)` *podem* receber uma string como primeiro argumento, conteúdo este que será interpretado por `eval(..)` como o código de uma função gerada dinamicamente. Isto é um comportamento velho, legado, e desaconselhado há muito tempo. Não faça isso!
+JavaScript provê outras maneiras de se obter resultados similares aos de `eval(..)`. `setTimeout(..)` e `setInterval(..)` *podem* receber uma string como primeiro argumento, conteúdo este que será interpretado por `eval(..)` como o código de uma função gerada dinamicamente. Isto é um comportamento velho, legado, e desaconselhado há muito tempo. Não faça isso!
 
 O construtor de função `new Function(..)`, de forma similar, recebe uma string de código como seu **último** argumento para torná-la uma função gerada dinamicamente -- o(s) primeiro(s) argumento(s), se existir(em), nomeia(m) o(s) parâmetro(s) da nova função. Ainda assim, isso deve ser evitado em seu código.
 
@@ -131,7 +131,7 @@ Os casos de uso para geração dinâmica de código são incrivelmente raros, vi
 
 A outra funcionalidade mal vista (e agora desaconselhada!) em JavaScript e com a qual se pode trapacear o escopo léxico é a palavra-chave `with`. Existem muitas maneiras válidas de se explicar `with`, mas vou escolher explicar sob a óptica de como este mecanismo interage e afeta o escopo léxico.
 
-`with` é comumente definido como um "atalho" para a criação de diversas referências à propriedades de um determinado objeto sem precisarmos referenciá-lo em cada uma delas.
+`with` é comumente definido como um "atalho" para a criação de diversas referências a propriedades de um determinado objeto sem precisarmos referenciá-lo em cada uma delas.
 
 Por exemplo:
 
@@ -196,7 +196,7 @@ Entendido desta forma, o "escopo" declarado pela instrução `with` quando passa
 
 O identificador `a` não pode ser achado no escopo de `o2`, no escopo de `foo(...)`, nem no escopo global, então quando `a = 2` é executado, resulta na criação da variável global, já que não estamos em Modo estrito (strict mode).
 
-É um pouco alucinante pernsarmos no bloco `with` tornando, em tempo de execução, um objeto e suas propriedades em um "escopo" *com* "identificadores". Mas é a forma mais clara que eu tenho para apresentar os resultados que vemos.
+É um pouco alucinante pensarmos no bloco `with` tornando, em tempo de execução, um objeto e suas propriedades em um "escopo" *com* "identificadores". Mas é a forma mais clara que eu tenho para apresentar os resultados que vemos.
 
 **Nota:** Somando-se ao fato de não ser uma boa ideia utilizá-las, `eval(..)` e `with` são afetadas (restringidas) pelo Modo Estrito (strict mode). `with` é totalmente proibida, ao passo que várias formas indiretas ou inseguras de se utilizar `eval(..)` são proibidas ainda que sua funcionalidade central seja mantida.
 

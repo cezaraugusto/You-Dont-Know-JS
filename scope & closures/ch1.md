@@ -13,9 +13,9 @@ Mas, onde e como essas regras de *Escopo* são definidas?
 
 ## Teoria de Compiladores
 
-Talvez seja evidente, ou pode ser que seja uma novidade, dependendo do seu nível de interação com linguagens diversas, mas apesar do fato de Javascript ser geralmente colocada na categoria de linguagens "dinâmicas" ou "interpretadas", ela é de fato uma linguagem compilada. Ela *não* é compilada com muita antecedência, como são muitas outras linguagens tradicionalmente compiladas, e nem os resultados da compilação são portáveis entre vários sistemas distribuídos.
+Talvez seja evidente, ou pode ser que seja uma novidade, dependendo do seu nível de interação com linguagens diversas, mas apesar do fato de JavaScript ser geralmente colocada na categoria de linguagens "dinâmicas" ou "interpretadas", ela é de fato uma linguagem compilada. Ela *não* é compilada com muita antecedência, como são muitas outras linguagens tradicionalmente compiladas, e nem os resultados da compilação são portáveis entre vários sistemas distribuídos.
 
-Mas, no entanto, o motor do Javascript realiza muitos dos passos efetuados por qualquer compilador tradicional, embora de forma mais sofisticada do que estamos acostumados a ver.
+Mas, no entanto, o motor do JavaScript realiza muitos dos passos efetuados por qualquer compilador tradicional, embora de forma mais sofisticada do que estamos acostumados a ver.
 
 Em um processo tradicional de uma linguagem compilada, um pedaço de código fonte, seu programa, vai tipicamente passar por três passos *antes* de ser executado, grosseiramente chamado "compilação":
 
@@ -23,7 +23,7 @@ Em um processo tradicional de uma linguagem compilada, um pedaço de código fon
 
     **Nota:** A diferença entre Tokenização e Análise Léxica é sutil e teórica, mas centraliza-se no fato desses tokens serem ou não identificados de uma maneira *stateless* ou *stateful*. Colocando de maneira simples, se o Tokenizador fosse invocar regras de análise stateful para saber se `a` deve ser considerado um token distinto ou apenas parte de outro token, *isso* seria **Análise Léxica**.
 
-2. **Análise:** pegar um conjunto (array) de tokens e transformar isso numa árvore de elementos aninhados, que juntos representam a estrutura gramática do programa. Essa árvore é conhecida como "AST" (<b>A</b>bstract <b>S</b>yntax <b>T</b>ree, que, em tradução livre, significa: Árvore Sintática Abstrata).
+2. **Análise:** pegar um conjunto (array) de tokens e transformar isso numa árvore de elementos aninhados, que juntos representam a estrutura gramatical do programa. Essa árvore é conhecida como "AST" (<b>A</b>bstract <b>S</b>yntax <b>T</b>ree, que, em tradução livre, significa: Árvore Sintática Abstrata).
 
     A árvore para `var a = 2;` pode começar com um nó de nível superior chamado `VariableDeclaration`, que tem um nó filho chamado `Identifier` (cujo valor é `a`), e outro nó filho chamado `AssignmentExpression` que por sua vez tem um filho chamado `NumericLiteral` (cujo valor é `2`).
 
@@ -33,15 +33,15 @@ Em um processo tradicional de uma linguagem compilada, um pedaço de código fon
 
     **Nota:** Os detalhes de como o motor administra recursos do sistema estão além do que iremos cobrir, então nós vamos apenas considerar que esse motor é capaz de criar e armazenar variáveis conforme necessário.
 
-O motor do Javascript é muito mais complexo do que *apenas* aqueles três passos, assim como são os compiladores de outras linguagens. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
+O motor do JavaScript é muito mais complexo do que *apenas* aqueles três passos, assim como são os compiladores de outras linguagens. Por exemplo, no processo de análise e geração de código, há com certeza passos para otimizar o desempenho da execução, incluindo tratar elementos redundantes, etc.
 
 Sendo assim, eu estou mostrando de forma bem grosseira aqui. Mas eu acho que vocês verão em breve porque *esses* detalhes que nós *cobrimos*, mesmo que superficialmente, são relevantes.
 
-Por um lado, o motor do Javascript não tem o luxo (como compiladores de outras linguagens) de ter uma grande disponibilidade de tempo para otimização, porque a compilação de Javascript não acontece numa etapa de preparação anterior, como em outras linguagens.
+Por um lado, o motor do JavaScript não tem o luxo (como compiladores de outras linguagens) de ter uma grande disponibilidade de tempo para otimização, porque a compilação de JavaScript não acontece numa etapa de preparação anterior, como em outras linguagens.
 
-Para Javascript, a compilação executada acontece, em muitos casos, somente alguns microssegundos (ou menos!) antes do código ser executado. Para garantir o mais alto desempenho, diferentes motores JS utilizam todos os tipos de truques (como JITs, que compilam de maneira preguiçosa e até mesmo recompilam rapidamente, etc.) que vão além do escopo da nossa discussão aqui.
+Para JavaScript, a compilação executada acontece, em muitos casos, somente alguns microssegundos (ou menos!) antes do código ser executado. Para garantir o mais alto desempenho, diferentes motores JS utilizam todos os tipos de truques (como JITs, que compilam de maneira preguiçosa e até mesmo recompilam rapidamente, etc.) que vão além do escopo da nossa discussão aqui.
 
-Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de Javascript tem que ser compilado antes (geralmente *logo antes* como dito anteriormente!) de ser executado. Sendo assim, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, geralmente de imediato.
+Vamos apenas dizer, para fins de simplicidade, que qualquer pedaço de JavaScript tem que ser compilado antes (geralmente *logo antes* como dito anteriormente!) de ser executado. Sendo assim, o compilador JS vai obter o programa `var a = 2;` e compilá-lo *antes*, e então estará pronto para executá-lo, geralmente de imediato.
 
 ## Entendendo Escopo
 
@@ -51,13 +51,13 @@ A forma como nós vamos abordar o aprendizado sobre escopo é imaginar o process
 
 Vamos conhecer o elenco dos personagens que interagem para processar o programa `var a = 2;`, assim entenderemos a conversa que vamos ouvir em breve:
 
-1. *Motor*: responsável pela compilação do começo ao fim e pela execução do nosso programa Javascript.
+1. *Motor*: responsável pela compilação do começo ao fim e pela execução do nosso programa JavaScript.
 
 2. *Compilador*: um dos amigos do *Motor*; gerencia todo o trabalho sujo da análise e da geração de código (veja a seção anterior).
 
 3. *Escopo*: outro amigo do *Motor*; coleta e mantém uma lista de consultas a todos os identificadores declarados (variáveis), e impõe um rigoroso conjunto de regras sobre a maneira como estes identificadores ficam acessíveis para o código que está em execução.
 
-Para o seu *completo entendimento* sobre como Javascript funciona, você precisa começar a *pensar* como o *Motor* (e seus amigos) pensam, fazer as perguntas que eles fazem, e responder essas perguntas.
+Para o seu *completo entendimento* sobre como JavaScript funciona, você precisa começar a *pensar* como o *Motor* (e seus amigos) pensam, fazer as perguntas que eles fazem, e responder essas perguntas.
 
 ### Para a frente e para trás
 
@@ -126,9 +126,9 @@ function foo(a) {
 
 foo( 2 );
 ```
-A última linha que invoca `foo(..)` como uma chamada de função requer uma referências RHS para `foo`, significando, "vá buscar o valor de `foo` e entregue para mim". Além disso, `(..)` significa que o valor de `foo` deve ser executado, então é melhor que seja realmente uma função!
+A última linha que invoca `foo(..)` como uma chamada de função requer uma referência RHS para `foo`, significando, "vá buscar o valor de `foo` e entregue para mim". Além disso, `(..)` significa que o valor de `foo` deve ser executado, então é melhor que seja realmente uma função!
 
-Existe uma sútil, porém importante, atribuição aqui. **Conseguiu encontrar?**
+Existe uma sutil, porém importante, atribuição aqui. **Conseguiu encontrar?**
 
 Talvez você não tenha notado a operação implícita `a = 2` neste trecho de código. Ela ocorre quando o valor `2` é passado como um argumento para a função `foo(..)`, e, assim sendo, é **atribuído** ao parâmetro `a`. Para efetuar a atribuição (implícita) no parâmetro `a`, uma busca LHS é efetuada.
 
@@ -217,7 +217,7 @@ foo( 2 ); // 4
 
 A referência RHS para `b` não pode ser resolvida dentro da função `foo`, mas pode ser resolvida no *Escopo* ao redor desta (neste caso, o escopo global).
 
-Assim, retomando o díalogo entre *Motor* e *Escopo*, nós escutaríamos:
+Assim, retomando o diálogo entre *Motor* e *Escopo*, nós escutaríamos:
 
 > ***Motor***: "Ei, *Escopo* de `foo`, já ouviu falar de `b`? Tenho uma referência RHS para ela."
 

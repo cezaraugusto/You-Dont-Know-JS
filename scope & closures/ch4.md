@@ -1,13 +1,13 @@
 # You Don't Know JS: Escopos & Closures
 # Capítulo 4: Hoisting
 
-A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes níveis de escopo  dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada ele.
+A essa altura, você deve estar relativamente confortável com a ideia de escopo, e como variáveis são anexadas a diferentes níveis de escopo dependendo de onde e como elas são declaradas. Tanto o escopo de função quanto o escopo de bloco se comportam seguindo as mesmas regras e considerando o fato que: qualquer variável declarada em um escopo é anexada a ele.
 
 Mas existe um pequeno detalhe de como o anexo de escopo funciona com declarações que aparecem em vários lugares dentro de um escopo, e este detalhe é o que nós analisaremos aqui.
 
 ## O Ovo ou a Galinha?
 
-Existe um hábito em pensar que todo o código que você vê em um programa JavaScript é interpretado linha por linha, na ordem de cima para baixo, assim que o programa é executado. Mesmo sendo substancialmente verdade, há uma parte dessa suposição que pode levar à uma ideia errada sobre o seu programa.
+Existe um hábito em pensar que todo o código que você vê em um programa JavaScript é interpretado linha por linha, na ordem de cima para baixo, assim que o programa é executado. Mesmo sendo substancialmente verdade, há uma parte dessa suposição que pode levar a uma ideia errada sobre o seu programa.
 
 Considere esse código:
 
@@ -39,7 +39,7 @@ Infelizmente, os dois palpites estão errados. `undefined` é a saída.
 
 ## O Compilador ataca novamente
 
-Para responder essa pergunta, precisamos voltar ao capítulo 1 com a discussão sobre compiladores. Relembre que o *Motor* irá, na verdade, compilar seu código JavaScript antes de interpretá-lo. Parte da fase de compilação era encontrar e associar todas as declarações com seus escopos corretos. Vimos no capítulo 2 que isso é o coração do Escopo Léxico.
+Para responder essa pergunta, precisamos voltar ao Capítulo 1 com a discussão sobre compiladores. Relembre que o *Motor* irá, na verdade, compilar seu código JavaScript antes de interpretá-lo. Parte da fase de compilação era encontrar e associar todas as declarações com seus escopos corretos. Vimos no Capítulo 2 que isso é o coração do Escopo Léxico.
 
 Então, a melhor forma de pensar sobre como as coisas funcionam é que todas as declarações, tanto variáveis quanto funções, são processadas primeiro, antes que qualquer parte do nosso código seja executado.
 
@@ -111,7 +111,7 @@ var foo = function bar() {
 };
 ```
 
-O identificador da variável `foo` é "elevado" e anexado ao escopo delimitado (global) do programa, logo `foo()` não falha devido a `ReferenceError`. Mas `foo` não possui valor ainda (como teria se fosse um declaração de função real em vez de expressão). Portanto, `foo()` é tentada a invocar o valor `undefined`, que é uma operação ilegal `TypeError`.
+O identificador da variável `foo` é "elevado" e anexado ao escopo delimitado (global) do programa, logo `foo()` não falha devido a `ReferenceError`. Mas `foo` não possui valor ainda (como teria se fosse uma declaração de função real em vez de expressão). Portanto, `foo()` é tentada a invocar o valor `undefined`, que é uma operação ilegal `TypeError`.
 
 Também lembre que apesar de ser uma expressão de função nomeada, o identificador de nome não está disponível no escopo delimitado:
 
@@ -141,7 +141,7 @@ foo = function() {
 
 ## Primeiro as Funções
 
-Declarações de função e variável são "elevadas". Mas um detalhe  (que *pode* aparecer no código com múltiplas declarações "duplicadas") é que primeiro são "elevadas" as funções, e depois as variáveis.
+Declarações de função e variável são "elevadas". Mas um detalhe (que *pode* aparecer no código com múltiplas declarações "duplicadas") é que primeiro são "elevadas" as funções, e depois as variáveis.
 
 Considere:
 
@@ -193,7 +193,7 @@ function foo() {
 }
 ```
 
-Embora isso tudo possa parecer nada além de algo interessantemente trivial, destaca-se o fato de que definições duplicadas no mesmo escopo são uma má ideia e muitas vezes irão levar à resultados confusos.
+Embora isso tudo possa parecer nada além de algo interessantemente trivial, destaca-se o fato de que definições duplicadas no mesmo escopo são uma má ideia e muitas vezes irão levar a resultados confusos.
 
 Declarações de função que aparecem dentro de blocos normais tipicamente "elevam" para o escopo delimitado, em vez de serem condicionais como o seguinte código sugere:
 
@@ -215,7 +215,7 @@ Entretanto, é importante entender que esse comportamento não é confiável e e
 
 Podemos ser tentados a olhar para `var a = 2;` como sendo uma instrução, mas o *Motor* do JavaScript não vê dessa maneira. Ele vê `var a` e `a = 2` como duas instruções separadas, a primeira como uma tarefa da fase de compilação e a segunda como tarefa da fase de execução.
 
-Isso nos leva à concluir que todas as declarações em um escopo, independente de onde elas aparecerem, são processadas *primeiro* antes do próprio código ser executado. Você pode entender esse processo como declarações sendo "movidas" para o topo de seus respectivos escopos, o qual nós chamamos de hoisting.
+Isso nos leva a concluir que todas as declarações em um escopo, independente de onde elas aparecerem, são processadas *primeiro* antes do próprio código ser executado. Você pode entender esse processo como declarações sendo "movidas" para o topo de seus respectivos escopos, o qual nós chamamos de hoisting.
 
 As próprias declarações são "elevadas", mas atribuições, mesmo atribuições de expressões de função, *não* são "elevadas".
 

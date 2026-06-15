@@ -1,5 +1,5 @@
 # You Don't Know JS: Escopos & Closures
-# Capítulo 3: Escopo de função vs. Bloco de escopo
+# Capítulo 3: Escopo de função vs. Escopo de bloco
 
 Conforme exploramos no Capítulo 2, o escopo consiste em uma série de "bolhas" que atuam como recipientes nos quais identificadores (variáveis, funções) são declarados. Estas bolhas aninham-se umas às outras de forma muito organizada, e este aninhamento é definido durante a escrita do código.
 
@@ -49,13 +49,13 @@ Por outro lado, se você não toma algumas medidas de precaução, variáveis qu
 
 ## Escondendo-se em pleno escopo
 
-A forma tradicional de pensarmos sobre funções é que você as declara e então adiciona código dentro dela. Mas o pensamento inverso é igualmente poderoso e útil: pegue um trecho qualquer de código que você escreveu e envolva uma declaração de funcão ao seu redor, isso acaba por "esconder" este código.
+A forma tradicional de pensarmos sobre funções é que você as declara e então adiciona código dentro dela. Mas o pensamento inverso é igualmente poderoso e útil: pegue um trecho qualquer de código que você escreveu e envolva uma declaração de função ao seu redor, isso acaba por "esconder" este código.
 
 O resultado prático é a criação de uma bolha de escopo ao redor do código em questão, o que significa que qualquer declaração (de variáveis ou funções) neste código estará atrelada ao escopo da nova função que a envolve em vez do escopo que a envolvia anteriormente. Em outras palavras, você pode "esconder" variáveis e funções ao envolvê-las no escopo de uma função.
 
 Mas por que "ocultar" variáveis e funções seria uma técnica útil?
 
-Existem uma série de fatores que motivam este ocultamento baseado em escopo. Eles tendem a surgir de um princípio de projeto de software chamado "Princípio do privilégio mínimo" [^note-leastprivilege], também chamado de (Princípio da) "Menor autoridade" ou "Exposição mínima". Este princípio define que, no projeto de determinado software, como por exemplo a API de um módulo/objeto, você deve expôr somente o mínimo necessário e "esconder" todo o resto.
+Existem uma série de fatores que motivam este ocultamento baseado em escopo. Eles tendem a surgir de um princípio de projeto de software chamado "Princípio do privilégio mínimo" [^note-leastprivilege], também chamado de (Princípio da) "Menor autoridade" ou "Exposição mínima". Este princípio define que, no projeto de determinado software, como por exemplo a API de um módulo/objeto, você deve expor somente o mínimo necessário e "esconder" todo o resto.
 
 Este princípio se estende à escolha de qual escopo deve conter determinada variável ou função. Se todas as variáveis e funções estivessem disponíveis no escopo global, elas certamente poderiam ser acessadas por qualquer escopo aninhado. Mas isto violaria o "Princípio" pelo fato de você (provavelmente) estar expondo muitas variáveis e funções que deveriam ser mantidas ocultas, visto que um uso mais adequado para este código poderia desencorajar a utilização destas variáveis/funções.
 
@@ -77,7 +77,7 @@ var b;
 doSomething( 2 ); // 15
 ```
 
-Neste trecho, a variável `b` e a função `doSomethingElse(..)` são detalhes "privados" de como `doSomething(..)` faz seu trabalho. Dar "acesso" à `b` e `doSomethingElse(..)` para o escopo superior não só é desnecessário mas também possivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `doSomething(..)`.
+Neste trecho, a variável `b` e a função `doSomethingElse(..)` são detalhes "privados" de como `doSomething(..)` faz seu trabalho. Dar "acesso" a `b` e `doSomethingElse(..)` para o escopo superior não só é desnecessário mas também possivelmente "perigoso", visto que ambas podem ser eventualmente utilizadas de maneira inesperada, intencionalmente ou não, e isso pode violar suposições predeterminadas por `doSomething(..)`.
 
 Um projeto mais "adequado" esconderia estes detalhes privados no escopo de `doSomething(..)`, como por exemplo:
 
@@ -172,7 +172,7 @@ foo(); // <-- e isso
 console.log( a ); // 2
 ```
 
-Embora esta técnica "funcione", ela não é necessariamente ideal. Existem alguns problemas que ela introduz. A primeira, é que nós temos que declarar um função nomeada `foo()`, o que significa que o nome identificado  `foo`  "polui" o escopo envolvido (global, neste caso). Nós também temos que chamar explicitamente a função pelo nome (`foo ()`) para que o código atualmente envolvido execute.
+Embora esta técnica "funcione", ela não é necessariamente ideal. Existem alguns problemas que ela introduz. A primeira, é que nós temos que declarar um função nomeada `foo()`, o que significa que o nome identificado `foo` "polui" o escopo envolvido (global, neste caso). Nós também temos que chamar explicitamente a função pelo nome (`foo ()`) para que o código atualmente envolvido execute.
 
 O ideal seria se a função não precisasse de um nome (ou melhor, o nome não poluir o escopo envolvido), e se a função automaticamente pudesse ser executada.
 
@@ -193,15 +193,15 @@ console.log( a ); // 2
 
 Vamos desvendar o que está acontecendo aqui.
 
-Primeiro, note que o envolvimento da instrução da função começa com `(function...` ao invés de apenas `function...`. Enquanto isto deve parecer como um pequeno detalhe, ele é na realidade uma grande mudança. Ao invés de tratar a função como uma declaração padrão, a função é tratada como uma função de expressão (function-expression).
+Primeiro, note que o envolvimento da instrução da função começa com `(function...` ao invés de apenas `function...`. Enquanto isto deve parecer como um pequeno detalhe, ele é na realidade uma grande mudança. Ao invés de tratar a função como uma declaração padrão, a função é tratada como uma expressão de função (function-expression).
 
-**Nota:** A maneira mais fácil de distinguir declaração vs. expressão é a posição da palavra "function" na declaração (não apenas uma linha, mas uma declaração distinta). Se "function" é a primeira coisa na instrução, então é uma declaração de função. Caso contrário, é uma expressão de função.
+**Nota:** A maneira mais fácil de distinguir declaração vs. expressão é a posição da palavra "function" na instrução (não apenas uma linha, mas uma instrução distinta). Se "function" é a primeira coisa na instrução, então é uma declaração de função. Caso contrário, é uma expressão de função.
 
 A principal diferença, que podemos observar aqui, entre uma declaração de função e uma expressão de função se refere a onde seu nome está vinculado como um identificador.
 
-Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é obrigatório (bound) no escopo envolvido, e nós o chamamos diretamente com `foo()`. No segundo trecho, o nome `foo` não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
+Compare os dois trechos (de código) anteriores. No primeiro trecho, o nome `foo` é vinculado (bound) no escopo envolvido, e nós o chamamos diretamente com `foo()`. No segundo trecho, o nome `foo` não está vinculado no escopo envolvido, mas em vez disso está vinculado somente dentro de sua própria função.
 
-Em outras palavras, `(function foo(){..})` como uma expressão significa que o identificador `foo` é encontrado somente no escopo onde o `{ .. }`  é indicado, não no escopo externo. Escondendo o nome `foo` dentro dele mesmo significa que não polui o escopo envolvido desnecessariamente.
+Em outras palavras, `(function foo(){..})` como uma expressão significa que o identificador `foo` é encontrado somente no escopo onde o `{ .. }` é indicado, não no escopo externo. Escondendo o nome `foo` dentro dele mesmo significa que não polui o escopo envolvido desnecessariamente.
 
 ### Anônimo vs. Nomeado
 
@@ -223,7 +223,7 @@ Expressões de função anônimas são rápidas e fáceis de digitar, e muitas b
 
 3. Funções anônimas omitem um nome que muitas vezes é útil para fornecer um código mais legível/compreensível. Um nome descritivo ajuda a auto documentação do código em questão.
 
-**Expressões de função em linha (Inline function expressions)** são poderosas e úteis - a questão de anônimo vs. nomeado não deprecia a partir disso. Fornecer um nome para a sua expressão de função de forma bastante eficaz aborda todos estes inconvenientes, mas não tem desvantagens tangíveis. A melhor prática é sempre nomear suas expressões de função:
+**Expressões de função em linha (Inline function expressions)** são poderosas e úteis - a questão de anônimo vs. nomeado não diminui isso. Fornecer um nome para a sua expressão de função de forma bastante eficaz aborda todos estes inconvenientes, mas não tem desvantagens tangíveis. A melhor prática é sempre nomear suas expressões de função:
 
 ```js
 setTimeout( function timeoutHandler(){ // <-- Olha, eu tenho um nome!
@@ -246,7 +246,7 @@ var a = 2;
 console.log( a ); // 2
 ```
 
-Agora que temos uma função como uma expressão em virtude de envolvê-la em um par de `()`, podemos executar aquela função adicionando outro `()` no fim, como `(foo function(){..})()`. O primeiro par de inclusão `()` faz a expressão de uma função, e a segunda `()` executa a função.
+Agora que temos uma função como uma expressão em virtude de envolvê-la em um par de `()`, podemos executar aquela função adicionando outro `()` no fim, como `(function foo(){ .. })()`. O primeiro par de inclusão `()` faz a expressão de uma função, e a segunda `()` executa a função.
 
 Este padrão é tão comum, que há alguns anos, a comunidade aceitou um termo para isso: IIFE, que representa uma Expressão de Função Imediatamente Invocada (Immediately Invoked Function Expressions).
 
@@ -350,7 +350,7 @@ if (foo) {
 }
 ```
 
-Nós estamos usando uma variável `bar` apenas no contexto da declaração if, por isso, faz sentido nós declararmos dentro do bloco if. No entanto, onde nós declaramos variáveis não é relevante quando se usa `var`, porque elas vão sempre pertencer ao escopo envolvido. Este trecho é essencialmente um escopo do bloco "falso", por razões estilísticas, e contando com a auto execução para não acidentalmente usar `bar` em outro lugar naquele escopo.
+Nós estamos usando uma variável `bar` apenas no contexto da instrução if, por isso, faz sentido nós declararmos dentro do bloco if. No entanto, onde nós declaramos variáveis não é relevante quando se usa `var`, porque elas vão sempre pertencer ao escopo envolvido. Este trecho é essencialmente um escopo do bloco "falso", por razões estilísticas, e contando com a auto execução para não acidentalmente usar `bar` em outro lugar naquele escopo.
 
 Escopo de bloco é uma ferramenta para estender o anterior "Princípio da menor Exposição ~~privilegiada~~" [^ note-leastprivilege] de esconder informações em funções para esconder informações em blocos de nosso código.
 
@@ -372,7 +372,7 @@ Isto é, até você cavar um pouco mais.
 
 ### `with`
 
-Aprendemos sobre `with` no Capítulo 2. Embora seja uma desaprovada construção, *é* um exemplo de (uma forma de) escopo do bloco, em que o escopo que é criado a partir do objeto só existe para o tempo de vida da declaração `with`, e não no escopo envolvido.
+Aprendemos sobre `with` no Capítulo 2. Embora seja uma desaprovada construção, *é* um exemplo de (uma forma de) escopo do bloco, em que o escopo que é criado a partir do objeto só existe para o tempo de vida da instrução `with`, e não no escopo envolvido.
 
 ### `try/catch`
 
@@ -437,11 +437,11 @@ if (foo) {
 console.log( bar ); // ReferenceError
 ```
 
-Podemos criar um bloco arbitrário para `let` vincular-se simplesmente incluindo um par de `{ .. }` em qualquer lugar que uma declaração é gramaticalmente válida. Neste caso, nós fizemos um bloco explícito *dentro* da instrução if, o que deve ser mais fácil como um bloco inteiro para se mover mais tarde na refatoração, sem afetar a posição e semântica da instrução if envolvida.
+Podemos criar um bloco arbitrário para `let` vincular-se simplesmente incluindo um par de `{ .. }` em qualquer lugar que uma instrução é gramaticalmente válida. Neste caso, nós fizemos um bloco explícito *dentro* da instrução if, o que deve ser mais fácil como um bloco inteiro para se mover mais tarde na refatoração, sem afetar a posição e semântica da instrução if envolvida.
 
 **Nota:** Para uma outra maneira de expressar blocos de escopo explícitos, consulte o Apêndice B.
 
-No capítulo 4, trataremos de hoisting, que fala sobre as declarações sendo tomadas como existentes para todo o escopo em que ocorrem.
+No Capítulo 4, trataremos de hoisting, que fala sobre as declarações sendo tomadas como existentes para todo o escopo em que ocorrem.
 
 No entanto, declarações feitas com `let` *não* irão elevar para todo o escopo do bloco que eles são apresentados. Tais declarações não observáveis "existem" no bloco até a instrução de declaração.
 
@@ -519,15 +519,15 @@ Aqui está outra maneira de ilustrar o comportamento de ligação por-iteração
 {
     let j;
     for (j=0; j<10; j++) {
-        let i = j; // re-associa para cada interação!
+        let i = j; // re-associa para cada iteração!
         console.log( i );
     }
 }
 ```
 
-A razão pela qual a ligação por-interação é interessante se tornará claro no capítulo 5, quando discutirmos closures.
+A razão pela qual a ligação por-iteração é interessante se tornará clara no Capítulo 5, quando discutirmos closures.
 
-Porque declarações `let` anexam à blocos arbitrários em vez de ao escopo da função envolvida (ou global), pode haver armadilhas em que o código existente tem uma dependência escondida na declaração do escopo da função `var`, e substituindo a `var` com `let` deve exigir cuidados adicionais quando re-fatorando código.
+Porque declarações `let` anexam a blocos arbitrários em vez de ao escopo da função envolvida (ou global), pode haver armadilhas em que o código existente tem uma dependência escondida na declaração do escopo da função `var`, e substituindo a `var` com `let` deve exigir cuidados adicionais quando re-fatorando código.
 
 Considere:
 

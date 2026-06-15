@@ -1,7 +1,7 @@
 # You Don't Know JS: Escopos & Closures
 # Apêndice B: Polyfilling Escopo de Bloco
 
-No Capítulo 3, nós exploramos o Escopo de Bloco. Nós vimos que as cláusulas `with` e `catch` são, ambas, pequenos exemplos de escopo de bloco que existem em JavaScript desde de, pelo menos, a introdução ao ES3.
+No Capítulo 3, nós exploramos o Escopo de Bloco. Nós vimos que as cláusulas `with` e `catch` são, ambas, pequenos exemplos de escopo de bloco que existem em JavaScript desde, pelo menos, a introdução ao ES3.
 
 Mas foi com a introdução da cláusula `let` no ES6, que finalmente nos deu a capacidade completa e sem restrições de escopo de bloco ao nosso código. Há muitas coisas interessantes que agora serão permitidas, ambas funcionais e que agregam ao estilo do código.
 
@@ -61,7 +61,7 @@ Então, com o uso dessas ferramentas, nós podemos tirar proveito do escopo de b
 
 ## Blocos Implícitos x Explícitos
 
-No capítulo 3, nós identificamos potenciais problemas à manutenibilidade quando introduzimos o escopo de bloco. Será que há maneiras de tirarmos proveito do escopo de bloco reduzindo esses possíveis aspectos negativos?
+No Capítulo 3, nós identificamos potenciais problemas de manutenibilidade quando introduzimos o escopo de bloco. Será que há maneiras de tirarmos proveito do escopo de bloco reduzindo esses possíveis aspectos negativos?
 
 Considere a seguinte alternativa de uso do `let`, chamado de "let block" ou "let statement" (ao contrário de "let declarations", como antes).
 
@@ -73,11 +73,11 @@ let (a = 2) {
 console.log( a ); // ReferenceError
 ```
 
-Em vez de atrelar-se, implicitamente, à um bloco existente, o `let` cria seu bloco explícitamente. Além do bloco explícito ser mais visível, melhorando a manutenibilidade, produz um código mais limpo, falando gramaticalmente, fazendo com que todas as declarações sejam feitas no início. Isso torna mais fácil o reconhecimento do que está vinculado ao escopo do bloco.
+Em vez de atrelar-se, implicitamente, a um bloco existente, o `let` cria seu bloco explicitamente. Além do bloco explícito ser mais visível, melhorando a manutenibilidade, produz um código mais limpo, falando gramaticalmente, fazendo com que todas as declarações sejam feitas no início. Isso torna mais fácil o reconhecimento do que está vinculado ao escopo do bloco.
 
 Como um padrão, isso reflete na abordagem de muitas pessoas que, durante o escopo de uma função, colocam todas as suas declarações de `var` no início. Contudo, a estrutura do `let` requer isso, e se você não usar `let` espalhado por aí, suas declarações de escopo de bloco serão mais fáceis de serem identificadas e mantidas.
 
-Mas, há um problema. A estrutura do `let` apresentada não foi incluida no ES6. Nem mesmo o compilador oficial do Traceur aceita essa forma.
+Mas, há um problema. A estrutura do `let` apresentada não foi incluída no ES6. Nem mesmo o compilador oficial do Traceur aceita essa forma.
 
 Então nós temos duas opções, uma seria utilizar a sintaxe válida do ES6 e um pouco de criatividade:
 
@@ -91,7 +91,7 @@ console.log( a ); // ReferenceError
 
 Mas as ferramentas são feitas para solucionar nossos problemas, então uma outra opção é escrever explicitamente a estrutura do `let`, deixando para uma ferramenta a tarefa de conversão para um código válido.
 
-Por isso, eu desenvolvi uma ferramenta chamada "let-er" [^note-let_er]. *let-er* é um *transpilador* de código durante a fase de build, tendo como tarefa, encontrar a estrutura do `let` e *transpilá-la*. Todo o restante do seu código será isolado, incluindo declarações `let`. Você pode utilizar o *let-er* como uma primeira fase ao *transpilar*, para então encaminhar seu código à uma outra ferramenta, tal como Traceur.
+Por isso, eu desenvolvi uma ferramenta chamada "let-er" [^note-let_er]. *let-er* é um *transpilador* de código durante a fase de build, tendo como tarefa, encontrar a estrutura do `let` e *transpilá-la*. Todo o restante do seu código será isolado, incluindo declarações `let`. Você pode utilizar o *let-er* como uma primeira fase ao *transpilar*, para então encaminhar seu código a uma outra ferramenta, tal como Traceur.
 
 Aliás, *let-er* possui uma *flag* de configuração `--es6`, que quando ativada (desativada por padrão), modifica o tipo de código produzido. Em vez de um *polyfill* `try/catch`, *let-er* produz um código totalmente compatível com ES6, sem adaptações:
 
@@ -118,6 +118,6 @@ Em segundo lugar, não é justo comparar IIFE com `try/catch`, pois uma função
 
 Então questionamos o seguinte: você quer escopo de bloco ou não? Se sim, as ferramentas abaixo te darão essa opção. Caso não, continue usando `var` e *keep coding!*
 
-[^note-traceur]: [Google Traceur](http://traceur-compiler.googlecode.com/git/demo/repl.html)
+[^note-traceur]: [Google Traceur](http://google.github.io/traceur-compiler/demo/repl.html)
 
 [^note-let_er]: [let-er](https://github.com/getify/let-er)
