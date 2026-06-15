@@ -5,7 +5,7 @@ Um dos mecanismos mais confusos no JavaScript é a palavra-chave `this`. É uma 
 
 > Qualquer tecnologia bastante *avançada* é indistinguível da magia. -- Arthur C. Clarke
 
-O mecanismo `this` do JavaScript na verdade não é *tão* avançado, mas os desenvolvedores muitas vezes utilizam essa citação em suas mentes inserindo "complexa" ou "confusa", e não há dúvidas que, sem uma clara compreensão, `this` pode parecer totalmente magia em *sua* confunsão.
+O mecanismo `this` do JavaScript na verdade não é *tão* avançado, mas os desenvolvedores muitas vezes utilizam essa citação em suas mentes inserindo "complexa" ou "confusa", e não há dúvidas que, sem uma clara compreensão, `this` pode parecer totalmente magia em *sua* confusão.
 
 **Nota:** A palavra "this" (isto) é um pronome terrivelmente comum em diálogos de forma geral (em inglês). Então, pode ser muito difícil, especialmente oralmente, determinar se estamos usando "isto" como um pronome, ou usando para realmente referir à palavra-chave de identificação. Para deixar claro, sempre vou utilizar `this` para referi à palavra-chave, e "isto" ou *isto* ou isto caso contrário.
 
@@ -114,7 +114,7 @@ Quando o código executa `foo.count = 0`, realmente está adicionando a propried
 
 **Nota:** Uma desenvolvedora responsável *deve* perguntar nesse momento, "Se eu estava incrementando uma propriedade `count` mas não era a que eu esperava, que `count` eu *estava* incrementando?" De fato, ela está se aprofundando, ela descobrirá que acidentalmente criou uma variável global `count` (veja o Capítulo 2 para *como* isso aconteceu!), e atualmente ela tem o valor `NaN`. Naturalmente, uma vez que ela descobre esse resultado peculiar, ela então tem um novo conjunto de perguntas: "Como essa variável é global e por que ela acabou como `NaN` ao invés de algum valor adequado?" (veja o Capítulo 2).
 
-Ao invés de parar e analisar com profundidade o porquê da referência `this` parecer não se comportar da maneira *esperada*, e responder essas questões difíceis mas importantes, muitos desenvolvedores simplesmentes evitam esse problema completamente, e escrevem alguma outra solução, como criar um outro objeto para armazenar a propriedade `count`:
+Ao invés de parar e analisar com profundidade o porquê da referência `this` parecer não se comportar da maneira *esperada*, e responder essas questões difíceis mas importantes, muitos desenvolvedores simplesmente evitam esse problema completamente, e escrevem alguma outra solução, como criar um outro objeto para armazenar a propriedade `count`:
 
 ```js
 function foo(num) {

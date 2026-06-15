@@ -39,11 +39,11 @@ Objetos são o bloco de construção geral no qual muito do JS é construído. E
 * `object`
 
 
-Note que os *primitivos simples* (`string`, `number`, `boolean`, `null`, e `undefined`) **não** são por si só `objetcs`. `null` é algumas vezes referido como um tipo de objeto, mas esse equívoco surge a partir de um bug na linguagem que faz com que `typeof null` retorne a string `"object"` incorretamente (e de modo confuso). De fato, `null` é o seu próprio tipo primitivo.
+Note que os *primitivos simples* (`string`, `number`, `boolean`, `null`, e `undefined`) **não** são por si só `objetos`. `null` é algumas vezes referido como um tipo de objeto, mas esse equívoco surge a partir de um bug na linguagem que faz com que `typeof null` retorne a string `"object"` incorretamente (e de modo confuso). De fato, `null` é o seu próprio tipo primitivo.
 
-**Há uma frequente distorção de que "Tudo em JavaScript é um objeto. Isso claramente não é verdade".**
+**Há uma frequente distorção de que "tudo em JavaScript é um objeto". Isso claramente não é verdade.**
 
-Por outro lado, há alguns subtipos de objeto especiais, os quais podemos referir como *primtivos complexos*
+Por outro lado, há alguns subtipos de objeto especiais, os quais podemos referir como *primitivos complexos*
 
 `function` é um subtipo de objeto (tecnicamente, um "objeto que pode ser chamado"). Funções em JS são consideradas como "primeira classe" que são basicamente objetos normais (com a adição de semântica de comportamento de algo que pode ser chamado), e então elas podem ser manipuladas como qualquer outro objeto simples.
 
@@ -86,7 +86,7 @@ Nós veremos, em detalhes, mais adiante nesse capítulo exatamente como o trecho
 
 O valor primitivo `"I am a string"` não é um objeto, mas sim um primitivo literal e valor imutável. Para realizar operações com ele, tais como checar seu comprimento, acessar o conteúdo de caracteres individuais etc, um objeto `String` é necessário.
 
-Por sorte, a linguagem automaticamente converte um primitivo `"string"` para um objeto `String` quando necessário, o que significa que você quase nunca precisa explicitamente criar a forma de objeto. É **fortemente preferível** pela maior parte da comunidade de JS usar o forma literal para um valor, quando possível, em vez da forma de objeto construído.
+Por sorte, a linguagem automaticamente coage um primitivo `"string"` para um objeto `String` quando necessário, o que significa que você quase nunca precisa explicitamente criar a forma de objeto. É **fortemente preferível** pela maior parte da comunidade de JS usar o forma literal para um valor, quando possível, em vez da forma de objeto construído.
 
 Considere:
 
@@ -98,7 +98,7 @@ console.log( strPrimitive.length );			// 13
 console.log( strPrimitive.charAt( 3 ) );	// "m"
 ```
 
-Em ambos os casos, podemos chamar uma propriedade ou método de uma string primitiva, e o *Motor JS* automaticamente converte a mesma para um objeto `String` para que o acesso a propriedade/método funcione.
+Em ambos os casos, podemos chamar uma propriedade ou método de uma string primitiva, e o *Motor JS* automaticamente coage a mesma para um objeto `String` para que o acesso a propriedade/método funcione.
 
 O mesmo tipo de comportamento acontece entre o número primitivo literal `42` e o invólucro do objeto `new Number(42)` para o uso de métodos como `42.359.toFixed(2)`. Da mesma maneira para objetos `Boolean` de primitivos `"boolean"`.
 
@@ -149,7 +149,7 @@ if (wantA) {
 console.log( myObject[idx] ); // 2
 ```
 
-Em objetos, os nomes de propriedade são  **sempre** strings. Se você usa qualquer outro valor além de um `string` (primitivo) como propriedade, ele será convertido para string primeiro. Isso inclue até mesmo números, que são normalmente usados como índices de array, então tenha cuidado para não confundir o uso de números entre objetos e arrays.
+Em objetos, os nomes de propriedade são  **sempre** strings. Se você usa qualquer outro valor além de um `string` (primitivo) como propriedade, ele será convertido para string primeiro. Isso inclui até mesmo números, que são normalmente usados como índices de array, então tenha cuidado para não confundir o uso de números entre objetos e arrays.
 
 ```js
 var myObject = { };
@@ -318,7 +318,7 @@ O que exatamente deveria ser a representação de um *copy* de `myObject`?
 
 Primeiramente, nós devemos responder se deveria ser uma cópia *rasa* ou *profunda*? Uma cópia rasa terminaria com `a` no novo objeto como uma cópia do valor `2`, mas as propriedades `b`, `c`, e `d` são apenas referências para o objeto original. Uma cópia profunda duplicaria não apenas `myObject`, mas `anotherObject` e `anotherArray`. Mas temos problemas nos quais `anotherArray` possue referências para `anotherObject` e `myObject`, então *esses* também devem ser duplicados em vez de preservarem referências. Agora temos um problema de duplicação circular infinita por causa da referência circular.
 
-Devemos detectar uma referência circular e apenas quebrar a transversal circular (deixando o elemento profundo não completamente duplicado)?
+Devemos detectar uma referência circular e apenas quebrar a transversal circular (deixando o elemento profundo não completamente duplicado)? Devemos lançar um erro completamente? Algo entre os dois?
 
 Além disso, não fica realmente claro o que "duplicar" uma função significaria? Existem alguns hacks como retirar a serialização do `toString()` do código fonte de uma função (que varia entre diferentes implementações e nem é confiável em todos os motores JS, dependendo do tipo de função que está sendo inspecionada).
 
@@ -370,7 +370,7 @@ Object.getOwnPropertyDescriptor( myObject, "a" );
 // }
 ```
 
-Como pode ver, o descritor da propriedade (chamado de "descritor de dados", um vez que ele apenas guarda um valor de dado) para nossa propriedade de objeto normal `a` é muito mais que apenas o `valor` de `2`. Ele inclue outras 3 características: `writable`, `enumerable`, and `configurable`.
+Como pode ver, o descritor da propriedade (chamado de "descritor de dados", um vez que ele apenas guarda um valor de dado) para nossa propriedade de objeto normal `a` é muito mais que apenas o `valor` de `2`. Ele inclui outras 3 características: `writable`, `enumerable`, and `configurable`.
 
 Enquanto nós podemos ver o que os valores padrão para as características do descritor de propriedade são quando criamos uma propriedade normal, nós podemos usar `Object.defineProperty(..)` para adicionar uma nova propriedade ou modificar uma já existente (se ela for `configurable`!), com as características desejadas.
 
@@ -724,7 +724,7 @@ myObject.hasOwnProperty( "b" );	// false
 
 O operador `in` verificará se a propriedade *está* no objeto ou se ela existe em algum nível mais alto da cadeia de `[[Prototype]]` do objeto (veja Capítulo 5). Em contraste ao `in`, `hasOwnProperty(..)` verifica *apenas* se `myObject` tem a propriedade ou não, e não consultará a cadeia de `[[Prototype]]`. Nós voltaremos a discutir importantes diferenças entre essas duas operações no Capítulo 5, onde examinamos `[[Prototype]]`s em detalhes.
 
-`hasOwnProperty(..)` é acessível para todos os objetos normais via delegação ao `Object.prototype` (veja o Capítulo 5). Mas é possível criar um objeto que seja ligado ao `Object.prototype` (via `Object.create(null)`) -- (veja o Capítulo 5). Nesse caso, uma chamada de método como `myObject.hasOwnProperty(..)` falharia.
+`hasOwnProperty(..)` é acessível para todos os objetos normais via delegação ao `Object.prototype` (veja o Capítulo 5). Mas é possível criar um objeto que **não** seja ligado ao `Object.prototype` (via `Object.create(null)`) -- (veja o Capítulo 5). Nesse caso, uma chamada de método como `myObject.hasOwnProperty(..)` falharia.
 
 Nesse cenário, um modo mais robusto de realizar tal verificação é `Object.prototype.hasOwnProperty.call(myObject,"a")`, que toma emprestado o método base `hasOwnProperty(..)` e usa um *_binding_ explícito de `this`* (veja o Capítulo 2) para aplicar ao nosso `myObject`.
 
@@ -822,7 +822,7 @@ ES5 também adiciona alguns _helpers_ de interação para arrays, including `for
 
 `forEach(..)` irá iterar sobre todos os valores do array, e ignora qualquer valor retornado de callback. `every(..)` itera até o fim do array *ou* até o callback retornar um valor `false` (ou "algo falso"), enquanto que `some(..)` itera até o fim *ou* até o callback retornar um valor `true` (ou "algo verdadeiro").
 
-Esses valores de retorno especiais dentro de `every(..)` e `some(..)` funcionam um pouco como a declaração `break` dentro de um laço `for` normal, no qual a iteração é interrompida antes de atingir o seu final.
+Esses valores de retorno especiais dentro de `every(..)` e `some(..)` funcionam um pouco como a instrução `break` dentro de um laço `for` normal, no qual a iteração é interrompida antes de atingir o seu final.
 
 Se você iterar em um objeto com um laço `for..in`, você também está obtendo o valores indiretamente porque ele está iterando apenas sobre as propriedades enumeráveis do objeto, fazendo com que você acesse as propriedades manualmente para obter os valores.
 
@@ -907,7 +907,7 @@ for (var v of myObject) {
 
 **Nota:** Nós usamos `Object.defineProperty(..)` para definir nosso `@@iterator` personalizado (na maioria das vezes poderíamos definí-lo como não-numérico), mas usando o `Symbol` como um *nome de propriedade computado* (abordado mais cedo nesse capítulo), nós poderíamos ter declarado diretamente, como `var myObject = { a:2, b:3, [Symbol.iterator]: function(){ /* .. */ } }`.
 
-Cada vez que o laço `for..of` chama `next()` no objeto iterador de `myObject`, o ponteiro interno avançará e retornará o próximo valor da lista de propriedades do objeto (veja uma nota anterior sobre ordenação de iteração nas propriedaes/valores de objeto).
+Cada vez que o laço `for..of` chama `next()` no objeto iterador de `myObject`, o ponteiro interno avançará e retornará o próximo valor da lista de propriedades do objeto (veja uma nota anterior sobre ordenação de iteração nas propriedades/valores de objeto).
 
 A iteração que acabamos de demonstrar é uma simples iteração valor-por-valor, mas claro que você pode definir arbitrariamente iterações complexas para suas estruturas de dados como achar melhor. Iteradores personalizados combinados com o laço `for..of` do ES6 são um nova e poderosa ferramenta sintática para manipulação de objetos definidos pelo o usuário.
 

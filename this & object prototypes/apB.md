@@ -1,15 +1,15 @@
 # You Don't Know JS: *this* & Prototipagem de Objetos
 # Apêndice B: Agradecimentos
 
-Eu tenho que agradecer à muitas pessoas pela construção deste livro e por fazerem toda a série acontecer.
+Eu tenho que agradecer a muitas pessoas pela construção deste livro e por fazerem toda a série acontecer.
 
 Primeiramente, eu devo agradecer à minha esposa Christen Simpson, e aos meus dois filhos Ethan e Emily, por aturar o papai que sempre fica no computador. Mesmo quando não estou escrevendo livros, minha obsessão por JavaScript me faz grudar os olhos na tela, muito mais do que eu deveria. Este tempo, que peguei emprestado da minha família, é a razão pela qual estes livros podem explicar JavaScript tão profunda e completamente para você, o leitor. Eu devo tudo à minha família.
 
-Eu gostaria de agradecer aos meus editores da O'Reilly, isto é, Simon St.Laurent e Brian MacDonald, assim como o resto do editorial e do marketing pessoal. É fantástico trabalhar com eles, e foram sobretudo compreensivos durante esta experiência de escrever, editar e publicar um livro "open source"
+Eu gostaria de agradecer aos meus editores da O'Reilly, isto é, Simon St.Laurent e Brian MacDonald, assim como o resto da equipe editorial e de marketing. É fantástico trabalhar com eles, e foram sobretudo compreensivos durante esta experiência de escrever, editar e publicar um livro "open source"
 
-Obrigado a todos que participaram para fazer esta série de livros melhor, fornecendo sugestões e correções editoriais, incluindo Shelley Powers, Tim Ferro, Evan Borden, Forrest L. Norvell, Jennifer Davis, Jesse Harlin, e muitos outros. Um grande obrigado a Nick Berardi para escrever o prefácio para este título.
+Obrigado a todos que participaram para fazer esta série de livros melhor, fornecendo sugestões e correções editoriais, incluindo Shelley Powers, Tim Ferro, Evan Borden, Forrest L. Norvell, Jennifer Davis, Jesse Harlin, e muitos outros. Um grande obrigado a Nick Berardi por escrever o prefácio para este título.
 
-Obrigado às inúmeras pessoas na comunidade, incluindo os membros da comissão TC39, que partilharam tanto conhecimento com o resto de nós, e especialmente tolerando minhas perguntas incessantes e explorações com paciência e detalhe. John-David Dalton, Juriy "kangax" Zaytsev, Mathias Bynens, Axel Rauschmayer, Nicholas Zakas, Angus Croll, Reginald Braithwaite, Dave Herman, Brendan Eich, Allen Wirfs-Brock, Bradley Meck, Domenic Denicola, David Walsh, Tim Disney, Peter van der Zee, Andrea Giammarchi, Kit Cambridge, Eric Elliott, e tantos outros, não posso sequer arranhar a superfície.
+Obrigado às inúmeras pessoas na comunidade, incluindo os membros da comissão TC39, que compartilharam tanto conhecimento com o resto de nós, e especialmente tolerando minhas perguntas incessantes e explorações com paciência e detalhe. John-David Dalton, Juriy "kangax" Zaytsev, Mathias Bynens, Axel Rauschmayer, Nicholas Zakas, Angus Croll, Reginald Braithwaite, Dave Herman, Brendan Eich, Allen Wirfs-Brock, Bradley Meck, Domenic Denicola, David Walsh, Tim Disney, Peter van der Zee, Andrea Giammarchi, Kit Cambridge, Eric Elliott, e tantos outros, não posso sequer arranhar a superfície.
 
 A série de livros *You Don't Know JS* nasceu no Kickstarter, então eu também gostaria de agradecer a todos os meus (quase) 500 generosos patrocinadores, sem os quais esta série de livros não teria acontecido:
 

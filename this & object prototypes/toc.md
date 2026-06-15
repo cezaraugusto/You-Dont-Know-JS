@@ -20,20 +20,20 @@
 	* Conteúdos
 	* Iteração
 * Capítulo 4: Confundindo Objetos com "Classes"
-	* Teoria do Classes
-	* Mecânica do Classes
+	* Teoria das Classes
+	* Mecânica das Classes
 	* Heranças de Classe
 	* Mixins
 * Capítulo 5: Protótipos
 	* `[[Prototype]]`
-	* "Classes"
+	* "Class"
 	* "Herança (Prototípica)"
 	* Ligações de Objeto
 * Capítulo 6: Delegação de Comportamentos
 	* Em Direção ao Design Orientado à Delegação
 	* Classes vs. Objetos
-	* Design Simplificado
-	* Sintaxe Melhorada
+	* Design Mais Simples
+	* Sintaxe Mais Agradável
 	* Introspecção
 * Apêndice A: ES6 `class`
 * Apêndice B: Agradecimentos

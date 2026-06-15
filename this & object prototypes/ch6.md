@@ -1,17 +1,17 @@
 # You Don't Know JS: *this* & Prototipagem de Objetos
 # Capítulo 6: Delegação de Comportamentos
 
-No Capítulo 5, nós abordamos detalhadamente o mecânismo `[[Prototype]]`, e o *porquê* de ser confuso e inapropriado (apesar das incontáveis tentativas por quase duas décadas) descrevê-lo como "classe" ou "herança". Vimos à fundo não só sua síntaxe razoavelmente prolixa (`.prototype` sujando o código), mas também as armadilhas (como a surpreendente resolução de `.constructor` ou a horrível síntaxe pseudo-polimórfica). E exploramos as variações da abordagem "mixin", que muitas pessoas utilizam para tentar suavizar áreas mais pesadas.
+No Capítulo 5, nós abordamos detalhadamente o mecânismo `[[Prototype]]`, e o *porquê* de ser confuso e inapropriado (apesar das incontáveis tentativas por quase duas décadas) descrevê-lo como "classe" ou "herança". Vimos a fundo não só sua sintaxe razoavelmente prolixa (`.prototype` sujando o código), mas também as armadilhas (como a surpreendente resolução de `.constructor` ou a horrível sintaxe pseudo-polimórfica). E exploramos as variações da abordagem "mixin", que muitas pessoas utilizam para tentar suavizar áreas mais pesadas.
 
-É uma reação comum à essa altura imaginar qual a necessidade de ser tão complexo algo que parece ser tão simples de ser feito. Agora que abaixamos as cortinas e vimos o quão poluído o código fica, não é uma surpresa a maioria dos desenvolvedores JS nunca mergulharem tão fundo, e ao invés disso relegarem  toda a bagunça para uma biblioteca de "classes" cuidar para eles.
+É uma reação comum a essa altura imaginar qual a necessidade de ser tão complexo algo que parece ser tão simples de ser feito. Agora que abaixamos as cortinas e vimos o quão poluído o código fica, não é uma surpresa a maioria dos desenvolvedores JS nunca mergulharem tão fundo, e ao invés disso relegarem  toda a bagunça para uma biblioteca de "classes" cuidar para eles.
 
-Eu espero que agora você não se contente em encobrir e deixar tais detalhes para uma biblioteca "caixa preta" cuidar. Vamos ver à seguir como nós *podemos e devemos* pensar sobre o mecânismo do objeto `[[Prototype]]` em JS, de uma **forma muito mais simples e direta** que a confusão de classes.
+Eu espero que agora você não se contente em encobrir e deixar tais detalhes para uma biblioteca "caixa preta" cuidar. Vamos ver a seguir como nós *podemos e devemos* pensar sobre o mecânismo do objeto `[[Prototype]]` em JS, de uma **forma muito mais simples e direta** que a confusão de classes.
 
 Como uma breve revisão de nossas conclusões do Capítulo 5, o mecânismo `[[Prototype]]` é uma ligação interna que existe em um objeto que referencia outro objeto.
 
 Essa ligação é exercida quando uma referência de uma propriedade/método é feita contra o primeiro objeto, e tal propriedade/método não existe. Neste caso, a ligação `[[Prototype]]` diz ao motor para buscar pela propriedade/método no objeto que está ligado. Por sua vez, caso o objeto não consiga completar a busca, seu `[[Prototype]]` é seguido, e assim por diante. Essa série de ligações entre formas de objetos é chamada de "cadeia de protótipos".
 
-Em outras palavras, o mecânismo atual, a essência do que é importante para a funcionalidade do que podemos fazer com JavaScript, se resume à **objetos sendo ligados à outros objetos.**
+Em outras palavras, o mecânismo atual, a essência do que é importante para a funcionalidade do que podemos fazer com JavaScript, se resume à **objetos sendo ligados a outros objetos.**
 
 Essa observação por si só é fundamental e crítica para entender as motivações e abordagens ao longo deste capítulo!
 
@@ -19,11 +19,11 @@ Essa observação por si só é fundamental e crítica para entender as motivaç
 
 Para focar adequadamente nossa forma de pensar em como usar o `[[Prototype]]` da maneira mais direta, nós devemos reconhecer que isso representa uma diferença fundamental de design pattern em relação às classes (veja Capítulo 4).
 
-**Nota:** *Alguns* princípios de design orientado à classes continuam muito válidos, então não jogue fora tudo que sabe (apenas a maior parte!). Por exemplo, *encapsulamento* é bem poderoso, e é compátivel (embora não muito comum) com delegação.
+**Nota:** *Alguns* princípios de design orientado a classes continuam muito válidos, então não jogue fora tudo que sabe (apenas a maior parte!). Por exemplo, *encapsulamento* é bem poderoso, e é compátivel (embora não muito comum) com delegação.
 
 Nós devemos tentar mudar nossa forma de pensar do padrão classe/herança para o padrão de delegação de comportamento. Se a maior parte do que programou em sua educação/carreira pensando em classes, essa maneira pode ser desconfortável ou não parecer natural. Você pode precisar experimentar fazer esse exercício mental algumas vezes até conseguir pegar o jeito dessa forma tão diferente de se pensar. 
 
-Eu vou orientá-lo através de alguns exercícios teóricos primeiro, e então vamos ver lado à lado em um exemplo mais concreto para te dar um contexto prático para seu próprio código.  
+Eu vou orientá-lo através de alguns exercícios teóricos primeiro, e então vamos ver lado a lado em um exemplo mais concreto para te dar um contexto prático para seu próprio código.  
 
 ### Teoria de Classe
 
@@ -31,7 +31,7 @@ Digamos que temos várias tarefas semelhantes ("XYZ", "ABC", etc) que precisamos
 
 Com classes, a forma de se projetar esse cenário é: definir uma classe geral pai (base) como `Task`, definindo o comportamento compartilhado para todas as tarefas "parecidas". Então, você define as classes filhas `XYZ` e `ABC`, ambas herdadas de `Task`, e cada uma adiciona um comportamento especial para lidar com suas respectivas tarefas.
 
-**Mais importante,** o design pattern de classes irá encorajá-lo a obter o máximo de herança, você irá querer empregar sobreescrita de métodos (e polimorfismo), onde você sobreescreve a definição de algum método geral `Task` em sua tarefa `XYZ`, talvez até fazendo uso de `super` para chamar a versão base desse método ao adicionar mais comportamento à ele. **Você provavelmente encontrará alguns lugares** nos quais você pode "abstrair" o comportamento geral da classe pai e especializá-lo (substituí-lo) em suas classes filhas.
+**Mais importante,** o design pattern de classes irá encorajá-lo a obter o máximo de herança, você irá querer empregar sobreescrita de métodos (e polimorfismo), onde você sobreescreve a definição de algum método geral `Task` em sua tarefa `XYZ`, talvez até fazendo uso de `super` para chamar a versão base desse método ao adicionar mais comportamento a ele. **Você provavelmente encontrará alguns lugares** nos quais você pode "abstrair" o comportamento geral da classe pai e especializá-lo (substituí-lo) em suas classes filhas.
 
 Aqui vai um pseudo-código para esse cenário:
 
@@ -63,7 +63,7 @@ Agora, você pode instanciar uma ou mais **cópias** da classe filha `XYZ` e usa
 
 Mas agora vamos tentar pensar sobre o mesmo domínio do problema, mas usando *delegação de comportamento* ao invés de *classes*.
 
-Primeiro você irá definir um **objeto** (não uma classe, nem uma `function` como muitos desenvolvedores JS o levariam à crer) chamado `Task`, e ele terá um comportamento concreto em si que inclui métodos utilitários que várias outras tarefas podem usar (leia: *delegar para*!). Então, para cada tarefa ("XYZ", "ABC"), você define um **objeto** para manter esses dados/comportamentos específicos. Você **liga** seu(s) objetos(s) de tarefas específicas com o objeto utilitário `Task`, permitindo que deleguem à ele quando precisam.
+Primeiro você irá definir um **objeto** (não uma classe, nem uma `function` como muitos desenvolvedores JS o levariam a crer) chamado `Task`, e ele terá um comportamento concreto em si que inclui métodos utilitários que várias outras tarefas podem usar (leia: *delegar para*!). Então, para cada tarefa ("XYZ", "ABC"), você define um **objeto** para manter esses dados/comportamentos específicos. Você **liga** seu(s) objetos(s) de tarefas específicas com o objeto utilitário `Task`, permitindo que deleguem a ele quando precisam.
 
 Basicamente, você pensa em executar a tarefa "XYZ" como se precisasse de comportamentos de dois objetos irmãos (`XYZ` e `Task`) para realizá-lo. Mas, ao invés de precisar compô-los juntos, por meio de cópias de classe, podemos mantê-los em seus objetos separados, e podemos permitir que o objeto `XYZ` **delegue para** `Task` quando preciso. 
 
@@ -94,22 +94,22 @@ XYZ.outputTaskDetails = function() {
 
 Neste código, `Task` e `XYZ` não são classes (ou funções), eles são **apenas objetos**, `XYZ` é configurado via `Object.create(..)` para o `[[Prototype]]` delegar para o objeto `Task` (veja Capítulo 5).
 
-Em comparação com orientação à classes (também conhecido como OO -- orientado à objetos), eu chamo esse estilo de código de **"OLOO"** (objetos-ligados-à-outros-objetos). Tudo que *realmente* nos importa é que o objeto `XYZ` delega para o objeto `Task` (assim como também faz o objeto `ABC`).
+Em comparação com orientação a classes (também conhecido como OO -- orientado a objetos), eu chamo esse estilo de código de **"OLOO"** (objetos-ligados-à-outros-objetos). Tudo que *realmente* nos importa é que o objeto `XYZ` delega para o objeto `Task` (assim como também faz o objeto `ABC`).
 
 Em Javascript, o mecânismo `[[Prototype]]` liga **objetos** com outros **objetos**. Não há mecânismos abstratos como "classes" não importa o quanto tentarem te convencer do contrário. É como remar uma canoa rio acima: você *pode* fazer isso, mas se você estará *escolhendo* ir contra a corrente natural, então obviamente **será muito mais difícil de se chegar onde estiver indo.**
 
 Algumas outras diferenças para se notar com o **código no estilo OLOO**:
 
 1. Ambos os membros de dados `id` e `label` no exemplo de classe anterior são propriedades de dados diretamente em `XYZ` (sem estar em `Task`). Em geral, com delegação `[[Prototype]]` involvida, **você quer que o estado esteja em quem delega** (`XYZ`, `ABC`), não em quem é delegado (`Task`).
-2. Com o padrão de classes, nós intencionalmente nomeamos de `outputTask` tanto na classe pai (`Task`) quanto na filha (`XYZ`), para que pudessemos tirar vantagem da substituição (polimorfismo). Em delegação de comportamentos, nós fazemos o oposto: **nós evitamos dar o mesmo nome à qualquer coisa sempre que possível** em diferentes níveis da cadeia `[[Prototype]]` (chamado de sombreamento -- veja Capítulo 5), porque a colisão desses nomes cria uma síntaxe estranha e frágil para se tirar a ambiguidade de suas referências (veja Capítulo 4), e gostaríamos de evitar isso se pudermos.
+2. Com o padrão de classes, nós intencionalmente nomeamos de `outputTask` tanto na classe pai (`Task`) quanto na filha (`XYZ`), para que pudessemos tirar vantagem da substituição (polimorfismo). Em delegação de comportamentos, nós fazemos o oposto: **nós evitamos dar o mesmo nome à qualquer coisa sempre que possível** em diferentes níveis da cadeia `[[Prototype]]` (chamado de sombreamento -- veja Capítulo 5), porque a colisão desses nomes cria uma sintaxe estranha e frágil para se tirar a ambiguidade de suas referências (veja Capítulo 4), e gostaríamos de evitar isso se pudermos.
 
-   Esse padrão exige menos nomes de métodos gerais que tendem à substituir outros métodos e mais nomes descritivos, *específicos* para o tipo de comportamento que cada objeto está executando. **Isso pode de fato criar códigos mais fáceis de se entender/manter**, porque os nomes dos métodos (não só no local de definição como espalhado por outros códigos) são mais óbvios (se auto documentando).
+   Esse padrão exige menos nomes de métodos gerais que tendem a substituir outros métodos e mais nomes descritivos, *específicos* para o tipo de comportamento que cada objeto está executando. **Isso pode de fato criar códigos mais fáceis de se entender/manter**, porque os nomes dos métodos (não só no local de definição como espalhado por outros códigos) são mais óbvios (se auto documentando).
 3. `this.setID (ID);` dentro de um método no objeto `XYZ` primeiro olha em `XYZ` para `setID (..)`, mas já que não encontra um método com esse nome em `XYZ`, *delegação* `[[Prototype]]` significa que ele pode seguir a ligação para `Task` procurar por `setID (..)`, que obviamente o encontra. Além disso, devido às regras de ligação implícitas em chamadas `this` (veja o Capítulo 2), quando `setID (..)` é executado, mesmo que o método tenha sido encontrado em `Task`, a ligação `this` para essa chamada de função é `XYZ` exatamente como esperávamos e queríamos. Nós vemos a mesma coisa com `this.outputID ()` depois na listagem de código.
    Em outras palavras, os métodos gerais utilitários que existem em `Task` estão disponíveis para nós enquanto interagimos com `XYZ`, porque `XYZ` pode delegar para `Task`.
 
 **Delegação de comportamentos** significa: deixar algum objeto (`XYZ`) fornecer uma delegação (para `Task`) para referências de métodos ou propriedades, caso não sejam encontradas no objeto (`XYZ`).
 
-Esse é um padrão de design *extremamente poderoso*, muito diferente da ideia de classes pai e filha, herança, polimorfismo, etc. Ao invés de organizar objetos mentalmente de forma vertical, com as classes Pais fluindo para as classes Filhas, pense em objetos lado à lado, como pares, com qualquer direção de ligação de delegação entre os objetos, conforme a necessidade.
+Esse é um padrão de design *extremamente poderoso*, muito diferente da ideia de classes pai e filha, herança, polimorfismo, etc. Ao invés de organizar objetos mentalmente de forma vertical, com as classes Pais fluindo para as classes Filhas, pense em objetos lado a lado, como pares, com qualquer direção de ligação de delegação entre os objetos, conforme a necessidade.
 
 **Nota:** O uso de delegação é mais apropriado como um detalhe de implementação interno ao invés de algo exposto diretamente no desenho da interface da API. No exemplo acima, nós não necessariamente *pretendemos* com o desenho de nossa API que desenvolvedores chamem `XYZ.setID()` (embora seja possível, é claro!). Nós meio que *escondemos* a delegação como um detalhe interno de nossa API, onde `XYZ.prepareTask(..)` delega para `Task.setID(..)`. Veja a discussão de "Ligações como Fallbacks?" no Capítulo 5 para maiores detalhes.
 
@@ -192,7 +192,7 @@ Ah-ha! **Gotcha!** Aqui, o console do Chrome **realmente** achou e usou a `.cons
 
 Deixando o bug de lado, o rastreamento interno (aparentemente somente para propósitos de depuração) de "constructor name" que o Chrome faz (mostrado nos trechos anteriores) é uma extensão intencional do Chrome, além do que a especificação do JS exige.
 
-Se você não usar um "constructor" para criar seus objetos, como desencorajamos com o estilo de código OOLO aqui nesse capítulo, então você terá objetos que o Chrome *não* rastreia um "constructor name" interno, e esses objetos serão exibidos corretamente como "Object {}", significando "objeto gerado pelo construtor Object()".
+Se você não usar um "constructor" para criar seus objetos, como desencorajamos com o estilo de código OLOO aqui nesse capítulo, então você terá objetos que o Chrome *não* rastreia um "constructor name" interno, e esses objetos serão exibidos corretamente como "Object {}", significando "objeto gerado pelo construtor Object()".
 
 **Não pense** que isso representa uma desvantagem do estilo de código OLOO. Quando você escreve código com OLOO e delegação de comportamento como seu padrão de design, *quem* "construiu" (isso é, *qual função* foi chamada com `new`?) algum objeto é um detalhe irrelevante. O rastreamento interno de "constructor name" específico do Chrome só é realmente útil se você adotar totalmente o estilo de código de "classe", mas é discutível se, no lugar, você adotar delegação de OLOO.
 
@@ -476,25 +476,25 @@ Por exemplo, digamos que você crie todas as suas instâncias em um pool no iní
 
 **OLOO** tem um suporte *melhor* ao princípio de separação de conceitos, onde criação e inicialização não são necessariamente associadas dentro da mesma operação.
 
-## Simpler Design
+## Design Mais Simples
 
-In addition to OLOO providing ostensibly simpler (and more flexible!) code, behavior delegation as a pattern can actually lead to simpler code architecture. Let's examine one last example that illustrates how OLOO simplifies your overall design.
+Além de o OLOO fornecer um código ostensivamente mais simples (e mais flexível!), a delegação de comportamento como padrão pode, na verdade, levar a uma arquitetura de código mais simples. Vamos examinar um último exemplo que ilustra como o OLOO simplifica seu design geral.
 
-The scenario we'll examine is two controller objects, one for handling the login form of a web page, and another for actually handling the authentication (communication) with the server.
+O cenário que vamos examinar é o de dois objetos controladores, um para lidar com o formulário de login de uma página web, e outro para lidar de fato com a autenticação (comunicação) com o servidor.
 
-We'll need a utility helper for making the Ajax communication to the server. We'll use jQuery (though any framework would do fine), since it handles not only the Ajax for us, but it returns a promise-like answer so that we can listen for the response in our calling code with `.then(..)`.
+Vamos precisar de um utilitário auxiliar para fazer a comunicação Ajax com o servidor. Vamos usar o jQuery (embora qualquer framework sirva bem), já que ele não apenas trata o Ajax para nós, mas também retorna uma resposta semelhante a uma promise, de modo que possamos escutar a resposta em nosso código chamador com `.then(..)`.
 
-**Note:** We don't cover Promises here, but we will cover them in a future title of the *"You Don't Know JS"* series.
+**Nota:** Não abordamos Promises aqui, mas vamos abordá-las em um título futuro da série *"You Don't Know JS"*.
 
-Following the typical class design pattern, we'll break up the task into base functionality in a class called `Controller`, and then we'll derive two child classes, `LoginController` and `AuthController`, which both inherit from `Controller` and specialize some of those base behaviors.
+Seguindo o típico padrão de design de classes, vamos dividir a tarefa em uma funcionalidade base numa classe chamada `Controller`, e então vamos derivar duas classes filhas, `LoginController` e `AuthController`, que ambas herdam de `Controller` e especializam alguns desses comportamentos base.
 
 ```js
-// Parent class
+// Classe pai
 function Controller() {
 	this.errors = [];
 }
 Controller.prototype.showDialog = function(title,msg) {
-	// display title & message to user in dialog
+	// exibe título & mensagem ao usuário no diálogo
 };
 Controller.prototype.success = function(msg) {
 	this.showDialog( "Success", msg );
@@ -506,11 +506,11 @@ Controller.prototype.failure = function(err) {
 ```
 
 ```js
-// Child class
+// Classe filha
 function LoginController() {
 	Controller.call( this );
 }
-// Link child class to parent
+// Liga a classe filha a pai
 LoginController.prototype = Object.create( Controller.prototype );
 LoginController.prototype.getUser = function() {
 	return document.getElementById( "login_username" ).value;
@@ -529,24 +529,24 @@ LoginController.prototype.validateEntry = function(user,pw) {
 		return this.failure( "Password must be 5+ characters!" );
 	}
 
-	// got here? validated!
+	// chegou aqui? validado!
 	return true;
 };
-// Override to extend base `failure()`
+// Sobrescreve para estender o `failure()` base
 LoginController.prototype.failure = function(err) {
-	// "super" call
+	// chamada "super"
 	Controller.prototype.failure.call( this, "Login invalid: " + err );
 };
 ```
 
 ```js
-// Child class
+// Classe filha
 function AuthController(login) {
 	Controller.call( this );
-	// in addition to inheritance, we also need composition
+	// além da herança, também precisamos de composição
 	this.login = login;
 }
-// Link child class to parent
+// Liga a classe filha a pai
 AuthController.prototype = Object.create( Controller.prototype );
 AuthController.prototype.server = function(url,data) {
 	return $.ajax( {
@@ -567,37 +567,37 @@ AuthController.prototype.checkAuth = function() {
 		.fail( this.failure.bind( this ) );
 	}
 };
-// Override to extend base `success()`
+// Sobrescreve para estender o `success()` base
 AuthController.prototype.success = function() {
-	// "super" call
+	// chamada "super"
 	Controller.prototype.success.call( this, "Authenticated!" );
 };
-// Override to extend base `failure()`
+// Sobrescreve para estender o `failure()` base
 AuthController.prototype.failure = function(err) {
-	// "super" call
+	// chamada "super"
 	Controller.prototype.failure.call( this, "Auth Failed: " + err );
 };
 ```
 
 ```js
 var auth = new AuthController(
-	// in addition to inheritance, we also need composition
+	// além da herança, também precisamos de composição
 	new LoginController()
 );
 auth.checkAuth();
 ```
 
-We have base behaviors that all controllers share, which are `success(..)`, `failure(..)` and `showDialog(..)`. Our child classes `LoginController` and `AuthController` override `failure(..)` and `success(..)` to augment the default base class behavior. Also note that `AuthController` needs an instance of `LoginController` to interact with the login form, so that becomes a member data property.
+Temos comportamentos base que todos os controladores compartilham, que são `success(..)`, `failure(..)` e `showDialog(..)`. Nossas classes filhas `LoginController` e `AuthController` sobrescrevem `failure(..)` e `success(..)` para ampliar o comportamento padrão da classe base. Note também que `AuthController` precisa de uma instância de `LoginController` para interagir com o formulário de login, então isso se torna uma propriedade de dados membro.
 
-The other thing to mention is that we chose some *composition* to sprinkle in on top of the inheritance. `AuthController` needs to know about `LoginController`, so we instantiate it (`new LoginController()`) and keep a class member property called `this.login` to reference it, so that `AuthController` can invoke behavior on `LoginController`.
+A outra coisa a mencionar é que escolhemos polvilhar um pouco de *composição* por cima da herança. `AuthController` precisa conhecer `LoginController`, então o instanciamos (`new LoginController()`) e mantemos uma propriedade membro de classe chamada `this.login` para referenciá-lo, de modo que `AuthController` possa invocar comportamento em `LoginController`.
 
-**Note:** There *might* have been a slight temptation to make `AuthController` inherit from `LoginController`, or vice versa, such that we had *virtual composition* through the inheritance chain. But this is a strongly clear example of what's wrong with class inheritance as *the* model for the problem domain, because neither `AuthController` nor `LoginController` are specializing base behavior of the other, so inheritance between them makes little sense except if classes are your only design pattern. Instead, we layered in some simple *composition* and now they can cooperate, while still both benefiting from the inheritance from the parent base `Controller`.
+**Nota:** Pode ter havido uma leve tentação de fazer `AuthController` herdar de `LoginController`, ou vice-versa, de modo que tivéssemos *composição virtual* através da cadeia de herança. Mas este é um exemplo bastante claro do que há de errado com a herança de classes como *o* modelo para o domínio do problema, porque nem `AuthController` nem `LoginController` estão especializando o comportamento base um do outro, então a herança entre eles faz pouco sentido, exceto se classes forem seu único padrão de design. Em vez disso, intercalamos um pouco de *composição* simples e agora eles podem cooperar, ainda que ambos se beneficiem da herança do `Controller` base pai.
 
-If you're familiar with class-oriented (OO) design, this should all look pretty familiar and natural.
+Se você está familiarizado com design orientado a classes (OO), tudo isso deve parecer bastante familiar e natural.
 
-### De-class-ified
+### Des-classe-ificado
 
-But, **do we really need to model this problem** with a parent `Controller` class, two child classes, **and some composition**? Is there a way to take advantage of OLOO-style behavior delegation and have a *much* simpler design? **Yes!**
+Mas, **será que realmente precisamos modelar este problema** com uma classe pai `Controller`, duas classes filhas **e alguma composição**? Existe uma maneira de tirar proveito da delegação de comportamento no estilo OLOO e ter um design *muito* mais simples? **Sim!**
 
 ```js
 var LoginController = {
@@ -619,11 +619,11 @@ var LoginController = {
 			return this.failure( "Password must be 5+ characters!" );
 		}
 
-		// got here? validated!
+		// chegou aqui? validado!
 		return true;
 	},
 	showDialog: function(title,msg) {
-		// display success message to user in dialog
+		// exibe mensagem de sucesso ao usuário no diálogo
 	},
 	failure: function(err) {
 		this.errors.push( err );
@@ -633,7 +633,7 @@ var LoginController = {
 ```
 
 ```js
-// Link `AuthController` to delegate to `LoginController`
+// Liga `AuthController` para delegar a `LoginController`
 var AuthController = Object.create( LoginController );
 
 AuthController.errors = [];
@@ -664,32 +664,32 @@ AuthController.rejected = function(err) {
 };
 ```
 
-Since `AuthController` is just an object (so is `LoginController`), we don't need to instantiate (like `new AuthController()`) to perform our task. All we need to do is:
+Como `AuthController` é apenas um objeto (assim como `LoginController`), não precisamos instanciar (como `new AuthController()`) para realizar nossa tarefa. Tudo o que precisamos fazer é:
 
 ```js
 AuthController.checkAuth();
 ```
 
-Of course, with OLOO, if you do need to create one or more additional objects in the delegation chain, that's easy, and still doesn't require anything like class instantiation:
+Claro, com OLOO, se você de fato precisar criar um ou mais objetos adicionais na cadeia de delegação, isso é fácil e ainda não requer nada parecido com instanciação de classe:
 
 ```js
 var controller1 = Object.create( AuthController );
 var controller2 = Object.create( AuthController );
 ```
 
-With behavior delegation, `AuthController` and `LoginController` are **just objects**, *horizontal* peers of each other, and are not arranged or related as parents and children in class-orientation. We somewhat arbitrarily chose to have `AuthController` delegate to `LoginController` -- it would have been just as valid for the delegation to go the reverse direction.
+Com a delegação de comportamento, `AuthController` e `LoginController` são **apenas objetos**, pares *horizontais* um do outro, e não estão dispostos ou relacionados como pais e filhos na orientação a classes. Escolhemos de forma um tanto arbitrária fazer `AuthController` delegar a `LoginController` -- teria sido igualmente válido que a delegação fosse na direção inversa.
 
-The main takeaway from this second code listing is that we only have two entities (`LoginController` and `AuthController`), **not three** as before.
+A principal conclusão desta segunda listagem de código é que temos apenas duas entidades (`LoginController` e `AuthController`), **não três** como antes.
 
-We didn't need a base `Controller` class to "share" behavior between the two, because delegation is a powerful enough mechanism to give us the functionality we need. We also, as noted before, don't need to instantiate our classes to work with them, because there are no classes, **just the objects themselves.** Furthermore, there's no need for *composition* as delegation gives the two objects the ability to cooperate *differentially* as needed.
+Não precisamos de uma classe base `Controller` para "compartilhar" comportamento entre as duas, porque a delegação é um mecanismo poderoso o suficiente para nos dar a funcionalidade de que precisamos. Também, como observado antes, não precisamos instanciar nossas classes para trabalhar com elas, porque não há classes, **apenas os próprios objetos.** Além disso, não há necessidade de *composição*, pois a delegação dá aos dois objetos a capacidade de cooperar de forma *diferencial* conforme necessário.
 
-Lastly, we avoided the polymorphism pitfalls of class-oriented design by not having the names `success(..)` and `failure(..)` be the same on both objects, which would have required ugly explicit pseudopolymorphism. Instead, we called them `accepted()` and `rejected(..)` on `AuthController` -- slightly more descriptive names for their specific tasks.
+Por fim, evitamos as armadilhas de polimorfismo do design orientado a classes ao não ter os nomes `success(..)` e `failure(..)` iguais em ambos os objetos, o que teria exigido um feio pseudopolimorfismo explícito. Em vez disso, os chamamos de `accepted()` e `rejected(..)` em `AuthController` -- nomes um pouco mais descritivos para suas tarefas específicas.
 
-**Bottom line**: we end up with the same capability, but a (significantly) simpler design. That's the power of OLOO-style code and the power of the *behavior delegation* design pattern.
+**Resumindo**: acabamos com a mesma capacidade, mas com um design (significativamente) mais simples. Esse é o poder do código no estilo OLOO e o poder do padrão de design de *delegação de comportamento*.
 
-## Nicer Syntax
+## Sintaxe Mais Agradável
 
-One of the nicer things that makes ES6's `class` so deceptively attractive (see Appendix A on why to avoid it!) is the short-hand syntax for declaring class methods:
+Uma das coisas mais agradáveis que torna a `class` do ES6 tão enganosamente atraente (veja o Apêndice A sobre por que evitá-la!) é a sintaxe abreviada para declarar métodos de classe:
 
 ```js
 class Foo {
@@ -697,16 +697,16 @@ class Foo {
 }
 ```
 
-We get to drop the word `function` from the declaration, which makes JS developers everywhere cheer!
+Conseguimos eliminar a palavra `function` da declaração, o que faz desenvolvedores JS de todos os lugares comemorarem!
 
-And you may have noticed and been frustrated that the suggested OLOO syntax above has lots of `function` appearances, which seems like a bit of a detractor to the goal of OLOO simplification. **But it doesn't have to be that way!**
+E você pode ter notado e ficado frustrado que a sintaxe OLOO sugerida acima tem muitas aparições de `function`, o que parece um certo detrator do objetivo de simplificação do OLOO. **Mas não precisa ser assim!**
 
-As of ES6, we can use *concise method declarations* in any object literal, so an object in OLOO style can be declared this way (same short-hand sugar as with `class` body syntax):
+A partir do ES6, podemos usar *declarações concisas de método* em qualquer objeto literal, então um objeto no estilo OLOO pode ser declarado desta forma (mesmo açúcar abreviado da sintaxe do corpo de `class`):
 
 ```js
 var LoginController = {
 	errors: [],
-	getUser() { // Look ma, no `function`!
+	getUser() { // Olha mãe, sem `function`!
 		// ...
 	},
 	getPassword() {
@@ -716,12 +716,12 @@ var LoginController = {
 };
 ```
 
-About the only difference is that object literals will still require `,` comma separators between elements whereas `class` syntax doesn't. Pretty minor concession in the whole scheme of things.
+A única diferença é que objetos literais ainda exigirão separadores de vírgula `,` entre os elementos, enquanto a sintaxe de `class` não. Concessão bem pequena no esquema geral das coisas.
 
-Moreover, as of ES6, the clunkier syntax you use (like for the `AuthController` definition), where you're assigning properties individually and not using an object literal, can be re-written using an object literal (so that you can use concise methods), and you can just modify that object's `[[Prototype]]` with `Object.setPrototypeOf(..)`, like this:
+Além disso, a partir do ES6, a sintaxe mais desajeitada que você usa (como na definição de `AuthController`), onde você atribui propriedades individualmente e não usa um objeto literal, pode ser reescrita usando um objeto literal (para que você possa usar métodos concisos), e você pode simplesmente modificar o `[[Prototype]]` desse objeto com `Object.setPrototypeOf(..)`, assim:
 
 ```js
-// use nicer object literal syntax w/ concise methods!
+// usa a sintaxe mais agradável de objeto literal c/ métodos concisos!
 var AuthController = {
 	errors: [],
 	checkAuth() {
@@ -733,15 +733,15 @@ var AuthController = {
 	// ...
 };
 
-// NOW, link `AuthController` to delegate to `LoginController`
+// AGORA, liga `AuthController` para delegar a `LoginController`
 Object.setPrototypeOf( AuthController, LoginController );
 ```
 
-OLOO-style as of ES6, with concise methods, **is a lot friendlier** than it was before (and even then, it was much simpler and nicer than classical prototype-style code). **You don't have to opt for class** (complexity) to get nice clean object syntax!
+O estilo OLOO a partir do ES6, com métodos concisos, **é muito mais amigável** do que era antes (e, mesmo então, era muito mais simples e agradável do que o código clássico no estilo prototype). **Você não precisa optar por class** (complexidade) para ter uma sintaxe de objeto limpa e agradável!
 
-### Unlexical
+### Não Lexical
 
-There *is* one drawback to concise methods that's subtle but important to note. Consider this code:
+*Há* uma desvantagem nos métodos concisos que é sutil, mas importante de se notar. Considere este código:
 
 ```js
 var Foo = {
@@ -750,7 +750,7 @@ var Foo = {
 };
 ```
 
-Here's the syntactic de-sugaring that expresses how that code will operate:
+Aqui está a remoção do açúcar sintático que expressa como esse código vai operar:
 
 ```js
 var Foo = {
@@ -759,21 +759,21 @@ var Foo = {
 };
 ```
 
-See the difference? The `bar()` short-hand became an *anonymous function expression* (`function()..`) attached to the `bar` property, because the function object itself has no name identifier. Compare that to the manually specified *named function expression* (`function baz()..`) which has a lexical name identifier `baz` in addition to being attached to a `.baz` property.
+Percebe a diferença? A abreviação `bar()` tornou-se uma *expressão de função anônima* (`function()..`) anexada à propriedade `bar`, porque o próprio objeto função não tem identificador de nome. Compare isso com a *expressão de função nomeada* especificada manualmente (`function baz()..`), que tem um identificador de nome lexical `baz` além de estar anexada a uma propriedade `.baz`.
 
-So what? In the *"Scope & Closures"* title of this *"You Don't Know JS"* book series, we cover the three main downsides of *anonymous function expressions* in detail. We'll just briefly repeat them so we can compare to the concise method short-hand.
+E daí? No título *"Scope & Closures"* desta série de livros *"You Don't Know JS"*, abordamos em detalhes as três principais desvantagens das *expressões de função anônimas*. Vamos apenas repeti-las brevemente para que possamos comparar com a abreviação dos métodos concisos.
 
-Lack of a `name` identifier on an anonymous function:
+A falta de um identificador `name` em uma função anônima:
 
-1. makes debugging stack traces harder
-2. makes self-referencing (recursion, event (un)binding, etc) harder
-3. makes code (a little bit) harder to understand
+1. torna a depuração de stack traces mais difícil
+2. torna a auto-referência (recursão, (des)vinculação de eventos, etc) mais difícil
+3. torna o código (um pouquinho) mais difícil de entender
 
-Items 1 and 3 don't apply to concise methods.
+Os itens 1 e 3 não se aplicam aos métodos concisos.
 
-Even though the de-sugaring uses an *anonymous function expression* which normally would have no `name` in stack traces, concise methods are specified to set the internal `name` property of the function object accordingly, so stack traces should be able to use it (though that's implementation dependent so not guaranteed).
+Embora a remoção do açúcar sintático use uma *expressão de função anônima* que normalmente não teria `name` nos stack traces, os métodos concisos são especificados para definir a propriedade interna `name` do objeto função de forma correspondente, então os stack traces deveriam conseguir usá-la (embora isso dependa da implementação e, portanto, não seja garantido).
 
-Item 2 is, unfortunately, **still a drawback to concise methods**. They will not have a lexical identifier to use as a self-reference. Consider:
+O item 2 é, infelizmente, **ainda uma desvantagem dos métodos concisos**. Eles não terão um identificador lexical para usar como auto-referência. Considere:
 
 ```js
 var Foo = {
@@ -792,15 +792,15 @@ var Foo = {
 };
 ```
 
-The manual `Foo.bar(x*2)` reference above kind of suffices in this example, but there are many cases where a function wouldn't necessarily be able to do that, such as cases where the function is being shared in delegation across different objects, using `this` binding, etc. You would want to use a real self-reference, and the function object's `name` identifier is the best way to accomplish that.
+A referência manual `Foo.bar(x*2)` acima meio que basta neste exemplo, mas há muitos casos em que uma função não conseguiria necessariamente fazer isso, como nos casos em que a função está sendo compartilhada em delegação entre diferentes objetos, usando vinculação de `this`, etc. Você gostaria de usar uma auto-referência de verdade, e o identificador `name` do objeto função é a melhor maneira de conseguir isso.
 
-Just be aware of this caveat for concise methods, and if you run into such issues with lack of self-reference, make sure to forgo the concise method syntax **just for that declaration** in favor of the manual *named function expression* declaration form: `baz: function baz(){..}`.
+Apenas esteja ciente dessa ressalva quanto aos métodos concisos e, se você se deparar com tais problemas de falta de auto-referência, certifique-se de abrir mão da sintaxe de método conciso **apenas para aquela declaração** em favor da forma manual de declaração de *expressão de função nomeada*: `baz: function baz(){..}`.
 
-## Introspection
+## Introspecção
 
-If you've spent much time with class oriented programming (either in JS or other languages), you're probably familiar with *type introspection*: inspecting an instance to find out what *kind* of object it is. The primary goal of *type introspection* with class instances is to reason about the structure/capabilities of the object based on *how it was created*.
+Se você passou muito tempo com programação orientada a classes (seja em JS ou em outras linguagens), provavelmente está familiarizado com a *introspecção de tipo*: inspecionar uma instância para descobrir que *tipo* de objeto ela é. O objetivo principal da *introspecção de tipo* com instâncias de classe é raciocinar sobre a estrutura/capacidades do objeto com base em *como ele foi criado*.
 
-Consider this code which uses `instanceof` (see Chapter 5) for introspecting on an object `a1` to infer its capability:
+Considere este código que usa `instanceof` (veja o Capítulo 5) para fazer introspecção em um objeto `a1` a fim de inferir sua capacidade:
 
 ```js
 function Foo() {
@@ -819,13 +819,13 @@ if (a1 instanceof Foo) {
 }
 ```
 
-Because `Foo.prototype` (not `Foo`!) is in the `[[Prototype]]` chain (see Chapter 5) of `a1`, the `instanceof` operator (confusingly) pretends to tell us that `a1` is an instance of the `Foo` "class". With this knowledge, we then assume that `a1` has the capabilities described by the `Foo` "class".
+Como `Foo.prototype` (não `Foo`!) está na cadeia de `[[Prototype]]` (veja o Capítulo 5) de `a1`, o operador `instanceof` (de forma confusa) finge nos dizer que `a1` é uma instância da "classe" `Foo`. Com esse conhecimento, então assumimos que `a1` tem as capacidades descritas pela "classe" `Foo`.
 
-Of course, there is no `Foo` class, only a plain old normal function `Foo`, which happens to have a reference to an arbitrary object (`Foo.prototype`) that `a1` happens to be delegation-linked to. By its syntax, `instanceof` pretends to be inspecting the relationship between `a1` and `Foo`, but it's actually telling us whether `a1` and (the arbitrary object referenced by) `Foo.prototype` are related.
+Claro, não existe classe `Foo`, apenas uma boa e velha função normal `Foo`, que por acaso tem uma referência a um objeto arbitrário (`Foo.prototype`) ao qual `a1` por acaso está ligado por delegação. Por sua sintaxe, `instanceof` finge estar inspecionando a relação entre `a1` e `Foo`, mas na verdade está nos dizendo se `a1` e (o objeto arbitrário referenciado por) `Foo.prototype` estão relacionados.
 
-The semantic confusion (and indirection) of `instanceof` syntax  means that to use `instanceof`-based introspection to ask if object `a1` is related to the capabilities object in question, you *have to* have a function that holds a reference to that object -- you can't just directly ask if the two objects are related.
+A confusão semântica (e indireção) da sintaxe de `instanceof` significa que, para usar a introspecção baseada em `instanceof` para perguntar se o objeto `a1` está relacionado ao objeto de capacidades em questão, você *tem que* ter uma função que mantenha uma referência a esse objeto -- você não pode simplesmente perguntar diretamente se os dois objetos estão relacionados.
 
-Recall the abstract `Foo` / `Bar` / `b1` example from earlier in this chapter, which we'll abbreviate here:
+Lembre-se do exemplo abstrato `Foo` / `Bar` / `b1` do início deste capítulo, que vamos abreviar aqui:
 
 ```js
 function Foo() { /* .. */ }
@@ -837,15 +837,15 @@ Bar.prototype = Object.create( Foo.prototype );
 var b1 = new Bar( "b1" );
 ```
 
-For *type introspection* purposes on the entities in that example, using `instanceof` and `.prototype` semantics, here are the various checks you might need to perform:
+Para fins de *introspecção de tipo* nas entidades desse exemplo, usando a semântica de `instanceof` e `.prototype`, aqui estão as várias verificações que você pode precisar realizar:
 
 ```js
-// relating `Foo` and `Bar` to each other
+// relacionando `Foo` e `Bar` entre si
 Bar.prototype instanceof Foo; // true
 Object.getPrototypeOf( Bar.prototype ) === Foo.prototype; // true
 Foo.prototype.isPrototypeOf( Bar.prototype ); // true
 
-// relating `b1` to both `Foo` and `Bar`
+// relacionando `b1` tanto a `Foo` quanto a `Bar`
 b1 instanceof Foo; // true
 b1 instanceof Bar; // true
 Object.getPrototypeOf( b1 ) === Bar.prototype; // true
@@ -853,11 +853,11 @@ Foo.prototype.isPrototypeOf( b1 ); // true
 Bar.prototype.isPrototypeOf( b1 ); // true
 ```
 
-It's fair to say that some of that kinda sucks. For instance, intuitively (with classes) you might want to be able to say something like `Bar instanceof Foo` (because it's easy to mix up what "instance" means to think it includes "inheritance"), but that's not a sensible comparison in JS. You have to do `Bar.prototype instanceof Foo` instead.
+É justo dizer que parte disso meio que é ruim. Por exemplo, intuitivamente (com classes) você poderia querer ser capaz de dizer algo como `Bar instanceof Foo` (porque é fácil confundir o que "instância" significa e achar que inclui "herança"), mas essa não é uma comparação sensata em JS. Você tem que fazer `Bar.prototype instanceof Foo` em vez disso.
 
-Another common, but perhaps less robust, pattern for *type introspection*, which many devs seem to prefer over `instanceof`, is called "duck typing". This term comes from the adage, "if it looks like a duck, and it quacks like a duck, it must be a duck".
+Outro padrão comum, mas talvez menos robusto, de *introspecção de tipo*, que muitos devs parecem preferir em vez de `instanceof`, é chamado de "duck typing". Esse termo vem do ditado: "se parece com um pato e grasna como um pato, então deve ser um pato".
 
-Example:
+Exemplo:
 
 ```js
 if (a1.something) {
@@ -865,19 +865,19 @@ if (a1.something) {
 }
 ```
 
-Rather than inspecting for a relationship between `a1` and an object that holds the delegatable `something()` function, we assume that the test for `a1.something` passing means `a1` has the capability to call `.something()` (regardless of if it found the method directly on `a1` or delegated to some other object). In and of itself, that assumption isn't so risky.
+Em vez de inspecionar uma relação entre `a1` e um objeto que mantém a função delegável `something()`, assumimos que o teste de `a1.something` passar significa que `a1` tem a capacidade de chamar `.something()` (independentemente de ter encontrado o método diretamente em `a1` ou delegado a algum outro objeto). Por si só, essa suposição não é tão arriscada.
 
-But "duck typing" is often extended to make **other assumptions about the object's capabilities** besides what's being tested, which of course introduces more risk (aka, brittle design) into the test.
+Mas o "duck typing" é frequentemente estendido para fazer **outras suposições sobre as capacidades do objeto** além do que está sendo testado, o que, é claro, introduz mais risco (ou seja, design frágil) no teste.
 
-One notable example of "duck typing" comes with ES6 Promises (which as an earlier note explained are not being covered in this book).
+Um exemplo notável de "duck typing" vem com as Promises do ES6 (que, como uma nota anterior explicou, não são abordadas neste livro).
 
-For various reasons, there's a need to determine if any arbitrary object reference *is a Promise*, but the way that test is done is to check if the object happens to have a `then()` function present on it. In other words, **if any object** happens to have a `then()` method, ES6 Promises will assume unconditionally that the object **is a "thenable"** and therefore will expect it to behave conformantly to all standard behaviors of Promises.
+Por várias razões, há a necessidade de determinar se qualquer referência de objeto arbitrária *é uma Promise*, mas a forma como esse teste é feito é verificar se o objeto por acaso tem uma função `then()` presente nele. Em outras palavras, **se qualquer objeto** por acaso tiver um método `then()`, as Promises do ES6 vão assumir incondicionalmente que o objeto **é um "thenable"** e, portanto, vão esperar que ele se comporte em conformidade com todos os comportamentos padrão das Promises.
 
-If you have any non-Promise object that happens for whatever reason to have a `then()` method on it, you are strongly advised to keep it far away from the ES6 Promise mechanism to avoid broken assumptions.
+Se você tiver qualquer objeto que não seja uma Promise mas que, por qualquer motivo, tenha um método `then()`, recomenda-se fortemente que você o mantenha bem longe do mecanismo de Promise do ES6 para evitar suposições quebradas.
 
-That example clearly illustrates the perils of "duck typing". You should only use such approaches sparingly and in controlled conditions.
+Esse exemplo ilustra claramente os perigos do "duck typing". Você só deve usar tais abordagens com moderação e em condições controladas.
 
-Turning our attention once again back to OLOO-style code as presented here in this chapter, *type introspection* turns out to be much cleaner. Let's recall (and abbreviate) the `Foo` / `Bar` / `b1` OLOO example from earlier in the chapter:
+Voltando nossa atenção mais uma vez para o código no estilo OLOO apresentado aqui neste capítulo, a *introspecção de tipo* acaba sendo muito mais limpa. Vamos relembrar (e abreviar) o exemplo OLOO `Foo` / `Bar` / `b1` do início do capítulo:
 
 ```js
 var Foo = { /* .. */ };
@@ -888,29 +888,29 @@ Bar...
 var b1 = Object.create( Bar );
 ```
 
-Using this OLOO approach, where all we have are plain objects that are related via `[[Prototype]]` delegation, here's the quite simplified *type introspection* we might use:
+Usando essa abordagem OLOO, onde tudo o que temos são objetos comuns relacionados via delegação de `[[Prototype]]`, aqui está a *introspecção de tipo* bastante simplificada que poderíamos usar:
 
 ```js
-// relating `Foo` and `Bar` to each other
+// relacionando `Foo` e `Bar` entre si
 Foo.isPrototypeOf( Bar ); // true
 Object.getPrototypeOf( Bar ) === Foo; // true
 
-// relating `b1` to both `Foo` and `Bar`
+// relacionando `b1` tanto a `Foo` quanto a `Bar`
 Foo.isPrototypeOf( b1 ); // true
 Bar.isPrototypeOf( b1 ); // true
 Object.getPrototypeOf( b1 ) === Bar; // true
 ```
 
-We're not using `instanceof` anymore, because it's confusingly pretending to have something to do with classes. Now, we just ask the (informally stated) question, "are you *a* prototype of me?" There's no more indirection necessary with stuff like `Foo.prototype` or the painfully verbose `Foo.prototype.isPrototypeOf(..)`.
+Não estamos mais usando `instanceof`, porque ele finge de forma confusa ter algo a ver com classes. Agora, apenas fazemos a pergunta (formulada informalmente): "você é *um* protótipo de mim?" Não há mais necessidade de indireção com coisas como `Foo.prototype` ou o dolorosamente verboso `Foo.prototype.isPrototypeOf(..)`.
 
-I think it's fair to say these checks are significantly less complicated/confusing than the previous set of introspection checks. **Yet again, we see that OLOO is simpler than (but with all the same power of) class-style coding in JavaScript.**
+Acho justo dizer que essas verificações são significativamente menos complicadas/confusas do que o conjunto anterior de verificações de introspecção. **Mais uma vez, vemos que o OLOO é mais simples do que (mas com todo o mesmo poder de) a codificação no estilo de classe em JavaScript.**
 
-## Review (TL;DR)
+## Revisão (TL;DR)
 
-Classes and inheritance are a design pattern you can *choose*, or *not choose*, in your software architecture. Most developers take for granted that classes are the only (proper) way to organize code, but here we've seen there's another less-commonly talked about pattern that's actually quite powerful: **behavior delegation**.
+Classes e herança são um padrão de design que você pode *escolher*, ou *não escolher*, em sua arquitetura de software. A maioria dos desenvolvedores dá como certo que classes são a única maneira (apropriada) de organizar código, mas aqui vimos que há outro padrão menos comentado que, na verdade, é bastante poderoso: a **delegação de comportamento**.
 
-Behavior delegation suggests objects as peers of each other, which delegate amongst themselves, rather than parent and child class relationships. JavaScript's `[[Prototype]]` mechanism is, by its very designed nature, a behavior delegation mechanism. That means we can either choose to struggle to implement class mechanics on top of JS (see Chapters 4 and 5), or we can just embrace the natural state of `[[Prototype]]` as a delegation mechanism.
+A delegação de comportamento sugere objetos como pares uns dos outros, que delegam entre si, em vez de relações de classe pai e filho. O mecanismo de `[[Prototype]]` do JavaScript é, por sua própria natureza projetada, um mecanismo de delegação de comportamento. Isso significa que podemos escolher lutar para implementar a mecânica de classes sobre o JS (veja os Capítulos 4 e 5), ou podemos simplesmente abraçar o estado natural de `[[Prototype]]` como um mecanismo de delegação.
 
-When you design code with objects only, not only does it simplify the syntax you use, but it can actually lead to simpler code architecture design.
+Quando você projeta código apenas com objetos, isso não só simplifica a sintaxe que você usa, mas também pode, na verdade, levar a um design de arquitetura de código mais simples.
 
-**OLOO** (objects-linked-to-other-objects) is a code style which creates and relates objects directly without the abstraction of classes. OLOO quite naturally implements `[[Prototype]]`-based behavior delegation.
+**OLOO** (objects-linked-to-other-objects, ou seja, objetos-ligados-a-outros-objetos) é um estilo de código que cria e relaciona objetos diretamente, sem a abstração de classes. O OLOO implementa de forma bem natural a delegação de comportamento baseada em `[[Prototype]]`.

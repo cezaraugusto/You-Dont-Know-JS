@@ -1,7 +1,7 @@
 # You Don't Know JS: *this* & Prototipagem de Objetos
 # Capítulo 4: Confundindo Objetos com "Classes"
 
-Continuando com nossa exploração de objetos do capítulo anterior, é natural que agora nós demos atenção a "programação orientada a objetos (OO)", com "classes". Nós primeiro iremos olhar para "orientação à classes" como um padrão de projeto, antes de examinar as mecânicas de "classes": "instanciação", "herança" e "polimorfismo (relativo)".
+Continuando com nossa exploração de objetos do capítulo anterior, é natural que agora nós demos atenção a "programação orientada a objetos (OO)", com "classes". Nós primeiro iremos olhar para "orientação a classes" como um padrão de projeto, antes de examinar as mecânicas de "classes": "instanciação", "herança" e "polimorfismo (relativo)".
 
 Nós veremos que esses conceitos não mapeiam muito naturalmente para o mecanismo de objetos no JS e também até onde muitos desenvolvedores JavaScript vão para superar estes desafios (mixins etc.).
 
@@ -11,7 +11,7 @@ Nós veremos que esses conceitos não mapeiam muito naturalmente para o mecanism
 
 Classe/Herança descreve uma certa forma de organização de código e arquitetura -- uma maneira de modelar problemas de domínio do mundo real em nosso software.
 
-OO ou programação orientada à classes enfatiza que os dados têm um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso às vezes é chamado "estruturas de dados" na ciência da computação.
+OO ou programação orientada a classes enfatiza que os dados têm um comportamento associado intrinsecamente (claro, diferente dependendo do tipo e natureza do dado!) que opera sobre ele, então o design adequado é empacotar (também conhecido como encapsular) o dado e o comportamento juntos. Isso às vezes é chamado "estruturas de dados" na ciência da computação.
 
 Por exemplo, uma série de caracteres que representa uma palavra ou frase geralmente é chamada de "string". Os caracteres são os dados. Mas você quase nunca se importa apenas com os dados, você geralmente quer *fazer coisas* com os dados, assim os comportamentos que podem se aplicar *para* aquele dado (calcular seu tamanho, anexar dados, busca etc.) são todos concebidos como métodos de uma classe `String`.
 
@@ -48,7 +48,7 @@ Algumas linguagens (como Java) não te dão a opção de escolha, então não é
 
 ### "Classes" JavaScript
 
-Onde o JavaScript se enquadra nesse aspecto? JS já possuía *alguns* elementos sintáticos baseados em classes (como `new` e `instaceof`) por um tempo, e mais recentemente no ES6, foram feitas algumas adições, como a palavra chave `class` (veja o Apêndice A).
+Onde o JavaScript se enquadra nesse aspecto? JS já possuía *alguns* elementos sintáticos baseados em classes (como `new` e `instanceof`) por um tempo, e mais recentemente no ES6, foram feitas algumas adições, como a palavra chave `class` (veja o Apêndice A).
 
 Mas isso significa que atualmente o Javascript *possui* classes? Claro e simples: **Não.**
 
@@ -182,13 +182,13 @@ class SpeedBoat inherits Vehicle {
 
 **Nota:** Para clareza e abreviação, os construtores dessas classes foram omitidos
 
-Nós definimos a classe `Veiculo` para que ela assumisse um motor, a forma de ligar a ignição e uma maneira de dirigir. Mas você não fabricaria um veículo genérico, então até esse ponto ela é um conceito abstrato.
+Nós definimos a classe `Vehicle` para que ela assumisse um motor, a forma de ligar a ignição e uma maneira de dirigir. Mas você não fabricaria um veículo genérico, então até esse ponto ela é um conceito abstrato.
 
-Então, definimos dosi tipos específicos de veículos: `Carro` e `SpeedBoat`. Ambos herdam as características gerais de `Veiculo`, mas especializam características apropriadamente para cada tipo. Um carro precisa de 4 rodas, e um SpeedBoat de dois motores, o que significa que é preciso atenção extra para ligar a ignição de ambos motores.
+Então, definimos dois tipos específicos de veículos: `Car` e `SpeedBoat`. Ambos herdam as características gerais de `Vehicle`, mas especializam características apropriadamente para cada tipo. Um carro precisa de 4 rodas, e um SpeedBoat de dois motores, o que significa que é preciso atenção extra para ligar a ignição de ambos motores.
 
 ### Polimorfismo
 
-`Car` define seu próprio método `drive()`, que sobrescreve o método de mesmo nome herdado da classe `Veiculo`. Mas então o método `drive()` pertencente a `Car` chama `inherited:drive()`, o que indica que o carro pode referenciar o método original `drive()` pré-sobrescrito herdado. O método `pilot()` do SpeedBoat também faz referência à sua cópia herdada do `drive()`.
+`Car` define seu próprio método `drive()`, que sobrescreve o método de mesmo nome herdado da classe `Vehicle`. Mas então o método `drive()` pertencente a `Car` chama `inherited:drive()`, o que indica que o carro pode referenciar o método original `drive()` pré-sobrescrito herdado. O método `pilot()` do SpeedBoat também faz referência à sua cópia herdada do `drive()`.
 
 Essa técnica é chamada de "polimorfismo", ou "polimorfismo virtual". Mais especificamente para nosso ponto atual, vamos chamar isso de "polimorfismo relativo".
 
@@ -196,15 +196,15 @@ Polimorfismo é um tópico muito mais abrangente do que vamos abordar aqui, mas 
 
 Em muitas linguagens, a palavra chave `super` é usada, no lugar de `inherited` desse exemplo, apoiando-se na ideia de que uma "superclasse" é o pai/ancestral da classe atual.
 
-Outro aspecto do polimorfismo é que um nome específico de método pode ter mútiplas definições em diferentes níveis da cadeia de herança, e essas definiçõessão selecionadas de forma automática de acordo com os métodos que estão sendo chamados.
+Outro aspecto do polimorfismo é que um nome específico de método pode ter mútiplas definições em diferentes níveis da cadeia de herança, e essas definições são selecionadas de forma automática de acordo com os métodos que estão sendo chamados.
 
-Nós vemos duas ocorrências desse comportamento em nosso exemplo acima: `drive()` é definido tanto em `Veiculo` como em `Car`, e `ignition()` é definido tanto em `Veiculo` como em `SpeedBoat`.
+Nós vemos duas ocorrências desse comportamento em nosso exemplo acima: `drive()` é definido tanto em `Vehicle` como em `Car`, e `ignition()` é definido tanto em `Vehicle` como em `SpeedBoat`.
 
 **Nota:** Outra coisa que linguagens orientadas a classes fornecem a você através do `super()` é uma forma do construtor da classe filho referenciar diretamente o construtor de sua classe pai. Isso é verdade principalmente porque, com classes reais, o construtor pertence a classe. No entanto em JS é o contrário - é mais apropriado pensar que a "classe" pertence ao construtor (as referências `Foo.prototype`). Já que em JS o relacionamento entre pai e filho existe apenas entre os dois objetos `.prototype` dos respectivos construtores, os próprios construtores não estão diretamente relacionados, e portanto, não há uma forma de referenciar um do outro (consulte o apêndice A para ver como `class` resolve isso com `super`).
 
-Uma implicação interessante do polimorfismo pode ser visto especificamente com `ignition()`. Dentro de `pilot()`, uma referência polimórfica é feita para (a herdada) versão `drive()` de `Veiculo`. Mas esse método `drive()` faz referência ao método `ignition()` apenas pelo nome (sem termos referência relativa).
+Uma implicação interessante do polimorfismo pode ser visto especificamente com `ignition()`. Dentro de `pilot()`, uma referência polimórfica é feita para (a herdada) versão `drive()` de `Vehicle`. Mas esse método `drive()` faz referência ao método `ignition()` apenas pelo nome (sem termos referência relativa).
 
-Qual versão de `ignition()` o motor da linguagem irá usar?, a de `Veiculo` ou a de `SpeedBoat`? **Ela usa a versão de `SpeedBoat` de `ignition()`.** Se você *fosse* instanciar a clase `Veiculo`, e chamar o seu método `drive()`, o motro da linguagem usaria apenas a definição do método `ignition()` pertencete a `Veiculo`.
+Qual versão de `ignition()` o motor da linguagem irá usar?, a de `Vehicle` ou a de `SpeedBoat`? **Ela usa a versão de `SpeedBoat` de `ignition()`.** Se você *fosse* instanciar a classe `Vehicle`, e chamar o seu método `drive()`, o motor da linguagem usaria apenas a definição do método `ignition()` pertencente a `Vehicle`.
 
 Dito de outra forma, a definição para o método `ignition()` polimorfa (muda) de acordo com a classe (nível de herança) que a sua instância está referenciando.
 
@@ -294,7 +294,7 @@ var Car = mixin( Vehicle, {
 
 Vamos examinar essa instrução: `Vehicle.drive.call(this)`. Isso é o que eu chamo de "pseudo-polimorfismo explícito". Lembre-se que no nosso pseudo-código anterior, essa linha era `inherited:drive()`, que nós chamamos de "polimorfismo relativo".
 
-O JavaScript não tem (antes do ES6; veja apêndice A) um utilitário para o polimorfismo relativo. Então, **já que `Car` e `Vehicle` tinahm uma função com o mesmo nome: `drive()`**, para distinguir uma chamada de um ou outra, temos de fazer uma referência absoluta (não relativa). Nós explicitamente especificamos o objeto `Vehicle` pelo nome, e chamamos a função `drive()` nele.
+O JavaScript não tem (antes do ES6; veja apêndice A) um utilitário para o polimorfismo relativo. Então, **já que `Car` e `Vehicle` tinham uma função com o mesmo nome: `drive()`**, para distinguir uma chamada de um ou outra, temos de fazer uma referência absoluta (não relativa). Nós explicitamente especificamos o objeto `Vehicle` pelo nome, e chamamos a função `drive()` nele.
 
 Mas se dissermos `Vehicle.drive`, o binding do `this` para essa função será o objeto `Vehicle` em vez do objeto `Car` (veja o capítulo 2), o que não é o que queremos. Então, em vez disso usamos `.call( this )`(capítulo 2) para garantir que `drive()` seja executado no contexto do objeto `Car`.
 
@@ -372,7 +372,7 @@ Se você *mixar* dois ou mais objetos dentro de um objeto alvo, você pode **emu
 
 Tome cuidado de apenas usar mixins explícitos onde ele realmente ajuda a tornar o código mais legível, e evite esse padrão sempre que você achar que ele está tornando o código mais difícil de rastrear, ou se achar que ele cria dependencias desnecessárias ou difíceis de manipular entre objetos.
 
-**Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma biblioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremso destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
+**Se começar a ficar mais difícil usar mixins do que antes, você provavelmente deveria para de usar mixins.** De fato, se você tem que usar uma biblioteca/utilitário complexo para trabalhar todos esses detalhes, pode ser um sinal que você está seguindo pelo caminho mais difícil, talvez desnecessariamente. No capítulo 6, tentaremos destilar uma maneira mais simples que realize os resultados desejados sem toda confusão.
 
 #### Herança Parasita
 

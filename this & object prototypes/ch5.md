@@ -7,7 +7,7 @@ Nos capítulos 3 e 4, nós mencionamos a cadeia `[[Prototype]]` por diversas vez
 
 ## `[[Prototype]]`
 
-Objetos em JavaScript possuem propriedades internas, denominadas em sua especificação como `[[Prototype]]`, que trata-se simplesmente de uma referência à um outro objeto. Quase todos os objetos recebem um valor não nulo para essa propriedade, no momento de sua criação. 
+Objetos em JavaScript possuem propriedades internas, denominadas em sua especificação como `[[Prototype]]`, que trata-se simplesmente de uma referência a um outro objeto. Quase todos os objetos recebem um valor não nulo para essa propriedade, no momento de sua criação. 
 
 **Nota:** Nós veremos em breve que *é* possível para um objeto ter uma ligação vazia de `[[Prototype]]`, embora isso seja pouco comum.
 
@@ -21,7 +21,7 @@ var myObject = {
 myObject.a; // 2
 ```
 
-Qual é a referência de `[[Prototype]]` utilizada? No capítulo 3, nós examinamos a operação `[[Get]]` que é invocada quando você referencia uma propriedade à um objeto, como o `myObject.a`. Para uma operação `[[Get]]` padrão, o primeiro passo é checar se o próprio objeto possui uma propriedade `a`, e caso possua, se a mesma é utilizada.
+Qual é a referência de `[[Prototype]]` utilizada? No capítulo 3, nós examinamos a operação `[[Get]]` que é invocada quando você referencia uma propriedade a um objeto, como o `myObject.a`. Para uma operação `[[Get]]` padrão, o primeiro passo é checar se o próprio objeto possui uma propriedade `a`, e caso possua, se a mesma é utilizada.
 
 **Nota:** ES6 Proxies estão fora do escopo de discussão deste livro (isso será visto em um futuro livro da série!), mas tudo que nós discutimos aqui sobre comportamentos normais de  `[[Get]]` e `[[Put]]` não se aplicam caso um `Proxy` seja envolvido.
 
@@ -48,7 +48,7 @@ Mas, caso `a` também não seja encontrado em `anotherObject`, sua cadeia `[[Pro
 
 Esse processo continua até que seja encontrada uma propriedade com o mesmo nome, ou até que a cadeia `[[Prototype]]` termine. Se *nenhuma* propriedade for encontrada até o final da cadeia `[[Prototype]]`, o resultado que a operação `[[Get]]` retorna é `undefined`.
 
-Similar à esse processo de busca na cadeia `[[Prototype]]`, se você usar o laço `for..in` para iterar um objeto, qualquer propriedade que seja alcançada através da cadeia (e que também seja `enumerable` -- veja Capítulo 3) será enumerada. Se você utilizar o operador `in` para testar a existência de uma propriedade dentro de um objeto, `in` irá verificar por toda a cadeia do objeto (independentemente da *enumerabilidade* do mesmo).
+Similar a esse processo de busca na cadeia `[[Prototype]]`, se você usar o laço `for..in` para iterar um objeto, qualquer propriedade que seja alcançada através da cadeia (e que também seja `enumerable` -- veja Capítulo 3) será enumerada. Se você utilizar o operador `in` para testar a existência de uma propriedade dentro de um objeto, `in` irá verificar por toda a cadeia do objeto (independentemente da *enumerabilidade* do mesmo).
 
 ```js
 var anotherObject = {
@@ -72,9 +72,9 @@ Ou seja, a cadeia `[[Prototype]]` é consultada, uma ligação por vez, quando v
 
 Mas *onde* exatamente a cadeia `[[Prototype]]` "termina"?
 
-No topo de toda cadeia `[[Prototype]]` *normal* está objeto nativo `Object.prototype`. Este objeto inclui uma varidade de utilitários normalmente utilizados por todo JS, porque todos objetos normais (nativos, não extensões *self-hosted*) em JavaScript "descendem" (ou constam no topo de sua cadeia `[[Prototype]]`) do objeto `Object.prototype`. 
+No topo de toda cadeia `[[Prototype]]` *normal* está objeto nativo `Object.prototype`. Este objeto inclui uma variedade de utilitários normalmente utilizados por todo JS, porque todos objetos normais (nativos, não extensões *self-hosted*) em JavaScript "descendem" (ou constam no topo de sua cadeia `[[Prototype]]`) do objeto `Object.prototype`. 
 
-Alguns utilitários encontrados aqui com os quais você pode estar familiarizado incluem `.toString()` e `.valueOf()`. No Capítulo 3, nós introduzímos um outro: `.hasOwnProperty(..)`. E uma outra função dentro do `Object.prototype` da qual você não deve estar familiriazado, mas que iremos tratar adiante neste capítulo, é `.isPrototypeOf(..)`. 
+Alguns utilitários encontrados aqui com os quais você pode estar familiarizado incluem `.toString()` e `.valueOf()`. No Capítulo 3, nós introduzímos um outro: `.hasOwnProperty(..)`. E uma outra função dentro do `Object.prototype` da qual você não deve estar familiarizado, mas que iremos tratar adiante neste capítulo, é `.isPrototypeOf(..)`. 
 
 ### Configuração e Sombreamento de Propriedades
 
@@ -84,7 +84,7 @@ No Capítulo 3, nós havíamos mencionado que a configuração das propriedades 
 myObject.foo = "bar";
 ```
 
-Se o objeto `myObject` já possui uma propriedade de acesso à dados normal chamada de `foo` diretamente presente, a atribuição é tão simples quanto alterar o valor de uma propriedade existe.
+Se o objeto `myObject` já possui uma propriedade de acesso a dados normal chamada de `foo` diretamente presente, a atribuição é tão simples quanto alterar o valor de uma propriedade existe.
 
 Se `foo` não estiver diretamente presente em `myObject`, a cadeia `[[Prototype]]` é percorrida, assim como em uma operação `[[Get]]`. Se `foo` não for encontrada na cadeia, a propriedade `foo` é adicionada diretamente para `myObject` com seu valor especificado, como esperado. 
 
@@ -94,7 +94,7 @@ Se a propriedade com nome `foo` acabar tanto no próprio `myObject` quanto em um
 
 Como acabamos de indicar, sombrear `foo` em `myObject` não é tão simples quanto pode parecer. Nós vamos agora examinar três cenários para a atribuição `myObject.foo = "bar"` quando `foo` **não está** diretamente presente em `myObject`, mas **está** presente em um nível mais alto da cadeia `[[Prototype]]` de `myObject`.
 
-1. Se uma propriedade de acesso à dados normal (veja Capítulo 3) de nome `foo` é encontrada em qualquer lugar da cadeia `[[Prototype]]`, **e não está marcada como somente leitura (`writable:false`)** então uma nova propriedade de nome `foo` é diretamente adicionada à `myObject`, resultando em uma **propriedade sombreada**.
+1. Se uma propriedade de acesso a dados normal (veja Capítulo 3) de nome `foo` é encontrada em qualquer lugar da cadeia `[[Prototype]]`, **e não está marcada como somente leitura (`writable:false`)** então uma nova propriedade de nome `foo` é diretamente adicionada à `myObject`, resultando em uma **propriedade sombreada**.
 2. Se `foo` é encontrada no alto da cadeia `[[Prototype]]`, mas está marcada como **somente leitura (`writable:false`)**, então tanto a configuração de uma propriedade existente quanto a criação de uma propriedade sombreada em `myObject` **não são permitidas**. Se o código estiver rodando em `strict mode`, um erro será retornado. Caso não esteja, uma atribuição de valor à propriedade será silenciosamente ignorada. Em todo caso, **não haverá sombreamento**. 
 3. Se `foo` é encontrada no alto da cadeia `[[Prototype]]` e for um setter (veja Capítulo 3), então o setter sempre será chamado. Nenhuma `foo` será adicionada (ou sombreada) em `myObject`, e nem o setter de `foo` será redefinido.
 
@@ -129,17 +129,17 @@ myObject.a; // 3
 myObject.hasOwnProperty( "a" ); // true
 ```
 
-Embora possa parecer que `myObject.a++` deveria (via delegação) procurar e apenas incrementar a propriedade `anotherObject.a` propriamente dita *em seu lugar*, em vez disso a operação `++` corresponde à `myObject.a = myObject.a + 1`. O resultado é um `[[Get]]` procurando a propriedade `a` através de `[[Prototype]]` para obter o valor atual `2` de `anotherObject.a`, incrementando o valor em um, e então um `[[Put]]` atribuindo o valor `3` à uma nova propriedade sombreada `a` em `myObject`. Ops!
+Embora possa parecer que `myObject.a++` deveria (via delegação) procurar e apenas incrementar a propriedade `anotherObject.a` propriamente dita *em seu lugar*, em vez disso a operação `++` corresponde à `myObject.a = myObject.a + 1`. O resultado é um `[[Get]]` procurando a propriedade `a` através de `[[Prototype]]` para obter o valor atual `2` de `anotherObject.a`, incrementando o valor em um, e então um `[[Put]]` atribuindo o valor `3` a uma nova propriedade sombreada `a` em `myObject`. Ops!
 
 Tenha muito cuidado ao lidar com as propriedades delegadas que modifica. Se você quer incrementar `anotherObject.a`, a única maneira apropriada é `anotherObject.a++`.
 
-## "Classes"
+## "Class"
 
-Neste momento, você deve estar imaginando: "*Por que* um objeto precisa ser ligado à um outro objeto?" Qual é o real benefício? Esta é uma pergunta muito pertinente de se fazer, mas primeiro precisamos entender o que `[[Prototype]]` **não é** antes de entendê-lo completamente e apreciar o que **é** e como pode ser útil.
+Neste momento, você deve estar imaginando: "*Por que* um objeto precisa ser ligado a um outro objeto?" Qual é o real benefício? Esta é uma pergunta muito pertinente de se fazer, mas primeiro precisamos entender o que `[[Prototype]]` **não é** antes de entendê-lo completamente e apreciar o que **é** e como pode ser útil.
 
-Como explicamos no Capítulo 4, em JavaScript, não há padrões abstratos para objetos chamados de "classes" como no caso de linguagens orientadas à classes. JavaScript tem **apenas** objetos.
+Como explicamos no Capítulo 4, em JavaScript, não há padrões abstratos para objetos chamados de "classes" como no caso de linguagens orientadas a classes. JavaScript tem **apenas** objetos.
 
-Na verdade, JavaScript é **quase único** entre as linguagens pelo fato de talvez ser a única linguagem com o direito de ser rotulada de "orientada à objetos", porque é uma entre uma lista bem pequena de linguagens em que objetos podem ser criados diretamente, sem a existência de uma classe.
+Na verdade, JavaScript é **quase único** entre as linguagens pelo fato de talvez ser a única linguagem com o direito de ser rotulada de "orientada a objetos", porque é uma entre uma lista bem pequena de linguagens em que objetos podem ser criados diretamente, sem a existência de uma classe.
 
 Em JavaScript, classes não podem (já que não existem!) descrever o que um objeto pode fazer. O objeto define diretamente seu próprio comportamento. **Existe *apenas* o objeto.**
 
@@ -157,7 +157,7 @@ function Foo() {
 Foo.prototype; // { }
 ```
 
-Esse objeto é frequentemente chamado de "prototype de Foo", porque o acessamos atráves de uma referência de propriedade com o infeliz nome de `Foo.prototype`. Entretanto, essa terminologia está fatalmente destinada à nos confundir, como veremos em breve. Ao invés disso, irei chamar de "o objeto que antes era conhecido como prototype de Foo". Brincadeira. Que tal: "o objeto arbitrariamente rotulado de 'Foo ponto prototype'"?
+Esse objeto é frequentemente chamado de "prototype de Foo", porque o acessamos atráves de uma referência de propriedade com o infeliz nome de `Foo.prototype`. Entretanto, essa terminologia está fatalmente destinada a nos confundir, como veremos em breve. Ao invés disso, irei chamar de "o objeto que antes era conhecido como prototype de Foo". Brincadeira. Que tal: "o objeto arbitrariamente rotulado de 'Foo ponto prototype'"?
 
 Independente de como chamamos, o que exatamente é este objeto? 
 
@@ -175,11 +175,11 @@ var a = new Foo();
 Object.getPrototypeOf( a ) === Foo.prototype; // true
 ```
 
-Quando `a` é criado ao chamar `new Foo()`, uma das coisas (ceja Capítulo 2 para todos os *quatro* passos) que acontecem é que `a` obtêm uma ligação `[[Prototype]]` interna com o objeto que `Foo.prototype` está apontando.
+Quando `a` é criado ao chamar `new Foo()`, uma das coisas (veja Capítulo 2 para todos os *quatro* passos) que acontecem é que `a` obtêm uma ligação `[[Prototype]]` interna com o objeto que `Foo.prototype` está apontando.
 
-Pare um momento e pondere as implicações desta declaração.
+Pare um momento e pondere as implicações desta instrução.
 
-Em linguagens orientadas à classes, multiplas **cópias** (também conhecidas como "instâncias") de uma classe podem ser criadas, como carimbar algo à partir de um molde. Como vimos no Capítulo 4, isso acontece porque o processo de instanciação (ou de herdar de) uma classe significa "copiar o plano de comportamento desta classe para um objeto físico", e isso é feito novamente para cada nova instância.  
+Em linguagens orientadas a classes, multiplas **cópias** (também conhecidas como "instâncias") de uma classe podem ser criadas, como carimbar algo a partir de um molde. Como vimos no Capítulo 4, isso acontece porque o processo de instanciação (ou de herdar de) uma classe significa "copiar o plano de comportamento desta classe para um objeto físico", e isso é feito novamente para cada nova instância.  
 
 Mas em JavaScript, não há ações de cópias deste tipo. Você não cria múltiplas instâncias de uma classe. Você cria múltiplos objetos que são *ligados* pelo `[[Prototype]]` com um objeto comum. Mas por padrão, nenhuma cópia ocorre, e portanto esses objetos acabam não sendo totalmente separados e nem desconectados um do outro, pelo contrário, estão bem ***ligados***. 
 
@@ -187,9 +187,9 @@ Mas em JavaScript, não há ações de cópias deste tipo. Você não cria múlt
 
 **Nós acabamos com dois objetos, um ligado ao outro.** E *é isso*. Nós não instanciamos uma classe. Nós certamente não fizemos nenhuma cópia de comportamento de uma "classe" para um objeto concreto. Nós só fizemos com que dois objetos fossem ligados um ao outro.
 
-Na verdade, o segredo, que ilude a maioria dos desenvolvedores JS, é que a chamada da função `new Foo()` não tem praticamente nenhuma relação *direta* com o processo de criar a ligação. **Foi uma espécie de efeito colateral acidental.** `new Foo()` é uma forma indireta de se conseguir o que queremos: **um novo objeto ligado à um outro objeto**. 
+Na verdade, o segredo, que ilude a maioria dos desenvolvedores JS, é que a chamada da função `new Foo()` não tem praticamente nenhuma relação *direta* com o processo de criar a ligação. **Foi uma espécie de efeito colateral acidental.** `new Foo()` é uma forma indireta de se conseguir o que queremos: **um novo objeto ligado a um outro objeto**. 
 
-Nós conseguimos ter o que queremos de uma forma mais *direta*? **Sim!** o herói é `Object.create(..)`. Mas nós chegaremos lá daqui à pouco. 
+Nós conseguimos ter o que queremos de uma forma mais *direta*? **Sim!** o herói é `Object.create(..)`. Mas nós chegaremos lá daqui a pouco. 
 
 #### O que está em um nome?
 
@@ -197,7 +197,7 @@ Em JavaScript, nós não fazemos *cópias* de um objeto ("classe") para outro ("
 
 <img src="fig3.png">
 
-Este mecanismo é frequentemente chamado de "herança prototípica" (nós examinaremos o código em detalhes à seguir), e é comumente considerado como a versão em linguagem dinâmica para a "herança clássica". É uma tentativa de se apoiar no entendimento comum do que "herança" significa no mundo orientado à classes, mas *ajustar* (**leia: pavimentar**) a semântica compreendida para se adequar ao script dinâmico.
+Este mecanismo é frequentemente chamado de "herança prototípica" (nós examinaremos o código em detalhes a seguir), e é comumente considerado como a versão em linguagem dinâmica para a "herança clássica". É uma tentativa de se apoiar no entendimento comum do que "herança" significa no mundo orientado a classes, mas *ajustar* (**leia: pavimentar**) a semântica compreendida para se adequar ao script dinâmico.
 
 A palavra "herança" tem um significado poderoso (veja Capítulo 4), com muito precedente mental. Meramente adicionar o termo "prototípica" para distinguir um comportamento *que é na verdade quase oposto* em JavaScript deixou um rastro de quase duas décadas de confusão.
 
@@ -205,7 +205,7 @@ Eu gosto de dizer que o rótulo de "protótipo" para uma "herança" inverte drá
 
 A melhor abordagem é simplesmente chamar uma maçã de maçã -- para usar a terminologia mais precisa e direta. Isso facilita o entendimento tanto em suas similaridades quanto suas **muitas diferenças**, porque tudo que temos é um entendimento simples e compartilhado do que "maçã" significa. 
 
-Graças à confusão e conflação de termos, acredito que o próprio rótulo de "herança prototípica" (e a tentativa de se aplicar incorretamente toda a sua terminologia de orientação à classes associada, como "classe", "construtor", "instância", "polimorfismo", etc.) tem causado efeitos **mais negativos que positivos** em explicar como o mecanismo de JavaScript *realmente* funciona. 
+Graças à confusão e conflação de termos, acredito que o próprio rótulo de "herança prototípica" (e a tentativa de se aplicar incorretamente toda a sua terminologia de orientação a classes associada, como "classe", "construtor", "instância", "polimorfismo", etc.) tem causado efeitos **mais negativos que positivos** em explicar como o mecanismo de JavaScript *realmente* funciona. 
 
 "Herança" implica em uma operação de *cópia*, e JavaScript não copia propriedades de objetos (nativamente, por padrão). Ao invés disso, JS cria uma ligação entre dois objetos, onde um objeto pode essencialmente *delegar* acesso às propriedades/funções para outro objeto. "Delegação" (veja Capítulo 6) é um termo muito mais preciso para o mecanismo de ligação entre objetos do JavaScript.
 
@@ -217,11 +217,11 @@ Mas assim como "herança prototípica", "herança diferencial" finge que seu mod
 
 O objeto não é, por padrão nativo, nivelado em um único objeto diferencial, ***através de cópia***, que o modelo mental de "herança diferencial" implica. Como tal, "herança diferencial" não é apenas um ajuste natural para descrever como o mecanismo `[[Prototype]]` do JavaScript realmente funciona.
 
-Você *pode escolher* em preferir a terminologia de "herança diferencial" e o modelo mental, por questão de gosto, mas não há como negar o fato de que isso se encaixa *apenas* nas acrobacias mentais dentro de sua mente, e não do comportamento físico da engine.
+Você *pode escolher* em preferir a terminologia de "herança diferencial" e o modelo mental, por questão de gosto, mas não há como negar o fato de que isso se encaixa *apenas* nas acrobacias mentais dentro de sua mente, e não do comportamento físico do motor.
 
 ### "Construtores"
 
-Vamos voltar à um código visto mais cedo:
+Vamos voltar a um código visto mais cedo:
 
 ```js
 function Foo() {
@@ -233,7 +233,7 @@ var a = new Foo();
 
 O que exatamente nos leva a pensar que `Foo` é uma "classe"?
 
-Primeiramente, nós vimos o uso da palavra-chave `new`, assim como em linguagens orientadas à classes quando se instânciam classes. Além disso, parece que estamos na verdade executando um método *construtor* de uma classe, porque `Foo()` é o método de que de fato é chamado, assim como construtores reais de classes são chamados quando se instância está classe. 
+Primeiramente, nós vimos o uso da palavra-chave `new`, assim como em linguagens orientadas a classes quando se instânciam classes. Além disso, parece que estamos na verdade executando um método *construtor* de uma classe, porque `Foo()` é o método de que de fato é chamado, assim como construtores reais de classes são chamados quando se instância está classe. 
 
 Para aumentar a confusão sobre a semântica de um "construtor", o objeto arbitrariamente rotulado de `Foo.prototype` tem outro truque na manga. Considere este código: 
 
@@ -254,7 +254,7 @@ O objeto `Foo.prototype` por padrão (no momento da declaração na linha 1 do c
 
 Ah sim, outra coisa... por convenção no mundo JavaScript, "classes" são nomeadas com letra maiúscula, então o fato de ser `Foo` ao invés de `foo` é uma forte pista de que a intenção é de que seja uma "classe". Isso é totalmente óbvio pra você, certo!?
 
-**Nota:** Essa convenção é tão forte que muitos linters de JS de fato *reclamam* se você chama `new` em um método com letra minúscula, ou se não chamamos `new` em uma função que por acaso comece com uma letra maiúscula. Isso meio que confunde a ideia de que lutamos tanto para obter uma (falsa) "orientação à classe" *do jeito certo* em JavaScript em que criamos regras de linter para assegurar que usamos letras maiúsculas, mesmo que letra maiúscula não signifique ***absolutamente* nada** para o motor (engine) JS. 
+**Nota:** Essa convenção é tão forte que muitos linters de JS de fato *reclamam* se você chama `new` em um método com letra minúscula, ou se não chamamos `new` em uma função que por acaso comece com uma letra maiúscula. Isso meio que confunde a ideia de que lutamos tanto para obter uma (falsa) "orientação a classe" *do jeito certo* em JavaScript em que criamos regras de linter para assegurar que usamos letras maiúsculas, mesmo que letra maiúscula não signifique ***absolutamente* nada** para o motor (engine) JS. 
 
 #### Construtor ou Chamada?
 
@@ -285,7 +285,7 @@ Funções não são construtores, mas chamadas de funções são "chamadas de co
 
 São *esses* os únicos gatilhos comuns para as malfadadas discussões sobre "classes" em JavaScript?
 
-**Não exatamente.** Desenvolvedores JS se esforçaram o máximo possível para simular orientação à classes:
+**Não exatamente.** Desenvolvedores JS se esforçaram o máximo possível para simular orientação a classes:
 
 ```js
 function Foo(name) {
@@ -303,7 +303,7 @@ a.myName(); // "a"
 b.myName(); // "b"
 ```
 
-Este código mostra dois truques adicionais "orientados à classe" em jogo:
+Este código mostra dois truques adicionais "orientados a classe" em jogo:
 
 1. `this.name = name`: adiciona a propriedade `.name` em cada objeto (`a` e `b`, respectivamente; veja Capítulo 2 sobre ligação `this`), similar em como instâncias de classes encapsulam dados.
 
@@ -448,7 +448,7 @@ Então, acabamos usando `Object.create(..)` para criar um novo objeto que esteja
 
 Seria *bom* se existisse uma maneira padrão e confiável de se modificar a ligação de um objeto existente. Antes do ES6, existia uma maneira fora do padrão e não inteiramente cross-browser, através da propriedade `.__proto__`, que é configurável. ES6 adiciona o utilitário auxiliar `Object.setPrototypeOf(..)`, que consegue fazer esse truque de forma mais padrão e previsível.
 
-Compare as técnicas pré-ES6 e no padrão ES6 de ligar `Bar.prototype` à `Foo.prototype`, lado à lado:
+Compare as técnicas pré-ES6 e no padrão ES6 de ligar `Bar.prototype` à `Foo.prototype`, lado a lado:
 
 ```js
 // pré-ES6
@@ -460,11 +460,11 @@ Bar.prototype = Object.create( Foo.prototype );
 Object.setPrototypeOf( Bar.prototype, Foo.prototype );
 ```
 
-Ignorando a pequena desvantagem na performance (jogando fora um objeto que mais tarde será lixo coletado) da abordagem `Object.create(..)`, ela é um pouco menor e talvez seja um pouco mais fácil de se ler que a abordagem em ES6+. Mas é uma provável limpeza na síntaxe de qualquer forma.
+Ignorando a pequena desvantagem na performance (jogando fora um objeto que mais tarde será lixo coletado) da abordagem `Object.create(..)`, ela é um pouco menor e talvez seja um pouco mais fácil de se ler que a abordagem em ES6+. Mas é uma provável limpeza na sintaxe de qualquer forma.
 
 ### Inspecionando o Relacionamento de "Classes"
 
-E se você tiver um objeto como `a` e quer descobrir para qual objeto (se houver algum) ele delega? Inspecionar uma instância (que é só um objeto em JS) para buscar sua herança ancestral (que é uma ligação por delegação em JS) é frequentemente chamado de *introspecção* (ou *reflexão*) em ambientes tradicionais orientados à classes.
+E se você tiver um objeto como `a` e quer descobrir para qual objeto (se houver algum) ele delega? Inspecionar uma instância (que é só um objeto em JS) para buscar sua herança ancestral (que é uma ligação por delegação em JS) é frequentemente chamado de *introspecção* (ou *reflexão*) em ambientes tradicionais orientados a classes.
 
 Considere:
 
@@ -576,7 +576,7 @@ Então, quando nós acessamos (recuperamos o valor de) `a.__proto__`, é como se
 
 Existem algumas técnicas avançadas e muito complexas utilizadas no fundo de alguns frameworks que permitem truques como criar "subclasses" em um `Array`, mas em geral isso não é algo visto como uma boa prática de programação, já que leva há um entendimento e manutenção muito mais difíceis do código.
 
-**Nota:** A partir do ES6, a palavra-chave `class` permitirá algo que que se aproxima da criação de "subclasses" para utilitários nativos como o `Array`. Veja o Apêndice A para a discussão da síntaxe `class` adicionada no ES6.  
+**Nota:** A partir do ES6, a palavra-chave `class` permitirá algo que que se aproxima da criação de "subclasses" para utilitários nativos como o `Array`. Veja o Apêndice A para a discussão da sintaxe `class` adicionada no ES6.  
 
 A única pequena exceção (como mencionado antes) seria configurar o `[[Prototype]]` de um objeto `.prototype` como uma função padrão para referenciar algum outro objeto (além de `Object.prototype`). Isso evitaria substituir inteiramente o objeto padrão com um novo objeto ligado. Caso contrário, **é melhor tratar a ligação `[[Prototype]]` do objeto como uma característica de somente leitura** para facilitar a leitura de seu código mais tarde.
 
@@ -610,7 +610,7 @@ bar.something(); // Tell me something good...
 
 `Object.create(..)` cria um novo objeto (`bar`) ligado ao objeto que especificamos (`foo`), o que nos dá todo o poder (delegação) do mecânismo `[[Prototype]]`, mas sem qualquer complicação desnecessária de funções `new` atuando como classes e chamadas de construtores, confundindo referências `.prototype` e `.constructor`, ou qualquer outra coisa a mais.
 
-**Nota:** `Object.create(null)` cria um objeto que possui uma ligação `[[Prototype]]` vazia (também conhecida como `null`), e portanto esse objeto não pode delegar à lugar nenhum. Como um objeto desse tipo não tem uma cadeia de protótipo, o operador `instanceof` (explicado mais cedo) não tem nada pra checar, então sempre irá retornar `false`. Esses objetos especiais de `[[Prototype]]` vazios são frequentemente chamados de "dicionários" já que eles são tipicamente usados apenas para guardar dados em propriedades, na maioria das vezes porque eles não tem nenhum efeito surpresa vindo de qualquer propriedade/função delegada na cadeia `[[Prototype]]`, e por isso servem somente para armazenagem de dados.
+**Nota:** `Object.create(null)` cria um objeto que possui uma ligação `[[Prototype]]` vazia (também conhecida como `null`), e portanto esse objeto não pode delegar a lugar nenhum. Como um objeto desse tipo não tem uma cadeia de protótipo, o operador `instanceof` (explicado mais cedo) não tem nada pra checar, então sempre irá retornar `false`. Esses objetos especiais de `[[Prototype]]` vazios são frequentemente chamados de "dicionários" já que eles são tipicamente usados apenas para guardar dados em propriedades, na maioria das vezes porque eles não tem nenhum efeito surpresa vindo de qualquer propriedade/função delegada na cadeia `[[Prototype]]`, e por isso servem somente para armazenagem de dados.
 
 Nós não *precisamos* de classes para criar relacionamentos relevantes entre dois objetos. A única coisa que **realmente devemos nos importar** são objetos ligados entre si por delegação, e `Object.create(..)` nos dá essa ligação sem toda a desnecessária complexidade de uma classe.    
 
@@ -630,7 +630,7 @@ if (!Object.create) {
 
 Esse polyfill funciona atrávés do uso da função descartável `F` e sobrescrevendo sua propriedade `.prototype` para apontar para o objeto que desejamos criar uma ligação. Então nós usamos a construção `new F()` para criar um novo objeto que será ligado conforme especificamos.
 
-Esse uso do `Object.create(..)` é de longe o mais comum, porque é a parte dele em que *pode* ser aplicado o polyfill. Existe uma série de funcionalidades adicionais que o `Object.create(..)` nativo de ES5 fornece, e que *não podem* ter o polyfill aplicado em ambientes pré-ES5. Devido à isso, sua capacidade é muito menos explorada. Para tornar isso mais claro, vamos dar uma olha nessa funcionalidade adicional:
+Esse uso do `Object.create(..)` é de longe o mais comum, porque é a parte dele em que *pode* ser aplicado o polyfill. Existe uma série de funcionalidades adicionais que o `Object.create(..)` nativo de ES5 fornece, e que *não podem* ter o polyfill aplicado em ambientes pré-ES5. Devido a isso, sua capacidade é muito menos explorada. Para tornar isso mais claro, vamos dar uma olha nessa funcionalidade adicional:
 
 ```js
 var anotherObject = {
@@ -683,11 +683,11 @@ var myObject = createAndLinkObject( anotherObject );
 myObject.a; // 2
 ```
 
-Eu não partilho dessa visão mais rígida. Eu endosso completamente o uso de `Object.create(..)` mesmo sendo parcialmente apto ao polyfill como mostrado acima, e utilizá-lo em seu código mesmo em situações pré-ES5. Fica à seu critério para decidir o que é melhor para você.
+Eu não partilho dessa visão mais rígida. Eu endosso completamente o uso de `Object.create(..)` mesmo sendo parcialmente apto ao polyfill como mostrado acima, e utilizá-lo em seu código mesmo em situações pré-ES5. Fica a seu critério para decidir o que é melhor para você.
 
 ### Ligações como Fallbacks?
 
-Pode parecer tentador pensar que essas ligações entre objetos fornecem *primariamente* um tipo de fallback para propriedades ou métodos que "sumiram". Apesar de ser possível chegar à esse resultado, eu não penso que represente a forma correta de se pensar sobre `[[Prototype]]`.
+Pode parecer tentador pensar que essas ligações entre objetos fornecem *primariamente* um tipo de fallback para propriedades ou métodos que "sumiram". Apesar de ser possível chegar a esse resultado, eu não penso que represente a forma correta de se pensar sobre `[[Prototype]]`.
 
 Considere:
 
@@ -733,20 +733,20 @@ myObject.doCool(); // "cool!"
 
 Aqui, nós chamamos `myObject.doCool()`, que é o método que *de fato existe* em `myObject`, fazendo com que o desenho de sua API seja mais explícito (menos "mágico"). *Internamente*, nossa implementação segue o **design pattern de delegação** (veja Capítulo 6), tirando vantagem da delegação de `[[Prototype]]` para `anotherObject.cool()`.
 
-Em outras palavras, delegação tende à ser menos surpreendente/confusa se for um detalhe de implementação interno ao invés de abertamente exposto no desenho da interface de sua API. Nós iremos explorar **delegação** em muitos detalhes no próximo capítulo.
+Em outras palavras, delegação tende a ser menos surpreendente/confusa se for um detalhe de implementação interno ao invés de abertamente exposto no desenho da interface de sua API. Nós iremos explorar **delegação** em muitos detalhes no próximo capítulo.
 
 ## Revisão (TL;DR)
 
-Ao tentar acessar uma propriedade em um objeto que não possui essa propriedade, a ligação `[[Prototype]]` interna do objeto irá definir onde a operação `[[Get]]` (veja Capítulo 3) irá procurar na sequência. Essa ligação em cascata de um objeto para outro essencialmente define uma "cadeia de protótipos" (de certa forma similar à cadeia de escopo aninhada) de objetos à serem percorridos para resolução da propriedade.
+Ao tentar acessar uma propriedade em um objeto que não possui essa propriedade, a ligação `[[Prototype]]` interna do objeto irá definir onde a operação `[[Get]]` (veja Capítulo 3) irá procurar na sequência. Essa ligação em cascata de um objeto para outro essencialmente define uma "cadeia de protótipos" (de certa forma similar à cadeia de escopo aninhada) de objetos a serem percorridos para resolução da propriedade.
 
 Todos os objetos normais possuem o `Object.prototype` nativo como o topo da cadeia de protótipos (como o escopo global na buscar de escopo), onde a resolução da propriedade será interrompida caso a mesma não seja encontrada em nenhum lugar da cadeia. `toString()`, `valueOf()`, e muitos outros utilitários comuns existem nesse objeto `Object.prototype`, o que explica como todos os objetos na linguagem são capazes de acessá-los. 
 
-A maneira mais comum de se ligar dois objetos entre si é usando a palavra-chave `new` com a chamada de uma função, que entre seus quatro passos (veja Capítulo 2) cria um novo objeto ligado à outro objeto.
+A maneira mais comum de se ligar dois objetos entre si é usando a palavra-chave `new` com a chamada de uma função, que entre seus quatro passos (veja Capítulo 2) cria um novo objeto ligado a outro objeto.
 
-O "outro objeto" à que esse novo objeto está ligado acontece de ser o objeto referenciado pela propriedade arbitrariamente nomeada de `.prototype` da função que foi chamada com `new`. Funções chamadas com `new` são frequentemente chamadas de "construtores", apesar do fato de que não estão realmente instanciando uma classe como *construtores* fazem em linguagens orientadas à classe tradicionais.
+O "outro objeto" a que esse novo objeto está ligado acontece de ser o objeto referenciado pela propriedade arbitrariamente nomeada de `.prototype` da função que foi chamada com `new`. Funções chamadas com `new` são frequentemente chamadas de "construtores", apesar do fato de que não estão realmente instanciando uma classe como *construtores* fazem em linguagens orientadas a classe tradicionais.
 
-Enquanto esses mecânismos JavaScript podem lembrar "instanciamento de classe" e "herança de classe" de linguagens orientadas à classe tradicionais, a chave para distinguir isso é que em JavaScript, nenhuma cópia é realizada. Ao invés disso, objetos acabam ligados um ao outro através da cadeia `[[Prototype]]` interna.
+Enquanto esses mecânismos JavaScript podem lembrar "instanciamento de classe" e "herança de classe" de linguagens orientadas a classe tradicionais, a chave para distinguir isso é que em JavaScript, nenhuma cópia é realizada. Ao invés disso, objetos acabam ligados um ao outro através da cadeia `[[Prototype]]` interna.
 
-Por uma variedade de motivos, não menos que uma terminologia precedente, "herança" (e "herança prototípica") e todos os termos de orientação à objetos não fazem nenhum sentido quando considera-se como JavaScript funciona *de fato* (e não apenas aplicados aos nossos modelos mentais forçados).
+Por uma variedade de motivos, não menos que uma terminologia precedente, "herança" (e "herança prototípica") e todos os termos de orientação a objetos não fazem nenhum sentido quando considera-se como JavaScript funciona *de fato* (e não apenas aplicados aos nossos modelos mentais forçados).
 
 Ao invés disso, "delegação" é um termo muito mais apropriado, porque esses relacionamentos não são *cópias* mas sim **ligações** delegadas.

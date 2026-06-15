@@ -1,5 +1,7 @@
 # You Don't Know JS: *this* & Prototipagem de Objetos
 
+> **Nota:** Esta é a tradução da 1ª edição da série *You Don't Know JS*, cujo conteúdo está completo.
+
 <img src="cover.jpg" width="300">
 
 -----
@@ -16,7 +18,7 @@
 * [Capítulo 2: *this* Agora tudo faz sentido!](ch2.md)
 * [Capítulo 3: Objetos](ch3.md)
 * [Capítulo 4: Confundindo Objetos com "Classes"](ch4.md)
-* [Capítulo 5: Prototótipos](ch5.md)
+* [Capítulo 5: Protótipos](ch5.md)
 * [Capítulo 6: Delegação de Comportamentos](ch6.md)
 * [Apêndice A: ES6 *class*](apA.md)
 * [Apêndice B: Agradecimentos](apB.md)

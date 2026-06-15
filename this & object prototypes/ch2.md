@@ -40,9 +40,9 @@ function foo() {
 baz(); // <-- call-site para `baz`
 ```
 
-Seja cuidadoso ao analizar o código ao procurar pelo call-site atual (através do call-stack), visto que ele é a única coisa que importa para o binding do `this`.
+Seja cuidadoso ao analisar o código ao procurar pelo call-site atual (através do call-stack), visto que ele é a única coisa que importa para o binding do `this`.
 
-**Nota:** Você pode visualizar o call-stack mentalmente ao ver a cadeia de funções em ordem, como fizemos nos comentários no trecho de código anterior. Entretanto, esta é uma forma dolorosa e passível a erros. Uma outra forma de ver o call-stack é usar a ferramenta de debug do seu navegador. A maioria dos navegadores modernos tem ferramentas do desenvolvedor nativas, as quais incluem um debugger de JS. No trecho de código anterior, você poderia ter definido um breakpoint na ferramenta para a primeira linha da função `foo()`, ou simplesmente inserido a instrução `debugger;` nessa primeira linha. Quando você rodar a página, o debugger irá pausar neste ponto, e irá mostrar à você a lista de funções que foram acionadas para poder chegar à esta linha, que virá a ser o seu call stack. Sendo assim, se você está tentando diagnosticar o binding de `this`, use as ferramentas do desenvolvedor para acessar o call-stack, e então busque o segundo item começando do topo, e ela irá mostrar à você o verdadeiro call-site.
+**Nota:** Você pode visualizar o call-stack mentalmente ao ver a cadeia de funções em ordem, como fizemos nos comentários no trecho de código anterior. Entretanto, esta é uma forma dolorosa e passível a erros. Uma outra forma de ver o call-stack é usar a ferramenta de debug do seu navegador. A maioria dos navegadores modernos tem ferramentas do desenvolvedor nativas, as quais incluem um debugger de JS. No trecho de código anterior, você poderia ter definido um breakpoint na ferramenta para a primeira linha da função `foo()`, ou simplesmente inserido a instrução `debugger;` nessa primeira linha. Quando você rodar a página, o debugger irá pausar neste ponto, e irá mostrar a você a lista de funções que foram acionadas para poder chegar a esta linha, que virá a ser o seu call stack. Sendo assim, se você está tentando diagnosticar o binding de `this`, use as ferramentas do desenvolvedor para acessar o call-stack, e então busque o segundo item começando do topo, e ela irá mostrar a você o verdadeiro call-site.
 
 ## Nada além de Regras
 
@@ -68,7 +68,7 @@ foo(); // 2
 
 A primeira coisa a se notar, se você ainda não estiver notado, é que as variáveis declaradas no escopo global, como `var a = 2`, são sinônimos de propriedades de objetos globais com o mesmo nome. Elas não são cópias umas das outras, eles *são* as outras. Pense nisso como os dois lados da mesma moeda.
 
-A segunda coisa a se notar, nós vemos que quando `foo()` é chamado, `this.a` se refere à nossa variável global `a`. Por quê? Porque nesse caso, o *binding padrão* para `this`se aplica ao chamado da função, sendo assim ela aponta `this`para o objeto global.
+A segunda coisa a se notar, nós vemos que quando `foo()` é chamado, `this.a` se refere à nossa variável global `a`. Por quê? Porque nesse caso, o *binding padrão* para `this` se aplica ao chamado da função, sendo assim ela aponta `this` para o objeto global.
 
 Como podemos saber se a regra do *binding padrão* se aplica aqui? Nós examinaremos o call-site para ver como `foo()` é chamado. No nosso trecho de código, `foo()` é chamado como uma referência plana, sem nenhuma decoração. Nenhuma das outras regras que iremos demonstrar seriam aplicadas aqui, sendo assim o *binding padrão* é o que seria aplicado.
 
@@ -106,7 +106,7 @@ var a = 2;
 
 ### Binding Implícito
 
-Outra regra à se considerar é: o call-site tem um objeto como contexto, também chamado de objeto proprietário ou que contêm, apesar *destes* termos alternativos serem levemente enganosos.
+Outra regra a se considerar é: o call-site tem um objeto como contexto, também chamado de objeto proprietário ou que contêm, apesar *destes* termos alternativos serem levemente enganosos.
 
 Considere:
 
@@ -127,7 +127,7 @@ Primeiramente, note a maneira como `foo()` é declarado e depois adicionado como
 
 Entretanto, a call-site *usa* o contexto do `obj` para **referenciar** a função, então você *poderia* dizer que o objeto `obj` é "dono" ou "contém" a **função de referência** no momento que a função é chamada.
 
-Qualquer que seja a forma que você chama esse padrão, no momento em que `foo()` é chamado, é precedido por uma referência de objeto à `obj`. Quando existe um objeto de contexto para uma função referenciada, a regra do *binding implítico* diz que deve ser *aquele* objeto que deve ser usado para o binding da função `this` chamada.
+Qualquer que seja a forma que você chama esse padrão, no momento em que `foo()` é chamado, é precedido por uma referência de objeto à `obj`. Quando existe um objeto de contexto para uma função referenciada, a regra do *binding implícito* diz que deve ser *aquele* objeto que deve ser usado para o binding da função `this` chamada.
 
 Pelo fato de que `obj` é o `this` para a chamada de `foo()`, `this.a` é sinônimo de `obj.a`.
 
@@ -388,9 +388,9 @@ Em linguagens tradicionais orientadas por classes, "construtores" (constructors)
 something = new MyClass(..);
 ```
 
-JavaScript tem um operador `new` e o padrão de código para utilizá-lo é basicamente o mesmo que vemos naquelas linguagens orientadas à classes; a maioria dos desenvolvedores assumem que o mecanismo JavaScript está fazendo algo similar. Porém, realmente não há *nenhuma relação* com funcionalidades orientadas à classes no uso do `new` em JS.
+JavaScript tem um operador `new` e o padrão de código para utilizá-lo é basicamente o mesmo que vemos naquelas linguagens orientadas a classes; a maioria dos desenvolvedores assumem que o motor JavaScript está fazendo algo similar. Porém, realmente não há *nenhuma relação* com funcionalidades orientadas a classes no uso do `new` em JS.
 
-Primeiro, vamos redefinir o que é um "construtor" em JavaScript. Em JS, construtores são **apenas funções** que são chamadas quando o operador `new` está na frente delas. Elas não são vinculadas à classes, nem estão instanciando-as. Elas não são nem tipos especiais de funções. Elas são apenas funções normais que são, em essência, sequestradas pelo uso de `new` quando invocadas.
+Primeiro, vamos redefinir o que é um "construtor" em JavaScript. Em JS, construtores são **apenas funções** que são chamadas quando o operador `new` está na frente delas. Elas não são vinculadas a classes, nem estão instanciando-as. Elas não são nem tipos especiais de funções. Elas são apenas funções normais que são, em essência, sequestradas pelo uso de `new` quando invocadas.
 
 Por exemplo, a função `Number(..)` atua como um construtor, citação da especificação ES5.1:
 
@@ -424,7 +424,7 @@ Ao chamar `foo(..)` com `new` a sua frente, nós construímos um novo objeto e d
 
 ## Tudo em Ordem
 
-Então, agora descobrimos as 4 regras para ligação do `this` em chamadas de função. *Tudo* que você precisa fazer é encontrar o local de chamada e inspecioná-lo para ver qual regra se aplica. Mas, e se o local de chamada tiver várias regras elegíveis? Deve haver uma ordem de precedência para essas regras e, assim, demonstraremos em seguida que ordem aplicar à elas.
+Então, agora descobrimos as 4 regras para ligação do `this` em chamadas de função. *Tudo* que você precisa fazer é encontrar o local de chamada e inspecioná-lo para ver qual regra se aplica. Mas, e se o local de chamada tiver várias regras elegíveis? Deve haver uma ordem de precedência para essas regras e, assim, demonstraremos em seguida que ordem aplicar a elas.
 
 Deve ficar claro que o *default binding* (binding padrão) é a regra de prioridade mais baixa das 4. Então, vamos deixar isso de lado.
 
@@ -478,7 +478,7 @@ console.log( obj1.a ); // 2
 console.log( bar.a ); // 4
 ```
 
-OK, o *new binding* tem maior precedência que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedêcia sobre o *binding explícito*?
+OK, o *new binding* tem maior precedência que o *binding implícito*. Mas você acha que o *new binding* tem maior ou menor precedência sobre o *binding explícito*?
 
 **Nota:** `new` e `call`/`apply` não podem ser usados juntos, então `new foo.call(obj1)` não é permitido, para testar o *new binding* diretamente contra o *binding explícito*. Mas nós ainda podemos usar o *hard binding* para testar a precedência entre as duas regras.
 
@@ -659,11 +659,11 @@ Obviamente, essa armadilha pode levar a uma variedade de bugs *muito difícil* d
 
 #### `this` Seguro
 
-Talvez uma prática mais "segura" seja passar um objeto para `this` que garanta que este não seja um objeto que possa criar efeitos colaterais em seu programa. Pegando emprestado a terminologia da área de redes (e da militar), nós podemos criar um objeto "DMZ" (de-militarized zone / zona desmilitarizada) -- nada mais especial que um objeto completamente vazio, não delegado (veja no Capítulo 5).
+Talvez uma prática mais "segura" seja passar um objeto para `this` que garanta que este não seja um objeto que possa criar efeitos colaterais em seu programa. Pegando emprestado a terminologia da área de redes (e da militar), nós podemos criar um objeto "DMZ" (de-militarized zone / zona desmilitarizada) -- nada mais especial que um objeto completamente vazio, não delegado (veja os Capítulos 5 e 6).
 
 Se nós sempre passarmos um objeto DMZ para bindings `this` ignorados, nós achamos que não precisamos nos preocupar, temos certeza que qualquer uso oculto/inesperado de `this` estará restrito ao objeto vazio, o que isola o objeto `global` do nosso programa de efeitos colaterais.
 
-Já que esse objeto é totalmente vazio, eu pessoalmente gosto de dar um nome de variável `ø` à ele (o símbolo matemático para um conjunto vazio). Em muitos teclados (como o US-layout no Mac), esse símbolo é facilmente digitado com `⌥`+`o` (option+`o`). Alguns sistemas também deixam você definir teclas de atalho para símbolos específicos. Se você não gostar do símbolo `ø`, ou se seu teclado não o torna fácil de digitá-lo, claro que você pode chamá-lo como quiser.
+Já que esse objeto é totalmente vazio, eu pessoalmente gosto de dar um nome de variável `ø` a ele (o símbolo matemático para um conjunto vazio). Em muitos teclados (como o US-layout no Mac), esse símbolo é facilmente digitado com `⌥`+`o` (option+`o`). Alguns sistemas também deixam você definir teclas de atalho para símbolos específicos. Se você não gostar do símbolo `ø`, ou se seu teclado não o torna fácil de digitá-lo, claro que você pode chamá-lo como quiser.
 
 Seja do que for que você o chame, a melhor forma de configurá-lo como **totalmente vazio** é com `Object.create(null)` (veja o Capítulo 5). `Object.create(null)` é similar à `{ }`, mas sem a delegação do `Object.prototype`, então ele é ainda "mais vazio" do que apenas `{ }`.
 
@@ -706,7 +706,7 @@ o.foo(); // 3
 
 O *valor do resultado* da expressão de atribuição `p.foo = o.foo` é uma referência apenas ao objeto de função adjacente. Como tal, o local efetivo das chamadas é `foo()`, não `p.foo()` ou `o.foo()` como você pode ter esperado. De acordo com as regras acima, a regra de *default binding* se aplica.
 
-Lembrete: independentemente de como você chega à uma invocação de função usando a regra de *default binding*, o status `strict mode` do **conteúdo** da função invocada fazendo a referência `this` -- não ao local de chamada da função -- determinar o valor do *default binding*: o objeto `global` se estiver em modo não `strict` ou `undefined` se estiver em `strict mode`.
+Lembrete: independentemente de como você chega a uma invocação de função usando a regra de *default binding*, o status `strict mode` do **conteúdo** da função invocada fazendo a referência `this` -- não ao local de chamada da função -- determinar o valor do *default binding*: o objeto `global` se estiver em modo não `strict` ou `undefined` se estiver em `strict mode`.
 
 ### Soft Binding
 
@@ -794,7 +794,7 @@ var bar = foo.call( obj1 );
 bar.call( obj2 ); // 2, não 3!
 ```
 
-A arrow function criada em `foo()` lexicamente captura tudo o que `this` de `foo()` tem em seu tempo de chamada. Já que `foo()` teve binding de `this` para` obj1`, `bar` (uma referência à arrow function retornada) também terá o binding `this` para `obj1`. O binding léxico de uma arrow function não pode ser sobrescrito (mesmo com `new`!).
+A arrow function criada em `foo()` lexicamente captura tudo o que `this` de `foo()` tem em seu tempo de chamada. Já que `foo()` teve binding de `this` para` obj1`, `bar` (uma referência a arrow function retornada) também terá o binding `this` para `obj1`. O binding léxico de uma arrow function não pode ser sobrescrito (mesmo com `new`!).
 
 O caso de uso mais comum provavelmente é o uso de callbacks, como os handlers de evento ou timers:
 
