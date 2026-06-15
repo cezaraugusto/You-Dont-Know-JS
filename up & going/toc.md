@@ -28,8 +28,8 @@
 	* [Não-JavaScript](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch2.md#n%C3%A3o-javascript)
 * [Capítulo 3: Dentro do YDKJS](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md)
 	* [Escopos & Closures](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#escopos--closures)
-	* this & Prototipagem de Objetos
-	* Tipos & Gramática
-	* Async & Performance
-	* ES6 & Além
+	* [`this` & Prototipagem de Objetos](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#this--prototipagem-de-objetos)
+	* [Tipos & Gramática](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#tipos--gram%C3%A1tica)
+	* [Async & Performance](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#async--performance)
+	* [ES6 & Além](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/ch3.md#es6--al%C3%A9m)
 * [Apêndice A: Agradecimentos](https://github.com/cezaraugusto/You-Dont-Know-JS/blob/portuguese-translation/up%20%26%20going/apA.md)
