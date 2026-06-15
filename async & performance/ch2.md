@@ -1,7 +1,7 @@
 # You Don't Know JS: Async & Performance
-# Chapter 2: Callbacks
+# Capítulo 2: Callbacks
 
-No capítulo 1, nós exploramos a terminologia e conceitos acerca da programação assíncrona no JavaScript. Nosso foco foi entender a fila de loop de eventos mono-thread que guia todos os "eventos" (invocação assíncrona de funções). Também exploramos diversas formas que padrões de concorrência explicam as relações (se houver alguma!) entre cadeias de eventos *executadas simultaneamente*, ou "processos" (tarefas, chamadas de funções, etc.).
+No Capítulo 1, nós exploramos a terminologia e conceitos acerca da programação assíncrona no JavaScript. Nosso foco foi entender a fila de loop de eventos mono-thread que guia todos os "eventos" (invocação assíncrona de funções). Também exploramos diversas formas que padrões de concorrência explicam as relações (se houver alguma!) entre cadeias de eventos *executadas simultaneamente*, ou "processos" (tarefas, chamadas de funções, etc.).
 
 Todos os nosso exemplos no Capítulo 1 usaram a função como a unidade indivisível e individual de operações, de forma que dentro da função, declarações sejam executadas de forma previsível (acima do nível do compilador!), mas no nível de ordenação de funções, eventos (aka invocações de funções assíncronas) podem acontecer em ordens variadas.
 
@@ -47,7 +47,7 @@ A maioria dos leitores provavelmente pensou ou disse algo como: "Faça A e, em s
 
 Você pode ter se pegado corrigindo automaticamente para: "Faça A, configure o tempo limite de espera para 1.000 milissegundos, em seguida faça B e depois que o tempo limite for disparado, faça C." Isso é mais preciso que a primeira versão. Você pode ver a diferença?
 
-Embora a segunda versão seja mais precisa, as duas são deficientes em explicar esse código de maneira a conectar nossos cérebros ao código e o código ao mecanismo JS. A desconexão é sutil e monumental e está no cerne de compreender as deficiências das callbacks como expressão e gerenciamento assíncronos.
+Embora a segunda versão seja mais precisa, as duas são deficientes em explicar esse código de maneira a conectar nossos cérebros ao código e o código ao motor JS. A desconexão é sutil e monumental e está no cerne de compreender as deficiências das callbacks como expressão e gerenciamento assíncronos.
 
 Assim que introduzimos uma só dessas continuações (ou várias dezenas como muitos programas fazem!) na forma de uma callback, permitimos formar uma divergência entre o funcionamento de nossos cérebros e a maneira como o código funcionará. Sempre que esses dois divergem (e longe desse ser o único lugar que isso acontece, como eu tenho certeza que você sabe!), nos deparamos com o fato inevitável de que nosso código se torna mais difícil de entender, raciocinar, depurar e manter.
 
@@ -73,11 +73,11 @@ Na verdade, uma maneira de simplificar (ou seja, abusar) o mundo massivamente co
 
 Se você pensar em cada letra (ou palavra) que digito como um único evento assíncrono, apenas nesta frase existem várias dezenas de oportunidades para o meu cérebro ser interrompido por outro evento, como pelos meus sentidos, ou mesmo apenas pelos meus pensamentos aleatórios.
 
-Eu não sou interrompido e puxado para outro "processo" em todas as oportunidades que eu poderia ter (felizmente - ou esse livro nunca seria escrito!). Mas isso acontece frequente o suficiente para que eu sinta que meu próprio cérebro está quase constantemente mudando para vários contextos diferentes (também conhecidos como "processos"). E é muito parecido com o que o mecanismo JS provavelmente sentiria.
+Eu não sou interrompido e puxado para outro "processo" em todas as oportunidades que eu poderia ter (felizmente - ou esse livro nunca seria escrito!). Mas isso acontece frequente o suficiente para que eu sinta que meu próprio cérebro está quase constantemente mudando para vários contextos diferentes (também conhecidos como "processos"). E é muito parecido com o que o motor JS provavelmente sentiria.
 
 ### Fazendo Versus Planejando
 
-OK, então nossos cérebros podem ser pensados como operando na fila do loop do eventos de thread única, assim como o mecanismo JS. Isso soa como uma boa combinação.
+OK, então nossos cérebros podem ser pensados como operando na fila do loop do eventos de thread única, assim como o motor JS. Isso soa como uma boa combinação.
 
 Mas precisamos ter mais nuances do que isso em nossa análise. Há uma grande e observável diferença entre como planejamos várias tarefas e como nosso cérebro realmente as opera.
 
@@ -280,11 +280,11 @@ E como se isso não bastasse, ainda nem tocamos no que acontece quando duas ou m
 
 Você está entendendo a ideia aqui de que nosso cérebro, que se comporta de maneira sequencial e bloqueante, simplesmente não mapeiam bem código assíncrono orientado a callback? Esta é a primeira grande deficiência a ressaltar sobre callbacks: eles expressam assincronia em código de maneira que nosso cérebro luta apenas para mantê-lo de forma síncrona (trocadilho intencional!).
 
-## Trust Issues
+## Problemas de Confiança
 
-The mismatch between sequential brain planning and callback-driven async JS code is only part of the problem with callbacks. There's something much deeper to be concerned about.
+A incompatibilidade entre o planejamento sequencial do cérebro e o código JS assíncrono orientado a callbacks é apenas parte do problema com callbacks. Há algo muito mais profundo com que se preocupar.
 
-Let's once again revisit the notion of a callback function as the continuation (aka the second half) of our program:
+Vamos mais uma vez revisitar a noção de uma função callback como a continuação (também conhecida como a segunda metade) do nosso programa:
 
 ```js
 // A
@@ -294,21 +294,21 @@ ajax( "..", function(..){
 // B
 ```
 
-`// A` and `// B` happen *now*, under the direct control of the main JS program. But `// C` gets deferred to happen *later*, and under the control of another party -- in this case, the `ajax(..)` function. In a basic sense, that sort of hand-off of control doesn't regularly cause lots of problems for programs.
+`// A` e `// B` acontecem *agora*, sob o controle direto do programa JS principal. Mas `// C` é adiado para acontecer *depois*, e sob o controle de outra parte -- neste caso, a função `ajax(..)`. Em um sentido básico, esse tipo de transferência de controle não costuma causar muitos problemas para os programas.
 
-But don't be fooled by its infrequency that this control switch isn't a big deal. In fact, it's one of the worst (and yet most subtle) problems about callback-driven design. It revolves around the idea that sometimes `ajax(..)` (i.e., the "party" you hand your callback continuation to) is not a function that you wrote, or that you directly control. Many times it's a utility provided by some third party.
+Mas não se deixe enganar por sua infrequência, achando que essa troca de controle não é grande coisa. Na verdade, é um dos piores (e ainda assim mais sutis) problemas do design orientado a callbacks. Ele gira em torno da ideia de que, às vezes, `ajax(..)` (ou seja, a "parte" para quem você entrega a continuação do seu callback) não é uma função que você escreveu, ou que você controla diretamente. Muitas vezes é um utilitário fornecido por algum terceiro.
 
-We call this "inversion of control," when you take part of your program and give over control of its execution to another third party. There's an unspoken "contract" that exists between your code and the third-party utility -- a set of things you expect to be maintained.
+Chamamos isso de "inversão de controle", quando você pega parte do seu programa e entrega o controle de sua execução a outra parte terceira. Existe um "contrato" tácito entre o seu código e o utilitário de terceiros -- um conjunto de coisas que você espera que sejam mantidas.
 
-### Tale of Five Callbacks
+### A História dos Cinco Callbacks
 
-It might not be terribly obvious why this is such a big deal. Let me construct an exaggerated scenario to illustrate the hazards of trust at play.
+Pode não ser terrivelmente óbvio por que isso é tão importante. Deixe-me construir um cenário exagerado para ilustrar os riscos de confiança em jogo.
 
-Imagine you're a developer tasked with building out an ecommerce checkout system for a site that sells expensive TVs. You already have all the various pages of the checkout system built out just fine. On the last page, when the user clicks "confirm" to buy the TV, you need to call a third-party function (provided say by some analytics tracking company) so that the sale can be tracked.
+Imagine que você é um desenvolvedor encarregado de construir um sistema de checkout de comércio eletrônico para um site que vende TVs caras. Você já tem todas as várias páginas do sistema de checkout construídas tranquilamente. Na última página, quando o usuário clica em "confirmar" para comprar a TV, você precisa chamar uma função de terceiros (fornecida, digamos, por alguma empresa de rastreamento de analytics) para que a venda possa ser rastreada.
 
-You notice that they've provided what looks like an async tracking utility, probably for the sake of performance best practices, which means you need to pass in a callback function. In this continuation that you pass in, you will have the final code that charges the customer's credit card and displays the thank you page.
+Você percebe que eles forneceram o que parece ser um utilitário de rastreamento assíncrono, provavelmente por causa das melhores práticas de performance, o que significa que você precisa passar uma função callback. Nessa continuação que você passa, você terá o código final que cobra o cartão de crédito do cliente e exibe a página de agradecimento.
 
-This code might look like:
+Esse código poderia se parecer com:
 
 ```js
 analytics.trackPurchase( purchaseData, function(){
@@ -317,25 +317,25 @@ analytics.trackPurchase( purchaseData, function(){
 } );
 ```
 
-Easy enough, right? You write the code, test it, everything works, and you deploy to production. Everyone's happy!
+Fácil o suficiente, certo? Você escreve o código, testa, tudo funciona, e você faz o deploy em produção. Todos felizes!
 
-Six months go by and no issues. You've almost forgotten you even wrote that code. One morning, you're at a coffee shop before work, casually enjoying your latte, when you get a panicked call from your boss insisting you drop the coffee and rush into work right away.
+Seis meses se passam e nenhum problema. Você quase esqueceu que escreveu esse código. Uma manhã, você está em uma cafeteria antes do trabalho, despreocupadamente apreciando seu latte, quando recebe uma ligação em pânico do seu chefe insistindo que você largue o café e corra para o trabalho imediatamente.
 
-When you arrive, you find out that a high-profile customer has had his credit card charged five times for the same TV, and he's understandably upset. Customer service has already issued an apology and processed a refund. But your boss demands to know how this could possibly have happened. "Don't we have tests for stuff like this!?"
+Quando você chega, descobre que um cliente de alto perfil teve seu cartão de crédito cobrado cinco vezes pela mesma TV, e ele está compreensivelmente irritado. O atendimento ao cliente já emitiu um pedido de desculpas e processou um reembolso. Mas seu chefe exige saber como isso poderia ter acontecido. "Não temos testes para coisas assim!?"
 
-You don't even remember the code you wrote. But you dig back in and start trying to find out what could have gone awry.
+Você nem se lembra do código que escreveu. Mas você volta a investigar e começa a tentar descobrir o que pode ter dado errado.
 
-After digging through some logs, you come to the conclusion that the only explanation is that the analytics utility somehow, for some reason, called your callback five times instead of once. Nothing in their documentation mentions anything about this.
+Depois de vasculhar alguns logs, você chega à conclusão de que a única explicação é que o utilitário de analytics, de alguma forma, por algum motivo, chamou seu callback cinco vezes em vez de uma. Nada na documentação deles menciona nada sobre isso.
 
-Frustrated, you contact customer support, who of course is as astonished as you are. They agree to escalate it to their developers, and promise to get back to you. The next day, you receive a lengthy email explaining what they found, which you promptly forward to your boss.
+Frustrado, você entra em contato com o suporte ao cliente, que, é claro, está tão atônito quanto você. Eles concordam em escalar o caso para os desenvolvedores deles e prometem retornar. No dia seguinte, você recebe um longo e-mail explicando o que eles encontraram, que você prontamente encaminha ao seu chefe.
 
-Apparently, the developers at the analytics company had been working on some experimental code that, under certain conditions, would retry the provided callback once per second, for five seconds, before failing with a timeout. They had never intended to push that into production, but somehow they did, and they're totally embarrassed and apologetic. They go into plenty of detail about how they've identified the breakdown and what they'll do to ensure it never happens again. Yadda, yadda.
+Aparentemente, os desenvolvedores da empresa de analytics estavam trabalhando em algum código experimental que, sob certas condições, tentaria novamente o callback fornecido uma vez por segundo, por cinco segundos, antes de falhar com um timeout. Eles nunca tiveram a intenção de enviar isso para produção, mas de alguma forma o fizeram, e estão totalmente envergonhados e arrependidos. Eles entram em muitos detalhes sobre como identificaram a falha e o que farão para garantir que isso nunca aconteça de novo. Blá, blá.
 
-What's next?
+E agora?
 
-You talk it over with your boss, but he's not feeling particularly comfortable with the state of things. He insists, and you reluctantly agree, that you can't trust *them* anymore (that's what bit you), and that you'll need to figure out how to protect the checkout code from such a vulnerability again.
+Você conversa com seu chefe, mas ele não está se sentindo particularmente confortável com a situação. Ele insiste, e você relutantemente concorda, que você não pode confiar mais *neles* (foi isso que te prejudicou), e que você precisará descobrir como proteger o código de checkout de uma vulnerabilidade dessas novamente.
 
-After some tinkering, you implement some simple ad hoc code like the following, which the team seems happy with:
+Depois de algumas tentativas, você implementa algum código ad hoc simples como o seguinte, com o qual a equipe parece satisfeita:
 
 ```js
 var tracked = false;
@@ -349,38 +349,38 @@ analytics.trackPurchase( purchaseData, function(){
 } );
 ```
 
-**Note:** This should look familiar to you from Chapter 1, because we're essentially creating a latch to handle if there happen to be multiple concurrent invocations of our callback.
+**Nota:** Isso deve lhe parecer familiar do Capítulo 1, porque estamos essencialmente criando uma trava para lidar com a possibilidade de haver múltiplas invocações concorrentes do nosso callback.
 
-But then one of your QA engineers asks, "what happens if they never call the callback?" Oops. Neither of you had thought about that.
+Mas então um dos seus engenheiros de QA pergunta: "o que acontece se eles nunca chamarem o callback?" Ops. Nenhum de vocês havia pensado nisso.
 
-You begin to chase down the rabbit hole, and think of all the possible things that could go wrong with them calling your callback. Here's roughly the list you come up with of ways the analytics utility could misbehave:
+Você começa a perseguir a toca do coelho e pensa em todas as coisas possíveis que poderiam dar errado na forma como eles chamam o seu callback. Aqui está, em linhas gerais, a lista que você elabora de maneiras pelas quais o utilitário de analytics poderia se comportar mal:
 
-* Call the callback too early (before it's been tracked)
-* Call the callback too late (or never)
-* Call the callback too few or too many times (like the problem you encountered!)
-* Fail to pass along any necessary environment/parameters to your callback
-* Swallow any errors/exceptions that may happen
+* Chamar o callback cedo demais (antes de ter sido rastreado)
+* Chamar o callback tarde demais (ou nunca)
+* Chamar o callback poucas ou muitas vezes (como o problema que você enfrentou!)
+* Não passar adiante qualquer ambiente/parâmetro necessário ao seu callback
+* Engolir quaisquer erros/exceções que possam acontecer
 * ...
 
-That should feel like a troubling list, because it is. You're probably slowly starting to realize that you're going to have to invent an awful lot of ad hoc logic **in each and every single callback** that's passed to a utility you're not positive you can trust.
+Isso deve parecer uma lista preocupante, porque é. Você provavelmente está começando a perceber lentamente que vai ter que inventar uma enorme quantidade de lógica ad hoc **em cada um e todos os callbacks** que são passados a um utilitário no qual você não tem certeza se pode confiar.
 
-Now you realize a bit more completely just how hellish "callback hell" is.
+Agora você percebe um pouco mais completamente o quão infernal é o "callback hell".
 
-### Not Just Others' Code
+### Não Apenas o Código dos Outros
 
-Some of you may be skeptical at this point whether this is as big a deal as I'm making it out to be. Perhaps you don't interact with truly third-party utilities much if at all. Perhaps you use versioned APIs or self-host such libraries, so that its behavior can't be changed out from underneath you.
+Alguns de vocês podem estar céticos neste ponto sobre se isso é tão importante quanto estou fazendo parecer. Talvez você não interaja muito, ou nada, com utilitários verdadeiramente de terceiros. Talvez você use APIs versionadas ou hospede você mesmo essas bibliotecas, para que o comportamento delas não possa ser alterado sem o seu conhecimento.
 
-So, contemplate this: can you even *really* trust utilities that you do theoretically control (in your own code base)?
+Então, contemple isto: você pode *realmente* confiar em utilitários que teoricamente controla (na sua própria base de código)?
 
-Think of it this way: most of us agree that at least to some extent we should build our own internal functions with some defensive checks on the input parameters, to reduce/prevent unexpected issues.
+Pense nisso desta forma: a maioria de nós concorda que, pelo menos até certo ponto, deveríamos construir nossas próprias funções internas com algumas verificações defensivas nos parâmetros de entrada, para reduzir/prevenir problemas inesperados.
 
-Overly trusting of input:
+Confiando demais na entrada:
 ```js
 function addNumbers(x,y) {
-	// + is overloaded with coercion to also be
-	// string concatenation, so this operation
-	// isn't strictly safe depending on what's
-	// passed in.
+	// + é sobrecarregado com coerção para também ser
+	// concatenação de strings, então essa operação
+	// não é estritamente segura dependendo do que é
+	// passado.
 	return x + y;
 }
 
@@ -388,15 +388,15 @@ addNumbers( 21, 21 );	// 42
 addNumbers( 21, "21" );	// "2121"
 ```
 
-Defensive against untrusted input:
+Defensivo contra entrada não confiável:
 ```js
 function addNumbers(x,y) {
-	// ensure numerical input
+	// garante entrada numérica
 	if (typeof x != "number" || typeof y != "number") {
 		throw Error( "Bad parameters" );
 	}
 
-	// if we get here, + will safely do numeric addition
+	// se chegarmos aqui, + fará com segurança a adição numérica
 	return x + y;
 }
 
@@ -404,14 +404,14 @@ addNumbers( 21, 21 );	// 42
 addNumbers( 21, "21" );	// Error: "Bad parameters"
 ```
 
-Or perhaps still safe but friendlier:
+Ou talvez ainda seguro, mas mais amigável:
 ```js
 function addNumbers(x,y) {
-	// ensure numerical input
+	// garante entrada numérica
 	x = Number( x );
 	y = Number( y );
 
-	// + will safely do numeric addition
+	// + fará com segurança a adição numérica
 	return x + y;
 }
 
@@ -419,23 +419,23 @@ addNumbers( 21, 21 );	// 42
 addNumbers( 21, "21" );	// 42
 ```
 
-However you go about it, these sorts of checks/normalizations are fairly common on function inputs, even with code we theoretically entirely trust. In a crude sort of way, it's like the programming equivalent of the geopolitical principle of "Trust But Verify."
+De qualquer forma que você faça, esses tipos de verificações/normalizações são bastante comuns nas entradas de funções, mesmo com código no qual teoricamente confiamos inteiramente. De um modo rudimentar, é como o equivalente em programação do princípio geopolítico de "Confie, Mas Verifique".
 
-So, doesn't it stand to reason that we should do the same thing about composition of async function callbacks, not just with truly external code but even with code we know is generally "under our own control"? **Of course we should.**
+Então, não é razoável que devêssemos fazer a mesma coisa em relação à composição de callbacks de funções assíncronas, não apenas com código verdadeiramente externo, mas até com código que sabemos estar geralmente "sob o nosso próprio controle"? **É claro que deveríamos.**
 
-But callbacks don't really offer anything to assist us. We have to construct all that machinery ourselves, and it often ends up being a lot of boilerplate/overhead that we repeat for every single async callback.
+Mas callbacks na verdade não oferecem nada para nos ajudar. Temos que construir toda essa maquinaria nós mesmos, e isso frequentemente acaba sendo muito código repetitivo/sobrecarga que repetimos para cada callback assíncrono.
 
-The most troublesome problem with callbacks is *inversion of control* leading to a complete breakdown along all those trust lines.
+O problema mais perturbador com callbacks é a *inversão de controle* que leva a um colapso completo ao longo de todas essas linhas de confiança.
 
-If you have code that uses callbacks, especially but not exclusively with third-party utilities, and you're not already applying some sort of mitigation logic for all these *inversion of control* trust issues, your code *has* bugs in it right now even though they may not have bitten you yet. Latent bugs are still bugs.
+Se você tem código que usa callbacks, especialmente, mas não exclusivamente, com utilitários de terceiros, e você ainda não está aplicando algum tipo de lógica de mitigação para todos esses problemas de confiança da *inversão de controle*, o seu código *tem* bugs nele agora mesmo, mesmo que eles ainda não tenham te prejudicado. Bugs latentes ainda são bugs.
 
-Hell indeed.
+O inferno, de fato.
 
-## Trying to Save Callbacks
+## Tentando Salvar os Callbacks
 
-There are several variations of callback design that have attempted to address some (not all!) of the trust issues we've just looked at. It's a valiant, but doomed, effort to save the callback pattern from imploding on itself.
+Existem várias variações do design de callbacks que tentaram resolver alguns (não todos!) dos problemas de confiança que acabamos de ver. É um esforço valente, mas fadado ao fracasso, de salvar o padrão de callback de implodir sobre si mesmo.
 
-For example, regarding more graceful error handling, some API designs provide for split callbacks (one for the success notification, one for the error notification):
+Por exemplo, em relação a um tratamento de erros mais elegante, alguns designs de API fornecem callbacks divididos (um para a notificação de sucesso, um para a notificação de erro):
 
 ```js
 function success(data) {
@@ -449,19 +449,19 @@ function failure(err) {
 ajax( "http://some.url.1", success, failure );
 ```
 
-In APIs of this design, often the `failure()` error handler is optional, and if not provided it will be assumed you want the errors swallowed. Ugh.
+Em APIs desse design, frequentemente o tratador de erro `failure()` é opcional e, se não for fornecido, será assumido que você quer que os erros sejam engolidos. Argh.
 
-**Note:** This split-callback design is what the ES6 Promise API uses. We'll cover ES6 Promises in much more detail in the next chapter.
+**Nota:** Esse design de callback dividido é o que a API de Promise do ES6 usa. Abordaremos Promises do ES6 em muito mais detalhe no próximo capítulo.
 
-Another common callback pattern is called "error-first style" (sometimes called "Node style," as it's also the convention used across nearly all Node.js APIs), where the first argument of a single callback is reserved for an error object (if any). If success, this argument will be empty/falsy (and any subsequent arguments will be the success data), but if an error result is being signaled, the first argument is set/truthy (and usually nothing else is passed):
+Outro padrão comum de callback é chamado de "estilo error-first" (às vezes chamado de "estilo Node", já que também é a convenção usada em quase todas as APIs do Node.js), onde o primeiro argumento de um único callback é reservado para um objeto de erro (se houver). Em caso de sucesso, esse argumento será vazio/falsy (e quaisquer argumentos subsequentes serão os dados de sucesso), mas se um resultado de erro estiver sendo sinalizado, o primeiro argumento é definido/truthy (e normalmente nada mais é passado):
 
 ```js
 function response(err,data) {
-	// error?
+	// erro?
 	if (err) {
 		console.error( err );
 	}
-	// otherwise, assume success
+	// caso contrário, assume sucesso
 	else {
 		console.log( data );
 	}
@@ -470,13 +470,13 @@ function response(err,data) {
 ajax( "http://some.url.1", response );
 ```
 
-In both of these cases, several things should be observed.
+Em ambos os casos, várias coisas devem ser observadas.
 
-First, it has not really resolved the majority of trust issues like it may appear. There's nothing about either callback that prevents or filters unwanted repeated invocations. Moreover, things are worse now, because you may get both success and error signals, or neither, and you still have to code around either of those conditions.
+Primeiro, ele na verdade não resolveu a maioria dos problemas de confiança como pode parecer. Não há nada em nenhum dos callbacks que previna ou filtre invocações repetidas indesejadas. Além disso, as coisas estão piores agora, porque você pode receber tanto sinais de sucesso quanto de erro, ou nenhum dos dois, e você ainda tem que codificar em torno de qualquer uma dessas condições.
 
-Also, don't miss the fact that while it's a standard pattern you can employ, it's definitely more verbose and boilerplate-ish without much reuse, so you're going to get weary of typing all that out for every single callback in your application.
+Além disso, não perca o fato de que, embora seja um padrão padrão que você pode empregar, é definitivamente mais verboso e cheio de código repetitivo sem muita reutilização, então você vai se cansar de digitar tudo isso para cada callback na sua aplicação.
 
-What about the trust issue of never being called? If this is a concern (and it probably should be!), you likely will need to set up a timeout that cancels the event. You could make a utility (proof-of-concept only shown) to help you with that:
+E quanto ao problema de confiança de nunca ser chamado? Se isso é uma preocupação (e provavelmente deveria ser!), você provavelmente precisará configurar um timeout que cancela o evento. Você poderia criar um utilitário (apenas uma prova de conceito é mostrada) para ajudá-lo com isso:
 
 ```js
 function timeoutify(fn,delay) {
@@ -487,7 +487,7 @@ function timeoutify(fn,delay) {
 	;
 
 	return function() {
-		// timeout hasn't happened yet?
+		// o timeout ainda não aconteceu?
 		if (intv) {
 			clearTimeout( intv );
 			fn.apply( this, [ null ].concat( [].slice.call( arguments ) ) );
@@ -496,10 +496,10 @@ function timeoutify(fn,delay) {
 }
 ```
 
-Here's how you use it:
+Veja como você o usa:
 
 ```js
-// using "error-first style" callback design
+// usando o design de callback "estilo error-first"
 function foo(err,data) {
 	if (err) {
 		console.error( err );
@@ -512,13 +512,13 @@ function foo(err,data) {
 ajax( "http://some.url.1", timeoutify( foo, 500 ) );
 ```
 
-Another trust issue is being called "too early." In application-specific terms, this may actually involve being called before some critical task is complete. But more generally, the problem is evident in utilities that can either invoke the callback you provide *now* (synchronously), or *later* (asynchronously).
+Outro problema de confiança é ser chamado "cedo demais". Em termos específicos da aplicação, isso pode realmente envolver ser chamado antes que alguma tarefa crítica seja concluída. Mas, de forma mais geral, o problema é evidente em utilitários que podem tanto invocar o callback que você fornece *agora* (de forma síncrona), quanto *depois* (de forma assíncrona).
 
-This nondeterminism around the sync-or-async behavior is almost always going to lead to very difficult to track down bugs. In some circles, the fictional insanity-inducing monster named Zalgo is used to describe the sync/async nightmares. "Don't release Zalgo!" is a common cry, and it leads to very sound advice: always invoke callbacks asynchronously, even if that's "right away" on the next turn of the event loop, so that all callbacks are predictably async.
+Esse não determinismo em torno do comportamento síncrono ou assíncrono quase sempre vai levar a bugs muito difíceis de rastrear. Em alguns círculos, o monstro fictício indutor de insanidade chamado Zalgo é usado para descrever os pesadelos de sync/async. "Não solte o Zalgo!" é um grito comum, e leva a um conselho muito sensato: sempre invoque callbacks de forma assíncrona, mesmo que seja "imediatamente" no próximo giro do loop de eventos, para que todos os callbacks sejam previsivelmente assíncronos.
 
-**Note:** For more information on Zalgo, see Oren Golan's "Don't Release Zalgo!" (https://github.com/oren/oren.github.io/blob/master/posts/zalgo.md) and Isaac Z. Schlueter's "Designing APIs for Asynchrony" (http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony).
+**Nota:** Para mais informações sobre o Zalgo, veja "Don't Release Zalgo!" de Oren Golan (https://github.com/oren/oren.github.io/blob/master/posts/zalgo.md) e "Designing APIs for Asynchrony" de Isaac Z. Schlueter (http://blog.izs.me/post/59142742143/designing-apis-for-asynchrony).
 
-Consider:
+Considere:
 
 ```js
 function result(data) {
@@ -531,11 +531,11 @@ ajax( "..pre-cached-url..", result );
 a++;
 ```
 
-Will this code print `0` (sync callback invocation) or `1` (async callback invocation)? Depends... on the conditions.
+Este código imprimirá `0` (invocação síncrona do callback) ou `1` (invocação assíncrona do callback)? Depende... das condições.
 
-You can see just how quickly the unpredictability of Zalgo can threaten any JS program. So the silly-sounding "never release Zalgo" is actually incredibly common and solid advice. Always be asyncing.
+Você pode ver quão rapidamente a imprevisibilidade do Zalgo pode ameaçar qualquer programa JS. Então o conselho de som bobo "nunca solte o Zalgo" é, na verdade, incrivelmente comum e sólido. Sempre seja assíncrono.
 
-What if you don't know whether the API in question will always execute async? You could invent a utility like this `asyncify(..)` proof-of-concept:
+E se você não souber se a API em questão sempre executará de forma assíncrona? Você poderia inventar um utilitário como esta prova de conceito `asyncify(..)`:
 
 ```js
 function asyncify(fn) {
@@ -549,27 +549,27 @@ function asyncify(fn) {
 	fn = null;
 
 	return function() {
-		// firing too quickly, before `intv` timer has fired to
-		// indicate async turn has passed?
+		// disparando rápido demais, antes que o timer `intv` tenha
+		// disparado para indicar que o giro assíncrono já passou?
 		if (intv) {
 			fn = orig_fn.bind.apply(
 				orig_fn,
-				// add the wrapper's `this` to the `bind(..)`
-				// call parameters, as well as currying any
-				// passed in parameters
+				// adiciona o `this` do wrapper aos parâmetros
+				// da chamada `bind(..)`, bem como faz currying
+				// de quaisquer parâmetros passados
 				[this].concat( [].slice.call( arguments ) )
 			);
 		}
-		// already async
+		// já é assíncrono
 		else {
-			// invoke original function
+			// invoca a função original
 			orig_fn.apply( this, arguments );
 		}
 	};
 }
 ```
 
-You use `asyncify(..)` like this:
+Você usa `asyncify(..)` assim:
 
 ```js
 function result(data) {
@@ -582,26 +582,26 @@ ajax( "..pre-cached-url..", asyncify( result ) );
 a++;
 ```
 
-Whether the Ajax request is in the cache and resolves to try to call the callback right away, or must be fetched over the wire and thus complete later asynchronously, this code will always output `1` instead of `0` -- `result(..)` cannot help but be invoked asynchronously, which means the `a++` has a chance to run before `result(..)` does.
+Quer a requisição Ajax esteja no cache e resolva tentar chamar o callback imediatamente, quer precise ser buscada pela rede e, portanto, seja concluída mais tarde de forma assíncrona, este código sempre produzirá `1` em vez de `0` -- `result(..)` não tem como deixar de ser invocado de forma assíncrona, o que significa que o `a++` tem a chance de rodar antes de `result(..)`.
 
-Yay, another trust issued "solved"! But it's inefficient, and yet again more bloated boilerplate to weigh your project down.
+Oba, mais um problema de confiança "resolvido"! Mas é ineficiente, e novamente mais código repetitivo inchado para sobrecarregar o seu projeto.
 
-That's just the story, over and over again, with callbacks. They can do pretty much anything you want, but you have to be willing to work hard to get it, and oftentimes this effort is much more than you can or should spend on such code reasoning.
+Essa é simplesmente a história, repetidas vezes, com callbacks. Eles podem fazer praticamente qualquer coisa que você quiser, mas você tem que estar disposto a trabalhar duro para consegui-lo, e muitas vezes esse esforço é muito maior do que você pode ou deveria gastar raciocinando sobre tal código.
 
-You might find yourself wishing for built-in APIs or other language mechanics to address these issues. Finally ES6 has arrived on the scene with some great answers, so keep reading!
+Você pode se ver desejando APIs nativas ou outros mecanismos da linguagem para resolver esses problemas. Finalmente o ES6 chegou em cena com algumas ótimas respostas, então continue lendo!
 
-## Review
+## Revisão
 
-Callbacks are the fundamental unit of asynchrony in JS. But they're not enough for the evolving landscape of async programming as JS matures.
+Callbacks são a unidade fundamental de assincronia em JS. Mas eles não são suficientes para o cenário em evolução da programação assíncrona à medida que o JS amadurece.
 
-First, our brains plan things out in sequential, blocking, single-threaded semantic ways, but callbacks express asynchronous flow in a rather nonlinear, nonsequential way, which makes reasoning properly about such code much harder. Bad to reason about code is bad code that leads to bad bugs.
+Primeiro, nossos cérebros planejam as coisas de maneiras semânticas sequenciais, bloqueantes e de thread única, mas callbacks expressam o fluxo assíncrono de uma forma um tanto não linear e não sequencial, o que torna o raciocínio adequado sobre tal código muito mais difícil. Código difícil de raciocinar é código ruim que leva a bugs ruins.
 
-We need a way to express asynchrony in a more synchronous, sequential, blocking manner, just like our brains do.
+Precisamos de uma maneira de expressar a assincronia de uma forma mais síncrona, sequencial e bloqueante, exatamente como nossos cérebros fazem.
 
-Second, and more importantly, callbacks suffer from *inversion of control* in that they implicitly give control over to another party (often a third-party utility not in your control!) to invoke the *continuation* of your program. This control transfer leads us to a troubling list of trust issues, such as whether the callback is called more times than we expect.
+Segundo, e mais importante, callbacks sofrem de *inversão de controle* pois eles implicitamente entregam o controle a outra parte (frequentemente um utilitário de terceiros fora do seu controle!) para invocar a *continuação* do seu programa. Essa transferência de controle nos leva a uma lista preocupante de problemas de confiança, como se o callback é chamado mais vezes do que esperamos.
 
-Inventing ad hoc logic to solve these trust issues is possible, but it's more difficult than it should be, and it produces clunkier and harder to maintain code, as well as code that is likely insufficiently protected from these hazards until you get visibly bitten by the bugs.
+Inventar lógica ad hoc para resolver esses problemas de confiança é possível, mas é mais difícil do que deveria ser, e produz código mais desajeitado e mais difícil de manter, bem como código que provavelmente está insuficientemente protegido desses riscos até que você seja visivelmente prejudicado pelos bugs.
 
-We need a generalized solution to **all of the trust issues**, one that can be reused for as many callbacks as we create without all the extra boilerplate overhead.
+Precisamos de uma solução generalizada para **todos os problemas de confiança**, uma que possa ser reutilizada para quantos callbacks criarmos, sem toda a sobrecarga extra de código repetitivo.
 
-We need something better than callbacks. They've served us well to this point, but the *future* of JavaScript demands more sophisticated and capable async patterns. The subsequent chapters in this book will dive into those emerging evolutions.
+Precisamos de algo melhor do que callbacks. Eles nos serviram bem até este ponto, mas o *futuro* do JavaScript exige padrões assíncronos mais sofisticados e capazes. Os capítulos subsequentes deste livro vão mergulhar nessas evoluções emergentes.

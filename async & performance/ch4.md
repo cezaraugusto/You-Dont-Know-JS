@@ -1,20 +1,20 @@
 # You Don't Know JS: Async & Performance
 # Capítulo 4: Geradores
 
-No capítulo 2, nós identificamos duas desvantagens importantes ao expressar controle de fluxo assíncrono com callbacks(retornos):
+No Capítulo 2, nós identificamos duas desvantagens importantes ao expressar controle de fluxo assíncrono com callbacks(retornos):
 
 * Fluxo assíncrono baseado em callback(retorno) não se alinha com o jeito de como o nosso cérebro planeja os passos de uma tarefa.
 * Callbacks(retornos) não são confiáveis ou combináveis por causa da *inversão de controle*.
 
-No capítulo 3, nós detalhamos como Promises desinvertem a *inversão de controle* dos callbacks(retornos), restaurando a confiabilidade/composibilidade.
+No Capítulo 3, nós detalhamos como Promises desinvertem a *inversão de controle* dos callbacks(retornos), restaurando a confiabilidade/composibilidade.
 
 Agora nós mudamos o nosso foco para expressar controle de fluxo assíncrono em uma sequência, de um jeito parecido com síncrono. A "mágica" que faz isto possível são **geradores** (generators) do ES6.
 
 ## Desmembrando o Rodar-até-acabar
 
-No capítulo 1, nós explicamos uma expectativa que quase todas as pessoas desenvolvedoras JS têm com seu código: quando uma função começa a executar, ela roda até acabar, e nenhum outro código pode interromper este processo e rodar entre ela.
+No Capítulo 1, nós explicamos uma expectativa que quase todas as pessoas desenvolvedoras JS têm com seu código: quando uma função começa a executar, ela roda até acabar, e nenhum outro código pode interromper este processo e rodar entre ela.
 
-Por mais bizarro que isso pareça, ES6 introduziu um novo tipo de função que não se comporta com o comportamente de rodar-até-acabar. Este novo tipo de função se chama "gerador".
+Por mais bizarro que isso pareça, ES6 introduziu um novo tipo de função que não se comporta com o comportamento de rodar-até-acabar. Este novo tipo de função se chama "gerador".
 
 Para entender as implicações disso, vamos considerar o seguinte exemplo:
 ```js
@@ -40,7 +40,7 @@ Agora vamos brincar com o nosso cérebro. E se `bar()` não estivesse ali, mas a
 Em linguagens de programação **preemptivas** multi-tarefas, seria essencialmente possível que `bar()` "interrompesse" e rodasse exatamente entre esses dois pedaços de código. Mas JS não é preemptivo, nem é (atualmente) multithread. E, ainda assim, uma forma **cooperativa** dessa "interrupção" (concorrência) é possível, se `foo()` em si pudesse de alguma forma indicar uma "pausa" naquela parte do código.
 
 
-**Nota:** Eu uso a palavra "cooperativa" não apenas por causa da conexão com a terminologia clássica de concorrência (veja o capítulo 1), mas porque, como você verá no próximo trecho, a sintaxe do ES6 para indicar um ponto de pausa no código é `yield` -- sugerindo uma cessão (yielding) de controle de forma educadamente *cooperativa*.
+**Nota:** Eu uso a palavra "cooperativa" não apenas por causa da conexão com a terminologia clássica de concorrência (veja o Capítulo 1), mas porque, como você verá no próximo trecho, a sintaxe do ES6 para indicar um ponto de pausa no código é `yield` -- sugerindo uma cessão (yielding) de controle de forma educadamente *cooperativa*.
 
 Aqui está o código ES6 para realizar essa concorrência cooperativa:
 
@@ -257,7 +257,7 @@ Esse é um exemplo "divertido" de se percorrer mentalmente. Você conseguiu mant
 
 #### Intercalando
 
-Relembre este cenário da seção "Rodar-até-acabar" do capítulo 1:
+Relembre este cenário da seção "Rodar-até-acabar" do Capítulo 1:
 
 ```js
 var a = 1;
@@ -299,7 +299,7 @@ function *bar() {
 }
 ```
 
-Dependendo de qual ordem respectiva os *iterators* que controlam `*foo()` e `*bar()` são chamados, o programa anterior poderia produzir vários resultados diferentes. Em outras palavras, podemos de fato ilustrar (de uma forma meio fingida) as circunstâncias teóricas de "condições de corrida com threads" discutidas no capítulo 1, intercalando as iterações dos dois geradores sobre as mesmas variáveis compartilhadas.
+Dependendo de qual ordem respectiva os *iterators* que controlam `*foo()` e `*bar()` são chamados, o programa anterior poderia produzir vários resultados diferentes. Em outras palavras, podemos de fato ilustrar (de uma forma meio fingida) as circunstâncias teóricas de "condições de corrida com threads" discutidas no Capítulo 1, intercalando as iterações dos dois geradores sobre as mesmas variáveis compartilhadas.
 
 Primeiro, vamos fazer uma função auxiliar chamada `step(..)` que controla um *iterator*:
 
@@ -318,7 +318,7 @@ function step(gen) {
 
 `step(..)` inicializa um gerador para criar seu *iterator* `it`, então retorna uma função que, quando chamada, avança o *iterator* em um passo. Adicionalmente, o valor previamente cedido (`yield`) para fora é enviado de volta no *próximo* passo. Então, `yield 8` simplesmente se tornará `8` e `yield b` simplesmente será `b` (qualquer que fosse seu valor no momento do `yield`).
 
-Agora, só por diversão, vamos experimentar para ver os efeitos de intercalar esses diferentes pedaços de `*foo()` e `*bar()`. Vamos começar com o caso base entediante, garantindo que `*foo()` termine totalmente antes de `*bar()` (assim como fizemos no capítulo 1):
+Agora, só por diversão, vamos experimentar para ver os efeitos de intercalar esses diferentes pedaços de `*foo()` e `*bar()`. Vamos começar com o caso base entediante, garantindo que `*foo()` termine totalmente antes de `*bar()` (assim como fizemos no Capítulo 1):
 
 ```js
 // certifique-se de resetar `a` e `b`
@@ -342,7 +342,7 @@ s2();
 console.log( a, b );	// 11 22
 ```
 
-O resultado final é `11` e `22`, exatamente como era na versão do capítulo 1. Agora vamos misturar a ordem de intercalação e ver como isso muda os valores finais de `a` e `b`:
+O resultado final é `11` e `22`, exatamente como era na versão do Capítulo 1. Agora vamos misturar a ordem de intercalação e ver como isso muda os valores finais de `a` e `b`:
 
 ```js
 // certifique-se de resetar `a` e `b`
@@ -571,7 +571,7 @@ function *something() {
 
 Isso é bem mais limpo e simples, certo? Porque o gerador pausa a cada `yield`, o estado (escopo) da função `*something()` é mantido por perto, o que significa que não há necessidade do boilerplate de closure para preservar o estado das variáveis entre as chamadas.
 
-Não só é um código mais simples -- não precisamos fazer nossa própria interface de *iterator* -- ele na verdade é um código mais sensato (reason-able), porque ele expressa mais claramente a intenção. Por exemplo, o loop `while..true` nos diz que o gerador foi feito para rodar para sempre -- para continuar *gerando* valores enquanto continuarmos pedindo por eles.
+Não só é um código mais simples -- não precisamos fazer nossa própria interface de *iterator* -- ele na verdade é um código mais sensato, porque ele expressa mais claramente a intenção. Por exemplo, o loop `while..true` nos diz que o gerador foi feito para rodar para sempre -- para continuar *gerando* valores enquanto continuarmos pedindo por eles.
 
 E agora podemos usar nosso novinho gerador `*something()` com um loop `for..of`, e você verá que ele funciona basicamente de forma idêntica:
 
@@ -660,7 +660,7 @@ Mas agora que entendemos mais plenamente algumas das mecânicas de como eles fun
 
 O que geradores têm a ver com padrões de codificação assíncrona, com corrigir problemas com callbacks, e coisas assim? Vamos chegar à resposta dessa pergunta importante.
 
-Devemos revisitar um dos nossos cenários do capítulo 3. Vamos relembrar a abordagem com callback:
+Devemos revisitar um dos nossos cenários do Capítulo 3. Vamos relembrar a abordagem com callback:
 
 ```js
 function foo(x,y,cb) {
@@ -726,7 +726,7 @@ console.log( text );
 
 Pense por um momento em como esse código funciona. Estamos chamando uma função normal `foo(..)` e aparentemente conseguimos obter de volta o `text` da chamada Ajax, mesmo sendo assíncrono.
 
-Como isso é possível? Se você relembrar o começo do capítulo 1, nós tínhamos um código quase idêntico:
+Como isso é possível? Se você relembrar o começo do Capítulo 1, nós tínhamos um código quase idêntico:
 
 ```js
 var data = ajax( "..url 1.." );
@@ -775,7 +775,7 @@ catch (err) {
 }
 ```
 
-Como isso funciona? A chamada `foo(..)` está sendo concluída de forma assíncrona, e o `try..catch` não falha em capturar erros assíncronos, como vimos no capítulo 3?
+Como isso funciona? A chamada `foo(..)` está sendo concluída de forma assíncrona, e o `try..catch` não falha em capturar erros assíncronos, como vimos no Capítulo 3?
 
 Nós já vimos como o `yield` deixa a instrução de atribuição pausar para esperar `foo(..)` terminar, de forma que a resposta concluída possa ser atribuída a `text`. A parte incrível é que essa pausa do `yield` *também* permite que o gerador `catch` (capture) um erro. Nós lançamos esse erro para dentro do gerador com esta parte da listagem de código anterior:
 
@@ -835,17 +835,17 @@ catch (err) {
 }
 ```
 
-Tratamento de erros com aparência síncrona (via `try..catch`) com código assíncrono é uma grande vitória para a legibilidade e a sensatez (reason-ability).
+Tratamento de erros com aparência síncrona (via `try..catch`) com código assíncrono é uma grande vitória para a legibilidade e a sensatez.
 
 ## Generators + Promises
 
-Em nossa discussão anterior, mostramos como geradores podem ser iterados assincronamente, o que é um enorme passo adiante em sensatez sequencial em relação à bagunça de espaguete dos callbacks. Mas nós perdemos algo muito importante: a confiabilidade e a composibilidade das Promises (veja o capítulo 3)!
+Em nossa discussão anterior, mostramos como geradores podem ser iterados assincronamente, o que é um enorme passo adiante em sensatez sequencial em relação à bagunça de espaguete dos callbacks. Mas nós perdemos algo muito importante: a confiabilidade e a composibilidade das Promises (veja o Capítulo 3)!
 
 Não se preocupe -- nós podemos recuperar isso. O melhor de todos os mundos no ES6 é combinar geradores (código assíncrono com aparência síncrona) com Promises (confiáveis e combináveis).
 
 Mas como?
 
-Relembre do capítulo 3 a abordagem baseada em Promises para o nosso exemplo corrente de Ajax:
+Relembre do Capítulo 3 a abordagem baseada em Promises para o nosso exemplo corrente de Ajax:
 
 ```js
 function foo(x,y) {
@@ -1037,7 +1037,7 @@ Até aqui, tudo o que demonstramos foi um fluxo assíncrono de passo único com 
 
 Se você não tomar cuidado, o estilo de aparência síncrona dos geradores pode te embalar numa complacência sobre como você estrutura sua concorrência assíncrona, levando a padrões de desempenho subótimos. Então queremos passar um pouco de tempo explorando as opções.
 
-Imagine um cenário onde você precisa buscar dados de duas fontes diferentes, depois combinar essas respostas para fazer uma terceira requisição, e finalmente imprimir a última resposta. Nós exploramos um cenário similar com Promises no capítulo 3, mas vamos reconsiderá-lo no contexto de geradores.
+Imagine um cenário onde você precisa buscar dados de duas fontes diferentes, depois combinar essas respostas para fazer uma terceira requisição, e finalmente imprimir a última resposta. Nós exploramos um cenário similar com Promises no Capítulo 3, mas vamos reconsiderá-lo no contexto de geradores.
 
 Seu primeiro instinto pode ser algo como:
 
@@ -1063,7 +1063,7 @@ Porque as requisições `r1` e `r2` podem -- e, por razões de desempenho, *deve
 
 Mas como exatamente você faria isso com um gerador e `yield`? Sabemos que `yield` é apenas um único ponto de pausa no código, então você não pode realmente fazer duas pausas ao mesmo tempo.
 
-A resposta mais natural e efetiva é basear o fluxo assíncrono em Promises, especificamente em sua capacidade de gerenciar estado de uma forma independente do tempo (veja "Valor Futuro" no capítulo 3).
+A resposta mais natural e efetiva é basear o fluxo assíncrono em Promises, especificamente em sua capacidade de gerenciar estado de uma forma independente do tempo (veja "Valor Futuro" no Capítulo 3).
 
 A abordagem mais simples:
 
@@ -1094,7 +1094,7 @@ Então usamos duas instruções `yield` subsequentes para esperar por e recupera
 
 De qualquer forma, tanto `p1` quanto `p2` vão rodar concorrentemente, e ambas têm que terminar, em qualquer ordem, antes que a requisição Ajax `r3 = yield request..` seja feita.
 
-Se esse modelo de processamento de controle de fluxo soa familiar, é basicamente o mesmo que identificamos no capítulo 3 como o padrão "portão" (gate), habilitado pelo utilitário `Promise.all([ .. ])`. Então, poderíamos também expressar o controle de fluxo assim:
+Se esse modelo de processamento de controle de fluxo soa familiar, é basicamente o mesmo que identificamos no Capítulo 3 como o padrão "portão" (gate), habilitado pelo utilitário `Promise.all([ .. ])`. Então, poderíamos também expressar o controle de fluxo assim:
 
 ```js
 function *foo() {
@@ -1119,7 +1119,7 @@ function *foo() {
 run( foo );
 ```
 
-**Nota:** Como discutimos no capítulo 3, podemos até usar a atribuição via desestruturação (destructuring) do ES6 para simplificar as atribuições `var r1 = .. var r2 = ..`, com `var [r1,r2] = results`.
+**Nota:** Como discutimos no Capítulo 3, podemos até usar a atribuição via desestruturação (destructuring) do ES6 para simplificar as atribuições `var r1 = .. var r2 = ..`, com `var [r1,r2] = results`.
 
 Em outras palavras, todas as capacidades de concorrência das Promises estão disponíveis para nós na abordagem gerador+Promise. Então, em qualquer lugar onde você precise de mais do que passos sequenciais de controle de fluxo assíncrono este-então-aquele, Promises são provavelmente sua melhor aposta.
 
@@ -1179,7 +1179,7 @@ function bar() {
 
 Esse tipo de lógica às vezes é necessário, e se você o despejar diretamente dentro do(s) seu(s) gerador(es), você derrotou a maior parte da razão pela qual você gostaria de usar geradores em primeiro lugar. Nós *deveríamos* intencionalmente abstrair tais detalhes para longe do nosso código de gerador, de forma que eles não atravanquem a expressão de tarefa de mais alto nível.
 
-Além de criar código que seja tanto funcional quanto performático, você também deveria se esforçar para fazer código que seja o mais sensato (reason-able) e manutenível possível.
+Além de criar código que seja tanto funcional quanto performático, você também deveria se esforçar para fazer código que seja o mais sensato e manutenível possível.
 
 **Nota:** Abstração nem *sempre* é uma coisa saudável para programação -- muitas vezes ela pode aumentar a complexidade em troca de concisão. Mas, neste caso, eu acredito que ela é muito mais saudável para o seu código assíncrono gerador+Promise do que as alternativas. Como com todo conselho desse tipo, porém, preste atenção às suas situações específicas e tome as decisões adequadas para você e seu time.
 
@@ -1525,11 +1525,11 @@ Ufa! Um monte de malabarismo mental maluco, hein? Você talvez queira ler isso m
 
 ## Concorrência de Geradores
 
-Como discutimos tanto no capítulo 1 quanto anteriormente neste capítulo, dois "processos" rodando simultaneamente podem intercalar suas operações cooperativamente, e muitas vezes isso pode *ceder* (yield) (trocadilho intencional) expressões de assincronia bem poderosas.
+Como discutimos tanto no Capítulo 1 quanto anteriormente neste capítulo, dois "processos" rodando simultaneamente podem intercalar suas operações cooperativamente, e muitas vezes isso pode *ceder* (yield) (trocadilho intencional) expressões de assincronia bem poderosas.
 
 Francamente, nossos exemplos anteriores de intercalação de concorrência de múltiplos geradores mostraram como deixá-la realmente confusa. Mas insinuamos que há lugares onde essa capacidade é bem útil.
 
-Relembre um cenário que vimos no capítulo 1, onde dois manipuladores de resposta Ajax simultâneos diferentes precisavam coordenar entre si para garantir que a comunicação de dados não fosse uma condição de corrida. Nós encaixamos as respostas no array `res` assim:
+Relembre um cenário que vimos no Capítulo 1, onde dois manipuladores de resposta Ajax simultâneos diferentes precisavam coordenar entre si para garantir que a comunicação de dados não fosse uma condição de corrida. Nós encaixamos as respostas no array `res` assim:
 
 ```js
 function response(data) {
@@ -1809,7 +1809,7 @@ fooThunk( function(sum) {
 
 Obviamente, a grande questão que este trecho implica é como `whatIsThis` é propriamente chamado? Ele não é o thunk, ele é a coisa que vai produzir thunks a partir de chamadas `foo(..)`. É meio como uma "fábrica" de "thunks." Não parece haver nenhum tipo de acordo padrão para nomear tal coisa.
 
-Então, minha proposta é "thunkory" ("thunk" + "factory"). Então, `thunkify(..)` produz um thunkory, e um thunkory produz thunks. Esse raciocínio é simétrico à minha proposta de "promisory" no capítulo 3:
+Então, minha proposta é "thunkory" ("thunk" + "factory"). Então, `thunkify(..)` produz um thunkory, e um thunkory produz thunks. Esse raciocínio é simétrico à minha proposta de "promisory" no Capítulo 3:
 
 ```js
 var fooThunkory = thunkify( foo );
@@ -1856,7 +1856,7 @@ Comparando thunks com promises de forma geral: eles não são diretamente interc
 
 Mas, em outro sentido, ambos podem ser vistos como uma requisição por um valor, que pode ser assíncrona em sua resposta.
 
-Relembre que, do capítulo 3, definimos um utilitário para "promisificar" uma função, que chamamos de `Promise.wrap(..)` -- poderíamos tê-lo chamado de `promisify(..)`, também! Esse utilitário de embrulho de Promise não produz Promises; ele produz promisories que por sua vez produzem Promises. Isso é completamente simétrico aos thunkories e thunks que estão sendo discutidos no momento.
+Relembre que, do Capítulo 3, definimos um utilitário para "promisificar" uma função, que chamamos de `Promise.wrap(..)` -- poderíamos tê-lo chamado de `promisify(..)`, também! Esse utilitário de embrulho de Promise não produz Promises; ele produz promisories que por sua vez produzem Promises. Isso é completamente simétrico aos thunkories e thunks que estão sendo discutidos no momento.
 
 Para ilustrar a simetria, vamos primeiro alterar o exemplo corrente `foo(..)` de antes para assumir um callback "estilo error-first":
 
@@ -1869,7 +1869,7 @@ function foo(x,y,cb) {
 }
 ```
 
-Agora, vamos comparar o uso de `thunkify(..)` e `promisify(..)` (ou seja, `Promise.wrap(..)` do capítulo 3):
+Agora, vamos comparar o uso de `thunkify(..)` e `promisify(..)` (ou seja, `Promise.wrap(..)` do Capítulo 3):
 
 ```js
 // simétrico: construindo o questionador
@@ -1922,7 +1922,7 @@ Neste exemplo, `request(..)` poderia ser tanto um promisory que retorna uma prom
 Então, `request(..)` poderia ser tanto:
 
 ```js
-// promisory `request(..)` (veja o capítulo 3)
+// promisory `request(..)` (veja o Capítulo 3)
 var request = Promise.wrap( ajax );
 
 // vs.
@@ -1964,7 +1964,7 @@ Agora, nossos geradores podem ou chamar promisories para ceder (`yield`) Promise
 
 Em termos de simetria, essas duas abordagens parecem idênticas. No entanto, devemos apontar que isso é verdade apenas da perspectiva de Promises ou thunks representando a continuação de valor futuro de um gerador.
 
-Da perspectiva mais ampla, thunks não têm em si e por si mesmos quase nenhuma das garantias de confiabilidade ou composibilidade com as quais Promises são projetadas. Usar um thunk como substituto para uma Promise neste padrão particular de assincronia de gerador é viável, mas deveria ser visto como menos do que ideal quando comparado a todos os benefícios que Promises oferecem (veja o capítulo 3).
+Da perspectiva mais ampla, thunks não têm em si e por si mesmos quase nenhuma das garantias de confiabilidade ou composibilidade com as quais Promises são projetadas. Usar um thunk como substituto para uma Promise neste padrão particular de assincronia de gerador é viável, mas deveria ser visto como menos do que ideal quando comparado a todos os benefícios que Promises oferecem (veja o Capítulo 3).
 
 Se você tiver a opção, prefira `yield pr` em vez de `yield th`. Mas não há nada de errado em ter um utilitário `run(..)` que possa lidar com ambos os tipos de valor.
 

@@ -5,7 +5,7 @@ Como os quatro primeiros capítulos deste livro trataram de performance como um 
 
 Uma das áreas mais comuns de curiosidade -- de fato, alguns desenvolvedores podem ficar bastante obcecados por isso -- é analisar e testar várias opções de como escrever uma linha ou um bloco de código, e qual delas é mais rápida.
 
-Vamos analisar algumas dessas questões, mas é importante entender desde o início que este capítulo **não** é sobre alimentar a obsessão pelo ajuste de microperformance, como se determinado mecanismo JS consegue executar `++a` mais rápido que `a++`. O objetivo mais importante deste capítulo é descobrir quais tipos de performance em JS importam e quais não importam, *e como diferenciá-los*.
+Vamos analisar algumas dessas questões, mas é importante entender desde o início que este capítulo **não** é sobre alimentar a obsessão pelo ajuste de microperformance, como se determinado motor JS consegue executar `++a` mais rápido que `a++`. O objetivo mais importante deste capítulo é descobrir quais tipos de performance em JS importam e quais não importam, *e como diferenciá-los*.
 
 Mas, antes mesmo de chegarmos lá, precisamos explorar como testar a performance JS da forma mais precisa e confiável, porque há toneladas de equívocos e mitos que inundaram nossa base coletiva de conhecimento popular. Temos que peneirar toda essa porcaria para encontrar alguma clareza.
 
@@ -29,11 +29,11 @@ O que exatamente essa medição lhe disse? Entender o que ela diz e o que não d
 
 Se a duração reportada for `0`, você pode ser tentado a acreditar que levou menos de um milissegundo. Mas isso não é muito preciso. Algumas plataformas não têm precisão de um único milissegundo, mas em vez disso atualizam o cronômetro apenas em incrementos maiores. Por exemplo, versões mais antigas do windows (e portanto do IE) tinham apenas 15ms de precisão, o que significa que a operação tem que levar pelo menos esse tempo para que algo diferente de `0` seja reportado!
 
-Além disso, qualquer que seja a duração reportada, a única coisa que você realmente sabe é que a operação levou aproximadamente esse tempo naquela única execução exata. Você tem confiança próxima de zero de que ela sempre rodará nessa velocidade. Você não tem ideia se o mecanismo ou o sistema sofreram algum tipo de interferência naquele exato momento, e que em outras vezes a operação poderia rodar mais rápido.
+Além disso, qualquer que seja a duração reportada, a única coisa que você realmente sabe é que a operação levou aproximadamente esse tempo naquela única execução exata. Você tem confiança próxima de zero de que ela sempre rodará nessa velocidade. Você não tem ideia se o motor ou o sistema sofreram algum tipo de interferência naquele exato momento, e que em outras vezes a operação poderia rodar mais rápido.
 
 E se a duração reportada for `4`? Você está mais seguro de que levou cerca de quatro milissegundos? Não. Pode ter levado menos tempo, e pode ter havido algum outro atraso em obter os timestamps de `start` ou `end`.
 
-Mais preocupante ainda, você também não sabe se as circunstâncias deste teste de operação não são excessivamente otimistas. É possível que o mecanismo JS tenha descoberto uma forma de otimizar seu caso de teste isolado, mas em um programa mais real tal otimização seria diluída ou impossível, de modo que a operação rodaria mais devagar do que no seu teste.
+Mais preocupante ainda, você também não sabe se as circunstâncias deste teste de operação não são excessivamente otimistas. É possível que o motor JS tenha descoberto uma forma de otimizar seu caso de teste isolado, mas em um programa mais real tal otimização seria diluída ou impossível, de modo que a operação rodaria mais devagar do que no seu teste.
 
 Então... o que sabemos? Infelizmente, com essas constatações expostas, **sabemos muito pouco.** Algo de tão baixa confiança não é nem remotamente bom o suficiente para basear suas conclusões. Seu "benchmark" é basicamente inútil. E pior, é perigoso na medida em que transmite uma falsa confiança, não apenas para você mas também para outros que não pensam criticamente sobre as condições que levaram a esses resultados.
 
@@ -129,7 +129,7 @@ Vamos pensar sobre os resultados de forma mais crítica: 10.000.000 de operaçõ
 
 Mesmo estudos científicos recentes mostrando que talvez o cérebro consiga processar tão rápido quanto 13ms (cerca de 8x mais rápido do que afirmado anteriormente) significariam que X ainda está rodando 125.000 vezes mais rápido do que o cérebro humano consegue perceber algo distinto acontecendo. **X está indo muito, muito rápido.**
 
-Mas, mais importante, vamos falar sobre a diferença entre X e Y, a diferença de 2.000.000 de operações por segundo. Se X leva 100ns, e Y leva 80ns, a diferença é de 20ns, o que, no melhor caso, ainda é um 650 milésimos do intervalo que o cérebro humano consegue perceber.
+Mas, mais importante, vamos falar sobre a diferença entre X e Y, a diferença de 2.000.000 de operações por segundo. Se X leva 100ns, e Y leva 80ns, a diferença é de 20ns, o que, no melhor caso, ainda é um 650-milésimo do intervalo que o cérebro humano consegue perceber.
 
 Qual é o meu ponto? **Nada dessa diferença de performance importa, em absoluto!**
 
@@ -166,15 +166,15 @@ Qual intuição está correta? Honestamente não sei. Mas vou defender que não 
 
 Vamos fingir que o teste retorna que `X` e `Y` são estatisticamente idênticos. Você então confirmou sua intuição sobre a coisa do caractere `"f"`? Não.
 
-É possível, na nossa hipótese, que o mecanismo reconheça que as variáveis `twelve` e `foo` só estão sendo usadas em um lugar em cada teste, e então ele pode decidir fazer o inline desses valores. Então ele pode perceber que `Number( "12" )` pode simplesmente ser substituído por `12`. E talvez ele chegue à mesma conclusão com `parseInt(..)`, ou talvez não.
+É possível, na nossa hipótese, que o motor reconheça que as variáveis `twelve` e `foo` só estão sendo usadas em um lugar em cada teste, e então ele pode decidir fazer o inline desses valores. Então ele pode perceber que `Number( "12" )` pode simplesmente ser substituído por `12`. E talvez ele chegue à mesma conclusão com `parseInt(..)`, ou talvez não.
 
-Ou a heurística de remoção de código morto de um mecanismo poderia entrar em ação, e ele poderia perceber que as variáveis `X` e `Y` não estão sendo usadas, então declará-las é irrelevante, então ele acaba não fazendo nada em nenhum dos testes.
+Ou a heurística de remoção de código morto de um motor poderia entrar em ação, e ele poderia perceber que as variáveis `X` e `Y` não estão sendo usadas, então declará-las é irrelevante, então ele acaba não fazendo nada em nenhum dos testes.
 
 E tudo isso é apenas com a mentalidade de suposições sobre uma única execução de teste. Mecanismos modernos são fantasticamente mais complicados do que estamos intuindo aqui. Eles fazem todo tipo de truque, como rastrear e acompanhar como um trecho de código se comporta ao longo de um curto período de tempo, ou com um conjunto particularmente restrito de entradas.
 
-E se o mecanismo otimiza de uma certa forma por causa da entrada fixa, mas no seu programa real você dá entradas mais variadas e as decisões de otimização se resolvem de forma diferente (ou de forma alguma!)? Ou e se o mecanismo aciona otimizações porque vê o código sendo rodado dezenas de milhares de vezes pelo utilitário de benchmarking, mas no seu programa real ele só vai rodar uma centena de vezes em proximidade, e sob essas condições o mecanismo determina que as otimizações não valem a pena?
+E se o motor otimiza de uma certa forma por causa da entrada fixa, mas no seu programa real você dá entradas mais variadas e as decisões de otimização se resolvem de forma diferente (ou de forma alguma!)? Ou e se o motor aciona otimizações porque vê o código sendo rodado dezenas de milhares de vezes pelo utilitário de benchmarking, mas no seu programa real ele só vai rodar uma centena de vezes em proximidade, e sob essas condições o motor determina que as otimizações não valem a pena?
 
-E todas aquelas otimizações que acabamos de hipotetizar poderiam acontecer no nosso teste restrito, mas talvez o mecanismo não as fizesse em um programa mais complexo (por várias razões). Ou poderia ser o contrário -- o mecanismo poderia não otimizar um código tão trivial, mas poderia estar mais inclinado a otimizá-lo de forma mais agressiva quando o sistema já está mais sobrecarregado por um programa mais sofisticado.
+E todas aquelas otimizações que acabamos de hipotetizar poderiam acontecer no nosso teste restrito, mas talvez o motor não as fizesse em um programa mais complexo (por várias razões). Ou poderia ser o contrário -- o motor poderia não otimizar um código tão trivial, mas poderia estar mais inclinado a otimizá-lo de forma mais agressiva quando o sistema já está mais sobrecarregado por um programa mais sofisticado.
 
 O ponto que estou tentando defender é que você realmente não sabe ao certo exatamente o que está acontecendo por baixo dos panos. Todas as suposições e hipóteses que você consiga reunir não acrescentam quase nada de concreto para realmente tomar tais decisões.
 
@@ -233,9 +233,9 @@ Algumas observações a ponderar sobre este cenário de teste:
 * É extremamente comum que devs coloquem seus próprios loops dentro dos casos de teste, e eles esquecem que o Benchmark.js já faz toda a repetição de que você precisa. Há uma chance realmente forte de que os loops `for` nestes casos sejam ruído totalmente desnecessário.
 * A declaração e inicialização de `x` está incluída em cada caso de teste, possivelmente de forma desnecessária. Lembre-se de antes que, se `x = []` estivesse no código de `setup`, ele não rodaria de fato antes de cada iteração do teste, mas sim uma vez no começo de cada ciclo. Isso significa que `x` continuaria crescendo bastante, não apenas o tamanho `10` implicado pelos loops `for`.
 
-   Então a intenção é garantir que os testes fiquem restritos apenas a como o mecanismo JS se comporta com arrays muito pequenos (tamanho `10`)? Essa *poderia* ser a intenção, mas se for, você tem que considerar se isso não está focando demais em detalhes nuançados de implementação interna.
+   Então a intenção é garantir que os testes fiquem restritos apenas a como o motor JS se comporta com arrays muito pequenos (tamanho `10`)? Essa *poderia* ser a intenção, mas se for, você tem que considerar se isso não está focando demais em detalhes nuançados de implementação interna.
 
-   Por outro lado, a intenção do teste abraça o contexto de que os arrays de fato vão crescer bastante? O comportamento dos mecanismos JS com arrays maiores é relevante e preciso quando comparado com o uso pretendido no mundo real?
+   Por outro lado, a intenção do teste abraça o contexto de que os arrays de fato vão crescer bastante? O comportamento dos motores JS com arrays maiores é relevante e preciso quando comparado com o uso pretendido no mundo real?
 
 * A intenção é descobrir o quanto `x.length` ou `x.push(..)` adicionam à performance da operação de anexar ao array `x`? OK, isso pode ser algo válido de testar. Mas, por outro lado, `push(..)` é uma chamada de função, então é claro que vai ser mais lento que o acesso `[..]`. Pode-se argumentar que os casos 1 e 2 são mais justos que o caso 3.
 
@@ -328,7 +328,7 @@ Em vez de tentar focar em um trecho minúsculo do seu código real e medir apena
 
 OK, até agora estivemos dançando em torno de várias questões de microperformance e geralmente olhando para elas com desfavor, em relação à obsessão por elas. Quero dedicar apenas um momento para abordá-las diretamente.
 
-A primeira coisa com a qual você precisa se sentir mais confortável ao pensar sobre benchmarking de performance do seu código é que o código que você escreve nem sempre é o código que o mecanismo de fato roda. Olhamos brevemente para esse tema lá no Capítulo 1 quando discutimos o reordenamento de instruções pelo compilador, mas aqui vamos sugerir que o compilador às vezes pode decidir rodar um código diferente do que você escreveu, não apenas em ordens diferentes mas diferente em substância.
+A primeira coisa com a qual você precisa se sentir mais confortável ao pensar sobre benchmarking de performance do seu código é que o código que você escreve nem sempre é o código que o motor de fato roda. Olhamos brevemente para esse tema lá no Capítulo 1 quando discutimos o reordenamento de instruções pelo compilador, mas aqui vamos sugerir que o compilador às vezes pode decidir rodar um código diferente do que você escreveu, não apenas em ordens diferentes mas diferente em substância.
 
 Vamos considerar este trecho de código:
 
@@ -364,7 +364,7 @@ Não seria bastante possível e aceitável que o compilador JS pudesse decidir s
 
 **Nota:** É claro que o compilador também poderia provavelmente fazer uma análise e reescrita semelhantes com a variável `baz` aqui, também.
 
-Quando você começa a pensar no seu código JS como sendo uma dica ou sugestão para o mecanismo sobre o que fazer, em vez de uma exigência literal, você percebe que muito da obsessão por minúcias sintáticas discretas é muito provavelmente infundada.
+Quando você começa a pensar no seu código JS como sendo uma dica ou sugestão para o motor sobre o que fazer, em vez de uma exigência literal, você percebe que muito da obsessão por minúcias sintáticas discretas é muito provavelmente infundada.
 
 Outro exemplo:
 
@@ -377,11 +377,11 @@ function factorial(n) {
 factorial( 5 );		// 120
 ```
 
-Ah, o bom e velho algoritmo do "fatorial"! Você pode supor que o mecanismo JS vai rodar esse código mais ou menos como está. E, para ser honesto, ele pode -- eu não tenho certeza.
+Ah, o bom e velho algoritmo do "fatorial"! Você pode supor que o motor JS vai rodar esse código mais ou menos como está. E, para ser honesto, ele pode -- eu não tenho certeza.
 
 Mas, como uma anedota, o mesmo código expresso em C e compilado com otimizações avançadas resultaria no compilador percebendo que a chamada `factorial(5)` pode simplesmente ser substituída pelo valor constante `120`, eliminando a função e a chamada por completo!
 
-Além disso, alguns mecanismos têm uma prática chamada "desenrolamento de recursão" (unrolling recursion), na qual ele pode perceber que a recursão que você expressou pode na verdade ser feita "mais facilmente" (ou seja, de forma mais ótima) com um loop. É possível que o código anterior pudesse ser *reescrito* por um mecanismo JS para rodar como:
+Além disso, alguns motores têm uma prática chamada "desenrolamento de recursão" (unrolling recursion), na qual ele pode perceber que a recursão que você expressou pode na verdade ser feita "mais facilmente" (ou seja, de forma mais ótima) com um loop. É possível que o código anterior pudesse ser *reescrito* por um motor JS para rodar como:
 
 ```js
 function factorial(n) {
@@ -397,11 +397,11 @@ function factorial(n) {
 factorial( 5 );		// 120
 ```
 
-Agora, vamos imaginar que no trecho anterior você estivesse preocupado se `n * factorial(n-1)` ou `n *= factorial(--n)` roda mais rápido. Talvez você até tenha feito um benchmark de performance para tentar descobrir qual era melhor. Mas você perde o fato de que, no contexto maior, o mecanismo pode não rodar nenhuma das linhas de código porque ele pode desenrolar a recursão!
+Agora, vamos imaginar que no trecho anterior você estivesse preocupado se `n * factorial(n-1)` ou `n *= factorial(--n)` roda mais rápido. Talvez você até tenha feito um benchmark de performance para tentar descobrir qual era melhor. Mas você perde o fato de que, no contexto maior, o motor pode não rodar nenhuma das linhas de código porque ele pode desenrolar a recursão!
 
 Falando em `--`, `--n` versus `n--` é frequentemente citado como um daqueles lugares onde você pode otimizar ao escolher a versão `--n`, porque teoricamente ela requer menos esforço lá embaixo no nível de processamento de assembly.
 
-Esse tipo de obsessão é basicamente um disparate no JavaScript moderno. Esse é o tipo de coisa que você deveria deixar o mecanismo cuidar. Você deveria escrever o código que faz mais sentido. Compare estes três loops `for`:
+Esse tipo de obsessão é basicamente um disparate no JavaScript moderno. Esse é o tipo de coisa que você deveria deixar o motor cuidar. Você deveria escrever o código que faz mais sentido. Compare estes três loops `for`:
 
 ```js
 // Opção 1
@@ -422,7 +422,7 @@ for (var i=-1; ++i<10; ) {
 
 Mesmo que você tenha alguma teoria de que a segunda ou terceira opção é mais performática que a primeira opção por uma minúscula fração, o que é duvidoso na melhor das hipóteses, o terceiro loop é mais confuso porque você tem que começar com `-1` para `i` para levar em conta o fato de que o pré-incremento `++i` é usado. E a diferença entre a primeira e a segunda opções é realmente bastante irrelevante.
 
-É inteiramente possível que um mecanismo JS possa ver um lugar onde `i++` é usado e perceber que ele pode com segurança substituí-lo pelo equivalente `++i`, o que significa que o tempo que você gastou decidindo qual escolher foi completamente desperdiçado e o resultado é discutível.
+É inteiramente possível que um motor JS possa ver um lugar onde `i++` é usado e perceber que ele pode com segurança substituí-lo pelo equivalente `++i`, o que significa que o tempo que você gastou decidindo qual escolher foi completamente desperdiçado e o resultado é discutível.
 
 Aqui está outro exemplo comum de obsessão boba por microperformance:
 
@@ -444,15 +444,15 @@ A teoria aqui diz que você deveria fazer cache do tamanho do array `x` na vari�
 
 Se você rodar benchmarks de performance em torno do uso de `x.length` comparado a fazer cache dele em uma variável `len`, você vai descobrir que, embora a teoria pareça boa, na prática quaisquer diferenças medidas são estatisticamente completamente irrelevantes.
 
-De fato, em alguns mecanismos como o v8, pode-se demonstrar (http://mrale.ph/blog/2014/12/24/array-length-caching.html) que você poderia tornar as coisas ligeiramente piores ao fazer o pré-cache do tamanho em vez de deixar o mecanismo descobrir isso por você. Não tente ser mais esperto que o seu mecanismo JavaScript, você provavelmente vai perder quando o assunto é otimizações de performance.
+De fato, em alguns motores como o v8, pode-se demonstrar (http://mrale.ph/blog/2014/12/24/array-length-caching.html) que você poderia tornar as coisas ligeiramente piores ao fazer o pré-cache do tamanho em vez de deixar o motor descobrir isso por você. Não tente ser mais esperto que o seu motor JavaScript, você provavelmente vai perder quando o assunto é otimizações de performance.
 
 ### Nem Todos os Motores São Iguais
 
-Os diferentes mecanismos JS em vários navegadores podem todos estar "em conformidade com a spec" enquanto têm formas radicalmente diferentes de lidar com o código. A especificação JS não exige nada relacionado a performance -- bem, exceto a "Tail Call Optimization" do ES6 abordada mais adiante neste capítulo.
+Os diferentes motores JS em vários navegadores podem todos estar "em conformidade com a spec" enquanto têm formas radicalmente diferentes de lidar com o código. A especificação JS não exige nada relacionado a performance -- bem, exceto a "Tail Call Optimization" do ES6 abordada mais adiante neste capítulo.
 
-Os mecanismos são livres para decidir que uma operação receberá sua atenção para ser otimizada, talvez trocando isso por menor performance em outra operação. Pode ser muito tênue encontrar uma abordagem para uma operação que sempre roda mais rápido em todos os navegadores.
+Os motores são livres para decidir que uma operação receberá sua atenção para ser otimizada, talvez trocando isso por menor performance em outra operação. Pode ser muito tênue encontrar uma abordagem para uma operação que sempre roda mais rápido em todos os navegadores.
 
-Há um movimento entre alguns na comunidade de devs JS, especialmente aqueles que trabalham com Node.js, de analisar os detalhes específicos de implementação interna do mecanismo JavaScript v8 e tomar decisões sobre escrever código JS que é adaptado para tirar o melhor proveito de como o v8 funciona. Você pode de fato alcançar um grau surpreendentemente alto de otimização de performance com tais empreitadas, então o retorno pelo esforço pode ser bastante alto.
+Há um movimento entre alguns na comunidade de devs JS, especialmente aqueles que trabalham com Node.js, de analisar os detalhes específicos de implementação interna do motor JavaScript v8 e tomar decisões sobre escrever código JS que é adaptado para tirar o melhor proveito de como o v8 funciona. Você pode de fato alcançar um grau surpreendentemente alto de otimização de performance com tais empreitadas, então o retorno pelo esforço pode ser bastante alto.
 
 Alguns exemplos comumente citados (https://github.com/petkaantonov/bluebird/wiki/Optimization-killers) para o v8:
 
@@ -461,7 +461,7 @@ Alguns exemplos comumente citados (https://github.com/petkaantonov/bluebird/wiki
 
 Mas em vez de focar nessas dicas especificamente, vamos fazer uma verificação de sanidade da abordagem de otimização específica do v8 em um sentido geral.
 
-Você está genuinamente escrevendo código que só precisa rodar em um único mecanismo JS? Mesmo que seu código seja inteiramente destinado ao Node.js *agora*, a suposição de que o v8 *sempre* será o mecanismo JS usado é confiável? É possível que algum dia, daqui a alguns anos, haja outra plataforma JS do lado do servidor além do Node.js na qual você escolha rodar seu código? E se aquilo para o qual você otimizou antes for agora uma forma muito mais lenta de fazer aquela operação no novo mecanismo?
+Você está genuinamente escrevendo código que só precisa rodar em um único motor JS? Mesmo que seu código seja inteiramente destinado ao Node.js *agora*, a suposição de que o v8 *sempre* será o motor JS usado é confiável? É possível que algum dia, daqui a alguns anos, haja outra plataforma JS do lado do servidor além do Node.js na qual você escolha rodar seu código? E se aquilo para o qual você otimizou antes for agora uma forma muito mais lenta de fazer aquela operação no novo motor?
 
 Ou e se o seu código sempre continuar rodando no v8 daqui em diante, mas o v8 decidir em algum ponto mudar a forma como algum conjunto de operações funciona, de modo que o que costumava ser rápido agora é lento, e vice-versa?
 
@@ -469,7 +469,7 @@ Esses cenários também não são apenas teóricos. Costumava ser que era mais r
 
 Como resultado, o conselho de "boa prática" da época se disseminou por toda a indústria sugerindo que os desenvolvedores sempre usassem a abordagem do `join(..)` de array. E muitos seguiram.
 
-Só que, em algum ponto do caminho, os mecanismos JS mudaram as abordagens para gerenciar strings internamente, e especificamente colocaram otimizações para a concatenação com `+`. Eles não deixaram o `join(..)` mais lento, por si só, mas colocaram mais esforço em ajudar o uso do `+`, já que ele ainda era bastante mais difundido.
+Só que, em algum ponto do caminho, os motores JS mudaram as abordagens para gerenciar strings internamente, e especificamente colocaram otimizações para a concatenação com `+`. Eles não deixaram o `join(..)` mais lento, por si só, mas colocaram mais esforço em ajudar o uso do `+`, já que ele ainda era bastante mais difundido.
 
 **Nota:** A prática de padronizar ou otimizar alguma abordagem particular baseando-se principalmente em seu uso já difundido é frequentemente chamada (metaforicamente) de "pavimentar o caminho do gado" (paving the cowpath).
 
@@ -477,9 +477,9 @@ Uma vez que essa nova abordagem para lidar com strings e concatenação se firmo
 
 Outro exemplo: certa vez, o navegador Opera diferia de outros navegadores na forma como lidava com o boxing/unboxing de objetos wrapper de primitivos (veja o título *Types & Grammar* desta série de livros). Como tal, o conselho deles para desenvolvedores era usar um objeto `String` em vez do valor primitivo `string` se propriedades como `length` ou métodos como `charAt(..)` precisassem ser acessados. Esse conselho pode ter sido correto para o Opera na época, mas era literalmente o completo oposto para outros grandes navegadores contemporâneos, já que eles tinham otimizações especificamente para os primitivos `string` e não para seus contrapartes wrapper de objeto.
 
-Eu acho que essas várias pegadinhas são pelo menos possíveis, se não prováveis, para código até mesmo hoje. Então sou muito cauteloso em fazer otimizações de performance de amplo alcance no meu código JS baseando-me puramente em detalhes de implementação de mecanismos, **especialmente se esses detalhes só forem verdadeiros para um único mecanismo**.
+Eu acho que essas várias pegadinhas são pelo menos possíveis, se não prováveis, para código até mesmo hoje. Então sou muito cauteloso em fazer otimizações de performance de amplo alcance no meu código JS baseando-me puramente em detalhes de implementação de motores, **especialmente se esses detalhes só forem verdadeiros para um único motor**.
 
-O inverso também é algo a ter cautela: você não deveria necessariamente mudar um trecho de código para contornar a dificuldade de um mecanismo em rodar um trecho de código de uma forma aceitavelmente performática.
+O inverso também é algo a ter cautela: você não deveria necessariamente mudar um trecho de código para contornar a dificuldade de um motor em rodar um trecho de código de uma forma aceitavelmente performática.
 
 Historicamente, o IE tem sido o alvo de muitas dessas frustrações, dado que houve muitos cenários em versões mais antigas do IE em que ele tinha dificuldade com algum aspecto de performance com o qual outros grandes navegadores da época pareciam não ter muito problema. A discussão sobre concatenação de strings que acabamos de ter era de fato uma preocupação real lá nos dias do IE6 e IE7, quando era possível obter melhor performance com `join(..)` do que com `+`.
 
@@ -540,7 +540,7 @@ Ao considerar essas diferentes opções, como dizem, "uma dessas coisas não é 
 
 É claro que, se `x` puder ser um valor que **precisa de parsing**, como `"42px"` (como de uma busca de estilo CSS), então `parseInt(..)` realmente é a única opção adequada!
 
-`Number(..)` também é uma chamada de função. De uma perspectiva comportamental, ele é idêntico à opção do operador unário `+`, mas pode de fato ser um pouco mais lento, requerendo mais maquinário para executar a função. É claro que também é possível que o mecanismo JS reconheça essa simetria comportamental e simplesmente faça o inline do comportamento de `Number(..)` (também conhecido como `+x`) para você!
+`Number(..)` também é uma chamada de função. De uma perspectiva comportamental, ele é idêntico à opção do operador unário `+`, mas pode de fato ser um pouco mais lento, requerendo mais maquinário para executar a função. É claro que também é possível que o motor JS reconheça essa simetria comportamental e simplesmente faça o inline do comportamento de `Number(..)` (também conhecido como `+x`) para você!
 
 Mas lembre-se, obcecar-se por `+x` versus `x | 0` é na maioria dos casos provavelmente um desperdício de esforço. Essa é uma questão de microperformance, e uma que você não deveria deixar ditar/degradar a legibilidade do seu programa.
 
@@ -574,11 +574,11 @@ baz();						// 42
 
 Sem entrar em detalhes minuciosos demais, chamar uma nova função requer uma quantidade extra de memória reservada para gerenciar a pilha de chamadas, chamada de "stack frame" (quadro de pilha). Então o trecho anterior geralmente exigiria um stack frame para cada um de `baz()`, `bar(..)` e `foo(..)` todos ao mesmo tempo.
 
-No entanto, se um mecanismo com capacidade de TCO conseguir perceber que a chamada `foo(y+1)` está em *posição de cauda* (tail position), o que significa que `bar(..)` está basicamente completa, então, ao chamar `foo(..)`, ele não precisa criar um novo stack frame, mas pode em vez disso reutilizar o stack frame existente de `bar(..)`. Isso não é apenas mais rápido, mas também usa menos memória.
+No entanto, se um motor com capacidade de TCO conseguir perceber que a chamada `foo(y+1)` está em *posição de cauda* (tail position), o que significa que `bar(..)` está basicamente completa, então, ao chamar `foo(..)`, ele não precisa criar um novo stack frame, mas pode em vez disso reutilizar o stack frame existente de `bar(..)`. Isso não é apenas mais rápido, mas também usa menos memória.
 
-Esse tipo de otimização não é grande coisa em um trecho simples, mas se torna *uma coisa muito mais importante* ao lidar com recursão, especialmente se a recursão pudesse ter resultado em centenas ou milhares de stack frames. Com TCO o mecanismo pode realizar todas essas chamadas com um único stack frame!
+Esse tipo de otimização não é grande coisa em um trecho simples, mas se torna *uma coisa muito mais importante* ao lidar com recursão, especialmente se a recursão pudesse ter resultado em centenas ou milhares de stack frames. Com TCO o motor pode realizar todas essas chamadas com um único stack frame!
 
-A recursão é um tema cabeludo em JS porque, sem TCO, os mecanismos têm tido que implementar limites arbitrários (e diferentes!) para quão fundo eles deixam a pilha de recursão chegar antes de pará-la, para evitar ficar sem memória. Com TCO, funções recursivas com chamadas em *posição de cauda* podem essencialmente rodar de forma ilimitada, porque nunca há nenhum uso extra de memória!
+A recursão é um tema cabeludo em JS porque, sem TCO, os motores têm tido que implementar limites arbitrários (e diferentes!) para quão fundo eles deixam a pilha de recursão chegar antes de pará-la, para evitar ficar sem memória. Com TCO, funções recursivas com chamadas em *posição de cauda* podem essencialmente rodar de forma ilimitada, porque nunca há nenhum uso extra de memória!
 
 Considere aquele `factorial(..)` recursivo de antes, mas reescrito para torná-lo amigável a TCO:
 
@@ -598,11 +598,11 @@ factorial( 5 );		// 120
 
 Esta versão de `factorial(..)` ainda é recursiva, mas também é otimizável com TCO, porque ambas as chamadas internas de `fact(..)` estão em *posição de cauda*.
 
-**Nota:** É importante notar que TCO só se aplica se realmente houver uma tail call. Se você escrever funções recursivas sem tail calls, a performance ainda vai recair na alocação normal de stack frames, e os limites dos mecanismos sobre tais pilhas de chamadas recursivas ainda vão se aplicar. Muitas funções recursivas podem ser reescritas como acabamos de mostrar com `factorial(..)`, mas isso requer atenção cuidadosa aos detalhes.
+**Nota:** É importante notar que TCO só se aplica se realmente houver uma tail call. Se você escrever funções recursivas sem tail calls, a performance ainda vai recair na alocação normal de stack frames, e os limites dos motores sobre tais pilhas de chamadas recursivas ainda vão se aplicar. Muitas funções recursivas podem ser reescritas como acabamos de mostrar com `factorial(..)`, mas isso requer atenção cuidadosa aos detalhes.
 
-Uma razão pela qual o ES6 exige que os mecanismos implementem TCO, em vez de deixar a critério deles, é porque a *falta de TCO* na verdade tende a reduzir as chances de que certos algoritmos sejam implementados em JS usando recursão, por medo dos limites da pilha de chamadas.
+Uma razão pela qual o ES6 exige que os motores implementem TCO, em vez de deixar a critério deles, é porque a *falta de TCO* na verdade tende a reduzir as chances de que certos algoritmos sejam implementados em JS usando recursão, por medo dos limites da pilha de chamadas.
 
-Se a falta de TCO no mecanismo apenas degradasse graciosamente para uma performance mais lenta em todos os casos, provavelmente não teria sido algo que o ES6 precisasse *exigir*. Mas como a falta de TCO pode de fato tornar certos programas impraticáveis, é mais um recurso importante da linguagem do que apenas um detalhe de implementação oculto.
+Se a falta de TCO no motor apenas degradasse graciosamente para uma performance mais lenta em todos os casos, provavelmente não teria sido algo que o ES6 precisasse *exigir*. Mas como a falta de TCO pode de fato tornar certos programas impraticáveis, é mais um recurso importante da linguagem do que apenas um detalhe de implementação oculto.
 
 O ES6 garante que, de agora em diante, os desenvolvedores JS poderão confiar nesta otimização em todos os navegadores compatíveis com ES6+. Isso é uma vitória para a performance JS!
 
@@ -614,6 +614,6 @@ Em vez de criar sua própria lógica de benchmarking estatisticamente válida, a
 
 É importante obter o máximo de resultados de teste do maior número possível de ambientes diferentes para eliminar o viés de hardware/dispositivo. O jsPerf.com é um site fantástico para fazer crowdsourcing de execuções de benchmark de performance.
 
-Muitos testes de performance comuns infelizmente se obcecam por detalhes irrelevantes de microperformance, como `x++` versus `++x`. Escrever bons testes significa entender como focar em preocupações de visão ampla, como otimizar no caminho crítico, e evitar cair em armadilhas como os detalhes de implementação de diferentes mecanismos JS.
+Muitos testes de performance comuns infelizmente se obcecam por detalhes irrelevantes de microperformance, como `x++` versus `++x`. Escrever bons testes significa entender como focar em preocupações de visão ampla, como otimizar no caminho crítico, e evitar cair em armadilhas como os detalhes de implementação de diferentes motores JS.
 
-A tail call optimization (TCO) é uma otimização exigida a partir do ES6 que tornará alguns padrões recursivos práticos em JS onde eles teriam sido impossíveis de outra forma. A TCO permite que uma chamada de função na *posição de cauda* de outra função seja executada sem precisar de nenhum recurso extra, o que significa que o mecanismo não precisa mais impor restrições arbitrárias sobre a profundidade da pilha de chamadas para algoritmos recursivos.
+A tail call optimization (TCO) é uma otimização exigida a partir do ES6 que tornará alguns padrões recursivos práticos em JS onde eles teriam sido impossíveis de outra forma. A TCO permite que uma chamada de função na *posição de cauda* de outra função seja executada sem precisar de nenhum recurso extra, o que significa que o motor não precisa mais impor restrições arbitrárias sobre a profundidade da pilha de chamadas para algoritmos recursivos.

@@ -4,48 +4,47 @@
 
 * Introdução
 * Prefácio
-* Capítulo 1: Assíncronia: Agora & Depois
-	* A Program In Chunks
-	* Evento Loop
-	* Parallel Threading
+* Capítulo 1: Assincronia: Agora & Depois
+	* Um Programa em Pedaços
+	* Loop de Eventos
+	* Threading Paralelo
 	* Concorrência
-	* Trabalhos
-	* Ordenação de Instruções
+	* Fila de Tarefas
+	* Ordenamento de Instruções
 * Capítulo 2: Callbacks
 	* Continuações
-	* Sequential Brain
-	* Trust Issues
+	* Cérebro Sequencial
+	* Problemas de Confiança
 	* Tentando Salvar os Callbacks
-* Capítulo 3: Promessas
-	* O que É Uma Promessa?
-	* Thenable Duck-Typing
-	* Promise Trust
-	* Chain Flow
-	* Error Handling
-	* Padrões de Promessas
-	* Recaptuando a API das Promessas
-	* Limitações de Promessas
-* Capítulo 4: Generators
-	* Breaking Run-to-completion
-	* Generator'ing Values
-	* Iterating Generators Asynchronously
+* Capítulo 3: Promises
+	* O Que É uma Promise?
+	* Duck Typing de Thenable
+	* Confiança de Promise
+	* Fluxo Encadeado
+	* Tratamento de Erros
+	* Padrões de Promise
+	* Recapitulação da API de Promise
+	* Limitações de Promise
+* Capítulo 4: Geradores
+	* Desmembrando o Rodar-até-acabar
+	* Gerando Valores
+	* Iterando Geradores Assincronamente
 	* Generators + Promises
-	* Generator Delegation
-	* Generator Concurrency
+	* Delegação de Geradores
+	* Concorrência de Geradores
 	* Thunks
-	* Pre-ES6 Generators
-* Capítulo 5: Performance do Programa
+	* Geradores Pré-ES6
+* Capítulo 5: Desempenho de Programas
 	* Web Workers
 	* SIMD
 	* asm.js
-* Capítulo 6: Benchmarking & Tuning
+* Capítulo 6: Benchmarking & Ajustes
 	* Benchmarking
-	* Contexto É Tudo
+	* O Contexto é Rei
 	* jsPerf.com
-	* Escrevendo Testes com Qualidade
+	* Escrevendo Bons Testes
 	* Microperformance
-	* Tail Call Optimization (TCO)
-* Apêndice A: Biblioteca de *assinquência*
-* Apêndice B: Padrões Avançados de Async
+	* Otimização de Chamada de Cauda (TCO)
+* Apêndice A: Biblioteca *asynquence*
+* Apêndice B: Padrões Assíncronos Avançados
 * Apêndice C: Agradecimentos
-

@@ -1,9 +1,9 @@
-# You Don't Know JS: Async e Performance
+# You Don't Know JS: Async & Performance
 # Capítulo 1: Assincronia: Agora & Depois
 
 Um dos assuntos mais importantes e ainda assim muitas vezes mal interpretado ao programar em uma linguagem como JavaScript, se trata de expressar e manipular a propagação do comportamento do programa executado durante um certo espaço de tempo.
 
-Isso não significa saber o que acontece entre início e o fim de um loop `for`, o que, é claro, leva *algum tempo* (microsegundos à milisegundos) para completar. Assincronia diz mais a respeito do que acontece quando parte do seu programa é executada *agora*, e outra parte do seu programa é executada *depois*  -- existe um vão entre *agora* e *depois* onde seu programa não está sendo executado ativamente.
+Isso não significa saber o que acontece entre início e o fim de um loop `for`, o que, é claro, leva *algum tempo* (microssegundos a milissegundos) para completar. Assincronia diz mais a respeito do que acontece quando parte do seu programa é executada *agora*, e outra parte do seu programa é executada *depois*  -- existe um vão entre *agora* e *depois* onde seu programa não está sendo executado ativamente.
 
 Praticamente todos os programas não-triviais (especialmente em JS) precisam lidar com esse vão de alguma forma, seja ao esperar pelo input do usuário, requisitando dados de um banco de dados ou sistema de arquivos, enviando dados através da rede e esperando por uma resposta ou repetindo uma tarefa em um período de tempo intervalado (como em uma animação). De todas essas formas, seu programa tem que gerenciar o estado através do vão ao longo do tempo. Assim como uma frase recorrente em Londres diz (em relação ao espaço entre o vagão do trem metropolitano e a plataforma de embarque): "cuidado com o vão".
 
@@ -58,12 +58,12 @@ function agora() {
 
 function depois() {
   resposta = resposta * 2;
-  console.log( "Signficado da vida:", resposta );
+  console.log( "Significado da vida:", resposta );
 }
 
 var resposta = agora();
 
-setTimeout( depois, 1000 ); // Signifcado da vida: 42
+setTimeout( depois, 1000 ); // Significado da vida: 42
 ```
 
 Existem duas partes para esse programa: o trecho que vai executar *agora* e o trecho que vai executar *depois*. É bem óbvio qual é qual, mas vamos ser super explícitos:
@@ -88,7 +88,7 @@ console.log( "Significado da vida:", resposta );
 ```
 
 
-O pedaço *agora* roda imediatamente, assim que você executar o programa. Mas `setTimeout(...)` também define um evento (um tempo limite) para acontecer *depois*, de maneira que os conteúdos da função `depois()` serão executados posteriormente (1.000 milisegundos a partir de agora). 
+O pedaço *agora* roda imediatamente, assim que você executar o programa. Mas `setTimeout(...)` também define um evento (um tempo limite) para acontecer *depois*, de maneira que os conteúdos da função `depois()` serão executados posteriormente (1.000 milissegundos a partir de agora). 
 
 Toda vez que você encapsula uma porção de código numa `função` e especifica que ela deve ser executada como resposta a algum evento (timer, clique do mouse, resposta do Ajax etc.), você está criando um pedaço que será incluido posteriormente no seu código e assim introduzindo assincronia ao seu programa.
 
@@ -132,7 +132,7 @@ Vamos fazer uma afirmação (talvez chocante): apesar de claramente permitir có
 "Quando solicitado". Por quem? Essa é a parte importante!
 
 O motor JS não roda isolado. Ele é executado dentro de um *ambiente hospedeiro*, que é para muitos desenvolvedores o habitual navegador web.
-Através do últimos anos (mas não necessariamente só nesses), JS alcançou outros ambientes além do navegador, tal qual servidores, através de iniciativas como Node.js. Na verdade, hoje em dia o JavaScript está acoplado nos mais variados tipos de dispositivos, de robôs à lâmpadas.
+Através do últimos anos (mas não necessariamente só nesses), JS alcançou outros ambientes além do navegador, tal qual servidores, através de iniciativas como Node.js. Na verdade, hoje em dia o JavaScript está acoplado nos mais variados tipos de dispositivos, de robôs a lâmpadas.
 
 Entretanto, o "fio" (essa não é uma piadinha não tão sutil com assincronia) comum entre todos esses ambientes é que eles possuem um mecanismo que lida com a execução de múltiplos pedaços do seu programa *ao longo do tempo*, a cada momento invocando o motor JS, chamado "loop de eventos".
 
@@ -721,9 +721,9 @@ Nós usaremos o `setTimeout(..0)` (hack) para agendamento assíncrono, que basic
 
 ## Fila de Tarefas
 
-A partir do ES6, surge um novo conceito situado no topo da fila do loop de eventos chamado fila de tarefas ("job queue"). O contato mais provável que você terá com ela será com o comportamento assíncrono das Promises (veja o capítulo 3).
+A partir do ES6, surge um novo conceito situado no topo da fila do loop de eventos chamado fila de tarefas ("job queue"). O contato mais provável que você terá com ela será com o comportamento assíncrono das Promises (veja o Capítulo 3).
 
-Infelizmente, no momento é apenas um mecanismo sem a API aberta, e assim demonstrando que é um pouco mais complexo do que o habitual. Portanto, teremos que apenas descrevê-lo conceitualmente para que quando discutirmos comportamento assíncrono com Promises no capítulo 3, você conseguir entender como essas ações estão sendo agendadas e processadas.
+Infelizmente, no momento é apenas um mecanismo sem a API aberta, e assim demonstrando que é um pouco mais complexo do que o habitual. Portanto, teremos que apenas descrevê-lo conceitualmente para que quando discutirmos comportamento assíncrono com Promises no Capítulo 3, você conseguir entender como essas ações estão sendo agendadas e processadas.
 
 Logo, a melhor perspectiva que eu encontrei para explicar é que a "fila de tarefas" é uma fila pendurada no fim de todo tick na fila do loop de eventos. Algumas ações presumidamente implícitas que podem ocorrer durante um tick não causarão a adição de um novo evento completo na fila do loop de eventos, mas vão ao invés disso adicionar um item (também conhecido como tarefa) ao fim do tick atual na fila de tarefas.
 
@@ -755,7 +755,7 @@ schedule( function(){
 ```
 Você poderia esperar que isso imprimisse `A B C D`, mas ao invés disso, imprimiria `A C D B`, por que tarefas acontecem no fim de cada tick do loop de eventos, e o temporizador engatilha o angendamento para o *próximo* tick (se disponível!).
 
-No capítulo 3, veremos que os comportamentos assíncronos das Promises são baseadas em tarefas, então é importante manter claro como isso se relaciona com o comportamento do loop de eventos.
+No Capítulo 3, veremos que os comportamentos assíncronos das Promises são baseadas em tarefas, então é importante manter claro como isso se relaciona com o comportamento do loop de eventos.
 
 ## Ordenamento de Instruções
 

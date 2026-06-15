@@ -1,4 +1,4 @@
-# You Don't Know JS: Async e Performance
+# You Don't Know JS: Async & Performance
 # Apêndice A: Biblioteca *asynquence*
 
 Os capítulos 1 e 2 trouxeram em detalhes padrões típicos da programação assíncrona e como estes se baseiam em callbacks. Mas também vimos que callbacks são fatalmente limitados em termos de capacidade, o que nos levou aos capítulos 3 e 4, com Promises e generators oferecendo uma base muito mais sólida, confiável e compreensível para construção de sua assincronia.
@@ -127,7 +127,7 @@ Pense em `val(..)` como a representação de um passo síncrono contendo apenas 
 
 ### Erros
 
-Uma importante deiferença de *asynquence* em comparação com Promises se dá no tratamento de erros.
+Uma importante diferença de *asynquence* em comparação com Promises se dá no tratamento de erros.
 
 Com Promises, cada Promise (passo) em uma cadeia pode ter seu próprio erro e cada paso subsequente tem a opção de manipulá-lo ou não. A principal razão desta semântica vem (novamente) do foco em Promises como unidades individuais e não como uma cadeia (sequência).
 
@@ -410,7 +410,7 @@ Se em qualquer ponto da "cascata" ocorrer um erro, toda sequência imediatamente
 
 #### Tolerância a erro
 
-Às vezes você quer gerenciar erros no nível dos passos e não necessariamente enviar toda a sequência para um estado de erro. *asynquence* oferece duas variaçòes de passo para estes casos.
+Às vezes você quer gerenciar erros no nível dos passos e não necessariamente enviar toda a sequência para um estado de erro. *asynquence* oferece duas variações de passo para estes casos.
 
 `try(..)` tenta executar um passo e, em caso de sucesso, a sequência prossegue normalmente. Mas se o passo falhar, a falha é convertida em uma mensagem de sucesso formatada como `{ catch: .. }` contendo a(s) mensagem(ns) de erro:
 
@@ -451,9 +451,9 @@ ASQ( 3 )
 .or( output );					// Oops
 ```
 
-#### Promise-Style Steps
+#### Passos no Estilo Promise
 
-If you would prefer to have, inline in your sequence, Promise-style semantics like Promises' `then(..)` and `catch(..)` (see Chapter 3), you can use the `pThen` and `pCatch` plug-ins:
+Se você preferir ter, embutida na sua sequência, uma semântica no estilo Promise como o `then(..)` e o `catch(..)` das Promises (veja Capítulo 3), você pode usar os plug-ins `pThen` e `pCatch`:
 
 ```js
 ASQ( 21 )
@@ -462,31 +462,31 @@ ASQ( 21 )
 } )
 .pThen( output )				// 42
 .pThen( function(){
-	// throw an exception
+	// lança uma exceção
 	doesnt.Exist();
 } )
 .pCatch( function(err){
-	// caught the exception (rejection)
+	// capturou a exceção (rejeição)
 	console.log( err );			// ReferenceError
 } )
 .val( function(){
-	// main sequence is back in a
-	// success state because previous
-	// exception was caught by
+	// a sequência principal está de volta
+	// a um estado de sucesso porque a exceção
+	// anterior foi capturada por
 	// `pCatch(..)`
 } );
 ```
 
-`pThen(..)` and `pCatch(..)` are designed to run in the sequence, but behave as if it was a normal Promise chain. As such, you can either resolve genuine Promises or *asynquence* sequences from the "fulfillment" handler passed to `pThen(..)` (see Chapter 3).
+`pThen(..)` e `pCatch(..)` são projetados para rodar na sequência, mas se comportam como se fosse uma cadeia de Promises normal. Dessa forma, você pode resolver tanto Promises genuínas quanto sequências *asynquence* a partir do tratador de "cumprimento" passado para `pThen(..)` (veja Capítulo 3).
 
-### Forking Sequences
+### Bifurcando Sequências
 
-One feature that can be quite useful about Promises is that you can attach multiple `then(..)` handler registrations to the same promise, effectively "forking" the flow-control at that promise:
+Um recurso que pode ser bastante útil em relação às Promises é que você pode anexar múltiplos registros de tratadores `then(..)` à mesma promise, efetivamente "bifurcando" o controle de fluxo naquela promise:
 
 ```js
 var p = Promise.resolve( 21 );
 
-// fork 1 (from `p`)
+// bifurcação 1 (a partir de `p`)
 p.then( function(msg){
 	return msg * 2;
 } )
@@ -494,29 +494,29 @@ p.then( function(msg){
 	console.log( msg );		// 42
 } )
 
-// fork 2 (from `p`)
+// bifurcação 2 (a partir de `p`)
 p.then( function(msg){
 	console.log( msg );		// 21
 } );
 ```
 
-The same "forking" is easy in *asynquence* with `fork()`:
+A mesma "bifurcação" é fácil em *asynquence* com `fork()`:
 
 ```js
 var sq = ASQ(..).then(..).then(..);
 
 var sq2 = sq.fork();
 
-// fork 1
+// bifurcação 1
 sq.then(..)..;
 
-// fork 2
+// bifurcação 2
 sq2.then(..)..;
 ```
 
-### Combining Sequences
+### Combinando Sequências
 
-The reverse of `fork()`ing, you can combine two sequences by subsuming one into another, using the `seq(..)` instance method:
+O inverso de `fork()`ar: você pode combinar duas sequências incorporando uma na outra, usando o método de instância `seq(..)`:
 
 ```js
 var sq = ASQ( function(done){
@@ -528,14 +528,14 @@ var sq = ASQ( function(done){
 ASQ( function(done){
 	setTimeout( done, 100 );
 } )
-// subsume `sq` sequence into this sequence
+// incorpora a sequência `sq` nesta sequência
 .seq( sq )
 .val( function(msg){
 	console.log( msg );		// Hello World
 } )
 ```
 
-`seq(..)` can either accept a sequence itself, as shown here, or a function. If a function, it's expected that the function when called will return a sequence, so the preceding code could have been done with:
+`seq(..)` pode aceitar tanto uma sequência em si, como mostrado aqui, quanto uma função. Se for uma função, espera-se que a função, quando chamada, retorne uma sequência, então o código anterior poderia ter sido feito com:
 
 ```js
 // ..
@@ -545,24 +545,24 @@ ASQ( function(done){
 // ..
 ```
 
-Also, that step could instead have been accomplished with a `pipe(..)`:
+Além disso, esse passo poderia ter sido realizado, em vez disso, com um `pipe(..)`:
 
 ```js
 // ..
 .then( function(done){
-	// pipe `sq` into the `done` continuation callback
+	// canaliza `sq` para o callback de continuação `done`
 	sq.pipe( done );
 } )
 // ..
 ```
 
-When a sequence is subsumed, both its success message stream and its error stream are piped in.
+Quando uma sequência é incorporada, tanto o seu fluxo de mensagens de sucesso quanto o seu fluxo de erros são canalizados.
 
-**Note:** As mentioned in an earlier note, piping (manually with `pipe(..)` or automatically with `seq(..)`) opts the source sequence out of error-reporting, but doesn't affect the error reporting status of the target sequence.
+**Nota:** Como mencionado em uma nota anterior, canalizar (manualmente com `pipe(..)` ou automaticamente com `seq(..)`) faz a sequência de origem optar por não relatar erros, mas não afeta o status de relato de erros da sequência de destino.
 
-## Value and Error Sequences
+## Sequências de Valor e de Erro
 
-If any step of a sequence is just a normal value, that value is just mapped to that step's completion message:
+Se qualquer passo de uma sequência for apenas um valor normal, esse valor é simplesmente mapeado para a mensagem de conclusão daquele passo:
 
 ```js
 var sq = ASQ( 42 );
@@ -572,7 +572,7 @@ sq.val( function(msg){
 } );
 ```
 
-If you want to make a sequence that's automatically errored:
+Se você quiser criar uma sequência que entra automaticamente em erro:
 
 ```js
 var sq = ASQ.failed( "Oops" );
@@ -580,14 +580,14 @@ var sq = ASQ.failed( "Oops" );
 ASQ()
 .seq( sq )
 .val( function(msg){
-	// won't get here
+	// não chegará aqui
 } )
 .or( function(err){
 	console.log( err );		// Oops
 } );
 ```
 
-You also may want to automatically create a delayed-value or a delayed-error sequence. Using the `after` and `failAfter` contrib plug-ins, this is easy:
+Você também pode querer criar automaticamente uma sequência de valor-atrasado ou de erro-atrasado. Usando os plug-ins contrib `after` e `failAfter`, isso é fácil:
 
 ```js
 var sq1 = ASQ.after( 100, "Hello", "World" );
@@ -602,40 +602,40 @@ sq2.or( function(err){
 } );
 ```
 
-You can also insert a delay in the middle of a sequence using `after(..)`:
+Você também pode inserir um atraso no meio de uma sequência usando `after(..)`:
 
 ```js
 ASQ( 42 )
-// insert a delay into the sequence
+// insere um atraso na sequência
 .after( 100 )
 .val( function(msg){
 	console.log( msg );		// 42
 } );
 ```
 
-## Promises and Callbacks
+## Promises e Callbacks
 
-I think *asynquence* sequences provide a lot of value on top of native Promises, and for the most part you'll find it more pleasant and more powerful to work at that level of abstraction. However, integrating *asynquence* with other non-*asynquence* code will be a reality.
+Eu acho que sequências *asynquence* agregam muito valor sobre as Promises nativas e, na maior parte do tempo, você achará mais agradável e mais poderoso trabalhar nesse nível de abstração. Entretanto, integrar *asynquence* com outro código que não seja *asynquence* será uma realidade.
 
-You can easily subsume a promise (e.g., thenable -- see Chapter 3) into a sequence using the `promise(..)` instance method:
+Você pode facilmente incorporar uma promise (ou seja, um thenable -- veja Capítulo 3) em uma sequência usando o método de instância `promise(..)`:
 
 ```js
 var p = Promise.resolve( 42 );
 
 ASQ()
-.promise( p )			// could also: `function(){ return p; }`
+.promise( p )			// poderia também: `function(){ return p; }`
 .val( function(msg){
 	console.log( msg );	// 42
 } );
 ```
 
-And to go the opposite direction and fork/vend a promise from a sequence at a certain step, use the `toPromise` contrib plug-in:
+E para ir na direção oposta e bifurcar/fornecer uma promise a partir de uma sequência em um determinado passo, use o plug-in contrib `toPromise`:
 
 ```js
 var sq = ASQ.after( 100, "Hello World" );
 
 sq.toPromise()
-// this is a standard promise chain now
+// isto agora é uma cadeia de promises padrão
 .then( function(msg){
 	return msg.toUpperCase();
 } )
@@ -644,11 +644,11 @@ sq.toPromise()
 } );
 ```
 
-To adapt *asynquence* to systems using callbacks, there are several helper facilities. To automatically generate an "error-first style" callback from your sequence to wire into a callback-oriented utility, use `errfcb`:
+Para adaptar *asynquence* a sistemas que usam callbacks, há várias facilidades auxiliares. Para gerar automaticamente um callback "estilo error-first" a partir da sua sequência para conectar a um utilitário orientado a callbacks, use `errfcb`:
 
 ```js
 var sq = ASQ( function(done){
-	// note: expecting "error-first style" callback
+	// nota: esperando um callback "estilo error-first"
 	someAsyncFuncWithCB( 1, 2, done.errfcb )
 } )
 .val( function(msg){
@@ -658,11 +658,11 @@ var sq = ASQ( function(done){
 	// ..
 } );
 
-// note: expecting "error-first style" callback
+// nota: esperando um callback "estilo error-first"
 anotherAsyncFuncWithCB( 1, 2, sq.errfcb() );
 ```
 
-You also may want to create a sequence-wrapped version of a utility -- compare to "promisory" in Chapter 3 and "thunkory" in Chapter 4 -- and *asynquence* provides `ASQ.wrap(..)` for that purpose:
+Você também pode querer criar uma versão de um utilitário encapsulada em sequência -- compare com "promisory" no Capítulo 3 e "thunkory" no Capítulo 4 -- e *asynquence* fornece `ASQ.wrap(..)` para esse propósito:
 
 ```js
 var coolUtility = ASQ.wrap( someAsyncFuncWithCB );
@@ -676,45 +676,45 @@ coolUtility( 1, 2 )
 } );
 ```
 
-**Note:** For the sake of clarity (and for fun!), let's coin yet another term, for a sequence-producing function that comes from `ASQ.wrap(..)`, like `coolUtility` here. I propose "sequory" ("sequence" + "factory").
+**Nota:** Por uma questão de clareza (e por diversão!), vamos cunhar mais um termo, para uma função produtora de sequência que vem de `ASQ.wrap(..)`, como `coolUtility` aqui. Eu proponho "sequory" ("sequence" + "factory").
 
-## Iterable Sequences
+## Sequências Iteráveis
 
-The normal paradigm for a sequence is that each step is responsible for completing itself, which is what advances the sequence. Promises work the same way.
+O paradigma normal para uma sequência é que cada passo é responsável por completar a si mesmo, o que é o que avança a sequência. Promises funcionam da mesma forma.
 
-The unfortunate part is that sometimes you need external control over a Promise/step, which leads to awkward "capability extraction".
+A parte infeliz é que, às vezes, você precisa de controle externo sobre uma Promise/passo, o que leva a uma estranha "extração de capacidade".
 
-Consider this Promises example:
+Considere este exemplo com Promises:
 
 ```js
 var domready = new Promise( function(resolve,reject){
-	// don't want to put this here, because
-	// it belongs logically in another part
-	// of the code
+	// não queremos colocar isto aqui, porque
+	// logicamente pertence a outra parte
+	// do código
 	document.addEventListener( "DOMContentLoaded", resolve );
 } );
 
 // ..
 
 domready.then( function(){
-	// DOM is ready!
+	// o DOM está pronto!
 } );
 ```
 
-The "capability extraction" anti-pattern with Promises looks like this:
+O anti-padrão de "extração de capacidade" com Promises se parece com isto:
 
 ```js
 var ready;
 
 var domready = new Promise( function(resolve,reject){
-	// extract the `resolve()` capability
+	// extrai a capacidade `resolve()`
 	ready = resolve;
 } );
 
 // ..
 
 domready.then( function(){
-	// DOM is ready!
+	// o DOM está pronto!
 } );
 
 // ..
@@ -722,19 +722,19 @@ domready.then( function(){
 document.addEventListener( "DOMContentLoaded", ready );
 ```
 
-**Note:** This anti-pattern is an awkward code smell, in my opinion, but some developers like it, for reasons I can't grasp.
+**Nota:** Esse anti-padrão é um estranho code smell, na minha opinião, mas alguns desenvolvedores gostam dele, por razões que não consigo entender.
 
-*asynquence* offers an inverted sequence type I call "iterable sequences", which externalizes the control capability (it's quite useful in use cases like the `domready`):
+*asynquence* oferece um tipo de sequência invertida que eu chamo de "sequências iteráveis", que externaliza a capacidade de controle (é bastante útil em casos de uso como o `domready`):
 
 ```js
-// note: `domready` here is an *iterator* that
-// controls the sequence
+// nota: `domready` aqui é um *iterador* que
+// controla a sequência
 var domready = ASQ.iterable();
 
 // ..
 
 domready.val( function(){
-	// DOM is ready
+	// o DOM está pronto
 } );
 
 // ..
@@ -742,13 +742,13 @@ domready.val( function(){
 document.addEventListener( "DOMContentLoaded", domready.next );
 ```
 
-There's more to iterable sequences than what we see in this scenario. We'll come back to them in Appendix B.
+Há muito mais sobre sequências iteráveis do que vemos neste cenário. Voltaremos a elas no Apêndice B.
 
-## Running Generators
+## Executando Generators
 
-In Chapter 4, we derived a utility called `run(..)` which can run generators to completion, listening for `yield`ed Promises and using them to async resume the generator. *asynquence* has just such a utility built in, called `runner(..)`.
+No Capítulo 4, derivamos um utilitário chamado `run(..)` que pode executar generators até a conclusão, escutando por Promises retornadas via `yield` e usando-as para retomar o generator de forma assíncrona. *asynquence* tem exatamente esse utilitário embutido, chamado `runner(..)`.
 
-Let's first set up some helpers for illustration:
+Vamos primeiro configurar alguns auxiliares para ilustração:
 
 ```js
 function doublePr(x) {
@@ -768,17 +768,17 @@ function doubleSeq(x) {
 }
 ```
 
-Now, we can use `runner(..)` as a step in the middle of a sequence:
+Agora, podemos usar `runner(..)` como um passo no meio de uma sequência:
 
 ```js
 ASQ( 10, 11 )
 .runner( function*(token){
 	var x = token.messages[0] + token.messages[1];
 
-	// yield a real promise
+	// faz yield de uma promise real
 	x = yield doublePr( x );
 
-	// yield a sequence
+	// faz yield de uma sequência
 	x = yield doubleSeq( x );
 
 	return x;
@@ -788,18 +788,18 @@ ASQ( 10, 11 )
 } );
 ```
 
-### Wrapped Generators
+### Generators Encapsulados
 
-You can also create a self-packaged generator -- that is, a normal function that runs your specified generator and returns a sequence for its completion -- by `ASQ.wrap(..)`ing it:
+Você também pode criar um generator autoempacotado -- isto é, uma função normal que executa o generator que você especificou e retorna uma sequência para a sua conclusão -- fazendo `ASQ.wrap(..)` nele:
 
 ```js
 var foo = ASQ.wrap( function*(token){
 	var x = token.messages[0] + token.messages[1];
 
-	// yield a real promise
+	// faz yield de uma promise real
 	x = yield doublePr( x );
 
-	// yield a sequence
+	// faz yield de uma sequência
 	x = yield doubleSeq( x );
 
 	return x;
@@ -813,16 +813,16 @@ foo( 8, 9 )
 } );
 ```
 
-There's a lot more awesome that `runner(..)` is capable of, but we'll come back to that in Appendix B.
+Há muito mais coisas incríveis que `runner(..)` é capaz de fazer, mas voltaremos a isso no Apêndice B.
 
-## Review
+## Revisão
 
-*asynquence* is a simple abstraction -- a sequence is a series of (async) steps -- on top of Promises, aimed at making working with various asynchronous patterns much easier, without any compromise in capability.
+*asynquence* é uma abstração simples -- uma sequência é uma série de passos (assíncronos) -- sobre as Promises, com o objetivo de tornar o trabalho com vários padrões assíncronos muito mais fácil, sem nenhum comprometimento na capacidade.
 
-There are other goodies in the *asynquence* core API and its contrib plug-ins beyond what we saw in this appendix, but we'll leave that as an exercise for the reader to go check the rest of the capabilities out.
+Há outras vantagens na API central da *asynquence* e em seus plug-ins contrib além do que vimos neste apêndice, mas deixaremos isso como um exercício para o leitor ir conferir o resto das capacidades.
 
-You've now seen the essence and spirit of *asynquence*. The key take away is that a sequence is comprised of steps, and those steps can be any of dozens of different variations on Promises, or they can be a generator-run, or... The choice is up to you, you have all the freedom to weave together whatever async flow control logic is appropriate for your tasks. No more library switching to catch different async patterns.
+Você agora viu a essência e o espírito da *asynquence*. O ponto-chave a ser absorvido é que uma sequência é composta de passos, e esses passos podem ser qualquer uma das dezenas de diferentes variações sobre Promises, ou podem ser uma execução de generator, ou... A escolha é sua, você tem toda a liberdade de tecer junto qualquer lógica de controle de fluxo assíncrono que seja apropriada para suas tarefas. Chega de trocar de biblioteca para capturar diferentes padrões assíncronos.
 
-If these *asynquence* snippets have made sense to you, you're now pretty well up to speed on the library; it doesn't take that much to learn, actually!
+Se esses trechos de *asynquence* fizeram sentido para você, você agora está bem atualizado em relação à biblioteca; na verdade, não é preciso tanto para aprendê-la!
 
-If you're still a little fuzzy on how it works (or why!), you'll want to spend a little more time examining the previous examples and playing around with *asynquence* yourself, before going on to the next appendix. Appendix B will push *asynquence* into several more advanced and powerful async patterns.
+Se você ainda está um pouco confuso sobre como ela funciona (ou por quê!), você vai querer passar um pouco mais de tempo examinando os exemplos anteriores e brincando com a *asynquence* você mesmo, antes de prosseguir para o próximo apêndice. O Apêndice B levará a *asynquence* a vários padrões assíncronos mais avançados e poderosos.

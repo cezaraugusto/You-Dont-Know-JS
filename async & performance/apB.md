@@ -5,9 +5,9 @@ O apêndice A introduziu a biblioteca *asynquence* para controle de fluxo assín
   
 Agora exploraremos outros padrões assíncronos avançados construidos a partir desta compreensão e funcionalidade existente, e veremos como *asynquence* torna técnicas de assíncronismo sofisticadas facilmente combináveis com nossos programas sem a necessidade de diversas bibliotecas diferentes.
 
-## sequências iteráveis
+## Sequências Iteráveis
 
-Nós introduzimos sequências iteráveis no *asynquence** no apêndice anterior, mas queremos revisitá-lo em mais detalhes.
+Nós introduzimos sequências iteráveis em *asynquence* no apêndice anterior, mas queremos revisitá-las em mais detalhes.
 
 Para relembrar:
 
@@ -17,7 +17,7 @@ var domready = ASQ.iterable();
 // ..
 
 domready.val( function(){
-	// DOM is ready
+	// o DOM está pronto
 } );
 
 // ..
@@ -34,10 +34,10 @@ steps
 .then( function STEP1(x){
 	return x * 2;
 } )
-.steps( function STEP2(x){
+.then( function STEP2(x){
 	return x + 3;
 } )
-.steps( function STEP3(x){
+.then( function STEP3(x){
 	return x * 4;
 } );
 
@@ -47,8 +47,8 @@ steps.next( 19 ).value;	// 76
 steps.next().done;		// true
 ```
 
-Como podemos ver, uma sequência iterável é um *iterator* compátivel com padrões (Veja capitulo 4).
-Portanto pode ser iterado com o loop `for..of` da ES6, assim como um gerador (ou qualquer outro *iterável*) pode:
+Como podemos ver, uma sequência iterável é um *iterator* compatível com padrões (veja Capítulo 4).
+Portanto pode ser iterada com o loop `for..of` do ES6, assim como um gerador (ou qualquer outro *iterável*) pode:
 
 ```js
 var steps = ASQ.iterable();
@@ -68,10 +68,10 @@ for (var v of steps) {
 
 Além do exemplo de encadear eventos mostrada no apêndice anterior, sequências iteráveis são interessantes porque em essência podem ser vistas como substituto para geradores ou encadeamentos de Promises, mas com ainda mais flexibilidade
 
-Considere o exemplo de uma requisição múltipla Ajax -- Nós já vimos o mesmo cenário no capitulo 3 e 4, tanto com encadeamento de promises quanto como geradores sendo expressados como uma sequência iterável
+Considere o exemplo de uma requisição múltipla Ajax -- nós já vimos o mesmo cenário nos Capítulos 3 e 4, respectivamente como um encadeamento de Promises e como um gerador -- expressado como uma sequência iterável:
 
 ```js
-// sequence-aware ajax
+// ajax ciente de sequência
 var request = ASQ.wrap( ajax );
 
 ASQ( "http://some.url.1" )
@@ -97,15 +97,15 @@ ASQ( "http://some.url.1" )
 } );
 ```
 
-A sequência iterável expressa uma série sequêncial de passos (síncronos ou assíncronos) que aparentam ser extremamente similares a um encadeamento de Promises, em outras palavras, são muito mais limpos que apenas callbacks puramente aninhados, mas não tão bons como a sintaxe sequêncial de `yield`s de geradores.
+A sequência iterável expressa uma série sequencial de passos (síncronos ou assíncronos) que aparentam ser extremamente similares a um encadeamento de Promises, em outras palavras, são muito mais limpos que apenas callbacks puramente aninhados, mas não tão bons como a sintaxe sequencial de `yield`s de geradores.
 
-Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua complitude, da mesma forma como seria com geradores. O fato de que uma sequência iterável se comporta essêncialmente da mesma forma que geradores e chamam atenção por uma série de razões.
+Nós passamos a sequência iterável no `ASQ#runner(..)`, que roda até sua completude, da mesma forma como seria com geradores. O fato de que uma sequência iterável se comporta essencialmente da mesma forma que geradores é notável por algumas razões.
 
 Primeiro, sequências iteráveis são meio que um equivalente pré-ES6 a um certo sub-conjunto de geradores ES6, o que significa que você pode tanto criá-los diretamente (para rodar em qualquer lugar), ou pode criá-los como geradores do ES6 para então transpilar/converter em sequências iteráveis (ou como encadeamento de Promise com essa finalidade!).
 
-Pensar em um gerador async-roda-até-completar como apenas um _syntatic sugar_ para um encadeamento de Promise é importante para reconhecer sua relação isomórfica.
+Pensar em um gerador async-roda-até-completar como apenas um _açúcar sintático_ para um encadeamento de Promise é importante para reconhecer sua relação isomórfica.
 
-Antes de irmos em frente, devemos notar que poderiamos ter expressado o trecho de código anterior em *asynquence* como:
+Antes de irmos em frente, devemos notar que poderíamos ter expressado o trecho de código anterior em *asynquence* como:
 
 ```js
 ASQ( "http://some.url.1" )
@@ -122,7 +122,7 @@ ASQ( "http://some.url.1" )
 } );
 ```
 
-Alem disso, o passo 2 pode ser expressado como:
+Além disso, o passo 2 pode ser expressado como:
 
 ```js
 .gate(

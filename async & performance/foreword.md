@@ -1,4 +1,4 @@
-# You Don't Know JS: Async e Performance
+# You Don't Know JS: Async & Performance
 # Introdução
 
 Com o passar dos anos, conquistei, no local onde trabalho, confiança o suficiente para conduzir entrevistas. Se estamos procurando alguém com skills em JavaScript, minha primeira pergunta seria... bem, isso não é verdade. Primeiramente verifico se a(o) candidata(o) precisar ir ao banheiro ou se gostaria de beber água (conforto é importante), mas passada a parte relaciona à entrada e saída de fluidos, começo a avaliar se a(o) candidata(o) conhece JavaScript ou apenas jQuery.
