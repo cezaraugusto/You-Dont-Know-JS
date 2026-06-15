@@ -57,7 +57,7 @@ function now() {
 }
 
 function later() {
-  a = a * 2;
+  answer = answer * 2;
   console.log( "Signficado da vida:", a );
 }
 
