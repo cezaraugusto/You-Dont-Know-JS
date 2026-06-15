@@ -1,5 +1,5 @@
 # You Don't Know JS: ES6 & Além
-# Chapter 1: ES? Presente e Futuro
+# Capítulo 1: ES? Presente e Futuro
 
 Antes de mergulhar neste livro, você deve ter uma sólida proficiência de trabalho sobre o JavaScript até o padrão mais recente (no momento da redação deste artigo), que é comumente chamado de *ES5* (tecnicamente `ES 5.1`). Aqui, planejamos falar diretamente sobre o próximo *ES6*, também como moldar nossa visão além de entender como o JavaScript irá evoluir.
 
@@ -8,7 +8,7 @@ Se você está "entrando de cara" com o JavaScript, eu recomendo que você leia 
 * *Iniciando*: Você é novo em programação e JavaScript? Este é o roteiro que você precisa consultar enquanto inicia sua jornada de aprendizado.
 * *Escopos & Closures*: Você sabia que o escopo lexical do JS é baseado em uma semântica de compilador (não de intérprete)? Você pode explicar como os _closures_ são um resultado direto do escopo lexical e funções como valores?
 * *this & Prototipagem de Objetos*: Você pode recitar as quatro regras simples de como o `this` está ligado? Você tem ficado confuso com falsas "classes" em JavaScript em vez de adotar o padrão de design de "delegação de comportamento" mais simples? Já ouviu falar de *objetos ligados a outros objetos*(OLOO)?
-* *Tipos & Gramática*: Do you know the built-in types in JS, and more importantly, do you know how to properly and safely use coercion between types? How comfortable are you with the nuances of JS grammar/syntax?
+* *Tipos & Gramática*: Você conhece os tipos embutidos do JS e, mais importante, sabe como usar a coerção entre tipos de forma apropriada e segura? Quão confortável você está com as nuances da gramática/sintaxe do JS?
 * *Async & Performance*: Você ainda está usando callbacks para gerenciar sua assincronia? Você pode explicar o que é uma promessa e por que/como ele resolve o "inferno de retorno de chamada"? Você sabe como usar geradores para melhorar a legibilidade do código assíncrono? O que exatamente constitui a otimização madura de programas JavaScript e operações individuais?
 
 Se você já leu todos esses títulos e se sente muito confortável com os tópicos que eles cobrem, é hora de mergulhar na evolução da JS para explorar todas as mudanças que vêm não só em breve, mas distante sobre o horizonte.
@@ -106,7 +106,7 @@ Presume-se que o javaScript continuará evoluindo constantemente, com os navegad
 
 Se você decidir deixar como está e esperar que todos os navegadores sem as funcionalidades sejam suportados antes de você começar a usar a funcionalidade, você sempre estará muito atrasado. Infelizmente, você perderá todas as inovações projetadas para tornar a escrita do JavaScript mais eficaz, eficiente e robusta.
 
-## Revisando
+## Revisão
 
 ES6 (alguns podem tentar chamá-lo de ES2015) está apenas chegando no momento em que este livro está sendo escrito, e tem muitas coisas novas que você precisa aprender!
 

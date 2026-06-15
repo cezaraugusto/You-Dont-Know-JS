@@ -405,7 +405,7 @@ foo( 0, 42 );			// 42
 foo( undefined, 6 );	// 17
 ```
 
-Claro, isso significa que qualquer valor, exceto `undefined`, pode ser transmitido diretamente. No entanto, será assumido que "indefinido" indica "Eu não passei isso". Isso funciona muito bem, a não ser que que você realmente precise passar `undefined`.
+Claro, isso significa que qualquer valor, exceto `undefined`, pode ser transmitido diretamente. No entanto, será assumido que `undefined` indica "Eu não passei isso". Isso funciona muito bem, a não ser que que você realmente precise passar `undefined`.
 
 Nesse caso, você poderia testar para ver se o argumento é realmente omitido, por não estar presente na matriz `arguments`, talvez assim:
 
@@ -423,7 +423,7 @@ foo( 5, undefined );	// NaN
 
 Mas como omitir o primeiro argumento `x` sem a possibilidade de passar para qualquer tipo de valor (nem mesmo `undefined`) que sinalize "estou omitindo este argumento"?
 
-`foo (, 5)` é tentador, mas é uma sintaxe inválida. `foo.apply (null, [, 5])` parece que deve fazer o truque, mas as peculiaridades do `apply (..)` aqui significam que os argumentos são tratados como `[undefined, 5]`, que com certeza não são omitidos
+`foo(,5)` é tentador, mas é uma sintaxe inválida. `foo.apply(null,[,5])` parece que deve fazer o truque, mas as peculiaridades do `apply(..)` aqui significam que os argumentos são tratados como `[undefined,5]`, que com certeza não são omitidos
 
 Se você investigar mais, verá que só pode omitir argumentos no final (ou seja, no lado direito) simplesmente passando menos argumentos que "esperado", mas você não pode omitir os argumentos no meio ou no início da lista de argumentos. Isso não é possível.
 
@@ -546,7 +546,7 @@ var tmp = foo(),
 console.log( a, b, c );				// 1 2 3
 ```
 
-Como pode ver, criamos uma atribuição manual dos valores no array que `foo()` retorna para as variáveis individuais `a`,` b` e `c` e para isso nós (infelizmente) precisamos da variável `tmp`.
+Como pode ver, criamos uma atribuição manual dos valores no array que `foo()` retorna para as variáveis individuais `a`, `b` e `c` e para isso nós (infelizmente) precisamos da variável `tmp`.
 
 Da mesma forma, podemos fazer o seguinte com objetos:
 
@@ -581,7 +581,7 @@ Você provavelmente está mais acostumado a ver sintaxes como `[a, b, c]` à dir
 
 A desestruturação inverte simetricamente esse padrão, de modo que `[a, b, c]` no lado esquerdo da atribuição `=` é tratado como um tipo de "padrão" para decompor o valor da matriz à direita em atribuições de variáveis separadas.
 
-Da mesma forma, `{x: x, y: y, z: z}` especifica um "padrão" para decompor o valor do objeto de `bar ()` em atribuições de variáveis separadas.
+Da mesma forma, `{x: x, y: y, z: z}` especifica um "padrão" para decompor o valor do objeto de `bar()` em atribuições de variáveis separadas.
 
 ### Padrão de Atribuição de Propriedade do Objeto
 
@@ -847,7 +847,7 @@ var { x, z } = bar();
 console.log( b, x, z );				// 2 4 6
 ```
 
-Os valores `1` e` 3` retornados de `foo ()` são descartados, assim como o valor `5` de `bar ()`.
+Os valores `1` e `3` retornados de `foo()` são descartados, assim como o valor `5` de `bar()`.
 
 Da mesma forma, se você tentar atribuir mais valores do que os que estão presentes no valor que você está desestruturando/decompondo, você terá um esplêndido fallback `undefined`, como ja era de se esperar:
 
@@ -2467,7 +2467,7 @@ s1 === s2;						// false
 s1 === s2.normalize();			// true
 ```
 
-Essencialmente, `normalize(..)` pega uma sequ\u00eancia como `"e\u0301"` e a normaliza para `"\xE9"`. A normaliza\u00e7\u00e3o pode at\u00e9 combinar m\u00faltiplas marcas combinantes adjacentes se houver um caractere Unicode adequado ao qual elas se combinem:
+Essencialmente, `normalize(..)` pega uma sequência como `"e\u0301"` e a normaliza para `"\xE9"`. A normalização pode até combinar múltiplas marcas combinantes adjacentes se houver um caractere Unicode adequado ao qual elas se combinem:
 
 ```js
 var s1 = "o\u0302\u0300",

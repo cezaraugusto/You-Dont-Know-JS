@@ -1,5 +1,7 @@
 # You Don't Know JS: ES6 & Além
 
+> **Nota:** Esta é a tradução da 1ª edição da série *You Don't Know JS*, cujo conteúdo está completo.
+
 <img src="cover.jpg" width="300">
 
 -----

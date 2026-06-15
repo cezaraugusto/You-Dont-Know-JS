@@ -21,9 +21,9 @@
 	* Unicode
 	* Símbolos
 * Capítulo 3: Organização
-	* Iterações
+	* Iteradores
 	* Generators
-	* Modulos
+	* Módulos
 	* Classes
 * Capítulo 4: Controle de Fluxo Assíncrono
 	* Promessas
@@ -34,7 +34,7 @@
 	* WeakMaps
 	* Sets
 	* WeakSets
-* Capítulo 6: Adições do API
+* Capítulo 6: Adições da API
 	* `Array`
 	* `Object`
 	* `Math`
@@ -43,7 +43,7 @@
 * Capítulo 7: Meta Programação
 	* Nomes de Funções
 	* Meta Propriedades
-	* Simbolos Bem Conhecidos
+	* Símbolos Bem Conhecidos
 	* Proxies
 	* `Reflect` API
 	* Feature Testing

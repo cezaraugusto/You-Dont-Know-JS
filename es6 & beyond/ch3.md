@@ -9,7 +9,7 @@ ES6 tem várias funcionalidades importantes que ajudam significantemente a melho
 
 Um *iterador* é um padrão estruturado para obter informações de uma fonte, de uma a uma. Esse padrão tem estado pela programação há muito tempo. E para ser exato, desenvolvedores JS têm pensado e implementado iteradores em programas JS desde antes que alguém possa se lembrar, então isso não é uma novidade.
 
-O que ES6 tem feito é introduzir uma interface padronizada implícita para iteradores. Muitas das estruturas de dados embutidas em JavaScript vão agora expor um iterador implementando esse padrão. E você também pode construir seus próprios iteradores aderindo ao mesmo padrão, para máxima interoperalibilidade.
+O que ES6 tem feito é introduzir uma interface padronizada implícita para iteradores. Muitas das estruturas de dados embutidas em JavaScript vão agora expor um iterador implementando esse padrão. E você também pode construir seus próprios iteradores aderindo ao mesmo padrão, para máxima interoperabilidade.
 
 Iteradores são uma maneira de organizar o consumo ordenado, sequencial e baseado em obtenção de dados.
 
@@ -19,11 +19,11 @@ Embora eles não sejam geralmente usados em JS de tal forma, iteradores também 
 
 ### Interfaces
 
-Na época em que isto está sendo escrito, a seção ES6 25.1.1.2(https://people.mozilla.org/~jorendorff/es6-draft.html#sec-iterator-interface) detalha a interface `Iterator` como tendo os seguintes requerimentos:
+Na época em que isto está sendo escrito, a seção ES6 25.1.1.2 (https://people.mozilla.org/~jorendorff/es6-draft.html#sec-iterator-interface) detalha a interface `Iterator` como tendo os seguintes requerimentos:
 
 ```
 Iterator [necessário]
-	next() {método}: recupera o próximo Resultado do Iterador
+	next() {método}: recupera o próximo Resultado do Iterator
 ```
 
 Tem dois membros opcionais com alguns iterators que são estendidos juntos:
@@ -43,7 +43,7 @@ IteratorResult
 	done {propriedade}: booleano, indica que o status está completo
 ```
 
-**Nota:** Chamo estas interfaces implícitas não porque não estejam explicitamente chamadas na especificação -- estão! -- mas porque não estão expostas como objeto de acceso direto no código. JavaScript na versão ES6 não suporta qualquer noção de “interfaces”, então aderir ao seu código e puramente convencional. Porém, onde quer que o JS espere um iterador -- um loop `for..of`, por exemplo -- o que você prover deve se aderir nesta interface ou falhará.
+**Nota:** Chamo estas interfaces implícitas não porque não estejam explicitamente chamadas na especificação -- estão! -- mas porque não estão expostas como objetos de acesso direto no código. JavaScript na versão ES6 não suporta qualquer noção de “interfaces”, então a aderência ao seu próprio código é puramente convencional. Porém, onde quer que o JS espere um iterador -- um loop `for..of`, por exemplo -- o que você prover deve aderir a estas interfaces ou falhará.
 
 Existe também uma interface `Iterable`, que descreve objetos que são capazes de produzir iteradores:
 
@@ -377,7 +377,7 @@ Vamos considerar o iterador anexado a este array (embora qualquer iterador que e
 var a = [1,2,3,4,5];
 ```
 
-O operador de espalhamento `...` exaure completamente um iterador. Considere:
+O operador spread `...` exaure completamente um iterador. Considere:
 
 ```js
 function foo(x,y,z,w,p) {
@@ -565,9 +565,9 @@ a = 2 + (yield 3);		// válido
 
 A conclusão: se você precisa que `yield ..` apareça em uma posição onde uma atribuição como `a = 3` não seria por si só permitida, ela precisa ser envolvida em um `( )`.
 
-Por causa da baixa precedência da palavra-chave `yield`, quase qualquer expressão após um `yield ..` será computada primeiro antes de ser enviada com `yield`. Apenas o operador de espalhamento `...` e o operador vírgula `,` têm precedência menor, significando que eles se ligariam após o `yield` ter sido avaliado.
+Por causa da baixa precedência da palavra-chave `yield`, quase qualquer expressão após um `yield ..` será computada primeiro antes de ser enviada com `yield`. Apenas o operador spread `...` e o operador vírgula `,` têm precedência menor, significando que eles se ligariam após o `yield` ter sido avaliado.
 
-Então, assim como com múltiplos operadores em declarações normais, outro caso onde `( )` pode ser necessário é para sobrescrever (elevar) a baixa precedência de `yield`, como a diferença entre estas expressões:
+Então, assim como com múltiplos operadores em instruções normais, outro caso onde `( )` pode ser necessário é para sobrescrever (elevar) a baixa precedência de `yield`, como a diferença entre estas expressões:
 
 ```js
 yield 2 + 3;			// o mesmo que `yield (2 + 3)`
@@ -632,7 +632,7 @@ for (var v of bar()) {
 	console.log( v );
 }
 // 1 2 3
-// x: { value: 4, done: true }
+// x: 4
 ```
 
 Enquanto os valores `1`, `2` e `3` recebem `yield` para fora de `*foo()` e então para fora de `*bar()`, o valor `4` retornado de `*foo()` é o valor de conclusão da expressão `yield *foo()`, que então é atribuído a `x`.
@@ -713,7 +713,7 @@ it.next();				// { value: 3, done: false }
 it.next();				// { value: undefined, done: true }
 ```
 
-Se você olhar de perto, há três declarações `yield` e quatro chamadas de `next()`. Isso pode parecer uma incompatibilidade estranha. De fato, sempre haverá uma chamada de `next()` a mais do que expressões `yield`, assumindo que todas sejam avaliadas e o gerador seja rodado completamente até a conclusão.
+Se você olhar de perto, há três instruções `yield` e quatro chamadas de `next()`. Isso pode parecer uma incompatibilidade estranha. De fato, sempre haverá uma chamada de `next()` a mais do que expressões `yield`, assumindo que todas sejam avaliadas e o gerador seja rodado completamente até a conclusão.
 
 Mas se você olhar da perspectiva oposta (de dentro para fora em vez de de fora para dentro), a correspondência entre `yield` e `next()` faz mais sentido.
 
@@ -814,7 +814,7 @@ it.next();				// { value: undefined, done: true }
 
 `return(x)` é como forçar um `return x` a ser processado exatamente naquele momento, de modo que você recebe o valor especificado de volta. Uma vez que um gerador é completado, seja normalmente ou antecipadamente como mostrado, ele não processa mais nenhum código nem retorna mais nenhum valor.
 
-Além de `return(..)` ser chamável manualmente, ele também é chamado automaticamente ao final da iteração por qualquer uma das construções do ES6 que consomem iteradores, como o loop `for..of` e o operador de espalhamento `...`.
+Além de `return(..)` ser chamável manualmente, ele também é chamado automaticamente ao final da iteração por qualquer uma das construções do ES6 que consomem iteradores, como o loop `for..of` e o operador spread `...`.
 
 O propósito dessa capacidade é que o gerador possa ser notificado se o código de controle não vai mais iterar sobre ele, para que ele possa talvez fazer quaisquer tarefas de limpeza (liberar recursos, redefinir status, etc.). Idêntico a um padrão de limpeza de função normal, a principal maneira de realizar isso é usar uma cláusula `finally`:
 
@@ -843,7 +843,7 @@ it.return( 42 );		// cleanup!
 						// { value: 42, done: true }
 ```
 
-**Aviso:** Não coloque uma declaração `yield` dentro da cláusula `finally`! É válido e legal, mas é uma ideia realmente terrível. Ele age, em certo sentido, como adiar a conclusão da chamada de `return(..)` que você fez, já que quaisquer expressões `yield ..` na cláusula `finally` são respeitadas para pausar e enviar mensagens; você não obtém imediatamente um gerador completado como esperado. Não há basicamente nenhuma boa razão para optar por essa loucura *má parte*, então evite fazê-lo!
+**Aviso:** Não coloque uma instrução `yield` dentro da cláusula `finally`! É válido e legal, mas é uma ideia realmente terrível. Ele age, em certo sentido, como adiar a conclusão da chamada de `return(..)` que você fez, já que quaisquer expressões `yield ..` na cláusula `finally` são respeitadas para pausar e enviar mensagens; você não obtém imediatamente um gerador completado como esperado. Não há basicamente nenhuma boa razão para optar por essa loucura *má parte*, então evite fazê-lo!
 
 Além do fragmento anterior mostrar como `return(..)` aborta o gerador enquanto ainda dispara a cláusula `finally`, ele também demonstra que um gerador produz um iterador completamente novo cada vez que é chamado. De fato, você pode usar múltiplos iteradores anexados ao mesmo gerador concorrentemente:
 
@@ -1023,7 +1023,7 @@ function foo() {
 
 Agora, precisamos de alguma variável interna para acompanhar onde estamos nos passos da lógica do nosso "gerador". Vamos chamá-la de `state`. Haverá três estados: `0` inicialmente, `1` enquanto espera para cumprir a expressão `yield`, e `2` uma vez que o gerador esteja completo.
 
-Cada vez que `next(..)` é chamado, precisamos processar o próximo passo, e então incrementar `state`. Por conveniência, colocaremos cada passo em uma cláusula `case` de uma declaração `switch`, e a manteremos em uma função interna chamada `nextState(..)` que `next(..)` pode chamar. Além disso, como `x` é uma variável ao longo do escopo geral do "gerador", ela precisa viver fora da função `nextState(..)`.
+Cada vez que `next(..)` é chamado, precisamos processar o próximo passo, e então incrementar `state`. Por conveniência, colocaremos cada passo em uma cláusula `case` de uma instrução `switch`, e a manteremos em uma função interna chamada `nextState(..)` que `next(..)` pode chamar. Além disso, como `x` é uma variável ao longo do escopo geral do "gerador", ela precisa viver fora da função `nextState(..)`.
 
 Aqui está tudo junto (obviamente um tanto simplificado, para manter a ilustração conceitual mais clara):
 
@@ -1383,7 +1383,7 @@ Essas formas são similares a primeiro importar do módulo `"baz"` e então list
 
 #### `import`ando Membros da API
 
-Para importar um módulo, sem surpresa você usa a declaração `import`. Assim como `export` tem várias variações com nuances, `import` também tem, então gaste bastante tempo considerando as seguintes questões e experimentando suas opções.
+Para importar um módulo, sem surpresa você usa a instrução `import`. Assim como `export` tem várias variações com nuances, `import` também tem, então gaste bastante tempo considerando as seguintes questões e experimentando suas opções.
 
 Se você quiser importar certos membros nomeados específicos da API de um módulo para o seu escopo de nível superior, você usa esta sintaxe:
 
@@ -1449,9 +1449,9 @@ Um benefício, além de o código ser mais explícito, é que imports estreitos 
 
 É claro que essa é apenas a posição padrão influenciada pela filosofia de design do ES6; não há nada que exija aderência a essa abordagem.
 
-Muitos desenvolvedores seriam rápidos em apontar que tais abordagens podem ser mais tediosas, exigindo que você regularmente revisite e atualize sua(s) declaração(ões) de `import` cada vez que perceber que precisa de algo mais de um módulo. A compensação é em troca de conveniência.
+Muitos desenvolvedores seriam rápidos em apontar que tais abordagens podem ser mais tediosas, exigindo que você regularmente revisite e atualize sua(s) instrução(ões) de `import` cada vez que perceber que precisa de algo mais de um módulo. A compensação é em troca de conveniência.
 
-À luz disso, a preferência pode ser importar tudo do módulo para um único namespace, em vez de importar membros individuais, cada um diretamente no escopo. Felizmente, a declaração `import` tem uma variação de sintaxe que pode suportar esse estilo de consumo de módulo, chamado de *namespace import*.
+À luz disso, a preferência pode ser importar tudo do módulo para um único namespace, em vez de importar membros individuais, cada um diretamente no escopo. Felizmente, a instrução `import` tem uma variação de sintaxe que pode suportar esse estilo de consumo de módulo, chamado de *namespace import*.
 
 Considere um módulo `"foo"` exportado como:
 
@@ -1523,7 +1523,7 @@ foo();
 import { foo } from "foo";
 ```
 
-`foo()` pode rodar porque não apenas a resolução estática da declaração `import ..` descobriu o que `foo` é durante a compilação, mas também "hoisted" a declaração para o topo do escopo do módulo, tornando-a assim disponível por todo o módulo.
+`foo()` pode rodar porque não apenas a resolução estática da instrução `import ..` descobriu o que `foo` é durante a compilação, mas também "hoisted" a declaração para o topo do escopo do módulo, tornando-a assim disponível por todo o módulo.
 
 Finalmente, a forma mais básica do `import` se parece com isto:
 
@@ -1572,7 +1572,7 @@ Em um sentido conceitual aproximado, é assim que dependências de `import` circ
 * Se o módulo `"A"` for carregado primeiro, o primeiro passo é escanear o arquivo e analisar todos os exports, para que ele possa registrar todos esses bindings disponíveis para import. Então ele processa o `import .. from "B"`, que sinaliza que ele precisa ir buscar `"B"`.
 * Uma vez que o motor carrega `"B"`, ele faz a mesma análise de seus bindings de export. Quando ele vê o `import .. from "A"`, ele já conhece a API de `"A"`, então pode verificar que o `import` é válido. Agora que ele conhece a API de `"B"`, ele também pode validar o `import .. from "B"` no módulo `"A"` que está aguardando.
 
-Em essência, os imports mútuos, junto com a verificação estática que é feita para validar ambas as declarações `import`, virtualmente compõem os dois escopos de módulo separados (via os bindings), de modo que `foo(..)` pode chamar `bar(..)` e vice-versa. Isso é simétrico a se eles tivessem sido originalmente declarados no mesmo escopo.
+Em essência, os imports mútuos, junto com a verificação estática que é feita para validar ambas as instruções `import`, virtualmente compõem os dois escopos de módulo separados (via os bindings), de modo que `foo(..)` pode chamar `bar(..)` e vice-versa. Isso é simétrico a se eles tivessem sido originalmente declarados no mesmo escopo.
 
 Agora vamos tentar usar os dois módulos juntos. Primeiro, tentaremos `foo(..)`:
 
@@ -1602,11 +1602,11 @@ foo( 25 );				// 11
 bar( 25 );				// 11.5
 ```
 
-A semântica de carregamento estático da declaração `import` significa que um `"foo"` e um `"bar"` que dependem mutuamente um do outro via `import` garantirão que ambos sejam carregados, parseados e compilados antes de qualquer um deles rodar. Então a dependência circular deles é resolvida estaticamente e isso funciona como você esperaria.
+A semântica de carregamento estático da instrução `import` significa que um `"foo"` e um `"bar"` que dependem mutuamente um do outro via `import` garantirão que ambos sejam carregados, parseados e compilados antes de qualquer um deles rodar. Então a dependência circular deles é resolvida estaticamente e isso funciona como você esperaria.
 
 ### Carregamento de Módulos
 
-Afirmamos no início desta seção "Módulos" que a declaração `import` usa um mecanismo separado, fornecido pelo ambiente hospedeiro (navegador, Node.js, etc.), para na verdade resolver a string do module specifier em alguma instrução útil para encontrar e carregar o módulo desejado. Esse mecanismo é o *Module Loader* do sistema.
+Afirmamos no início desta seção "Módulos" que a instrução `import` usa um mecanismo separado, fornecido pelo ambiente hospedeiro (navegador, Node.js, etc.), para na verdade resolver a string do module specifier em alguma instrução útil para encontrar e carregar o módulo desejado. Esse mecanismo é o *Module Loader* do sistema.
 
 O module loader padrão fornecido pelo ambiente interpretará um module specifier como uma URL se estiver no navegador, e (geralmente) como um caminho de sistema de arquivos local se estiver em um servidor como o Node.js. O comportamento padrão é assumir que o arquivo carregado foi escrito no formato de módulo padrão do ES6.
 
@@ -1869,7 +1869,7 @@ class Bar extends Foo {
 }
 ```
 
-Nesse caso, a correção é simples. Apenas troque as duas declarações no construtor da subclasse `Bar`. Entretanto, se você vinha confiando pré-ES6 em poder pular a chamada do "construtor pai", cuidado porque isso não será mais permitido.
+Nesse caso, a correção é simples. Apenas troque as duas instruções no construtor da subclasse `Bar`. Entretanto, se você vinha confiando pré-ES6 em poder pular a chamada do "construtor pai", cuidado porque isso não será mais permitido.
 
 #### `extend`endo Nativos
 

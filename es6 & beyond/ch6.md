@@ -1,9 +1,9 @@
 # You Don't Know JS: ES6 e além
-# Chapter 6: Adições no API
+# Capítulo 6: Adições no API
 
 De conversão de valores a cálculos matemáticos, ES6 agrega muitas propriedades estáticas e métodos a vários nativos e objetos globais para ajudar com tarefas comuns. Além disso, instâncias de alguns dos nativos têm novas capacidades através de vários métodos de prototipagem.
 
-**Nota:** A maioria dessas funcionalidades podem ser fielmente polyfilled. Nós não vamos entrar em detalhes aqui, mas cheque o "ES6 Shim" (https://github.com/paulmillr/es6-shim/) para padrões compátiveis de shims/polyfills.
+**Nota:** A maioria dessas funcionalidades podem ser fielmente polyfilled. Nós não vamos entrar em detalhes aqui, mas cheque o "ES6 Shim" (https://github.com/paulmillr/es6-shim/) para padrões compatíveis de shims/polyfills.
 
 ## `Array`
 
@@ -63,7 +63,7 @@ Você não pode criar (facilmente) um construtor para `MyCoolArray` que sobrescr
 
 Um objeto array-like em JavaScript é um objeto que tem uma propriedade `length` especificamente com um valor inteiro, igual ou maior que zero.
 
-Esses valores têm sido notóriamente frustrantes de se trabalhar em JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
+Esses valores têm sido notoriamente frustrantes de se trabalhar em JS; É bem comum que seja preciso transformá-los em um verdadeiro array, assim os vários métodos do `Array.prototype` (`map(..)`, `indexOf(..)` etc) podem ser usados. Esse processo geralmente é assim:
 
 ```js
 // array-like object
@@ -73,8 +73,7 @@ var arrLike = {
 	1: "bar"
 };
 
-var arr = Array.prototype.
-.call( arrLike );
+var arr = Array.prototype.slice.call( arrLike );
 ```
 
 Outra tarefa comum onde geralmente se utiliza o `slice(..)` é para duplicar um array real:
@@ -563,7 +562,7 @@ o2.foo();							// foo
 
 ES6 adiciona diversos utilitários matemáticos que preenchem buracos ou ajudam com operações comuns. Todos podem ser manualmente calculados, mas a maioria está agora definida nativamente, então em alguns casos o motor do JS pode otimizar a performance dos cálculos e ser mais performático com mais precisão de números decimais do que a solução manual.
 
-É provavel que asm.js/código JS transpilado (veja o título *Async & Performance* dessa série) é o consumidor mais provável de muitos desses utilitários, ao invés de desenvolvedores diretos.
+É provável que asm.js/código JS transpilado (veja o título *Async & Performance* dessa série) é o consumidor mais provável de muitos desses utilitários, ao invés de desenvolvedores diretos.
 
 Trigonometria:
 
@@ -649,8 +648,7 @@ Você pode ainda preferir a coerção, e nesse caso usar o `isFinite(..)` global
 
 ### Funções Estáticas Relacionadas Com Inteiros
 
-Valores numéricos de JavaScript são sempre ponteiros flutuantes (IEEE-754). Então a noção de determinar se um número é um "inteiro" não é checando seu tipo, porque JS não faz nenhuma distinção.
-JavaScript number values are always floating point (IEEE-754). So the notion of determining if a number is an "integer" is not about checking its type, because JS makes no such distinction.
+Valores numéricos de JavaScript são sempre ponto flutuante (IEEE-754). Então a noção de determinar se um número é um "inteiro" não é checar seu tipo, porque JS não faz nenhuma distinção.
 
 Ao invés disso, você precisa checar se há algum decimal diferente de zero que é parte do valor. A forma mais fácil de fazer isso tem sido comumente assim:
 
@@ -674,7 +672,7 @@ Number.isInteger( NaN );			// false
 Number.isInteger( Infinity );		// false
 ```
 
-Trabalhar com "inteiros" às vezes é importante, já que pode simplificar alguns tipos de algoritmos. O Código JS por si só não vai rodar mais rápido apenas por filtrar somente números inteiros, mas há algumas técnicas de otimização que a engine pode fazer (exemplo, asm.js) onde somente inteiros são usados.
+Trabalhar com "inteiros" às vezes é importante, já que pode simplificar alguns tipos de algoritmos. O Código JS por si só não vai rodar mais rápido apenas por filtrar somente números inteiros, mas há algumas técnicas de otimização que o motor pode fazer (exemplo, asm.js) onde somente inteiros são usados.
 
 Por conta da forma como `Number.isInteger(..)` lida com valores `NaN` e `Infinity`, definir um utilitário `isFloat` não seria tão simples como `!Number.isInteger(..)`. Ia ser algo como:
 

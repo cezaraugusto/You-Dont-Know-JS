@@ -3,7 +3,7 @@
 
 Eu tenho muitas pessoas a agradecer por tornar este livro e toda a série realidade.
 
-Primeiramente, devo agradecer minha esposa Christen Simpson, e meus dois filhos Ethan e Emily, por me apoiarem sempre que estava distante,  aficionado no computador. Mesmo quando não escrevendo livros, minha obsessão por JavaScript faz meus olhos ficarem grudados na tela bem mais do que deveria. Esse tempo que tomei emprestado da minha família é a razão pela qual estes livros podem explicar tão profundamente e inteiramente JavaScript para voce, leitor. Devo a minha família tudo.
+Primeiramente, devo agradecer minha esposa Christen Simpson, e meus dois filhos Ethan e Emily, por me apoiarem sempre que estava distante,  aficionado no computador. Mesmo quando não escrevendo livros, minha obsessão por JavaScript faz meus olhos ficarem grudados na tela bem mais do que deveria. Esse tempo que tomei emprestado da minha família é a razão pela qual estes livros podem explicar tão profundamente e inteiramente JavaScript para você, leitor. Devo a minha família tudo.
 
 Eu gostaria de agradecer meus editores na O'Reilly, chamados Simon St.Laurent e Brian MacDonald, assim como todo o pessoal do editorial e marketing. Eles são fantásticos para se trabalhar com, e tem sido especialmente agradável durante esta experiência "open source" de escrita, edição e produção do livro.
 

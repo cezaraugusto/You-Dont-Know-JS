@@ -358,7 +358,7 @@ if (~vals.indexOf( 42 )) {
 }
 ```
 
-O operador `~` aqui adapta o valor de retorno do `indexOf(..)` para um intervalo de valor que é facilmente convertível para booleano. Isso é, `01` produz 0 (falso), e qualquer outra coisa produz um valor não-zero (verdadeiro), que é o que usamos para decidir se encontramos o valor ou não.
+O operador `~` aqui adapta o valor de retorno do `indexOf(..)` para um intervalo de valor que é facilmente convertível para booleano. Isso é, `-1` produz `0` (falso), e qualquer outra coisa produz um valor não-zero (verdadeiro), que é o que usamos para decidir se encontramos o valor ou não.
 
 Enquanto eu acho que isso é um avanço, outras pessoas discordam fortemente. Porém, ninguém pode dizer que a lógica de busca do `indexOf(..)` é perfeita. Ela falha em encontrar valores `NaN` no array, por exemplo.
 
@@ -392,7 +392,7 @@ SIMD.float32x4.mul( v1, v2 );
 
 SIMD irá incluir várias outras operações além de `mul(..)` (multiplicação), como `sub()`, `div()`, `abs()`, `neg()`, `sqrt()`, e muito mais. 
 
-Operações matemáticas paralelas são critícas para a próxima geração de aplicações JS de alta performance.
+Operações matemáticas paralelas são críticas para a próxima geração de aplicações JS de alta performance.
 
 ## WebAssembly (WASM)
 
@@ -400,7 +400,7 @@ Brendan Eich fez um anúncio quente tardio próximo da finalização da primeira
 
 Uma das pressões mais fortes nas mudanças de desenho recentes (e futuro próximo) da linguagem tem sido o desejo de que ela se torne um alvo mais apropriado para a transpilação/cross-compilação vindo de outras linguagens (como C/C++, ClojureScript, etc.). Óbvio, a performance do código rodando em JavaScript tem sido uma preocupação primária.
 
-Como discutido no título *Async e Performance* dessa série, há alguns anos um grupo de desenvolvedores na Mozilla introduziu uma ideia ao JavaScript chamada ASM.js. ASM.js é um subconjunto de JS válido que basicamente restringe algumas ações que deixam o código dificíl para a engine JS otimizar. O resultado é que o código compatível ASM.js rodando em uma engine ASM-consciente pode rodar notavelmente mais rápido, junto com código nativo e otimizado em C e equivalentes. Muitas pessoas viram ASM.js como muito provavelmente backbone em que aplicações necessitadas por performance iriam alavancar em JavaScript.
+Como discutido no título *Async e Performance* dessa série, há alguns anos um grupo de desenvolvedores na Mozilla introduziu uma ideia ao JavaScript chamada ASM.js. ASM.js é um subconjunto de JS válido que basicamente restringe algumas ações que deixam o código difícil para o motor JS otimizar. O resultado é que o código compatível ASM.js rodando em um motor ASM-consciente pode rodar notavelmente mais rápido, junto com código nativo e otimizado em C e equivalentes. Muitas pessoas viram ASM.js como muito provavelmente backbone em que aplicações necessitadas por performance iriam alavancar em JavaScript.
 
 Em outras palavras, todos os caminhos para rodar código no navegador *liderado pelo JavaScript*.
 
@@ -416,15 +416,15 @@ E o que isso significa para o JS? JS vai se tornar irrelevante ou "morrer"? Clar
 
 Defensores do WASM sugerirem o seu sucesso vai significar que o desenho do JS vai ser protegido de pressões que eventualmente teriam gerado um stress além de presumir uma ruptura de razoabilidade. De acordo com as previsões WASM vai se tornar o alvo preferido para partes de aplicações que precisam de alta performance, como acontece em várias outras linguagens.
 
-Curiosamente, JavaScript é uma das linguagens que menos visam atingir WASM no futuro. Haverão outras mudanças futuras que constroem possibilidades do JS ser sustentável para esse fim, mas esse caminho não parece estar no topo da lista de prioridades.
+Curiosamente, JavaScript é uma das linguagens que menos visam atingir WASM no futuro. Haverá outras mudanças futuras que constroem possibilidades do JS ser sustentável para esse fim, mas esse caminho não parece estar no topo da lista de prioridades.
 
 Já que JavaScript não vai ser um funil de WASM, os códigos JS e WASM serão capazes de interoperar de várias formas, assim como interações entre módulos. Você pode imaginar chamar uma função JS como `foo()` e na verdade invocar uma função WASM com esse nome com o poder de rodar bem tirando as preocupações do restante do seu código JS.
 
-As coisas que atualmente são escritas em JS provavelmente continuarão sendo escritas em JS, pelo menos pelo futuro próximo. As que são transpiladas para JS vão provavelmente eventualmente ao menos considerar usar WASM. Paras as coisas que precisam de muita performance com uma tolerância mínica para camadas de abstração, a escolha mais comum vai ser achar uma línguagem não-JS adequada para trabalhar, e então usar WASM.
+As coisas que atualmente são escritas em JS provavelmente continuarão sendo escritas em JS, pelo menos pelo futuro próximo. As que são transpiladas para JS vão provavelmente eventualmente ao menos considerar usar WASM. Para as coisas que precisam de muita performance com uma tolerância mínima para camadas de abstração, a escolha mais comum vai ser achar uma linguagem não-JS adequada para trabalhar, e então usar WASM.
 
-Tem chances de que a mudança será devagar, e vai levar anos em contrução. WASM ser lançada na maioria das plataformas de navegadores provavelmente vai levar alguns anos, sendo otimista. Enquanto isso, o projeto WASM (https://github.com/WebAssembly) tem um polyfill prévio para demonstrar a prova de conceito para os princípios básicos.
+Tem chances de que a mudança será devagar, e vai levar anos em construção. WASM ser lançada na maioria das plataformas de navegadores provavelmente vai levar alguns anos, sendo otimista. Enquanto isso, o projeto WASM (https://github.com/WebAssembly) tem um polyfill prévio para demonstrar a prova de conceito para os princípios básicos.
 
-Mas com o tempo, e enquanto WASM aprende novos truques que não são do JS, não é muito difíficl imaginar algumas aplicações que estão em JS atualmente sendo refatoradas para uma linguagem que é compatível com WASM. Por exemplo, as partes sensíveis de performance de frameworks, motores de jogos e outras ferramentas pesadas provavelmente terão benefícios com essas mudanças. Pessoas desenvolvedoras usando essas ferramentas em suas aplicações provavelmente não verão muita diferença no uso ou na integração, mas automaticamente terão as vantagens de performance e capacidades.
+Mas com o tempo, e enquanto WASM aprende novos truques que não são do JS, não é muito difícil imaginar algumas aplicações que estão em JS atualmente sendo refatoradas para uma linguagem que é compatível com WASM. Por exemplo, as partes sensíveis de performance de frameworks, motores de jogos e outras ferramentas pesadas provavelmente terão benefícios com essas mudanças. Pessoas desenvolvedoras usando essas ferramentas em suas aplicações provavelmente não verão muita diferença no uso ou na integração, mas automaticamente terão as vantagens de performance e capacidades.
 
 O que é certo é que quanto mais WASM se torna real, mais significante fica para a trajetória e desenho do JavaScript. Esse é provavelmente um dos tópicos mais importantes do "além do ES6" que as pessoas desenvolvedoras deveriam ficar de olho.
 
