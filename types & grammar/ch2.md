@@ -815,7 +815,7 @@ if (!Object.is) {
 }
 ```
 
-`Object.is(..)` provavelmente não deveria ser usado em casos onde `==` ou `===` são conhecidos por serem *seguros* (vaja o Capítulo 4 "Coerção"), já que esses operadores são mais eficientes e certamente mais comuns. `Object.is(..)` serve mais para esses casos especiais de igualdade. 
+`Object.is(..)` provavelmente não deveria ser usado em casos onde `==` ou `===` são conhecidos por serem *seguros* (veja o Capítulo 4 "Coerção"), já que esses operadores são mais eficientes e certamente mais comuns. `Object.is(..)` serve mais para esses casos especiais de igualdade. 
 
 ## Valor vs. Referência
 
@@ -825,9 +825,9 @@ Por exemplo, em C++, se você quer passar uma variável `number` para uma funç�
 
 Em Javascript não existem ponteiros e referências funcionam um pouco diferente. Você não pode ter uma referência de uma variável JS para outra variável. Isso não é possível.
 
-Uma referência em JS aponta para um **valor** (compartilhado), então você pode ter 10 diferentes referências, elas são sempre distintas para um mesmo valor compartilhado;
+Uma referência em JS aponta para um **valor** (compartilhado), então, se você tem 10 referências diferentes, todas são sempre referências distintas para um único valor compartilhado; **nenhuma delas é referência/ponteiro para outra.**
 
-Além disso, em JavaScript não há dicas sintáticas que controlam atribuição/passagem de valores vs. referênicas. Ao invés disso, *exclusivamente o tipo* de um valor controla se o ele vai ser atribuído por valor-copiado ou por referência-copiada.
+Além disso, em JavaScript não há dicas sintáticas que controlam atribuição/passagem de valores vs. referências. Ao invés disso, *exclusivamente o tipo* de um valor controla se o ele vai ser atribuído por valor-copiado ou por referência-copiada.
 
 Vamos ilustrar:
 
@@ -845,7 +845,7 @@ c; // [1,2,3,4]
 d; // [1,2,3,4]
 ```
 
-Valore simples (chamados primitivos escalares) são *sempre* atribuídos/passados por valor-copiado: `null`, `undefined`, `string`, `number`, `boolean`, e o `symbol` do  ES6.
+Valores simples (chamados primitivos escalares) são *sempre* atribuídos/passados por valor-copiado: `null`, `undefined`, `string`, `number`, `boolean`, e o `symbol` do ES6.
 
 Valores compostos -- `objects`s (incluindo `array`s, e todo objeto que engloba um valor primitivo -- veja o Capítulo 3) e `function`s -- *sempre* criam uma cópia da referência ao serem atribuídos ou passados.
 
@@ -888,7 +888,7 @@ foo( a );
 a; // [1,2,3,4]  not  [4,5,6,7]
 ```
 
-Quando nós passamos `a` para o argumento, é atribuída uma cópia da referência de `a` para `x`. `x` e `a` são referências separadas apontando para o mesmo valor `[1,2,3]`. Agora, dentro da função, nós podemos usar essa referência para mudar o próprio valor (`push(4)`). Mas quando fazemos a atribuição `x = [4,5,6]`, isso não está afetando para onde a referência inicial `a` está apontando -- ainda apontand para o valor (agora modificado) `[1,2,3,4]`.
+Quando nós passamos `a` para o argumento, é atribuída uma cópia da referência de `a` para `x`. `x` e `a` são referências separadas apontando para o mesmo valor `[1,2,3]`. Agora, dentro da função, nós podemos usar essa referência para mudar o próprio valor (`push(4)`). Mas quando fazemos a atribuição `x = [4,5,6]`, isso não está afetando para onde a referência inicial `a` está apontando -- ainda apontando para o valor (agora modificado) `[1,2,3,4]`.
 
 Não há como usar a referência de `x` para mudar para onde `a` está apontando. Nós poderíamos apenas modificar os conteúdos do valor compartilhado para o qual `a` e `x` apontam.
 
@@ -924,7 +924,7 @@ foo( a.slice() );
 
 `slice(..)` sem nenhum parâmetro por padrão faz uma nova (rasa) cópia do `array`. Então, nós passamos em uma referência apenas a cópia do `array`, e por isso `foo(..)` não pode afetar o conteúdo de `a`.
 
-Para fazer o inverso -- passar um valor primitivo escalar de um jeito que seu valor atualizdo possa ser visto, como uma referência -- você precisa englobar o valor em outro valor composto (`object`, `array`, etc) que *pode* ser passado como referência-copiada:
+Para fazer o inverso -- passar um valor primitivo escalar de um jeito que seu valor atualizado possa ser visto, como uma referência -- você precisa englobar o valor em outro valor composto (`object`, `array`, etc) que *pode* ser passado como referência-copiada:
 
 ```js
 function foo(wrapper) {
@@ -959,11 +959,11 @@ foo( b );
 console.log( b ); // 2, not 3
 ```
 
-O problema é que o valor escalar primitivo subjacente é *não mutável* (o mesmo ocorre com `String` e `Boolean`). Se um objeto `Number` mantém o valor escalar primitivo `2`, esse exato objeto `Number` nunca pode ser mudado para manter outro valor; você só pode por inteiro um novo objeto `Number` com um valor diferente. 
+O problema é que o valor escalar primitivo subjacente é *não mutável* (o mesmo ocorre com `String` e `Boolean`). Se um objeto `Number` mantém o valor escalar primitivo `2`, esse exato objeto `Number` nunca pode ser mudado para manter outro valor; você só pode criar por inteiro um novo objeto `Number` com um valor diferente. 
 
-Quando `x` é usado na expressão `x + 1`, o valos primitivo escalar subjacente `2` é desempacotado (extraído) do objeto `Number` automaticamente, então a linha `x = x + 1` muito sutilmente muda `x` de uma referência compartilhada para o objeto `Number`, para apenas conter o valor primitivo escalar `3` como resultado da operação de adição `2 + 1`. Portanto, `b` do lado de fora ainda referencia o `Number` imodificável/imutável com o valor original `2`.
+Quando `x` é usado na expressão `x + 1`, o valor primitivo escalar subjacente `2` é desempacotado (extraído) do objeto `Number` automaticamente, então a linha `x = x + 1` muito sutilmente muda `x` de uma referência compartilhada para o objeto `Number`, para apenas conter o valor primitivo escalar `3` como resultado da operação de adição `2 + 1`. Portanto, `b` do lado de fora ainda referencia o `Number` não modificado/imutável com o valor original `2`.
 
-Você *pode* adicionar propriedades no topo do objeto `Number` (só não mudar seu valor primitivo interno), então você poderia trocar infromações indiretamente por meio dessas propriedades adicionais.
+Você *pode* adicionar propriedades no topo do objeto `Number` (só não mudar seu valor primitivo interno), então você poderia trocar informações indiretamente por meio dessas propriedades adicionais.
 
 Isso não é tão comum, no entanto; isso provavelmente não deveria ser considerado uma boa prática pela maioria dos desenvolvedores.
 

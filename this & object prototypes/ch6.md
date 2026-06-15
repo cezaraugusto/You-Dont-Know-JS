@@ -466,7 +466,7 @@ O padrão de design de delegação não só sugere nomes diferentes e mais descr
 
 Sintaticamente, nós também não temos a presença de nenhum construtor, `.prototype` ou `new`, já que eles são, de fato, apenas sujeira desnecessária.
 
-Agora, se você está prestando bastante atenção, você deve ter notado que o que anteriormente era apenas uma chamada (`var btn1 = new Button(..)`) agora são duas chamadas (`var btn1 = Object.create(Button)` e `btn1.setup(..)`). De início isso pode parecer uma desvantagem (mais codigo).
+Agora, se você está prestando bastante atenção, você deve ter notado que o que anteriormente era apenas uma chamada (`var btn1 = new Button(..)`) agora são duas chamadas (`var btn1 = Object.create(Button)` e `btn1.setup(..)`). De início isso pode parecer uma desvantagem (mais código).
 
 No entanto, mesmo isso é algo que é **um ponto positivo do estilo de código OLOO** em comparação ao estilo de código clássico com prototype. Como?
 
